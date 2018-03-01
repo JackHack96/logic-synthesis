@@ -1,4 +1,4 @@
-#SIS
+# SIS
 
 This is SIS 1.4, an unofficial release of SIS, the logic synthesis system
 from UC Berkeley.  SIS is no longer supported, but there are still many

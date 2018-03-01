@@ -1,4 +1,4 @@
-#Authors
+# Authors
 
 There have been many authors who have contributed to SIS, and it is
 difficult to compile a complete and accurate list of everyone.  I am
