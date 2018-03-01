@@ -1,4 +1,4 @@
 - Sistemare codice vecchio in modo da renderlo compilabile su un sistema moderno
 - Conversione a CMake
 - Aggiornare documentazione
-- Revisionare quali tool sono ancora usati e rimuovere quelli non utilizzati
+- Revisionare quali tool sono ancora usati e rimuovere quelli non utilizzati (tipo xsis)
