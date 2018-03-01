@@ -1,0 +1,87 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/xilinx.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:42 $
+.\"  *
+.\"
+.XX
+XILINX
+.br
+Description
+.br
+.PP
+This is a package to optimize the Boolean network and map it onto
+the Xilinx Programmable Gate Array architecture
+(reference: Xilinx, the Programmable Gate Array Data Book,
+Xilinx Corporation).
+All the routines except \fBxl_merge\fR can be used to map the design
+onto an architecture with a CLB (Configurable Logic Block) realizing an
+arbitrary function of up to n inputs,  where n >= 2.
+The package contains the following commands available to the user 
+for experimentation.
+.br
+.PP
+Suggested script
+.br
+.PP
+time
+.br
+.PP
+sweep
+.br
+.PP
+simplify
+.br
+.PP
+sweep
+.br
+.PP
+simplify
+.br
+.PP
+xl_split -n  5
+.br
+.PP
+sweep
+.br
+.PP
+simplify
+.br
+.PP
+xl_split -n 5
+.br
+.PP
+sweep
+.br
+.PP
+xl_partition -n 5
+.br
+.PP
+sweep
+.br
+.PP
+simplify
+.br
+.PP
+xl_partition -n 5
+.br
+.PP
+sweep
+.br
+.PP
+xl_k_decomp -n 5
+.br
+.PP
+sweep
+.br
+.PP
+xl_cover -n 5 -h 3
+.br
+.PP
+xl_merge
+.br
+.PP
+time

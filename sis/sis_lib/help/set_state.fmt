@@ -1,0 +1,14 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   set_state [-s] [-i] [name]
+ 
+     Sets the current state in the machine to the given state.  If no state
+     is given, it sets the current state to the initial state (resets the
+     machine).  If the -s option is given, only the state of the STG is
+     changed; if the -i option is specified, only the state of the logic
+     implementation is changed.  If no logic implementation exists, or if
+     only the state of the STG is to be changed, then the state name should
+     be symbolic; otherwise it should be the encoded name of the state.
+ 
+                                                                            1

@@ -1,0 +1,102 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/factor/factor.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:23 $
+ *
+ */
+Summary:
+	factor();
+	factor_quick();
+	factor_good();
+	factor_print();
+	factor_value();
+	factor_num_literal();
+	factor_to_nodes();
+	eliminate();
+
+
+void
+factor(f)
+node_t *f;
+	Returns immediately if the factored form of f already exists.
+	Otherwise, factorizes f using quick factoring algorithm.
+
+
+void
+factor_quick(f)
+node_t *f;
+	Factorizes f using quick factoring (QF) algorithm.  The previous
+	factored form of f, if it exists, is freed.
+
+
+void
+factor_good(f)
+node_t *f;
+	Factorizes f using good factoring (GF) algorithm.  The previous
+	factored form of f, if it exists, is freed.
+
+
+void
+factor_print(fp, f)
+FILE *fp;
+node_t *f;
+	Prints the factored form of f (i.e. "a(b + c) + d").
+	Does not append a trailing newline.  Uses node_name(), 
+	and hence depends on the current setting of 
+	long names versus short names.
+	If f is constant 0, "-0-" is printed.
+	If f is constant 1, "-1-" is printed.
+	If the factored form of f does not exist, the factored
+	form is generated using quick factoring(QF).
+
+
+int
+factor_node_value(f)
+node_t *f;
+	Returns the value of f.  The value of f is
+	is number of literals in the factored saved by f in
+	the network.  See MIS paper for precise definition.
+	Quick factoring (QF) is used wherever the factored
+	form is not available. 
+
+
+int
+factor_num_literal(f)
+node_t *f;
+	Returns the number of literals in the factored form of f.
+	If the factored form is not available, quick factoring (QF)
+	is used to generate one.
+
+int
+factor_num_used(f, g)
+node_t *f, *g;
+	Returns the number of times g appears in the
+	factored form of f. Both g and g' are counted.  
+	(e.g. if f = a g + b g', function returns 2)
+
+
+array_t *
+factor_to_nodes(f)
+node_t *f;
+        Returns an array of nodes representing the factored tree
+	of f.  The root of the tree is the first element in
+	the array.  All the nodes in the array are either of type
+	NODE_AND, NODE_OR, NODE_INV, NODE_BUF, NODE_0, or NODE_1.
+
+	For example: if f = a (b + c'), the returned array is
+		0:  X = a t1
+		1:  t1 = b + t2'
+		2:  t2 = c'
+
+
+void
+eliminate(network, thresh)
+network_t *network;
+int thresh
+	Eliminates all the nodes in the network whose's value is
+	less than or equal to thresh.  The value of a node is 
+	defined as the number of literals saved in the network by  
+	the node.  See MIS paper for precise definition. 

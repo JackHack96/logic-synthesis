@@ -1,0 +1,54 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/xl_merge.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:42 $
+.\"  *
+.\"
+.XX
+xl_merge [-f MAX_FANIN] [-c MAX_COMMON_FANIN] [-u MAX_UNION_FANIN] 
+         [-n support] [-o filename] [-vlF]
+.PP
+Used for mapping onto Xilinx architecture.
+It selects pairs of nodes of the network that can be merged
+so as to minimize the number of nodes.
+and solves an integer program using the package Lindo.
+In the end it lists the pairs of nodes that were merged.
+The command does not change the network.
+.PP
+\fB-f\fP: MAX_FANIN is the limit on the fanin of a mergeable node (default = 4).
+.br
+.PP
+\fB-c\fP: MAX_COMMON_FANIN is the limit on the common fanins of two
+mergeable nodes (default = 4).
+.br
+.PP
+\fB-u\fP: MAX_UNION_FANIN is the limit on the union of the fanins of two
+mergeable nodes (default = 5).
+.br
+.PP
+\fB-n\fP: support is the limit on the number of fanins of a single function that 
+can be put on a CLB (default = 5).
+.br
+.PP
+\fB-o\fP: filename is the file in which information about the nodes merged is 
+printed. Must specify.
+.br
+.PP
+\fB-l\fP: Do not use lindo, an integer-linear programming package used to solve 
+the matching problem. Instead use a heuristic. If not specified, the program first 
+searches for lindo in the path. If found, lindo is invoked, else the program 
+automatically calls the heuristic.
+.br
+.PP
+\fB-F\fP: If the input network is say a 4-feasible network and the support = 5, it 
+may be possible to reduce the number of nodes after matching. If this option is not 
+used,\fBxl_partition\fP is called after matching step on the subnetwork composed of 
+unmatched nodes. Otherwise, only matching is done and the network remains unchanged.
+.br
+.PP
+\fB-v\fP:  turns on the verbosity flag.  When used, information about the
+   algorithm is printed as it executes.
+

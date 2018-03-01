@@ -1,0 +1,23 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/astg_encode.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:45 $
+.\"  *
+.\"
+.XX
+astg_encode [-v debug_level] [-h] [-s] [-u]
+.PP
+Encodes the states of the current State Transition Graph using Tracey's
+critical race-free encoding algorithm. Used to perform state encoding for
+asynchronous circuits (see \fBastg_state_min\fR for a recommended script file).
+.PP
+The \fB-h\fR option selects a faster heuristic (that may result in more state
+variables).
+.PP
+The \fB-s\fR option prints out a brief summary of the encoding algorithm
+results.
+.PP
+The \fB-u\fR option allows to enter user-defined codes (for debugging purposes).

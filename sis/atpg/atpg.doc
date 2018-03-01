@@ -1,0 +1,39 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/atpg/atpg.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:17 $
+ *
+ */
+int
+com_atpg(network, argc, argv)
+network_t **network;
+int argc;
+char **argv;
+
+	Perform deterministic test pattern generation on a sequential or
+	combinational network.  Network is modified if the -t option is used.
+
+int
+com_redundancy_removal(network, argc, argv)
+network_t **network;
+int argc;
+char **argv;
+
+	Perform sequential redundancy removal on a sequential or combinational
+	network using deterministic test pattern generation on network.  
+	Network is modified.  The network is 100% single stuck-fault testable 
+	unless the test generator aborts on any faults.
+
+int
+com_short_tests(network, argc, argv)
+network_t **network;
+int argc;
+char **argv;
+{
+}
+	Perform deterministic test pattern generation on a sequential network.
+	Several heuristics are used during the test pattern generation process
+	to reduce the size of the test set that is generated.  

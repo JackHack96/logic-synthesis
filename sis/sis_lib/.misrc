@@ -1,0 +1,59 @@
+alias ai add_inverter
+alias alt print_altname
+alias asb resub -a
+alias c chng_name
+alias clp collapse
+alias crit -m unit-fanout -a -p 2
+alias el eliminate
+alias exit quit
+alias fs full_simplify
+alias gd decomp -g
+alias gf factor -g
+alias gp phase -g
+alias inv invert
+alias man help
+alias nts print_stats
+alias p print
+alias pat print_delay -a
+alias pd print_delay
+alias pf print_factor
+alias pg print_gate
+alias pgc print_gate -s
+alias pio print_io
+alias pk print_kernel
+alias plt print_delay -l
+alias plv print_level
+alias pn p -n
+alias prt print_delay -r
+alias ps print_stats -f
+alias psf print_stats
+alias pst print_delay -s
+alias pv print_value
+alias q quit
+alias qd decomp -q
+alias qf factor -q
+alias qp phase -q
+alias rd reduce_depth
+alias re read_eqn
+alias rl read_blif
+alias rlib read_library
+alias ro read_oct
+alias rp read_pla
+alias rr red_removal
+alias rsn reset_name
+alias sim simulate
+alias sim0 simplify -m snocomp -d
+alias sim1 simplify -m nocomp -d
+alias sim2 simplify
+alias sim3 simplify -m nocomp
+alias so source
+alias sr source
+alias sp speed_up
+alias sw sweep
+alias td tech_decomp
+alias u undo
+alias wb write_bdnet
+alias we write_eqn
+alias wl write_blif
+alias wp write_pla
+alias wo write_oct

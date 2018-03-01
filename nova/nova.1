@@ -1,0 +1,341 @@
+.TH NOVA 1CAD "12 August 1991" 
+.SH NAME
+nova \- State Assignment Program for PLA-based Finite-State Machines
+.SH SYNOPSIS
+.B nova
+[\fIoptions\fR] [\fIfile\fR]
+.SH DESCRIPTION
+\fInova\fR is a program that performs an optimal assignment of binary codes to
+the states of a Finite State Machine (FSM). 
+The primary goal is to optimize the silicon area occupied by the finite
+state machine after two-level optimization using ESPRESSO(1).
+The program minimizes the number of product terms needed to implement
+the encoded finite state machine, for a given code length.
+Different encoding algorithms are available in \fInova\fR.
+They are based on a FSM symbolic minimization step that produces encoding
+constraints and an encoding step that produces codes
+satisfying some or all of the encoding constraints,
+for a fixed or free code-length.
+The user specifies which algorithm should be invoked with the
+option \fB-e\fR and related arguments, according to the
+format explained below.
+By default the algorithm \fB-e ig\fR is invoked.
+The user may specify a code length with the options \fB-i\fR for
+symbolic inputs and \fB-s\fR for states, otherwise by default 
+the minimum code-length is assumed. 
+\fInova\fR reads the file provided (or standard input if no files
+are specified), performs the state assignment, and returns by default
+a big blif format to standard output (see SIS(1)).
+When invoked as a stand-alone program, \fInova\fR outputs also
+the best coded minimized two-level implementation of the FSM, if the option
+\fB-t\fR is specified. 
+.SH KEYWORDS
+The following keywords embedded in the input are understood by \fInova\fR.
+The keyword lines start with ".".
+Keywords not understood by the program are ignored.
+.TP
+.B .symbolic input
+Inputs are considered as symbolic strings
+and an optimal assignment of binary vectors to each symbolic input
+is also performed.
+.SH OPTIONS
+A complete list of the command line options is given below.
+Be warned that some of the command line options are not intended for 
+general use.
+[d] denotes a decimal number and [s] denotes a text string.
+.TP 
+.B -e ig [-pr] 
+The encoding is driven only by input constraints.
+Input constraints are computed by heuristic multiple-valued minimization
+and satisfied by an heuristic greedy algorithm. Very fast, suboptimal.
+If \fB-p\fR is specified, some input constraints unlikely to be
+satisfied by a short code are pruned.
+If \fB-r\fR is specified, all the rotations of the codes are tried. 
+.TP
+.B -e ih [-r]
+The encoding is driven only by input constraints.
+Input constraints are computed by heuristic multiple-valued minimization
+and satisfied by an heuristic algorithm based on limited backtracking.
+It produces on average very good results.
+It has the best trade-off between quality of results versus computing
+time.
+If \fB-r\fR is specified, all the rotations of the codes are tried. 
+.TP
+.B -e ioh [-jry]
+The encoding is driven by input and output (dominance) constraints.
+Input and output constraints are computed by a version of symbolic minimization
+and satisfied by an heuristic algorithm based on limited backtracking.
+More computationally expensive than the previous one. It gives
+often better results.
+If \fB-j\fR is specified, all output constraints are kept, while by
+default the algorithm prunes those which don't guarantee a gain.
+If \fB-y\fR is specified, only output constraints are satisfied.
+If \fB-r\fR is specified, all the rotations of the codes are tried. 
+.TP
+.B -e iov [-jry]
+Variation of the previous encoding strategy. 
+In practice it works less effectively.
+.TP
+.B -e ie [-br] 
+The encoding is driven only by input constraints.
+Input constraints are computed by heuristic multiple-valued minimization
+and satisfied by an exact algorithm based on backtracking.
+The minimum code length that allows the satisfaction of all input constraints
+is found (the user cannot specify a code length). 
+It may be computationally unfeasible. 
+\fB-b\fR is a debug option.
+If \fB-r\fR is specified, all the rotations of the codes are tried. 
+.TP
+.B -e ia [-c=[d]] [-m=[d]] [-br] 
+The encoding is driven only by input constraints.
+Input constraints are computed by heuristic multiple-valued minimization
+and satisfied by an algorithm based on simulated annealing.
+\fB-c\fR specifies the cost function. It may assume values 0 or 1.
+If the cost function is 0, the number of product terms is minimized.
+If the cost function is 1, the number of literals after
+\fIespresso\fR is minimized.
+By default the cost function has value 0.
+\fB-m\fR specifies the number of moves of simulated annealing at a given
+temperature. It must be a positive integer. By default it has value 10.
+\fB-b\fR is a debug option.
+If \fB-r\fR is specified, all the rotations of the codes are tried. 
+.TP
+.B -e h
+Specifies 1-hot state assignment. In this case, the default two-level 
+minimization on the encoded finite state machine is not performed,
+and the external don't care set is not computed.
+As an example, the 1-hot codes when there are four states are
+1---, -1--, --1- and ---1.
+.TP
+.B -e r [-n=[d]]
+Random encodings are tried. 
+The user can specify how many trials by the option \fB-n\fR,
+otherwise the following default values hold: #states if the proper inputs are
+not symbolic, #states + #inputs if the proper inputs are symbolic.
+The best result is kept.
+.TP
+.B -e u
+The user supplies in the input file \fIfile.codes\fR the codes for the states
+(and inputs, if symbolic), as suggested in the example #2 of the input file
+format section. 
+\fInova\fR
+substitutes the codes in the fsm and minimizes it. 
+.TP
+.B -e lb
+Computes a lower bound on the number of product terms needed to implement
+the finite state machine. The lower bound is tight, i.e. there are examples
+where it can be matched by the encoding found by \fInova\fR, but on the 
+average there is a large gap between the lower and upper bounds.
+It can be computationally very expensive.
+Use only when \fInova\fR is invoked as a stand-alone program.
+.TP
+.B -h[elp]
+Outputs a summary of the command-line options.
+.TP
+.B -i =[d]
+Specifies the code length of the symbolic inputs. 
+The default value of \fInova\fR is the shortest code that allows an injective
+coding. 
+.TP
+.B -s =[d]
+Specifies the code length of the states. 
+The default value of \fInova\fR is the shortest code that allows an injective
+coding. 
+.TP
+.B -z =[s] 
+Specifies the state whose code has to be set to zero.
+By default the program chooses which state to assign the zero code.
+.TP
+.B -b
+Will produce a debug trace. Active only with \fB-e ie\fR and \fB-e ia\fR.
+Use only when \fInova\fR is invoked as a stand-alone program.
+.TP
+.B -t
+Outputs the coded minimized two-level implementation of the FSM.
+Use only when \fInova\fR is invoked as a stand-alone program.
+.TP
+.B -v
+Will produce a trace showing the execution of the program.
+Use only when \fInova\fR is invoked as a stand-alone program.
+.TP
+.B -a
+Analyzes the two-level realization after encoding.
+Not yet available.
+.TP
+.B -d
+Obtains generalized input constraints, i.e. input constraints
+with don't-care entries.
+Not yet available.
+.sp 2
+.SH "INPUT FILE FORMAT"
+The FSM is described by a symbolic cover.
+A symbolic cover is a set of symbolic implicants
+consisting of four fields 
+corresponding to the FSM inputs, present-states, next-states 
+and outputs respectively.  The fields are separated by either blanks
+or tabs, and all four fields must fit on a single line.
+To allow comments within the input file,
+any characters after a pound sign ('#') are ignored.
+.PP
+The FSM states are represented by strings of characters
+(at most 30 characters).  Either the present-state or the next-state may
+be given as \fB\ANY\fR to indicate that the state is
+a \fIdon't care\fR.
+(This is useful, for example, in describing the reset logic for the FSM.)
+.PP
+The inputs to the FSM are represented by a string of characters of
+\fB0\fR, \fB1\fR, and \fB\-\fR
+(where \fB\-\fR indicates the symbolic implicant does not
+depend on the corresponding input).  The inputs may also be treated as
+symbolic inputs (analogous to the way that the present-state is a symbolic
+input), and \fInova\fR will determine an optimal assignment for the inputs as
+well (see below).
+.PP
+The outputs from the FSM are also given as a string of characters from the
+set \fB0\fR, \fB1\fR, and \fB\-\fR.
+A \fB0\fR or a \fB1\fR indicates that the output must be
+either low or high (respectively) for this transition.  A \fB\-\fR indicates
+that, for this transition, the output may be either low or high.
+.PP
+The meaning of the first symbolic implicant in the first example below above 
+is "when input input_1 is 
+asserted , proceed from state
+state_1 to state state_3 with the first, second, third and fifth outputs low, 
+and the fourth output high".  Note that the symbolic implicants
+are in one-to-one correspondence
+with the edges in a state-diagram representation of the FSM.
+.SH "EXAMPLE #1"
+This example shows the description of a finite state machine.
+.nf
+ .symbolic input 
+ input_1 state_1 state_3 00010
+ input_1 state_2 state_1 01001
+ input_1 state_3 state_3 10010
+ input_1 state_4 state_3 00010
+ input_1 state_5 state_1 01001
+ input_1 state_6 state_1 01001 
+              
+ input_2 state_2 state_2 01001
+ input_2 state_5 state_2 01001 
+ input_2 state_6 state_2 01001
+ input_2 state_1 state_4 00010
+ input_2 state_3 state_4 10010
+ input_2 state_4 state_4 00010
+ ...
+ input_6 state_2 state_1 00101
+ input_6 state_5 state_1 00101
+ input_6 state_1 state_5 00010
+ input_6 state_3 state_5 10010
+ input_6 state_4 state_5 00010
+ input_6 state_6 state_5 10100
+ .end
+.fi
+.SH "EXAMPLE #2"
+This example shows how the user specifies its own codes in the additional
+file \fIfile.codes\fR, when the option 
+\fB-e u\fR is active. 
+When the code-lenghts are not the default ones (shortest ones), the options 
+\fB-i\fR and
+\fB-s\fR should be specified in the command line, 
+as it happens when \fInova\fR finds an encoding.
+The token words \fIicode\fR and \fIscode\fR introduce,
+respectively, a code and the symbolic input to which it is assigned
+or a code and the state to which it is assigned.
+.nf
+icode 0000 input_5
+icode 0001 input_6
+icode 0100 input_1
+icode 0101 input_2
+icode 0110 input_3
+icode 0111 input_4
+scode 1000 state_6
+scode 1001 state_7
+scode 1111 state_1
+scode 0010 state_2
+scode 1101 state_3
+scode 1011 state_4
+scode 0000 state_5
+.fi
+.sp 2
+.SH "STANDARD OUTPUT FORMAT"
+By default a big blif format is written to standard output.
+When the option
+.B -t
+is specified, also the coded minimized two-level implementation of the FSM
+is written to standard output
+(to use only when \fInova\fR is invoked as a stand-alone program).
+The option
+.B -v
+will produce a trace showing the execution of the program.
+.sp 2
+.SH DIAGNOSTICS
+A message like follows (rarely issued and only when the option \fB-e ig\fR
+is active) warns only that the detection
+of the lattice intersections has been stopped after a quite large number
+of them has been computed .
+No action needs to be taken .
+ Message fac-simile :
+                       WARNING
+ "After that lattice added the 1001-th new constraint ,
+Nova stopped executing lattice and went ahead with the
+constraints that lattice already got" .
+.PP
+When running in the \fB-e ie\fR mode, \fInova\fR might issue a message warning
+that in the worst-case too many configurations should be examined before finding
+an exact solution and then it exits. Although it would have been 
+possible to let the program run for as long as needed, it exits
+because an exact solution appears computationally unfeasible.
+.sp 2
+.SH "SEE ALSO"
+espresso(1CAD), kiss(1CAD), mis(1CAD), sis(1CAD)
+.LP
+T.Villa, A.Sangiovanni-Vincentelli,
+"NOVA: state assignment of finite-state machines for optimal
+two-level logic implementations", \fI IEEE Trans. on Computer-Aided Design \fR, 
+September 1990
+.sp 2
+.SH "AUTHOR"
+Tiziano Villa  (villa@ic.berkeley.edu)
+.sp
+.SH COMMENTS
+In a given state, if symbolic implicants are not specified for all possible
+input conditions, then the state machine response for the unspecified
+conditions is undefined.  In particular, \fInova\fR will use this
+to its advantage when assigning the state codes.
+It is possible to see all of the don't cares created in this way
+by using the \fB-out fd\fR option when the
+PLA is minimized with \fIespresso\fR.
+.PP
+Temporary files with unique names are created in the current working directory 
+during the run
+of the program. They are removed at the end. 
+At the end of a run, \fInova\fR creates two files: \fIfile.esp\fR stores
+the best coded minimized pla implementation, \fIfile.summ\fR
+stores the face and output constraints (if any) and the final codes.
+\fIfile.esp\fR is in PLA(1) format, suitable for input to ESPRESSO(1) 
+or MIS(1).
+Terminal names, when provided by the user, are retained.
+.PP
+Only a single symbolic input (besides the present state) is allowed.
+The ability to specify any number of symbolic inputs along with
+binary inputs would be much more practical.
+.PP
+\fInova\fR invokes the multiple-valued minimization program
+\fIespresso\fR (1CAD).
+.PP
+\fInova\fR is written in C. 
+There are no limitations on the number 
+of binary or symbolic inputs, binary outputs, states, or 
+symbolic implicants.
+.PP
+\fI(implementatio) nova\fR comes from latin and means \fIa new 
+(implementation)\fR.
+No connection to astronomical objects is implied.
+.sp
+.SH BUGS
+It is possible to specify logically inconsistent finite state machines
+(i.e., to specify two transitions
+for the same set of inputs in a single state)
+and this should be, but is not, detected as an error.
+.PP
+Keywords not understood by the program are ignored.

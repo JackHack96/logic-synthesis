@@ -1,0 +1,68 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/retime.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+retime [-nfim] [-c #.#] [-t #.#] [-d #.#] [-a #.#] [-v #]
+.PP
+Applies the retiming transformation on the circuit in an
+effort to reduce the cycle time. The retiming operation is 
+supported only for single phase, edge-triggered designs. Both
+mapped and unmapped networks can be retimed.
+The algorithm attempts to maintain the initial state information.
+.PP
+The algorithm expects to work on mapped networks so that accurate
+delays on the gates can be used.
+However, an unmapped network can be retimed by using
+the \fB-n\fR option.
+In that case the delay through 
+each node is computed according to the \fIunit-fanout\fR delay model.
+\fIThe user should be aware of the fact that when retiming circuits
+containing complex registers (JK, D-flip flops with enables/presets),
+the complex registers may have to be decomposed into simpler gates.\fR
+.PP
+By default the algorithm uses a relaxation based approach which
+is very fast. An alternate formulation uses a mathematical 
+programming formulation and can be selected using the \fB-f\fR option.
+After profiling on a number of circuits only one will be retained.
+.PP
+The \fB-m\fR option can be used to minimize the number of registers
+under cycle time constraints. If the cycle time is not specified 
+using the \fB-c\fR option then this command will try to minimize the
+cycle time. Thus to obtain the absolute minimum number of registers
+for a circuit the user should specify a very loose cycle time constraint
+(very large value for the \fB-c\fR option).
+.PP
+The retiming algorithm will try to compute the new initial states
+of the latches.
+In case no feasible initial state exists the retiming is aborted and
+the network is not modified. To suppress the initialization routine
+use the \fB-i\fR option. In that case the initial values for all the
+latches after retiming is set to value of 2 (DONT_CARE).
+.PP
+The desired clock period can be specified with the \fB-c value\fR 
+option. When this option is not used the algorithm first checks to see
+if there is a cycle_time specification with the current network (the
+value depends on the current setting of the clock_flag in the network)
+and tries to meet this. If no cycle_time is specified with the design
+the retiming operation tries to minimize the cycle time. For this it 
+uses a binary search for testing feasible clock values. The tolerance of
+the binary search can be specified with the \fB-t value\fR option (the
+default is 0.1).
+.PP
+Latches in the network can be assigned a propogation delay and an
+area. These are helpful in the realistic modelling of the circuit
+delay and area. Use the \fB-d value\fR option to specify the delay
+through a latch (to approximate the setup and propogation delay of
+the latch) and the \fB-a value\fR option to specify the area
+of a latch. In case of mapped networks, these values are automatically
+determined from the library of gates.
+.PP
+The \fB-v value\fR selects the verbosity level. The range is 1-100
+(100 will literally swamp you with a lot of unneeded data). Use 
+the value 1 to see the progress of the algorithm.

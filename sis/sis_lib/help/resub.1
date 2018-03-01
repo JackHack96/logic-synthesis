@@ -1,0 +1,31 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/resub.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+resub [-a] [-b] [-d] [node-list]
+.PP
+Resubstitute each node in the \fBnode-list\fR into all the nodes in the network.
+The resubstitution will try to use both the \fIpositive\fR and \fInegative\fR
+phase of the node.  If \fBnode-list\fR is not specified, the resubstitution
+will be done for every node in the network and this operation will keep
+looping until no more changes of the network can be made.  Note
+the difference between \fBresub *\fR and \fBresub\fR.  The
+former will apply the resubstitution to each node only once.
+.PP
+The \fB-a\fR (default) option uses algebraic division when
+substituting one node into another.
+The division is
+performed on both the divisor and its complement.
+.PP
+The \fB-b\fR option uses Boolean division when substituting one
+node into another.
+NOTE: Boolean resubstitution has not yet been implemented.
+.PP
+The \fB-d\fR option directs \fBresub\fR not to use the complement of a given
+node in algebraic resubstitutions.

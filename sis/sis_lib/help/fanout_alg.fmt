@@ -1,0 +1,15 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   fanout_alg [-v] alg_list
+ 
+     Activates selectively one or more fanout algorithms. For a list of
+     fanout algorithms known to the system, use the -v option.  The algo-
+     rithms activated are the ones specified in the list.  One algorithm,
+     _n_o_a_l_g, is always active.  _t_w_o__l_e_v_e_l is a fast, area efficient algorithm.
+     The best results are obtained with _t_w_o__l_e_v_e_l, _b_o_t_t_o_m__u_p, _l_t__t_r_e_e_s, and
+     _m_i_x_e_d__l_t__t_r_e_e_s.
+ 
+     Fanout optimization itself is performed using the map command.
+ 
+                                                                            1

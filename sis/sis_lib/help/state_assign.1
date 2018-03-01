@@ -1,0 +1,35 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/state_assign.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:38 $
+.\"  *
+.\"
+.XX
+state_assign progname options
+.PP
+Perform state assignment on the current STG.
+The program used for state assignment is \fBprogname\fP
+and it is given the options \fBoptions\fP.
+The program \fBprogname\fP must exist somewhere in the user's
+path.
+.PP
+The state assignment program is given the current STG, and
+returns a logic implementation.  After execution of the \fBstate_assign\fP
+command, both the STG and the logic implementation are available
+for optimization.
+.PP
+The state assignment program called must conform to the
+specification (see doc/SPEC).
+Currently, the programs that are compatible with this specification
+and are shipped with SIS are nova and jedi.
+To get help information for a specific program, use the -h option
+(i.e. \fBstate_assign nova -h\fP would produce help information for
+the nova state assignment program).
+.PP
+A one-hot encoding can be obtained by using \fBstate_assign progname -e h\fP.
+Note that nova and jedi produce different results for one-hot encoding.
+jedi produces typical one-hot codes (1000) while nova produces one-hot
+codes with don't care conditions (1---).

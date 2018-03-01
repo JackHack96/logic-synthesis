@@ -1,0 +1,78 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   ite_map  [-n num_iter] [-C cost_limit] [-f collapse_fanin]
+              [-m map_method] [-d decomp_fanin] [-M  MAXOPTIMAL] [-clorsvD]
+ 
+     Routine to find an optimal mapping to Actel's ACT1 architecture.  The
+     input is the Boolean network and the output is a netlist and the block
+     count (reference: An Architecture for Electrically Configurable Gate
+     Arrays, Gamal et. al., IEEE J. of Solid State Circuits, April 1989, pp.
+     394-398).
+ 
+     ite_map synthesizes the given circuit onto Actel ACT1 architecture.  The
+     pattern graphs are hard-wired into the code and so no library is to be
+     read in. Each intermediate node of the network is checked to see if it
+     matches onto one ACT1 module. This check is done using a Boolean match-
+     ing algorithm.  If not, then a subject graph is constructed for the node
+     function.  The subject graph (as well as the pattern-graphs) is in terms
+     of 2-1 muxes: it uses ITEs (if-then-else DAGs) and ROBDDs (Reduced
+     Ordered BDDs) for the mapping. After an initial mapping of the network,
+     an iterative_improvement phase may be entered. Local collapse and decom-
+     position operations are performed for better quality.
+ 
+     Following options are supported:
+ 
+     -m map_method specifies which one of the two subject_graphs would be
+     constructed.
+ 
+     map_method = 1 => Standard mapping for each node.
+ 
+     map_method = 2 => construct a sub-network from each node. Map the sub-
+     network using iterative improvement and finally replace the node with
+     the mapped sub-network.
+ 
+     -n num_iteration specifies the maximum number of iterations to be per-
+     formed in the iterative_improvement phase. Default is -n 0.
+ 
+     -F collapse_fanins_of_fanout used in partial collapse. Collapses a node
+     into fanouts only if after collapsing, each fanout has at most
+     collapse_fanins_of_fanout fanins (Default: -F 15).
+ 
+     -C cost_limit in partial collapse, collapse a node only if its cost is
+     at most cost_limit (Default: -C 3).
+ 
+     -f collapse_fanin considers only those nodes for partial collapse which
+     have at most collapse_fanin fanins (Default: -f 3).
+ 
+     -d decomp_fanin considers only those nodes for decomposition in itera-
+     tive improvement which have fanin greater than or equal to decomp_fanin.
+     (Default -d 4).
+ 
+     -M MAXOPTIMAL constructs an optimal ROBDD (if the ROBDD option is
+     selected) for a node if number of fanins is at most MAXOPTIMAL.
+ 
+                                                                            1
+ 
+   SIS(1)                                                        July 1, 1994
+ 
+     -r is the final mapping option. After initial mapping and possible
+     iterative improvement, a mapped network is created in which each inter-
+     mediate node corresponds to one ACT1 module. If not specified, the net-
+     work may not have a one-to-one correspondence with the ACT1 module.
+ 
+     -D selects the decomposition method. If specified, computes a factored
+     form of the node and then constructs ITE for each factor.
+ 
+     -c causes the matching algorithm to be exact. If not specified, matching
+     is approximate.
+ 
+     -o causes the OR gate in ACT1 to be ignored. So mapping is done onto a
+     three-mux structure.
+ 
+     -v turns on the verbosity flag.  When used, information about the
+        algorithm is printed as it executes.
+ 
+     -s gives the statistics, regarding the block count of the circuit.
+ 
+   2

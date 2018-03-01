@@ -1,0 +1,23 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/_astg_irred.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:35 $
+.\"  *
+.\"
+.XX
+astg_irred [-p]
+.PP
+Delete or print structurally redundant constraints in the ASTG.
+A redundant constraint is essentially a constraint from
+some transition x* to transition z* when there is also
+a constraint from x* to y* to z* (there are additional global
+conditions in which the constraint x* to z* is not redundant,
+see Chu's dissertation).
+In this case z* is already constrained to follow x* and so the
+explicit constraint is redundant.
+.PP
+The -p option just prints constraints which have been identified
+as redundant without modifying the ASTG.

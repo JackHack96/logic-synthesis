@@ -1,0 +1,95 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/phase/phase.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:48 $
+ *
+ */
+Summary:
+	add_inv_network();
+	add_inv_node();
+	phase_quick();
+	phase_good();
+	phase_random_greedy();
+	phase_trace_set();
+	phase_trace_unset();
+
+
+void
+add_inv_network(network)
+network_t *network;
+	Inserts inverters into the network.  Currently, it 
+	assumes inverted logic (e.g. SCMOS).  After the
+	call, all functions, including primary inputs,
+	are used in their negative forms.  It also assumes
+	that all output phase are correct.
+
+
+int
+add_inv_node(network, f)
+network_t *network;
+node_t *f;
+	Inserts an inverter in front of f if needed. It
+	returns 1 if an inverter is inserted, 0 otherwise.
+	It assumes inverted logic (e.g. SCMOS).  After the
+	call, f is only used in its negative form.  The
+	new inverted is inserted into the network.  It also 
+	assumes that all output phase are correct.
+
+
+void
+phase_quick(network)
+network_t *network;
+	Determines for each node whether to implement the function
+	of its complement in order to reduce the total cost of
+	of the network.  If the network is mapped the cost
+	is the total area and the network is kept mapped, 
+	otherwise the cost is the number of inverters.  It uses 
+	quick phase (QP) algorithm.  In the resulting network, 
+	if a node is to be implemented using its complement, it 
+	is inverted.  All the necessary inverters are added into 
+	the network.  See MIS paper for detailed description of 
+	the algorithms.
+
+
+void
+phase_good(network)
+network_t *network;
+	Determines for each node whether to implement the function
+	of its complement in order to reduce the total cost of
+	of the network.  If the network is mapped the cost
+	is the total area and the network is kepd mapped, 
+	otherwise the cost is the number of inverters.  It uses 
+	good phase (GP) algorithm.  In the resulting network, 
+	if a node is to be implemented using its complement, it 
+	is inverted.  All the necessary inverters are added into 
+	the network.  See MIS paper for detailed description of 
+	the algorithms.
+
+
+void
+phase_random_greedy(network, num)
+network_t *network;
+int num;
+	Determines for each node whether to implement the function
+	of its complement in order to reduce the total cost of
+	of the network.  If the network is mapped the cost
+	is the total area and the network is kepd mapped, 
+	otherwise the cost is the number of inverters.
+	It first randomly assign the phase to each node in the 
+	network.  Then, it finds a local minimum in a greedy way.  
+	The process is repeated num times.  In the resulting network, 
+	if a node is to be implemented using its complement, it 
+	is inverted.  All the necessary inverters are added into 
+	the network.  See MIS paper for detailed description of 
+	the algorithms.
+
+
+void
+phase_trace_set();
+void
+phase_trace_unset();
+	Allows (Disallows) the phase assignment program to print out 
+	tracing messages.

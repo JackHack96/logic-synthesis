@@ -1,0 +1,43 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_delay [-alrs] [-m model] [-p n] [-f file-name] [node-list]
+ 
+     Do a delay trace (static timing analysis) on the network depending on
+     the specified model and print the delay data.  Without any arguments the
+     routine will use the _l_i_b_r_a_r_y model which assumes that the network is
+     mapped and will print the arrival times, required times and the slack
+     for all the nodes in the network.
+ 
+     Specifying an optional node-list will print the delay data only for the
+     specified nodes.
+ 
+     The user can selectively have portions of the delay data printed.  The
+     option -a will cause the arrival times to be printed. The option -r will
+     cause the required times to be printed. The option -s will cause the
+     slacks at nodes to be reported.  The option -l will cause the load
+     driven by the node to be printed.
+ 
+     The option -p n when specified with one of the options -[alrs] will
+     print out the delay data so that the first n nodes with the most criti-
+     cal values are printed. The critical portion of the delay data is deter-
+     mined by the first of the options -[alrs] specified.  Thus specifying -p
+     n -[al] prints the n nodes with the greatest arrival-time/load. For the
+     -[rs] option the nodes with the smallest required-time/slack are
+     printed.
+ 
+     The delay model can be specified by the -m option followed by one of the
+     following keywords --- _u_n_i_t, _u_n_i_t-_f_a_n_o_u_t, _l_i_b_r_a_r_y, _m_a_p_p_e_d or _t_d_c.
+     Specifying _u_n_i_t results in delay being computed as 1 unit per node in
+     the network.  _u_n_i_t-_f_a_n_o_u_t adds an additional delay of 0.2 per fanout.
+     If a library has been read in using the read_library command one can use
+     more accurate models, _m_a_p_p_e_d and _l_i_b_r_a_r_y, by using data stored in the
+     library. Using the model _l_i_b_r_a_r_y assumes  that the network has been
+     mapped. The _m_a_p_p_e_d model does not make this assumption and will do a
+     mapping of the nodes on an individual basis to compute a delay model for
+     use during the delay trace.  The _t_d_c model is an attempt to predict the
+     delay of a node based on the distribution of arrival times. The parame-
+     ters used in this model prediction are optionally specified using the -f
+     option.
+ 
+                                                                            1

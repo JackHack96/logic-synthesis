@@ -1,0 +1,26 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/print_level.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+print_level [-l] [-c] [-m model] [-t value] [node-list]
+.PP
+Prints the nodes of the network according to their level. 
+When called with a \fBnode-list\fR, only the nodes in the
+transitve fanin of the specified nodes are printed.
+The primary inputs are assigned level 0, and the level of
+a node is the length of the longest path from it to a
+primary input. The \fB -l\fR options prints only the 
+number of levels in the network.
+.PP
+If the \fB-c\fR option is specified, only critical nodes are
+printed according to their level. The delay trace is done
+according to the \fB-m model\fR option (default is the 
+unit-fanout model) and all the nodes with a slack within a
+\fB-t value\fR of the smallest slack are considered to be
+critical.

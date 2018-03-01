@@ -1,0 +1,12 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   invert_io node-list
+ 
+     This command reverses the polarity of the specified nodes.  The nodes
+     have to be external primary inputs or external primary outputs.
+ 
+     The polarity inversion is done by adding an inverter before a primary
+     output or after a primary input.
+ 
+                                                                            1

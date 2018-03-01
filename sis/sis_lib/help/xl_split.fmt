@@ -1,0 +1,10 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   xl_split [-n value] [-d]
+ 
+     Ensures that every node in the network has number of fanins less than or
+     equal to value.  This is accomplished by using kernel extraction and
+     AND-OR decomposition.  -d turns on debugging facilities.
+ 
+                                                                            1

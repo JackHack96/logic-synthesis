@@ -1,0 +1,28 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/write_bdnet.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:42 $
+.\"  *
+.\"
+.XX
+write_bdnet [filename]
+.PP
+Write the current network to file \fBfilename\fP in the format
+for a net-list defined by bdnet(1).
+This is allowed only after the network has been mapped into a final
+implementation technology.
+.PP
+The environment variable OCT-CELL-PATH defines where the cell library
+is located.  If a cell does not have a leading '~' or '/' in its name,
+then OCT-CELL-PATH is prepended to the filename.
+.PP
+The variable OCT-CELL-VIEW defines the viewname to be used if the cell
+does not have a ':' in its name to separate the cell name from the view
+name.
+.PP
+The variables OCT-TECHNOLOGY, OCT-VIEWTYPE, and OCT-EDITSTYLE define
+the technology, view-type, and edit-style properties for the Oct cell.
+

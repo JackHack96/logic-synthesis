@@ -1,0 +1,33 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/stg_to_network.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:41 $
+.\"  *
+.\"
+.XX
+stg_to_network [-e option]
+.PP
+Takes the current state-encoded state transition graph and generates 
+an optimized two-level logic network.  The initial mapping is optimized
+using a two-level Boolean minimizer (i.e. \fBespresso\fR)
+along with the invalid
+state codes as don't cares.
+\fB-e\fR allows the user to specify how
+the two-level logic-encoded network should be processed using \fBespresso\fR.
+The option can be
+either 0, 1, or 2.
+The \fB-e 0\fR option simply runs espresso and executes \fBread_pla\fR.
+The \fB-e 1\fR option runs \fBespresso\fR, but does a
+\fBread_pla -s\fR instead.
+This reads in the PLA in single-level form (fully collapsed) rather than 
+two-level form.
+This often produces better results.
+The \fB-e 2\fR option
+runs \fBespresso -Dso\fR, which does a single-output minimization.
+Again, \fBread_pla -s\fR is used.
+This option also produces better results for some
+cases, but typically takes more time.
+The default is the \fB-e 1\fR option.

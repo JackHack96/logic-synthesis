@@ -1,0 +1,61 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/source.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:38 $
+.\"  *
+.\"
+.XX
+source [-psx] filename
+.PP
+Read commands from a file.  The \fB-p\fP option prints a prompt before
+reading each command, and the \fB-x\fP option echoes each command before
+it is executed.  The \fB-s\fP option silently ignores an attempt to execute
+commands from a nonexistent file.
+.PP
+Arguments on the command line after the filename are remembered but not
+evaluated.  Commands in the script file can then refer to these arguments
+using the history substitution mechanism.
+.PP
+EXAMPLE:
+.IP
+Contents of test.scr:
+.IP
+.nf
+    read_blif %:2
+    collapse
+    write_eqn %:2.eqn
+.fi
+.IP
+Typing "source test.scr lion.blif" on the command line will execute the
+sequence
+.IP
+.nf
+    read_blif lion.blif
+    collapse
+    write_eqn lion.blif.eqn
+.fi
+.IP
+If you type "alias st source test.scr" and then type "st lion.blif bozo", you
+will execute
+.IP
+.nf
+    read_blif bozo
+    collapse
+    write_eqn bozo.eqn
+.fi
+.IP
+because "bozo" was the second argument on the last command line typed.  In
+other words, command substitution in a script file depends on how the script
+file was invoked.
+.PP
+Some standard script files are provided.  \fIscript\fR (executed by typing
+\fBsource script\fP is a script that works well on most examples.
+\fIscript.boolean\fR uses a larger part of the don't care set during two-level
+minimization, requiring more time and producing better results.
+\fIscript.algebraic\fR uses a smaller part of the don't care set.
+\fIscript.rugged\fR uses the newest BDD-based techniques,
+and \fIscript.delay\fR synthesizes a circuit for a final
+implementation that is optimal with respect to speed.

@@ -1,0 +1,67 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/map/map.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:25 $
+ *
+ */
+/* file @(#)map.doc	1.2 */
+/* last modified on 5/1/91 at 15:52:15 */
+
+network_t *
+map_network(network, library, mode, inv_optz, fanout_flag)
+network_t *network;
+library_t *library;
+double mode;
+int inv_optz;
+int fanout_flag;
+
+	Implement 'network' using gates from library.  Uses the
+	tree-based technology mapping algorithm.  Returns NIL(network_t)
+	if any error, in which case error_string() contains a description
+	of what went wrong.
+
+	If 'mode' is '0', the area will be minimized.
+	If 'mode' is '1', the delay will be minimized.
+	If 'mode' is '2', the delay will be minimized on an estimate of the 
+	critical path obtained from a trivial 2-input nand mapping.
+	If 'mode' is between '0' and '1', then a linear combination of the area
+	and delay is minimized.
+
+	Setting 'inv_optz' to '1' ('0'), enables (disables) the 
+	inverter optimization
+
+	'fanout_flag' is a mask of 4 flags: [b0,b1,b2,b3]. b0 is the least
+	significant bit of the word. For example, if fanout_flag equals 3,
+	this means that b0 and b1 are on, b2 and b3 off.
+	Setting 'b0' means that the area at a fanout point is estimated
+        as being the area of the subtree divided by the number of fanouts.
+	Otherwise, the area is assumed to be 0 at a multiple fanout point.
+	Setting 'b1' means that the mapper is allowed to introduce overlaps
+	(i.e. logic duplication). 
+	'b2' is unused.
+	Setting 'b3' allows multiple fanouts within gates (i.e. for XOR's, MUX'es). 
+	The default value is 11 in area mode and 9 in delay mode.
+
+void
+map_add_inverter(network, add_at_pipo)
+network_t *network;
+int add_at_pipo;
+	Add extra inverters nodes to the network such that every pair
+	of nand gates is separated by 2 or more inverters.
+
+	Setting 'add_at_pipo' to 1 enables the insertion also at primary inputs
+	and outputs.
+
+
+
+void
+map_remove_inverter(network, report_data)
+network_t *network;
+VoidFn report_data;
+	Remove redundant inverters from the network while keeping the
+	network mapped.  If report_data is not NIL, the routine reports
+	debugging information by calling the report_data function with the
+        network as an argument.

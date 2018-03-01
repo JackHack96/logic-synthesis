@@ -1,0 +1,656 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/node/node.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:46 $
+ *
+ */
+Description:
+	The node package for SIS.
+
+
+Summary:
+	node_alloc()
+	node_free()
+	node_dup()
+
+	node_name()
+	node_network()
+	node_num_literal()
+	node_num_cube()
+	node_num_fanin()
+	node_num_fanout()
+	node_get_fanin()
+	node_get_fanout()
+	node_get_fanin_index()
+	node_get_fanout_index()
+	node_get_cube()
+	node_get_literal()
+	node_literal_count()
+
+	foreach_fanin()
+	foreach_fanout()
+	foreach_fanout_pin()
+
+	node_and()
+	node_or()
+	node_not()
+	node_xor()
+	node_xnor()
+	node_div()
+	node_literal()
+	node_constant()
+	node_cofactor()
+	node_simplify()
+	node_algebraic_cofactor()
+	node_largest_cube_divisor()
+	node_replace()
+
+	node_collapse()
+	node_substitute()
+	node_invert()
+	node_scc()
+	node_d1merge()
+	node_function()
+	node_input_phase()
+
+	node_contains()
+	node_equal()
+	node_equal_by_name()
+
+	node_print()
+	node_print_rhs()
+	node_print_negative()
+
+	node_register_daemon()
+
+node_t *
+node_alloc()
+	Allocate a new node.
+
+
+void
+node_free(node)
+node_t *node;
+	Free a node.
+
+
+network_t *
+node_network(node)
+node_t *node;
+	Returns the network this node belongs to.
+
+
+node_t *
+node_dup(node)
+node_t *node;
+	Duplicate a node.
+
+
+int
+node_num_literal(node)
+node_t *node;
+	Returns the number of literals in the function.  Note that 
+	constant-valued functions have no literals.
+
+
+int 
+node_num_cube(node)
+node_t *node;
+	Returns the number of cubes in the sum-of-products form for the
+	function.  Note that the 0 function has no cubes, and the 1
+	function has 1 cube.
+
+
+int *
+node_literal_count(node)
+node_t *node;
+	Returns an array of the literal counts for each variable in the
+	fanin of a node.  The array has twice as many entries as inputs
+	to the node; entry [2*j] gives the number of positive phase
+	literals for input 'j', and the entry for [2*j+1] gives the
+	number of negative phase literals for input 'j'.  Typically
+	this array is accessed from with a fanin generation loop.  The
+	array should be freed when you no longer need it.
+
+/*  Basic node computation routines */
+
+The basic operations are supported.  The routines all return a new node
+as their result, and leave the arguments unchanged.  This new node is
+not part of a network until it is explicitly added using network_add_node().
+
+The implementation guarantees that the result of any operation is
+single-cube containment minimal, and is expressed over its minimum
+support.  (Of course, Boolean redundancy may hide the fact that a
+function doesn't really depend on some input.)
+
+
+node_t *
+node_and(f, g)
+node_t *f, *g;
+	Computes f * g for two nodes.
+
+
+node_t *
+node_or(f, g)
+node_t *f, *g;
+	Computes f + g for two nodes.
+
+
+node_t *
+node_not(f)
+node_t *f;
+	Computes the complement of a node f.  Potentially very efficient
+	if the complement of f is already computed and stored.
+
+
+node_t *
+node_xor(f, g)
+node_t *f, *g;
+	Computes f <xor> g for two nodes.
+
+
+node_t *
+node_xnor(f, g)
+node_t *f, *g;
+	Computes f <xnor> g for two nodes.
+
+
+node_t *
+node_div(f, g, r)
+node_t *f, *g;
+node_t **r;
+	Computes algebraic quotient f/g for two nodes.  f and g are not
+	changed.  If r is not null, then the algebraic remainder is
+	also returned.
+
+
+node_t * 
+node_literal(f, phase)
+node_t *f;
+int phase;
+	Compute the literal function of f, and allocate a new node for
+	the result.  phase indicates the resulting phase of the literal
+	(0 for complemented, 1 for uncomplemented).
+
+    
+node_t *
+node_constant(phase)
+int phase;
+	Returns a constant-valued function, depending on phase.
+	(phase == 0 is the 0 function, phase == 1 is the 1 function).
+
+
+node_t *
+node_simplify(F, D, mode)
+node_t *F;
+node_t *D;
+node_sim_type_t mode;
+	Minimize the function 'F' using 'D' as a don't-care set.  'D'
+	may be NIL(node_t) which implies no don't-care set.  'mode' is
+	one of NODE_SIM_SCC, NODE_SIM_SIMPCOMP, or NODE_SIM_ESPRESSO to
+	choose the minimization algorithm for simplifying the function
+	'F'.  Note that NODE_SIM_SCC and NODE_SIM_SIMPCOMP ignore any
+	don't-care set which is given.
+
+
+node_t *
+node_largest_cube_divisor(f)
+node_t *f;
+	Returns the largest single-cube divisor of a node.
+	
+
+void
+node_replace(r, f)
+node_t *r, *f;
+	Replace node r of a network with f.  f is freed.  Only the logic
+	function of `r' is affected, all other information associated
+	with the node remains intact.  (See node_register_daemon() for
+	more information on how to keep other information up-to-date.)
+
+node_type_t {
+	PRIMARY_OUTPUT, PRIMARY_INPUT, INTERNAL
+};
+
+node_type_t
+node_type(n)
+node_t *n;
+	Returns the type of node n.
+
+
+node_function_t {
+    NODE_PI, NODE_PO, NODE_0, NODE_1, NODE_BUF, NODE_INV, 
+    NODE_AND, NODE_OR, NODE_COMPLEX, NODE_UNDEFINED
+};
+
+
+node_function_t
+node_function(f)
+node_t *f;
+	Returns the type of the logic function for f.  NODE_PI and
+	NODE_PO indicate the node is a primary input or a primary
+	output of a network.  NODE_0 and NODE_1 indicate a
+	constant-valued function.  NODE_INV and NODE_BUF indicate a
+	single literal function (either positive for negative).
+	NODE_AND indicates a single-product term in the function, and
+	NODE_OR indicates many product terms, each with a single
+	literal.  NODE_COMPLEX means the logic function is some other
+	more complex function.  Note that NODE_AND or NODE_OR are
+	returned even if variables are used in their complemented
+	form.  Also, not that NODE_AND or NODE_OR requires 2 or more
+	inputs (if there is only a single input, the function must be
+	NODE_0, NODE_1, NODE_INV, or NODE_BUF).  NODE_UNDEFINED means
+	the node has not been given a logic function yet.
+
+
+input_phase_t {
+    POS_UNATE, NEG_UNATE, BINATE, PHASE_UNKNOWN
+};
+
+input_phase_t
+node_input_phase(f, g)
+node_t *f, *g;
+	Finds out how variable g is used in function f.  If g is not
+	used in f, PHASE_UNKNOWN is returned.  If it is used only in
+	the positive form, POS_UNATE is returned; if it is used only in
+	the negative form, NEG_UNATE is returned.  If used in both
+	phases, BINATE is returned.
+
+
+/* higher level constructs */
+
+These routines are built conceptually on-top of the previous basic
+operations.  They affect a node in place.  They all return a status
+code indicating whether the function has actually been changed.
+This is 1 if the operation changes the node, or 0 if the nodes is
+not changed.  These routines gracefully handle boundary conditions
+with repsect to being given PRIMARY_INPUT and PRIMARY_OUTPUT nodes.
+
+
+int
+node_collapse(f, g)
+node_t *f, *g;
+	Assuming g is an input to f, re-express f without using g.
+	Changes f in-place, g is unchanged.
+
+
+int
+node_substitute(f, g, flag)
+node_t *f, *g;
+int flag;
+	Attempts to re-express f in terms of g.  `flag' equal to 1
+	allows the complement of g to be used as well.  Changes f
+	in-place, g is unchanged.  Returns 1 if f is changed (i.e., if
+	g does actually divide into f), or 0 if f is not changed.  If
+	either f or g is a PRIMARY_INPUT, or a PRIMARY_OUTPUT then f is
+	not changed.  Also, if f equals g (i.e., attempt to substitute
+	a node into itself), then f is not changed.
+
+
+int
+node_invert(node)
+node_t *node;
+	Inverts a node in-place.  Replaces the node with its complement,
+	and then complements the phase of each fanout.  That is, if the
+	node is used in the positive phase of a fanout, this is switched
+	to negative phase, and vice-versa.  Thus, the logic function of
+	the network is preserved.  (Note that this is equivalent to
+	an in-place node_not() if the node is not in a network.)
+
+
+void
+node_scc(node)
+node_t *node;
+	Makes the function single-cube containment (scc) minimal.
+	(That is, such that no term properly contains another term.)
+
+void
+node_d1merge(node)
+node_t *node;
+	Simplify the function by repeated distance-one merging.
+
+int
+node_contains(f, g)
+node_t *f, *g;
+ 	Returns 1 if f contains g (in a Boolean sense), or 0 if not.
+	Returns 0 if either f or g is a PRIMARY_INPUT.
+
+
+int
+node_equal(f, g)
+node_t *f, *g;
+	Determines whether two nodes are Boolean equivalent.  Returns 1
+	if the nodes are equal, or 0 if unequal.  Returns 0 if either f
+	or g is a PRIMARY_INPUT.
+
+
+int
+node_equal_by_name(f, g)
+node_t *f, *g;
+	Determines whether two nodes represent the same Boolean logic
+	function.  The inputs of the two nodes are associated by name
+	(hence, the strange '_by_name' appended to the function name).
+	What this means is that the two nodes do not necessarily have
+	to belong to the same network in order to compare them.  Returns
+	1 if the ndoes are equal, or 0 if unequal.
+
+
+void
+node_algebraic_cofactor(f, g, p, q, r)
+node_t *f, *g;
+node_t **p, **q, **r;
+	Forms the 'algebraic' cofactor of f with respect to g.  p is
+	the positive phase, q is the negative phase, and r is the
+	remainder.  Each cube of f is assigned to one of the three
+	functions p, q, or r based on whether it contains a ZERO, ONE,
+	or TWO in the position corresponding to the input g.
+
+	In particular, f = p * g + q * g' + r.
+
+
+
+node_t *
+node_cofactor(f, g)
+node_t *f, *g;
+	Forms the Shannon cofactor of f with respect to g.  This is
+	defined only when g is a single cube.
+
+/* Generators to traverse the graph structure of a network */
+
+foreach_fanin(node, i, fanin)
+node_t *node;
+int i;
+node_t *fanin;
+	Generates all of the inputs to a node.
+
+
+foreach_fanout(node, gen, fanout)
+node_t *node;
+lsGen gen;
+node_t *fanin;
+	Generates all of the fanouts of a node.
+
+
+foreach_fanout_pin(node, gen, fanout, pin)
+node_t *node;
+lsGen gen;
+node_t *fanin;
+int pin;
+	Generates all of the fanouts of a node, including the input pin
+	numbers for the fanout gate.
+
+
+These generators are macros.  Typical usage is:
+
+	foreach_fanin(node, i, fanin) {
+	    /* do something with fanin */
+	}
+
+It is a serious error to attempt to change a node while you are generating
+its fanin.  This will cause a run-time error.
+
+Only a node which is a network (i.e., using network_add_node()) has a
+fanout defined.  An attempt to generate the fanout of a node which is not
+in a network will cause a run-time error.
+
+/*  Looking at the Sum-of-products function stored at a node */
+
+node_cube_t
+node_get_cube(node, i)
+node_t *node;
+int i;
+	Returns the i'th cube of the function for a node.  Use
+	node_num_cube() to find out how many cubes are in the
+	sum-of-products form for a given node.
+
+
+typedef enum {
+    ZERO, ONE, TWO
+} node_literal_t;
+
+
+node_literal_t
+node_get_literal(cube, j)
+node_cube_t cube;
+int j;
+	Returns the value of the j'th literal of the given cube.
+	The value is ONE, ZERO, or TWO.
+
+
+Typical use of these functions:
+
+	for(i = node_num_cube(node)-1; i >= 0; i--) {
+	    cube = node_get_cube(node, i);
+	    foreach_fanin(node, j, fanin) {
+		literal = node_get_literal(cube, j);
+		switch(literal) {
+		case ONE:
+		    /* do something */
+		    break;
+		case ZERO:
+		    /* do something else */
+		    break;
+		case TWO:
+		    /* do last thing */
+		    break;
+		default:
+		    fail("bad literal");
+		    /* NOTREACHED */
+		}
+	    }
+	}
+
+/*  Looking at the fanin and fanouts for a node */
+
+
+int
+node_num_fanin(node)
+node_t *node;
+	Returns the number of inputs to node.
+
+
+int
+node_num_fanout(node)
+node_t *node;
+	Returns the number of fanouts of node.
+
+
+node_t *
+node_get_fanin(node, n)
+node_t *node;
+int n;
+	Returns the n'th fanin of a node.  fanin's are numbered starting
+	from 0.
+
+
+node_t * 
+node_get_fanout(node, n)
+node_t *node;
+int n;
+	Returns the n'th fanout of a node.  fanout's are numbered starting
+	from 0.
+
+
+int
+node_get_fanin_index(node, fanin)
+node_t *node;
+node_t *fanin;
+	Return the index of fanin as an input to node, or -1 if fanin
+	is not an input to node.
+
+char *
+node_name(node)
+node_t *node;
+	Returns the name of a node.  Note that the global variable name_mode
+	affects whether a short name is used, or the user-supplied name.
+	Also, note that nodes which fanout to primary outputs are given
+	names of the form {output} using the primary output name.
+
+
+char *
+node_long_name(node)
+node_t *node;
+	Returns the real name of a node.  node_long_name() should be used
+	when matching nodes by name between two networks.
+
+
+void
+node_print(fp, node)
+FILE *fp;
+node_t *node;
+	Prints a node in the form "f = a b c' + d e f".  Appends a trailing
+	newline.  Uses node_name(), and hence depends on the current setting
+	of long names versus short names.
+
+
+void
+node_print_rhs(fp, node)
+FILE *fp;
+node_t *node;
+	Prints the right-hand-side of a node (that is, in the previous 
+	example, "a b c' + d e f".  Does not append a trailing newline.
+	Uses node_name(), and hence depends on the current setting of 
+	long names versus short names.
+
+
+void
+node_print_negative(fp, node)
+FILE *fp;
+node_t *node;
+	Prints a node in negative form (i.e., "f = (abc)'" rather than 
+	"f = a' + b' + c'".  Appends a trailing newline.  Uses node_name(), 
+	and hence depends on the current setting of long names versus 
+	short names.
+
+/* node daemons */
+
+Many routines need to store information along with a node.  Currently,
+a rudimentary mechanism exists for a package to maintain these
+extra data fields.  A 'daemon' can be registered with the node package,
+and then this daemon will be called when the node is allocated, freed,
+duplicated, or changed.
+
+The goal with using these daemons is to minimize the effect on
+other packages (especially the node package) when extra fields
+are added to the node structure.
+
+The current prototype for using this package is the factoring package.
+The factoring package will do the following in its startup code:
+
+	node_register_daemon(DAEMON_ALLOC, factor_alloc);
+	node_register_daemon(DAEMON_FREE, factor_free);
+	node_register_daemon(DAEMON_DUP, factor_dup);
+	node_register_daemon(DAEMON_INVALID, factor_invalid);
+
+A single slot is (can be) reserved in the node structure for each package.
+The package can use this pointer to store whatever information it wishes
+to associate with the node.  A single slot named 'undef1' is also
+present, and can be used for development of a new package before the
+header file reflects the addition of this new slot to the node structure.
+
+This slot should be accessed with macros like:
+
+	#define FACTOR_SLOT	undef1
+	#define FACTOR(node)	((factor_type_t *) (node)->FACTOR_SLOT)
+
+This allows code like:
+
+	FACTOR(node)->this_thing = 1;
+
+For development purposes, FACTOR_SLOT is set to the field `undef1'.  When
+the package is released and installed, the single change of FACTOR_SLOT to
+e.g., `factored' (along with a corresponding minor change in the node package)
+is all that is needed to allow the factor package to have its own slot 
+in the node structure.
+
+Example:
+
+The routines factor_alloc, factor_free, factor_dup, and factor_invalid
+probably look something like:
+
+
+	typedef struct factor_struct factor_type_t ;
+	struct factor_struct {
+	    some_type_t tree;
+	    int this_or_that;
+	};
+
+
+	#define FACTOR_SLOT	factored
+	#define FACTOR(node)	((factor_type_t *) (node)->FACTOR_SLOT)
+
+
+	void factor_alloc(node)
+	node_t *node;
+	{
+	    node->FACTOR_SLOT = ALLOC(factor_type_t, 1);
+	    FACTOR(node)->tree = 0;
+	    FACTOR(node)->this_or_that = 0;
+	}
+
+
+	void factor_free(node)
+	node_t *node;
+	{
+	    if (FACTOR(node)->tree != 0) do_factored_free(FACTOR(node)->tree);
+	    FREE(node->FACTOR_SLOT);
+	}
+
+
+	void factor_dup(old, new)
+	node_t *old, *new;
+	{
+	    /* note that factor_alloc has already been called for new */
+	    FACTOR(new)->tree = do_factored_dup(FACTOR(old)->tree);
+	    FACTOR(new)->this_or_that = FACTOR(old)->this_or_that;
+	}
+
+
+	void factor_invalid(node)
+	node_t *node;
+	{
+	    if (FACTOR(node)->tree != 0) do_factored_free(FACTOR(node)->tree)
+	    FACTOR(node)->tree = 0;
+	    FACTOR(node)->this_or_that = 0;
+	}
+
+node_daemon_type_t {
+    DAEMON_ALLOC, DAEMON_FREE, DAEMON_DUP, DAEMON_INVALID
+};
+
+
+void
+node_register_daemon(type, func)
+node_daemon_type_t type;
+void (*func)();
+
+	Register a daemon to be called when a node is allocated
+	(DAEMON_ALLOC), freed (DAEMON_FREE), duplicated (DAEMON_DUP),
+	or invalidated (DAEMON_INVALID).  A node is 'invalidated' when
+	the logic function stored at the node is changed.  Currently,
+	this is possible only with the node_replace() function.
+	
+	The function for allocated, free, and invalidated daemons is called:
+
+		void
+		allocate_daemon(node)
+		node_t *node;
+
+
+	For the duplicate daemon, the function is called with
+	both the old and new nodes:
+
+		void
+		dup_daemon(old, new)
+		node_t *old, *new;
+
+	Warning: when the daemon for DAEMON_DUP is called, the daemon
+	for DAEMON_ALLOC (if any) has already been called for the 'new'
+	node.
+
+	The daemon routine is able to do whatever it wishes with the
+	node it is passed.  Typically, it will play with its own
+	pointer, and initialize, free, invalidate, or duplicate the
+	corresponding information.

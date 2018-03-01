@@ -1,0 +1,234 @@
+.TH Vst2Blif 1 "April 5 1994" "Release 1.0"
+.SH NAME
+Vst2Blif - A filter that converts a structural vhdl source into a blif file.
+.SH SYNOPSIS
+.ta 8n
+\fBvst2blif\fP [-h] [-v] [-u] [-s \fIname\fP] [-d \fIname\fP] [-c \fIname\fP]
+\fILibraryName\fP  [inputfile [outputfile]]
+.SH OPTIONS
+.PP
+\fBVst2Blif\fP accepts the options described below:
+.TP 8
+.B \-h
+A brief summary of the allowed options are printed to standard error.
+.TP 8
+.B \-v 
+All the warnings will be sent to standard output. See the Warning paragraph.
+.TP 8
+.B \-u
+Converts all actual terminals to uppercase.
+.TP 8
+.B \-s \fIname\fP
+Uses "name" as the terminal for VSS, and eliminates all of the formals with
+this name. 
+In fact the VHDL description used by Alliance includes the power lines,
+but SIS does not need them . So you may skip them by
+using this option for the VSS terminal and the next one for VDD.
+The default value is VSS.
+.TP 8
+.B \-d \fIname\fP
+Uses "name" as the terminal for VDD. The default is VDD.
+.TP 8
+.B \-c \fIname\fP
+Adds .clock "name" at the output file.
+.TP 8
+.B\-n 
+Disables the VSS and VDD checking.
+.TP 8
+.B\-i \fInumber\fP
+Sets the initial value for latches, the default is 3 (=UNDEFINED)
+.TP 8
+.B LibraryName
+Is the full-path name of the library (in \fIGENLIB\fP format) to use for
+the conversion.
+.TP 8
+.B Input-File
+Is the name of the input file. If this name and the name of the
+output file  are missing,  stdin will be used as the input file.
+.TP 8
+.B Output-File
+Indicates the name of the output file. If it is missing, stdout will be used.
+
+.SH DESCRIPTION
+The \fBvst2blif\fP program converts a structural vhdl file into a blif. 
+The vhdl set supported is the same of the \fIALLIANCE\fP CAD system 
+(CAO-VLSI team at MASI laboratory, University P. et M. Curie 4, place 
+Jussieu ; 75252 PARIS Cedex 05 ; FRANCE ; E-mail: cao-vlsi@masi.ibp.fr ).
+The syntax is a subset of the standard VHDL. The following
+examples will show the allowed keyword  and how to use them:
+
+.PP
+.nf
+ENTITY \fIentity_name\fP IS
+
+GENERIC ( .. );
+-- this will be ignored
+
+PORT ( .. );
+-- only \fBBIT\fP and \fBBIT_VECTORS\fP type of signals
+
+END \fIentity_name\fP;
+
+
+ARCHITECTURE \fItype\fP OF \fIentity_name\fP IS
+-- multiple entities are allowed, but as they are declared
+-- they must be followed by their architecture declarations.
+
+SIGNAL ...
+-- parsed but ignored
+
+COMPONENT \fIname\fP
+PORT( .. );
+END COMPONENT;
+-- No checks are carried out here. These strings are
+-- just parsed.
+
+-- SIGNAL clause and COMPONENT CLAUSE may be mixed
+
+BEGIN
+
+  \fIname\fP : \fIComponentName\fP (
+  	formal_terminal => actual_terminal;
+	-- No vectors are allowed, only single elements of vectors
+	.
+	.
+	);
+
+-- and so on..
+
+END \fItype\t;
+.fi
+
+.SH EXAMPLE
+Here is a simple half adder to show how the program works:
+.nf
+entity half_adder is
+port (
+  a,b     : in bit;  -- inputs
+  sum     : out bit;
+  carry   : out bit;
+  clk     : in  bit; -- clock to latch the final result
+  vdd,vss : in bit   -- power lines
+  );
+end half_adder;
+
+
+architecture structural of halfadder is
+
+component inv1x
+port(
+  a       : in bit; 
+  o       : out bit;
+  vss,vdd : in bit
+  );
+end component;
+
+component xor
+port(
+  a,b     : in bit;
+  o       : out bit;
+  vss,vdd : in bit
+  );
+end component;
+
+component nand2
+port(
+  a,b     : in bit;
+  o       : out bit;
+  vss,vdd : in bit
+  );
+end component;
+
+component dlatch
+port(
+  clk,d   : in bit;
+  q       : out bit;
+  vss,vdd : in bit
+  );
+end component;
+	
+signal carrytmp, sumtmp, carry_ : bit;
+-- Note that the program will work perfectly even 
+-- without this declaration: SIS does not need the
+-- declaration of the internal signals.
+
+begin
+
+ -- CARRY = a*b 
+ inst1 : nand2
+ port map ( a => a, b => b, o  => carry_, vss => vss, vdd => vdd );
+ inst2 : inv1x
+ port map ( a => carry_, o => carrytmp, vss => vss, vdd => vdd);
+
+ -- SUM = A xor B
+ inst9 : xor
+ port map ( a => a, b => b, o => sumtmp, vss => vss, vdd => vdd );
+
+ -- let's save the result  in a latch
+ instA : dlatch
+ port map ( d => sumtmp, q => sum, clock => clk,
+            vss => vss, vdd => vdd );
+ instB : dlatch
+ port map ( d => carrytmp, q => carry, clock => clk, 
+            vss => vss, vdd => vdd ); 
+
+end structural;
+.fi
+.PP
+This file will be converted using a command like this
+
+cat half.vst | vst2blif -c clk -v full_lib2.genlib > half.blif
+
+or, the equivalent one :
+
+vst2blif -c clk -v full_lib2.genlib half.vst half.blif
+
+Then the resul file will be:
+.PP
+.nf
+ # File created by vst2blif ver 1.0
+ .model half_adder
+
+ .inputs a b 
+ .outputs sum carry 
+ .clock clk 
+
+ .gate nand2 a=a b=b O=carry_ 
+ .gate inv1x a=carry_ O=carrytmp 
+ .gate xor a=a b=b O=sumtmp 
+ .mlatch dlatch D=sumtmp Q=sum clk 3
+ .mlatch dlatch D=carrytmp Q=carry clk 3
+
+ .end
+
+.fi
+.PP
+The library used is the lib2.genlib and the lib2_latch.genlib merged 
+toghether (into the fil efull_lib2.genlib). In 
+fact the program takes as input only one library-file.
+.PP
+.SH WARNINGS
+As you may see the VHDL source has a lot of words (keywords) that this
+program can skip. Just consider the clause
+.PP
+\fBCOMPONENT\fP name 
+\fBPORT\fB ( formal1 : type; ... formal : type );
+.PP
+and consider the part with the PORT declaration. The tokenizer gives 2 tokens
+to the program : PORT and '(' , the first is necessary, but not the '('.
+Since we know that we are looking at a PORT CLAUSE,
+ we expect a list of definitions of
+formal terminals. If the '(' is missing you will get a warning (it is a VHDL
+syntax error ) but this will not create any problem to the filter.   
+This situation is true in other cases where there are more 'tokens' 
+than the ones that will be stricly necessary.
+The program prints these warnings to the stderr if the option -v is given.
+
+
+.SH SEE ALSO
+"The VHDL CookBook" By Peter J.Ashenden  
+                    chapter 3:  "VHDL Describes Structure"
+
+
+.SH BUGS
+Please reports any bugs to blaurea1@deis06.cineca.it

@@ -1,0 +1,81 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_state_min [-v debug_level] [-p minimized_file] [-c "command"] [-b|-B]
+     [-g|-G] [-u] [-m|-M] [-o #] [-f signal_cost_file]
+ 
+     Minimizes the current State Transition Graph and derives the information
+     required to encode the associated Signal Transition Graph.  The complete
+     sequence of actions to implement a Signal Transition Graph that does not
+     have Complete State Coding is as follows:
+ 
+     astg_to_stg -m
+     astg_state_min
+     astg_encode
+     astg_add_state
+ 
+     astg_to_f
+      ...
+ 
+     The -f option selects a signal cost file. This file should contain one
+     line of the form
+     <signal name> <cost>
+     (e.g. "bus_ack 10") for each signal in the ASTG. The encoding algorithm
+     minimizes the sum of the weights of signals that follow state transi-
+     tions.  Hence this file can be used to strongly favor or disfavor chang-
+     ing the predecessors of the transitions of a signal.
+ 
+     By default, output signals have a cost of one and input signals have a
+     cost equal to the number of output signals plus one. In this way, no
+     input signal is constrained, if possible.
+ 
+     The command may emit a series of diagnostic messages of the form:
+     warning: the STG may not be live (multiple exit point): may need con-
+     straint <signal 1> -> <signal 2>
+     These messages may or may not cause a failure (diagnosed as internal
+     error) later on during astg_add_state. In case of failure, one of the
+     required constraints (ideally the constraint that least decreases the
+     circuit performance due to the reduction in concurrency) should be added
+     to the ASTG.  The procedure should be repeated until no more such mes-
+     sages occur.
+ 
+     The options listed below are not generally useful except for debugging
+     purposes or to obtain faster (but potentially less optimal) results for
+     large Signal Transition Graphs.  All algorithm speed indications reflect
+     average case analysis.
+ 
+     The -B and -b options select Binary Decision Diagrams as internal data
+     structure to find the encoding information (both are generally slower
+     than the default selection, but -b is generally faster than -B).
+ 
+     The -M and -m options select Sparse Matrices as internal data structure
+     to find the encoding information (both are generally slower than the
+     default selection, but -m is generally faster than -M). If -M is
+     selected, then -o can be used to define some further internal options
+     (this is strongly discouraged).
+ 
+                                                                            1
+ 
+   SIS(1)                                                        July 1, 1994
+ 
+     The -G and -g options select a greedy (-g) or very greedy (-G) heuristic
+     to find the encoding information (both faster and looser than the
+     default selection).
+ 
+     The -u option selects a generally slower heuristic to find the encoding
+     information.
+ 
+     The -c option allows to use a different minimizer from the default
+     choice. The minimizer must be able to read and write .kiss format and to
+     write equivalence class information in the output file, in the following
+     format:
+     #begin_classes <number of classes>
+     # <state name> <class number>
+      ...
+     #end_classes
+ 
+     The -p option avoids calling the minimizer altogether, just reading in
+     the specified minimized file (in .kiss format with equivalence class
+     information).
+ 
+   2

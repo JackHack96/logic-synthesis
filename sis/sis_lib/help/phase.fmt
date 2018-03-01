@@ -1,0 +1,23 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   phase [-qgst] [-r n]
+ 
+     Decide for each node whether to implement the node or its complement in
+     order to reduce the total cost of the network.  If the network is
+     mapped, the cost is the total area and the network will be kept mapped,
+     otherwise, the cost is the total number of inverters in the network
+     assuming all the inverters are already in the network.  At the end, all
+     the necessary inverters are inserted into the network and all the extra
+     inverters are removed from the network.
+ 
+     The default algorithm, which can also be specified by -q option, is a
+     greedy algorithm called _q_u_i_c_k _p_h_a_s_e.  The -g option uses the Kernighan-
+     Lin type algorithm called _g_o_o_d _p_h_a_s_e.  The -s option chooses the Simu-
+     lated Annealing algorithm.  The -r n option chooses a random-greedy
+     algorithm which does a random assignment first, uses a greedy approach
+     to get to a local minimum, and iterates _n times.  If the -t option is
+     specified, some tracing information is printed as the assignment
+     proceeds.
+ 
+                                                                            1

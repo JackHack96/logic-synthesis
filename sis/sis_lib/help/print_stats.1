@@ -1,0 +1,26 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/print_stats.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+print_stats [-f] [-d]
+.PP
+Print the current network status, which includes the network name,
+number of primary inputs (pi), number of primary outputs (po),
+number of nodes (nodes), the number of latches (latches),
+the number of literals in the sum-of-product
+form (lits(sop)), and the number of states in the STG
+(#states(STG)).
+.PP
+If \fB-f\fR option is specified, the number of literals in
+the factored form (lits(fac)) is computed.
+This could be slow when 
+the factored form for some network takes too long to generate. 
+.PP
+If \fB-d\fR option is specified, the statistics of the external don't care
+network is printed.

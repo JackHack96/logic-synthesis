@@ -1,0 +1,9 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   chng_name
+ 
+     Toggles the network between long-name mode (user supplied names) and
+     short-name mode (automatically generated single-character names).
+ 
+                                                                            1

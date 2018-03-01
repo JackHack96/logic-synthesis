@@ -1,0 +1,14 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   read_oct cell[:view]
+ 
+     Read in a network from the Oct facet `cell:view:contents'.  If `view' is
+     not specified, it defaults to `logic'.  The network name is set to
+     `cell:view'.  Oct nets without names are given machine-generated unique
+     names.  All primary inputs and outputs are named the same as the
+     equivalent Oct formal terminals of the facet.
+ 
+     This operation replaces the current network with the new network.
+ 
+                                                                            1

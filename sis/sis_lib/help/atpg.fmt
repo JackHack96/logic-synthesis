@@ -1,0 +1,85 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   atpg [-fFhrRpt] [-d RTG_depth] [-n n_fault_sim] [-v verbosity_level]
+          [-y random_prop_depth] file
+ 
+     Perform test generation for both combinational and sequential circuits
+     using random test generation, deterministic test generation, and fault
+     simulation. Deterministic test generation is accomplished by one of two
+     methods. The first method is a three-step test generation algorithm con-
+     sisting of combinational test generation (assuming that latch outputs
+     are controllable, and that latch inputs are observable), followed by
+     state justification and propagation, when necessary. The combinational
+     test generation is accomplished using Boolean satisfiability. Justifica-
+     tion and propagation are performed using implicit state transition graph
+     traversal techniques. If the three-step method does not generate a test
+     for a fault, then the product of the good and faulty circuit is built
+     and traversed, as in sequential circuit verification. If this traversal
+     proves the circuits equivalent, then the fault is redundant; otherwise
+     any differentiating sequence is a test for the fault.
+ 
+     Fault collapsing is performed before test generation, across only simple
+     gates. Both fault equivalence and fault dominance are used to reduce the
+     fault list.
+ 
+     For combinational circuits, external don't cares are automatically taken
+     into account when the don't care network is attached to the care net-
+     work. The PI's and PO's of the external don't care network (when it is
+     not NIL) must match exactly with the care network. That is, the don't
+     care network cannot specify only a subset of the PI's or PO's of the
+     care network. If this condition is not met, then the atpg package
+     automatically adds dummy primary inputs and outputs to the external
+     don't care network.
+ 
+     Reverse fault simulation is performed as a post-processing step to
+     reduce test set size.
+ 
+     The -f option causes the atpg not to perform fault simulation of
+     deterministically-generated tests on untested faults.
+ 
+     The -F option causes the atpg not to use reverse fault simulation.
+ 
+     The -h option restricts the boolean satisfiability algorithm to not use
+     non-local implications. Four greedy ordering heuristics are tried in
+     this case instead of the default of eight. Hard-to-test faults that can
+     only be tested with non-local implication information are aborted by
+     this option.
+ 
+     The -r option causes the atpg not to perform random test pattern genera-
+     tion.
+ 
+     The -R option causes the atpg not to perform random propagation. (Deter-
+     ministic propagation is still attempted).
+ 
+     The -p option causes the atpg not to build any product machines. Thus,
+     neither deterministic propagation nor good/faulty product machine
+ 
+                                                                            1
+ 
+   SIS(1)                                                        July 1, 1994
+ 
+     traversal will be performed.
+ 
+     The -t option first converts the network to arbitrary fanin AND and OR
+     gates. The decomposed network is returned.
+ 
+     The -d option allows the specification of the length of the random
+     sequences applied during random test generation. The default length is
+     the depth of the circuit's state transition graph.
+ 
+     The -n option allows the specification of the number of sequences to
+     fault simulate at one time during fault simulation. The default is the
+     system word length.
+ 
+     The -v allows the specification of the verbosity level of the output.
+ 
+     The -y option allows the specification of the length of the random
+     sequences applied during random propagation. The default length is 20.
+ 
+     If file is specified, test patterns are written out to the given file.
+ 
+     Note: in order to use this command with sequential circuits, the circuit
+     reset state must be specified in the circuit input file.
+ 
+   2

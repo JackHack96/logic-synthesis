@@ -1,0 +1,10 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   quit [-s]
+ 
+     Stop the program.  Does not save the current network before exiting.  -s
+     frees all the memory before quitting.  This is slower, and is used for
+     finding core leaks or when _s_i_s is called from another program.
+ 
+                                                                            1

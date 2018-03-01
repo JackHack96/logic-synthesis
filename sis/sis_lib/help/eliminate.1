@@ -1,0 +1,31 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/eliminate.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:36 $
+.\"  *
+.\"
+.XX
+eliminate [-l limit] thresh
+.PP
+Eliminate all the nodes in the network whose 
+value is less than or equal to \fBthresh\fR.
+The value of a node represents the number of literals saved
+in the literal count for the network by leaving the
+node in the network.
+If the value is less than (or equal to) the threshold, the node
+will be eliminated by collapsing the node into each of its fanouts.
+A primary input or a primary output will not be eliminated.
+.PP
+The value of the node is approximated based on
+the number of times the node is used
+in the factored form for each of its fanouts.
+Note that if a node is used only once, its value is always -1.
+.PP
+\fBlimit\fR is used to control the maximum number of cubes
+in any node.  The default is 1000.  Using a very large \fBlimit\fR
+may result in collapsing the network to two levels.  In general,
+if the circuit is collapsible, the command \fBcollapse\fR is
+more efficient.

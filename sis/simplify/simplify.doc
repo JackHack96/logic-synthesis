@@ -1,0 +1,231 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/simplify/simplify.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:49 $
+ *
+ */
+Summary:
+	void   simplify_node();
+	node_t *simp_dc_filter();
+
+
+typedef enum sim_method_enum sim_method_t;
+enum sim_method_enum {
+    SIM_METHOD_DCSIMP, SIM_METHOD_NOCOMP, SIM_METHOD_SNOCOMP
+};
+
+typedef enum sim_dctype_enum sim_dctype_t; 
+enum sim_dctype_enum {
+    SIM_DCTYPE_NONE, SIM_DCTYPE_FANIN, SIM_DCTYPE_FANOUT,
+    SIM_DCTYPE_INOUT, SIM_DCTYPE_ALL, SIM_DCTYPE_SUB_FANIN,
+    SIM_DCTYPE_LEVEL, SIM_DCTYPE_UNKNOWN
+};
+
+typedef enum sim_filter_enum sim_filter_t;
+enum sim_filter_enum {
+    SIM_FILTER_NONE, SIM_FILTER_EXACT, SIM_FILTER_DISJ_SUPPORT,
+    SIM_FILTER_SIZE, SIM_FILTER_FDIST, SIM_FILTER_SDIST,
+    SIM_FILTER_ALL
+};
+
+void
+simplify_node(f, method, dctype, accept, filter)
+node_t *f;
+sim_method_t method;
+sim_dctype_t dctype;
+sim_accept_t accept;
+sim_filter_t filter;
+
+    Simplify f using "method", with "dctype" don't-care set
+    filtered using "filter", and accept the result using 
+    "accept" criteria.
+
+    "method" is used to specify what algorithm is to be used
+    to simplify f.  
+    SIM_METHOD_SNOCOMP is a single pass of NOCOMP (See next option). 
+    SIM_METHOD_NOCOMP uses ESPRESSO with EXPAND being replaced
+	with a new algorithm.  See Abdul Malik's paper on ICCAD-88.
+    SIM_METHOD_DCSIMP uses reduced offset based ESPRESSO.
+	This is advantangous over regular espresso when the
+	off-set is too large.
+
+    "dctype" is used to specify what type of don't-care set is
+    to be generated.  
+    SIM_DCTYPE_NONE generates no don't-care set.
+    SIM_DCTYPE_FANIN generates fanin don't-care sets.
+    SIM_DCTYPE_FANOUT generates one-level fanout don't-care set.
+    SIM_DCTYPE_INOUT combines SIM_DCTYPE_FANIN and SIM_DCTYPE_FANOUT. 
+    SIM_DCTYPE_ALL generates all the don't-care set that we are
+	be able to generate currently.  This should be used
+	with caution for the don't-care set may be too large.
+    SIM_DCTYPE_SUB_FANIN generates fanin don't cares only for nodes
+	with the same or subset support as the node being
+	minimized. This is very effective for fast simplification
+	when the don't care sets are very large.
+	SIM_DCTYPE_LEVEL generates fanin don't cares only for nodes
+	with the same or subset support as the node being minimized
+	which have level less than the node being minimized. The level
+	is the largest number of nodes on the longest  path from the node to 
+	a primary input.
+    SIM_DCTYPE_NONE should not be used.
+
+    "filter" is used to trim the don't-care set to speed up the
+    minimization process.
+    SIM_FILTER_NONE doesn't trim the don't-care set at all.
+    SIM_FILTER_EXACT only trims out the absolutely un-necessary
+	part of the don't-care set.
+    SIM_FILTER_DISJ_SUPPORT removes all the cubes in the don't-care
+	set which have disjoint support from the support of the
+	on-set.
+    SIM_FILTER_SIZE removes all the cubes in the don't-care
+	set which are have more than a fixed number of literals (3).
+    SIM_FILTER_FDIST removes all the cubes in the don't-care
+	set which are more than a fixed number of literals outside
+	the support of the node being simplified (2).
+    SIM_FILTER_SDIST removes all the cubes in the don't-care
+	set which are more than a fixed distance from all the cubes
+	of the node being simplified (2).
+
+    "accept" is used to specify the acceptance criteria.
+    SIM_ACCEPT_FCT_LITS accepts the result if the number
+	of literals in the factored form decreases.  
+    SIM_ACCEPT_SOP_LITS accepts the result if the number 
+	of literals in the sum-of-product form decreases.  
+    SIM_ACCEPT_CUBES accepts the result if the number of 
+	cubes decreases.
+    SIM_ACCEPT_ALWAYS forces the acceptance.
+
+void 
+simplify_without_odc(network, accept, method, dctype, filter, level_table, mg, leaves)
+network_t *network;
+sim_accept_t accept;
+sim_method_t method;
+sim_dctype_t dctype;
+sim_filter_t filter;
+st_table *level_table;
+bdd_manager *mg;
+st_table *leaves;
+
+    Simplify each node in the network using "method", 
+    and accept the result using "accept" criteria.
+	The don't care sets are created and filtered internally.
+	Don't cares in terms of fanins of a node being simplified
+	are generated (also called local don't cares) using image computation
+	techniques. No observability don't cares are computed here. Therefore
+	the don't cares are the unreachable minterms of the local space.
+
+    "method" is used to specify what algorithm is to be used
+    to simplify f.  
+    SIM_METHOD_SNOCOMP is a single pass of NOCOMP (See next option). 
+    SIM_METHOD_NOCOMP uses ESPRESSO with EXPAND being replaced
+	with a new algorithm.  See Abdul Malik's paper on ICCAD-88.
+    SIM_METHOD_DCSIMP uses reduced offset based ESPRESSO.
+	This is advantangous over regular espresso when the
+	off-set is too large.
+
+    "dctype" is used to specify what type of don't-care set is
+    to be generated.  
+    SIM_DCTYPE_SUB_FANIN generates fanin don't cares only for nodes
+	with the same or subset support as the node being
+	minimized. This is very effective for fast simplification
+	when the don't care sets are very large.
+	SIM_DCTYPE_LEVEL generates fanin don't cares only for nodes
+	with the same or subset support as the node being minimized
+	which have level less than the node being minimized. The level
+	is the largest number of nodes on the longest  path from the node to 
+	a primary input.
+
+	"filter"  Most of the filtering is done internally. 
+
+    SIM_FILTER_LEVEL generates fanin don't cares only for nodes
+	with the same or subset support as the node being minimized
+	which have level less than the node being minimized. The level
+	is the largest number of nodes on the longest  path from the node to 
+	a primary input.
+
+    "accept" is used to specify the acceptance criteria.
+    SIM_ACCEPT_FCT_LITS accepts the result if the number
+	of literals in the factored form decreases.  
+    SIM_ACCEPT_SOP_LITS accepts the result if the number 
+	of literals in the sum-of-product form decreases.  
+    SIM_ACCEPT_CUBES accepts the result if the number of 
+	cubes decreases.
+    SIM_ACCEPT_ALWAYS forces the acceptance.
+
+	"level_table" contains the level associated to each node.
+
+	"leaves" a cut set of nodes in the network which are used for building
+	BDD's. Currently, these are only the primary inputs.
+
+void 
+simplify_with_odc(network, accept, method, dctype, filter, level_table, mg, leaves)
+network_t *network;
+sim_accept_t accept;
+sim_method_t method;
+sim_dctype_t dctype;
+sim_filter_t filter;
+st_table *level_table;
+bdd_manager *mg;
+st_table *leaves;
+
+    Simplify each node in the network using "method", 
+    and accept the result using "accept" criteria.
+	The don't care sets are created and filtered internally.
+	Don't cares in terms of fanins of a node being simplified
+	are generated (also called local don't cares) using image computation
+	techniques. Observability plus external don't cares are
+	computed for each node in the network. 
+	The computation is done originally in terms of primary inputs. Then
+	the image computation techniques are used to map the don't cares
+	into the local space of the node being simplified. The computed
+	observability don't cares are compatible. This algorithm does not
+	guarantee 100% testability but it removes most redundancies.
+
+    "method" is used to specify what algorithm is to be used
+    to simplify f.  
+    SIM_METHOD_SNOCOMP is a single pass of NOCOMP (See next option). 
+    SIM_METHOD_NOCOMP uses ESPRESSO with EXPAND being replaced
+	with a new algorithm.  See Abdul Malik's paper on ICCAD-88.
+    SIM_METHOD_DCSIMP uses reduced offset based ESPRESSO.
+	This is advantangous over regular espresso when the
+	off-set is too large.
+
+    "dctype" is used to specify what type of don't-care set is
+    to be generated.  
+    SIM_DCTYPE_SUB_FANIN generates fanin don't cares only for nodes
+	with the same or subset support as the node being
+	minimized. This is very effective for fast simplification
+	when the don't care sets are very large.
+	SIM_DCTYPE_LEVEL generates fanin don't cares only for nodes
+	with the same or subset support as the node being minimized
+	which have level less than the node being minimized. The level
+	is the largest number of nodes on the longest  path from the node to 
+	a primary input.
+
+	"filter"  Most of the filtering is done internally. 
+
+    SIM_FILTER_LEVEL generates fanin don't cares only for nodes
+	with the same or subset support as the node being minimized
+	which have level less than the node being minimized. The level
+	is the largest number of nodes on the longest  path from the node to 
+	a primary input.
+
+    "accept" is used to specify the acceptance criteria.
+    SIM_ACCEPT_FCT_LITS accepts the result if the number
+
+	"level_table" contains the level associated to each node.
+
+	"leaves" a cut set of nodes in the network which are used for building
+	BDD's. Currently, these are only the primary inputs.
+
+node_t *
+simp_dc_filter(f, dc, filter);
+node_t *f;
+node_t *dc;
+sim_filter_t filter;
+
+    Returns the don't-care set after applying the "filter".
+    "f" is the on-set, and "dc" is the don't-care set.

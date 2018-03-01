@@ -1,0 +1,50 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   read_eqn [-a] [filename]
+ 
+     Read a set of logic equations in the format expected by eqntott(1).
+     Each equation becomes a node in the logic network.
+ 
+     INORDER and OUTORDER can be used to specify the primary inputs and pri-
+     mary outputs for the network.  If neither is given, then primary inputs
+     are inferred from signals which are not driven, and primary outputs are
+     inferred from signals which do not have any fanout.
+ 
+     The equations are of the form "<signal> = <expr> ;".  For reference, the
+     equation format uses the operators:
+ 
+                           ___________________________
+                          | ()          grouping     |
+                          | != (or ^)   exclusive-or |
+                          | ==          exclusive-nor|
+                          | !           complement   |
+                          | & (or *)    boolean-and  |
+                          ||_|__(_o_r__+_)_____b_o_o_l_e_a_n_-_o_r_____||
+     As a simple extension to eqntott, juxtaposition of two operands stands
+     for boolean-and, and ' used as a post-fix operator stands for comple-
+     ment.  Hence,
+               F = a*!b + c*!d ;
+     and
+               F = a b' + c d' ;
+     represent the same equation.
+ 
+     Note that eqntott and read_eqn treat the intermediate nodes of a network
+     slightly differently.  read_eqn will not make an intermediate node a
+     primary output unless it also appears in the OUTORDER list.  Also, the
+     resulting network is a multiple-level network with all of the intermedi-
+     ate signals preserved.  Finally, eqntott is order-dependent in that it
+     requires signals to be defined before they can be used again; read_eqn
+     relaxes this condition.
+ 
+     The -a option specifies that the new network should be appended to the
+     current network.  Functions are associated between the two networks
+     using the long names of each network.  Name conflicts (where two func-
+     tions attempt to define the same name) generate warning messages and are
+     resolved by renaming the signal from the new network.
+ 
+     The -s option, though accepted, has no effect on read_eqn and is instead
+     reserved for the read_pla command.  Note that since the characters '('
+     and ')' are used for grouping, they cannot be part of a signal name.
+ 
+                                                                            1

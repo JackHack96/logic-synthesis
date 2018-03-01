@@ -1,0 +1,9 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_print_sg
+ 
+     Print the state graph of the current ASTG.  If no state graph is
+     present, this will create one by token flow.
+ 
+                                                                            1

@@ -1,0 +1,11 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   add_inverter
+ 
+     Add inverters into the network wherever needed to make each signal
+     (including the primary inputs) used only in its negative form.  After
+     this command, every literal in a node is in the negative form.  This is
+     the appropriate starting point for the technology mapping step.
+ 
+                                                                            1

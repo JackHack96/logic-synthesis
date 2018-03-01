@@ -1,0 +1,843 @@
+%/*
+% * Revision Control Information
+% *
+% * $Source: /users/pchong/CVS/sis/sis/doc/blif.tex,v $
+% * $Author: pchong $
+% * $Revision: 1.1.1.1 $
+% * $Date: 2004/02/07 10:14:20 $
+% *
+% */
+% Document Type: LaTeX
+% Master File: blif.tex
+%
+%
+
+
+\documentstyle[fullpage,times,11pt]{article}
+\addtolength{\topmargin}{-13mm}
+\addtolength{\textwidth}{10mm}
+\addtolength{\textheight}{10mm}
+\addtolength{\oddsidemargin}{-5mm}
+
+    % define an environment .8 spacing (80% of single spacing)
+    \def\pespace{\def\baselinestretch{.8}\small}
+    \def\endpespace{}
+%\fi
+
+\newcommand{\BLIF}{{\sc blif}}
+
+\newenvironment{code}%
+{%
+	\begin{pespace}\nopagebreak[3]\begin{verbatim}%
+}%
+{%
+	\end{pespace}%
+}%
+
+\title{
+	Berkeley Logic Interchange Format (\BLIF )
+}
+
+\author{
+	University of California\\
+	Berkeley
+}
+
+\begin{document}
+
+\maketitle
+
+The goal of \BLIF\ is to describe a logic-level hierarchical circuit in
+textual form.  A circuit is an arbitrary combinational or sequential network
+of logic functions.  A circuit can be viewed as a directed graph of
+combinational logic nodes and sequential logic elements.  Each node has a
+two-level, single-output logic function associated with it.  Each feedback
+loop must contain at least one latch.  Each net (or signal) has only a
+single driver, and either the signal or the gate which drives the signal can
+be named without ambiguity.
+
+In the following, angle-brackets surround nonterminals, and square-brackets
+surround optional constructs.
+
+\section{Models}
+
+A model is a flattened hierarchical circuit.  A \BLIF\ file can contain many
+models and references to models described in other \BLIF\ files.  A model is
+declared as follows:
+\begin{code}
+    .model <decl-model-name>
+    .inputs <decl-input-list>
+    .outputs <decl-output-list>
+    .clock <decl-clock-list>
+    <command>
+         .
+         .
+         .
+    <command>
+    .end
+\end{verbatim}\end{code}
+
+\begin{description}
+\item {\em decl-model-name} is a string giving the name of the model.
+
+\item {\em decl-input-list} is a white-space-separated list of strings
+(terminated by the end of the line) giving the formal input terminals for the
+model being declared.  If this is the first or only model, then these signals
+can be identified as the primary inputs of the circuit.  Multiple {\em
+.inputs} lines are allowed, and the lists of inputs are concatenated.
+
+\item {\em decl-output-list} is a white-space-separated list of strings
+(terminated by the end of the line) giving the formal output terminals for
+the model being declared.  If this is the first or only model, then these
+signals can be identified as the primary outputs of the circuit.  Multiple
+{\em .outputs} lines are allowed, and the lists of outputs are concatenated.
+
+\item {\em decl-clock-list} is a white-space-separated list of strings
+(terminated by the end of the line) giving the clocks for the model being
+declared.  Multiple {\em .clock} lines are allowed, and the lists of clocks
+are concatenated.
+
+\item {\em command} is one of:
+\begin{pespace}\nopagebreak[3]\begin{tabular} {l l l}
+{\verb|<logic-gate>|} & {\verb|<generic-latch>|} & {\verb|<library-gate>|} \\
+{\verb|<model-reference>|} & {\verb|<subfile-reference>|} & {\verb|<fsm-description>|} \\
+{\verb|<clock-constraint>|} & {\verb|<delay-constraint>|} 
+\end{tabular}\end{pespace}
+
+Each {\em command} is described in the following sections.
+\end{description}
+
+The \BLIF\ parser allows the {\em .model, .inputs, .outputs, .clock} and
+{\em .end} statements to be optional.  If {\em .model} is not specified, the
+{\em decl-model-name} is assigned the name of the \BLIF\ file being read.
+It is an error to use the same string for {\em decl-model-name} in more than
+one model.  If {\em .inputs} is not specified, it can be inferred from the
+signals which are not the outputs of any other logic block.  Similarly, {\em
+.outputs} can be inferred from the signals which are not the inputs to any
+other blocks.  If any {\em .inputs} or {\em .outputs} are given, no
+inference is made; a node that is not an output and does not fanout produces
+a warning message.
+
+If {\em .clock} is not specified (e.g., for purely combinational circuits)
+there are no clocks.  {\em .end} is implied at end of file or upon
+encountering another {\em .model}.
+
+{\bf Important}: the first model encountered in the main \BLIF\ file is the
+one returned to the user.  The only {\em .clock, clock-constraint,} and {\em
+timing-constraint} constructs retained are the ones in the first model.  All
+subsequent models can be incorporated into the first model using the {\em
+model-reference} construct.
+
+Anywhere in the file a `{\verb|#|}' (hash) begins a comment that extends to
+the end of the current line.
+Note that the character `{\verb|#|}' cannot be used in any signal names.
+A `\verb|\|' (backslash) as the last character
+of a non-comment line indicates concatenation of the subsequent line to the
+current line.  No whitespace should follow the `\verb|\|'.  
+
+Example:
+\begin{code}
+    .model simple
+    .inputs a b
+    .outputs c
+    .names a b c        #    .names described later
+    11 1
+    .end
+
+
+    #   unnamed model
+    .names a b 	\
+    c                   #    `\' here only to demonstrate its use
+    11 1
+\end{verbatim}\end{code}
+
+Both models ``simple'' and the unnamed model describe the same circuit.
+
+\section{Logic Gates}
+
+A {\em logic-gate} associates a logic function with a signal in the model,
+which can be used as an input to other logic functions.  A {\em logic-gate}
+is declared as follows:
+\begin{code}
+    .names <in-1> <in-2> ... <in-n> <output>
+    <single-output-cover>
+\end{verbatim}\end{code}
+
+\begin{description}
+\item {\em output} is a string giving the name of the gate being defined.
+
+\item {\em in-1, in-2, ... in-n} are strings giving the names of the inputs
+to the logic gate being defined.
+
+\item {\em single-output-cover} is, formally, an n-input, 1-output PLA
+description of the logic function corresponding to the logic gate.  \{0, 1,
+--\} is used in the n-bit wide ``input plane'' and \{0, 1\} is used in
+the 1-bit wide ``output plane''.  The {\sc on}-set is specified with 1's in
+the ``output plane,'' and the {\sc off}-set is specified with 0's in the
+``output plane.''
+The {\sc dc}-set is specified for primary output nodes only,
+by using the construct {\em .exdc}.
+\end{description}
+
+A sample {\em logic-gate} with its {\em single-output-cover}:
+\begin{code}
+    .names v3 v6 j u78 v13.15
+    1--0 1
+    -1-1 1
+    0-11 1
+\end{verbatim}\end{code}
+
+In a given row of the {\em single-output-cover}, ``1'' means the input is
+used in uncomplemented form, ``0'' means the input is complemented, and
+``--'' means not used.  Elements of a row are {\sc and}ed together, and then
+all rows are {\sc or}ed.  
+
+As a result, if the last column (the ``output plane'') of the {\em
+single-output-cover} is all 1's, the first n columns (the ``input plane'')
+of the {\em single-output-cover} can be viewed as the truth table for the
+logic gate named by the string {\em output}.  The order of the inputs in the
+{\em single-output-cover} is the same as the order of the strings {\em in-1,
+in-2, ..., in-n} in the {\em .names} line.  A space between the columns of
+the ``input plane'' and the ``output plane'' is required.
+
+The translation of the above sample {\em logic-gate} into a sum-of-products
+notation would be as follows:
+\begin{code}
+    v13.15 = (v3 u78') + (v6 u78) + (v3' j u78)
+\end{verbatim}\end{code}
+To assign the constant ``0'' to some logic gate {\verb|j|}, use the
+following construct:
+\begin{code}
+    .names j
+\end{verbatim}\end{code}
+To assign the constant ``1'', use the following:
+\begin{code}
+    .names j
+    1
+\end{verbatim}\end{code}    
+
+The string {\em output} can be used as the input to another {\em logic-gate}
+before the {\em logic-gate} for {\em output} is itself defined.  
+
+For a more complete description of the PLA input format, see {\em
+espresso(5)}.
+
+\section{External Don't Cares}
+
+External don't cares are specified as a separate network within
+a model, and are specified at the end of the model specification.
+Each external don't care function, which is specified by a {\em .names}
+construct, must be associated with a primary
+output of the main model and specified as a function
+of the primary inputs of the main model (hierarchical specification
+of external don't cares is currently not supported).
+
+The external don't cares are specified as follows:
+\begin{code}
+    .exdc
+    .names <in-1> <in-2> ... <in-n> <output>
+    <single-output-cover>
+\end{verbatim}\end{code}
+
+\begin{description}
+\item {\.exdc} indicates that the following {\em .names} constructs
+apply to the external don't care network.
+\item {\em output} is a string giving the name of the primary output for
+which the conditions are don't cares.
+
+\item {\em in-1, in-2, ... in-n} are strings giving the names of the primary
+inputs which the don't care conditions are expressed in terms of.
+
+\item {\em single-output-cover} is an n-input, 1-output PLA
+description of the logic function corresponding to the don't care
+conditions for the output.
+\end{description}
+
+The following is an example circuit with external don't cares:
+\begin{code}
+    .model a
+    .inputs x y
+    .outputs j
+    .subckt b x=x y=y j=j
+    .exdc
+    .names x j
+    1 1
+    .end
+
+    .model b
+    .inputs x y
+    .outputs j
+    .names x y j
+    11 1
+    .end
+\end{verbatim}\end{code}
+
+The translation of the above example into a sum-of-products
+notation would be as follows:
+\begin{code}
+    j = x * y;
+    external d.c. for j = x;
+\end{verbatim}\end{code}
+
+\section{Flip flops and latches}
+
+A {\em generic-latch} is used to create a delay element in a
+model.  It represents one bit of memory or state information.  The {\em
+generic-latch} construct can be used to create any type of latch or
+flip-flop (see also the {\em library-gate} section).  A {\em generic-latch}
+is declared as follows:
+
+\begin{code}
+    .latch <input> <output> [<type> <control>] [<init-val>]
+\end{verbatim}\end{code}
+
+\begin{description}
+\item {\em input} is the data input to the latch.
+
+\item {\em output} is the output of the latch.
+
+\item {\em type} is one of \{fe, re, ah, al, as\}, which correspond to
+``falling edge,'' ``rising edge,'' ``active high,'' ``active low,'' or
+``asynchronous.''  
+
+\item {\em control} is the clocking signal for the latch.  It can be a {\em
+.clock} of the model, the output of any function in the model, or the word
+``NIL'' for no clock.
+
+\item {\em init-val} is the initial state of the latch, which can be one of
+\{0, 1, 2, 3\}.  ``2'' stands for ``don't care'' and ``3'' is ``unknown.''
+Unspecified, it is assumed ``3.''
+\end{description}
+
+If a latch does not have a controlling clock specified, it is assumed that
+it is actually controlled by a single global clock.  The behavior of this
+global clock may be interpreted differently by the various algorithms that
+may manipulate the model after the model has been read in.  Therefore, the
+user should be aware of these varying interpretations if latches are
+specified with no controlling clocks.
+
+{\bf Important}: All feedback loops in a model must go through a {\em
+generic-latch}.  Purely combinational-logic cycles are not allowed.
+
+Examples:
+\begin{code}
+    .inputs d             # a clocked flip-flop
+    .output q
+    .clock c
+    .latch d q re c 0
+    .end
+
+    .inputs in            # a very simple sequential circuit
+    .outputs out
+    .latch out in 0
+    .names in out
+    0 1
+    .end
+\end{verbatim}\end{code}
+
+\section{Library Gates}
+
+A {\em library-gate} creates an instance of a technology-dependent logic gate
+and associates it with a node that represents the output of
+the logic gate.  The logic function of the
+gate and its known technology dependent delays, drives, etc. are stored with
+the {\em library-gate}.  A {\em library-gate} is one of the following:
+
+\begin{code}
+    .gate <name> <formal-actual-list>
+    .mlatch <name> <formal-actual-list> <control> [<init-val>]
+\end{verbatim}\end{code}
+
+\begin{description}
+\item {\em name} is the name of the {\em .gate} or {\em .mlatch} to
+instantiate.  A gate or latch with this name must be present in the current
+working library.
+
+\item {\em formal-actual-list} is a mapping between the formal parameters of
+{\em name} (the terminals of the {\em library-gate}) and the actual
+parameters of the current model (any signals in this model).  The format for
+a {\em formal-actual-list} is a white-space-separated sequence of assignment
+statements of the form:
+
+\begin{code}
+formal1=actual1 formal2=actual2 ...
+\end{verbatim}\end{code}
+
+All of the formal parameters of {\em name} must be specified in the {\em
+formal-actual-list} and the single output of {\em name} must be the last one
+in the list.
+
+\item {\em control} is the clocking signal for the mlatch, which can be
+either a {\em .clock} of the model, the output of any function in the model,
+or the word ``NIL'' for no clock.
+
+\item {\em init-val} is the initial state of the mlatch, which can be one of
+\{0, 1, 2, 3\}.  ``2'' stands for ``don't care'' and ``3'' is ``unknown.''
+Unspecified, it is assumed ``3.''
+\end{description}
+
+A {\em .gate} refers to a two-level representation of an arbitrary input,
+single output gate in a library.  A {\em .gate} appears under a
+technology-independent interpretation as if it were a single {\em
+logic-gate}.
+
+A {\em .mlatch} refers to a latch (not necessarily a D flip flop) in a
+library.  A {\em .mlatch} appears under a technology-independent
+interpretation as if it were a single {\em generic-latch} and possibly a
+single {\em logic-gate} feeding the data input of that {\em generic-latch}.
+
+{\em .gate}s and {\em .mlatch}es are used to describe circuits that have been
+implemented using a specific library of standard logic functions and their
+technology-dependent properties.  The library of {\em library-gate}s must be
+read in before a \BLIF\ file containing {\em .gate} or {\em .mlatch}
+constructs is read in.
+
+The string {\em name} refers to a particular gate or latch in the library.
+The names ``nand2,''
+``inv,'' and ``jk\_rising\_edge'' in the following examples are
+descriptive names for gates in the library.  The following \BLIF\
+description:
+\begin{code}
+    .inputs v1 v2
+    .outputs j
+    .gate nand2 A=v1 B=v2 O=x  # given: formals of this gate are A, B, O
+    .gate inv A=x O=j          # given: formals of this gate are A & O
+    .end
+\end{verbatim}\end{code}
+could also be specified in a technology-independent way (assuming ``nand2''
+is a 2-input {\sc nand} gate and ``inv'' is an {\sc inverter}) as follows:
+\begin{code}
+    .inputs v1 v2
+    .outputs j
+    .names v1 v2 x
+    0- 1
+    -0 1
+    .names x j
+    0 1
+    .end
+\end{verbatim}\end{code}
+Similarly:
+\begin{code}
+    .inputs j kbar
+    .outputs out
+    .clock clk
+    .mlatch jk_rising_edge J=j K=k Q=q clk 1   # given: formals are J, K, Q
+    .names q out
+    0 1
+    .names kbar k
+    0 1
+    .end
+\end{verbatim}\end{code} 
+could have been specified in a technology-independent way (assuming
+``jk\_rising\_edge'' is a JK rising-edge-triggered flip flop) as follows:
+\begin{code}
+    .inputs j kbar
+    .outputs out
+    .clock clk
+    .latch temp q re clk 1     # the .latch
+    .names j k q temp          # the .names feeding the D input of the .latch
+    -01 1
+    1-0 1
+    .names q out
+    0 1
+    .names kbar k
+    0 1
+    .end
+\end{verbatim}\end{code}
+
+\section{Model (subcircuit) references}
+
+A {\em model-reference} is used to insert the logic functions of one model
+into the body of another.  It is defined as follows:
+\begin{code}
+    .subckt <model-name> <formal-actual-list>
+\end{verbatim}\end{code}
+
+\begin{description}
+\item {\em model-name} is a string giving the name of the model being
+inserted.  It need not be previously defined in this file, but should be
+defined somewhere in either this file, a {\em .search} file, or a master
+file that is {\em .search}ing this file.  (see {\em .search} below)
+
+\item {\em formal-actual-list} is a mapping between the formal terminals
+(the {\em decl-input-list, decl-output-list,} and {\em decl-clock-list}) of
+the called model {\em model-name} and the actual parameters of the current
+model.  The actual parameters may be any signals in the current model.  The
+format for a {\em formal-actual-list} is the same as its format in a {\em
+library-gate}.
+\end{description}
+
+A {\em .subckt} construct can be viewed as creating a copy of the logic
+functions of the called model {\em model-name}, including all of {\em
+model-name}'s {\em generic-latch}es, in the calling model.  The hierarchical
+nature of the \BLIF\ description of the model does not have to be
+preserved.  Subcircuits can be nested, but cannot be self-referential or
+create a cyclic dependency.
+
+Unlike a {\em library-gate}, a {\em model-reference} is not limited to one
+output.  
+
+The formals need not be specified in the same order as they are defined in
+the {\em decl-input-list, decl-output-list,} or {\em decl-clock-list};
+elements of the lists can be intermingled in any order, provided the names
+are given correctly.  Warning messages are printed if elements of the {\em
+decl-input-list} or {\em decl-clock-list} are not driven by an actual
+parameter or if elements of the {\em decl-output-list} do not fan out to an
+actual parameter.  Elements of the {\em decl-clock-list} and {\em
+decl-input-list} may be driven by any logic function of the calling model.
+
+Example: rather than rewriting the entire \BLIF\ description for a commonly
+used subcircuit several times, the subcircuit can be described once and
+called as many times as necessary:
+\begin{code}
+    .model 4bitadder
+    .inputs A3 A2 A1 A0 B3 B2 B1 B0 CIN
+    .outputs COUT S3 S2 S1 S0 
+    .subckt fulladder a=A0 b=B0 cin=CIN     s=S0 cout=CARRY1
+    .subckt fulladder a=A3 b=B3 cin=CARRY3  s=S3 cout=COUT
+    .subckt fulladder b=B1 a=A1 cin=CARRY1  s=XX cout=CARRY2
+    .subckt fulladder a=JJ b=B2 cin=CARRY2  s=S2 cout=CARRY3
+                      # for the sake of example, 
+    .names XX S1      # formal output `s' does not fanout to a primary output 
+    1 1
+    .names A2 JJ      # formal input `a' does not fanin from a primary input
+    1 1
+    .end
+    
+    .model fulladder
+    .inputs a b cin
+    .outputs s cout
+    .names a b k
+    10 1
+    01 1
+    .names k cin s
+    10 1
+    01 1
+    .names a b cin cout
+    11- 1
+    1-1 1
+    -11 1
+    .end
+\end{verbatim}\end{code}
+    
+\section{Subfile References}
+A {\em subfile-reference} is:
+\begin{code}
+    .search <file-name>
+\end{verbatim}\end{code}
+
+\begin{description}
+\item {\em file-name} gives the name of the file to search.
+\end{description}
+
+A {\em subfile-reference} directs the \BLIF\ reader to read in and define
+all the models in file {\em file-name}.  A {\em subfile-reference} does not
+have to be inside of a {\em .model}.  {\em subfile-reference}s can be
+nested.  
+
+Search files would usually be used to hold all the subcircuits referred to
+in {\em model-reference}s, while the master file merely searches all the
+subfiles and instantiates all the subcircuits it needs.
+
+A {\em subfile-reference} is not equivalent to including the body of subfile
+{\em file-name} in the current file.  It does not patch fragments of \BLIF\
+into the current file; it pauses reading the current file, reads {\em
+file-name} as an independent, self-contained file, then returns to reading
+the current file.
+
+The first {\em .model} in the master file is always the one returned to the
+user, regardless of any {\em subfile-reference}s than may precede it.
+
+\section{Finite State Machine Descriptions}
+
+A sequential circuit can be specified in \BLIF\ logic form, as a finite
+state machine, or both.  An {\em fsm-description} is used to insert a finite
+state machine description of the current model.  It is intended to represent
+the same sequential circuit as the current model (which contains logic), but
+in FSM form.  The format of an {\em fsm-description} is:
+\begin{code}
+    .start_kiss
+    .i <num-inputs>
+    .o <num-outputs>
+    [.p <num-terms>]
+    [.s <num-states>]
+    [.r <reset-state>]
+    <input> <current-state> <next-state> <output>
+              .
+              .
+              .
+    <input> <current-state> <next-state> <output>
+    .end_kiss
+    [.latch_order <latch-order-list>]
+    [<code-mapping>]
+\end{verbatim}\end{code}
+
+\begin{description}
+\item {\em num-inputs} is the number of inputs to the FSM, which should
+agree with the number of inputs in the {\em .inputs} construct for the
+current model.
+
+\item {\em num-outputs} is the number of outputs of the FSM, which should
+agree with the number of outputs in the {\em .outputs} construct for the
+current model.
+
+\item {\em num-terms} is the number of ``{\verb|<|}input{\verb|>|}
+{\verb|<|}current-state{\verb|>|} {\verb|<|}next-state{\verb|>|}
+{\verb|<|}output{\verb|>|}'' 4-tuples that follow in the FSM description.
+
+\item {\em num-states} is the number of distinct states that appear in
+``{\verb|<|}current-state{\verb|>|}'' and ``{\verb|<|}next-state{\verb|>|}''
+columns.
+
+\item {\em reset-state} is the symbolic name for the reset state for the
+FSM; it should appear somewhere in the ``{\verb|<|}current-state{\verb|>|}''
+column.
+
+\item {\em input} is a sequence of {\em num-inputs} members of \{0, 1, --\}.
+
+\item {\em output} is a sequence of {\em num-outputs} members of \{0, 1, --\}.
+
+\item {\em current-state} and {\em next-state} are symbolic names for the
+current state and next state transitions of the FSM.
+
+\item {\em latch-order-list} is a white-space-separated sequence of latch
+outputs.
+
+\item {\em code-mapping} is newline separated sequence of:
+\begin{code}
+.code <symbolic-name> <encoded-name>
+\end{verbatim}\end{code}
+\end{description}
+
+{\em num-terms} and {\em num-states} do not have to be specified.  If the
+{\em reset-state} is not given, it is assigned to be the first state
+encountered in the ``{\verb|<|}current-state{\verb|>|}'' column.
+
+The ordering of the bits in the {\em input} and {\em output} fields will be
+the same as the ordering of the variables in the {\em .inputs} and {\em
+.outputs} constructs if both an {\em fsm-description} and logic functions
+are given. 
+
+{\em latch-order-list} and {\em code-mapping} are meant to be used when both
+an {\em fsm-description} and a logical description of the model are given.
+The two constructs together provide a correspondence between the latches in
+the logical description and the state variables in the {\em
+fsm-description}.  In a {\em code-mapping}, {\em symbolic-name} consists of
+a symbolic name from the ``{\verb|<|}current-state{\verb|>|}'' or
+``{\verb|<|}next-state{\verb|>|}'' columns, and {\em encoded-name} is the
+pattern of bits (\{0, 1\}) that represent the state encoding for {\em
+symbolic-name}.  The {\em code-mapping} should only be given if both an {\em
+fsm-description} and logic functions are given.  {\em .latch-order}
+establishes a mapping between the bits of the {\em encoded-name}s of the
+{\em code-mapping} construct and the latches of the network.  The order of
+the bits in the encoded names will be the same as the order of the latch
+outputs in the {\em latch-order-list}.  There should be the same number of
+bits in the {\em encoded-name} as there are latches if both an {\em
+fsm-description} and a logical description are specified.
+
+If both {\em logic-gate}s and an {\em fsm-description} of the model are
+given, the {\em logic-gate} description of the model should be consistent
+with the {\em fsm-description}, that is, they should describe the same
+circuit.  If they are not consistent there will be no sensible way to
+interpret the model, which should then cause an error to be returned.
+
+If only the {\em fsm-description} of the network is given, it may be run
+through a state assignment routine and given a logic implementation.  A sole
+{\em fsm-description}, having no logic implementation, cannot be inserted
+into another model by a {\em model-reference}; the state assigned network,
+or a network containing both {\em logic-gate}s and an {\em fsm-description}
+can.
+
+Example of an {\em fsm-description}:
+\begin{code}
+    .model 101	       # outputs 1 whenever last 3 inputs were 1, 0, 1
+    .start_kiss
+    .i 1
+    .o 1
+    0 st0 st0 0
+    1 st0 st1 0
+    0 st1 st2 0
+    1 st1 st1 0
+    0 st2 st0 0
+    1 st2 st3 1
+    0 st3 st2 0
+    1 st3 st1 0
+    .end_kiss
+    .end
+\end{verbatim}\end{code}
+Above example with a consistent {\em fsm-description} and logical
+description:
+\begin{code}
+   .model
+   .inputs v0
+   .outputs v3.2
+   .latch    [6] v1   0
+   .latch    [7] v2   0
+   .start_kiss
+   .i 1
+   .o 1
+   .p 8
+   .s 4
+   .r st0
+   0 st0 st0 0
+   1 st0 st1 0
+   0 st1 st2 0
+   1 st1 st1 0
+   0 st2 st0 0
+   1 st2 st3 1
+   0 st3 st2 0
+   1 st3 st1 0
+   .end_kiss
+   .latch_order v1 v2
+   .code st0 00
+   .code st1 11
+   .code st2 01
+   .code st3 10
+   .names v0 [6]
+   1 1
+   .names v0 v1 v2 [7]
+   -1- 1
+   1-0 1
+   .names v0 v1 v2 v3.2
+   101 1
+   .end
+\end{verbatim}\end{code}
+
+\section{Clock Constraints}
+
+A {\em clock-constraint} is used to set up the behavior of the simulated
+clocks, and to specify how clock events (rising or falling edges) occur
+relative to one another.  A {\em clock-constraint} is one or more of the
+following:
+\begin{code}
+    .cycle <cycle-time>
+    .clock_event <event-percent> <event-1> [<event-2> ... <event-n>]
+\end{verbatim}\end{code}
+
+\begin{description}
+\item {\em cycle-time} is a floating point number giving the clock cycle
+time for the model.  It is a unitless number that is to be interpreted by
+the user.
+
+\item {\em event-percent} is a floating point number representing a
+percentage of the clock cycle time at which a specific {\em .clock\_event}
+occurs.  Fifty percent is written as ``50.0.''
+
+\item {\em event-1} through {\em event-n} are one of the following:
+\begin{code}
+<rise-fall>'<clock-name>
+(<rise-fall>'<clock-name> <before> <after>)
+\end{verbatim}\end{code}
+where {\em rise-fall} is either ``r'' or ``f'' and stands for the rising or
+falling edge of the clock and {\em clock-name} is a clock from the {\em
+.clock} construct.  The apostrophe between {\em rise-fall} and {\em
+clock-name} is a seperator, and serves no purpose in and of itself.
+
+\item {\em before} and {\em after} are floating point numbers in the same
+``units'' as the {\em cycle-time} and are used to define the ``skew'' in the
+clock edges.  {\em before} represents maximum amount of time before the
+nominal time that the edge can arrive; {\em after} represents the maximum
+amount of time after the nominal time that the edge can arrive.  The nominal
+time is {\em event-percent}{\verb|%|} of the {\em cycle-time}.  In the
+unparenthesized form for the {\em clock-event}, {\em before} and {\em after}
+are assumed ``0.0.''
+\end{description}
+
+All events, {\em event-1 ... event-n}, specified in a single {\em
+.clock\_event} are to be linked together.  A routine changing any one edge
+should also modify the occurrence time of all the related clock edges.  
+
+Example 1:
+\begin{code}
+    .clock clock1 clock2
+    .clock_event 50.0 r'clock1 (f'clock2 2.0 5.0)
+\end{verbatim}\end{code}
+
+Example 2:
+\begin{code}
+    .clock clock1 clock2
+    .clock_event 50.0 r'clock1
+    .clock_event 50.0 (f'clock2 2.0 5.0)
+\end{verbatim}\end{code}
+
+Both examples specify a nominal time of 50{\verb|%|} of the cycle time, that
+the rising edge of clock1 must occur at exactly the nominal time, and that
+the falling edge of clock2 may occur from 2.0 units before to 5.0 units
+after the nominal time.
+
+In Example 1, if r'clock1 is later moved to a different nominal time by some
+routine then f'clock2 should also be changed.  However, in Example 2 changing
+r'clock1 would not affect f'clock2 even though they originally have the same
+value of {\em event-percent}.
+
+\section{Delay Constraints}
+
+A {\em delay-constraint} is used to specify parameters to more accurately
+compute the amount of time signals take to propagate from one point to
+another in a model.  A {\em delay-constraint} is one or more of :
+\begin{code}
+    .area <area>
+    .delay <in-name> <phase> <load> <max-load> <brise> <drise> <bfall> <dfall>
+    .wire_load_slope <load>
+    .wire <wire-load-list>
+    .input_arrival <in-name> <rise> <fall> [<before-after> <event>]
+    .default_input_arrival <rise> <fall> 
+    .output_required <out-name> <rise> <fall> [<before-after> <event>]
+    .default_output_required <rise> <fall>
+    .input_drive <in-name> <rise> <fall>
+    .default_input_drive <rise> <fall>
+    .max_input_load <load>
+    .default_max_input_load <load>
+    .output_load <out-name> <load>
+    .default_output_load <load>
+\end{verbatim}\end{code}
+
+\begin{description}
+\item {\em rise}, {\em fall}, {\em drive}, and {\em load} are all floating
+point numbers giving the rise time, fall time, input drive, and output load.
+
+\item {\em in-name} is a primary input and {\em out-name} is a primary
+output.
+
+\item {\em before-after} can be one of \{b, a\}, corresponding to ``before''
+or ``after,'' and {\em event} has the same format as the unparenthesized
+form of {\em event-1} in a {\em clock-constraint}.
+
+\item {\em .area} sets the area of the model to be {\em area}.
+
+\item {\em .delay} sets the delay for input {\em in-name}.  {\em phase} is
+one of ``{\sc inv},'' ``{\sc noninv},'' or ``{\sc unknown}'' for inverting,
+non-inverting, or neither.  {\em max-load} is a floating point number for
+the maximum load.  {\em brise, drise, bfall,} and {\em dfall} are floating
+point numbers giving the block rise, drive rise, block fall, and drive fall
+for {\em in-name}.
+
+\item {\em .wire\_load\_slope} sets the wire load slope for the model.
+
+\item {\em .wire} sets the wire loads for the model from the list of floating
+point numbers in the {\em wire-load-list}.
+
+\item {\em .input\_arrival} sets the input arrival time for the input {\em
+in-name}.  If the optional arguments are specified, then the input arrival
+time is relative to the {\em event}.
+
+\item {\em .output\_required} sets the output required time for the output
+{\em out-name}.  If the optional arguments are specified, then the output
+required time is relative to the {\em event}.
+
+\item {\em .input\_drive} sets the input drive for the input {\em in-name}.
+
+\item {\em .max\_input\_load} sets the maximum load that the input {\em in-name} can handle.
+
+\item {\em .output\_load} sets the output load for the output {\em out-name}.
+
+\item {\em .default\_input\_arrival, .default\_output\_required,
+.default\_input\_drive, .default\_output\_load} set the corresponding default
+values for all the inputs/outputs whose values are not specifically set.
+\end{description}
+
+There is no actual unit for all the timing and load numbers.  Special
+attention should be given when specifying and interpreting the values.  The
+timing numbers are assumed to be in the same ``unit'' as the {\em
+cycle-time} in the {\em .cycle} construct.
+\end{document}

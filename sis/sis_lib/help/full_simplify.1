@@ -1,0 +1,63 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/full_simplify.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:36 $
+.\"  *
+.\"
+.XX
+full_simplify [-d][-o ordering] [-m method] [-l] [-v verbose]
+.PP
+Simplify each node in the network using the local don't cares
+generated in terms of fanins of each node.
+First compatible
+observability plus external don't cares are generated for
+each node in terms of primary inputs.
+Then the image
+computation techniques are used to map these don't cares
+to the local space of each node.
+This technique removes
+most redundancies in the network.
+The satisfiability don't cares
+for a subset of the nodes in the network which have the same 
+support as the node being simplified is also generated.
+An ordering is given to the nodes of the network
+and local don't cares for the nodes are computed according
+to that ordering.
+Each node is simplified using its local don't cares and an
+appropriate satisfiability don't care subset.
+
+.PP
+\fB-d\fR If this option is used no observability don't cares are computed.
+In this case the local don't cares are only the unreachable points
+in the local space of each node (a subset of the satisfiability
+don't care set).
+
+.PP
+\fB-o\fR Used for BDD ordering. If 0 (default) is used, variables
+are ordered based on their depth. If 1 is used, the level of
+a node is used for its ordering.
+
+.PP
+\fBmethod\fR specifies the algorithm used to minimize the nodes.
+\fIsnocomp\fR (default) invokes a single pass minimization procedure that does
+not compute the complete offset.
+\fInocomp\fR invokes the full minimization procedure (ala ESPRESSO) but does
+not compute the complete offset.
+\fIdcsimp\fR invokes single pass tautology-based minimizer.
+
+.PP
+\fB-l\fR generates fanin don't cares only for nodes
+with the same or subset support as the node being minimized
+which have level less than the node being minimized. The level
+is the largest number of nodes on the longest  path from the node to
+a primary input.
+
+.PP
+\fB-v\fR prints out extra info for debugging the code.
+
+ 
+SIS(1)              UNIX Programmer's Manual               SIS(1)
+ 

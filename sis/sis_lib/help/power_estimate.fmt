@@ -1,0 +1,83 @@
+ 
+   July	1, 1994							       SIS(1)
+ 
+   power_estimate [-m c] [-d c]	[-t c] [-s c] [-a n] [-e f] [-n	n]
+		    [-f	file] [-S] [-M n] [-N n] [-R] [-h] [-v]
+ 
+     Estimates the power dissipated in a circuit due to	switching activity:
+	     P = 0.5 x Vdd^2 x sum(p x C ) / f
+				i   i	i
+     where
+ 
+	     Vdd = 5V
+	     f = 20MHz
+	     p = expected number of transitions	of node	i in one clock cycle
+	      i
+	     C = capacitive load of node i
+	      i
+ 
+     The expected number of transitions	of each	node per clock cycle is	cal-
+     culated through symbolic simulation, based	on the static probabilities
+     of	the primary inputs (by default prob_one	= prob_zero = 0.5). The	capa-
+     citive load of a node is obtained by summing the gate capacitances	of
+     its fanout	nodes and adding some internal drain capacitance. Gate capa-
+     citances are multiple of a	minimum	sized transistor (0.01pF), admitting
+     transistor	sizing based on	the number of inputs to	the node (up to	a
+     value max_input_sizing, default 4). Drain capacitances are	calculated
+     from the number of	transistors this node has (multiple of 0.005pF)	and
+     this number can be	obtained either	from a factored	form or	sum of pro-
+     ducts.
+ 
+     -m	c Estimation mode, c either SAMPLING or	BDD (default).
+ 
+     -d	c Delay	model, c one of	ZERO (default),	UNIT or	GENERAL	(from
+     library).
+ 
+     -t	c Estimation type, c one of COMBINATIONAL (default), SEQUENTIAL,
+     PIPELINE or DYNAMIC (for dynamic domino circuits).
+ 
+     -s	c PS lines probability calculation method, c one of APPROXIMATE
+     (default),	EXACT or UNIFORM (0.5 is used).	Only used for SEQUENTIAL
+     type.
+ 
+     -a	n Number of PS lines to	be correlated (default 1). Only	used for the
+     APPROXIMATION method.
+ 
+     -e	f Maximum error	allowed	for PS lines probabilities (default 0.01).
+     Only used for the APPROXIMATION method.
+ 
+									    1
+ 
+   SIS(1)							 July 1, 1994
+ 
+     -n	n Number of sets of 32 input vectors to	be simulated (default 100).
+     Only used for SAMPLING mode.
+ 
+     -f	filename Allows	the specification of input probabilities, node capa-
+     citances and node delays in the format:
+ 
+		     name "nodename" p0	"value"
+		     name "nodename" p1	"value"
+		     name "nodename" cap_factor	"value"
+		     name "nodename" delay "value"
+ 
+     -S	Assumes	complex	gates in sum of	products form (default is factored
+     form).
+ 
+     -M	n Maximum number of inputs of a	node considered	for transistor sizing
+     (default 4).
+ 
+     -N	n Interval of input vectors for	which the current value	of power
+     estimation	is printed. Only used for SAMPLING mode.
+ 
+     -R	Sets latch capacitances	to 0, only comb	power reported.
+ 
+     -h	Prints power_estimate usage.
+ 
+     -V	n Verbose run time information.
+ 
+     Note: currently a memory fault occurs on the RS6000 when the exact	cal-
+     culation is used for present state	probabilities.	This is	probably due
+     to	the use	of stg_extract.
+ 
+   2

@@ -1,0 +1,173 @@
+.\" Storage management library man page
+.TH MEM 3 "16 November 1993"
+.SH NAME
+mem \- a memory management package
+.SH SYNOPSIS
+.B #include <memuser.h>
+.SH DESCRIPTION
+The
+.B libmem
+library provides a set of routines for allocating storage.  Programs
+designed to be used with the library should use the
+.B -lmem
+options to
+.B cc
+when linking.
+.SH "LIST OF FUNCTIONS"
+.nf
+.ta 3in
+\fIName\fP	\fIFunction\fP
+mem_get_block	Allocate a block of memory
+mem_free_block	Free a block of memory
+mem_resize_block	Resize a block of memory
+mem_copy	Copy a block of memory
+mem_zero	Initialize a block of memory to all zeros
+mem_allocation	Get total memory allocation
+mem_new_rec_mgr	Create a record manager
+mem_free_rec_mgr	Destroy a record manager
+mem_new_rec	Get a record from a record manager
+mem_free_rec	Return a record to a record manager
+.fi
+.SH "OVERVIEW"
+The library includes routines for handling blocks of memory and for
+dealing with fixed size records.  The block manipulation routines use
+a binary buddy scheme, so fragmentation generally is not a problem.
+The record manager routines are designed for handling many small,
+fixed size records.  There is essentially no storage overhead when
+using these routines, and allocation and deallocation are particularly
+fast.
+.SH "DETAILED DESCRIPTION"
+.B pointer
+.br
+.B mem_get_block(size)
+.br
+.B long size;
+.in +4
+Allocate a block of storage
+.B size
+bytes long.  The type
+.B pointer
+is defined to be either a character pointer or a void pointer,
+depending on whether the C compiler is ANSI-standard.
+.LP
+.B void
+.br
+.B mem_free_block(p)
+.br
+.B pointer p;
+.in +4
+Free the block of storage pointed to by \fBp\fR.
+.LP
+.B pointer
+.br
+.B mem_resize_block(p, size)
+.br
+.B pointer p;
+.br
+.B long size;
+.in +4
+Try to resize the block of memory pointed to by
+.B p
+to be
+.B size
+bytes long.  If this is not possible, a new block is allocated and the
+contents of the old block are copied.  A pointer to the expanded block
+is returned.
+.LP
+.B void
+.br
+.B mem_copy(p, q, size)
+.br
+.B pointer p;
+.br
+.B pointer q;
+.br
+.B long size;
+.in +4
+Copy
+.B size
+bytes from the location given by
+.B q
+to the location give by \fBp\fR.
+.LP
+.LP
+.B void
+.br
+.B mem_zero(p, size)
+.br
+.B pointer p;
+.br
+.B long size;
+.in +4
+Fill
+.B size
+bytes at the location given by
+.B p
+with zero.
+.LP
+.B long
+.br
+.B mem_allocation()
+.in +4
+Returns the total memory allocation in bytes.
+.LP
+.B rec_mgr
+.br
+.B mem_new_rec_mgr(size)
+.br
+.B int size;
+.in +4
+Returns a new record manager for handling record of
+.B size
+bytes.  The size is limited to approximately 4K, but is really
+intended to be smaller.
+.LP
+.B void
+.br
+.B mem_free_rec_mgr(m)
+.br
+.B rec_mgr m;
+.in +4
+Free the record manager given by
+.B m
+and all of its associated storage.
+.LP
+.B pointer
+.br
+.B mem_new_rec(m)
+.br
+.B rec_mgr m;
+.in +4
+Return a pointer to a new record.
+.LP
+.B void
+.br
+.B mem_free_rec(m, p)
+.br
+.B rec_mgr m;
+.br
+.B pointer p;
+.in +4
+Return the record pointed to by
+.B p
+to the record manager \fBm\fR.
+.SH "PORTABILITY NOTES"
+The library is fairly UNIX specific; it calls
+.B sbrk
+directly.  If you don't have something similar, you may have to
+rewrite parts of it.  The storage management routines need to be able
+to move and clear blocks of memory whose size is given by a long.  You
+may have to fiddle with these, especially if you have a machine where
+int and long are different.  If you encounter portability problems,
+let me know; maybe the next release will be able to accommodate your
+machine.  For non-UNIX people, or if you are using malloc elsewhere
+and it is unhappy about other routines calling sbrk, you can try
+defining the symbol USE_MALLOC_FREE in memint.h.  It turns calls to
+the memory management library routines into calls to malloc, free, and
+cousins.  This has not been tested extensively.
+.SH BUGS
+It's a feature.
+.SH AUTHOR
+David E. Long
+.br
+long@research.att.com

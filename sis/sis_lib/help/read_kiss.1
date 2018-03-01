@@ -1,0 +1,27 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/read_kiss.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+read_kiss [filename]
+.PP
+Reads a \fIkiss2\fP format file into a state transition graph.  The state
+names may be symbolic or strings of "0" and "1".  Inputs and outputs should be
+strings of "0", "1", and "-"; inputs should not be symbolic.
+The \fIkiss2\fP format is described in doc/blif.tex.
+Note that there is no mechanism for specifying the names of the
+I/O pins in \fIkiss2\fP.
+Naming can be done in \fBSIS\fP by specifying a \fIblif\fP
+file containing the \fI.inputs\fP and \fI.outputs\fP lines
+(which give I/O names) followed by the embedded \fIkiss2\fP
+file.
+See also \fBstg_to_network\fR, \fBread_kiss_net\fR.
+.PP
+Note that \fIread_kiss\fP followed by \fIwrite_kiss\fP alters the ordering of
+the product terms.  This could make a difference in the \fInova\fP
+output.

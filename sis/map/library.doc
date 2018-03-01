@@ -1,0 +1,263 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/map/library.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:25 $
+ *
+ */
+/* file @(#)library.doc	1.3 */
+/* last modified on 9/16/91 at 17:08:24 */
+
+A library consists of a number of gates.  All of the gates which have
+the same logic functions are grouped into 'classes'.  The basic data
+types are library_t, lib_class_t, and lib_gate_t.  It is verboten to
+look inside these structures, because the organization of the data is
+still being refined.
+
+
+library_t *
+lib_get_library()
+	Returns the 'current' library, or NIL(library_t) if a current
+	library has not been defined.
+
+
+lsGen
+lib_gen_classes(library)
+library_t *library;
+	Initialize an lsGen generator for the class in a given library.
+	See generator usage example below.
+
+
+lsGen
+lib_gen_gates(class)
+lib_class_t *class;
+	Initialize an lsGen generator for the gates in a given class.
+	See generator usage example below.
+
+
+lib_class_t *
+lib_get_class(network, library)
+network_t *network;
+library_t *library;
+	(For backward compatibility)
+	Given a 'network', find the COMBINATIONAL gate-class which has the same logic 
+	function.  Use lib_get_class_by_type for find other gate-classes.
+	Returns NIL(lib_class_t) if there is no such gate in 
+	the library.  A fast way to construct a network is using
+	read_eqn_string().
+
+lib_gate_t *
+lib_get_gate(library, name)
+library_t *library;
+char *name;
+	Get a gate by its name.  Returns NIL(lib_gate_t) if no gate with
+	that name is found in 'library'.
+
+/*
+ *  Attributes of a class
+ */
+
+char *
+lib_class_name(class)
+lib_class_t *class;
+	Returns the name of a class.  Currently, a class is named by the
+	name of its first gate (essentially, a randomly chosen gate).
+
+
+lib_class_t *
+lib_class_dual(class)
+lib_class_t *class;
+	Returns the dual class of a class, or NIL(lib_class_t) if the
+	given class does not have any dual gates in the library.
+
+
+network_t *
+lib_class_network(class)
+lib_class_t *class;
+	Return a 'network' which represents the logic function associated
+	with a class.  Do not alter or free this network.
+
+/*
+ *  Attributes of a gate
+ */
+
+char *
+lib_gate_name(gate)
+lib_gate_t *gate;
+	Returns the name of a gate.  Do not free or alter the return string.
+
+
+char *
+lib_gate_pin_name(gate, pin, inflag)
+lib_gate_t *gate;
+int pin;
+int inflag;
+	Returns the name of a pin on a gate.  Do not free or alter the
+	return string.  Returns NIL(char) if 'pin' is more than the
+	number of pins on the gate.  If 'inflag' is 1, then the n'th
+	input pin name is returned; if 0, then the n'th output pin name
+	is returned.  If 'inflag' is 2, then the control (clock) pin
+	name is returned ('pin' is ignored in this case).
+	Pin numbers start at 0.
+
+
+double
+lib_gate_area(gate)
+lib_gate_t *gate;
+	Return the area of a gate.
+
+
+lib_class_t *
+lib_gate_class(gate)
+lib_gate_t *gate;
+	Returns the class of a gate.
+
+
+int
+lib_gate_num_in(gate)
+lib_gate_t *gate;
+	Returns the number of inputs of the gate.
+
+
+int
+lib_gate_num_out(gate)
+lib_gate_t *gate;
+	Returns the number of outputs of the gate.
+
+/*
+ *  Mixing the library and node packages
+ */
+
+lib_gate_t *
+lib_gate_of(node)
+node_t *node;
+	Return the gate which is currently implementing 'node'.  Returns
+	NIL(lib_gate_t) if this node is not mapped.  Note that PRIMARY_INPUT
+	and PRIMARY_OUTPUT nodes are never mapped; hence, lib_gate_of()
+	will always return NIL(char) for them.
+
+
+int 
+lib_network_is_mapped(network)
+network_t *network;
+	Returns 1 if the network is mapped (i.e., all nodes in the network
+	have an associated gate from a library), or 0 if not.
+
+
+int
+lib_set_gate(node, gate, formals, actuals, nin)
+node_t *node;
+lib_gate_t *gate;
+char **formals;
+node_t **actuals;
+int nin;
+	This can be used to either (1) set the implementation
+	of the 'node' to be 'gate' or (2) create a latch
+	with the 'node' as the latch output and 'actuals' as
+	input pins to the latch.   Usage (2) is assumed
+	if 'node' is a primary input,(1) otherwise.
+
+	(1) This sets the implementation of the given node to be 'gate'.
+	This changes the logic function of the 'node', and sets the node as
+	'mapped'.   'formals' is an array of names of the formal terminals of the gate 
+	(i.e., the gate pin names).   'actuals' is an array of nodes in 
+	the network (should be the same network that 'node' belongs to) 
+	which is matched in 1-1 correspondance 	with 'formals'.
+	As a consistency check, 'nin' declares the
+	sizes of the arrays 'formals', and 'actuals'.  'nin' should be
+	equal to the number of primary inputs of gate->network.
+	Returns 1 on success, 0 if any error.  Probable errors are:  gate is
+	NIL(lib_gate_t), number of inputs declared via 'nin' does not
+	match the number of inputs on 'gate', the specified gate is not
+	single-output, or some name in 'formals' is not a pin on the
+	gate.  error_string() is appended to in the case of an error.
+
+	(2) This creates a latch connection with the 'node' as the latch
+	output and an internally created primary output as the latch input.
+	An internal node is also created and its implementation is
+	set to be 'gate'.   'formals' and 'actuals' are the same as
+	those defined in (1) except that they do not include latch output
+	pins.  'nin' in this case is equal to network_num_pi(gate->network) - 1 
+	for complex latches (latches with more than one input) and
+	1 for D-type latches/flip-flops.   The following fields of the newly
+	created latch structure (latch_t) are set: input, output, synch_type and gate.
+	The rest of the fields (initial value, current_value and control) must be 
+	set by the calling program.
+
+Generator usage example:
+	lsGen gen, gen1; 
+	library_t *library; 
+	lib_class_t *class;
+	lib_gate_t *gate; char *dummy;
+
+	library = lib_get_library();
+	gen1 = lib_gen_classes(library);
+	while (lsNext(gen1, &dummy, LS_NH) == LS_OK) {
+	    class = (lib_class_t *) dummy;
+	    /* 
+	     *  do something with class 
+	     */
+
+	    gen2 = lib_gen_gates(class);
+	    while (lsNext(gen2, &dummy, LS_NH) == LS_OK) {
+		gate = (lib_class_t *) dummy;
+		/* 
+		 *  do something with gate 
+		 */
+	    }
+	    (void) lsFinish(gen2);
+	}
+	(void) lsFinish(gen1);
+
+
+/* sequential support */
+latch_synch_t
+lib_gate_type(gate)
+lib_gate_t *gate;
+	Given a library gate, return the type of the gate (i.e., COMBINATIONAL,
+	ACTIVE_HIGH, ACTIVE_LOW, RISING_EDGE, FALLING_EDGE, ASYNCH or UNKNOWN).
+
+int
+lib_gate_latch_pin(gate)
+lib_gate_t *gate;
+	Given a latch/flip-flop, return the fanin index corresponding to
+	the latch output pin.   If no such fanin exists (combinational 
+	gates and D-type latches/flip-flops) return -1.
+
+latch_time_t**
+lib_gate_latch_time(gate)
+lib_gate_t *gate;
+	Given a latch/flip-flop, return the timing information (setup/hold)
+	associated with the latch.
+
+delay_pin_t*
+lib_gate_clock_delay(gate)
+lib_gate_t *gate;
+	Given a latch/flip-flop, return the pin delay from the clock pin to the
+	output pin.
+	
+lib_class_t *
+lib_get_class_by_type(network, library, type)
+network_t *network;
+library_t *library;
+latch_synch_t type;
+	Given a 'network', find the gate-class of appropriate type which 
+	has the same logic function.  Returns NIL(lib_class_t) if there is
+	no such gate in the library.  A fast way to construct a network is using
+	read_eqn_string().
+
+
+lib_gate_t *
+lib_choose_smallest_latch(library, string, type)
+library_t *library;
+char *string;
+latch_synch_type type;
+
+	Given an equation string, return the smallest combinational
+	gate or latch of appropriate type which has the logic function 
+	specified in the string.   For example,	to find a smallest D-type 
+	transparent latch which is active high,	use 
+	lib_choose_smallest_latch(library, "q=d;" ACTIVE_HIGH).
+

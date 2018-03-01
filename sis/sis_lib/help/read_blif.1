@@ -1,0 +1,45 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/read_blif.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+read_blif [-a] filename
+.PP
+Read in a network from the file \fBfilename\fP which is assumed
+to be in \fIblif\fP format.
+The network name is given
+by the \fI.model\fP statement in the file.  If a \fI.model\fP
+is not given, the network name is the filename with any trailing
+extension removed.
+See the blif.tex document for a complete description
+of the \fIblif\fP format.
+.PP
+The user can also specify an external don't care network. This
+network must be placed after the care network in the same
+file. The statement \fI.exdc\fP must precede the description
+of the external don't care network. The names of primary outputs and
+primary inputs of the external don't care network
+must be exactly the same as the names of primary outputs
+and primary inputs of the care network.
+.PP
+Usual filename conventions apply: \fB-\fP (or no
+filename) stands for standard input, and tilde-expansion is performed
+on the filename.
+.PP
+Normal operation is to replace the current network with a new network.
+If no external don't care network is specified, the external don't
+care network is set to NIL (nonexistent). Otherwise the external
+don't care network is replaced by the new external don't care network.
+The -a option specifies that the new network should be appended to the
+current network.  Functions are associated between the two networks
+using the long names of each network.  Name conflicts (where two
+functions attempt to define the same name) generate warning messages
+and are resolved by renaming the signal from the new network.
+.PP
+The \fB-s\fR option, though accepted, has no effect on \fBread_blif\fR, and is 
+instead reserved for the \fBread_pla\fR command.

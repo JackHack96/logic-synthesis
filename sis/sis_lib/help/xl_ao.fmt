@@ -1,0 +1,11 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   xl_ao [-n support]
+ 
+     Uses a cube-packing heuristic to do an AND-OR decomposition of an
+     infeasible network.  This is fast and the result is a feasible network.
+ 
+     -n: support is the size of the TLU block (default = 5)
+ 
+                                                                            1

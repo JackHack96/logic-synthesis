@@ -1,0 +1,18 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   sim_verify [-n # pats] filename.blif
+ 
+     Verify that two networks are equivalent using random-pattern simulation.
+     That is, generate a random input vector, simulate the logic network, and
+     check that the outputs between the two networks agree.  The first net-
+     work is the current network, and a second network is read from the file
+     filename.blif: it must be a _b_l_i_f format file.  (This restriction will be
+     fixed when the command interpreter is expanded to handle multiple net-
+     works.)
+ 
+     -n gives the number of random patterns to simulate.
+ 
+     NOTE: this command only works for combinational networks.
+ 
+                                                                            1

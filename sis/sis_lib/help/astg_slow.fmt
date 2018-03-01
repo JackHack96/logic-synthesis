@@ -1,0 +1,64 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_slow [-v debug_level] [-t tolerance] [-s] [-u] [[-f|-F]
+     external_delay_file] [-d default_external_delay] [-m min_delay_factor]
+ 
+     Remove hazards from the ASTG implementation, inserting delay buffers
+     after some ASTG signals. Delays are inserted so that no gate within the
+     circuit implementation can react as though the ASTG specified ordering
+     of signals is reversed in time.
+ 
+     It must be invoked after technology mapping (see astg_to_f for a recom-
+     mended script file).
+ 
+     The -m option specifies the amount by which all MINIMUM delays are MUL-
+     TIPLIED (this until the delay computation will understand min/max
+     delays).  Of course 0.0 < min_delay_factor <= 1.0.  Default value: 1.0.
+ 
+     The -t option specifies the tolerance to be used during the hazard check
+     procedure (the larger the specified value, the more conservative is the
+     algorithm). Default value: 0.0.
+ 
+     The -s option specifies not to use the shortest-path algorithm when com-
+     puting the delays in the network. This might result in being overly pes-
+     simistic (this option is only experimental).
+ 
+     The -f option specifies a file name to search for the minimum delays
+     between output signals and input signals of the ASTG (i.e. for those
+     signals that are not being synthesized). This can be useful if some
+     information about these signals is known either from the specification
+     or from the synthesis of another sub-component of the total asynchronous
+     system.
+ 
+     The file can also be updated with the minimum delays between each input
+     signal and each output signal if the -F option is used in place of -f.
+     This allows for separate synthesis of various sub-components of an asyn-
+     chronous system. In this case iteration might be necessary to obtain
+     optimal results, and a warning message is issued when the stored infor-
+     mation is changed, and  a new iteration is required.
+ 
+     The -u option specifies not to remove hazards, but only to update the
+     external elay file (if appropriate). This can be used to remove hazards
+     from a set of Signal Transition Graphs that are synthesized separately
+     (e.g. by contraction). In this case, a first round of synthesis can be
+     performed on each Signal Transition Graph, followed by astg_slow with
+     the -F and the -u options, to store the information on the delay of the
+     function implementing each signal. Then astg_slow can be iterated among
+     the Signal Transition Graphs with the -F option only until convergence
+     is obtained. The results should be comparable with synthesis and hazard
+     removal from a single Signal Transition Graph, but can be considerably
+     faster for large specifications.
+ 
+     The -d option specifies the default minimum delay between output signals
+     and input signals of the ASTG (if no information can be obtained from
+     the above described file). The default value is 0.0 (i.e. the environ-
+     ment responds instantaneously), but this can be overly pessimistic, and
+ 
+                                                                            1
+ 
+   SIS(1)                                                        July 1, 1994
+ 
+     result in an unnecessary slow and large implementation.
+ 
+   2

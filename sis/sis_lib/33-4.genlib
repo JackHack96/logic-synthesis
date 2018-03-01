@@ -1,0 +1,176 @@
+GATE zero	0	O=CONST0;
+GATE one	0	O=CONST1;
+GATE "!a" 2 O=!a;
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab)'" 3 O=!(a*b);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(b+c))'" 4 O=!(a*(b+c));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(b+cd))'" 5 O=!(a*(b+c*d));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(b+c(d+e)))'" 6 O=!(a*(b+c*(d+e)));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(b+(c+d)(e+f)))'" 7 O=!(a*(b+(c+d)*(e+f)));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(bc+de))'" 6 O=!(a*(b*c+d*e));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(bc+d(e+f)))'" 7 O=!(a*(b*c+d*(e+f)));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(bc+(d+e)(f+g)))'" 8 O=!(a*(b*c+(d+e)*(f+g)));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(b+c+d))'" 5 O=!(a*(b+c+d));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(b+c+de))'" 6 O=!(a*(b+c+d*e));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(b+cd+ef))'" 7 O=!(a*(b+c*d+e*f));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(bc+de+fg))'" 8 O=!(a*(b*c+d*e+f*g));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(c+d))'" 5 O=!((a+b)*(c+d));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(c+de))'" 6 O=!((a+b)*(c+d*e));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(c+d(e+f)))'" 7 O=!((a+b)*(c+d*(e+f)));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(c+(d+e)(f+g)))'" 8 O=!((a+b)*(c+(d+e)*(f+g)));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(cd+ef))'" 7 O=!((a+b)*(c*d+e*f));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(cd+e(f+g)))'" 8 O=!((a+b)*(c*d+e*(f+g)));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(cd+(e+f)(g+h)))'" 9 O=!((a+b)*(c*d+(e+f)*(g+h)));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(c+d+e))'" 6 O=!((a+b)*(c+d+e));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(c+d+ef))'" 7 O=!((a+b)*(c+d+e*f));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(c+de+fg))'" 8 O=!((a+b)*(c+d*e+f*g));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(cd+ef+gh))'" 9 O=!((a+b)*(c*d+e*f+g*h));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+bc)(d+e+f))'" 7 O=!((a+b*c)*(d+e+f));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b(c+d))(e+f+g))'" 8 O=!((a+b*(c+d))*(e+f+g));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+(b+c)(d+e))(f+g+h))'" 9 O=!((a+(b+c)*(d+e))*(f+g+h));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((ab+cd)(e+f+g))'" 8 O=!((a*b+c*d)*(e+f+g));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((ab+c(d+e))(f+g+h))'" 9 O=!((a*b+c*(d+e))*(f+g+h));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((ab+(c+d)(e+f))(g+h+i))'" 10 O=!((a*b+(c+d)*(e+f))*(g+h+i));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b+c)(d+e+f))'" 7 O=!((a+b+c)*(d+e+f));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b+c)(d+e+fg))'" 8 O=!((a+b+c)*(d+e+f*g));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b+c)(d+ef+gh))'" 9 O=!((a+b+c)*(d+e*f+g*h));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b+c)(de+fg+hi))'" 10 O=!((a+b+c)*(d*e+f*g+h*i));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(abc)'" 4 O=!(a*b*c);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab(c+d))'" 5 O=!(a*b*(c+d));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab(c+d+e))'" 6 O=!(a*b*(c+d+e));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(b+c)(d+e))'" 6 O=!(a*(b+c)*(d+e));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(b+c)(d+e+f))'" 7 O=!(a*(b+c)*(d+e+f));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(b+c+d)(e+f+g))'" 8 O=!(a*(b+c+d)*(e+f+g));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(c+d)(e+f))'" 7 O=!((a+b)*(c+d)*(e+f));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(c+d)(e+f+g))'" 8 O=!((a+b)*(c+d)*(e+f+g));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(c+d+e)(f+g+h))'" 9 O=!((a+b)*(c+d+e)*(f+g+h));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b+c)(d+e+f)(g+h+i))'" 10 O=!((a+b+c)*(d+e+f)*(g+h+i));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+b)'" 3 O=!(a+b);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+bc)'" 4 O=!(a+b*c);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+b(c+d))'" 5 O=!(a+b*(c+d));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+b(c+de))'" 6 O=!(a+b*(c+d*e));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+b(cd+ef))'" 7 O=!(a+b*(c*d+e*f));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+(b+c)(d+e))'" 6 O=!(a+(b+c)*(d+e));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+(b+c)(d+ef))'" 7 O=!(a+(b+c)*(d+e*f));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+(b+c)(de+fg))'" 8 O=!(a+(b+c)*(d*e+f*g));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+bcd)'" 5 O=!(a+b*c*d);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+bc(d+e))'" 6 O=!(a+b*c*(d+e));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+b(c+d)(e+f))'" 7 O=!(a+b*(c+d)*(e+f));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+(b+c)(d+e)(f+g))'" 8 O=!(a+(b+c)*(d+e)*(f+g));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+cd)'" 5 O=!(a*b+c*d);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+c(d+e))'" 6 O=!(a*b+c*(d+e));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+c(d+ef))'" 7 O=!(a*b+c*(d+e*f));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+c(de+fg))'" 8 O=!(a*b+c*(d*e+f*g));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+(c+d)(e+f))'" 7 O=!(a*b+(c+d)*(e+f));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+(c+d)(e+fg))'" 8 O=!(a*b+(c+d)*(e+f*g));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+(c+d)(ef+gh))'" 9 O=!(a*b+(c+d)*(e*f+g*h));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+cde)'" 6 O=!(a*b+c*d*e);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+cd(e+f))'" 7 O=!(a*b+c*d*(e+f));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+c(d+e)(f+g))'" 8 O=!(a*b+c*(d+e)*(f+g));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+(c+d)(e+f)(g+h))'" 9 O=!(a*b+(c+d)*(e+f)*(g+h));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(b+c)+def)'" 7 O=!(a*(b+c)+d*e*f);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(b+cd)+efg)'" 8 O=!(a*(b+c*d)+e*f*g);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(bc+de)+fgh)'" 9 O=!(a*(b*c+d*e)+f*g*h);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(c+d)+efg)'" 8 O=!((a+b)*(c+d)+e*f*g);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(c+de)+fgh)'" 9 O=!((a+b)*(c+d*e)+f*g*h);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(cd+ef)+ghi)'" 10 O=!((a+b)*(c*d+e*f)+g*h*i);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(abc+def)'" 7 O=!(a*b*c+d*e*f);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(abc+de(f+g))'" 8 O=!(a*b*c+d*e*(f+g));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(abc+d(e+f)(g+h))'" 9 O=!(a*b*c+d*(e+f)*(g+h));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(abc+(d+e)(f+g)(h+i))'" 10 O=!(a*b*c+(d+e)*(f+g)*(h+i));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+b+c)'" 4 O=!(a+b+c);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+b+cd)'" 5 O=!(a+b+c*d);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+b+cde)'" 6 O=!(a+b+c*d*e);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+bc+de)'" 6 O=!(a+b*c+d*e);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+bc+def)'" 7 O=!(a+b*c+d*e*f);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+bcd+efg)'" 8 O=!(a+b*c*d+e*f*g);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+cd+ef)'" 7 O=!(a*b+c*d+e*f);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+cd+efg)'" 8 O=!(a*b+c*d+e*f*g);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+cde+fgh)'" 9 O=!(a*b+c*d*e+f*g*h);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(abc+def+ghi)'" 10 O=!(a*b*c+d*e*f+g*h*i);
+PIN * INV 1 999 1.0 0.2 1.0 0.2

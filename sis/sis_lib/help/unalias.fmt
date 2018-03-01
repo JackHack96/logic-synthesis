@@ -1,0 +1,14 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   alias [name [string]]
+   unalias name ...
+ 
+     The alias command, if given no arguments, will print the definition of
+     all current aliases.  Given a single argument, it will print the defini-
+     tion of that alias (if any).  Given two arguments, the keyword name
+     becomes an alias for the command string string, replacing any other
+     alias with the same name.  The unalias command removes the definition of
+     an alias.
+ 
+                                                                            1

@@ -1,0 +1,356 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/maxflow/maxflow.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:31 $
+ *
+ */
+Summary:
+    cutset();
+    mf_create_flow_network();
+    mf_build_node_cutset();
+
+    mf_alloc_graph()
+    mf_read_node()
+    mf_read_edge()
+    mf_reread_edge()
+    mf_delete_node()
+    mf_free_graph()
+    mf_free_cutset()
+
+    maxflow()
+    mf_get_cutset()
+
+    mf_display_graph()
+    mf_display_cutset()
+    mf_display_flow()
+
+    mf_foreach_node()
+    mf_foreach_fanin()
+    mf_foreach_fanout()
+
+    mf_get_sink_node()
+    mf_get_source_node()
+    mf_get_edge_flow()
+    mf_get_edge_capacity()
+    mf_num_nodes()
+    mf_num_fanin()
+    mf_num_fanout()
+    mf_node_name()
+    mf_get_node()
+    mf_change_node_type()
+    mf_tail_of_edge()
+    mf_head_of_edge()
+    mf_is_edge_on_mincut()
+
+	ROUTINES TO FIND MINIMUM WEIGHT SEPARATOR SET IN BOOLEAN NETWORKS.
+array_t *
+cutset(network, weight_table)
+network_t *network;
+st_table *weight_table;
+	Takes as input a network and a table of integral weights for 
+	the nodes. Computes the minimum weighted "node_cutset" between
+	the primary inputs and primary outputs considering only the 
+	nodes passed in the table.  Returns an array of nodes that lie
+	on the cutset.  Entries in the array are pointers to node_t.
+	NOTE: Only internal nodes should be passed in the weight_table
+	and the node weights should be positive and less than 1000 
+	(due to the fact that edges between nodes are given a weight
+	of a million).
+	NOTE: This routine was written specifically for speed_up, which
+	calls it on the epsilon-critical network.  For this network, if a
+	node fanin is a PI and some other fanin is epsilon-critical, we
+	do not want an edge between the node and the source, we only
+	want an edge between the nodes in the epsilon-critical network.
+	So the cutset procedure adds edges in this fashion.  For the
+	general case, it is easy enough to construct a flow network and
+	call maxflow() on that rather than using the cutset() routine.
+
+array_t *
+cutset_interface(network, weight_table, edge_weight)
+network_t *network;
+st_table *weight_table;
+int edge_weight;
+	Similar to the cutset routine described above. Removes the 
+	restriction that node weights should be less than 1000. By
+	using this routine nodes can be assigned any positive weights.
+	IT IS THE USERS RESPONSIBILITY  to ensure that  the value
+	given to "edge_weight" is large enough so that the cutset will
+	comprise only nodes and not edges of the network.
+
+mf_graph_t *
+mf_create_flow_network(network, weight_table, edge_weight, node_name_table)
+network_t *network;
+st_table *weight_table;
+int edge_weight;
+st_table **name_node_table;	/* Returns correspondence of nodes in network */
+				/* and vertices in the mf_graph_t */
+	Builds a flow network corresponding to the nodes contained in the
+	"weight_table". The nodes are duplicated since a node-cutset is
+	required (weight table has the weight of the node). "edge_weight"
+	is the weight assigned to edges in the "network" so that they are
+	not included in the minimum cutset.
+
+
+array_t *
+mf_build_node_cutset(graph, name_node_table)
+mf_graph_t *graph;
+st_table *name_node_table;
+	On the "graph" you should have run the routine "maxflow()". Then
+	this routine will return you an array of "node_t *" on the cutset.
+	These are found by virtue of the name_node_table (this table was
+	returned by the routine mf_create_flow_network() described above)
+
+
+    Primitive operations to build up your own maxflow problem instance.
+    The nodes in the graph are REFERENCED BY NAME and the edge weights 
+    MUST be positive integers. Note that a "source" and a "sink" node 
+    must be specified (by the routine mf_read_node) for the maxflow 
+    algorithm to work. Routines are provided to traverse the graph that
+    has been built, to query the nodes and edges and to frre the storage
+    once it is not required.
+
+mf_graph_t *
+mf_alloc_graph()
+	Will return a mf_graph_t structure that will be used as the
+	graph for adding nodes and edges.
+
+void 
+mf_read_node( graph, name, type)
+mf_graph_t *graph;
+char *name;
+int type;
+	Inserts a node in the mf_graph_t structure. The nodes are 
+	distinguished by name and it is a serious error to define a 
+	node more than once.  Also there has to be ony one "source" 
+	and only one "sink" node in the graph. The cutset is computed 
+	between these two nodes. The type is as follows --
+		0 for	Internal node
+		1 for	source node
+		2 for	sink node
+
+void 
+mf_read_edge( graph, from, to, capacity)
+mf_graph_t *graph;
+char *from, *to;
+int capacity;
+	Inserts a directed edge from node "from" to the node "to" of
+	the specified capacity. Note that the two ends of the edge must
+	have been already defined as nodes by the "mf_read_node" function.
+	Also the capacity must be a positive integer.
+
+int
+mf_reread_edge(graph, from, to, capacity)
+mf_graph_t *graph;
+char *from, *to;
+int capacity;
+	Change the capacity of the edge between "from" and "to" nodes.
+	If an arc did not exist between the two nodes, a new edge is
+	created with the desired capacity. When a new edge is created 
+	the routine return 1, otherwise it returns 0.
+
+int 
+mf_remove_node( graph, name)
+mf_graph_t *graph;
+char *name;
+	Removes the node referenced by "name" from the graph. In addition
+	to freeing the storage associated with the node, all the edges
+	incident on and emanating from the node are deleted. Returns 1 if
+	the graph has been modified, 0 otherwise.
+
+void 
+mf_modify_edge_capacity( edge, new_capacity)
+mf_edge_t *edge;
+int new_capacity;
+	Modifies the edge capacity on the specified edge. At this stage the
+	maxflow() routine must be run again to operate on the modified
+	graph.
+
+mf_change_node_type(graph, node, new_type)
+mf_graph_t *graph;
+mf_node_t *node;
+int type;
+	Changes the "type" of a node. Allows repeated use of the same graph
+	with different source and sinks. It is the users responsibility to 
+	ensure that there is a source and a sink after the modifications.
+	The node types are the same as defined earlier.
+
+void
+mf_free_graph( graph)
+mf_graph_t *graph;
+	Frees the graph data structure and all the memory that was
+	used by the maxflow routine.
+	Should be called once for each call to "mf_alloc_graph"
+
+void
+mf_free_cutset( cutset)
+mf_cutset_t *cutset;
+	Frees the cutset data structures and all the memory that was
+	used to report the cutset.  Should be called once for each call
+	to "mf_get_cutset".
+
+
+void 
+maxflow( graph, verify)
+mf_graph_t *graph;
+int  verify;
+	Runs the maxflow algorithm on the graph and finds the minimum 
+	weighted cutset. The verify flag is used to do a check whether
+	the cutset is actually the minimum weighted cutset or not. The
+	edges in the graph have flow assigned to them and can be queried
+	to see if they lie on the cutset.
+
+mf_cutset_t *
+mf_get_cutset( graph, from_array, to_array, flow_array)
+mf_graph_t *graph;
+array_t **from_array, **to_array, **flow_array;
+	After calling the routine "maxflow()" on the graph,  this
+	routine gets the nodes on the cutset. The routine will return 
+	the nodes on the cutset and the flow along the edges on the 
+	cutset by allocating anf filling up the from_array, to_array 
+	and flow_array. The entries in the three arrays are (char *), 
+	(char *) and (int) respectively.  The routine also returns a 
+	mf_cutset_t structure that should be freed by the routine 
+	"mf_free_cutset()".
+
+	NOTE: The members of the arrays are not saved explicitly. Hence
+	the arrays should be used before freeing the cutset.
+
+
+    Some routines to allow the user to dump the data structures to a
+    file. Useful only for debugging.
+
+void 
+mf_display_graph( outfile, graph)
+FILE *outfile;
+mf_graph_t *graph;
+	Prints the nodes and the edges, alongwith their
+	capacity, to outfile.
+
+void 
+mf_display_cutset( outfile, graph)
+FILE *outfile;
+mf_graph_t *graph;
+	After the maxflow() routine, prints the nodes and 
+	the edges lying on either side of the cutset, 
+	alongwith their capacity, to outfile.
+
+void 
+mf_display_flow( outfile, graph)
+FILE *outfile;
+mf_graph_t *graph;
+	After the maxflow() routine, prints the nodes and 
+	the edges, alongwith their flows, to outfile.
+
+
+    The user is provided with various macros as described below
+    to access the "mf_graph" data structure. These routines return
+    pointers to existing data structures and so do not free any
+    of the pointers returned. All the storage will be freed when the
+    routine "mf_free_graph" is called. In order to generate all edges,
+    generate all the fanout edges of each node in the graph. Note, that
+    the traversal via fanout pointers is guaranteed to work, the fanin 
+    pointers may not always be accurate.
+
+mf_foreach_node( graph, i, node)
+mf_graph *graph;
+int i;
+mf_node_t *node;
+	Generates all the nodes in the graph, including the "source"
+	and the "sink" nodes.
+
+mf_foreach_fanin( node, i, edge)
+mf_node *node;
+int i;
+mf_edge_t *edge;
+	Generates all the fanin edges of the node.
+
+mf_foreach_fanout( node, i, edge)
+mf_node *node;
+int i;
+mf_edge_t *edge;
+	Generates all the fanout edges of the node.
+
+mf_node_t *
+mf_get_node(graph, name)
+mf_graph_t *graph;
+char *name;
+	Returns the node corresponding to the name. If no such node
+	is present a NIL(char) is returned.
+
+
+The following routines are used to query the various entries in
+the data structures to retreive information about the vertices 
+and edges in the graph. 
+
+int
+mf_num_nodes(graph)
+mf_graph_t *graph;
+	Returns the number of nodes in the graph.
+
+int
+mf_num_fanin(node)
+mf_node_t *node;
+	Returns the number of fanin edges to a node.
+
+int
+mf_num_fanout(node)
+mf_node_t *node;
+	Returns the number of fanout edges to a node.
+
+char *
+mf_node_name(node)
+mf_node_t *node;
+	Returns the name of the node. This is the key by which the
+	nodes in the graph are referenced.
+
+mf_node *
+mf_get_sink_node(graph)
+mf_graph_t *graph;
+	Returns the "sink" node of the graph.
+
+mf_node *
+mf_get_source_node(graph)
+mf_graph_t *graph;
+	Returns the "source" node of the graph.
+
+int
+mf_get_edge_flow(edge)
+mf_edge *edge;
+	Returns the flow through the edge after the function maxflow()
+	has been called.
+
+int
+mf_get_edge_capacity(edge)
+mf_edge *edge;
+	Returns the capacity through the edge. This is the maximum 
+	permissible flow thru the edge.
+
+mf_node_t *
+mf_tail_of_edge(edge)
+mf_edge *edge;
+	Returns the "tail" node of the edge. This is the node where
+	the edge starts from.
+
+mf_node_t *
+mf_head_of_edge(edge)
+mf_edge *edge;
+	Returns the "head" node of the edge. This is the node where
+	the edge terminates.
+
+int
+mf_is_edge_on_mincut(edge)
+mf_edge *edge;
+	returns 1 if the edge lies on the minimum weighted cutset, 0
+	otherwise.
+
+int
+mf_sizeof_cutset(graph)
+mf_graph_t *graph;
+	This routine is provided for the user who is interested only
+	in the size of the cutset. This routine must be called after
+	maxflow(). An alternate way (slower) is to use the routine
+	mf_get_cutset() and then the size of the returned array can
+	be used to determine the cutset size.

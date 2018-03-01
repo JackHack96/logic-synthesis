@@ -1,0 +1,31 @@
+This directory contains the 56 test cases reported in the monograph
+"Espresso-II Logic Minimization Algorithms for VLSI Synthesis"
+ 
+The filenames correspond one-to-one with Table 7.1 on page 165.  
+
+  add6    6 bit adder (reduced starting position)
+  adr4    4 bit adder (minterms)
+  alu1    1st stage of 3-stage decomposition of TTL part # 74181
+  alu2    2nd stage of 3-stage decomposition of TTL part # 74181
+  alu3    3rd stage of 3-stage decomposition of TTL part # 74181
+  co14    4-color problem (with dc-set should yield 4 terms)
+  dist    f(x,y) = sqrt(x*x+y*y) for two 4-bit arguments
+  f51m    f(x) = 5*x+1 mod 256 for 8-bit argument
+  mlp4    4 bit multiplier (minterms)
+  radd    4 bit adder (reduced starting position)
+  rckl	  f(x) = length of longest consecutive string of ones, 32-bit argument
+  rd53    5 unary bits (unweighted) "reduced" to 3 binary bits (weighted)
+  rd73    7 unary bits "reduced" to 3 binary bits
+  risc    Control PLA from the Berkeley RISC microprocessor
+  root    f(x) = sqrt(x) for 8-bit argument
+  sqr6    f(x) = x*x for 6-bit argument
+  tial    TTL part #74181 (4-bit multifunction ALU)
+  wim	  BCD to 7-segment LED decoder
+  z4	  3-bit adder with carry input
+  Z5xp1   f(x) = 5*x+1 for 7-bit argument
+  Z9sym   f(x) = 1 iff x has 3,4,5 or 6 ones in binary expansion (9-bit arg.)
+
+
+The remaining control functions are examples drawn from industrial
+logic designs, which, for proprietary reasons, are not described in
+detail.

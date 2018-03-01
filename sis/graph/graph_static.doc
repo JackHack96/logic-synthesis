@@ -1,0 +1,187 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/graph/graph_static.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:27 $
+ *
+ */
+graph_t *
+g_alloc_static(ng, nv, ne)
+int ng, nv, ne;
+
+	Allocate and return a static graph.  Allocate ng slots for the graph
+	properties.  Allow nv slots for the vertex properties, and ne slots
+	for the edge properties.
+
+void
+g_free_static(g, f_free_g, f_free_v, f_free_e)
+graph_t *g;
+void (*f_free_g)(gGeneric);
+void (*f_free_v)(gGeneric);
+void (*f_free_e)(gGeneric);
+
+	Free the storage associated with a static graph, including the
+	vertices, edges, and the slot pointers associated with the graph
+	properties.  The user_data associated with the graph, each vertex,
+	and each edge is freed by the user-supplied functions f_free_g,
+	f_free_v, and f_free_e, which take as an argument the user_data
+	field.  These functions must _not_ free the user_data field itself,
+	just the slots in the user_data that need to be freed.  If NULL is
+	passed as a free function, the slots of the corresponding user_data
+	field are not freed.
+
+graph_t *
+g_dup_static(g, f_copy_g, f_copy_v, f_copy_e)
+graph_t *g;
+gGeneric (*f_copy_g)(gGeneric);
+gGeneric (*f_copy_v)(gGeneric);
+gGeneric (*f_copy_e)(gGeneric);
+
+	Return a copy of the static graph g.  The graph, its vertices and
+	edges, and the connectivity information is copied, as well as the
+	number of graph, vertex, and edge slots.  The user_data on the
+	graph, each vertex, and each edge is copied via the user-supplied
+	functions f_copy_g, f_copy_v, and f_copy_e, which take as an
+	argument the user_data field.  If NULL is passed as a copy function,
+	the individual slots are copied with assignment statements
+	(new->user_data[0] = old->user_data[0], etc).  If a copy function is
+	supplied, it must allocate a block of gGeneric large enough to hold
+	the slot information and copy each of the individual slots.
+
+void
+g_set_g_slot_static(g, i, val)
+graph_t *g;
+int i;
+gGeneric val;
+
+	Set the ith slot in the graph g to val.
+
+gGeneric
+g_get_g_slot_static(g, i)
+graph_t *g;
+int i;
+
+	Return the value of the ith slot in the graph g.
+
+void
+g_copy_g_slots_static(g1, g2, f_copy_g)
+graph_t *g1, *g2;
+gGeneric (*f_copy_g)(gGeneric);
+
+	Copy the slots (in the user_data field) from g1 to g2.  g1 and g2
+	must have the same number of slots.  The actual data pointed to by
+	the slots is copied by f_copy_g, which takes as an argument the
+	user_data field.  If f_copy_g is specified, it must allocate a block
+	of gGeneric large enough to hold the slot information and copy each
+	of the individual slots.  If f_copy_g is NULL, the individual slots
+	are copied with assignment statements (new->user_data[0] =
+	old->user_data[0], etc).
+
+/* vertices */
+
+vertex_t *
+g_add_vertex_static(g)
+graph_t *g;
+
+	Add a new vertex to the graph g, and return the new vertex.
+
+void
+g_delete_vertex_static(v, f_free_v, f_free_e)
+vertex_t *v;
+void (*f_free_v)(gGeneric);
+void (*f_free_e)(gGeneric);
+
+	Free the storage associated with a vertex, including the vertex
+	itself and its edges.  Free the storage associated with the vertex
+	slot pointers.	The user_data associated with the vertex and each of
+	its edges is freed by the user-supplied functions f_free_v and
+	f_free_e, which take as an argument the user_data field.  These
+	functions should not free the user_data field itself, just the slots
+	in the user_data that need to be freed.  If NULL is passed as a free
+	function, the slots of the corresponding user_data field are not
+	freed.
+
+void
+g_set_v_slot_static(v, i, val)
+vertex_t *v;
+int i;
+gGeneric val;
+
+	Set the ith slot of vertex v to val.
+
+gGeneric
+g_get_v_slot_static(v, i)
+vertex_t *v;
+int i;
+
+	Return the value of the ith slot of vertex v.
+
+void
+g_copy_v_slots_static(v1, v2, f_copy_v)
+vertex_t *v1, *v2;
+gGeneric (*f_copy_v)(gGeneric);
+
+	Copy the slots (in the user_data field) from v1 to v2. v1 and v2
+	must have the same number of slots.  The actual data pointed to by
+	the slots is copied by f_copy_v, which takes as an argument the
+	user_data field.  If f_copy_v is specified, it must allocate a block
+	of gGeneric large enough to hold the slot information and copy each
+	of the individual slots.  If f_copy_v is NULL, then the individual
+	slots are copied with assignment statements (new->user_data[0] =
+	old->user_data[0], etc).
+
+/* edges */
+
+edge_t *
+g_add_edge_static(v1, v2)
+vertex_t *v1, *v2;
+
+	Add a directed edge from v1 to v2.  The new edge is returned.  v1
+	and v2 must belong to the same graph.
+
+void
+g_delete_edge_static(e, f_free_e)
+edge_t *e;
+void (*f_free_e)(gGeneric);
+
+	Free the storage associated with an edge, including the edge itself
+	and the storage associated with its slot pointers.  The user_data is
+	freed by the user-supplied function f_free_e, which takes as an
+	argument the user_data field.  f_free_e does not free the user_data
+	field itself, but only the slots in the user_data field that need to
+	be freed.  If f_free_e is NULL the slots of the user_data field are
+	not freed.
+
+void
+g_set_e_slot_static(e, i, val)
+edge_t *e;
+int i;
+gGeneric val;
+
+	Set the ith slot of edge e to val.
+
+gGeneric
+g_get_e_slot_static(e, i)
+vertex_t *e;
+int i;
+
+	Return the value of the ith slot of edge e.
+
+void
+g_copy_e_slots_static(e1, e2, f_copy_e)
+edge_t *e1, *e2;
+gGeneric (*f_copy_e)(gGeneric);
+
+	Copy the slots (in the user_data_field) from e1 to e2.  e1 and e2
+	must have the same number of slots.  The actual data pointed to by
+	the slots is copied by f_copy_e, which takes as an argument the
+	user_data field.  If f_copy_e is specified, it must allocate a block
+	of gGeneric large enough to hold the slot information and copy each
+	of the individual slots to the new location.  If f_copy_e is NULL,
+	the individual slots are copied with assignment statements
+	(new->user_data[0] = old->user_data[0], etc).
+
+-------------------------------------------------------
+For a description of files and installation instructions, see graph.doc.

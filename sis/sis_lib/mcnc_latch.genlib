@@ -1,0 +1,14 @@
+# D-type latches and flip-flops are necessary for sequential
+# technology mapping.   
+# WARNING: area and delay parameters are arbitrary.
+LATCH dff 10 Q = D;
+PIN D NONINV 2 999 1.0 0.1 1.0 0.1
+SEQ Q ANY RISING_EDGE
+CONTROL CLOCK 2 999 1.0 0.1 1.0 0.1
+CONSTRAINT D 0.1 0.1
+
+LATCH dlatch 8 Q = D;
+PIN D NONINV 2 999 1.0 0.1 1.0 0.1
+SEQ Q ANY ACTIVE_HIGH
+CONTROL CLOCK 2 999 1.0 0.1 1.0 0.1
+CONSTRAINT D 0.1 0.1

@@ -1,0 +1,12 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   replace [-t n] [-v n]
+ 
+     This is a simple routine that performs the same function as resub -a -d
+     on a network decomposed in 2-input NAND gates using tech_decomp -o 2. It
+     is just much faster.
+ 
+     The -v n specifies the verbosity level.  It is only used for debugging.
+ 
+                                                                            1

@@ -1,0 +1,20 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   xl_rl [-n support] [-m] [-M MAX_FANINS]
+         [-t (trav_method-levels)] [-c collapse_input_limit]
+         [-v verbosity_level]
+ 
+     Used for timing optimization for table look up architectures (phase 1).
+     Given a feasible network (obtained say by using speed_up), reduces
+     number of levels for table look up with "support" inputs.  If -m is not
+     given, it tries to move fanins for each node also, provided the number
+     of fanins of the node does not exceed MAX_FANINS (default 15). As a
+     final step, tries collapsing the network if number of inputs to the net-
+     work is at most collapse_input_limit (default = 10). Then applies Roth-
+     Karp decomposition and cofactoring (support > 2). If number of levels
+     decreases, accepts the better decomposition.
+ 
+     -n: support is the size of the TLU block (default = 5)
+ 
+                                                                            1

@@ -1,0 +1,26 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   write_oct [-m] cell[:view]
+ 
+     Write the current network to the Oct facet cell:view:contents.  If view
+     is not specified, it will default to `logic'.
+ 
+     If the -m flag is specified, the network is merged into an existing net-
+     work.  All of the logic elements and internal nets are ripped up and
+     replaced with the new network.  Oct net names are used to determine how
+     to merge in the network, so if the net names at the interface of the
+     logic are not defined the merge will fail.
+ 
+     The environment variable OCT-CELL-PATH defines where the cell library is
+     located.  If a cell does not have a leading '~' or '/' in its name, then
+     OCT-CELL-PATH is prepended to the filename.
+ 
+     The variable OCT-CELL-VIEW defines the viewname to be used if the cell
+     does not have a ':' in its name to separate the cell name from the view
+     name.
+ 
+     The variables OCT-TECHNOLOGY, OCT-VIEWTYPE, and OCT-EDITSTYLE define the
+     technology, view-type, and edit-style properties for the Oct facet.
+ 
+                                                                            1

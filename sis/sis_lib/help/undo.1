@@ -1,0 +1,18 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/undo.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:41 $
+.\"  *
+.\"
+.XX
+undo
+.PP
+A simple 1-level undo is supported.
+It reverts the network to its state
+before the last command which changed the network.
+Note that interrupting
+a command (with ^C) which changes the network 
+uses up the one level of undo.

@@ -1,0 +1,12 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   factor [-gq] node-list
+ 
+     Throw away the old factored forms and factor each node in the node-list,
+     and store the factored forms with the nodes.  If the -q option is speci-
+     fied, the _q_u_i_c_k _f_a_c_t_o_r algorithm is used to factor the node.  If the -g
+     option is specified, the _g_o_o_d _f_a_c_t_o_r algorithm is used to factor the
+     node.
+ 
+                                                                            1

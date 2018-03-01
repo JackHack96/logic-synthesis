@@ -1,0 +1,24 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   collapse [n1] [n2]
+ 
+     Collapse nodes in the network.  With no arguments, the entire network is
+     collapsed into a single-level of functions (i.e., two-level form). Each
+     output will be expressed in terms of the primary inputs.
+ 
+     Given a single node, that function is collapsed until it is represented
+     entirely in terms of primary inputs.
+ 
+     Given two arguments, it is assumed that the second node is a fanin of
+     the first node.  In this case, this dependency is removed (the first
+     node is expressed without the second node as a fanin).
+ 
+     Please note that this command negates any mapping that may have been
+     done at an earlier time.
+ 
+     Caution should be taken when collapsing network to two levels because
+     the two level representation may be too large.  The alternative is to
+     use eliminate (selective collapse).  Refer to eliminate for the details.
+ 
+                                                                            1

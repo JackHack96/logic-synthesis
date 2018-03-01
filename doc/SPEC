@@ -1,0 +1,115 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/doc/SPEC,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:13:56 $
+ *
+ */
+********************* state assignment program format *************
+
+Format for State Assignment Programs to follow for incorporation in SIS:
+
+1)  State Assignment Program Requirements
+
+	- The input format is the enhanced KISS2 format (KISS2 with the
+	  added construct .r symbolic name to indicate the reset state).
+	  Input should be taken from stdin.
+         
+	- The output format is the enhanced BLIF format.  Output should be
+          directed to stdout.  The output information must contain the
+   	  resulting encoding (via the .code construct).  A multi-level
+	  network may be specified in the output BLIF, in which case the order
+          of the inputs (in the .inputs command) must correspond to the
+  	  order of the bits in the encoding.  If no multi-level network is
+ 	  specified, one is created using the state transition graph and
+	  the encoding.
+
+	- All options are specified on the command line.  There is a package
+	  available called the "options" package for making it easy for
+	  the programmer to handle command-line options.  The following
+	  options are to be provided by each state assignment program:
+
+	  -e  :  with an argument, indicates the encoding algorithm to be used
+	  -e h  :  indicates that a one-hot encoding is to be generated
+	  -e r :  indicates that random encoding is to be generated.
+	  -n # :  # indicates the number of random encodings that are
+	 	    generated -- the best is selected.
+	  -i  :  with an integer argument indicates the number of bits to
+                 use in the symbolic input encoding
+	  -s  :  with an integer argument indicates the number of bits to
+                 use in the symbolic state encoding
+	  -o  :  with an integer argument indicates the number of bits to
+                 use in the symbolic state encoding
+	  -h  :  returns a usage message (the options package returns a
+		 usage message when optUsage() is called)
+	  -v  :  verbose mode -- prints out information about the encoding
+                 process.  Information should be printed to stderr only.
+
+	  The -e option MUST be used to indicate the encoding algorithm
+	  used.  One-hot and random encodings don't have to be provided
+	  by the state assignment program, but if they are, they must
+	  be specified by -e h and -e r respectively.  Similarly, the
+	  number of encoding bits doesn't have to be an option to the
+	  program, but if it is, it must be specified with -i for the input
+	  bits, -s for the state bits, and -o for the output bits.
+	  The -h option must be provided.
+
+	- Any temporarily created files should be created in /tmp, not
+          in the current directory, since the user may not have write
+          permission in the current directory.  There is command called
+          mktemp that can be used to obtain an unused temporary filename.
+  	  This package should be used to avoid naming a file the same
+     	  name as an existing file in /tmp.  Any temporarily created
+	  files should be removed immediately.  An example follows:
+
+	  FILE *file;
+	  char buffer[] = "/tmp/SISXXXXXX";
+
+	  mktemp(buffer);
+	  file = fopen(buffer, "w+");
+	  unlink(buffer);
+	
+	  /* write information to the file */
+
+	  fflush(file);
+	  rewind(file);
+	  fscanf(file, "%s", string);
+	  fclose(file);
+
+	  This example creates a temporary file name with the mktemp
+	  command, opens the file for both reading and writing, then
+  	  unlinks the file (which ensures that the file is removed even
+ 	  if the program fails).  The file is then read by first executing
+	  fflush (which ensures that all buffered data that may not have
+	  been written to the file yet is written), rewinding
+	  the file pointer to the beginning of the file, and reading.
+	  Finally, the file is closed when it is no longer needed.
+
+	- A non-zero exit code should be returned if there is an error
+   	  during execution, and a 0 exit code returned if no error occurs.
+	  The program must finish with a call to exit (rather than a call
+	  to return).
+
+	- The errors encountered by the program should be sent to stderr
+	  rather than stdout.
+
+	- Any programs the state assignment program calls (i.e. espresso)
+	  should be documented in the manual page.  The programs that are
+	  called should be standard, released versions.  Any calls to external
+	  programs should not be hard-wired to a particular path in the
+	  code (instead, a variable should be passed down from the top-level
+  	  Makefile to the code indicating a path in which to find the
+	  program; or better, a system call should be used, assuming that
+          the program can be found in the user's path).
+
+2)  General Requirements
+
+	- All programs should be lint-free and contain a manual page
+	  (.1 file).
+
+	- The Makefile for the program should be compliant with the octtools
+	  Makefiles.  The program create-octtools-makefile can be used to
+	  create a Makefile with the proper format.
+  

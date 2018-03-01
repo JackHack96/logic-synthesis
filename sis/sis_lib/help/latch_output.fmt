@@ -1,0 +1,20 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   latch_output [-v n] node-list
+ 
+     The nodes passed as argument should be external primary outputs.  This
+     command forces the listed external primary outputs to be fed by a latch.
+     This is accomplished by moving latches forward by retiming.
+ 
+     The command fails if there is a combinational dependency between an
+     external primary input and one of the specified primary outputs.
+ 
+     This function is useful to guarantee that certain outputs will not
+     glitch. It is handy if that output is to control an external device such
+     as the write enable signal of a memory chip.
+ 
+     -v allows the specification of the verbosity level of the output.  The
+     default value is 0.
+ 
+                                                                            1

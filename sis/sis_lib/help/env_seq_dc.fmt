@@ -1,0 +1,26 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   env_seq_dc [-v n] filename.blif
+ 
+     This command extracts sequential don't cares based on unreachable
+     states. It builds the product of the current network with the network
+     passed as argument, computes the set of reachable states of the product,
+     extracts from that the set of reachable states of the original network,
+     and uses its complement to build a don't care network for the current
+     network. Any previous don't care network is discarded.
+ 
+     full_simplify or equiv_nets should be run afterwards to exploit these
+     don't cares.
+ 
+     External inputs of the current network are connected to matching exter-
+     nal outputs of the network passed as argument and vice-versa.  Nodes
+     match if and only if they have the same name.
+ 
+     -v allows the specification of the verbosity level of the output.  The
+     default value is 0.
+ 
+     The method used to compute the set of reachable states is the product
+     method. See extract_seq_dc for details.
+ 
+                                                                            1

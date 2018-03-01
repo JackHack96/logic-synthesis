@@ -1,0 +1,26 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/astg_to_stg.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:35 $
+.\"  *
+.\"
+.XX
+astg_to_stg [-v debug_level] [-m]
+.PP
+Generate a State Transition Graph
+from the current Signal Transition Graph.
+The State Transition Graph has one input signal for each signal in the Signal
+Transition Graph (both input and output), and one output signal for each output
+signal in the Signal Transition Graph.
+.PP
+If the initial marking is not defined, then a valid marking is searched for.
+.PP
+An error message results if no valid marking is found (in which case it
+might be advisable to define it in the ASTG specification file).
+.PP
+The \fB-m\fR option additionally performs a pre-minimization step that produces
+a State Transition Graph suitable for subsequent state encoding commands (such
+as, e.g., \fBastg_state_min\fR).

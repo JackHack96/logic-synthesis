@@ -1,0 +1,21 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   xl_cover [-n number] [-h heuristic number]
+ 
+     For mapping onto Xilinx architecture.  The initial network should have
+     all intermediate nodes with fanin less than or equal to number (default
+     is 5).  Mathony's binate covering algorithm is used to minimize the
+     number of nodes in the network.  Different heuristics are used to solve
+     the covering problem. The heuristic number can be specified by -h
+     option. Heuristic number can be 0, 1, 2 or 3:
+ 
+     -  0 (exact),
+ 
+     -  1 (Mathony's method - stop when first leaf is reached),
+ 
+     -  2 (For large examples),
+ 
+     -  3 (default:  automatically decides between 0 and 2)
+ 
+                                                                            1

@@ -1,0 +1,31 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/xl_cover.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:42 $
+.\"  *
+.\"
+.XX
+xl_cover [-n number] [-h heuristic number]
+.br
+.PP
+For mapping onto Xilinx architecture.
+The initial network
+should have all intermediate nodes with fanin less than
+or equal to \fBnumber\fP (default is 5).
+Mathony's binate covering algorithm is used to
+minimize the number of nodes in the network.
+Different heuristics are used to solve the covering
+problem. The heuristic number can be specified
+by \fB-h\fP option. Heuristic number can be 0, 1, 2 or 3:
+.br
+.PP
+-  0 (exact),
+.PP
+-  1 (Mathony's method - stop when first leaf is reached),
+.PP
+-  2 (For large examples),
+.PP
+-  3 (default:  automatically decides between 0 and 2)

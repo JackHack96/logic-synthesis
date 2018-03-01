@@ -1,0 +1,44 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/decomp.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:36 $
+.\"  *
+.\"
+.XX
+decomp [-gqd] [node-list]
+.PP
+Decompose all the nodes in the \fBnode-list\fR.  If the \fBnode-list\fR
+is not specified, all the nodes in the current network will be
+decomposed.  Decompostion will factor nodes and make the divisor a new
+node within the network, re-expressing other nodes in terms of this
+newly introduced node.  It is one of the transforms used to break
+down large functions into smaller pieces, usually at the cost of
+introducing a few more literals.
+.PP
+If the \fB-q\fR option (the default) is specified, the \fIquick decomp\fR 
+algorithm is used which
+extracts out an \fIarbitrary\fR kernel successively.  Because
+of the fast algorithm for generating an arbitrary kernel,
+\fBdecomp -q\fR is very fast compared with the \fBdecomp -g\fR.
+In most cases, the result is very close.
+This command is recommended at the early phase of the optimization.
+.PP
+If the \fB-g\fR option is specified, the \fIgood decomp\fR
+algorithm is used which
+successively extracts out the \fIbest kernel\fR until the function is
+factor free, and applies the same algorithm to all the kernels just extracted.
+This operation will give the best \fIalgebraic\fR decomposition for the nodes.
+But, since it generates all the kernels at each step, it takes more
+CPU time.  In general, \fBdecomp -q\fR should be used in the early
+stage of the optimization. Only at the end of the optimization, should
+\fBdecomp -g\fR be used.
+.PP
+If the \fB-d\fR option is specified, the disjoint decomposition
+is performed.  Currently, the disjoint decomposition is limited
+to the following simple algorithm:  It partitions the cubes
+into sets of cubes having disjoint variable support, creates
+one node for each partition, and a node (the root of the 
+decomposition) which is the OR of all the partitions.

@@ -1,0 +1,74 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/read_astg.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+read_astg [<file-name>]
+.PP
+Read a text description of an Asynchronous Signal Transition Graph (ASTG).
+The overall format follows the style of BLIF, and uses
+an adjacency list to describe the net interconnection
+structure.
+If no filename is specified, the description is read from stdin.
+.PP
+All names in the ASTG description must start with a letter,
+consist of letters, digits and underscores, and are case-sensitive.
+A signal transition is represented with a suffix: "+" means a low
+to high transition, "-" means high to low, "~" means toggles (changes
+to the opposite value.
+.PP
+ .model <model-name>
+.br
+This gives an arbitrary name to the ASTG, and it
+must be the first line of the model description.
+.PP
+ .inputs <signal-list>
+.br
+Specifies a list of names of ASTG input signals.
+Signals from multiple .inputs are concatenated.
+.PP
+ .outputs <signal-list>
+.br
+Specifies a list of names of ASTG output signals.
+Signals from multiple .inputs are concatenated.
+.PP
+ .internal <signal-list>
+.br
+Specifies a list of names of ASTG internal signals, i.e.
+signals which are only used to maintain state information.
+.PP
+ .dummy <name-list>
+.br
+Specifies a list of names which are accepted as dummy or null
+transitions.
+Null transitions are necessary to specify some behaviors using
+the ASTG syntax.
+By convention, the name "e" is used as a dummy signal (to
+represent epsilon transitions).
+ .graph
+.br
+Indicates the lines which follow describe the ASTG net structure
+using an adjacency list format.
+This must follow all signal declarations (.inputs, etc.).
+Net places are optional for simple constraints between two transitions;
+in this case an intervening place is generated automatically.
+Multiple instances of a transition are distinguished by following
+them with a slash and a copy number.
+For example, a second instance of transition "t+" can be
+specified by "t+/2".
+Copy numbers do not have to be consecutive.
+.PP
+ .marking {<place-list>}
+An initial marking can optionally be specified after the net structure
+has been given.
+Implied places (see .graph) between two transitions x* and y* can
+be specified using the syntax <x*,y*>.
+ .end
+This required line indicates the end of the ASTG description.
+.PP
+Error messages are printed for any unrecognized input sequences.

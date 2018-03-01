@@ -1,0 +1,27 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/xl_k_decomp.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:42 $
+.\"  *
+.\"
+.XX
+xl_k_decomp [-n support] [-p node_name] [-v verbosity_level] [-f MAX_FANINS_K_DECOMP] [-de]
+.PP
+Uses Karp_Roth disjoint decomposition to recursively decompose
+nodes of the network having fanin greater than 
+\fBsupport\fP to obtain nodes each having 
+fanin of at most \fBsupport\fP.
+If \fB-p node_name\fP is specified, only the node with the name
+\fBnode_name\fP is decomposed.
+Otherwise, all the nodes 
+that have fanin greater than \fBsupport\fP are
+decomposed.
+If \fB-d\fP option is specified, then if k_decomp fails to find a disjoint decomposition on a node,
+the node is not decomposd by cube-packing. Option \fB-e\fP allows an exhaustive search over all 
+possible partitions to pick the best decomposition of a node. Then the option \fB-f MAX_FANINS_K_DECOMP\fP
+sets the limit on maximum number of fanins of a node for exhaustive decomposition. If the number of fanins
+is higher, only the first input partition is considered. 
+

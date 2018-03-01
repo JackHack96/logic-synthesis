@@ -1,0 +1,16 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/quit.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+quit [-s]
+.PP
+Stop the program.  Does not save the current network before exiting.
+\fB-s\fP frees all the memory before quitting.  This is slower, and
+is used for finding core leaks or when \fIsis\fR is called from
+another program.

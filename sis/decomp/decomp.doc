@@ -1,0 +1,124 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/decomp/decomp.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:19 $
+ *
+ */
+Summary:
+    decomp_quick_network();
+    decomp_good_network();
+    decomp_disj_network();
+    decomp_quick_node();
+    decomp_good_node()
+    decomp_disj_node()
+    decomp_quick();
+    decomp_good();
+    decomp_disj();
+
+
+void
+decomp_quick_network(network)
+network_t *network;
+    Decompose all functions in the network  using quick 
+    decomposition algorithm (QD).  See MIS paper for the 
+    complete description of the algorithm.  The new 
+    functions are inserted into the network.
+
+
+void
+decomp_good_network(network)
+network_t *network;
+    Decompose all functions in the network  using good
+    decomposition algorithm (GD).  See MIS paper for the 
+    complete description of the algorithm.  The new 
+    functions are inserted into the network.
+
+
+void
+decomp_disj_network(network)
+network_t *network;
+    Decompose all functions in the network  using disjoint
+    decomposition algorithm (DD).  See decomp_disj for
+    for information about the algorithm.  The new functions 
+    are inserted into the network.
+
+
+void
+decomp_tech_network(network, and_limit, or_limit)
+network_t *network;
+    Decomposes the network into AND and OR gates where the
+    number of fanins of AND gates is less than or equal to 
+    and_limit and that of OR gates is less than or equal to
+    or_limit.  If and_limit (or_limit) is less than or equal 
+    to 0, the resulting network only consists of OR (AND)
+    gates.  Calling this routine with both and_limit and
+    or_limit less than or equal to 0 is a series error.
+    THIS ROUTINE DOES NOT DO KERNEL DECOMPOSITION.
+
+
+void
+decomp_quick_node(network, f)
+network_t *network;
+node_t *f;
+    Decompose f using quick decomposition algorithm (QD).
+    See MIS paper for the complete description of the
+    algorithm.  The new functions are inserted into the
+    network.
+
+
+void
+decomp_good_node(network, f)
+network_t *network;
+node_t *f;
+    Decompose f using good decomposition algorithm (GD).
+    See MIS paper for the complete description of the
+    algorithm.  The new functions are inserted into the
+    network.
+
+
+void
+decomp_disj_node(network, f)
+network_t *network;
+node_t *f;
+    Decompose f using disjoint decomposition algorithm (DD).
+    See decomp_disj for more information about the  
+    algorithm.  The new functions are inserted into the
+    network.
+
+
+array_t *
+decomp_quick(f)
+node_t *f;
+    Returns an array of nodes which forms the decomposition
+    of f using quick decomposition algorithm (QD).  See MIS 
+    paper for the complete description of the algorithm.  
+    f does not have to be in the network.  The root of the
+    decomposition is guaranteed to be the first element in 
+    the result. 
+
+
+array_t *
+decomp_good(f)
+node_t *f;
+    Returns an array of nodes which forms the decomposition
+    of f using good decomposition algorithm (GD).  See MIS 
+    paper for the complete description of the algorithm.  
+    f does not have to be in the network. The root of the
+    decomposition is guaranteed to be the first element in 
+    the result. 
+
+
+array_t *
+decomp_disj(f)
+node_t *f;
+    Returns an array of nodes which forms the decomposition
+    of f using disjoint decomposition algorithm (DD).
+    It partitions the cubes of f into sets of cubes having
+    disjoint variable support and creates a node for each 
+    partition of cubes and a node (the new f) which is the 
+    OR of all the partitions.  f does not have to be in the 
+    network.  The root of the decomposition is guaranteed to 
+    be the first element in the result. 

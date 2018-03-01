@@ -1,0 +1,16 @@
+# these have slightly higher costs because they will duplicate inverters ...
+
+GATE xor	5.5	O=a*!b+!a*b;	PIN * UNKNOWN 2 999 1.9 0.5 1.9 0.5
+GATE xor	5.5	O=!(a*b+!a*!b);	PIN * UNKNOWN 2 999 1.9 0.5 1.9 0.5
+
+GATE xnor	5.5	O=a*b+!a*!b;	PIN * UNKNOWN 2 999 2.1 0.5 2.1 0.5
+GATE xnor	5.5	O=!(!a*b+a*!b);	PIN * UNKNOWN 2 999 2.1 0.5 2.1 0.5
+
+GATE mux21	4.5	O=a*s+b*!s;
+    PIN a NONINV 1 999 1.6 0.4 1.6 0.4
+    PIN b NONINV 1 999 1.6 0.4 1.6 0.4
+    PIN s UNKNOWN 2 999 2.0 0.4 1.6 0.4
+GATE mux21	4.5	O=!(!a*s+!b*!s);
+    PIN a NONINV 1 999 1.6 0.4 1.6 0.4
+    PIN b NONINV 1 999 1.6 0.4 1.6 0.4
+    PIN s UNKNOWN 2 999 2.0 0.4 1.6 0.4

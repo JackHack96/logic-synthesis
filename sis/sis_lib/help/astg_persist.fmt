@@ -1,0 +1,16 @@
+ 
+   May 4, 1992                                                         SIS(1)
+ 
+   astg_persist [-p]
+ 
+     Add constraints to make an ASTG persistent.  With the -p option, nonper-
+     sistent transitions are printed but the ASTG is not modified.
+ 
+     For small ASTGs with very high concurrency, enforcing the ASTG per-
+     sistency property will partially and sometimes completely enforce the
+     Complete State Coding property (CSC).  If an ASTG has the CSC property,
+     the state of the circuit can be represented completely by the collection
+     of input, output and internal signals specified in the ASTG.  This sim-
+     plifies many synthesis algorithms.
+ 
+                                                                            1

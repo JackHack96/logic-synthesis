@@ -1,0 +1,171 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/array/array.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:16 $
+ *
+ */
+An array_t is a dynamically allocated array.  As elements are inserted
+the array is automatically grown to accomodate the new elements.
+
+The first element of the array is always element 0, and the last
+element is element n-1 (if the array contains n elements).
+
+This array package is intended for generic objects (i.e., an array of
+int, array of char, array of double, array of struct foo *, or even
+array of struct foo).
+
+Be careful when creating an array with holes (i.e., when there is no
+object stored at a particular position).  An attempt to read such a
+position will return a 'zero' object.  It is poor practice to assume
+that this value will be properly interpreted as, for example,  (double)
+0.0 or (char *) 0.
+
+In the definitions below, 'typeof' indicates that the argument to the
+'function' is a C data type; these 'functions' are actually implemented
+as macros.
+
+
+
+array_t *
+array_alloc(type, number)
+typeof type;
+int number;
+	Allocate and initialize an array of objects of type `type'.
+	Polymorphic arrays are okay as long as the type of largest
+	object is used for initialization.  The array can initially
+	hold `number' objects.  Typical use sets `number' to 0, and 
+	allows the array to grow dynamically.
+
+
+void
+array_free(array)
+array_t *array;
+	Deallocate an array.  Freeing the individual elements of the
+	array is the responsibility of the user.
+
+
+int
+array_n(array)
+array_t *array;
+	Returns the number of elements stored in the array.  If this is
+	`n', then the last element of the array is at position `n' - 1.
+
+
+type *
+array_data(type, array)
+array_t *array;
+typeof type;
+	Returns a normal `C' array from an array_t structure.  This is
+	sometimes necessary when dealing with functions which do not
+	understand the array_t data type.  A copy of the array is
+	returned, and it is the users responsibility to free it.  array_n()
+	can be used to get the number of elements in the array.
+
+
+array_t *
+array_dup(array)
+array_t *array;
+	Create a duplicate copy of an array.
+
+
+void
+array_insert(type, array, position, object)
+typeof type;
+array_t *array;
+int position;
+type object;
+	Insert a new element into an array at the given position.  The
+	array is dynamically extended if necessary to accomodate the
+	new item.  It is a serious error if sizeof(type) is not the
+	same as the type used when the array was allocated.  It is also
+	a serious error for 'position' to be less than zero.
+
+
+void
+array_insert_last(type, array, object)
+typeof type;
+array_t *array;
+type object;
+	Insert a new element at the end of the array.  Equivalent to:
+		array_insert(type, array, array_n(array), object).
+
+
+type
+array_fetch(type, array, position)
+typeof type;
+array_t *array;
+int position;
+	Fetch an element from an array.  A runtime error occurs on an
+	attempt to reference outside the bounds of the array.  There is
+	no type-checking that the value at the given position is
+	actually of the type used when dereferencing the array.
+
+
+type
+array_fetch_last(type, array)
+typeof type;
+array_t *array;
+	Fetch the last element from an array.  A runtime error occurs
+	if there are no elements in the array.  There is no type-checking 
+	that the value at the given position is actually of the type used 
+	when dereferencing the array.  Equivalent to:
+		array_fetch(type, array, array_n(array))
+
+
+array_t *
+array_join(array1, array2)
+array_t *array1;
+array_t *array2;
+	Returns a new array which consists of the elements from array1
+	followed by the elements of array2.
+
+
+void
+array_append(array1, array2)
+array_t *array1;
+array_t *array2;
+	Appends the elements of array2 to the end of array1.
+
+
+void
+array_sort(array, compare)
+array_t *array;
+int (*compare)();
+	Sort the elements of an array.  `compare' is defined as:
+
+		int 
+		compare(obj1, obj2)
+		char *obj1;
+		char *obj2;
+
+	and should return -1 if obj1 < obj2, 0 if obj1 == obj2, or 1
+	if obj1 > obj2.
+
+
+
+void
+array_uniq(array, compare, free_func)
+array_t *array;
+int (*compare)();
+void (*free_func)();
+	Compare adjacent elements of the array, and delete any duplicates.
+	Usually the array should be sorted (using array_sort) before calling
+	array_uniq.  `compare' is defined as:
+
+		int 
+		compare(obj1, obj2)
+		char *obj1;
+		char *obj2;
+
+	and returns -1 if obj1 < obj2, 0 if obj1 == obj2, or 1 if obj1 > obj2.
+
+	`free_func' (if non-null) is defined as:
+		
+		void
+		free_func(obj1)
+		char *obj1;
+
+	and frees the given array element.

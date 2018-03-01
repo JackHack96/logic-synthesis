@@ -1,0 +1,47 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   history [-h] [num]
+ 
+     Lists previous commands and their event numbers.  The -h option
+     suppresses printing the event number.  If num is specified, lists the
+     last num events.  Lists the last 30 events if num is not specified.
+ 
+     History Substitution:
+ 
+     The history substitution mechanism is a simpler version of the csh his-
+     tory substitution mechanism.  It enables you to reuse words from previ-
+     ously typed commands.
+ 
+     The default history substitution character is the `%' (`!' is default
+     for shell escapes, and `#' marks the beginning of a comment). This can
+     be changed using the "set" command. In this description '%' is used as
+     the history_char.  The `%' can appear anywhere in a line.  A line con-
+     taining a history substitution is echoed to the screen after the substi-
+     tution takes place.  `%' can be preceded by a `\' in order to escape the
+     substitution, for example, to enter a `%' into an alias or to set the
+     prompt.
+ 
+     Each valid line typed at the prompt is saved.  If the history variable
+     is set (see help page for set), each line is also echoed to the history
+     file.  You can use the "history" command to list the previously typed
+     commands.
+ 
+     Substitutions: at any point in a line these history substitutions are
+     available
+ 
+          %:0       Initial word of last command.
+          %:n       n'th argument of last command.
+          %$        Last argument of last command.
+          %*        All but initial word of last command.
+ 
+          %%        Last command.
+          %stuf     Last command beginning with "stuf".
+          %n        Repeat the n'th command.
+          %-n       Repeat the n'th previous command.
+          ^old^new  Replace "old" w/ "new" in previous command.
+ 
+          Trailing spaces are significant during substitution.
+          Initial spaces are not significant.
+ 
+                                                                            1

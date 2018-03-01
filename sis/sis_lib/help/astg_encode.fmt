@@ -1,0 +1,20 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_encode [-v debug_level] [-h] [-s] [-u]
+ 
+     Encodes the states of the current State Transition Graph using Tracey's
+     critical race-free encoding algorithm. Used to perform state encoding
+     for asynchronous circuits (see astg_state_min for a recommended script
+     file).
+ 
+     The -h option selects a faster heuristic (that may result in more state
+     variables).
+ 
+     The -s option prints out a brief summary of the encoding algorithm
+     results.
+ 
+     The -u option allows to enter user-defined codes (for debugging pur-
+     poses).
+ 
+                                                                            1

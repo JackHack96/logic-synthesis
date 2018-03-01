@@ -1,0 +1,19 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/main/sis.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:30 $
+ *
+ */
+char *
+sis_version()
+	Returns a static string giving the MIS version and compile timestamp.
+
+
+char *
+sis_library()
+	Returns a static string giving the directory which contains the
+	standard SIS library.  Used to find things like the default .sisrc,
+	the default optimization script, the on-line help files, etc.

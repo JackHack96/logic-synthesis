@@ -1,0 +1,501 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/network/network.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:33 $
+ *
+ */
+network_t *
+network_alloc()
+	Allocate and initialize a new network.
+
+
+void
+network_free(network)
+network_t *network;
+	Free a network.
+
+
+network_t *
+network_dup(network)
+network_t *network;
+	Make a duplicate copy of a network.
+
+
+network_t *
+network_create_from_node(node)
+node_t *node;
+	Create a new network with a single internal node with the same logic
+	function as 'node'.  Primary inputs will be created for this
+	new network with the same names as the fanins of 'node'.
+
+
+char *
+network_name(network)
+network_t *network;
+	Returns the name of the network.  Do not modify or free the returned
+	string.
+
+
+void
+network_set_name(network, name)
+network_t *network;
+char *name;
+	Sets the name of the network.  'name' is copied.
+
+
+int
+network_num_pi(network)
+network_t *network;
+	Return the number of primary inputs for the network.
+
+
+int
+network_num_po(network)
+network_t *network;
+	Return the number of primary outputs for the network.
+
+
+int
+network_num_internal(network)
+network_t *network;
+	Return the number of internal nodes in the network.
+
+
+node_t *
+network_get_pi(network, index)
+network_t *network;
+int index;
+	Return the index'th primary input of the network.  The primary
+	inputs are numbered starting from 0.  Returns NIL(node_t) if
+	index >= network_num_pi(network).  Potentially a very slow way
+	to access an arbitrary primary input.
+
+
+node_t *
+network_get_po(network, index)
+network_t *network;
+int index;
+	Return the index'th primary output of the network.  The primary
+	outputs are numbered starting from 0.  Returns NIL(node_t) if
+	index >= network_num_po(network).  Potentially a very slow way
+	to access an arbitrary primary output.
+
+
+int
+network_check(network)
+network_t *network;
+	Performs various consistency checks on a network.  Used for
+	debugging the network package.  If the network is constructed
+	using only the routines in this package, it should never fail
+	this check.  Returns 1 if the network is okay, or 0 if the
+	network contains some internal inconsistency.  In the case of
+	error, error_string() (see error.doc) can be used to retrieve
+	a description of the error.
+
+int
+network_is_acyclic(network)
+network_t *network;
+	Checks that the network does not contain a cycle.  Returns 1
+	if there are no cycles, or 0 if there is a cycle.  In the case
+	of a cycle, error_string() (see error.doc) can be used to
+	retrieve a description of the nodes on the first cycle 
+	encountered.
+
+/* Generators */
+
+
+
+foreach_node(network, gen, node)
+network_t *network;
+lsGen gen;
+node_t *node;
+	Generates over the all nodes in a network (that is, including
+	primary inputs and primary outputs).  
+
+
+foreach_primary_input(network, gen, pi)
+network_t *network;
+lsGen gen;
+node_t *pi;
+	Generates over the primary inputs of a network.
+
+
+foreach_primary_output(network, gen, po)
+network_t *network;
+lsGen gen;
+node_t *po;
+	Generates over the primary outputs of a network.  
+	
+
+
+    The generators are macro's.  Typical usage is:
+		    
+	    foreach_node(network, gen, node) {
+		/* do something with node */
+	    }
+
+    If the loop is terminated abnormally (i.e., with a break or return), 
+    lsFinish() must be called on the generator.
+
+    In general, the generator operation is not well-defined if any attempt
+    is made to add a node to the network during the generation loop.
+
+void
+network_add_node(network, node)
+network_t *network;
+node_t *node;
+	Adds a node to the network.  The node will be assigned
+	automatically generated names (both long and short) if it is
+	currently unnamed.  It is a serious error if the node has the
+	same name (or same short_name) as any node already in the
+	network.
+
+
+void
+network_add_primary_input(network, node)
+network_t *network;
+node_t *node;
+	Adds a primary input node to the network.  The node will be assigned
+	automatically generated names (both long and short) if it is
+	currently unnamed.  It is a serious error if the node has the
+	same name (or same short_name) as any node already in the
+	network.
+
+
+node_t *
+network_add_primary_output(network, node)
+network_t *network;
+node_t *node;
+	Designate the node 'node' as a primary output node.  Creates a
+	new primary output (of type PRIMARY_OUTPUT) node which is returned.
+	Node must be a node already in the network.
+
+
+void
+network_delete_node(network, node)
+network_t *network;
+node_t *node;
+	Deletes a node from the network.  The behavior is undefined if
+	this routine is called from within a generator.  It is a
+	serious error to attempt to delete a node which is not already
+	in the given network.
+
+
+void
+network_delete_node_gen(network, gen)
+network_t *network;
+lsGen gen;
+	Deletes the last node generated by the generator gen.  Behavior
+	is well-defined when called from within a generator loop.  It
+	is a serious error to attempt to delete a node which is not
+	already in the given network.
+
+
+node_t *
+network_find_node(network, name)
+network_t *network;
+char *name;
+	Find the node in the network with the given name.  Note that
+	the behavior of this routine changes depending on the 
+	name_mode variable (i.e., whether to look at the long names,
+	or the short names).
+	
+
+
+void
+network_change_node_type(network, node, new_type)
+network_t *network;
+node_t *node;
+node_type_t new_type;		/* see node.doc for definition */
+	Change the type of a node.  In particular, this can be
+	used to designate certain nodes as either primary inputs
+	or primary outputs.
+
+
+void
+network_change_node_name(network, node, new_name)
+network_t *network;
+node_t *node;
+char *new_name;
+	Change the name of a node.  new_name is taken directly; you may
+	wish to use strsav() to make a duplicate copy which is passed
+	to network_change_node_name.
+
+
+int
+network_collapse(network)
+network_t *network;
+	Collapse a network into one level of nodes (i.e., two-level).
+	Returns 1 to indicate if the network changes, 0 otherwise.
+
+
+int
+network_sweep(network)
+network_t *network;
+	Propogate (and eliminate) constant-valued nodes in the network.  
+	Also deletes inverter and buffer nodes, and nodes which do not
+	fanout anywhere.  Returns 1 if the network is changed, or
+	returns 0 if not.
+
+
+int
+network_cleanup(network)
+network_t *network;
+	Removes internal nodes which do not fanout anywhere.  Returns 1
+	if the network is changed, or returns 0 if not. 
+
+
+array_t *
+network_dfs(network)
+network_t *network;
+	Returns a vector of nodes ordered in a depth-first manner from the
+	outputs.  Includes PRIMARY_INPUT, PRIMARY_OUTPUT and INTERNAL nodes.
+	(The nodes are ordered such that every node appears somewhere after
+	all of its transitive fanin nodes.)
+
+
+array_t *
+network_dfs_from_input(network)
+network_t *network;
+	Returns a vector of nodes ordered in a depth-first manner from the
+	inputs.  Includes PRIMARY_INPUT, PRIMARY_OUTPUT and INTERNAL nodes.
+	(The nodes are ordered such that every node appears somewhere after
+	all of its transitive fanout nodes.)
+
+
+
+array_t *
+network_tfi(node, level)
+node_t *node;
+int level;
+	Returns a vector of nodes ordered in a depth-first search towards
+	the primary inputs from a given node.  Nodes up to a maximum depth 
+	of level are returned.  (Level 0 is no nodes, level 1 corresponds
+	to the immediate fanin nodes, etc.)  The list includes PRIMARY_OUTPUT
+	nodes as appropriate.  The list does NOT include the node `node' itself.
+
+
+array_t *
+network_tfo(node, level)
+node_t *node;
+int level;
+	Returns a vector of nodes ordered in a depth-first search towards
+	the primary outputs from a given node.  Nodes up to a maximum depth 
+	of level are returned.  (Level 0 is no nodes, level 1 corresponds
+	to the immediate fanout nodes, etc.)  The list includes PRIMARY_INPUT
+	nodes as appropriate.  The list does NOT include the node `node' itself.
+
+
+pPLA
+network_to_pla(network)
+network_t *network;
+	Returns the network as an Espresso PLA structure.  A copy
+	is made of the network, this is collapsed to two-levels, and
+	then mapped into the Espresso multiple-output PLA format.
+	The original network is unaffected.  The cube_size (that
+	nasty Espresso global variable) is set to reflect the PLA
+	that is returned.  No other node/network operations may be 
+	performed until discard_pla() is called.
+
+
+pPLA
+espresso_read_pla(fp)
+FILE *fp;
+	Uses the espresso PLA read routine to read a PLA from a file.
+	Returns NIL(PLA_t) if there is any error reading the PLA.
+	The cube_size (that nasty Espresso global variable) is set 
+	to reflect the PLA that is returned.  No other node/network
+	operations may be performed until discard_pla() is called.
+
+
+void
+discard_pla(PLA)
+pPLA PLA;
+	After using network_to_pla(), or espresso_read_pla(), normal
+	node/network operations CANNOT be performed until the PLA
+	is discarded using this routine.  Free's the PLA, and restores 
+	the `cube' for normal SIS operation.
+
+
+network_t *
+pla_to_network(PLA)
+pPLA PLA;
+	Maps a PLA into a network.  This creates a two-level structure
+	of NOR-NOR gates (surrounded by inverters to get the phase
+	correct).  That is, each node in the resulting network will be
+	either an inverter, or a NOR gate.  Assumes the Espresso global
+	variable `cube' accurately describes the layout of the PLA.
+	(This will be the case if the PLA is created using
+	network_to_pla(), or espresso_read_pla().)  If the PLA is not a
+	multiple-output PLA (i.e., if it contains any multiple-valued
+	variables), then NIL(network_t) is returned.
+
+
+
+network_t *
+network_espresso(network)
+network_t *network;
+	Runs espresso on a network and returns the optimized network.
+	Uses pla_to_network() to create a NOR-NOR network.  The original
+	network is unaffected.
+
+
+
+void
+network_reset_long_name(network)
+network_t *network;
+	Re-create unique names for all nodes which have 'made-up' names.
+	(i.e., a name of the form [%d]).  Also renumbers them starting
+	from 1. 
+
+
+void
+network_reset_short_name(network)
+network_t *network;
+	Re-create short names for all nodes.  Renumbers the short names
+	starting with a.  Primary inputs and primary outputs are
+	assigned the lowest valued names, followed by internal nodes.
+
+The following routines are for supporting sequential extensions:
+
+node_t *
+network_latch_end(node)
+node_t *node;
+
+        Returns the other end of the latch associated with the `node'.
+        If there is no latch associated will return NIL(node_t).
+        It is a serious error if `node' is not part of a network.
+
+void
+network_create_latch(network, l, n1, n2)
+network_t *network;
+latch_t **l;
+node_t *n1, *n2;
+
+        Insert a latch between nodes n1 and n2.  If node n1 is a fanin
+        of node n2, a latch is inserted between them, and the new latch
+        structure is returned through the variable l.  The fields for the
+        new latch can be filled in using the latch package routines (e.g.
+        latch_set_initial_value).  The input and output fields should not
+        be touched.
+
+        If node n1 is a primary output and node n2 is a primary input, and
+        there is already a latch between them, that latch is returned.
+
+        If node n1 is a primary output and node n2 is a primary input and
+        neither is already part of a latch, a latch is created between
+        them and the structure is returned.  Warning:  the primary output
+        node that is passed in will no longer be observable as a primary
+        output, it is now only a latch input.  To maintain the observability
+        property, an extra primary output node must be created by the user.
+        This function is intended to be used with network_disconnect and
+        network_connect when passed a primary output and a primary input node.
+
+        If any other combination of nodes is given, the routine prints
+        a warning message and fails.
+
+void
+network_delete_latch(network, l)
+network_t *network;
+latch_t *l;
+
+        Delete the latch l from the network.  The latch definition is
+	deleted from the network's list of latches and the latch data
+	structure is freed.  The input and output nodes of the latch
+	remain unchanged.  To reconnect the input and output nodes of
+	the latch, the routine network_connect must be called.  Note
+	that if a latch is deleted, and its input and output nodes are
+	reconnected, the don't care network should be updated
+	accordingly - it may depend on these two nodes.
+
+void
+network_disconnect(node1, node2, po_ptr, pi_ptr)
+node_t *node1, *node2, **po_ptr, **pi_ptr;
+
+        Breaks the net between `node1' and `node2'. The  broken net now
+        has a primary output node (returned by *po_ptr) attached to `node1'
+        and a primary input node (returned by *pi_ptr) that fans into
+        `node2' instead of `node1'. `node1' and `node2' must belong to
+        the same network.
+
+void
+network_connect(node1, node2)
+node_t *node1, *node2;
+
+        `node1' should be of type primary output and `node2' should be
+        of type primary input. These two are electrically shorted and
+        removed from the network. i.e. in each fanout of `node2', `node2'
+        is replaced by the input of `node1'.
+
+int
+network_num_latch(network)
+network_t *network;
+
+        Returns the number of latches currently in the network.
+
+graph_t *
+network_stg(network)
+network_t *network;
+
+        Given a network, returns the associated state transition graph, or
+        NULL if no graph exists.
+
+void
+network_set_stg(network,stg)
+network_t *network;
+graph_t *stg;
+
+        Sets the stg for `network' to `stg'.
+
+
+int
+network_stg_check(network)
+network_t *network;
+
+        Returns 1 if the network covers its stg, 0 otherwise.
+
+int
+network_is_real_po(network, node)
+network_t *network;
+node_t *node;
+
+	Returns 1 if the node is a real primary output of the network,
+	0 otherwise.  (Some node with type primary output are really
+      	the inputs to latches or the outputs of latch control nodes.)
+
+int
+network_is_real_pi(network, node)
+network_t *network;
+node_t *node;
+
+	Returns 1 if the node is a real primary output of the network,
+	0 otherwise.
+
+int
+network_is_control(network, node)
+network_t *network;
+node_t *node;
+
+	Returns 1 if the node is a latch control node of the network,
+	0 otherwise.
+
+node_t *
+network_get_control(network, control)
+network_t *network;
+node_t *control;
+
+	If the node 'control' is actually a latch control node or the
+        latch-control primary output of a control node, the primary-output
+        latch-control is returned.  Otherwise, NIL(node_t) is returned.
+
+/* Sequential Generators */
+
+foreach_latch(network, gen, l)
+network_t *network;
+lsGen gen;
+latch_t *l;
+
+	Generates over all latches in a network.

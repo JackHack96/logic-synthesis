@@ -1,0 +1,26 @@
+GATE zero	0	O=CONST0;
+GATE one	0	O=CONST1;
+GATE inv1	2	O=!a;		PIN * INV 1 999 0.9 0.3 0.9 0.3
+GATE nand2	3	O=!(a*b);	PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE nand3	4	O=!(a*b*c);	PIN * INV 1 999 1.1 0.3 1.1 0.3
+GATE nand4 	5	O=!(a*b*c*d);	PIN * INV 1 999 1.4 0.4 1.4 0.4
+GATE nor2	3	O=!(a+b);	PIN * INV 1 999 1.4 0.5 1.4 0.5
+GATE nor3	4	O=!(a+b+c);	PIN * INV 1 999 2.4 0.7 2.4 0.7
+GATE nor4	5	O=!(a+b+c+d);	PIN * INV 1 999 3.8 1.0 3.8 1.0
+GATE aoi21	4	O=!(a*b+c);	PIN * INV 1 999 1.6 0.4 1.6 0.4
+GATE aoi22	5	O=!(a*b+c*d);	PIN * INV 1 999 2.0 0.4 2.0 0.4
+GATE oai21	4	O=!((a+b)*c);	PIN * INV 1 999 1.6 0.4 1.6 0.4
+GATE oai22	5	O=!((a+b)*(c+d));PIN * INV 1 999 2.0 0.4 2.0 0.4
+# note: the duplicate forms for xor, xnor, and mux21 are necessary ...
+GATE xor	5	O=a*!b+!a*b;	PIN * UNKNOWN 2 999 1.9 0.5 1.9 0.5
+GATE xor	5	O=!(a*b+!a*!b);	PIN * UNKNOWN 2 999 1.9 0.5 1.9 0.5
+GATE xnor	5	O=a*b+!a*!b;	PIN * UNKNOWN 2 999 2.1 0.5 2.1 0.5
+GATE xnor	5	O=!(!a*b+a*!b);	PIN * UNKNOWN 2 999 2.1 0.5 2.1 0.5
+GATE mux21	4	O=a*s+b*!s;
+    PIN a NONINV 1 999 1.6 0.4 1.6 0.4
+    PIN b NONINV 1 999 1.6 0.4 1.6 0.4
+    PIN s UNKNOWN 2 999 2.0 0.4 1.6 0.4
+GATE mux21	4	O=!(!a*s+!b*!s);
+    PIN a NONINV 1 999 1.6 0.4 1.6 0.4
+    PIN b NONINV 1 999 1.6 0.4 1.6 0.4
+    PIN s UNKNOWN 2 999 2.0 0.4 1.6 0.4

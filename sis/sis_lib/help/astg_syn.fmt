@@ -1,0 +1,39 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_syn [-m] [-r] [-v debug_level] [-x]
+ 
+     Synthesize from the current signal transition graph a two-level imple-
+     mentation which is hazard-free under the unbounded gate delay model
+     (i.e., gates have unbounded delays, wires have zero delays).
+ 
+     The synthesis is performed in two steps.  The first step derives a state
+     graph from the ASTG by performing a reachability analysis.  If no ini-
+     tial marking is given, then astg_syn will try to find a live, safe ini-
+     tial marking.  The second step uses the state graph generated in step
+     one to perform hazard analysis and synthesis.  All static hazards and
+     critical races are removed.  astg_syn tries to remove all dynamic
+     hazards arising from multiple input or output changes.  When it cannot
+     remove such hazards, it will print the terms which can potentially pro-
+     duce hazards and the conditions under which hazards can be produced.
+     From this user can remove the dynamic hazards by removing some con-
+     currency.  The resulting implementation may be neither prime nor
+     irredundant.
+ 
+     The following options are not intended for general use.
+ 
+     The -m does not perform cube reduction and always returns a prime cover
+     implementation free of static hazards.  As a consequence, dynamic
+     hazards due to multiple input/output changes may not be removed.
+ 
+     The -r option runs ESPRESSO in single-output mode. The implementation
+     will be prime and irredundant, but may have static hazards and dynamic
+     hazards.
+ 
+     The -v option specifies the debug level.
+ 
+     The -x assumes that a state graph has already been derived, and perform
+     synthesis directly from the given state graph.   State graph can be
+     derived by using _astg_flow.
+ 
+                                                                            1

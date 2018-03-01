@@ -1,0 +1,19 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/astg_stg_scr.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:45 $
+.\"  *
+.\"
+.XX
+astg_stg_scr [-v debug_level] 
+.PP
+Transforms the current State Transition Graph into one that satisfies the
+Single Cube Restriction. 
+.PP
+The Single Cube Restriction means that each state has exactly one associated
+value of input signals under which it is entered. The result is accomplished by
+state duplication, but the result may be non-minimal.
+This command is required (and useful) before \fBstg_to_astg\fR.

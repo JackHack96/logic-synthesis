@@ -1,0 +1,37 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   c_opt -[nGI] -[dSHmM]#.#
+ 
+     Computes the optimal clock for a given clocking scheme.  Finds rise and
+     fall times for the clock events. A single clock multi-phase clocking
+     scheme is assumed.
+ 
+     The algorithm works on mapped and unmapped networks (default is mapped).
+     Note that to ensure every node is mapped, you should read in the blif
+     file, read in the library, map the circuit and then run the optimal
+     clocking algorithm. _I_t _i_s _a _k_n_o_w_n _f_a_c_t _t_h_a_t _r_e_a_d_i_n_g _i_n _a _m_a_p_p_e_d _n_e_t_l_i_s_t
+     _o_f_t_e_n _c_a_u_s_e_s _s_o_m_e _n_o_d_e_s _t_o _r_e_m_a_i_n _u_n-_m_a_p_p_e_d. The command will abort in
+     such a case. The -n option is used for the _u_n_i_t-_f_a_n_o_u_t delay model.
+ 
+     By default the algorithm uses a special Linear program solver based on
+     the Floyd-Warshall algorithm. An alternate formulation using binary
+     search is available (-B) as long as _n_o _m_i_n_i_m_u_m _d_u_t_y _c_y_c_l_e _c_o_n_s_t_r_a_i_n_t_s
+     _a_r_e _i_m_p_o_s_e_d.
+ 
+     The -I option is used for _2 _p_h_a_s_e _i_n_v_e_r_t_e_d _c_l_o_c_k_i_n_g _s_c_h_e_m_e_s _o_n_l_y.
+ 
+     The user can give global set-up (and hold) times for all memory elements
+     using the -S (-H) option. By default it computes the set-up and hold
+     times from the library.
+ 
+     The -m option permits the user to specify a minimum phase separation as
+     a fraction of the clock cycle. Similarly the -M option sets the maximum
+     phase separation as a fraction of the clock cycle.
+ 
+     The -d value selects the debug level (range 0-4).
+ 
+     This routine runs faster (upto 2X) when compiled with the priority queue
+     library from octtools (use flag -DOCT when compiling this directory).
+ 
+                                                                            1

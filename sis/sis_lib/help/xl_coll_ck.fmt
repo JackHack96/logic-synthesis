@@ -1,0 +1,20 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   xl_coll_ck [-n support] [-c collapse_input_limit] [-kv]
+ 
+     Assumes a feasible network.  If the number of inputs to the network is
+     at most collapse_input_limit (default 9), collapse the network, apply
+     Roth-Karp decomposition and cofactoring schemes.  Pick the best result
+     and compare with the original network (before collapsing). If the number
+     of nodes is smaller, accept the better decomposition. Does nothing if n
+     = 2.
+ 
+     -k: does not apply Roth-Karp decomposition, just use cofactoring.
+ 
+     -n: support is the size of the TLU block (default = 5)
+ 
+     -v: turns on the verbosity flag.  When used, information about the
+        algorithm is printed as it executes.
+ 
+                                                                            1

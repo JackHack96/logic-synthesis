@@ -1,0 +1,31 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/remove_dep.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:44 $
+.\"  *
+.\"
+.XX
+remove_dep [-o] [-v n] input output-list
+.PP
+The first node passed as argument should be an external primary input.
+The remaining nodes passed as arguments should be external primary outputs.
+This command assumes that the dependency between the given input
+and the given outputs is structural but not logical, and it removes
+these structural dependencies by forcing the input at 0 in the cone
+of logic going from the input to the listed outputs.
+.PP    
+The logic that depends on the given input and is shared with outputs
+not passed as arguments is duplicated.
+.PP
+This function is useful when performing hierarchical optimization,
+to guarantee that sis does not introduce dependencies that will create
+combinational logic loops when the hierarchy is reassembled.
+.PP
+\fB-v\fR allows the specification of the verbosity level of the output.
+The default value is 0.
+.PP
+With option \fB-o\fR the constant 1 is used instead of the constant 0
+to replace the input.

@@ -1,0 +1,37 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/simulate.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:38 $
+.\"  *
+.\"
+.XX
+simulate in1 in2 in3 ...
+.PP
+For the current implementation of the network, given a value ('0' or '1')
+for each of the primary inputs of the network, simulate prints the value
+produced at each of the primary outputs.  The correspondence of the
+input values and the primary inputs can be determined by the order in
+which the primary inputs and outputs are printed using the \fBwrite_eqn\fR
+command.
+.PP
+For example, for a three-input AND gate, the command
+
+\fB	simulate 1 1 0\fR
+
+will produce a 
+
+	0
+.PP
+NOTE:  For sequential circuits, this command essentially assumes that all
+latches are clocked simultaneously by a single clock.
+Simulation will take the current values on the latches (which can be
+displayed by using \fBprint_latch\fR) and the user-supplied primary
+input values
+and simulate the network, placing the new latch values in the
+current state of the latches.
+The values of the outputs and the new state are printed.
+If a more sophisticated simulation method is needed, timing simulation
+should be used; this is not currently implemented in SIS.

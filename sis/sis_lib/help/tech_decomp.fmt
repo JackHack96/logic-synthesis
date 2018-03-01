@@ -1,0 +1,12 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   tech_decomp [-a and-limit] [-o or-limit]
+ 
+     Decompose all the nodes in the current network into AND gates or OR
+     gates or both depending on whether -a, -o, or both flags are specified.
+     The fanins of AND gates will be no more than and-limit and that of the
+     OR gates will be no more than or-limit.  and-limit and or-limit, if
+     specified, must be at least 2.  The default option is -a 2.
+ 
+                                                                            1

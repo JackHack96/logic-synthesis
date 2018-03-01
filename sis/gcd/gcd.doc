@@ -1,0 +1,26 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/gcd/gcd.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:23 $
+ *
+ */
+Summary:
+	gcd_prime_factorize();
+	gcd_nodevec();
+
+array_t *
+gcd_prime_factorize(f)
+node_t *f;
+	Returns a vector of nodes, each of which is a prime factor of f.  The
+	first node in the vector is the cube divisor of f, (the node 1 if f is
+	cube-free).  Error if f == 0 or f is nil.
+
+
+node_t *
+gcd_nodevec(nodelist)
+array_t *nodevec;
+	Given a vector of nodes, f1,..fn, returns their greatest common
+	divisor. Error if the vector is empty, or if every fi == 0.

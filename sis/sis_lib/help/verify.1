@@ -1,0 +1,25 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/verify.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:41 $
+.\"  *
+.\"
+.XX
+verify [-m method] [-v] file1 [file2]
+.PP
+Verify the Boolean equivalence of two networks.  \fBfile1\fR
+is compared with the current network when \fBfile2\fR is not
+specified, otherwise, \fBfile1\fR is compared with \fBfile2\fR.
+The input and output variables from two networks are associated
+by their names.
+.PP
+The \fB-m\fR option specifies the verification method.
+If \fBmethod\fR is \fIclp\fR (default), two networks are collapsed and
+compared as PLA's.
+If \fBmethod\fR is \fIbdd\fR, the BDD's are constructed for both networks and
+compared.
+.PP
+The \fB-v\fR option engages the "verbose" mode of verify.

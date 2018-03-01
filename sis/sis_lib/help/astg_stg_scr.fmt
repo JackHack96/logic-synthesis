@@ -1,0 +1,14 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_stg_scr [-v debug_level]
+ 
+     Transforms the current State Transition Graph into one that satisfies
+     the Single Cube Restriction.
+ 
+     The Single Cube Restriction means that each state has exactly one asso-
+     ciated value of input signals under which it is entered. The result is
+     accomplished by state duplication, but the result may be non-minimal.
+     This command is required (and useful) before stg_to_astg.
+ 
+                                                                            1

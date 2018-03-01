@@ -1,0 +1,61 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/xl_imp.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:42 $
+.\"  *
+.\"
+.XX
+xl_imp [-n support] [-c cover_node_limit] [-l lit_bound] [-Aabm]
+     [-g good_decomp] [-M MAX_FANINS]
+     [-v verbosity level] 
+.PP
+Given an infeasible network, replaces each internal infeasible node
+by a set of feasible nodes. These nodes are derived by trying
+different decomposition strategies (like xl_ao, xl_split,
+cofactoring, decomp -d and tech_decomp -a 2 -o 2), each followed
+by a partition/cover phase. In the end, picks the best result (the
+one with minimum number of feasible nodes). The result is a feasible network. 
+.PP
+\fB-n\fP: support is the size of the TLU block (default = 5)
+.br
+.PP
+\fB-A\fP  do not move fanins around after decomp -g.
+.br
+.PP
+\fB-a\fP:  do not apply all decomposition methods. Only cube-packing on
+sum-of-product (SOP), cube-packing on factored-form (if g flag
+!= 0) and cofactoring. If this option is not specified, also apply
+Roth-Karp, tech_decomp, decomp -d, and xl_split.
+.br
+.PP
+\fB-b\fP:  for best results, use this option.
+Effective on a node only if its number of
+literals is greater than lit_bound. In that case, after the good decomposition,
+recursively call the command for each of the nodes in 
+decomposition. Time consuming.
+.br
+.PP
+\fB-c\fP:  sets the limit for the cover algorithm used after each
+decomposition. If the number of feasible nodes for an infeasible node
+is no more than cover_node_limit, then exact cover is used, else
+heuristic (-h 3) option is used. (default = 25).
+.br
+.PP
+\fB-g\fP:  if 0 (default), do not use decomp -g for cube-packing, just
+SOP. If 1, use only decomp -g, not SOP. If 2, use both decomp -g and SOP for
+cube-packing, and pick the best result.
+.br
+.PP
+\fB-l\fP:  if the infeasible node has greater than lit_bound literals,
+does a good decomposition of the node (i.e. decomp -g) (default: 50)
+.br
+.PP
+\fB-m\fP:  While doing partition, move fanins around for a node with at
+most MAX_FANINS (default 15).  
+.br
+.PP
+\fB-v\fP: this sets the verbosity level (amount of information printed
+as the algorithm proceeds) to \fBverbosity_level\fP.

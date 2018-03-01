@@ -1,0 +1,90 @@
+GATE	"1310:physical"		16	O=!1A; 
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"1120:physical"		24	O=!(1A+1B);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"1130:physical"		32	O=!(1A+1B+1C);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"1140:physical"		40	O=!(1A+1B+1C+1D);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"1220:physical"		24	O=!(1A*1B);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"1230:physical"		32	O=!(1A*1B*1C);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"1240:physical"		40	O=!(1A*1B*1C*1D);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"1660:physical"		32	O2=1A*1B;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"1670:physical"		40	O2=1A*1B*1C;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"1680:physical"		48	O2=1A*1B*1C*1D;	 
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"1760:physical"		32	O1=1A+1B;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"1770:physical"		40	O1=1A+1B+1C;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"1740:physical"		48	O=1A+1B+1C+1D;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"1870:physical"		40	O=!(1A*1B+2C*2D);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"1880:physical"		32	O=!(1A+2B*2C);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"1860:physical"		40	O=!((1A+1B)*(2C+2D));
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"1890:physical"		32	O=!(1A*(2B+2C));
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"1970:physical"		56	O=1A*1B+2C*2D;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"1810:physical"		72	O=1A*1B+2C*2D+3E*3F;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"1910:physical"		96	O=1A*1B+2C*2D+3E*3F+4G*4H; 
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"1930:physical"		64	O=1A*1B*1C+2D*2E*2F;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"2310:physical"		40	O=1A*!1B+!1A*1B;
+PIN	* UNKNOWN 1 999 1 .2 1 .2
+
+GATE	"2310:physical"		40	O=!(1A*1B+!1A*!1B);
+PIN	* UNKNOWN 1 999 1 .2 1 .2
+
+GATE	"2350:physical"		48	O=1A*1B+!1A*!1B;
+PIN	* UNKNOWN 1 999 1 .2 1 .2
+
+GATE	"2350:physical"		48	O=!(1A*!1B+!1A*1B);
+PIN	* UNKNOWN 1 999 1 .2 1 .2
+
+GATE	"1610:physical"		32	O=!1A*2B;			
+PIN	1A INV 1 999 1 .2 1 .2
+PIN	2B NONINV 1 999 1 .2 1 .2
+
+GATE	"1620:physical"		32	O=1A+!2B;
+PIN	1A NONINV 1 999 1 .2 1 .2
+PIN	2B INV 1 999 1 .2 1 .2
+
+GATE	"1350:physical"		48	O=1D1*3SEL+2D2*!3SEL;		
+PIN	1D1 NONINV 1 999 1 .2 1 .2
+PIN	2D2 NONINV 1 999 1 .2 1 .2
+PIN	3SEL UNKNOWN 1 999 1 .2 1 .2
+
+GATE 	"1430:physical"	8	O=CONST1;
+GATE 	"1440:physical"	8	O=CONST0;

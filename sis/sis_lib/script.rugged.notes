@@ -1,0 +1,13 @@
+script.rugged.notes:
+
+This is a new script which is very robust according to our experiments.
+If the initial circuit is a multi-level circuit we propose running
+"full_simplify" before running this script. If the initial circuit
+is a PLA, we propose running "resub -a; simplify -d" before running
+this script. This script can be run repeatedly until no further
+improvement is possible. However one must keep track of the results
+because at times further running of the script can slightly deteriorate
+the final result. There are some set of circuits on which "full_simplify"
+can not finish. These are usually circuits for which BDD's can not be 
+built. We suggest running the script without "full_simplify" in such cases.
+It is sometimes possible to run "full_simplify" at the later stages.

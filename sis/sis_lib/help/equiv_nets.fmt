@@ -1,0 +1,24 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   equiv_nets [-v n]
+ 
+     This command simplifies the network using net equivalence.  With
+     full_simplify, it is one of the two routines able to take advantage of
+     network don't cares.
+ 
+     equiv_nets groups all nets of the network by equivalence classes.  Two
+     nets are equivalent if and only if they always compute the same function
+     with respect to the external care set. It only uses input don't cares,
+     not observabiilty don't cares.
+ 
+     For each equivalence class, equiv_nets selects a lowest cost net, and
+     moves the fanout of all the other nets of the equivalence class onto the
+     lowest cost net.
+ 
+     Finally, it calls the command sweep.
+ 
+     -v allows the specification of the verbosity level of the output.  The
+     default value is 0.
+ 
+                                                                            1

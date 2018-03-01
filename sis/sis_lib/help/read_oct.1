@@ -1,0 +1,20 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/read_oct.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+read_oct cell[:view]
+.PP
+Read in a network from the Oct facet `cell:view:contents'.
+If `view' is not specified, it defaults to `logic'.
+The network name is set to `cell:view'.
+Oct nets without names are given machine-generated unique names.
+All primary inputs and outputs are named the same as the equivalent
+Oct formal terminals of the facet.
+.PP
+This operation replaces the current network with the new network.

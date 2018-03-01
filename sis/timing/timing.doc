@@ -1,0 +1,59 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/timing/timing.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:59 $
+ *
+ */
+This is a package that is used for clock verification and optimal clock 
+computation. The circuit is assumed to have memory elements that can 
+i) flip-flops (falling or rising edge triggered)
+ii) level-sensitive latches (active high or active low).
+The gate model is a pin-to-pin delay model. Timing analysis uses static delay
+computation. Each gate can have only one output. The clocking scheme has the
+following restrictions
+i) all phases must have the same frequency. In other words in a time interval
+equal to the clock cycle, each phase must rise and fall only once.
+ii) signals to the control inputs of memory elements have no logic associated
+, i.e. they are one of the clock phases
+iii) Clock skews if any must be provided by the user using a pre-defined
+routine in the package.
+
+The package solve 2 problem associated with clocking
+i) Clock verification- given a circuit and a proposed clocking scheme (i.e. 
+the clock cycle + rise /fall times of all the phases) check if the set-up and
+hold constraints are met at every memory element.
+
+All primary inputs are assumed to arrive at t= 0 by default, relative to 
+the clock schedule; if the arrival time for a PI is set then it is used (i.e.
+it gets tagged onto the edge weights).
+
+ii) Optimal clocking- given a circuit, relative ordering of the phase and
+possible duty cycle constraints, find the minimum clock cycle and times for
+the rise/fall of clock phases so that the circuit operates without any
+set-up/hold errors.
+
+
+An issue yet to be resolved is the delay model for gates. The pin-to-pin model
+is used to come up with min and max delays from a latch to another. The issues
+of how to handle CLK pin to DATA output pin, DATA in to DATA output pin are
+still open. You are welcome to email your suggestions to me. Please note that
+I may agree with what you say but the fixes will be only after making sure
+that the model does not contradict any other assumptions in SIS over which I
+have no control! 
+
+
+The timing package currently does not export any routines since they
+assume a specific clocking scheme and specific circuit.
+
+The code for optimal clock computation can be speeded up considerably
+if you have the octtools package and have the priority queue package (pq).
+This enables certain heuristics to be used efficiently and the clock lower
+bound computation often finishes much faster.
+
+
+BUGS: send mail to shenoy@ic.berkeley.edu
+
+

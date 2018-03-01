@@ -1,0 +1,52 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/stamina/stamina.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:14 $
+.\"  *
+.\"
+.TH STAMINA STAMINA.0 "5/20/90" "University of Colorado " \
+"STAte MINimizAtion"
+.SH NAME
+stamina \- state minimization of incompletely specified finite state machine
+.SH SYNOPSIS
+.B stamina
+[options] inputfile [ > outputfile ]
+.SH DESCRIPTION
+\fBSTAMINA\fP is a state minimization program. It provides exact minimization
+by ordinary prime and binate covering methods. It also gives a heuristic
+solution by tight upper bound and isomorphic states. Both input and
+output file format is KISS2. After minimization, 
+unnecessary states of each solution set can be shrunk by using the -S option.
+
+.SH "OPTIONS"
+.nf
+-v n, verbose mode  0, no message(default)
+                    1, print timing statistics and solution
+                    2, print maximal compatibles and
+                         prime compatibles
+			
+
+-s n, minimization heuristics-    0, exact method(default)
+                                  1, tight upper bound
+                                  2, isomorphic
+                                  3, combination of the above two
+
+-m n, mapping heuristics          0, random mapping
+                                  1, equal weighting heuristic
+                                  4, heuristic mapping(default)
+
+-o filename		specify output filename(default is stdout)
+
+-S  shrinking solution 
+
+-h  Print out the Usage - command line options.
+.fi
+
+.SH REMARKS
+After minimization there may exist multiple reset states if there was a 
+reset state before minimization. Currently a reset state after minimization
+is selected randomly.
+

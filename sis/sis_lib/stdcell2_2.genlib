@@ -1,0 +1,120 @@
+GATE	"invf101:physical"	16	O=!A1; 
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"norf201:physical"	24	O=!(A1+B1);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"norf301:physical"	32	O=!(A1+B1+C1);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"norf401:physical"	40	O=!(A1+B1+C1+D1);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"nanf201:physical"	24	O=!(A1*B1);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"nanf301:physical"	32	O=!(A1*B1*C1);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"nanf401:physical"	40	O=!(A1*B1*C1*D1);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"nanf211:physical"	32	O2=A1*B1;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"nanf311:physical"	40	O2=A1*B1*C1;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"nanf411:physical"	48	O2=A1*B1*C1*D1;	 
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"norf211:physical"	32	O1=A1+B1;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"norf311:physical"	40	O1=A1+B1+C1;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"orf401:physical"	48	O=A1+B1+C1+D1;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"aoif2201:physical"	40	O=!(A1*B1+C2*D2);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"blf00001:physical"	32	O=!(A1+B2*C2);
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"oaif2201:physical"	40	O=!((A1+B1)*(C2+D2));
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"blf00101:physical"	32	O=!(A1*(B2+C2));
+PIN	* INV 1 999 1 .2 1 .2
+
+GATE	"aof2201:physical"	56	O=A1*B1+C2*D2;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"aof3201:physical"	72	O=A1*B1+C2*D2+E3*F3;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"aof4201:physical"	96	O=A1*B1+C2*D2+E3*F3+G4*H4; 
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"aof2301:physical"	64	O=A1*B1*C1+D2*E2*F2;
+PIN	* NONINV 1 999 1 .2 1 .2
+
+GATE	"xorf201:physical"	40	O=A1*!B1+!A1*B1;
+PIN	* UNKNOWN 1 999 1 .2 1 .2
+
+GATE	"xorf201:physical"	40	O=!(A1*B1+!A1*!B1);
+PIN	* UNKNOWN 1 999 1 .2 1 .2
+
+GATE	"xnof201:physical"	48	O=A1*B1+!A1*!B1;
+PIN	* UNKNOWN 1 999 1 .2 1 .2
+
+GATE	"xnof201:physical"	48	O=!(A1*!B1+!A1*B1);
+PIN	* UNKNOWN 1 999 1 .2 1 .2
+
+GATE	"norf251:physical"	32	O=!A1*B2;			
+PIN	A1 INV 1 999 1 .2 1 .2
+PIN	B2 NONINV 1 999 1 .2 1 .2
+
+GATE	"nanf251:physical"	32	O=A1+!B2;
+PIN	A1 NONINV 1 999 1 .2 1 .2
+PIN	B2 INV 1 999 1 .2 1 .2
+
+GATE	"muxf201:physical"	48	O=A1*SEL3+B2*!SEL3;		
+PIN	A1 NONINV 1 999 1 .2 1 .2
+PIN	B2 NONINV 1 999 1 .2 1 .2
+PIN	SEL3 UNKNOWN 1 999 1 .2 1 .2
+
+GATE 	"puuf000:physical"	8	O=CONST1;
+GATE 	"pudf000:physical"	8	O=CONST0;
+
+
+# LATCHES
+
+# Clocked Latch with reset - active_low
+LATCH	"larf310:physical"	88	Q=DATA1*RST3;
+PIN	DATA1	NONINV 0.1 999 2.08 3.42 2.46 2.60
+PIN	RST3	NONINV 0.1 999 0.0 0.0 1.41 2.93 # No  0->1 transition occurs
+SEQ	Q ANY ACTIVE_LOW
+CONTROL 	CLK2 0.1 999 3.31 3.55 1.41 2.93
+CONSTRAINT * 0.0 0.0
+
+# --- EDGE_TRIGGERED FLIP FLOPS
+
+# D-FF
+LATCH	"dfnf311:physical"	96	Q=DATA1; 
+PIN	DATA1	NONINV 0.1 999 0.0 0.0 0.0 0.0 # No path from DATA to Q
+SEQ	Q ANY FALLING_EDGE
+CONTROL 	CLK2 0.1 999 3.12 0.0 2.33 0.0
+CONSTRAINT * 11.0 6.0
+
+
+# D-FF with synchronous set/reset
+LATCH	"dfbf311:physical"	168	Q=(DATA1+SET4)*!RST3;
+PIN	DATA1	NONINV 0.1 999 0.0 0.0 0.0 0.0	  # No path from DATA to Q
+PIN	SET4	NONINV 0.1 999 1.27 1.38 0.0 0.0 # No 1->0 transition occurs
+PIN	RST3	INV 0.1 999 0.0 0.0 3.88 1.26    # No 0->1 transition occurs
+SEQ	Q DATA1 FALLING_EDGE
+CONTROL 	CLK2 0.1 999 3.20 1.69 3.44 1.43
+CONSTRAINT * 6.0 5.5

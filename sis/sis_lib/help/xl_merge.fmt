@@ -1,0 +1,42 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   xl_merge [-f MAX_FANIN] [-c MAX_COMMON_FANIN] [-u MAX_UNION_FANIN]
+              [-n support] [-o filename] [-vlF]
+ 
+     Used for mapping onto Xilinx architecture.  It selects pairs of nodes of
+     the network that can be merged so as to minimize the number of nodes.
+     and solves an integer program using the package Lindo.  In the end it
+     lists the pairs of nodes that were merged.  The command does not change
+     the network.
+ 
+     -f: MAX_FANIN is the limit on the fanin of a mergeable node (default =
+     4).
+ 
+     -c: MAX_COMMON_FANIN is the limit on the common fanins of two mergeable
+     nodes (default = 4).
+ 
+     -u: MAX_UNION_FANIN is the limit on the union of the fanins of two
+     mergeable nodes (default = 5).
+ 
+     -n: support is the limit on the number of fanins of a single function
+     that can be put on a CLB (default = 5).
+ 
+     -o: filename is the file in which information about the nodes merged is
+     printed. Must specify.
+ 
+     -l: Do not use lindo, an integer-linear programming package used to
+     solve the matching problem. Instead use a heuristic. If not specified,
+     the program first searches for lindo in the path. If found, lindo is
+     invoked, else the program automatically calls the heuristic.
+ 
+     -F: If the input network is say a 4-feasible network and the support =
+     5, it may be possible to reduce the number of nodes after matching. If
+     this option is not used,xl_partition is called after matching step on
+     the subnetwork composed of unmatched nodes. Otherwise, only matching is
+     done and the network remains unchanged.
+ 
+     -v:  turns on the verbosity flag.  When used, information about the
+        algorithm is printed as it executes.
+ 
+                                                                            1

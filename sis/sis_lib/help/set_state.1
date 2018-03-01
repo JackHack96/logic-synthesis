@@ -1,0 +1,21 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/set_state.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:38 $
+.\"  *
+.\"
+.XX
+set_state [-s] [-i] [name]
+.PP
+Sets the current state in the machine to the given state.
+If no
+state is given, it sets the current state to the initial state (resets
+the machine).
+If the \fB-s\fR option is given, only the state of the
+STG is changed; if the \fB-i\fR option is specified, only the state of the
+logic implementation is changed.  If no logic implementation exists,
+or if only the state of the STG is to be changed, then the state name
+should be symbolic; otherwise it should be the encoded name of the state.

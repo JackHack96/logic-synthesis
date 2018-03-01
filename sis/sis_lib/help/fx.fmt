@@ -1,0 +1,25 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   fx [-o] [-b limit] [-l] [-z]
+ 
+     Greedy concurrent algorithm for finding the best double cube divisors
+     and single cube divisors.  Finds all the double cube and single cube
+     divisors of the nodes in the network.  It associates a cost function to
+     each node, and extracts the node with the best cost function greedily.
+ 
+     The -o option only looks for  0-level two-cube divisors.
+ 
+     The -b option reads an upper bound for the number of divisors generated.
+     The default value is 50000. This is because the number of divisors in
+     some cases can grow very large.
+ 
+     The -l option changes the level of each node in the network as allowed
+     by the slack between the required time and arrival time at that node.
+ 
+     The -z option uses zero-weight divisors (in addition to divisors with a
+     larger weight).  This means that divisors that contribute zero gain to
+     the overall decomposition are extracted.  This may result in an overall
+     better decomposition, but take an exhorbitant amount of time.
+ 
+                                                                            1

@@ -1,0 +1,44 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   alias [name [string]]
+   unalias name ...
+ 
+     The alias command, if given no arguments, will print the definition of
+     all current aliases.  Given a single argument, it will print the defini-
+     tion of that alias (if any).  Given two arguments, the keyword name
+     becomes an alias for the command string string, replacing any other
+     alias with the same name.  The unalias command removes the definition of
+     an alias.
+ 
+     It is possible to create aliases that take arguments by using the his-
+     tory substitution mechanism.  To protect the history substitution char-
+     acter `%' from immediate expansion, it must be preceded by a `\' when
+     entering the alias.  For example:
+ 
+          sis> alias read read_\%:1 \%:2.\%:1
+          sis> alias write write_\%:1 \%:2.\%:1
+          sis> read blif lion
+          sis> write eqn tiger
+ 
+     will create the two aliases `read' and `write', execute "read_blif
+     lion.blif", and then execute "write_eqn tiger.eqn".  And...
+ 
+          sis> alias echo2 "echo Hi ; echo \%* !"
+          sis> echo2 happy birthday
+ 
+     would print:
+ 
+          Hi
+          happy birthday !
+ 
+     CAVEAT: Currently there is no check to see if there is a circular depen-
+     dency in the alias definition. e.g.
+ 
+          sis> alias foo "print_stats -f; print_level -l; foo"
+ 
+     creates an alias which refers to itself. Executing the command "foo"
+     will result an infinite loop during which the commands "print_stats -f"
+     and "print_level -l" will be executed.
+ 
+                                                                            1

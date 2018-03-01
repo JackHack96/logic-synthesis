@@ -1,0 +1,11 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   invert node-list
+ 
+     Invert each node in the node-list.  It is used when the complement of a
+     node is to be implemented.  Note that it does not change the logic func-
+     tion of the current Boolean network, but will have an effect on the
+     structure of the network.
+ 
+                                                                            1

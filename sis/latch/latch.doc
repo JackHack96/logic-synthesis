@@ -1,0 +1,131 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/latch/latch.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:29 $
+ *
+ */
+latch_t *
+latch_alloc()
+
+	Allocate and return a new latch structure.
+
+void
+latch_free(l)
+latch_t *l;
+
+	Free the latch structure for latch l.
+
+void
+latch_set_input(l, n)
+latch_t *l;
+node_t *n;
+
+	Set the input node of the latch l to node n.
+
+node_t *
+latch_get_input(l)
+latch_t *l;
+
+	Return a pointer to the input node of the latch l.
+
+void
+latch_set_output(l, n)
+latch_t *l;
+node_t *n;
+
+	Set the output node of the latch l to node n.
+
+node_t *
+latch_get_output(l)
+latch_t *l;
+
+	Return a pointer to the output node of the latch l.
+
+void
+latch_set_initial_value(l, v)
+latch_t *l;
+int v;
+
+	Takes a latch structure and sets the initial state value to v.
+
+int
+latch_get_initial_value(l) 
+latch_t *l;
+
+	Returns the value in the latch structure corresponding to the
+	initial state.
+
+void
+latch_set_current_value(l, v)
+latch_t *l;
+int v;
+
+	Takes a latch structure and sets the current state value to v.
+
+int
+latch_get_current_value(l)
+latch_t *l;
+
+	Returns the value in the latch structure corresponding to the
+	current state.
+
+void
+latch_set_type(l, t)
+latch_t *l;
+latch_synch_t t;
+
+	Set the type of the latch l to t.  The type is one of ACTIVE_HIGH,
+        ACTIVE_LOW, RISING_EDGE, FALLING_EDGE, and UNKNOWN.
+
+latch_synch_t
+latch_get_type(l)
+latch_t *l;
+
+	Return the type of the latch l.
+
+void
+latch_set_gate(l, g)
+latch_t *l;
+lib_gate_t *gate;
+
+	Set the library gate that the latch l points to in a mapped network
+	to gate g.
+
+lib_gate_t *
+latch_get_gate(l)
+latch_t *l;
+
+	Return the gate that the latch l points to.
+
+void
+latch_set_control(l, g)
+latch_t *l;
+node_t *g;
+
+	Set the gate that controls the latch l to gate g.
+
+node_t *
+latch_get_control(l)
+latch_t *l;
+
+	Return the node that serves as the control for latch l.
+
+latch_t *
+latch_from_node(node)
+node_t *node;
+
+	Returns the latch associated with the node, if it exists.  Otherwise,
+        it returns NIL.  It is a serious error if `node' is not part of
+        a network.
+
+
+int
+latch_equal(l1, l2)
+latch_t *l1, *l2;
+
+	Returns a 1 if all the fields of the two latches are identical, and
+ 	a 0 otherwise.  This is used to merge two identical latches that
+	have the same data fanin signal.

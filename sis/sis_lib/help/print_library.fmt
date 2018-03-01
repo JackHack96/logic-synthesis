@@ -1,0 +1,28 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_library [-a][-f][-h][-l][-r] [function-string]
+ 
+     Print the contents of the current library.  If the optional string is
+     given, only the combinational gates with the same logic function as the
+     string will be printed.  _f_u_n_c_t_i_o_n-_s_t_r_i_n_g is in the format of read_eqn.
+     For example
+               print_library "f=!(a*b);"
+     will print all combinational gates with a NAND2 logic function.
+ 
+     The -a option prints asynchronous type latches matching the 'function-
+     string'.
+ 
+     The -f option prints falling edge triggered flip-flops matching the
+     'function-string'.
+ 
+     The -h option prints active high transparent latches matching the
+     'function-string'.
+ 
+     The -l option prints active low transparent latches matching the
+     'function-string'.
+ 
+     The -r option prints rising edge triggered flip-flops matching the
+     'function-string'.
+ 
+                                                                            1

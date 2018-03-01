@@ -1,0 +1,11 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_kernel [-as] node-list
+ 
+     Print kernels and corresponding co-kernels of all the nodes in the
+     node-list.  If -a option (default) is specified, all kernels, including
+     the function itself if it is a kernel, are printed.  If -s option is
+     specified, only the sub-kernels are printed.
+ 
+                                                                            1

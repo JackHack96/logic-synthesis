@@ -1,0 +1,9 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   free_dc
+ 
+     Frees the don't care network associated with a network.  This command is
+     used for debugging and experimental purposes.
+ 
+                                                                            1

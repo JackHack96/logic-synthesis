@@ -1,0 +1,39 @@
+.XX
+c_opt -[nGI] -[dSHmM]#.#
+.PP
+Computes the optimal clock for a given clocking scheme.
+Finds rise and fall times for the clock events. A single clock
+multi-phase clocking scheme is assumed.
+.PP
+The algorithm works on mapped and unmapped networks (default is
+mapped). Note that to ensure every node is mapped, you should read in
+the blif file, read in the library, map the circuit and then run the
+optimal clocking algorithm. \fIIt is a known fact that reading in a 
+mapped netlist often causes some nodes to remain un-mapped\fR. The
+command will abort in such a case. The \fB-n\fR option is used for the
+\fIunit-fanout\fR delay model. 
+.PP
+By default the algorithm uses a special Linear program solver based on the
+Floyd-Warshall algorithm. An alternate formulation using binary search
+is available (\fB-B\fR) as long as \fIno minimum duty cycle constraints
+are imposed\fR. 
+.PP
+The \fB-I\fR option is used for \fI2 phase inverted clocking schemes only\fR.
+.PP
+The user can give global set-up (and hold) times for all memory
+elements using the \fB-S\fR (\fB-H\fR) option. By default it computes
+the set-up and hold times from the library.
+.PP
+The \fB-m\fR option permits the user to specify a minimum phase
+separation as a fraction of the clock cycle. Similarly the \fB-M\fR 
+option sets the maximum phase separation as a fraction of the clock
+cycle.
+.PP
+The \fB-d value\fR selects the debug level (range 0-4).
+
+This routine runs faster (upto 2X) when compiled with the priority
+queue library from octtools (use flag -DOCT when compiling this
+directory).
+
+
+

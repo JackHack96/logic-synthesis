@@ -1,0 +1,33 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/write_oct.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:42 $
+.\"  *
+.\"
+.XX
+write_oct [-m] cell[:view]
+.PP
+Write the current network to the Oct facet \fBcell:view:contents\fR.
+If \fBview\fR is not specified, it will default to `logic'.
+.PP
+If the \fB-m\fR flag is specified, the network is merged into an existing
+network.
+All of the logic elements and internal nets are ripped up and replaced
+with the new network.
+Oct net names are used to determine how to merge in the network, so
+if the net names at the interface of the logic are not defined the
+merge will fail.
+.PP
+The environment variable OCT-CELL-PATH defines where the cell library
+is located.  If a cell does not have a leading '~' or '/' in its name,
+then OCT-CELL-PATH is prepended to the filename.
+.PP
+The variable OCT-CELL-VIEW defines the viewname to be used if the cell
+does not have a ':' in its name to separate the cell name from the view
+name.
+.PP
+The variables OCT-TECHNOLOGY, OCT-VIEWTYPE, and OCT-EDITSTYLE define
+the technology, view-type, and edit-style properties for the Oct facet.

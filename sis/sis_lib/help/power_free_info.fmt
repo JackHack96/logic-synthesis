@@ -1,0 +1,9 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   power_free_info
+ 
+     Frees data structures storing capacitance and switching of every node in
+     the network.
+ 
+                                                                            1

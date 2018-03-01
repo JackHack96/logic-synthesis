@@ -1,0 +1,17 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/astg_add_state.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:45 $
+.\"  *
+.\"
+.XX
+astg_add_state [-v debug_level] [-m]
+.PP
+Adds state signal transitions to the Signal Transition Graph to guarantee
+implementability (see \fBastg_state_min\fR for a recommended script file).
+.PP
+The \fB-m\fR option does not preserve the original ASTG marking, and forces its
+re-computation (may be slow; dubious usefulness).

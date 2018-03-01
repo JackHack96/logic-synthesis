@@ -1,0 +1,11 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_current
+ 
+     Display information about the current ASTG: its name, whether it is a
+     free-choice net, state machine, or marked graph, and the number of state
+     machine (SM) and marked graph (MG) components if astg_smc or astg_mgc
+     have been run on the ASTG.
+ 
+                                                                            1

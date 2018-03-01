@@ -1,0 +1,20 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   write_eqn [-s] [filename]
+ 
+     The write_eqn command prints out the equations from the current network
+     according to format specifications laid out in the documentation for
+     read_eqn.  Both primary inputs and outputs are indicated.
+ 
+     The -s option uses the network short names rather than the network long
+     names for the output.
+ 
+     If filename is not specified the equations will be written to standard
+     out, otherwise they will be written into the given file and may be read
+     by read_blif at a later time.
+ 
+     Note that since the eqn format uses the '(' and ')' characters for
+     grouping, they cannot appear in any of the signal names.
+ 
+                                                                            1

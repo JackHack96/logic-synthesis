@@ -1,0 +1,47 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   speed_up [-m model] [-d #] [-w #] [-t #.#] [-i] [-c] [-T] [-a #] [-vD]
+     node-list
+ 
+     Speed-up the nodes in the node-list. If no nodes are specified, it
+     selects the nodes to be speeded-up in order to speed-up the entire net-
+     work. The best decomposition seen so far is accepted (except with the -c
+     flag).  The network after running speed_up is composed of 2-input AND
+     gates and inverters.
+ 
+     The -m model option selects the delay model according to which the delay
+     data is computed. The values allowed for model are _u_n_i_t, _u_n_i_t-_f_a_n_o_u_t and
+     _m_a_p_p_e_d.  The _u_n_i_t delay model counts the level of the circuit as its
+     delay.  The _u_n_i_t-_f_a_n_o_u_t model is intended to capture a technology-
+     independent model and it assigns a delay of 1 unit to each gate and 0.2
+     units to each fanout stem. The _m_a_p_p_e_d delay model uses the delay data in
+     the library to compute delay.
+ 
+     The -d # option selects the distance up to which the critical fanins are
+     collapsed in order to do the speed-up.  A fast value is 3, a good one is
+     6.
+ 
+     The -t #.# option determines which nodes are considered critical. The
+     critical nodes are those with a slack within #.# of the most negative
+     slack.
+ 
+     The -w # option selects between the area mode and the pure timing mode.
+     A value of 0 selects pure-timing mode while a value of 1 will conserve
+     as much area as possible.
+ 
+     The -i option specifies that only the initial 2-input NAND decomposition
+     be carried out.
+ 
+     The -c option specifies that one pass be carried out.  The new decompo-
+     sition is always accepted, even if it results in a slower circuit.
+ 
+     The -T option displays the delay as the iterations progress.
+ 
+     The -a # option tries to do the specified number of attempts when res-
+     tructuring a node. By default the algorithm tries only one attempt at
+     the restructuring. This option is for experimental use at this stage.
+ 
+     The -v and -D options display debugging information.
+ 
+                                                                            1

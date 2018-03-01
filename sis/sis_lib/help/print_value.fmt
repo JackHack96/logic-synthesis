@@ -1,0 +1,19 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_value [-a] [-d] [-p n] node-list
+ 
+     Print the value of all the nodes in the node-list.  The value is
+     currently defined as the number of literals increased if the node were
+     eliminated from the network.  Since the value of a node depends on the
+     particular factored form of the node and its fanouts, all the nodes
+     which don't have factored forms will be factored using _f_a_c_t_o_r -_q.
+ 
+     The -a option prints the values in ascending order.
+ 
+     The -d option prints the values in descending order.
+ 
+     The -p takes an argument n, and directs print_value to only print the
+     top n values.
+ 
+                                                                            1
