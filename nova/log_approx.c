@@ -11,7 +11,7 @@
 * Ve]rtices-wise [b]ottom-[u]p [c]onstraint-[c]lustered [heu]ristic [code]  *
 *****************************************************************************/
 
-#include "nova.h"
+#include "inc/nova.h"
 
 log_approx(net,symblemes,num,code_length)
 CONSTRAINT *net;

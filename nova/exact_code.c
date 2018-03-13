@@ -13,7 +13,7 @@
 ******************************************************************************/
 
 
-#include "nova.h"
+#include "inc/nova.h"
 
 exact_code(net_num)
 int net_num;

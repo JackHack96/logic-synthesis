@@ -7,7 +7,7 @@
  * $Date: 2004/02/07 10:13:58 $
  *
  */
-#include "mincov_int.h"
+#include "inc/mincov_int.h"
 
 static int visit_col();
 

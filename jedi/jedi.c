@@ -23,7 +23,7 @@
  *     code except sell it or remove this message.
  */
 
-#include "jedi.h"
+#include "inc/jedi.h"
 
 FILE *infp;			/* input file pointer */
 FILE *outfp;			/* output file pointer */

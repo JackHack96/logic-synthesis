@@ -8,7 +8,7 @@
  *
  */
 
-#include "nova.h"
+#include "inc/nova.h"
 
 /**************************************************************************
 * codes the first element and the other ones related to the constraints   *

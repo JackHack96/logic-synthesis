@@ -38,7 +38,7 @@
 	starting the expansion
 */
 
-#include "espresso.h"
+#include "inc/espresso.h"
 
 /*
     expand -- expand each nonprime cube of F into a prime implicant

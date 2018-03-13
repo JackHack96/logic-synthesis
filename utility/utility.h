@@ -23,7 +23,7 @@
     (obj) ? ((type *) realloc((char *) obj, sizeof(type) * (num))) : \
 	    ((type *) malloc(sizeof(type) * (num)))
 #define FREE(obj)		\
-    if ((obj)) { (void) free((char *) (obj)); (obj) = 0; }
+    if (obj) { (void) free((char *) (obj)); (obj) = 0; }
 
 #include "../port/ansi.h"
 

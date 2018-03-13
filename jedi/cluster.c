@@ -22,7 +22,7 @@
  *     Permission is granted to do anything with this
  *     code except sell it or remove this message.
  */
-#include "jedi.h"
+#include "inc/jedi.h"
 
 extern int currentEnumtype;
 

@@ -12,7 +12,7 @@
 *                                                                             *
 ******************************************************************************/
 
-#include "nova.h"
+#include "inc/nova.h"
 
 exact_graph(net,net_num)
 CONSTRAINT **net;

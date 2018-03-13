@@ -11,7 +11,7 @@
  *  unate.c -- routines for dealing with unate functions
  */
 
-#include "espresso.h"
+#include "inc/espresso.h"
 
 static pset_family abs_covered();
 static pset_family abs_covered_many();
@@ -214,7 +214,7 @@ pset_family A;			/* disposes of A */
 
 	    Abar = sf_append(Abar, unate_complement(A));
 	}
-	set_free(restrict);
+	set_free(rstrict);
     }
 
     return Abar;
@@ -414,14 +414,14 @@ register pset pick_set;
  *  1 / (set_ord(p) - 1).
  */
 static int
-abs_select_restricted(A, restrict)
+abs_select_restricted(A, rstrict)
 pset_family A;
-pset restrict;
+pset rstrict;
 {
     register int i, best_var, best_count, *count;
 
     /* Sum the elements in these columns */
-    count = sf_count_restricted(A, restrict);
+    count = sf_count_restricted(A, rstrict);
 
     /* Find which variable has maximum weight */
     best_var = -1;

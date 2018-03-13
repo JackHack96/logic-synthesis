@@ -23,8 +23,8 @@
  *     code except sell it or remove this message.
  */
 
-#include "jedi.h"
-#include "rp.h"
+#include "inc/jedi.h"
+#include "inc/rp.h"
 
 #define DISPLACE1 0		/* flag for displacement */
 #define DISPLACE2 1		/* flag for displacement */

@@ -12,7 +12,7 @@
 *   This version uses the espresso-II version#2.0 multiple-valued minimizer    *
 *******************************************************************************/
 
-#include "nova.h"
+#include "inc/nova.h"
 
 mini()
 

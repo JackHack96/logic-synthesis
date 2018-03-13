@@ -13,8 +13,8 @@
  *  Old style -do xxx, -out xxx, etc. are still supported.
  */
 
-#include "espresso.h"
-#include "main.h"		/* table definitions for options */
+#include "inc/espresso.h"
+#include "inc/main.h"        /* table definitions for options */
 
 static FILE *last_fp;
 static int input_type = FD_type;

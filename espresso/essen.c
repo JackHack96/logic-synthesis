@@ -12,7 +12,7 @@
     purpose: Find essential primes in a multiple-valued function
 */
 
-#include "espresso.h"
+#include "inc/espresso.h"
 
 /*
     essential -- return a cover consisting of the cubes of F which are

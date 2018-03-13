@@ -24,7 +24,7 @@
  *     code except sell it or remove this message.
  */
 
-#include "jedi.h"
+#include "inc/jedi.h"
 
 int read_input();                        /* forward declaration */
 int read_kiss();                        /* forward declaration */

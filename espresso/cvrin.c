@@ -12,7 +12,7 @@
     purpose: cube and cover input routines
 */
 
-#include "espresso.h"
+#include "inc/espresso.h"
 
 static bool line_length_error;
 static int lineno;

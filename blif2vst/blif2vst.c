@@ -35,17 +35,12 @@
  *        Apr. 6 1994.
  */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #include <unistd.h>
-
-
-#define MAXTOKENLEN 256
-#define MAXNAMELEN 32
-
+#include "blif2vst.h"
 
 /*           ASCII seq:   (  )  *  +  ,    :  ;  <  =  >       *
  *           code         40 41 42 43 44   58 59 60 61 62      */
@@ -56,170 +51,49 @@
 #define isEOL(c) ( ((c)=='\n') )
 #define isSTK(c) ( ((c)=='(') || ((c)==')') || isEOL(c) || ((c)=='='))
 
-/* structure that contains all the info extracted from the library *
- * All the pins, input, outp[ut and clock (if needed)              *
- * This because SIS should be case sensitive and VHDL is case      *
- * insensitive, so we must keep the library's names of gates and   *
- * pins. In the future this may be useful for further checks that  *
- * in this version are not performed.                              */
-
-
-#ifndef DATE
-#define DATE "Nodate";
-#endif
-static char rcsid[]         = "$Id: blif2vst.c,v 1.1.1.1 2004/02/07 10:13:56 pchong Exp $";
-static char build_date[] = DATE;
-
-
-struct Ports {
-    char name[MAXNAMELEN];
-};
-
-struct Cell {
-    char         name[MAXNAMELEN];
-    int          npins;
-    char         used;
-    struct Ports *formals;
-    struct Cell  *next;
-};
-
-struct Instance {
-    struct Cell     *what;
-    struct Ports    *actuals;
-    struct Instance *next;
-};
-
-
-/* list of formal names, is used in GetPort when multiple   *
- * definition are given, as    a,b,c : IN BIT;              */
-struct TMPstruct {
-    char             name[MAXNAMELEN];
-    int              num;
-    struct TMPstruct *next;
-};
-
-struct BITstruct {
-    char             name[MAXNAMELEN + 10];
-    struct BITstruct *next;
-};
-
-struct VECTstruct {
-    char              name[MAXNAMELEN];
-    int               start;
-    int               end;
-    char              dir;
-    struct VECTstruct *next;
-};
-
-struct TYPEterms {
-    struct BITstruct  *BITs;
-    struct VECTstruct *VECTs;
-};
-
-struct MODELstruct {
-    char               name[MAXNAMELEN];
-    struct TYPEterms   *Inputs;
-    struct TYPEterms   *Outputs;
-    struct TYPEterms   *Internals;
-    struct Instance    *Net;
-    struct MODELstruct *next;
-};
-
-
 FILE *In;
 FILE *Out;
-int  line;            /* line parsed                         */
+int  line; // parsed line
 
-struct Cell *LIBRARY;
-char        VDD[MAXNAMELEN] = {0}, VSS[MAXNAMELEN] = {0};
+struct cell *LIBRARY;
+char        VDD[MAX_NAME_LENGTH] = {0}, VSS[MAX_NAME_LENGTH] = {0};
 char        DEBUG;
 char        ADDPOWER;
-char        INSTANCE;
 
-#if defined(linux)
+int main(int argc, char **argv) {
+    check_args(argc, argv);
+    parse_file();
+    close_all();
 
-void AddBIT(struct BITstruct **, char *);
-
-#endif
-
-
-/*[]-------==[ Procedures to exit or to display warnings ]==---------------[]*/
-
-
-/* -=[ CloseAll ]=-                                 *
- * Closes all the files and flushes the memory      *
- *		                                    */
-void CloseAll() {
-
-    if (In != stdin) (void) fclose(In);
-    if (Out != stdout) (void) fclose(Out);
-
+    return 0;
 }
 
+// Procedures to exit or to display warnings
 
-/* -=[ Error ]=-                                    *
- * Displays an error message, and then exits        *
- *                                                  *
- * Input :                                          *
- *     msg  = message to printout before exiting    */
-void Error(Msg)
-        char *Msg;
-{
-    (void) fprintf(stderr, "*** Error : %s\n", Msg);
-    CloseAll();
+void close_all() {
+    if (In != stdin) (void) fclose(In);
+    if (Out != stdout) (void) fclose(Out);
+}
+
+void error(char *msg) {
+    (void) fprintf(stderr, "*** error : %s\n", msg);
+    close_all();
     exit(1);
 }
 
-
-/* -=[ Warning ]=-                                  *
- * Puts a message on stderr, writes the current     *
- * line and then sends the current token back       *
- *                                                  *
- * Inputs :                                         *
- *      name = message                              */
-void Warning(name)
-        char *name;
-{
+void warning(char *name) {
     if (DEBUG) (void) fprintf(stderr, "*parse warning* Line %u : %s\n", line, name);
-
 }
 
-
-/* -=[ SyntaxError ]=-                              *
- * sends to stderr a message and then exits         *
- *                                                  *
- * Input :                                          *
- *     name = message to print                      *
- *     obj  = token that generates the error        */
-void SyntaxError(msg, obj)
-        char *msg;
-        char *obj;
-{
-
-    (void) fprintf(stderr, "\n*Error* Line %u : %s\n", line, msg);
-    (void) fprintf(stderr, "*Error* Line %u : object of the error : %s\n", line, obj);
-    Error("Could not continue!");
-
+void syntax_error(char *msg, char *obj) {
+    (void) fprintf(stderr, "\n*error* Line %u : %s\n", line, msg);
+    (void) fprintf(stderr, "*error* Line %u : object of the error : %s\n", line, obj);
+    error("Could not continue!");
 }
 
+// General procedures
 
-/*[]-------==[ General Procedures ]==--------------------------------------[]*/
-
-
-/* -=[ KwrdCmp ]=-                                  *
- * Compares two strings, it is case-insensitive,    *
- * it also skips initial and final duouble-quote    *
- *                                                  *
- * Input :                                          *
- *      name = first string, tipically the token    *
- *      keywrd = second string, tipically a keyword *
- * Output :                                         *
- *      char = 1 if the strings match               *
- *              0 if they do not match              */
-char KwrdCmp(name, keywrd)
-        char *name;
-        char *keywrd;
-{
+char keyword_compare(char *name, char *keywrd) {
     int  t;
     int  len;
     char *n;
@@ -244,34 +118,18 @@ char KwrdCmp(name, keywrd)
     return 1;
 }
 
-
-
-/* -=[ WhatGate ]=-                                 *
- * Returns a pointer to an element of the list      *
- * of gates that matches up the name given, if      *
- * there is not a match a null pointer is returned  *
- *                                                  *
- * Input :                                          *
- *     name = name to match                         *
- * Ouput :                                          *
- *     (void *) a pointer                           */
-struct Cell *WhatGate(name)
-        char *name;
-{
-    struct Cell *ptr;
+struct cell *match_gate(char *name) {
+    struct cell *ptr;
 
     for (ptr = LIBRARY; ptr != NULL; ptr = ptr->next)
-        if (KwrdCmp(ptr->name, name)) return ptr;
+        if (keyword_compare(ptr->name, name)) return ptr;
 
-    (void) fprintf(stderr, "Instance %s not found in library!\n", name);
-    Error("could not continue");
-    return (struct Cell *) NULL;
+    (void) fprintf(stderr, "instance %s not found in library!\n", name);
+    error("could not continue");
+    return (struct cell *) NULL;
 }
 
-
-void ReleaseBit(ptr)
-        struct BITstruct *ptr;
-{
+void release_bit(struct BITstruct *ptr){
     struct BITstruct *tmp;
     struct BITstruct *ptr2;
 
@@ -283,69 +141,61 @@ void ReleaseBit(ptr)
     }
 }
 
-
-struct Cell *NewCell(name, ports)
-        char *name;
-        struct BITstruct *ports;
-{
-    struct Cell      *tmp;
+struct cell *new_cell(char *name, struct BITstruct *ports){
+    struct cell      *tmp;
     struct BITstruct *Bptr;
-    struct Ports     *Pptr;
+    struct ports     *Pptr;
     unsigned int     j;
     int              num;
 
-    if ((tmp = (struct Cell *) calloc(1, sizeof(struct Cell))) == NULL) {
-        Error("Allocation Error or not enought memory !");
+    if ((tmp = (struct cell *) calloc(1, sizeof(struct cell))) == NULL) {
+        error("Allocation error or not enought memory !");
     }
 
     if (ports != NULL) {
-        j = 1;
+        j    = 1;
         Bptr = ports;
         while (Bptr->next != NULL) {
             j++;
             Bptr = Bptr->next;
         }
-        num = j;
+        num  = j;
 
-        if ((tmp->formals = (struct Ports *) calloc(1, j * sizeof(struct Ports))) == NULL) {
-            Error("Allocation Error or not enought memory !");
+        if ((tmp->formals = (struct ports *) calloc(1, j * sizeof(struct ports))) == NULL) {
+            error("Allocation error or not enought memory !");
         }
         (void) strcpy(tmp->name, name);
         tmp->npins = j;
-        tmp->next = NULL;
+        tmp->next  = NULL;
 
         Bptr = ports;
         Pptr = tmp->formals;
-        j = 0;
+        j    = 0;
         while (Bptr != NULL) {
-            if (j > num) Error("__NewCell error ...");
+            if (j > num) error("__NewCell error ...");
             (void) strcpy(Pptr->name, Bptr->name);
             Bptr = Bptr->next;
             Pptr++;
             j++;
         }
-        ReleaseBit(ports);
+        release_bit(ports);
     } else {
         tmp->formals = NULL;
     }
     return tmp;
 }
 
-
-
-struct Instance *NewInstance(cell)
-        struct Cell *cell;
-{
-    struct Instance *tmp;
+struct instance *new_instance(struct cell *cell){
+    struct instance *tmp;
     unsigned        i;
 
-    if ((tmp = (struct Instance *) calloc(1, sizeof(struct Instance))) == NULL) {
-        Error("Allocation Error or not enought memory !");
+    if ((tmp  = (struct instance *) calloc(1, sizeof(struct instance))) == NULL) {
+        error("Allocation error or not enought memory !");
     }
     if (cell != NULL) {
-        i = cell->npins * sizeof(struct Ports);
-        if ((tmp->actuals = (struct Ports *) calloc(1, i)) == NULL) {
-            Error("Allocation Error or not enought memory !");
+        i = cell->npins * sizeof(struct ports);
+        if ((tmp->actuals = (struct ports *) calloc(1, i)) == NULL) {
+            error("Allocation error or not enought memory !");
         }
     } else {
         tmp->actuals = NULL;
@@ -356,60 +206,49 @@ struct Instance *NewInstance(cell)
     return tmp;
 }
 
-
-struct TYPEterms *NewTYPE() {
+struct TYPEterms *new_type() {
     struct TYPEterms *TYPEptr;
 
     TYPEptr = (struct TYPEterms *) calloc(1, sizeof(struct TYPEterms));
     TYPEptr->BITs  = (struct BITstruct *) calloc(1, sizeof(struct BITstruct));
     TYPEptr->VECTs = (struct VECTstruct *) calloc(1, sizeof(struct VECTstruct));
     if ((TYPEptr == NULL) || (TYPEptr->BITs == NULL) || (TYPEptr->VECTs == NULL)) {
-        Error("Allocation Error or not enought memory !");
+        error("Allocation error or not enought memory !");
     }
     return TYPEptr;
 }
 
-struct MODELstruct *NewModel() {
+struct MODELstruct *new_model() {
     struct MODELstruct *LocModel;
 
     if ((LocModel = (struct MODELstruct *) calloc(1, sizeof(struct MODELstruct))) == NULL) {
-        Error("Not enought memory or allocation error");
+        error("Not enought memory or allocation error");
     }
 
-    LocModel->Inputs    = NewTYPE();
-    LocModel->Outputs   = NewTYPE();
-    LocModel->Internals = NewTYPE();
-    LocModel->Net       = NewInstance((struct Cell *) NULL);
+    LocModel->Inputs    = new_type();
+    LocModel->Outputs   = new_type();
+    LocModel->Internals = new_type();
+    LocModel->Net       = new_instance((struct cell *) NULL);
 
     return LocModel;
 }
 
-
-void AddVECT(VECTptr, name, a, b)
-        struct VECTstruct **VECTptr;
-        char *name;
-        int a;
-        int b;
-{
+void add_vect(struct VECTstruct **VECTptr, char *name, int a, int b){
     (*VECTptr)->next = (struct VECTstruct *) calloc(1, sizeof(struct VECTstruct));
     if ((*VECTptr)->next == NULL) {
-        Error("Allocation Error or not enought memory !");
+        error("Allocation error or not enought memory !");
     }
     (*VECTptr) = (*VECTptr)->next;
     (void) strcpy((*VECTptr)->name, name);
     (*VECTptr)->start = a;
     (*VECTptr)->end   = b;
-    (*VECTptr)->next = NULL;
+    (*VECTptr)->next  = NULL;
 }
 
-void AddBIT(BITptr, name)
-        struct BITstruct **BITptr;
-        char *name;
-{
-
+void add_bit(struct BITstruct **BITptr, char *name){
     (*BITptr)->next = (struct BITstruct *) calloc(1, sizeof(struct BITstruct));
     if ((*BITptr)->next == NULL) {
-        Error("Allocation Error or not enought memory !");
+        error("Allocation error or not enought memory !");
     }
     (*BITptr) = (*BITptr)->next;
     (void) strcpy((*BITptr)->name, name);
@@ -423,23 +262,20 @@ struct TMPstruct **TMPptr;
 
    (*TMPptr)->next=(struct TMPstruct *)calloc(1,sizeof(struct TMPstruct));
    if ( (*TMPptr)->next==NULL) {
-	Error("Allocation Error or not enough memory !");
+	Error("Allocation error or not enough memory !");
     }
    (*TMPptr)=(*TMPptr)->next;
 
 }
 */
 
-struct BITstruct *IsHere(name, ptr)
-        char *name;
-        struct BITstruct *ptr;
-{
+struct BITstruct *is_here(char *name, struct BITstruct *ptr){
     struct BITstruct *BITptr;
 
     BITptr = ptr;
     while (BITptr->next != NULL) {
         BITptr = BITptr->next;
-        if (KwrdCmp(name, BITptr->name)) return BITptr;
+        if (keyword_compare(name, BITptr->name)) return BITptr;
     }
     return (struct BITstruct *) NULL;
 }
@@ -453,29 +289,20 @@ struct MODELstruct *model;
 
     if ( (ptr=IsHere(name,(model->Inputs)->BITs))!=NULL ) return ptr;
     if ( (ptr=IsHere(name,(model->Outputs)->BITs))!=NULL ) return ptr;
-    if ( (ptr=IsHere(name,(model->Internals)->BITs))!=NULL ) return ptr;
+    if ( (ptr=is_here(name,(model->Internals)->BITs))!=NULL ) return ptr;
     return (struct BITstruct *)NULL;
 
 }
 */
 
-
-
-
-/* -=[ GetToken ]=-                                 *
- *                                                  *
- * Output :                                         *
- *      tok = filled with the new token             */
-void GetToken(tok)
-        char *tok;
-{
+void get_token(char *tok){
     enum states {
         tZERO, tLONG, tEOF, tSTRING, tCONT, tREM
     };
     static enum states next;
     static char        init = 0;
     static char        sentback;
-    static char        TOKEN[MAXTOKENLEN];
+    static char        TOKEN[MAX_TOKEN_LENGTH];
     static char        str;
     char               ready;
     int                num;
@@ -485,12 +312,12 @@ void GetToken(tok)
     if (!init) {
         sentback = 0;
         init     = 1;
-        next = tZERO;
-        str  = 0;
-        line = 0;
+        next     = tZERO;
+        str      = 0;
+        line     = 0;
     }
 
-    t = &(TOKEN[0]);
+    t   = &(TOKEN[0]);
     num = 0;
     str = 0;
 
@@ -516,19 +343,19 @@ void GetToken(tok)
                     if isSTK(c) {
                         *t = c;
                         t++;
-                        next = tZERO;
+                        next  = tZERO;
                         ready = 1;
                     } else {
                         if isREM(c) {
-                            num = 0;
+                            num  = 0;
                             next = tREM;
                         } else {
                             if isCNT(c) {
                                 next = tCONT;
                             } else {
-                                num = 0;
-                                next = tLONG;
-                                ready = 0;
+                                num      = 0;
+                                next     = tLONG;
+                                ready    = 0;
                                 sentback = c;
                             }
                         }
@@ -538,26 +365,26 @@ void GetToken(tok)
             case tLONG: if (DEBUG) (void) fprintf(stderr, "\n-> LONG, c=%c  token=%s", c, TOKEN);
                 if (isBLK(c) || isSTK(c)) {
                     sentback = c;
-                    ready = 1;
-                    next = tZERO;
+                    ready    = 1;
+                    next     = tZERO;
                 } else {
                     if isDQ(c) {
                         ready = 1;
-                        next = tSTRING;
+                        next  = tSTRING;
                     } else {
                         if isREM(c) {
                             ready = 1;
-                            next = tREM;
+                            next  = tREM;
                         } else {
                             if isCNT(c) {
-                                ready = 1;
+                                ready    = 1;
                                 sentback = c;
                             } else {
                                 *t = c;
                                 t++;
                                 num++;
-                                next = tLONG;
-                                if ((ready = (num >= MAXTOKENLEN - 1)))
+                                next       = tLONG;
+                                if ((ready = (num >= MAX_TOKEN_LENGTH - 1)))
                                     (void) fprintf(stderr, "Sorry, exeeded max name len of %u", num + 1);
                             }
                         }
@@ -574,23 +401,23 @@ void GetToken(tok)
                     num++;
                     str = 1;
                 }
-                *t   = c;
+                *t         = c;
                 t++;
                 num++;
                 if (c == '"') {   /* last dblquote */
                     ready = 1;
-                    next = tZERO;
+                    next  = tZERO;
                     break;
                 }
-                next = tSTRING;
-                if ((ready = (num >= MAXTOKENLEN - 1)))
+                next       = tSTRING;
+                if ((ready = (num >= MAX_TOKEN_LENGTH - 1)))
                     (void) fprintf(stderr, "Sorry, exeeded max name len of %u", num + 1);
                 break;
             case tREM: if (DEBUG) (void) fprintf(stderr, "\n---> REM, c=%c  token=%s", c, TOKEN);
                 next = tREM;
                 if isEOL(c) {
                     sentback = c; /* in this case EOL must be given to the caller */
-                    next = tZERO;
+                    next     = tZERO;
                 }
                 break;
             case tCONT:
@@ -599,7 +426,7 @@ void GetToken(tok)
 #endif
                 if isEOL(c) {
                     sentback = 0; /* EOL must be skipped */
-                    next = tZERO;
+                    next     = tZERO;
                 } else {
                     next = tCONT;
                 }
@@ -608,8 +435,8 @@ void GetToken(tok)
 #if defined(DBG)
                 (void)fprintf(stderr,"\n-----> EOF, c=%c  token=%s",c,TOKEN);
 #endif
-                next = tEOF;
-                ready = 1;
+                next     = tEOF;
+                ready    = 1;
                 sentback = c;
                 *t = c;
                 break;
@@ -624,43 +451,28 @@ void GetToken(tok)
     (void) strcpy(tok, &(TOKEN[0]));
 }
 
-
-void PrintGates(cell)
-        struct Cell *cell;
-{
-    struct Ports *ptr;
+void print_gates(struct cell *cell){
+    struct ports *ptr;
     int          j;
 
     while (cell->next != NULL) {
         cell = cell->next;
-        if (DEBUG) (void) fprintf(stderr, "Cell name: %s, num pins : %d\n", cell->name, cell->npins);
-        ptr = cell->formals;
+        if (DEBUG) (void) fprintf(stderr, "cell name: %s, num pins : %d\n", cell->name, cell->npins);
+        ptr    = cell->formals;
         for (j = 0; j < cell->npins; j++, ptr++) {
             if (DEBUG) (void) fprintf(stderr, "\tpin %d : %s\n", j, ptr->name);
         }
     }
 }
 
-/*[]------------------[]*/
-
-/* -=[ GetLibToken ]=-                              *
- * Tokenizer to scan the library file               *
- *                                                  *
- * Input  :                                         *
- *      Lib = library file                          *
- * Output :                                         *
- *      tok = filled with the new token             */
-void GetLibToken(Lib, tok)
-        FILE *Lib;
-        char *tok;
-{
+void get_lib_token(FILE *lib, char *tok){
     enum states {
         tZERO, tLONG, tEOF, tSTRING, tREM
     };
     static enum states next;
     static char        init = 0;
     static char        sentback;
-    static char        TOKEN[MAXTOKENLEN];
+    static char        TOKEN[MAX_TOKEN_LENGTH];
     static char        str;
     char               ready;
     int                num;
@@ -670,11 +482,11 @@ void GetLibToken(Lib, tok)
     if (!init) {
         sentback = 0;
         init     = 1;
-        next = tZERO;
-        str = 0;
+        next     = tZERO;
+        str      = 0;
     }
 
-    t = &(TOKEN[0]);
+    t   = &(TOKEN[0]);
     num = 0;
     str = 0;
 
@@ -682,9 +494,9 @@ void GetLibToken(Lib, tok)
         if (sentback) {
             c = sentback;
         } else {
-            c = fgetc(Lib);
+            c = fgetc(lib);
         }
-        if (feof(Lib)) next = tEOF;
+        if (feof(lib)) next = tEOF;
         ready    = 0;
         sentback = '\0';
 
@@ -699,16 +511,16 @@ void GetLibToken(Lib, tok)
                         if (((c >= 0x27) && (c <= 0x2b)) || (c == '=') || (c == ';') || (c == '\n') || (c == '!')) {
                             *t = c;
                             t++;
-                            next = tZERO;
+                            next  = tZERO;
                             ready = 1;
                         } else {
                             if (c == '"') {
-                                num = 0;
+                                num  = 0;
                                 next = tSTRING;
                             } else {
-                                num = 0;
-                                next = tLONG;
-                                ready = 0;
+                                num      = 0;
+                                next     = tLONG;
+                                ready    = 0;
                                 sentback = c;
                             }
                         }
@@ -718,26 +530,26 @@ void GetLibToken(Lib, tok)
             case tLONG:
                 if ((c == ' ') || (c == '\r') || (c == '\t')) {
                     ready = 1;
-                    next = tZERO;
+                    next  = tZERO;
                 } else {
                     if (((c >= 0x27) && (c <= 0x2b)) || (c == '=') || (c == ';') || (c == '\n') || (c == '!')) {
-                        next = tZERO;
-                        ready = 1;
+                        next     = tZERO;
+                        ready    = 1;
                         sentback = c;
                     } else {
                         if (c == '"') {
                             ready = 1;
-                            next = tSTRING;
+                            next  = tSTRING;
                         } else {
                             if (c == '#') {
                                 ready = 1;
-                                next = tREM;
+                                next  = tREM;
                             } else {
                                 *t = c;
                                 t++;
                                 num++;
-                                next = tLONG;
-                                if ((ready = (num >= MAXTOKENLEN - 1)))
+                                next       = tLONG;
+                                if ((ready = (num >= MAX_TOKEN_LENGTH - 1)))
                                     (void) fprintf(stderr, "Sorry, exeeded max name len of %u", num + 1);
                             }
                         }
@@ -753,21 +565,21 @@ void GetLibToken(Lib, tok)
                     if (DEBUG) (void) fprintf(stderr, "<%c>\n", c);
                     str = 1;
                 }
-                *t   = c;
+                *t         = c;
                 t++;
                 num++;
                 if (c == '"') {   /* last dblquote */
                     ready = 1;
-                    next = tZERO;
+                    next  = tZERO;
                     if (DEBUG) fprintf(stderr, "STRING : %s\n", TOKEN);
                     break;
                 }
-                next = tSTRING;
-                if ((ready = (num >= MAXTOKENLEN - 1)))
+                next       = tSTRING;
+                if ((ready = (num >= MAX_TOKEN_LENGTH - 1)))
                     (void) fprintf(stderr, "Sorry, exeeded max name len of %u", num + 1);
                 break;
             case tEOF: next = tEOF;
-                ready = 1;
+                ready    = 1;
                 sentback = c;
                 *t = c;
                 if (DEBUG) (void) fprintf(stderr, "EOF\n");
@@ -785,61 +597,52 @@ void GetLibToken(Lib, tok)
     (void) strcpy(tok, &(TOKEN[0]));
 }
 
-
-/* -=[ ScanLibrary ]=-                              *
- * Scans the library to get the names of the cells  *
- * the output pins and the clock signals of latches *
- *                                                  *
- * Input :                                          *
- *     LibName = the name of library file           */
-struct Cell *ScanLibrary(LibName)
-        char *LibName;
-{
+struct cell *scan_library(char *lib_name){
     enum states {
         sZERO, sPIN, sCLOCK, sADDCELL
     }                next;
     FILE             *Lib;
-    struct Cell      *cell;
-    struct Cell      first;
+    struct cell      *cell;
+    struct cell      first;
     struct BITstruct *tmpBIT;
     struct BITstruct firstBIT;
-    char             LocalToken[MAXTOKENLEN];
-    char             tmp[MAXNAMELEN];
-    char             name[MAXNAMELEN];
+    char             LocalToken[MAX_TOKEN_LENGTH];
+    char             tmp[MAX_NAME_LENGTH];
+    char             name[MAX_NAME_LENGTH];
     char             latch;
     char             *s;
 
 
-    if ((Lib = fopen(LibName, "rt")) == NULL)
-        Error("Couldn't open library file");
+    if ((Lib = fopen(lib_name, "rt")) == NULL)
+        error("Couldn't open library file");
 
 
-    first.next = NewCell("dummy", (struct BITstruct *) NULL);
+    first.next = new_cell("dummy", (struct BITstruct *) NULL);
     firstBIT.name[0] = '\0';
     firstBIT.next = NULL;
-    cell = first.next;
-    s = &(LocalToken[0]);
+    cell  = first.next;
+    s     = &(LocalToken[0]);
     latch = 0;
-    next = sZERO;
+    next  = sZERO;
     (void) fseek(Lib, 0L, SEEK_SET);
     tmpBIT = &firstBIT;
     do {
-        GetLibToken(Lib, s);
+        get_lib_token(Lib, s);
         switch (next) {
             case sZERO: next = sZERO;
-                if (KwrdCmp(s, "GATE")) {
+                if (keyword_compare(s, "GATE")) {
                     latch = 0;
-                    GetLibToken(Lib, s);
+                    get_lib_token(Lib, s);
                     (void) strcpy(name, s);
-                    GetLibToken(Lib, s);   /* area */
+                    get_lib_token(Lib, s);   /* area */
                     next = sPIN;
                     if (DEBUG) (void) fprintf(stderr, "Gate name: %s\n", name);
                 } else {
-                    if (KwrdCmp(s, "LATCH")) {
+                    if (keyword_compare(s, "LATCH")) {
                         latch = 1;
-                        GetLibToken(Lib, s);
+                        get_lib_token(Lib, s);
                         (void) strcpy(name, s);
-                        GetLibToken(Lib, s);   /* area */
+                        get_lib_token(Lib, s);   /* area */
                         next = sPIN;
                         if (DEBUG) (void) fprintf(stderr, "Latch name: %s\n", name);
                     }
@@ -848,15 +651,15 @@ struct Cell *ScanLibrary(LibName)
             case sPIN:
                 if (!(((*s >= 0x27) && (*s <= 0x2b)) || (*s == '=') || (*s == '!') || (*s == ';'))) {
                     (void) strncpy(tmp, s, 5);
-                    if (KwrdCmp(tmp, "CONST") && !isalpha(*(s + 6)))
+                    if (keyword_compare(tmp, "CONST") && !isalpha(*(s + 6)))
                         /* if the expression has a constant value we must */
                         /* skip it, because there are no inputs           */
                         break;
                     /* it's an operand so get its name */
                     if (DEBUG) (void) fprintf(stderr, "\tpin read : %s\n", s);
-                    if (IsHere(s, &firstBIT) == NULL) {
+                    if (is_here(s, &firstBIT) == NULL) {
                         if (DEBUG) (void) fprintf(stderr, "\tunknown pin : %s\n", s);
-                        AddBIT(&tmpBIT, s);
+                        add_bit(&tmpBIT, s);
                     }
                 }
                 if (*s == ';') {
@@ -870,17 +673,17 @@ struct Cell *ScanLibrary(LibName)
                 }
                 break;
             case sCLOCK:
-                if (KwrdCmp(s, "CONTROL")) {
-                    GetLibToken(Lib, s);
+                if (keyword_compare(s, "CONTROL")) {
+                    get_lib_token(Lib, s);
                     if (DEBUG) (void) fprintf(stderr, "\tpin : %s\n", s);
-                    AddBIT(&tmpBIT, s);
+                    add_bit(&tmpBIT, s);
                     next = sADDCELL;
                 } else {
                     next = sCLOCK;
                 }
                 break;
             case sADDCELL: if (DEBUG) (void) fprintf(stderr, "\tadding cell to library\n");
-                cell->next = NewCell(name, firstBIT.next);
+                cell->next = new_cell(name, firstBIT.next);
                 tmpBIT = &firstBIT;
                 firstBIT.next = NULL;
                 cell = cell->next;
@@ -890,48 +693,31 @@ struct Cell *ScanLibrary(LibName)
     } while (!feof(Lib));
 
     if ((first.next)->next == NULL) {
-        (void) sprintf("Library file %s does *NOT* contains gates !", LibName);
-        Error("could not continue with an empy library");
+        (void) sprintf("Library file %s does *NOT* contains gates !", lib_name);
+        error("could not continue with an empy library");
     }
     if (DEBUG) (void) fprintf(stderr, "eond of lib");
-    PrintGates(first.next);
+    print_gates(first.next);
     return first.next;
 }
 
-
-/* -=[ CheckArgs ]=-                                *
- * Gets the options from the command line, open     *
- * the input and output file and read params from   *
- * the library file.                                *
- *                                                  *
- * Input :                                          * 
- *     argc,argv = usual cmdline arcguments         */
-void CheckArgs(argc, argv)
-        int argc;
-        char **argv;
-{
+void check_args(int argc, char **argv) {
     char *s;
     char c;
     char help;
-
-    extern char *optarg;
-    extern int  optind;
 
     s = &(argv[0][strlen(argv[0]) - 1]);
     while ((s >= &(argv[0][0])) && (*s != '/')) { s--; }
     (void) fprintf(stderr, "\t\t      Blif Converter v1.0\n");
     (void) fprintf(stderr, "\t\t      by Roberto Rambaldi\n");
     (void) fprintf(stderr, "\t\tD.E.I.S. Universita' di Bologna\n\n");
-    help = 0;
-    ADDPOWER = 0;
-    INSTANCE = 1;
+    help      = 0;
+    ADDPOWER  = 0;
     while ((c = getopt(argc, argv, "s:S:d:D:IihHvVnN$")) > 0) {
         switch (toupper(c)) {
-            case 'I': INSTANCE = 0;
+            case 'S': (void) strncpy(VSS, optarg, MAX_NAME_LENGTH);
                 break;
-            case 'S': (void) strncpy(VSS, optarg, MAXNAMELEN);
-                break;
-            case 'D': (void) strncpy(VDD, optarg, MAXNAMELEN);
+            case 'D': (void) strncpy(VDD, optarg, MAX_NAME_LENGTH);
                 break;
             case 'V': DEBUG = 1;
                 break;
@@ -940,8 +726,6 @@ void CheckArgs(argc, argv)
             case 'N': ADDPOWER = 1;
                 break;
             case '$': help = 1;
-                (void) fprintf(stderr, "\n\tID = %s\n", rcsid);
-                (void) fprintf(stderr, "\tCompiled on %s\n\n", build_date);
                 break;
             default: (void) fprintf(stderr, "\t *** unknown options");
                 help = 1;
@@ -954,14 +738,14 @@ void CheckArgs(argc, argv)
             if (!help) (void) fprintf(stderr, "No Library file specified\n\n");
             help = 1;
         } else {
-            LIBRARY = ScanLibrary(argv[optind]);
+            LIBRARY = scan_library(argv[optind]);
             if (++optind >= argc) {
-                In = stdin;
+                In  = stdin;
                 Out = stdout;
             } else {
-                if ((In = fopen(argv[optind], "rt")) == NULL) Error("Couldn't read input file");
+                if ((In = fopen(argv[optind], "rt")) == NULL) error("Couldn't read input file");
                 if (++optind >= argc) { Out = stdout; }
-                else if ((Out = fopen(argv[optind], "wt")) == NULL) Error("Could'n make opuput file");
+                else if ((Out = fopen(argv[optind], "wt")) == NULL) error("Could'n make opuput file");
             }
         }
 
@@ -989,41 +773,24 @@ void CheckArgs(argc, argv)
     }
 }
 
-
-
-/* -=[ DecNumber ]=-                                *
- * checks if a token is a decimal number            *
- *                                                  *
- * Input  :                                         *
- *     string = token to check                      *
- * Output :                                         *
- *     int = converted integer, or 0 if the string  *
- *           is not a number                        *
- * REMMARK : strtol() can be used...                */
-int DecNumber(string)
-        char *string;
-{
+int dec_number(char *string){
     char *s;
 
     for (s = string; *s != '\0'; s++)
         if (!isdigit(*s)) {
-            SyntaxError("Expected decimal integer number", string);
+            syntax_error("Expected decimal integer number", string);
         }
     return atoi(string);
 }
 
-/* -=[ GetSignals ]=-                               */
-
-void GetSignals(TYPEptr)
-        struct TYPEterms *TYPEptr;
-{
+void get_signals(struct TYPEterms *TYPEptr) {
     enum states {
         sZERO, sWAIT, sNUM, sEND
     }                 next;
     char              *w;
-    char              LocalToken[MAXTOKENLEN];
-    char              name[MAXNAMELEN];
-    char              tmp[MAXNAMELEN + 10];
+    char              LocalToken[MAX_TOKEN_LENGTH];
+    char              name[MAX_NAME_LENGTH];
+    char              tmp[MAX_NAME_LENGTH + 10];
     struct BITstruct  *BITptr;
     struct VECTstruct *VECTptr;
     char              Token;
@@ -1043,11 +810,11 @@ void GetSignals(TYPEptr)
         VECTptr = VECTptr->next;
     }
 
-    next = sZERO;
+    next  = sZERO;
     Token = 1;
 
     do {
-        if (Token) GetToken(w);
+        if (Token) get_token(w);
         else Token = 1;
         if ((*w == '\n') && (next != sWAIT)) break;
         if (DEBUG) (void) fprintf(stderr, "next = %u\n", next);
@@ -1069,21 +836,21 @@ void GetSignals(TYPEptr)
                 } else {
                     /* it was a BIT type */
                     if (DEBUG) (void) fprintf(stderr, "\t\t--> bit, added\n");
-                    AddBIT(&BITptr, name);
+                    add_bit(&BITptr, name);
                     Token = 0;
-                    next = sZERO;
+                    next  = sZERO;
                 }
                 break;
             case sNUM: if (DEBUG) (void) fprintf(stderr, "\t\t is a vector, element number :%s\n", w);
-                num = DecNumber(w);
-                AddVECT(&VECTptr, name, num, num);
+                num = dec_number(w);
+                add_vect(&VECTptr, name, num, num);
                 (void) sprintf(tmp, "%s(%u)", name, num);
-                AddBIT(&BITptr, tmp);
+                add_bit(&BITptr, tmp);
                 next = sEND;
                 break;
             case sEND:
                 if (*w != ')') {
-                    Warning("closing ) expected !");
+                    warning("closing ) expected !");
                     Token = 0;
                 }
                 next = sZERO;
@@ -1094,10 +861,7 @@ void GetSignals(TYPEptr)
 
 }
 
-
-void OrderVectors(VECTptr)
-        struct VECTstruct *VECTptr;
-{
+void order_vectors(struct VECTstruct *VECTptr){
     struct VECTstruct *actual;
     struct VECTstruct *ptr;
     struct VECTstruct *tmp;
@@ -1110,9 +874,9 @@ void OrderVectors(VECTptr)
         actual = actual->next;
         last   = actual->start;
 /*	(void)fprintf(stderr,"vector under test : %s\n",actual->name);  */
-        dir = 0;
-        prev = actual;
-        ptr = actual->next;
+        dir    = 0;
+        prev   = actual;
+        ptr    = actual->next;
         while (ptr != NULL) {
 /*	    (void)fprintf(stderr,"analizing element name = %s  number = %u\n",ptr->name,ptr->end); */
             if (!strcmp(ptr->name, actual->name)) {
@@ -1127,7 +891,7 @@ void OrderVectors(VECTptr)
                 if (ptr->end > last) dir++;
                 else {
                     if (ptr->end == last) {
-                        Error("Two elements of an i/o vector with the same number not allowed!");
+                        error("Two elements of an i/o vector with the same number not allowed!");
                     } else dir--;
                 }
                 /* release memory */
@@ -1142,29 +906,25 @@ void OrderVectors(VECTptr)
                 prev->next = tmp;
             } else {
                 prev = ptr;
-                ptr = ptr->next;
+                ptr  = ptr->next;
             }
         }
         actual->dir = dir > 0;
     }
 }
 
-
-
-void PrintSignals(Model)
-        struct MODELstruct *Model;
-{
+void print_signals(struct MODELstruct *model){
     struct BITstruct  *BITptr;
     struct VECTstruct *VECTptr;
 
-    BITptr = (Model->Inputs)->BITs;
+    BITptr = (model->Inputs)->BITs;
     if (DEBUG) (void) fprintf(stderr, "\nINPUTS, BIT:");
     while (BITptr->next != NULL) {
         BITptr = BITptr->next;
         if (DEBUG) (void) fprintf(stderr, "\t%s", BITptr->name);
     }
 
-    BITptr = (Model->Outputs)->BITs;
+    BITptr = (model->Outputs)->BITs;
     if (DEBUG) (void) fprintf(stderr, "\nOUTPUTS, BIT:");
     while (BITptr->next != NULL) {
         BITptr = BITptr->next;
@@ -1172,7 +932,7 @@ void PrintSignals(Model)
     }
 
 
-    VECTptr = (Model->Inputs)->VECTs;
+    VECTptr = (model->Inputs)->VECTs;
     if (DEBUG) (void) fprintf(stderr, "\nINPUTS, VECT:");
     while (VECTptr->next != NULL) {
         VECTptr = VECTptr->next;
@@ -1181,7 +941,7 @@ void PrintSignals(Model)
             else if (DEBUG) (void) fprintf(stderr, "\t%s [%d..%d]", VECTptr->name, VECTptr->end, VECTptr->start);
     }
 
-    VECTptr = (Model->Outputs)->VECTs;
+    VECTptr = (model->Outputs)->VECTs;
     if (DEBUG) (void) fprintf(stderr, "\nOUTPUTS, VECT:");
     while (VECTptr->next != NULL) {
         VECTptr = VECTptr->next;
@@ -1192,12 +952,9 @@ void PrintSignals(Model)
     if (DEBUG) (void) fprintf(stderr, "\n");
 }
 
-
-void PrintNet(cell)
-        struct Instance *cell;
-{
-    struct Ports *ptr1;
-    struct Ports *ptr2;
+void print_net(struct instance *cell){
+    struct ports *ptr1;
+    struct ports *ptr2;
     int          j;
 
     while (cell->next != NULL) {
@@ -1205,60 +962,56 @@ void PrintNet(cell)
         if (DEBUG)
             (void) fprintf(stderr, "Inst. connected to name: %s, num pins : %d\n", (cell->what)->name,
                            (cell->what)->npins);
-        ptr1 = cell->actuals;
-        ptr2 = (cell->what)->formals;
+        ptr1   = cell->actuals;
+        ptr2   = (cell->what)->formals;
         for (j = 0; j < (cell->what)->npins; j++, ptr1++, ptr2++) {
             if (DEBUG) (void) fprintf(stderr, "\tpin %d : %s -> %s\n", j, ptr2->name, ptr1->name);
         }
     }
 }
 
-struct Instance *GetNames(name, type, Model)
-        char *name;
-        char type;
-        struct MODELstruct *Model;
-{
+struct instance *get_names(char *name, char type, struct MODELstruct *model) {
     enum states {
         sZERO, saWAIT, saNUM, saEND, sEQUAL,
         saNAME, sfWAIT, sfNUM, sfEND, sADDINSTANCE
     }                next;
-    struct Ports     *Fptr;
-    struct Ports     *Aptr;
-    struct Instance  *Inst;
-    struct Cell      *cell;
+    struct ports     *Fptr;
+    struct ports     *Aptr;
+    struct instance  *Inst;
+    struct cell      *cell;
     struct BITstruct *Bptr;
     char             *w;
-    char             LocalToken[MAXTOKENLEN];
-    char             FORMname[MAXNAMELEN];
-    char             ACTname[MAXNAMELEN];
-    char             tmp[MAXNAMELEN + 10];
+    char             LocalToken[MAX_TOKEN_LENGTH];
+    char             FORMname[MAX_NAME_LENGTH];
+    char             ACTname[MAX_NAME_LENGTH];
+    char             tmp[MAX_NAME_LENGTH + 10];
     char             Token;
     int              num;
     int              j;
     int              exit;
 
-    w = &(LocalToken[0]);
-    next = sZERO;
+    w     = &(LocalToken[0]);
+    next  = sZERO;
     Token = 1;
     exit  = 1;
 
     if (DEBUG) (void) fprintf(stderr, "Parsing instance with gate %s\n", name);
-    cell = WhatGate(name);
+    cell = match_gate(name);
     cell->used = 1;
-    Inst = NewInstance(cell);
+    Inst = new_instance(cell);
 
-    Bptr = (Model->Internals)->BITs;
+    Bptr = (model->Internals)->BITs;
     while (Bptr->next != NULL) {
         Bptr = Bptr->next;
     }
 
     do {
-        if (Token) GetToken(w);
+        if (Token) get_token(w);
         else Token = 1;
         if (*w == '\n') {
             exit = 0;
             if (next != sADDINSTANCE) {
-                Warning("--------> Unexpected end of line!");
+                warning("--------> Unexpected end of line!");
                 next = sADDINSTANCE;
             }
         }
@@ -1280,18 +1033,18 @@ struct Instance *GetNames(name, type, Model)
                 } else {
                     /* it was a BIT type */
                     Token = 0;
-                    next = sEQUAL;
+                    next  = sEQUAL;
                 }
                 break;
             case sfNUM: if (DEBUG) (void) fprintf(stderr, "\t\t is a vector, element number :%s\n", w);
-                num = DecNumber(w);
+                num = dec_number(w);
                 (void) sprintf(tmp, "%s(%u)", FORMname, num);
                 (void) strcpy(FORMname, tmp);
                 next = sfEND;
                 break;
             case sfEND:
                 if (*w != ')') {
-                    Warning("Closing ) expected !");
+                    warning("Closing ) expected !");
                     Token = 0;
                 }
                 next = sEQUAL;
@@ -1304,7 +1057,7 @@ struct Instance *GetNames(name, type, Model)
                         FORMname[0] = '\0';
                         next = sADDINSTANCE;
                     } else {
-                        Warning("Expexted '=' !");
+                        warning("Expexted '=' !");
                         next = saNAME;
                     }
                     Token = 0;
@@ -1327,38 +1080,38 @@ struct Instance *GetNames(name, type, Model)
                 } else {
                     /* it was a BIT type */
                     Token = 0;
-                    next = sADDINSTANCE;
+                    next  = sADDINSTANCE;
                 }
                 break;
             case saNUM: if (DEBUG) (void) fprintf(stderr, "\t\t is a vector, element number :%s\n", w);
-                num = DecNumber(w);
+                num = dec_number(w);
                 (void) sprintf(tmp, "%s(%u)", ACTname, num);
                 (void) strcpy(ACTname, tmp);
                 next = saEND;
                 break;
             case saEND:
                 if (*w != ')') {
-                    Warning("Closing ) expected !");
+                    warning("Closing ) expected !");
                     Token = 0;
                 }
                 next = sADDINSTANCE;
                 break;
             case sADDINSTANCE:
-                if ((IsHere(ACTname, (Model->Inputs)->BITs) == NULL) &&
-                    (IsHere(ACTname, (Model->Outputs)->BITs) == NULL) &&
-                    (IsHere(ACTname, (Model->Internals)->BITs) == NULL)) {
-                    AddBIT(&Bptr, ACTname);
+                if ((is_here(ACTname, (model->Inputs)->BITs) == NULL) &&
+                    (is_here(ACTname, (model->Outputs)->BITs) == NULL) &&
+                    (is_here(ACTname, (model->Internals)->BITs) == NULL)) {
+                    add_bit(&Bptr, ACTname);
                     if (DEBUG) (void) fprintf(stderr, "\tadded to internals\n");
                 }
-                Aptr = Inst->actuals;
-                Fptr = cell->formals;
-                j = 0;
-                next = sZERO;
+                Aptr  = Inst->actuals;
+                Fptr  = cell->formals;
+                j     = 0;
+                next  = sZERO;
                 Token = 0;
                 if (DEBUG) (void) fprintf(stderr, "\tparsed pin : %s, %s\n", FORMname, ACTname);
                 if (FORMname[0] != '\0') {
                     while (j < cell->npins) {
-                        if (KwrdCmp(Fptr->name, FORMname)) {
+                        if (keyword_compare(Fptr->name, FORMname)) {
                             (void) strcpy(Aptr->name, ACTname);
                             break;
                         }
@@ -1376,20 +1129,13 @@ struct Instance *GetNames(name, type, Model)
     return Inst;
 }
 
-
-
-
-
-
-void PrintVST(Model)
-        struct MODELstruct *Model;
-{
-    struct Cell       *Cptr;
-    struct Instance   *Iptr;
-    struct Ports      *Fptr;
+void print_vst(struct MODELstruct *model){
+    struct cell       *Cptr;
+    struct instance   *Iptr;
+    struct ports      *Fptr;
     struct BITstruct  *Bptr;
     struct VECTstruct *Vptr;
-    struct Ports      *Aptr;
+    struct ports      *Aptr;
     int               j;
     int               i;
     char              init;
@@ -1401,8 +1147,8 @@ void PrintVST(Model)
     (void) fprintf(Out, "-- |   D.E.I.S. Universita' di Bologna    | --\n");
     (void) fprintf(Out, "--[]--------------------------------------[]--\n\n");
 
-    (void) fprintf(Out, "\n\nENTITY %s IS\n    PORT(\n", Model->name);
-    Bptr = (Model->Inputs)->BITs;
+    (void) fprintf(Out, "\n\nENTITY %s IS\n    PORT(\n", model->name);
+    Bptr = (model->Inputs)->BITs;
     init = 0;
     while (Bptr->next != NULL) {
         Bptr = Bptr->next;
@@ -1413,7 +1159,7 @@ void PrintVST(Model)
         }
     }
 
-    Bptr = (Model->Outputs)->BITs;
+    Bptr = (model->Outputs)->BITs;
     while (Bptr->next != NULL) {
         Bptr = Bptr->next;
         if ((Bptr->name)[strlen(Bptr->name) - 1] != ')') {
@@ -1423,18 +1169,18 @@ void PrintVST(Model)
         }
     }
 
-    Vptr = (Model->Inputs)->VECTs;
+    Vptr = (model->Inputs)->VECTs;
     while (Vptr->next != NULL) {
-        Vptr = Vptr->next;
+        Vptr      = Vptr->next;
         if (init) (void) fputs(" ;\n", Out);
         else init = 1;
         if (Vptr->dir) (void) fprintf(Out, "\t%s\t: in BIT_VECTOR(%d to %d)", Vptr->name, Vptr->start, Vptr->end);
         else (void) fprintf(Out, "\t%s\t: in BIT_VECTOR(%d downto %d)", Vptr->name, Vptr->end, Vptr->start);
     }
 
-    Vptr = (Model->Outputs)->VECTs;
+    Vptr = (model->Outputs)->VECTs;
     while (Vptr->next != NULL) {
-        Vptr = Vptr->next;
+        Vptr      = Vptr->next;
         if (init) (void) fputs(" ;\n", Out);
         else init = 1;
         if (Vptr->dir) (void) fprintf(Out, "\t%s\t: out BIT_VECTOR(%d to %d)", Vptr->name, Vptr->start, Vptr->end);
@@ -1445,7 +1191,7 @@ void PrintVST(Model)
         (void) fprintf(Out, " ;\n\t%s\t : in BIT;\n\t%s\t : in BIT", VSS, VDD);
     }
 
-    (void) fprintf(Out, " );\nEND %s;\n\n\nARCHITECTURE structural_from_SIS OF %s IS\n", Model->name, Model->name);
+    (void) fprintf(Out, " );\nEND %s;\n\n\nARCHITECTURE structural_from_SIS OF %s IS\n", model->name, model->name);
 
 
     Cptr = LIBRARY;
@@ -1465,7 +1211,7 @@ void PrintVST(Model)
         }
     }
 
-    Bptr = (Model->Internals)->BITs;
+    Bptr = (model->Internals)->BITs;
     init = 0;
     while (Bptr->next != NULL) {
         Bptr = Bptr->next;
@@ -1474,14 +1220,14 @@ void PrintVST(Model)
 
     (void) fputs("BEGIN\n", Out);
 
-    j = 0;
-    Iptr = Model->Net;
+    j    = 0;
+    Iptr = model->Net;
     while (Iptr->next != NULL) {
         Iptr = Iptr->next;
         (void) fprintf(Out, "  inst%d : %s\n  PORT MAP (\n", j, (Iptr->what)->name);
         j++;
-        Aptr = Iptr->actuals;
-        Fptr = (Iptr->what)->formals;
+        Aptr   = Iptr->actuals;
+        Fptr   = (Iptr->what)->formals;
         for (i = 0; i < (Iptr->what)->npins - 1; i++, Aptr++, Fptr++) {
             (void) fprintf(Out, "\t%s => %s,\n", Fptr->name, Aptr->name);
         }
@@ -1496,85 +1242,66 @@ void PrintVST(Model)
 
 }
 
-
-/* -=[ PARSE FILE ]=-                               */
-void ParseFile() {
+void parse_file() {
     char               *w;
-    char               LocalToken[MAXTOKENLEN];
+    char               LocalToken[MAX_TOKEN_LENGTH];
     struct MODELstruct *LocModel;
-    struct Instance    *Net;
+    struct instance    *Net;
 
 
-    w = &(LocalToken[0]);
-    LocModel = NewModel();
+    w        = &(LocalToken[0]);
+    LocModel = new_model();
 
     if (DEBUG) (void) fprintf(stderr, "start of parsing\n");
     do {
-        GetToken(w);
+        get_token(w);
     } while (strcmp(w, ".model"));
 
 
-    GetToken(w);
+    get_token(w);
     (void) strcpy(LocModel->name, w);
     do {
-        do GetToken(w); while (*w == '\n');
+        do get_token(w); while (*w == '\n');
         if ((!strcmp(w, ".inputs")) || (!strcmp(w, ".clock"))) {
-            GetSignals(LocModel->Inputs);
+            get_signals(LocModel->Inputs);
         } else {
             if (!strcmp(w, ".outputs")) {
-                GetSignals(LocModel->Outputs);
+                get_signals(LocModel->Outputs);
             } else break;
         }
     } while (!feof(In));
 
-    PrintSignals(LocModel);
+    print_signals(LocModel);
 
-    OrderVectors((LocModel->Inputs)->VECTs);
-    OrderVectors((LocModel->Outputs)->VECTs);
+    order_vectors((LocModel->Inputs)->VECTs);
+    order_vectors((LocModel->Outputs)->VECTs);
 
-    PrintSignals(LocModel);
+    print_signals(LocModel);
 
     Net = LocModel->Net;
     do {
         if (!strcmp(w, ".gate")) {
-            GetToken(w);
-            Net->next = GetNames(w, 0, LocModel);
+            get_token(w);
+            Net->next = get_names(w, 0, LocModel);
             Net = Net->next;
         } else {
             if (!strcmp(w, ".mlatch")) {
-                GetToken(w);
-                Net->next = GetNames(w, 1, LocModel);
+                get_token(w);
+                Net->next = get_names(w, 1, LocModel);
                 Net = Net->next;
             } else {
                 if (!strcmp(w, ".end")) {
-                    PrintNet(LocModel->Net);
+                    print_net(LocModel->Net);
                     if (DEBUG) (void) fprintf(stderr, "fine");
                     break;
                 } else {
-                    /* SyntaxError("Unknown keyword",w); */
+                    /* syntax_error("Unknown keyword",w); */
                 }
             }
         }
-        do GetToken(w); while (*w == '\n');
+        do get_token(w); while (*w == '\n');
     } while (!feof(In));
-    PrintVST(LocModel);
-
+    print_vst(LocModel);
 }
-
-/* -=[ main ]=-                                     */
-int main(argc, argv)
-        int argc;
-        char **argv;
-{
-
-    CheckArgs(argc, argv);
-
-    ParseFile();
-
-    CloseAll();
-
-    return 0;
-}
-
 
 

@@ -13,7 +13,7 @@
 
 /* LINTLIBRARY */
 
-#include "espresso.h"
+#include "inc/espresso.h"
 static pset_family set_family_garbage = NULL;
 
 static int intcpy(d, s, n)

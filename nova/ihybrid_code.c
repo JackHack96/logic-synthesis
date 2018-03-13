@@ -12,7 +12,7 @@
 *                                                                             *
 ******************************************************************************/
 
-#include "nova.h"
+#include "inc/nova.h"
 
 ihybrid_code(net,symblemes,net_name,net_num,code_length)
 CONSTRAINT **net;

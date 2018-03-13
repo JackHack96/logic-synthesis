@@ -25,7 +25,7 @@
 * packing )                                                                    *
 *******************************************************************************/
 
-#include "nova.h"
+#include "inc/nova.h"
 
 least_dimcube(net_num)
 int net_num;

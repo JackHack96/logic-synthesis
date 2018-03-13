@@ -12,7 +12,7 @@
 *   This version uses the espresso-II version#2.0 binary-valued minimizer      *
 *******************************************************************************/
 
-#include "nova.h"
+#include "inc/nova.h"
 
 exact_mini()
 

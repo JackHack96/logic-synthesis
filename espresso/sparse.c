@@ -18,7 +18,7 @@
     the "dense" variables (using modified version of expand).
 */
 
-#include "espresso.h"
+#include "inc/espresso.h"
 
 pcover make_sparse(F, D, R)
 pcover F, D, R;

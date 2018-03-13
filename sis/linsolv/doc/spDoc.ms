@@ -1626,7 +1626,7 @@ fill it.
 \(bu Possible errors:
 .nf
 spNO_MEMORY
-Error is not cleared in this routine.
+error is not cleared in this routine.
 .XP
 \(bu Compiler options that must be set for this routine to exist:
 .nf

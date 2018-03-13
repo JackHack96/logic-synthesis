@@ -47,7 +47,7 @@
     force_lower expand hack (for now), related to consensus
 */
 
-#include "espresso.h"
+#include "inc/espresso.h"
 
 /* see if the cube has a full row of 1's (with respect to cof) */
 bool full_row(p, cof)

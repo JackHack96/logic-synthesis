@@ -13,7 +13,7 @@
 ******************************************************************************/
 
 
-#include "nova.h"
+#include "inc/nova.h"
 
 iovariant_code(net,symblemes,net_name,net_num,code_length)
 CONSTRAINT **net;

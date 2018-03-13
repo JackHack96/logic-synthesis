@@ -7,7 +7,7 @@
  * $Date: 2004/02/07 10:14:10 $
  *
  */
-#include "nova.h"
+#include "inc/nova.h"
 
 /**********************************************************************/
 /*              Here is the command_line routine                      */

@@ -8,7 +8,7 @@
  *
  */
 #include "../port/port.h"
-#include "sparse_int.h"
+#include "inc/sparse_int.h"
 
 /*
  *  free-lists are only used if 'FAST_AND_LOOSE' is set; this is because

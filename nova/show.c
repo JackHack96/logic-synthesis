@@ -12,7 +12,7 @@
 *                                                                            *
 *****************************************************************************/
 
-#include "nova.h"
+#include "inc/nova.h"
 
 shownet(net,net_name,header)
 CONSTRAINT **net;

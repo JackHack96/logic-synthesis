@@ -1988,7 +1988,7 @@ o Arguments:
 
 o Possible errors:
      spNO MEMORY
-     Error is not cleared in this routine.
+     error is not cleared in this routine.
 
 o Compiler options that must be set for this routine to exist:
      QUAD ELEMENT

@@ -7,7 +7,7 @@
  * $Date: 2004/02/07 10:13:56 $
  *
  */
-#include "espresso.h"
+#include "inc/espresso.h"
 
 /*
     The cofactor of a cover against a cube "c" is a cover formed by the

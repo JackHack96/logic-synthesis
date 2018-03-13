@@ -24,7 +24,7 @@
  */
 
 #include <stdio.h>
-#include "jedi.h"
+#include "inc/jedi.h"
 
 int parse_options();	/* forward declaration */
 

@@ -12,7 +12,7 @@
 ***************************************************************************/
 
 
-#include "nova.h"
+#include "inc/nova.h"
 
 newinputrow (input,pstate,nstate,output)
 char *input;

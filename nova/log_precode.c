@@ -12,7 +12,7 @@
 *                                                                             *
 ******************************************************************************/
 
-#include "nova.h"
+#include "inc/nova.h"
 
 precode(net)
 CONSTRAINT **net;

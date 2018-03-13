@@ -11,7 +11,7 @@
     sharp.c -- perform sharp, disjoint sharp, and intersection
 */
 
-#include "espresso.h"
+#include "inc/espresso.h"
 
 long start_time;
 

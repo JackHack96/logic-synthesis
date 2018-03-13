@@ -24,7 +24,7 @@
     maximally reduced cubes.
 */
 
-#include "espresso.h"
+#include "inc/espresso.h"
 
 
 /*

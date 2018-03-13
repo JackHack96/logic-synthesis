@@ -17,9 +17,9 @@
  *     code except sell it or remove this message.
  */
 
-#include "jedi.h"
-#include "rp.h"
-#include "rp_int.h"
+#include "inc/jedi.h"
+#include "inc/rp.h"
+#include "inc/rp_int.h"
 
 double determine_cost();
 

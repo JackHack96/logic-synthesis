@@ -7,7 +7,7 @@
  * $Date: 2004/02/07 10:14:09 $
  *
  */
-#include "nova.h"
+#include "inc/nova.h"
 
 lower_bound()
 
