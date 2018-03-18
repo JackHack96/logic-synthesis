@@ -1,40 +1,10 @@
-/*
- * $Header: /users/pchong/CVS/sis/blif2vst/blif2vst.c,v 1.1.1.1 2004/02/07 10:13:56 pchong Exp $
- * $Source: /users/pchong/CVS/sis/blif2vst/blif2vst.c,v $
- * $Log: blif2vst.c,v $
- * Revision 1.1.1.1  2004/02/07 10:13:56  pchong
- * imported
+/**
+ * blif2vst version 1.1
  *
- * Revision 1.10  1994/06/14  15:47:29  archiadm
- * error in: printf of output vectors
+ * Original version by Rambaldi Roberto, reworked by Matteo Iervasi
  *
- * Revision 1.9  1994/06/11  16:06:05  archiadm
- * update 11/6
- *
- * Revision 1.8  1994/05/23  21:14:20  archiadm
- * new improvements
- *
- * Revision 1.8  1994/05/20  18:05:11  archiadm
- * new improvements
- *
- * Revision 1.7  1994/05/09  10:17:39  archiadm
- * minor bug fixes
- *
- * Revision 1.6  1994/05/06  15:45:13  Rob
- * bug fix in the initial help, id has been added
- *
- * Revision 1.5  1994/05/04  20:56:25  Rob
- * First released version
- *
- * Revision 1.4  1994/05/04  09:14:19  Rob
- * Fixed the library parser and the blif file parser
- *
- *
- *   Blif2Vst  version 0.0
- *    BY RAMBALDI rOBERTO.
- *        Apr. 6 1994.
+ * Copyright 1994-2018
  */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -42,8 +12,6 @@
 #include <unistd.h>
 #include "blif2vst.h"
 
-/*           ASCII seq:   (  )  *  +  ,    :  ;  <  =  >       *
- *           code         40 41 42 43 44   58 59 60 61 62      */
 #define isBLK(c) ( (((c)=='\t') || ((c)==' ') || ((c)=='\r')) )
 #define isREM(c) ( ((c)=='#') )
 #define isDQ(c)  ( ((c)=='"') )

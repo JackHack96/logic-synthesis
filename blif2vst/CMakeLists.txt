@@ -3,4 +3,4 @@ project(blif2vst)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_executable(${PROJECT_NAME} blif2vst.c blif2vst.h)
+add_executable(${PROJECT_NAME} blif2vst.c blif2vst.h ../vst2blif/vst2blif.h)

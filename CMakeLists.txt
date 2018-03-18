@@ -6,3 +6,4 @@ set(CMAKE_CXX_STANDARD 11)
 include_directories("${PROJECT_SOURCE_DIR}")
 
 add_subdirectory(blif2vst)
+add_subdirectory(vst2blif)
