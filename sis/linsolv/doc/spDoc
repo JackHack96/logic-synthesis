@@ -4094,7 +4094,7 @@ The largest positive integer representable by a long.
 
 7:  EXPORTS
 
-7.1:  Error Codes
+7.1:  print_error Codes
 
      Errors are indicated with a integer error  code.   Macros  definitions
 for  these  error codes are set up and placed in the file spMatrix.h.  They

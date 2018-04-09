@@ -1683,7 +1683,7 @@ otherwise treated normally.
 \(bu Possible errors:
 .nf
 spNO_MEMORY
-Error is not cleared in this routine.
+print_error is not cleared in this routine.
 .Le
 .XS \n%         \" Save section title for table of contents
 	\n(sc.\n(ss:  \fIspGetElement()\fP

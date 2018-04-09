@@ -27,7 +27,7 @@ struct instance {
 };
 
 
-/* list of formal names, is used in GetPort when multiple   *
+/* list of formal names, is used in get_port when multiple   *
  * definition are given, as    a,b,c : IN BIT;              */
 struct TMPstruct {
     char             name[MAX_NAME_LENGTH];

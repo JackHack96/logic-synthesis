@@ -230,7 +230,7 @@ struct TMPstruct **TMPptr;
 
    (*TMPptr)->next=(struct TMPstruct *)calloc(1,sizeof(struct TMPstruct));
    if ( (*TMPptr)->next==NULL) {
-	Error("Allocation error or not enough memory !");
+	print_error("Allocation error or not enough memory !");
     }
    (*TMPptr)=(*TMPptr)->next;
 
@@ -256,7 +256,7 @@ struct MODELstruct *model;
     struct BITstruct *ptr;
 
     if ( (ptr=IsHere(name,(model->Inputs)->BITs))!=NULL ) return ptr;
-    if ( (ptr=IsHere(name,(model->Outputs)->BITs))!=NULL ) return ptr;
+    if ( (ptr=is_here(name,(model->Outputs)->BITs))!=NULL ) return ptr;
     if ( (ptr=is_here(name,(model->Internals)->BITs))!=NULL ) return ptr;
     return (struct BITstruct *)NULL;
 

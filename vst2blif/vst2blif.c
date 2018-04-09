@@ -25,7 +25,7 @@
 #define isEOF(c) ( ((c)=='\0') )
 #define isEOT(c) ( (isBLK((c)) || isEOL((c))) )
 
-struct LibCell *ScanLibrary(); // list of inputs
+//struct LibCell *scan_library();
 
 FILE           *In;
 FILE           *Out;
@@ -43,10 +43,7 @@ int         WARNING;
 int         INSTANCE;
 struct Cell *cells;
 
-/**
- * Closes all the files and flushes the used memory
- */
-void CloseAll() {
+void close_all() {
 
     if (In != stdin) (void) fclose(In);
     if (Out != stdout) (void) fclose(Out);
@@ -54,34 +51,13 @@ void CloseAll() {
     free(cells);
 }
 
-
-/* -=[ Error ]=-                                    *
- * Displays an error message, and then exit         *
- *                                                  *
- * Input :                                          *
- *     msg  = message to printout before exiting    */
-void Error(Msg)
-        char *Msg;
-{
-    (void) fprintf(stderr, "*** Error : %s\n", Msg);
-    CloseAll();
+void print_error(char *msg) {
+    (void) fprintf(stderr, "*** print_error : %s\n", msg);
+    close_all();
     exit(1);
 }
 
-/* -=[ KwrdCmp ]=-                                  *
- * Compares to strings, without taking care of the  *
- * case.                                            *
- *                                                  *
- * Inoput :                                         *
- *      name = first string, tipically the token    *
- *      keywrd = second string, tipically a keyword *
- * Output :                                         *
- *      int  = 1 if the strings matches            *
- *              0 if they don't match               */
-int KwrdCmp(name, keywrd)
-        char *name;
-        char *keywrd;
-{
+int kwrd_cmp(char *name, char *keywrd) {
     int t;
     int len;
 
@@ -98,17 +74,7 @@ int KwrdCmp(name, keywrd)
     return 1;
 }
 
-/* -=[ CheckArgs ]=-                                *
- * Gets the options from the command line, open     *
- * the input and output file and read params from   *
- * the library file.                                *
- *                                                  *
- * Input :                                          *
- *     argc,argv = usual cmdline arcguments         */
-void CheckArgs(argc, argv)
-        int argc;
-        char **argv;
-{
+void check_args(int argc, char **argv) {
     char *s;
     char c;
     int  help;
@@ -123,7 +89,7 @@ void CheckArgs(argc, argv)
     (void) fprintf(stderr, "\t\t      Vst Converter v1.5\n");
     (void) fprintf(stderr, "\t\t      by Roberto Rambaldi\n");
     (void) fprintf(stderr, "\t\tD.E.I.S. Universita' di Bologna\n\n");
-    help = 0;
+    help      = 0;
     INSTANCE  = 1;
     NoPower   = 0;
     LOWERCASE = 1;
@@ -145,10 +111,10 @@ void CheckArgs(argc, argv)
                 }
                 break;
             case 'L':
-                if (KwrdCmp(optarg, "IN")) {
+                if (kwrd_cmp(optarg, "IN")) {
                     LINKAGE = 'i';
                 } else {
-                    if (KwrdCmp(optarg, "OUT")) {
+                    if (kwrd_cmp(optarg, "OUT")) {
                         LINKAGE = 'o';
                     } else {
                         (void) fprintf(stderr, "\tUnknow direction for a port of type linkage\n");
@@ -176,9 +142,9 @@ void CheckArgs(argc, argv)
             (void) fprintf(stderr, "No Library file specified\n\n");
             help = 1;
         } else {
-            LIBRARY = (struct LibCell *) ScanLibrary(argv[optind]);
+            LIBRARY = (struct LibCell *) scan_library(argv[optind]);
             if (++optind >= argc) {
-                In = stdin;
+                In  = stdin;
                 Out = stdout;
             } else {
                 if ((In = fopen(argv[optind], "rt")) == NULL) {
@@ -223,18 +189,7 @@ void CheckArgs(argc, argv)
     }
 }
 
-/* -=[ GetNextToken ]=-                             *
- * Tokenizer, see the graph to understand how it    *
- * works.                                           *
- *                                                  *
- * Inputs :                                         *
- *     tok = pointer to the final buffer, which is  *
- *           a copy of the internal Token, it's     *
- * *indirectly* uses SendTokenBack as input and     *
- * line as output                                   */
-void GetNextToken(tok)
-        char *tok;
-{
+void get_next_token(char *tok) {
     static char              init = 0;
     static enum TOKEN_STATES state;
     static char              sentback;
@@ -246,13 +201,13 @@ void GetNextToken(tok)
     char                     c;
 
     if (!init) {
-        state = tZERO;
+        state         = tZERO;
         init          = 1;
         line          = 0;
         SendTokenBack = 0;
     }
 
-    t = &(Token[0]);
+    t          = &(Token[0]);
     num        = 0;
     TokenReady = 0;
     str        = 0;
@@ -289,14 +244,14 @@ void GetNextToken(tok)
                         t++;
                         num++;
                         sentback = '\0';
-                        state = tREM1;
+                        state    = tREM1;
                     } else {
                         if isDQ(c) {
                             sentback = '\0';
-                            state = tSTRING;
+                            state    = tSTRING;
                         } else {
                             if isEOF(c) {
-                                state = tEOF;
+                                state      = tEOF;
                                 sentback   = 1;
                                 TokenReady = 0;
                             } else {
@@ -317,7 +272,7 @@ void GetNextToken(tok)
                 /*   TOKEN  state  */
                 /*******************/
                 TokenReady = 1;
-                sentback = c;
+                sentback   = c;
                 if (isSTK(c)) {
                     state = tZERO;
                 } else {
@@ -326,20 +281,20 @@ void GetNextToken(tok)
                     } else {
                         if isDQ(c) {
                             sentback = '\0';
-                            state = tSTRING;
+                            state    = tSTRING;
                         } else {
                             if isEOF(c) {
                                 sentback = 1;
-                                state = tEOF;
+                                state    = tEOF;
                             } else {
                                 if isEOT(c) {
                                     sentback = '\0';
-                                    state = tZERO;
+                                    state    = tZERO;
                                 } else {
                                     sentback = '\0';
                                     if (num >= (MAXTOKENLEN - 1)) {
                                         sentback = c;
-                                        (void) fprintf(stderr, "*Parse Warning* Line %u: token too long !\n", line);
+                                        (void) fprintf(stderr, "*Parse warning* Line %u: token too long !\n", line);
                                     } else {
                                         if (LOWERCASE) *t = tolower(c);
                                         else *t = toupper(c);
@@ -348,7 +303,7 @@ void GetNextToken(tok)
                                         TokenReady = 0;
                                         /* fprintf(stderr,"."); */
                                     }
-                                    state = tTOKEN;
+                                    state    = tTOKEN;
                                 }
                             }
                         }
@@ -360,28 +315,28 @@ void GetNextToken(tok)
                 /*    REM1 state   */
                 /*******************/
                 TokenReady = 1;
-                sentback = c;
+                sentback   = c;
                 if (isSTK(c)) {
                     state = tZERO;
                 } else {
                     if isREM(c) {
-                        sentback = '\0';
-                        state = tREM2;    /* it's a remmark. */
+                        sentback   = '\0';
+                        state      = tREM2;    /* it's a remmark. */
                         TokenReady = 0;
                     } else {
                         if isDQ(c) {
                             sentback = '\0';
-                            state = tSTRING;
+                            state    = tSTRING;
                         } else {
                             if isEOF(c) {
-                                state = tEOF;
+                                state      = tEOF;
                                 sentback   = 1;
                                 TokenReady = 0;
                             } else {
                                 if isEOT(c) {
                                     sentback = '\0';
                                     /* there's no need to parse an EOT */
-                                    state = tZERO;
+                                    state    = tZERO;
                                 } else {
                                     state = tTOKEN;
                                 }
@@ -397,12 +352,12 @@ void GetNextToken(tok)
                 sentback   = '\0';
                 TokenReady = 0;
                 if isEOL(c) {
-                    num = 0;
-                    t = &(Token[0]);
+                    num   = 0;
+                    t     = &(Token[0]);
                     state = tZERO;
                 } else {
                     if isEOF(c) {
-                        state = tEOF;
+                        state      = tEOF;
                         sentback   = 1;
                         TokenReady = 0;
                     } else {
@@ -430,21 +385,21 @@ void GetNextToken(tok)
 				* double quote is the last one *ONLY*  */
                 } else {
                     if isEOF(c) {
-                        state = tEOF;    /* this is *UNESPECTED* ! */
+                        state    = tEOF;    /* this is *UNESPECTED* ! */
                         sentback = 1;
-                        (void) fprintf(stderr, "*Parse Warning* Line %u: unespected Eof\n", line);
+                        (void) fprintf(stderr, "*Parse warning* Line %u: unespected Eof\n", line);
                     } else {
                         sentback = '\0';
                         if (num >= MAXTOKENLEN - 2) {
                             sentback = c;
-                            (void) fprintf(stderr, "*Parse Warning* Line %u: token too long !\n", line);
+                            (void) fprintf(stderr, "*Parse warning* Line %u: token too long !\n", line);
                         } else {
                             if (LOWERCASE) *t = tolower(c);
                             else *t = toupper(c);
                             t++;
                             num++;
                             TokenReady = 0;
-                            state = tSTRING;
+                            state      = tSTRING;
                         }
                     }
                 }
@@ -453,9 +408,9 @@ void GetNextToken(tok)
                 /*******************/
                 /*    EOF  state   */
                 /*******************/
-                t = &(Token[0]);
+                t          = &(Token[0]);
                 TokenReady = 1;
-                state = tEOF;
+                state      = tEOF;
                 break;
         }
     } while (!TokenReady);
@@ -467,16 +422,14 @@ void GetNextToken(tok)
 /*====================================================================*
 
 
-  ReleaseBit : deallocates an entire BITstruct structure
-  ReleaseSIG : deallocates an entire SIGstruct structure
-  NewCell    : allocates memory for a new cell
+  releaseBIT : deallocates an entire BITstruct structure
+  releaseSIG : deallocates an entire SIGstruct structure
+  new_cell    : allocates memory for a new cell
 
 
   ====================================================================*/
 
-void ReleaseBit(ptr)
-        struct BITstruct *ptr;
-{
+void releaseBIT(struct BITstruct *ptr){
     struct BITstruct *tmp;
 
     while (ptr != NULL) {
@@ -487,9 +440,7 @@ void ReleaseBit(ptr)
 }
 
 
-void ReleaseSIG(ptr)
-        struct SIGstruct *ptr;
-{
+void releaseSIG(struct SIGstruct *ptr){
     struct SIGstruct *tmp;
 
     while (ptr != NULL) {
@@ -499,106 +450,63 @@ void ReleaseSIG(ptr)
     }
 }
 
-
-
-void AddBIT(BITptr, name, dir)
-        struct BITstruct **BITptr;
-        char *name;
-        char dir;
-{
+void addBIT(struct BITstruct **BITptr, char *name, char dir){
 
     (*BITptr)->next = (struct BITstruct *) calloc(1, sizeof(struct BITstruct));
     if ((*BITptr)->next == NULL) {
-        Error("Allocation Error or not enought memory !");
+        print_error("Allocation print_error or not enought memory !");
     }
     (*BITptr) = (*BITptr)->next;
     (void) strcpy((*BITptr)->name, name);
-    (*BITptr)->dir = dir;
+    (*BITptr)->dir  = dir;
     (*BITptr)->next = NULL;
 }
 
-void AddSIG(SIGptr, name, dir, start, end)
-        struct SIGstruct **SIGptr;
-        char *name;
-        char dir;
-        int start;
-        int end;
-{
+void addSIG(struct SIGstruct **SIGptr, char *name, char dir, int start, int end){
 
     (*SIGptr)->next = (struct SIGstruct *) calloc(1, sizeof(struct SIGstruct));
     if ((*SIGptr)->next == NULL) {
-        Error("Allocation Error or not enought memory !");
+        print_error("Allocation print_error or not enought memory !");
     }
     (*SIGptr) = (*SIGptr)->next;
     (void) strcpy((*SIGptr)->name, name);
     (*SIGptr)->dir   = dir;
     (*SIGptr)->start = start;
     (*SIGptr)->end   = end;
-    (*SIGptr)->next = NULL;
+    (*SIGptr)->next  = NULL;
 #ifdef DEBUG
     (void)fprintf(stderr,"\n\t\tAdded SIGNAL <%s>, dir = %c, start =%d, end =%d",(*SIGptr)->name,(*SIGptr)->dir,(*SIGptr)->start,(*SIGptr)->end);
 #endif
 }
 
-
-
-/* -=[ Warning ]=-                                  *
- * Puts a message on stderr, write the current line *
- * and then sends the current token back            *
- *                                                  *
- * Inputs :                                         *
- *      name = message                              */
-void Warning(name)
-        char *name;
-{
-    if (WARNING) (void) fprintf(stderr, "*parse warning* Line %u : %s\n", line, name);
+void warning(char *msg){
+    if (WARNING) (void) fprintf(stderr, "*parse warning* Line %u : %s\n", line, msg);
     SendTokenBack = 1;
 }
 
-/* -=[ VstError ]=-                                 *
- * sends to stderr a message and then gets tokens   *
- * until a gicen one is reached                     *
- *                                                  *
- * Input :                                          *
- *     name = message to print                      *
- *     next = token to reach                        */
-void VstError(name, next)
-        char *name;
-        char *next;
-{
+void vst_error(char *name, char *next){
     char *w;
     char LocalToken[MAXTOKENLEN];
 
     w = &(LocalToken[0]);
-    (void) fprintf(stderr, "*Error* Line %u : %s\n", line, name);
-    (void) fprintf(stderr, "*Error* Line %u : skipping text until the keyword %s is reached\n", line, next);
+    (void) fprintf(stderr, "*print_error* Line %u : %s\n", line, name);
+    (void) fprintf(stderr, "*print_error* Line %u : skipping text until the keyword %s is reached\n", line, next);
     SendTokenBack = 1;
     do {
-        GetNextToken(w);
+        get_next_token(w);
         if (feof(In))
-            Error("Unespected Eof!");
-    } while (!KwrdCmp(w, next));
+            print_error("Unespected Eof!");
+    } while (!kwrd_cmp(w, next));
 }
 
-/* -=[ DecNumber ]=-                                *
- * checks if a token is a decimal number            *
- *                                                  *
- * Input  :                                         *
- *     string = token to check                      *
- * Output :                                         *
- *     int = converted integer, or 0 if the string  *
- *           is not a number                        *
- * REMMARK : strtol() can be used...                */
-int DecNumber(string)
-        char *string;
-{
+int dec_number(char *string){
     char msg[50];
     char *s;
 
     for (s = string; *s != '\0'; s++)
         if (!isdigit(*s)) {
-            (void) sprintf(msg, "*Error Line %u : Expected decimal integer number \n", line);
-            Error(msg);
+            (void) sprintf(msg, "*print_error Line %u : Expected decimal integer number \n", line);
+            print_error(msg);
         }
     return atoi(string);
 }
@@ -610,22 +518,15 @@ int DecNumber(string)
   Genlib scan
   ^^^^^^^^^^^
 
-  PrintGates  : outputs the gates read if in DEBUG mode
-  GetLibToken : tokenizer for the genlib file
-  IsHere      : formals check
-  ScanLibrary : parses the genlib files and builds the data structure.
-  WhatGate    : checks for a cell into the library struct.
+  print_gates  : outputs the gates read if in DEBUG mode
+  get_lib_token : tokenizer for the genlib file
+  is_here      : formals check
+  scan_library : parses the genlib files and builds the data structure.
+  what_gate    : checks for a cell into the library struct.
 
  *=========================================================================*/
 
-/* -=[ PrintGates ]=-                               *
- * A kind debugger procedure ...                    *
- *                                                  *
- * Input  :                                         *
- *      cell = library file                         */
-void PrintGates(cell)
-        struct LibCell *cell;
-{
+void print_gates(struct LibCell *cell){
     struct Ports *ptr;
     int          j;
 
@@ -635,7 +536,7 @@ void PrintGates(cell)
         } else {
             (void) fprintf(stderr, "Cell name: %s, num pins : %d\n", cell->name, cell->npins);
         }
-        ptr = cell->formals;
+        ptr    = cell->formals;
         for (j = 0; j < cell->npins; j++, ptr++) {
             (void) fprintf(stderr, "\tpin %d : %s\n", j, ptr->name);
         }
@@ -646,21 +547,9 @@ void PrintGates(cell)
     }
 }
 
-/* -=[ GetTypeOfCell ]=-                            *
- * Scans the genlib data structure to find the      *
- * type of the cell                                 *
- *                                                  *
- * Input  :                                         *
- *      cell = library file                         *
- *      name = name of cell to match                *
- * Output :                                         *
- *      type of cell                                */
-char GetTypeOfCell(cell, name)
-        struct LibCell *cell;
-        char *name;
-{
+char get_type_of_cell(struct LibCell *cell, char *name){
     while (cell->next != NULL) {
-        if (KwrdCmp(cell->name, name)) {
+        if (kwrd_cmp(cell->name, name)) {
             if (cell->clk[0]) {
                 return 'L';   /* Library celly, type = L(atch) */
             } else {
@@ -672,17 +561,7 @@ char GetTypeOfCell(cell, name)
     return 'S';   /* type = S(ubcircuit) */
 }
 
-/* -=[ GetLibToken ]=-                              *
- * Tokenizer to scan the library file               *
- *                                                  *
- * Input  :                                         *
- *      Lib = library file                          *
- * Output :                                         *
- *      tok = filled with the new token             */
-void GetLibToken(Lib, tok)
-        FILE *Lib;
-        char *tok;
-{
+void get_lib_token(FILE *Lib, char *tok){
     enum states {
         tZERO, tLONG, tEOF, tSTRING, tREM
     };
@@ -699,11 +578,11 @@ void GetLibToken(Lib, tok)
     if (!init) {
         sentback = 0;
         init     = 1;
-        next = tZERO;
-        str = 0;
+        next     = tZERO;
+        str      = 0;
     }
 
-    t = &(TOKEN[0]);
+    t   = &(TOKEN[0]);
     num = 0;
     str = 0;
 
@@ -728,16 +607,16 @@ void GetLibToken(Lib, tok)
                         if (((c >= 0x27) && (c <= 0x2b)) || (c == '=') || (c == ';') || (c == '\n') || (c == '!')) {
                             *t = c;
                             t++;
-                            next = tZERO;
+                            next  = tZERO;
                             ready = 1;
                         } else {
                             if (c == '"') {
-                                num = 0;
+                                num  = 0;
                                 next = tSTRING;
                             } else {
-                                num = 0;
-                                next = tLONG;
-                                ready = 0;
+                                num      = 0;
+                                next     = tLONG;
+                                ready    = 0;
                                 sentback = c;
                             }
                         }
@@ -747,25 +626,25 @@ void GetLibToken(Lib, tok)
             case tLONG:
                 if ((c == ' ') || (c == '\r') || (c == '\t')) {
                     ready = 1;
-                    next = tZERO;
+                    next  = tZERO;
                 } else {
                     if (((c >= 0x27) && (c <= 0x2b)) || (c == '=') || (c == ';') || (c == '\n') || (c == '!')) {
-                        next = tZERO;
-                        ready = 1;
+                        next     = tZERO;
+                        ready    = 1;
                         sentback = c;
                     } else {
                         if (c == '"') {
                             ready = 1;
-                            next = tSTRING;
+                            next  = tSTRING;
                         } else {
                             if (c == '#') {
                                 ready = 1;
-                                next = tREM;
+                                next  = tREM;
                             } else {
                                 *t = c;
                                 t++;
                                 num++;
-                                next = tLONG;
+                                next       = tLONG;
                                 if ((ready = (num >= MAXTOKENLEN - 1)))
                                     (void) fprintf(stderr, "Sorry, exeeded max name len of %u", num + 1);
                             }
@@ -784,18 +663,18 @@ void GetLibToken(Lib, tok)
                     (void)fprintf(stderr,"<%c>\n",c);
 #endif
                 }
-                *t   = c;
+                *t         = c;
                 t++;
                 num++;
                 if (c == '"') {   /* last dblquote */
                     ready = 1;
-                    next = tZERO;
+                    next  = tZERO;
 #ifdef DEBUG
                     (void)fprintf(stderr,"STRING : %s\n",TOKEN);
 #endif
                     break;
                 }
-                next = tSTRING;
+                next       = tSTRING;
                 if ((ready = (num >= MAXTOKENLEN - 1)))
                     (void) fprintf(stderr, "Sorry, exeeded max name len of %u", num + 1);
                 break;
@@ -806,7 +685,7 @@ void GetLibToken(Lib, tok)
                 }
                 break;
             case tEOF: next = tEOF;
-                ready = 1;
+                ready    = 1;
                 sentback = c;
                 *t = c;
 #ifdef DEBUG
@@ -820,36 +699,18 @@ void GetLibToken(Lib, tok)
     (void) strcpy(tok, &(TOKEN[0]));
 }
 
-/* -=[ IsHere ]=-                                   *
- * Check is a name has been already used in the     *
- * expression. Here we look only at names, 'unused' *
- * flag here is not useful.                         *
- *                                                  *
- * Input  :                                         *
- *     ptr  = pointer to list of formals            *
- *     name = name to check                         *
- * Output :                                         *
- *     pointer = if 'name' is used                  *
- *     NULL    = if used                            */
-struct BITstruct *IsHere(name, ptr)
-        char *name;
-        struct BITstruct *ptr;
-{
+struct BITstruct *is_here(char *name, struct BITstruct *ptr){
     struct BITstruct *BITptr;
 
     BITptr = ptr;
     while (BITptr->next != NULL) {
         BITptr = BITptr->next;
-        if (KwrdCmp(name, BITptr->name)) return BITptr;
+        if (kwrd_cmp(name, BITptr->name)) return BITptr;
     }
     return (struct BITstruct *) NULL;
 }
 
-struct LibCell *NewLibCell(name, ports, latch)
-        char *name;
-        struct BITstruct *ports;
-        int latch;
-{
+struct LibCell *new_lib_cell(char *name, struct BITstruct *ports, int latch){
     struct LibCell   *tmp;
     struct BITstruct *bptr;
     struct Ports     *pptr;
@@ -857,24 +718,24 @@ struct LibCell *NewLibCell(name, ports, latch)
     int              num;
 
     if ((tmp = (struct LibCell *) calloc(1, sizeof(struct LibCell))) == NULL) {
-        Error("Allocation Error or not enought memory !");
+        print_error("Allocation print_error or not enought memory !");
     }
 
     for (bptr = ports, num = 1; bptr->next != NULL; num++, bptr = bptr->next);
     if (latch) num--;
 
     if ((tmp->formals = (struct Ports *) calloc(1, num * sizeof(struct Ports))) == NULL) {
-        Error("Allocation Error or not enought memory !");
+        print_error("Allocation print_error or not enought memory !");
     }
 
     (void) strcpy(tmp->name, name);
-    tmp->next = NULL;
+    tmp->next  = NULL;
     tmp->npins = num;
     num--;
     for (bptr = ports->next, pptr = tmp->formals, j = 0; (j < num) && (bptr != NULL); pptr++, j++, bptr = bptr->next) {
-        if (j > num) Error("(NewLibCell) error ...");
+        if (j > num) print_error("(new_lib_cell) error ...");
 #ifdef DEBUG
-        (void)fprintf(stderr,"(NewLibCell):adding %s\n",bptr->name);
+        (void)fprintf(stderr,"(new_lib_cell):adding %s\n",bptr->name);
 #endif
         (void) strcpy(pptr->name, bptr->name);
     }
@@ -882,25 +743,16 @@ struct LibCell *NewLibCell(name, ports, latch)
     if (latch) {
         (void) strcpy(tmp->clk, bptr->name);
 #ifdef DEBUG
-        (void)fprintf(stderr,"(NewLibCell):clock %s\n",bptr->name);
+        (void)fprintf(stderr,"(new_lib_cell):clock %s\n",bptr->name);
 #endif
     } else {
         tmp->clk[0] = '\0';
     }
-    ReleaseBit(ports);
+    releaseBIT(ports);
     return tmp;
 }
 
-
-/* -=[ ScanLibrary ]=-                              *
- * Scans the library to get the namesof the cells   *
- * the output pins and the clock signals of latches *
- *                                                  *
- * Input :                                          *
- *     LibName = the name of library file           */
-struct LibCell *ScanLibrary(LibName)
-        char *LibName;
-{
+struct LibCell *scan_library(char *LibName){
     enum states {
         sZERO, sPIN, sCLOCK, sADDCELL
     }                next;
@@ -916,37 +768,37 @@ struct LibCell *ScanLibrary(LibName)
 
 
     if ((Lib = fopen(LibName, "rt")) == NULL)
-        Error("Couldn't open library file");
+        print_error("Couldn't open library file");
 
 
-/*    first.next=NewLibCell("_dummy_",(struct BITstruct *)NULL,LIBRARY); */
+/*    first.next=new_lib_cell("_dummy_",(struct BITstruct *)NULL,LIBRARY); */
     firstBIT.name[0] = '\0';
     firstBIT.next = NULL;
-    cell = &first;
-    s    = &(LocalToken[0]);
+    cell  = &first;
+    s     = &(LocalToken[0]);
     latch = 0;
-    next = sZERO;
+    next  = sZERO;
     (void) fseek(Lib, 0L, SEEK_SET);
     tmpBIT = &firstBIT;
     do {
-        GetLibToken(Lib, s);
+        get_lib_token(Lib, s);
         switch (next) {
             case sZERO: next = sZERO;
-                if (KwrdCmp(s, "GATE")) {
+                if (kwrd_cmp(s, "GATE")) {
                     latch = 0;
-                    GetLibToken(Lib, s);
+                    get_lib_token(Lib, s);
                     (void) strcpy(name, s);
-                    GetLibToken(Lib, s);   /* area */
+                    get_lib_token(Lib, s);   /* area */
                     next = sPIN;
 #ifdef DEBUG
                     (void)fprintf(stderr,"Gate name: %s\n",name);
 #endif
                 } else {
-                    if (KwrdCmp(s, "LATCH")) {
+                    if (kwrd_cmp(s, "LATCH")) {
                         latch = 1;
-                        GetLibToken(Lib, s);
+                        get_lib_token(Lib, s);
                         (void) strcpy(name, s);
-                        GetLibToken(Lib, s);   /* area */
+                        get_lib_token(Lib, s);   /* area */
                         next = sPIN;
 #ifdef DEBUG
                         (void)fprintf(stderr,"Latch name: %s\n",name);
@@ -958,7 +810,7 @@ struct LibCell *ScanLibrary(LibName)
                 if (!(((*s >= 0x27) && (*s <= 0x2b)) || (*s == '=') || (*s == '!') || (*s == ';'))) {
 /*
 		(void)strncpy(tmp,s,5);
-		if (KwrdCmp(tmp,"CONST") && !isalpha(*(s+6)))
+		if (kwrd_cmp(tmp,"CONST") && !isalpha(*(s+6)))
 */
                     /* if the expression has a constant value we must */
                     /* skip it, because there are no inputs           */
@@ -969,11 +821,11 @@ struct LibCell *ScanLibrary(LibName)
 #ifdef DEBUG
                     (void)fprintf(stderr,"\tpin read : %s\n",s);
 #endif
-                    if (IsHere(s, &firstBIT) == NULL) {
+                    if (is_here(s, &firstBIT) == NULL) {
 #ifdef DEBUG
                         (void)fprintf(stderr,"\tunknown pin : %s --> added!\n",s);
 #endif
-                        AddBIT(&tmpBIT, s);
+                        addBIT(&tmpBIT, s, NULL);
                     }
                 }
                 if (*s == ';') {
@@ -987,12 +839,12 @@ struct LibCell *ScanLibrary(LibName)
                 }
                 break;
             case sCLOCK:
-                if (KwrdCmp(s, "CONTROL")) {
-                    GetLibToken(Lib, s);
+                if (kwrd_cmp(s, "CONTROL")) {
+                    get_lib_token(Lib, s);
 #ifdef DEBUG
                     (void)fprintf(stderr,"\tcontrol pin : %s\n",s);
 #endif
-                    AddBIT(&tmpBIT, s);
+                    addBIT(&tmpBIT, s, NULL);
                     next = sADDCELL;
                 } else {
                     next = sCLOCK;
@@ -1002,7 +854,7 @@ struct LibCell *ScanLibrary(LibName)
 #ifdef DEBUG
                 (void)fprintf(stderr,"\tadding cell to library\n");
 #endif
-                cell->next = NewLibCell(name, firstBIT.next, latch);
+                cell->next = new_lib_cell(name, firstBIT.next, latch);
                 tmpBIT = &firstBIT;
                 firstBIT.next = NULL;
                 cell = cell->next;
@@ -1013,34 +865,20 @@ struct LibCell *ScanLibrary(LibName)
 
     if ((first.next)->next == NULL) {
         (void) sprintf("Library file %s does *NOT* contains gates !", LibName);
-        Error("could not continue with an empy library");
+        print_error("could not continue with an empy library");
     }
 #ifdef DEBUG
                                                                                                                             (void)fprintf(stderr,"end of lib\n");
-    PrintGates(first.next);
+    print_gates(first.next);
 #endif
     return (struct LibCell *) first.next;
 }
 
-
-/* -=[ WhatGate ]=-                                 *
- * Returns a pointer to an element of the list      *
- * of gates that matches up the name given, if      *
- * ther isn't a match a null pointer is returned    *
- *                                                  *
- * Input :                                          *
- *     name = name to match                         *
- *     LIBRARY = genlib data struct                 *
- * Ouput :                                          *
- *     (void *) a pointer                           */
-struct LibCell *WhatLibGate(name, LIBRARY)
-        char *name;
-        struct LibCell *LIBRARY;
-{
+struct LibCell *what_lib_gate(char *name, struct LibCell *LIBRARY){
     struct LibCell *ptr;
 
     for (ptr = LIBRARY; ptr != NULL; ptr = ptr->next)
-        if (KwrdCmp(ptr->name, name)) return ptr;
+        if (kwrd_cmp(ptr->name, name)) return ptr;
 
     return (struct LibCell *) NULL;
 }
@@ -1051,12 +889,7 @@ struct LibCell *WhatLibGate(name, LIBRARY)
 
  *=========================================================================*/
 
-struct Cell *NewCell(name, Bports, Fports, Genlib)
-        char *name;
-        struct SIGstruct *Bports;
-        struct BITstruct *Fports;
-        struct LibCell *Genlib;
-{
+struct Cell *new_cell(char *name, struct SIGstruct *Bports, struct BITstruct *Fports, struct LibCell *Genlib) {
     struct Cell      *tmp;
     struct BITstruct *Fptr;
     struct Ports     *Pptr;
@@ -1067,27 +900,27 @@ struct Cell *NewCell(name, Bports, Fports, Genlib)
     char             t;
 
     if ((tmp = (struct Cell *) calloc(1, sizeof(struct Cell))) == NULL) {
-        Error("Allocation Error or not enought memory !");
+        print_error("Allocation print_error or not enought memory !");
     }
 
     if (Bports != NULL) {
-        j = 1;
+        j    = 1;
         Fptr = Fports;
         while (Fptr->next != NULL) {
             j++;
             Fptr = Fptr->next;
         }
-        num = j;
-        t = GetTypeOfCell(Genlib, name);
+        num  = j;
+        t    = get_type_of_cell(Genlib, name);
         if (t == 'L') j++;
 
         if ((tmp->formals = (struct Ports *) calloc(1, j * sizeof(struct Ports))) == NULL) {
-            Error("Allocation Error or not enought memory !");
+            print_error("Allocation print_error or not enought memory !");
         }
         (void) strcpy(tmp->name, name);
         tmp->npins = j;
-        tmp->next = NULL;
-        tmp->type = t;
+        tmp->next  = NULL;
+        tmp->type  = t;
 
         if (t == 'S') {
             /*                                           *
@@ -1095,26 +928,26 @@ struct Cell *NewCell(name, Bports, Fports, Genlib)
 	     *                                           */
             Fptr = Fports;
             Pptr = tmp->formals;
-            j = 0;
+            j    = 0;
             while (Fptr != NULL) {
-                if (j > num) Error("(NewCell) error ...");
+                if (j > num) print_error("(new_cell) error ...");
 #ifdef DEBUG
-                (void)fprintf(stderr,"(NewCell): adding %s\n",Fptr->name);
+                (void)fprintf(stderr,"(new_cell): adding %s\n",Fptr->name);
 #endif
                 (void) strcpy(Pptr->name, Fptr->name);
                 Fptr = Fptr->next;
                 Pptr++;
                 j++;
             }
-            ReleaseBit(Fports->next);
-            tmp->io = Bports->next;
+            releaseBIT(Fports->next);
+            tmp->io      = Bports->next;
             Bports->next = NULL;
         } else {
             /*                                            *
 	     * Is a library cell, let's order the signals *
 	     * to simplify the final output               *
 	     *                                            */
-            Lptr = WhatLibGate(name, Genlib);
+            Lptr = what_lib_gate(name, Genlib);
             Pptr = tmp->formals;
             if (t == 'L') num--;
             for (j = 1, Lpptr = Lptr->formals; j < num; j++, Lpptr++, Pptr++) {
@@ -1126,27 +959,27 @@ struct Cell *NewCell(name, Bports, Fports, Genlib)
 #ifdef DEBUG
                     (void)fprintf(stderr,"is %s ?\n",Fptr->name);
 #endif
-                    if (KwrdCmp(Fptr->name, Lpptr->name)) {
+                    if (kwrd_cmp(Fptr->name, Lpptr->name)) {
                         (void) strcpy(Pptr->name, Fptr->name);
                         break;
                     }
                     Fptr = Fptr->next;
                 }
-                if (Fptr == NULL) (void) Error("Mismatch between COMPONENT declaration and library one");
+                if (Fptr == NULL) (void) print_error("Mismatch between COMPONENT declaration and library one");
             }
             if (t == 'L') {
                 Fptr = Fports->next;
                 while (Fptr != NULL) {
-                    if (KwrdCmp(Fptr->name, Lptr->clk)) {
+                    if (kwrd_cmp(Fptr->name, Lptr->clk)) {
                         (void) strcpy(Pptr->name, Fptr->name);
                         break;
                     }
                     Fptr = Fptr->next;
                 }
-                if (Fptr == NULL) (void) Error("Mismatch between COMPONENT declaration and libray one");
+                if (Fptr == NULL) (void) print_error("Mismatch between COMPONENT declaration and libray one");
             }
-            ReleaseBit(Fports->next);
-            tmp->io = Bports->next;
+            releaseBIT(Fports->next);
+            tmp->io      = Bports->next;
             Bports->next = NULL;
 
         }
@@ -1157,37 +990,16 @@ struct Cell *NewCell(name, Bports, Fports, Genlib)
     return tmp;
 }
 
-
-/* -=[ WhatGate ]=-                                 *
- * Returns a pointer to an element of the list      *
- * of gates that matches up the name given, if      *
- * ther isn't a match a null pointer is returned    *
- *                                                  *
- * Input :                                          *
- *     name = name to match                         *
- *     LIBRARY = components data struct             *
- * Ouput :                                          *
- *     (void *) a pointer                           */
-struct Cell *WhatGate(name, LIBRARY)
-        char *name;
-        struct Cell *LIBRARY;
-{
+struct Cell *what_gate(char *name, struct Cell *LIBRARY) {
     struct Cell *ptr;
 
     for (ptr = LIBRARY; ptr != NULL; ptr = ptr->next)
-        if (KwrdCmp(ptr->name, name)) return ptr;
+        if (kwrd_cmp(ptr->name, name)) return ptr;
 
     return (struct Cell *) NULL;
 }
 
-
-/* -=[ GetPort ]=-                                 *
- * Gets the port definition of an ENTITY or of a   *
- * COMPONENT.                                      *
- *                                                 */
-struct Cell *GetPort(Cname)
-        char *Cname;
-{
+struct Cell *get_port(char *Cname){
     enum states {
         sFORMAL, sCONN, sANOTHER, sDIR, sTYPE, sVECTOR, sWAIT
     }                next;
@@ -1211,23 +1023,23 @@ struct Cell *GetPort(Cname)
 
     w = &(LocalToken[0]);
 
-    GetNextToken(w);
-    if (*w != '(') Warning("expected '('");
+    get_next_token(w);
+    if (*w != '(') warning("expected '('");
 
     BITptr  = &BITstart;
     FORMptr = &FORMstart;
     TMPstart.next = NULL;
 
-    dir = '\0';
+    dir   = '\0';
     Token = 1;
     start = 0;
     end   = 0;
-    next = sFORMAL;
-    Cont = 1;
-    num = 0;
+    next  = sFORMAL;
+    Cont  = 1;
+    num   = 0;
     do {
         /* name of the port */
-        if (Token) GetNextToken(w);
+        if (Token) get_next_token(w);
         else Token = 1;
         switch (next) {
             case sFORMAL:
@@ -1236,14 +1048,14 @@ struct Cell *GetPort(Cname)
 #endif
                 (void) strcpy(TMPstart.name, w);
                 TMPptr = &TMPstart;
-                next = sCONN;
+                next   = sCONN;
                 break;
             case sCONN: next = sDIR;
                 if (*w != ':') {
                     if (*w == ',') {
                         next = sANOTHER;
                     } else {
-                        Warning("Expected ':' or ',' ", line);
+                        warning("Expected ':' or ',' ", line);
                         Token = 0;
                     }
                 }
@@ -1253,7 +1065,7 @@ struct Cell *GetPort(Cname)
                 (void)fprintf(stderr,"\n*** another input : %s",w);
 #endif
                 if (TMPptr->next == NULL) {
-                    AddBIT(&TMPptr, w, 1);
+                    addBIT(&TMPptr, w, 1);
                 } else {
                     TMPptr = TMPptr->next;
                     (void) strcpy(TMPptr->name, w);
@@ -1265,20 +1077,20 @@ struct Cell *GetPort(Cname)
 #ifdef DEBUG
                 (void)fprintf(stderr,"\n\tdirection = %s",w);
 #endif
-                if (KwrdCmp(w, "IN")) {
+                if (kwrd_cmp(w, "IN")) {
                     dir = 'i';
                 } else {
-                    if (KwrdCmp(w, "OUT")) {
+                    if (kwrd_cmp(w, "OUT")) {
                         dir = 'o';
                     } else {
-                        if (KwrdCmp(w, "INOUT")) {
+                        if (kwrd_cmp(w, "INOUT")) {
                             dir = 'u';
                         } else {
-                            if (KwrdCmp(w, "LINKAGE")) {
+                            if (kwrd_cmp(w, "LINKAGE")) {
                                 dir = LINKAGE;
                             } else {
-                                (void) fprintf(stderr, "* Error * Line %u : unknown direction of a port\n", line);
-                                Error("Could not continue");
+                                (void) fprintf(stderr, "* print_error * Line %u : unknown direction of a port\n", line);
+                                print_error("Could not continue");
                             }
                         }
                     }
@@ -1286,11 +1098,11 @@ struct Cell *GetPort(Cname)
                 next = sTYPE;
                 break;
             case sTYPE:
-                if (KwrdCmp(w, "BIT")) {
+                if (kwrd_cmp(w, "BIT")) {
                     next  = sWAIT;
                     start = end;
                 } else {
-                    if (KwrdCmp(w, "BIT_VECTOR")) {
+                    if (kwrd_cmp(w, "BIT_VECTOR")) {
 #ifdef DEBUG
                         (void)fprintf(stderr,"\n\tvector, ");
 #endif
@@ -1300,21 +1112,21 @@ struct Cell *GetPort(Cname)
                 break;
             case sVECTOR:
                 if (*w != '(') {
-                    Warning("Expected '('");
+                    warning("Expected '('");
                 } else {
-                    GetNextToken(w);
+                    get_next_token(w);
                 }
-                start = DecNumber(w);
-                GetNextToken(w);
-                if (!KwrdCmp(w, "TO") && !KwrdCmp(w, "DOWNTO")) {
-                    Warning("Expected keword TO or DOWNTO");
+                start = dec_number(w);
+                get_next_token(w);
+                if (!kwrd_cmp(w, "TO") && !kwrd_cmp(w, "DOWNTO")) {
+                    warning("Expected keword TO or DOWNTO");
                 } else {
-                    GetNextToken(w);
+                    get_next_token(w);
                 }
-                end = DecNumber(w);
-                GetNextToken(w);
+                end  = dec_number(w);
+                get_next_token(w);
                 if (*w != ')') {
-                    Warning("Expected ')'");
+                    warning("Expected ')'");
                     Token = 1;
                 }
                 next = sWAIT;
@@ -1327,7 +1139,7 @@ struct Cell *GetPort(Cname)
 #ifdef DEBUG
                 (void)fprintf(stderr,"\nPower?");
 #endif
-                if (!(KwrdCmp(TMPptr->name, VDD) || KwrdCmp(TMPptr->name, VSS))) {
+                if (!(kwrd_cmp(TMPptr->name, VDD) || kwrd_cmp(TMPptr->name, VSS))) {
 #ifdef DEBUG
                     (void)fprintf(stderr," no\n");
 #endif
@@ -1340,8 +1152,8 @@ struct Cell *GetPort(Cname)
 #ifdef DEBUG
                             (void)fprintf(stderr,"\nadded bit & formal of name : %s",TMPptr->name);
 #endif
-                            AddSIG(&BITptr, TMPptr->name, dir, 0, 0);
-                            AddBIT(&FORMptr, TMPptr->name, dir);
+                            addSIG(&BITptr, TMPptr->name, dir, 0, 0);
+                            addBIT(&FORMptr, TMPptr->name, dir);
                         } else {
                             if (start > end) {
                                 for (j = start; j >= end; j--) {
@@ -1349,7 +1161,7 @@ struct Cell *GetPort(Cname)
 #ifdef DEBUG
                                     (void)fprintf(stderr,"\nadded formal of name : %s",tmp);
 #endif
-                                    AddBIT(&FORMptr, tmp, dir);
+                                    addBIT(&FORMptr, tmp, dir);
                                 }
 #ifdef DEBUG
                                 (void)fprintf(stderr,"\nadded vector of name : %s[%d..%d]",TMPptr->name,start,end);
@@ -1360,13 +1172,13 @@ struct Cell *GetPort(Cname)
 #ifdef DEBUG
                                     (void)fprintf(stderr,"\nadded formal of name : %s",tmp);
 #endif
-                                    AddBIT(&FORMptr, tmp, dir);
+                                    addBIT(&FORMptr, tmp, dir);
                                 }
 #ifdef DEBUG
                                 (void)fprintf(stderr,"\nadded vector of name : %s[%d..%d]",TMPptr->name,start,end);
 #endif
                             }
-                            AddSIG(&BITptr, TMPptr->name, dir, start, end);
+                            addSIG(&BITptr, TMPptr->name, dir, start, end);
                         }
                         TMPptr = TMPptr->next;
                         num--;
@@ -1378,16 +1190,16 @@ struct Cell *GetPort(Cname)
                     next = sFORMAL;
                 } else {
                     if (*w != ')') {
-                        VstError("Missing ')' or ';'", "END");
+                        vst_error("Missing ')' or ';'", "END");
                     } else {
-                        GetNextToken(w);  /* ; */
+                        get_next_token(w);  /* ; */
                         if (*w != ';') {
-                            Warning("Missing ';'");
+                            warning("Missing ';'");
                         } else {
-                            GetNextToken(w);  /* end */
+                            get_next_token(w);  /* end */
                         }
-                        if (!KwrdCmp(w, "END")) {
-                            VstError("Missing END keyword", "END");
+                        if (!kwrd_cmp(w, "END")) {
+                            vst_error("Missing END keyword", "END");
                         }
                     }
                     Cont = 0;
@@ -1396,16 +1208,11 @@ struct Cell *GetPort(Cname)
         }
 
     } while (Cont);
-    ReleaseBit(TMPstart.next);
-    return NewCell(Cname, &BITstart, &FORMstart, LIBRARY);
+    releaseBIT(TMPstart.next);
+    return new_cell(Cname, &BITstart, &FORMstart, LIBRARY);
 }
 
-
-/* -=[ GetEntity ]=-                                *
- * parses the entity statement                      */
-void GetEntity(Entity)
-        struct Cell **Entity;
-{
+void get_entity(struct Cell **Entity){
     char *w;
     char LocalToken[MAXTOKENLEN];
     char name[MAXTOKENLEN];
@@ -1414,56 +1221,52 @@ void GetEntity(Entity)
     w = &(LocalToken[0]);
 
     /* name of the entity = name of the model */
-    GetNextToken(w);
+    get_next_token(w);
     (void) strcpy(name, w);
-    GetNextToken(w);
-    if (!KwrdCmp(w, "IS")) Warning("expected syntax: ENTITY <name> IS");
+    get_next_token(w);
+    if (!kwrd_cmp(w, "IS")) warning("expected syntax: ENTITY <name> IS");
 
     /* GENERIC CLAUSE */
-    GetNextToken(w);
-    if (KwrdCmp(w, "GENERIC")) {
-        GetNextToken(w);
-        if (*w != '(') Warning("expected '(' after GENERIC keyword");
+    get_next_token(w);
+    if (kwrd_cmp(w, "GENERIC")) {
+        get_next_token(w);
+        if (*w != '(') warning("expected '(' after GENERIC keyword");
         num = 1;
         do {
-            GetNextToken(w);
+            get_next_token(w);
             if (*w == '(') num++;
             else {
                 if (*w == ')') num--;
             }
         } while (num != 0);
-        GetNextToken(w);
-        if (*w != ';') Warning("expected ';'");
-        GetNextToken(w);
+        get_next_token(w);
+        if (*w != ';') warning("expected ';'");
+        get_next_token(w);
     }
 
     /* PORT CLAUSE */
-    if (KwrdCmp(w, "PORT")) {
-        (*Entity) = GetPort(name);
+    if (kwrd_cmp(w, "PORT")) {
+        (*Entity) = get_port(name);
     } else {
-        Warning("no inputs or outputs in this entity ?!");
+        warning("no inputs or outputs in this entity ?!");
     }
 
-    GetNextToken(w);
-    if (!KwrdCmp(w, name))
-        Warning("<name> after END differs from <name> after ENTITY");
+    get_next_token(w);
+    if (!kwrd_cmp(w, name))
+        warning("<name> after END differs from <name> after ENTITY");
 
-    GetNextToken(w);
-    if (*w != ';') Warning("expected ';'");
+    get_next_token(w);
+    if (*w != ';') warning("expected ';'");
 }
 
-/* -=[ GetComponent ]=-                             *
- * Parses the component statement                   */
-void GetComponent(cell)
-        struct Cell **cell;
-{
+void get_component(struct Cell **cell){
     char *w;
     char LocalToken[MAXTOKENLEN];
     char name[MAXNAMELEN];
 
     w = &(LocalToken[0]);
     /* component name */
-    GetNextToken(w);
+    get_next_token(w);
     (void) strcpy(name, w);
 #ifdef DEBUG
     (void)fprintf(stderr,"\nParsing component %s\n",name);
@@ -1472,31 +1275,27 @@ void GetComponent(cell)
     /* A small checks may be done here ... next time */
 
     /* PORT CLAUSE */
-    GetNextToken(w);
-    if (KwrdCmp(w, "PORT")) {
-        (*cell)->next = GetPort(name);
+    get_next_token(w);
+    if (kwrd_cmp(w, "PORT")) {
+        (*cell)->next = get_port(name);
         (*cell) = (*cell)->next;
     } else {
-        Warning("no inputs or outputs in this component ?!");
+        warning("no inputs or outputs in this component ?!");
     }
 
 
     /* END CLAUSE */
-    GetNextToken(w);
-    if (!KwrdCmp(w, "COMPONENT")) {
-        Warning("COMPONENT keyword missing.sh !");
+    get_next_token(w);
+    if (!kwrd_cmp(w, "COMPONENT")) {
+        warning("COMPONENT keyword missing.sh !");
     }
 
-    GetNextToken(w);
-    if (*w != ';') Warning("expected ';'");
+    get_next_token(w);
+    if (*w != ';') warning("expected ';'");
 
 }
 
-/* -=[ GetSignal ]=-                                 *
- * Skips the signal definitions                      */
-void GetSignal(Internals)
-        struct SIGstruct **Internals;
-{
+void get_signal(struct SIGstruct **Internals) {
     struct SIGstruct *SIGptr;
     struct SIGstruct *SIGstart;
     char             *w;
@@ -1510,7 +1309,7 @@ void GetSignal(Internals)
 
     SIGstart = (struct SIGstruct *) calloc(1, sizeof(struct SIGstruct));
     if (SIGstart == NULL) {
-        Error("Allocation Error or not enought memory !");
+        print_error("Allocation print_error or not enought memory !");
     }
     SIGptr = SIGstart;
 
@@ -1519,74 +1318,74 @@ void GetSignal(Internals)
     dir = '\0';
 
     do {
-        GetNextToken(w);
+        get_next_token(w);
 #ifdef DEBUG
         (void)fprintf(stderr,"\n\n** getting signal %s",w);
 #endif
-        AddSIG(&SIGptr, w, '*', 999, 999);
-        GetNextToken(w);
+        addSIG(&SIGptr, w, '*', 999, 999);
+        get_next_token(w);
     } while (*w == ',');
 
     if (*w != ':') {
-        Warning("Expected ':'");
+        warning("Expected ':'");
     } else {
-        GetNextToken(w);
+        get_next_token(w);
     }
 
     start = 0;
-    end = 0;
-    vect = 0;
+    end   = 0;
+    vect  = 0;
     if (*(w + 3) == '_') {
         *(w + 3) = '\0';
         vect = 1;
     }
-    if (KwrdCmp(w, "BIT")) {
+    if (kwrd_cmp(w, "BIT")) {
         dir = 'b';
     } else {
-        if (KwrdCmp(w, "MUX")) {
+        if (kwrd_cmp(w, "MUX")) {
             dir = 'm';
         } else {
-            if (KwrdCmp(w, "WOR")) {
+            if (kwrd_cmp(w, "WOR")) {
                 dir = 'w';
             }
         }
     }
-    if (vect && !KwrdCmp(w + 4, "VECTOR")) {
+    if (vect && !kwrd_cmp(w + 4, "VECTOR")) {
         (void) fprintf(stderr, " Unknown signal type : %s\n", w);
-        Error("could not continue.");
+        print_error("could not continue.");
     }
 
     if (vect) {
-        GetNextToken(w);
+        get_next_token(w);
         if (*w != '(') {
-            Warning("Expected '('");
+            warning("Expected '('");
         } else {
-            GetNextToken(w);
+            get_next_token(w);
         }
-        start = DecNumber(w);
-        GetNextToken(w);
-        if (!KwrdCmp(w, "TO") && !KwrdCmp(w, "DOWNTO")) {
-            Warning("Expected keword TO or DOWNTO");
+        start = dec_number(w);
+        get_next_token(w);
+        if (!kwrd_cmp(w, "TO") && !kwrd_cmp(w, "DOWNTO")) {
+            warning("Expected keword TO or DOWNTO");
         } else {
-            GetNextToken(w);
+            get_next_token(w);
         }
 
-        end = DecNumber(w);
-        GetNextToken(w);
+        end = dec_number(w);
+        get_next_token(w);
         if (*w != ')') {
-            Warning("Expected ')'");
+            warning("Expected ')'");
         }
 #ifdef DEBUG
         (void)fprintf(stderr," from %d to %d",start,end);
 #endif
     }
 
-    GetNextToken(w);
+    get_next_token(w);
     if (dir != 'b') {
-        if (!KwrdCmp(w, "BUS")) {
-            Warning(" Keyword 'BUS' expected");
+        if (!kwrd_cmp(w, "BUS")) {
+            warning(" Keyword 'BUS' expected");
         } else {
-            GetNextToken(w);
+            get_next_token(w);
         }
     }
 
@@ -1597,29 +1396,24 @@ void GetSignal(Internals)
 #ifdef DEBUG
             (void)fprintf(stderr,"\nadded vector of name : %s[%d..%d]",name,start,end);
 #endif
-            AddSIG(Internals, SIGptr->name, dir, start, end);
+            addSIG(Internals, SIGptr->name, dir, start, end);
         } else {
 #ifdef DEBUG
             (void)fprintf(stderr,"\nadded bit of name : %s",name);
 #endif
-            AddSIG(Internals, SIGptr->name, dir, 0, 0);
+            addSIG(Internals, SIGptr->name, dir, 0, 0);
         }
     }
-    ReleaseSIG(SIGstart);
+    releaseSIG(SIGstart);
 
     if (*w != ';') {
-        Warning("expected ';'");
+        warning("expected ';'");
     }
 
 }
 
 
-void FillTerm(TERM, Entity, which, WhatCell)
-        struct TERMstruct *TERM;
-        struct ENTITYstruct *Entity;
-        int which;
-        struct Cell *WhatCell;
-{
+void fill_term(struct TERMstruct *TERM, struct ENTITYstruct *Entity, int which, struct Cell *WhatCell) {
     struct Cell      *cell;
     struct SIGstruct *Sptr;
 
@@ -1635,7 +1429,7 @@ void FillTerm(TERM, Entity, which, WhatCell)
             if (!strcmp(cell->name, WhatCell->name)) {
                 Sptr = cell->io;
                 while (Sptr != NULL) {
-                    if (KwrdCmp(TERM->name, Sptr->name)) {
+                    if (kwrd_cmp(TERM->name, Sptr->name)) {
                         TERM->start = Sptr->start;
                         TERM->end   = Sptr->end;
                         return;
@@ -1651,7 +1445,7 @@ void FillTerm(TERM, Entity, which, WhatCell)
 #ifdef DEBUG
             (void)fprintf(stderr,"searchin into io\n");
 #endif
-            if (KwrdCmp(TERM->name, Sptr->name)) {
+            if (kwrd_cmp(TERM->name, Sptr->name)) {
                 TERM->start = Sptr->start;
                 TERM->end   = Sptr->end;
                 return;
@@ -1663,59 +1457,46 @@ void FillTerm(TERM, Entity, which, WhatCell)
 #ifdef DEBUG
             (void)fprintf(stderr,"searchin into internals\n");
 #endif
-            if (KwrdCmp(TERM->name, Sptr->name)) {
+            if (kwrd_cmp(TERM->name, Sptr->name)) {
                 TERM->start = Sptr->start;
                 TERM->end   = Sptr->end;
                 return;
             }
             Sptr = Sptr->next;
         }
-        if (KwrdCmp(TERM->name, VSS) || KwrdCmp(TERM->name, VDD)) {
+        if (kwrd_cmp(TERM->name, VSS) || kwrd_cmp(TERM->name, VDD)) {
             TERM->start = 0;
-            TERM->end = 0;
+            TERM->end   = 0;
             return;
         }
         (void) fprintf(stderr, "Signal name %s not declared", TERM->name);
-        Error("Could not continue");
+        print_error("Could not continue");
     }
 }
 
-
-/* -=[ GetName ]=-                                   *
- * Gets a name of an actual terminal, that can be    *
- * a single token or 3 tokens long (if it is an      *
- * element of a vector )                             *
- *                                                   *
- * Output :                                          *
- *     name = the name read                          */
-void GetName(TERM, Entity, which, WhatCell)
-        struct TERMstruct *TERM;
-        struct ENTITYstruct *Entity;
-        int which;
-        struct Cell *WhatCell;
-{
+void get_name(struct TERMstruct *TERM, struct ENTITYstruct *Entity, int which, struct Cell *WhatCell) {
     char *w;
     char LocalToken[MAXTOKENLEN];
 
     TERM->start = -1;
-    TERM->end = -1;
+    TERM->end   = -1;
     w = &(LocalToken[0]);
     do {
-        GetNextToken(w);
+        get_next_token(w);
 #ifdef DEBUG
         (void)fprintf(stderr,"Parsing %s\n",w);
 #endif
     } while ((*w == ',') || (*w == '&'));
     (void) strcpy(TERM->name, w);
-    GetNextToken(w);
+    get_next_token(w);
 #ifdef DEBUG
     (void)fprintf(stderr,"then  %s\n",w);
 #endif
     if (*w != '(') {
-        FillTerm(TERM, Entity, which, WhatCell);
+        fill_term(TERM, Entity, which, WhatCell);
         if ((TERM->start == TERM->end) && (TERM->start == 0)) {
             TERM->start = -1;
-            TERM->end = -1;
+            TERM->end   = -1;
         }
         SendTokenBack = 1;
         /* Don't lose this token */
@@ -1725,18 +1506,18 @@ void GetName(TERM, Entity, which, WhatCell)
         (void)fprintf(stderr,"got (\n");
 #endif
     }
-    GetNextToken(w);
-    TERM->start = DecNumber(w);
-    GetNextToken(w);
+    get_next_token(w);
+    TERM->start = dec_number(w);
+    get_next_token(w);
     if (*w != ')') {
-        if (!KwrdCmp(w, "TO") && !KwrdCmp(w, "DOWNTO")) {
-            Error("expected ')' or 'TO' or 'DOWNTO', could not continue");
+        if (!kwrd_cmp(w, "TO") && !kwrd_cmp(w, "DOWNTO")) {
+            print_error("expected ')' or 'TO' or 'DOWNTO', could not continue");
         } else {
-            GetNextToken(w);
-            TERM->end = DecNumber(w);
-            GetNextToken(w);
+            get_next_token(w);
+            TERM->end = dec_number(w);
+            get_next_token(w);
             if (*w != ')') {
-                Warning("Expected ')'");
+                warning("Expected ')'");
                 SendTokenBack = 1;
             }
         }
@@ -1749,10 +1530,7 @@ void GetName(TERM, Entity, which, WhatCell)
 }
 
 
-void ChangInternal(Intern, name)
-        struct SIGstruct *Intern;
-        char *name;
-{
+void change_internal(struct SIGstruct *Intern, char *name) {
     struct SIGstruct *Sptr;
 
 #ifdef DEBUG
@@ -1776,12 +1554,8 @@ void ChangInternal(Intern, name)
         Sptr = Sptr->next;
     }
 }
-/* -=[ GetInstance ]=-                              *
- * parses the netlist                               */
-struct Instance *GetInstance(name, Entity)
-        char *name;
-        struct ENTITYstruct *Entity;
-{
+
+struct Instance *get_instance(char *name, struct ENTITYstruct *Entity) {
     struct Cell       *cell;
     struct Instance   *INST;
     struct TERMstruct FORMterm;
@@ -1799,80 +1573,80 @@ struct Instance *GetInstance(name, Entity)
     int               iF, iA;
 
     w = &(LocalToken[0]);
-    GetNextToken(w);  /* : */
-    GetNextToken(w);
-    cell = WhatGate(w, Entity->Components);
+    get_next_token(w);  /* : */
+    get_next_token(w);
+    cell = what_gate(w, Entity->Components);
 #ifdef DEBUG
     (void)fprintf(stderr,"\n=========================\nParsing instance %s of component %s\n==========================\n",name,cell->name);
 #endif
 
     INST = (struct Instance *) calloc(1, sizeof(struct Instance));
     if (INST == NULL) {
-        Error("Allocation Error or not enought memory !");
+        print_error("Allocation print_error or not enought memory !");
     }
     (void) strcpy(INST->name, name);
-    INST->what = WhatGate(w, Entity->Components);
+    INST->what = what_gate(w, Entity->Components);
     INST->actuals =
             (struct Ports *) calloc(1, ((INST->what)->npins) * sizeof(struct Ports));
     if (INST->actuals == NULL) {
-        Error("Allocation Error or not enought memory !");
+        print_error("Allocation print_error or not enought memory !");
     }
 
     ACTtrms = (struct SIGstruct *) calloc(1, sizeof(struct SIGstruct));
     if (ACTtrms == NULL) {
-        Error("Allocation Error or not enought memory !");
+        print_error("Allocation print_error or not enought memory !");
     }
 
 
-    GetNextToken(w);
-    if (!KwrdCmp(w, "PORT")) {
-        Warning("PORT keyword missing.sh", "PORT");
+    get_next_token(w);
+    if (!kwrd_cmp(w, "PORT")) {
+        warning("PORT keyword missing.sh", "PORT");
     }
 
-    GetNextToken(w);
-    if (!KwrdCmp(w, "MAP"))
-        Warning("MAP keyword missing.sh");
+    get_next_token(w);
+    if (!kwrd_cmp(w, "MAP"))
+        warning("MAP keyword missing.sh");
 
-    GetNextToken(w);
+    get_next_token(w);
     if (*w != '(')
-        Warning("Expexcted '('");
+        warning("Expexcted '('");
 
     do {
-        GetName(&FORMterm, Entity, 1, cell);
+        get_name(&FORMterm, Entity, 1, cell);
 #ifdef DEBUG
         (void)fprintf(stderr,"\t formal : %s\n",FORMterm.name);
 #endif
 
-        GetNextToken(w);
+        get_next_token(w);
         if (*w != '=') {
             if (*w != '>') {
-                Warning("Expected '=>'");
+                warning("Expected '=>'");
                 SendTokenBack = 1;
             }
         } else {
-            GetNextToken(w);
+            get_next_token(w);
             if (*w != '>') {
-                Warning("Expected '=>'");
+                warning("Expected '=>'");
                 SendTokenBack = 1;
             }
         }
 
         ACTptr = ACTtrms;
         do {
-            GetName(&ACTterm, Entity, 0, cell);
+            get_name(&ACTterm, Entity, 0, cell);
 #ifdef DEBUG
             (void)fprintf(stderr,"\t actual : %s .. %s\n",ACTterm.name,w);
 #endif
-            AddSIG(&ACTptr, ACTterm.name, '\0', ACTterm.start, ACTterm.end);
-            ChangInternal(Entity->Internals, ACTptr->name);
+            addSIG(&ACTptr, ACTterm.name, '\0', ACTterm.start, ACTterm.end);
+            change_internal(Entity->Internals, ACTptr->name);
 #ifdef DEBUG
             (void)fprintf(stderr,"\nafter GetInstance: %s %s\n",ACTterm.name,ACTptr->name);
 #endif
-            GetNextToken(w);
+            get_next_token(w);
         } while (*w == '&');
 
         if ((*w != ',') && (*w != ')')) {
-            Error("Expected ')' or ','");
+            print_error("Expected ')' or ','");
         }
 #ifdef DEBUG
         (void)fprintf(stderr,"----> %s\n",w);
@@ -1881,13 +1655,13 @@ struct Instance *GetInstance(name, Entity)
 #ifdef DEBUG
             if (DEBUG) (void)fprintf(stderr,"after if (FORMterm.start==FORMterm.end) {: %s %s\n",ACTterm.name,ACTptr->name);
 #endif
-            Cptr = (INST->what)->formals;
-            Aptr = INST->actuals;
+            Cptr   = (INST->what)->formals;
+            Aptr   = INST->actuals;
             for (j = 0; j < (INST->what)->npins; j++, Cptr++, Aptr++) {
-                if (KwrdCmp(Cptr->name, FORMterm.name)) break;
+                if (kwrd_cmp(Cptr->name, FORMterm.name)) break;
             }
             if ((ACTterm.start != ACTterm.end) || ((ACTtrms->next)->next != NULL)) {
-                Warning("Actual vector's dimension differs to formal's one");
+                warning("Actual vector's dimension differs to formal's one");
             }
 #ifdef DEBUG
             (void)fprintf(stderr,"value: %d %s\n",ACTptr->start,ACTptr->name);
@@ -1905,7 +1679,7 @@ struct Instance *GetInstance(name, Entity)
 #ifdef DEBUG
             (void)fprintf(stderr,"\t\tthey are vectors --> formal from %d to %d\n",FORMterm.start,FORMterm.end);
 #endif
-            incF = (FORMterm.start > FORMterm.end ? -1 : 1);
+            incF   = (FORMterm.start > FORMterm.end ? -1 : 1);
             if (incF < 0) {
                 /*
 		 * Downto
@@ -1918,7 +1692,7 @@ struct Instance *GetInstance(name, Entity)
                 iiF = FORMterm.start;
             }
             ACTptr = ACTtrms;
-            incA = 0;
+            incA   = 0;
             ACTptr->end = 0;
             iA = 0;
             iF = FORMterm.start;
@@ -1928,11 +1702,11 @@ struct Instance *GetInstance(name, Entity)
 		 */
                 if (iA == (ACTptr->end + incA)) {
                     if (ACTptr->next == NULL) {
-                        Error("Wrong vector size in assignement");
+                        print_error("Wrong vector size in assignement");
                     }
                     ACTptr = ACTptr->next;
-                    incA = (ACTptr->start > ACTptr->end ? -1 : 1);
-                    iA = ACTptr->start;
+                    incA   = (ACTptr->start > ACTptr->end ? -1 : 1);
+                    iA     = ACTptr->start;
 #ifdef DEBUG
                     (void)fprintf(stderr,"ACTUAL changed!\ncurent : <%s> from %d to %d\n",ACTptr->name,ACTptr->start,ACTptr->end);
 #endif
@@ -1942,13 +1716,13 @@ struct Instance *GetInstance(name, Entity)
 		 *  let's make the connection
 		 */
                 (void) sprintf(Iname, "%s[%d]", FORMterm.name, iiF);
-                Cptr = (INST->what)->formals;
-                Aptr = INST->actuals;
+                Cptr   = (INST->what)->formals;
+                Aptr   = INST->actuals;
                 for (j = 0; j < (INST->what)->npins; j++, Cptr++, Aptr++) {
 #ifdef DEBUG
                     (void)fprintf(stderr,"(%d)\tAptr->name=<%s>\tCptr->name=<%s>\tIname=<%s>\n",j,Aptr->name,Cptr->name,Iname);
 #endif
-                    if (KwrdCmp(Cptr->name, Iname)) break;
+                    if (kwrd_cmp(Cptr->name, Iname)) break;
                 }
                 if (ACTptr->start < 0) {
                     /*
@@ -1976,7 +1750,7 @@ struct Instance *GetInstance(name, Entity)
                 iA += incA;
                 iiF++;
             } while (iF != (FORMterm.end + incF));
-            ReleaseSIG(ACTtrms->next);
+            releaseSIG(ACTtrms->next);
 #ifdef DEBUG
             (void)fprintf(stderr,"---->release done<----\n ");
 #endif
@@ -1986,7 +1760,7 @@ struct Instance *GetInstance(name, Entity)
 		Cptr=(INST->what)->formals;
 		Aptr=INST->actuals;
 		for(j=0; j<(INST->what)->npins; j++, Cptr++, Aptr++){
-		    if (KwrdCmp(Cptr->name,Iname)) break;
+		    if (kwrd_cmp(Cptr->name,Iname)) break;
 		}
 		if (isupper(ACTterm.name[0])) {
 		    sprintf(Aptr->name,"%s_%d_",ACTterm.name,ACTterm.start);
@@ -1995,25 +1769,21 @@ struct Instance *GetInstance(name, Entity)
 		}
 	    }
 	    if (iA!=ACTterm.end+incA) {
-		Warning("Actual vector's dimension differs to formal's one");
+		warning("Actual vector's dimension differs to formal's one");
 	    }
 */
         }
     } while (*w != ')');
 
     free(ACTtrms);
-    GetNextToken(w);
+    get_next_token(w);
     if (*w != ';') {
-        Warning("expected ';'");
+        warning("expected ';'");
     }
     return INST;
 }
 
-/* -=[ GetArchitecture ]=-                    *
- * parses the structure 'ARCHITECTURE'        */
-void GetArchitecture(ENTITY)
-        struct ENTITYstruct *ENTITY;
-{
+void get_architecture(struct ENTITYstruct *ENTITY) {
     struct Cell      *COMPOptr;
     struct SIGstruct *SIGptr;
     struct Instance  *INSTptr;
@@ -2034,36 +1804,36 @@ void GetArchitecture(ENTITY)
 
     w = &(LocalToken[0]);
     /* type of architecture... */
-    GetNextToken(w);
+    get_next_token(w);
 
-    GetNextToken(w);
-    if (!KwrdCmp(w, "OF"))
-        Warning("expected syntax: ARCHITECTURE <type> OF <name> IS");
-    GetNextToken(w);
+    get_next_token(w);
+    if (!kwrd_cmp(w, "OF"))
+        warning("expected syntax: ARCHITECTURE <type> OF <name> IS");
+    get_next_token(w);
     (void) strcpy(name, w);
-    GetNextToken(w);
-    if (!KwrdCmp(w, "IS"))
-        Warning("expected syntax: ENTITY <name> IS");
+    get_next_token(w);
+    if (!kwrd_cmp(w, "IS"))
+        warning("expected syntax: ENTITY <name> IS");
 
     /* Components and signals: before a 'BEGIN' only sturcture *
      * COMPONENT and SIGNAL are allowed                        */
     do {
-        GetNextToken(w);
-        if (KwrdCmp(w, "COMPONENT")) {
-            GetComponent(&COMPOptr);
+        get_next_token(w);
+        if (kwrd_cmp(w, "COMPONENT")) {
+            get_component(&COMPOptr);
         } else {
-            if (KwrdCmp(w, "SIGNAL")) {
-                GetSignal(&SIGptr);
+            if (kwrd_cmp(w, "SIGNAL")) {
+                get_signal(&SIGptr);
             } else {
-                if (KwrdCmp(w, "BEGIN")) break;
+                if (kwrd_cmp(w, "BEGIN")) break;
                 else {
                     (void) sprintf(msg, "%s unknown, skipped", w);
-                    Warning(msg);
+                    warning(msg);
                     SendTokenBack = 0; /* as we said we must skip it */
                 }
             }
         }
-        if (feof(In)) Error("Unespected EoF");
+        if (feof(In)) print_error("Unespected EoF");
     } while (1);
 
     ENTITY->Internals  = SIGstart.next;
@@ -2071,42 +1841,38 @@ void GetArchitecture(ENTITY)
     /* NETLIST */
     INSTptr = &INSTstart;
     do {
-        GetNextToken(w);
-        if (KwrdCmp(w, "END")) {
+        get_next_token(w);
+        if (kwrd_cmp(w, "END")) {
             break;
         } else {
-            INSTptr->next = GetInstance(w, ENTITY);
+            INSTptr->next = get_instance(w, ENTITY);
             INSTptr = INSTptr->next;
         }
-        if (feof(In)) Error("Unespected EoF");
+        if (feof(In)) print_error("Unespected EoF");
     } while (1);
 
     ENTITY->Net = INSTstart.next;
 
     /* name of kind of architecture */
-    GetNextToken(w);
+    get_next_token(w);
     if (*w != ';') {
         /* End of architecture last ';' */
-        GetNextToken(w);
-        if (*w != ';') Warning("extected ';'");
+        get_next_token(w);
+        if (*w != ';') warning("extected ';'");
     }
 }
 
-void PrintSignals(msg, typ, Sptr)
-        char *msg;
-        char typ;
-        struct SIGstruct *Sptr;
-{
+void print_signals(char *msg, char typ, struct SIGstruct *Sptr){
     int i;
     int incr;
 
     (void) fputs(msg, Out);
     while (Sptr != NULL) {
-        if ((Sptr->dir == typ) && (!KwrdCmp(Sptr->name, CLOCK))) {
+        if ((Sptr->dir == typ) && (!kwrd_cmp(Sptr->name, CLOCK))) {
             if (Sptr->start == Sptr->end) {
                 (void) fprintf(Out, "%s ", Sptr->name);
             } else {
-                incr = (Sptr->start < Sptr->end ? 1 : -1);
+                incr   = (Sptr->start < Sptr->end ? 1 : -1);
                 for (i = Sptr->start; i != Sptr->end; i += incr) {
                     (void) fprintf(Out, "%s[%d] ", Sptr->name, i);
                 }
@@ -2117,14 +1883,11 @@ void PrintSignals(msg, typ, Sptr)
     (void) fputs("\n", Out);
 }
 
-void PrintOrderedSignals(Sptr, Lptr)
-        struct Ports *Sptr;
-        struct LibCell *Lptr;
-{
+void print_ordered_signals(struct Ports *Sptr, struct LibCell *Lptr) {
     struct Ports *Lpptr;
     int          i;
 
-    i = 0;
+    i     = 0;
     Lpptr = Lptr->formals;
     while (i < Lptr->npins) {
         (void) fprintf(Out, "%s=%s ", Lpptr->name, Sptr->name);
@@ -2136,9 +1899,7 @@ void PrintOrderedSignals(Sptr, Lptr)
 }
 
 
-void PrintSls(Entity)
-        struct ENTITYstruct *Entity;
-{
+void print_sls(struct ENTITYstruct *Entity) {
     struct Instance *Iptr;
     struct Ports    *Aptr;
     struct Ports    *Fptr;
@@ -2152,8 +1913,8 @@ void PrintSls(Entity)
     (void) fprintf(Out, "# *--------------------------------------*/\n\n");
 
     (void) fprintf(Out, "\n.model %s\n", (Entity->EntityPort)->name);
-    PrintSignals(".input ", 'i', (Entity->EntityPort)->io);
-    PrintSignals(".output ", 'o', (Entity->EntityPort)->io);
+    print_signals(".input ", 'i', (Entity->EntityPort)->io);
+    print_signals(".output ", 'o', (Entity->EntityPort)->io);
     if (CLOCK[0]) {
         (void) fprintf(Out, ".clock %s", CLOCK);
     }
@@ -2163,18 +1924,18 @@ void PrintSls(Entity)
     while (Iptr != NULL) {
         switch ((Iptr->what)->type) {
             case 'S' : (void) fprintf(Out, ".subckt %s ", (Iptr->what)->name);
-                Aptr = Iptr->actuals;
-                Fptr = (Iptr->what)->formals;
+                Aptr   = Iptr->actuals;
+                Fptr   = (Iptr->what)->formals;
                 for (j = 0, Aptr++, Fptr++; j < (Iptr->what)->npins - 1; j++, Aptr++, Fptr++) {
                     (void) fprintf(Out, "%s=%s ", Fptr->name, Aptr->name);
                 }
                 break;
             case 'L': (void) fprintf(Out, ".latch %s ", (Iptr->what)->name);
-                PrintOrderedSignals(Iptr->actuals, WhatLibGate((Iptr->what)->name, LIBRARY));
+                print_ordered_signals(Iptr->actuals, what_lib_gate((Iptr->what)->name, LIBRARY));
                 (void) fprintf(Out, " %c", INIT);
                 break;
             case 'G': (void) fprintf(Out, ".gate %s ", (Iptr->what)->name);
-                PrintOrderedSignals(Iptr->actuals, WhatLibGate((Iptr->what)->name, LIBRARY));
+                print_ordered_signals(Iptr->actuals, what_lib_gate((Iptr->what)->name, LIBRARY));
                 break;
         }
         (void) fputs("\n", Out);
@@ -2185,12 +1946,7 @@ void PrintSls(Entity)
 
 }
 
-
-/* -=[ PARSE FILE ]=-                               *
- * switches between the two main states of          *
- * the program : the ENTITY prsing and the          *
- * ARCHITECTURE one.                                */
-void ParseFile() {
+void parse_file() {
     struct ENTITYstruct LocalENTITY;
     char                *w;
     char                LocalToken[MAXTOKENLEN];
@@ -2202,12 +1958,12 @@ void ParseFile() {
         /* ENTITY CLAUSE */
         flag = 0;
         do {
-            GetNextToken(w);
-            if ((flag = KwrdCmp(w, "ENTITY"))) {
-                GetEntity(&(LocalENTITY.EntityPort));
+            get_next_token(w);
+            if ((flag = kwrd_cmp(w, "ENTITY"))) {
+                get_entity(&(LocalENTITY.EntityPort));
             } else {
                 if (*w == '\0') break;
-                VstError("No Entity ???", "ENTITY");
+                vst_error("No Entity ???", "ENTITY");
                 /* After this call surely flag will be true *
 		 * in any other cases the program will stop *
 		 * so this point will be never reached ...  */
@@ -2217,12 +1973,12 @@ void ParseFile() {
         /* ARCHITECTURE CLAUSE */
         flag = 0;
         do {
-            GetNextToken(w);
-            if ((flag = KwrdCmp(w, "ARCHITECTURE"))) {
-                GetArchitecture(&LocalENTITY);
+            get_next_token(w);
+            if ((flag = kwrd_cmp(w, "ARCHITECTURE"))) {
+                get_architecture(&LocalENTITY);
             } else {
                 if (*w == '\0') break;
-                VstError("No Architecture ???", "ARCHITECTURE");
+                vst_error("No Architecture ???", "ARCHITECTURE");
                 /* it's the same as the previous one         */
             }
         } while (!flag);
@@ -2230,21 +1986,17 @@ void ParseFile() {
 
     } while (!feof(In));
 
-    PrintSls(&LocalENTITY);
+    print_sls(&LocalENTITY);
 
 }
 
-/* -=[ main ]=-                                     */
-int main(argc, argv)
-        int argc;
-        char **argv;
-{
+int main(int argc, char **argv) {
 
-    CheckArgs(argc, argv);
+    check_args(argc, argv);
 
-    ParseFile();
+    parse_file();
 
-    CloseAll();
+    close_all();
 
     exit(0);
 }
