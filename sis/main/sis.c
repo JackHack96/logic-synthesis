@@ -1,5 +1,5 @@
 
-#include "sis.h"
+#include "../include/sis.h"
 
 #include <sys/stat.h>
 

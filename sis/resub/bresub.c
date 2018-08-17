@@ -1,7 +1,7 @@
 
 #include "sis.h"
-#include "resub.h"
-#include "resub_int.h"
+#include "../include/resub.h"
+#include "../include/resub_int.h"
 
 void
 resub_bool_node(f)

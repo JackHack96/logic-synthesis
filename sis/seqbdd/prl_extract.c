@@ -3,8 +3,8 @@
 /* this file provides the basic functions of the sequential BDD package */
 
 #include "sis.h"
-#include "prl_seqbdd.h"
-#include "prl_util.h"
+#include "../include/prl_seqbdd.h"
+#include "../include/prl_util.h"
 
 static void ExtractBddVars(seq_info_t *, network_t *, array_t *, array_t *);
 

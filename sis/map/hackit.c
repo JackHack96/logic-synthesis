@@ -2,8 +2,8 @@
 /* file @(#)hackit.c	1.2 */
 /* last modified on 5/1/91 at 15:51:06 */
 #include "sis.h"
-#include "map_int.h"
-#include "lib_int.h"
+#include "../include/map_int.h"
+#include "../include/lib_int.h"
 
 static lib_gate_t *
 choose_largest_gate(library, string)

@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 
 /*--------------------------------------------------------------------------
   Returns 1 if node1 is a fanin of node 2. Else returns 0.

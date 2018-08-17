@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "node_int.h"
+#include "../include/node_int.h"
 
 void
 node_algebraic_cofactor(node, fanin, p, q, r)

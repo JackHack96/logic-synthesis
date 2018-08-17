@@ -1,7 +1,7 @@
 /* BDD satisfying valuation routines */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 #if defined(__STDC__)

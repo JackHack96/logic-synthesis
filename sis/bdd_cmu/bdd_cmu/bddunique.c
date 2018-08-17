@@ -1,7 +1,7 @@
 /* BDD unique table routines */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 #define MIN_GC_LIMIT 10000

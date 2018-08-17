@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "speed_int.h"
+#include "../include/speed_int.h"
 #include <math.h>
 
 static void weight_compute();

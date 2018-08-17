@@ -9,7 +9,7 @@
 
 #endif
 
-#include "avl.h"
+#include "../include/avl.h"
 
 #ifdef PACKAGE
 extern char *malloc();

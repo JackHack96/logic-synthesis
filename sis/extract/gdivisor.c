@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "extract_int.h"
+#include "../include/extract_int.h"
 
 
 node_t *

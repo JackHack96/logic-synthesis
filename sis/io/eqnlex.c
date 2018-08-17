@@ -401,8 +401,8 @@ char *EQN_yytext;
 #line 2 "eqnlex.l"
 
 #include "sis.h"
-#include "io_int.h"
-#include "read_eqn.h"
+#include "../include/io_int.h"
+#include "../include/read_eqn.h"
 
 #undef input
 #undef unput

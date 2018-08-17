@@ -1,7 +1,7 @@
 
 #include "sis.h"
-#include "gcd.h"
-#include "gcd_int.h"
+#include "../include/gcd.h"
+#include "../include/gcd_int.h"
 
 #define min(x, y) (x < y?x:y)
 

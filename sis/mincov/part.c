@@ -1,5 +1,5 @@
 
-#include "mincov_int.h"
+#include "../include/mincov_int.h"
 
 static int visit_col();
 

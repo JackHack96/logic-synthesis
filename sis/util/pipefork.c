@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <sys/wait.h>
-#include "util.h"
+#include "../include/util.h"
 
 
 /*

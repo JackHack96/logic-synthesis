@@ -6,7 +6,7 @@
 #undef ONE
 #undef DASH
 
-#include "espresso/inc/espresso.h"
+#include "../sis/include/espresso.h"
 #include "sis/node/node.h"
 
 #define NIL(type) ((type *)0)

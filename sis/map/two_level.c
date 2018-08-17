@@ -13,8 +13,8 @@
 
 #include "sis.h"
 #include <math.h>
-#include "fanout_int.h"
-#include "fanout_delay.h"
+#include "../include/fanout_int.h"
+#include "../include/fanout_delay.h"
 
 static delay_time_t compute_balanced_required_time();
 

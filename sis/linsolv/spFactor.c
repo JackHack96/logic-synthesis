@@ -67,9 +67,9 @@ static char RCSid[]     =
 
 #define spINSIDE_SPARSE
 
-#include "spConfig.h"
-#include "spMatrix.h"
-#include "spDefs.h"
+#include "../include/spConfig.h"
+#include "../include/spMatrix.h"
+#include "../include/spDefs.h"
 
 static void CreateInternalVectors();
 
@@ -841,10 +841,8 @@ CountMarkowitz(Matrix, RHS, Step)
 /* Begin `CountMarkowitz'. */
 
 /* Correct array pointer for ARRAY_OFFSET. */
-#if NOT
-ARRAY_OFFSET
-#if spSEPARATED_COMPLEX_VECTORS OR NOT
-spCOMPLEX
+#if NOT ARRAY_OFFSET
+#if spSEPARATED_COMPLEX_VECTORS OR NOT spCOMPLEX
     if (RHS != NULL) --RHS;
 #else
     if (RHS != NULL)
@@ -869,8 +867,7 @@ spCOMPLEX
 /* Include nonzero elements in the RHS vector. */
         ExtRow = Matrix->IntToExtRowMap[I];
 
-#if spSEPARATED_COMPLEX_VECTORS OR NOT
-    spCOMPLEX
+#if spSEPARATED_COMPLEX_VECTORS OR NOT spCOMPLEX
         if (RHS != NULL)
             if (RHS[ExtRow] != 0.0) Count++;
 #else

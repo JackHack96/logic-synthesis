@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 
 /*************************************************************************
    Assumes that the delay file looks like:

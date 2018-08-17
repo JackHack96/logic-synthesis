@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "com_int.h"
+#include "../include/com_int.h"
 
 /* If graphics commands are enabled, this is	*/
 /* the stream where they should be written to.	*/

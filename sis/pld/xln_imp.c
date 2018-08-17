@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 #include "math.h"
 
 extern node_t *pld_remap_get_node();

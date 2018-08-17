@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "atpg_int.h"
+#include "../include/atpg_int.h"
 
 static void atpg_node_faults();
 

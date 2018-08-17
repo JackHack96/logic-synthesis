@@ -1,10 +1,8 @@
-cmake_minimum_required(VERSION 3.8)
 
-set(CMAKE_CXX_STANDARD 11)
 
-add_library(libsparse STATIC
+add_library(sparse STATIC
         cols.c
         matrix.c
         rows.c
-        sparse_int.h
+        ../include/sparse_int.h
         )

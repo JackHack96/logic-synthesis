@@ -1,8 +1,8 @@
 
 #include "sis.h"
-#include "extract_int.h"
-#include "heap.h"
-#include "fast_extract_int.h"
+#include "../include/extract_int.h"
+#include "../include/heap.h"
+#include "../include/fast_extract_int.h"
 
 
 /* Memory allocation and free of sdivisor_t */

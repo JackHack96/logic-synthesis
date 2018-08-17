@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "util.h"
+#include "../include/util.h"
 
 #ifdef IBM_WATC        /* IBM Waterloo-C compiler (same as bsd 4.2) */
 #define void int

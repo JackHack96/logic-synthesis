@@ -825,13 +825,13 @@ extern bdd_node *bdd_internal_quantify(); /* used by bdd_cproject also */
 /*
  * BDD minimization related functions.
  */
-extern void bdd_match_result((bdd_manager *, bdd_min_match_type_t, boolean,
-                              bdd_node *, bdd_node *, bdd_node *, bdd_node *, bdd_node **, bdd_node **)
+extern void bdd_match_result(bdd_manager *, bdd_min_match_type_t, boolean,
+                             bdd_node *, bdd_node *, bdd_node *, bdd_node *, bdd_node **, bdd_node **
 
 );
 
-extern boolean bdd_is_match((bdd_manager *, bdd_min_match_type_t, boolean,
-                             bdd_node *, bdd_node *, bdd_node *, bdd_node *)
+extern boolean bdd_is_match(bdd_manager *, bdd_min_match_type_t, boolean,
+                            bdd_node *, bdd_node *, bdd_node *, bdd_node *
 
 );
 

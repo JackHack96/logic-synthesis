@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "speed_int.h"
+#include "../include/speed_int.h"
 
 /*
  * Collapse the critical nodes in the transitive anin of "f" for a distance

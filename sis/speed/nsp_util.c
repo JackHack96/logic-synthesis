@@ -1,9 +1,9 @@
 
 #include "sis.h"
-#include "speed_int.h"
-#include "buffer_int.h"
-#include "new_speed_models.h"            /* Definition of "local_transforms" */
-#include "gbx_int.h"
+#include "../include/speed_int.h"
+#include "../include/buffer_int.h"
+#include "../include/new_speed_models.h"            /* Definition of "local_transforms" */
+#include "../include/gbx_int.h"
 
 #include <signal.h>
 #include <setjmp.h>

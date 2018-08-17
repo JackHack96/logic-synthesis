@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 
 array_t *
 act_order_for_delay(node, cost_table)

@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include "sis.h"
-#include "speed_int.h"
+#include "../include/speed_int.h"
 
 #define SPEED_DUP_PARAM(from, to, p, r)        \
     (r = delay_get_parameter(from,p), (void) delay_set_parameter(to, p, r))

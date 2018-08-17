@@ -11,7 +11,7 @@
 +--------------------------------------------------------------------------*/
 
 #include "sis.h"
-#include "power_int.h"
+#include "../include/power_int.h"
 
 #define RAND_RANGE 0x7fffffff
 

@@ -15,7 +15,7 @@
 static char vcid[] = "bddcproject.c,v 1.2 1994/06/02 02:36:30 shiple Exp";
 #endif /* lint */
 
-#include "bddint.h"   /* CMU internal routines; for use in bdd_get_node() */
+#include "../../include/bddint.h"   /* CMU internal routines; for use in bdd_get_node() */
 
 #define OP_CPROJ 5000001
 

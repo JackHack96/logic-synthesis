@@ -108,12 +108,9 @@ extern long cmu_bdd_node_limit(cmu_bdd_manager, long);
 
 extern int cmu_bdd_overflow(cmu_bdd_manager);
 
-extern void                 cmu_bdd_overflow_closure(cmu_bdd_manager, void (*)(cmu_bdd_manager, pointer)), pointer;
+extern void cmu_bdd_overflow_closure(cmu_bdd_manager, void (*)(cmu_bdd_manager, pointer), pointer);
 
-extern void cmu_bdd_abort_closure(cmu_bdd_manager, void (*)(cmu_bdd_manager, pointer)
-
-),
-pointer;
+extern void cmu_bdd_abort_closure(cmu_bdd_manager, void (*)(cmu_bdd_manager, pointer), pointer);
 
 extern void cmu_bdd_stats(cmu_bdd_manager, FILE *);
 
@@ -182,15 +179,9 @@ extern double cmu_bdd_satisfying_fraction(cmu_bdd_manager, bdd);
 
 /* Generic apply routine declarations */
 
-extern bdd bdd_apply2(cmu_bdd_manager, bdd (*)(cmu_bdd_manager, bdd *, bdd *, pointer)
+extern bdd bdd_apply2(cmu_bdd_manager, bdd (*)(cmu_bdd_manager, bdd *, bdd *, pointer), bdd, bdd, pointer);
 
-), bdd, bdd,
-pointer;
-
-extern bdd bdd_apply1(cmu_bdd_manager, bdd (*)(cmu_bdd_manager, bdd *, pointer)
-
-), bdd,
-pointer;
+extern bdd bdd_apply1(cmu_bdd_manager, bdd (*)(cmu_bdd_manager, bdd *, pointer), bdd, pointer);
 
 
 /* Size and profile routine declarations */
@@ -218,54 +209,45 @@ extern void cmu_bdd_function_profile_multiple(cmu_bdd_manager, bdd *, long *);
 #define bdd_terminal_id_fn_none ((char *(*)())0)
 #endif
 
-extern void cmu_bdd_print_bdd((cmu_bdd_manager,
-                               bdd,
-                               char *(*)(cmu_bdd_manager, bdd, pointer),
+extern void cmu_bdd_print_bdd(cmu_bdd_manager,
+                              bdd, char *(*)(cmu_bdd_manager, bdd, pointer),
+                              char *(*)(cmu_bdd_manager, INT_PTR, INT_PTR, pointer),
+                              pointer,
+                              FILE *);
 
-char *(*) (cmu_bdd_manager, INT_PTR, INT_PTR, pointer),
-pointer,
-FILE *));
+extern void cmu_bdd_print_profile_aux(cmu_bdd_manager, long *,
+                                      char *(*)(cmu_bdd_manager, bdd, pointer),
+                                      pointer,
+                                      int,
+                                      FILE *);
 
-extern void cmu_bdd_print_profile_aux((cmu_bdd_manager,
-                                       long *,
-                                       char *(*)(cmu_bdd_manager, bdd, pointer),
-            pointer,
+extern void cmu_bdd_print_profile(cmu_bdd_manager,
+                                  bdd,
+                                  char *(*)(cmu_bdd_manager, bdd, pointer),
+                                  pointer,
+                                  int,
+                                  FILE *);
 
-int,
-FILE *));
+extern void cmu_bdd_print_profile_multiple(cmu_bdd_manager,
+                                           bdd *,
+                                           char *(*)(cmu_bdd_manager, bdd, pointer),
+                                           pointer,
+                                           int,
+                                           FILE *);
 
-extern void cmu_bdd_print_profile((cmu_bdd_manager,
-                                   bdd,
-                                   char *(*)(cmu_bdd_manager, bdd, pointer),
-            pointer,
+extern void cmu_bdd_print_function_profile(cmu_bdd_manager,
+                                           bdd,
+                                           char *(*)(cmu_bdd_manager, bdd, pointer),
+                                           pointer,
+                                           int,
+                                           FILE *);
 
-int,
-FILE *));
-
-extern void cmu_bdd_print_profile_multiple((cmu_bdd_manager,
-                                            bdd *,
-                                            char *(*)(cmu_bdd_manager, bdd, pointer),
-            pointer,
-
-int,
-FILE *));
-
-extern void cmu_bdd_print_function_profile((cmu_bdd_manager,
-                                            bdd,
-                                            char *(*)(cmu_bdd_manager, bdd, pointer),
-            pointer,
-
-int,
-FILE *));
-
-extern void cmu_bdd_print_function_profile_multiple((cmu_bdd_manager,
-                                                     bdd *,
-                                                     char *(*)(cmu_bdd_manager, bdd, pointer),
-            pointer,
-
-int,
-FILE *));
-
+extern void cmu_bdd_print_function_profile_multiple(cmu_bdd_manager,
+                                                    bdd *,
+                                                    char *(*)(cmu_bdd_manager, bdd, pointer),
+                                                    pointer,
+                                                    int,
+                                                    FILE *);
 
 /* Dump/undump routine declarations */
 
@@ -316,19 +298,18 @@ extern block cmu_bdd_new_var_block(cmu_bdd_manager, bdd, long);
 
 /* Multi-terminal BDD routine declarations */
 
-extern void mtbdd_transform_closure((cmu_bdd_manager,
-                                     int (*)(cmu_bdd_manager, INT_PTR, INT_PTR, pointer),
-
-void (*) (cmu_bdd_manager, INT_PTR, INT_PTR, INT_PTR *, INT_PTR *, pointer),
-pointer));
+extern void mtbdd_transform_closure(cmu_bdd_manager,
+                                    int (*)(cmu_bdd_manager, INT_PTR, INT_PTR, pointer),
+                                    void (*)(cmu_bdd_manager, INT_PTR, INT_PTR, INT_PTR *, INT_PTR *, pointer),
+                                    pointer
+);
 
 extern void mtcmu_bdd_one_data(cmu_bdd_manager, INT_PTR, INT_PTR);
 
-extern void cmu_mtbdd_free_terminal_closure((cmu_bdd_manager,
-                                             void (*)(cmu_bdd_manager, INT_PTR, INT_PTR, pointer),
-            pointer
-
-));
+extern void cmu_mtbdd_free_terminal_closure(cmu_bdd_manager,
+                                            void (*)(cmu_bdd_manager, INT_PTR, INT_PTR, pointer),
+                                            pointer
+);
 
 extern bdd cmu_mtbdd_get_terminal(cmu_bdd_manager, INT_PTR, INT_PTR);
 

@@ -2,6 +2,9 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include "list.h"
+#include "espresso.h"
+
 /* ... belongs in network.h, but node and network reference each other ... */
 typedef struct network_struct network_t;
 typedef struct node_struct    node_t;

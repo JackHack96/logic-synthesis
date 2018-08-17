@@ -1,7 +1,7 @@
 /* BDD system cache routines */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 #define HASH1(d1) ((INT_PTR)d1)

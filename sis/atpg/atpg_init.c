@@ -1,6 +1,7 @@
 
+#include <latch/latch.h>
 #include "sis.h"
-#include "atpg_int.h"
+#include "../include/atpg_int.h"
 
 static void atpg_extract_sim_node();
 

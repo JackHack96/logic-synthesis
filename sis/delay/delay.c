@@ -10,8 +10,8 @@
  * function, if desired, or to provide parameters to the default delay model.
  */
 #include "sis.h"
-#include "tdc_int.h"
-#include "delay_int.h"
+#include "../include/tdc_int.h"
+#include "../include/delay_int.h"
 #include <setjmp.h>
 
 static jmp_buf delay_botch;

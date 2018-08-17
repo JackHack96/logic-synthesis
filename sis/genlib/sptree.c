@@ -1,7 +1,7 @@
 
 /* file @(#)sptree.c	1.1                      */
 /* last modified on 5/29/91 at 12:35:33   */
-#include "genlib_int.h"
+#include "../include/genlib_int.h"
 
 
 tree_node_t *

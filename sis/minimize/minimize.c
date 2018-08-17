@@ -70,11 +70,11 @@
 
 #define extern
 
-#include "min_int.h"
+#include "../include/min_int.h"
 
 #undef extern
 
-#include "minimize.h"
+#include "../include/minimize.h"
 
 static pset_family ncp_abs_covered_many();
 

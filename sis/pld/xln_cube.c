@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 
 node_t *xln_make_big_and();
 

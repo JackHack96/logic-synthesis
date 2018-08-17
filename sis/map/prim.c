@@ -2,7 +2,7 @@
 /* file @(#)prim.c	1.5 */
 /* last modified on 8/8/91 at 17:02:12 */
 #include "sis.h"
-#include "map_int.h"
+#include "../include/map_int.h"
 
 
 static prim_t *make_primitive();

@@ -30,8 +30,8 @@
  * 
  */
 #include "sis.h"
-#include "map_int.h"
-#include "gate_link.h"
+#include "../include/map_int.h"
+#include "../include/gate_link.h"
 
 void
 map_alloc(node)

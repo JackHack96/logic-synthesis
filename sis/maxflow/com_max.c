@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "maxflow_int.h"
+#include "../include/maxflow_int.h"
 
 #define MAXLINE 200
 

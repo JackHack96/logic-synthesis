@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include "sis.h"
-#include "speed_int.h"
+#include "../include/speed_int.h"
 
 int
 speed_and_or_decomp(network, node, speed_param)

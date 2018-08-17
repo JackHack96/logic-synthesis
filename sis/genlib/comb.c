@@ -1,7 +1,7 @@
 
 /* file @(#)comb.c	1.1                      */
 /* last modified on 5/29/91 at 12:35:19   */
-#include "genlib_int.h"
+#include "../include/genlib_int.h"
 
 combination_t *
 gl_init_gen_combination(value, n)

@@ -1,5 +1,6 @@
 
 #include "sat.h"
+#include "seqbdd.h"
 
 typedef enum stuck_value_enum stuck_value_t;
 enum stuck_value_enum {

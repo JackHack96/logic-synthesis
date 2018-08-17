@@ -49,7 +49,7 @@ struct network_struct {
 #ifdef SIS
 #define foreach_latch(network, gen, l) \
     lsForeachItem((network)->latch, gen, l)
-#endif /* SIS */
+#endif
 
 extern network_t *network_alloc(void);
 

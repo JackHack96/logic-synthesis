@@ -1,7 +1,7 @@
 /* Basic BDD routines */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 /* cmu_bdd_one(bddm) gives the BDD for true. */
@@ -115,14 +115,14 @@ shift_block(bddm, b, index)
     i = bdd_find_block(b, index);
     if (i == b->num_children || b->children[i]->first_index == index) {
         b->children = (block *) mem_resize_block((pointer)
-        b->children, (SIZE_T)(sizeof(block) * (b->num_children + 1)));
+                                                         b->children, (SIZE_T) (sizeof(block) * (b->num_children + 1)));
         for (j = b->num_children - 1; j >= i; --j)
             b->children[j + 1] = shift_block(bddm, b->children[j], index);
         b->num_children++;
         p = (block) BDD_NEW_REC(bddm, sizeof(struct block_));
-        p->reorderable = 0;
-        p->first_index = index;
-        p->last_index  = index;
+        p->reorderable  = 0;
+        p->first_index  = index;
+        p->last_index   = index;
         p->num_children = 0;
         p->children     = 0;
         b->children[i] = p;
@@ -153,7 +153,8 @@ bdd_new_var(bddm, index)
     long       temp;
     long       oldmax;
     assoc_list p;
-    bdd        var;
+    bdd
+    var;
 
     if (bddm->vars == BDD_MAX_INDEXINDEX)
         cmu_bdd_fatal("bdd_new_var: no more indexes");
@@ -161,35 +162,36 @@ bdd_new_var(bddm, index)
         cmu_bdd_fatal("bdd_new_var: index out of range");
     if (bddm->vars == bddm->maxvars) {
         /* Expand indexing tables and variable associations. */
-        oldmax = bddm->maxvars;
+        oldmax   = bddm->maxvars;
         temp     = bddm->maxvars * 2;
         if (temp > BDD_MAX_INDEXINDEX - 1)
             temp = BDD_MAX_INDEXINDEX - 1;
-        bddm->maxvars = temp;
+        bddm->maxvars   = temp;
         bddm->variables = (bdd *) mem_resize_block((pointer)
-        bddm->variables,
-                (SIZE_T)((bddm->maxvars + 1) * sizeof(bdd)));
-        bddm->indexes = (bdd_index_type *) mem_resize_block((pointer)
-        bddm->indexes,
-                (SIZE_T)((bddm->maxvars + 1) * sizeof(bdd_index_type)));
-        bddm->indexindexes =
+                                                           bddm->variables,
+                                                   (SIZE_T) ((bddm->maxvars + 1) * sizeof(bdd)));
+        bddm->indexes   = (bdd_index_type *) mem_resize_block((pointer)
+                                                                      bddm->indexes,
+                                                              (SIZE_T) ((bddm->maxvars + 1) * sizeof(bdd_index_type)));
+        bddm->indexindexes        =
                 (bdd_indexindex_type *) mem_resize_block((pointer)
-        bddm->indexindexes,
-                (SIZE_T)(bddm->maxvars * sizeof(bdd_indexindex_type)));
+                                                                 bddm->indexindexes,
+                                                         (SIZE_T) (bddm->maxvars * sizeof(bdd_indexindex_type)));
         bddm->unique_table.tables =
                 (var_table *) mem_resize_block((pointer)
-        bddm->unique_table.tables,
-                (SIZE_T)((bddm->maxvars + 1) * sizeof(var_table)));
+                                                       bddm->unique_table.tables,
+                                               (SIZE_T) ((bddm->maxvars + 1) * sizeof(var_table)));
         /* Variable associations are padded with nulls in case new variables */
         /* are created. */
         for (p = bddm->assocs; p; p = p->next) {
             p->va.assoc = (bdd *) mem_resize_block((pointer)
-            p->va.assoc, (SIZE_T)((bddm->maxvars + 1) * sizeof(bdd)));
+                                                           p->va.assoc, (SIZE_T) ((bddm->maxvars + 1) * sizeof(bdd)));
             for (i = oldmax; i < bddm->maxvars; ++i)
                 p->va.assoc[i + 1] = 0;
         }
         bddm->temp_assoc.assoc = (bdd *) mem_resize_block((pointer)
-        bddm->temp_assoc.assoc, (SIZE_T)((bddm->maxvars + 1) * sizeof(bdd)));
+                                                                  bddm->temp_assoc.assoc,
+                                                          (SIZE_T) ((bddm->maxvars + 1) * sizeof(bdd)));
         for (i = oldmax; i < bddm->maxvars; ++i)
             bddm->temp_assoc.assoc[i + 1] = 0;
     }
@@ -198,7 +200,7 @@ bdd_new_var(bddm, index)
         for (i = 0; i < bddm->vars; ++i)
             if (bddm->indexes[i + 1] >= index)
                 bddm->indexes[i + 1]++;
-    for (p = bddm->assocs; p; p = p->next)
+    for (p     = bddm->assocs; p; p = p->next)
         if (p->va.last >= index)
             p->va.last++;
     if (bddm->temp_assoc.last >= index)
@@ -210,7 +212,7 @@ bdd_new_var(bddm, index)
     bddm->vars++;
     bddm->unique_table.tables[bddm->vars] = bdd_new_var_table(bddm);
     /* Create the variable. */
-    var = bdd_find_aux(bddm, (bdd_indexindex_type) bddm->vars, (INT_PTR)BDD_ONE(bddm), (INT_PTR)BDD_ZERO(bddm));
+    var = bdd_find_aux(bddm, (bdd_indexindex_type) bddm->vars, (INT_PTR) BDD_ONE(bddm), (INT_PTR) BDD_ZERO(bddm));
     var->refs = BDD_MAX_REFS;
     /* Record everything. */
     bddm->variables[bddm->vars] = var;
@@ -350,10 +352,14 @@ cmu_bdd_and_step(bddm, f, g)
 #endif
 {
     bdd_indexindex_type top_indexindex;
-    bdd                 f1, f2;
-    bdd                 g1, g2;
-    bdd                 temp1, temp2;
-    bdd                 result;
+    bdd
+    f1, f2;
+    bdd
+    g1, g2;
+    bdd
+    temp1, temp2;
+    bdd
+    result;
 
     BDD_SETUP(f);
     BDD_SETUP(g);
@@ -381,8 +387,8 @@ cmu_bdd_and_step(bddm, f, g)
     /* f and g are not constant and are not equal or negations. */
     if (BDD_OUT_OF_ORDER(f, g))
         BDD_SWAP(f, g);
-    if (bdd_lookup_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR)BDD_ZERO(bddm),
-                              (INT_PTR * ) & result))
+    if (bdd_lookup_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR) BDD_ZERO(bddm),
+                              (INT_PTR *) &result))
         return (result);
     BDD_TOP_VAR2(top_indexindex, bddm, f, g);
     BDD_COFACTOR(top_indexindex, f, f1, f2);
@@ -390,7 +396,7 @@ cmu_bdd_and_step(bddm, f, g)
     temp1  = cmu_bdd_and_step(bddm, f1, g1);
     temp2  = cmu_bdd_and_step(bddm, f2, g2);
     result = bdd_find(bddm, top_indexindex, temp1, temp2);
-    bdd_insert_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR)BDD_ZERO(bddm), (INT_PTR) result);
+    bdd_insert_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR) BDD_ZERO(bddm), (INT_PTR) result);
     return (result);
 }
 
@@ -408,10 +414,14 @@ cmu_bdd_xnor_step(bddm, f, g)
 {
     int                 outneg;
     bdd_indexindex_type top_indexindex;
-    bdd                 f1, f2;
-    bdd                 g1, g2;
-    bdd                 temp1, temp2;
-    bdd                 result;
+    bdd
+    f1, f2;
+    bdd
+    g1, g2;
+    bdd
+    temp1, temp2;
+    bdd
+    result;
 
     BDD_SETUP(f);
     BDD_SETUP(g);
@@ -440,11 +450,11 @@ cmu_bdd_xnor_step(bddm, f, g)
         outneg = 0;
     else {
         outneg = 1;
-        g = BDD_NOT(g);
+        g      = BDD_NOT(g);
     }
     /* g is an uncomplemented output pointer. */
-    if (bdd_lookup_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR)BDD_NOT(g),
-                              (INT_PTR * ) & result))
+    if (bdd_lookup_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR) BDD_NOT(g),
+                              (INT_PTR *) &result))
         return (outneg ? BDD_NOT(result) : result);
     BDD_TOP_VAR2(top_indexindex, bddm, f, g);
     BDD_COFACTOR(top_indexindex, f, f1, f2);
@@ -452,7 +462,7 @@ cmu_bdd_xnor_step(bddm, f, g)
     temp1  = cmu_bdd_xnor_step(bddm, f1, g1);
     temp2  = cmu_bdd_xnor_step(bddm, f2, g2);
     result = bdd_find(bddm, top_indexindex, temp1, temp2);
-    bdd_insert_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR)BDD_NOT(g), (INT_PTR) result);
+    bdd_insert_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR) BDD_NOT(g), (INT_PTR) result);
     return (outneg ? BDD_NOT(result) : result);
 }
 
@@ -470,11 +480,16 @@ cmu_bdd_ite_step(bddm, f, g, h)
 {
     int                 outneg;
     bdd_indexindex_type top_indexindex;
-    bdd                 f1, f2;
-    bdd                 g1, g2;
-    bdd                 h1, h2;
-    bdd                 temp1, temp2;
-    bdd                 result;
+    bdd
+    f1, f2;
+    bdd
+    g1, g2;
+    bdd
+    h1, h2;
+    bdd
+    temp1, temp2;
+    bdd
+    result;
 
     BDD_SETUP(f);
     BDD_SETUP(g);
@@ -535,11 +550,11 @@ cmu_bdd_ite_step(bddm, f, g, h)
         outneg = 0;
     else {
         outneg = 1;
-        g = BDD_NOT(g);
-        h = BDD_NOT(h);
+        g      = BDD_NOT(g);
+        h      = BDD_NOT(h);
     }
     /* g is now an uncomplemented output pointer. */
-    if (bdd_lookup_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR) h, (INT_PTR * ) & result))
+    if (bdd_lookup_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR) h, (INT_PTR *) &result))
         return (outneg ? BDD_NOT(result) : result);
     BDD_TOP_VAR3(top_indexindex, bddm, f, g, h);
     BDD_COFACTOR(top_indexindex, f, f1, f2);
@@ -602,7 +617,8 @@ cmu_bdd_nand(bddm, f, g)
      bdd g;
 #endif
 {
-    bdd temp;
+    bdd
+    temp;
 
     if ((temp = cmu_bdd_and(bddm, f, g)))
         return (BDD_NOT(temp));
@@ -638,7 +654,8 @@ cmu_bdd_nor(bddm, f, g)
      bdd g;
 #endif
 {
-    bdd temp;
+    bdd
+    temp;
 
     if ((temp = cmu_bdd_or(bddm, f, g)))
         return (BDD_NOT(temp));
@@ -674,7 +691,8 @@ cmu_bdd_xnor(bddm, f, g)
      bdd g;
 #endif
 {
-    bdd temp;
+    bdd
+    temp;
 
     if ((temp = cmu_bdd_xor(bddm, f, g)))
         return (BDD_NOT(temp));
@@ -852,9 +870,12 @@ cmu_bdd_intersects_step(bddm, f, g)
 #endif
 {
     bdd_indexindex_type top_indexindex;
-    bdd                 f1, f2;
-    bdd                 g1, g2;
-    bdd                 temp;
+    bdd
+    f1, f2;
+    bdd
+    g1, g2;
+    bdd
+    temp;
 
     BDD_SETUP(f);
     BDD_SETUP(g);
@@ -882,8 +903,8 @@ cmu_bdd_intersects_step(bddm, f, g)
     /* f and g are not constant and are not equal or negations. */
     if (BDD_OUT_OF_ORDER(f, g))
         BDD_SWAP(f, g);
-    if (bdd_lookup_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR)BDD_ZERO(bddm),
-                              (INT_PTR * ) & temp))
+    if (bdd_lookup_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR) BDD_ZERO(bddm),
+                              (INT_PTR *) &temp))
         return (temp);
     BDD_TOP_VAR2(top_indexindex, bddm, f, g);
     BDD_COFACTOR(top_indexindex, f, f1, f2);
@@ -893,7 +914,7 @@ cmu_bdd_intersects_step(bddm, f, g)
         return (bdd_find(bddm, top_indexindex, temp, BDD_ZERO(bddm)));
     temp = bdd_find(bddm, top_indexindex, BDD_ZERO(bddm), cmu_bdd_intersects_step(bddm, f2, g2));
     if (temp == BDD_ZERO(bddm))
-        bdd_insert_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR)BDD_ZERO(bddm), (INT_PTR) temp);
+        bdd_insert_in_cache31(bddm, CACHE_TYPE_ITE, (INT_PTR) f, (INT_PTR) g, (INT_PTR) BDD_ZERO(bddm), (INT_PTR) temp);
     return (temp);
 }
 
@@ -1070,7 +1091,7 @@ cmu_bdd_cache_ratio(bddm, new_ratio)
 {
     int old_ratio;
 
-    old_ratio = bddm->op_cache.cache_ratio;
+    old_ratio     = bddm->op_cache.cache_ratio;
     if (new_ratio < 1)
         new_ratio = 1;
     else if (new_ratio > 32)
@@ -1094,7 +1115,7 @@ cmu_bdd_node_limit(bddm, new_limit)
 {
     long old_limit;
 
-    old_limit = bddm->unique_table.node_limit;
+    old_limit     = bddm->unique_table.node_limit;
     if (new_limit < 0)
         new_limit = 0;
     bddm->unique_table.node_limit   = new_limit;
@@ -1129,7 +1150,7 @@ cmu_bdd_overflow(bddm)
 
 void
 #if defined(__STDC__)
-        cmu_bdd_overflow_closure(cmu_bdd_manager bddm, void (*overflow_fn)(cmu_bdd_manager, pointer), pointer
+cmu_bdd_overflow_closure(cmu_bdd_manager bddm, void (*overflow_fn)(cmu_bdd_manager, pointer), pointer
 
 overflow_env)
 #else
@@ -1139,10 +1160,10 @@ cmu_bdd_overflow_closure(bddm, overflow_fn, overflow_env)
      pointer overflow_env;
 #endif
 {
-bddm->
-overflow_fn = overflow_fn;
-bddm->
-overflow_env = overflow_env;
+    bddm->
+                overflow_fn  = overflow_fn;
+    bddm->
+                overflow_env = overflow_env;
 }
 
 
@@ -1154,7 +1175,7 @@ overflow_env = overflow_env;
 
 void
 #if defined(__STDC__)
-        cmu_bdd_abort_closure(cmu_bdd_manager bddm, void (*abort_fn)(cmu_bdd_manager, pointer), pointer
+cmu_bdd_abort_closure(cmu_bdd_manager bddm, void (*abort_fn)(cmu_bdd_manager, pointer), pointer
 
 abort_env)
 #else
@@ -1164,10 +1185,10 @@ cmu_bdd_abort_closure(bddm, abort_fn, abort_env)
      pointer abort_env;
 #endif
 {
-bddm->
-bag_it_fn = abort_fn;
-bddm->
-bag_it_env = abort_env;
+    bddm->
+                bag_it_fn  = abort_fn;
+    bddm->
+                bag_it_env = abort_env;
 }
 
 
@@ -1188,20 +1209,20 @@ cmu_bdd_stats(bddm, fp)
     SIZE_T     alloc;
     assoc_list q;
 
-    ue = bddm->unique_table.entries;
-    ce = bddm->op_cache.entries;
-    cs = bddm->op_cache.size;
+    ue     = bddm->unique_table.entries;
+    ce     = bddm->op_cache.entries;
+    cs     = bddm->op_cache.size;
     mem    = 0;
     for (i = 0; i < bddm->vars; ++i) {
         mem += sizeof(struct var_table_);
         mem += bddm->unique_table.tables[i]->size * sizeof(bdd);
     }
-    mem = ue * sizeof(struct bdd_);
+    mem    = ue * sizeof(struct bdd_);
     mem += cs * sizeof(struct cache_bin_) + ce * sizeof(struct cache_entry_);
     mem += bddm->maxvars * (sizeof(bdd_index_type) + sizeof(bdd_indexindex_type) + sizeof(bdd) + sizeof(var_table));
     for (q = bddm->assocs, i = 1; q; q = q->next, ++i);
     mem += i * bddm->maxvars * sizeof(bdd);
-    if ((alloc = mem_allocation()))
+    if ((alloc                         = mem_allocation()))
         /* mem_allocation may be meaningless depending on mem library. */
         fprintf(fp, "Memory manager bytes allocated: %ld\n", (long) alloc);
     fprintf(fp, "Approximate bytes used: %ld\n", mem);
@@ -1290,46 +1311,46 @@ cmu_bdd_init()
     long            i;
 
     bddm = (cmu_bdd_manager) mem_get_block((SIZE_T)
-    sizeof(struct bdd_manager_));
-    bddm->overflow     = 0;
-    bddm->overflow_fn  = 0;
-    bddm->overflow_env = 0;
-    bddm->bag_it_fn    = 0;
-    bddm->bag_it_env   = 0;
-    bddm->canonical_fn = bdd_default_canonical_fn;
-    bddm->transform_fn = bdd_default_transform_fn;
+                                                   sizeof(struct bdd_manager_));
+    bddm->overflow      = 0;
+    bddm->overflow_fn   = 0;
+    bddm->overflow_env  = 0;
+    bddm->bag_it_fn     = 0;
+    bddm->bag_it_env    = 0;
+    bddm->canonical_fn  = bdd_default_canonical_fn;
+    bddm->transform_fn  = bdd_default_transform_fn;
     bddm->transform_env = 0;
     bddm->reorder_fn    = 0;
     bddm->reorder_data  = 0;
     bddm->vars          = 0;
     bddm->maxvars       = 30;
     bddm->check         = 1;
-    bddm->variables    = (bdd *) mem_get_block((SIZE_T)((bddm->maxvars + 1) * sizeof(bdd)));
-    bddm->indexes      = (bdd_index_type *) mem_get_block((SIZE_T)((bddm->maxvars + 1) * sizeof(bdd_index_type)));
-    bddm->indexindexes = (bdd_indexindex_type *) mem_get_block((SIZE_T)(bddm->maxvars * sizeof(bdd_indexindex_type)));
+    bddm->variables     = (bdd *) mem_get_block((SIZE_T) ((bddm->maxvars + 1) * sizeof(bdd)));
+    bddm->indexes       = (bdd_index_type *) mem_get_block((SIZE_T) ((bddm->maxvars + 1) * sizeof(bdd_index_type)));
+    bddm->indexindexes  = (bdd_indexindex_type *) mem_get_block((SIZE_T) (bddm->maxvars * sizeof(bdd_indexindex_type)));
     bddm->indexes[BDD_CONST_INDEXINDEX] = BDD_MAX_INDEX;
     for (i = 0; i < REC_MGRS; ++i)
         bddm->rms[i] = mem_new_rec_mgr(MIN_REC_SIZE + ALLOC_ALIGNMENT * i);
-    bddm->temp_assoc.assoc = (bdd *) mem_get_block((SIZE_T)((bddm->maxvars + 1) * sizeof(bdd)));
-    bddm->temp_assoc.last = -1;
+    bddm->temp_assoc.assoc = (bdd *) mem_get_block((SIZE_T) ((bddm->maxvars + 1) * sizeof(bdd)));
+    bddm->temp_assoc.last  = -1;
     for (i = 0; i < bddm->maxvars; ++i)
         bddm->temp_assoc.assoc[i + 1] = 0;
-    bddm->curr_assoc_id = -1;
-    bddm->curr_assoc    = &bddm->temp_assoc;
-    bddm->assocs = 0;
-    bddm->temp_op = -1;
-    bddm->super_block = (block) BDD_NEW_REC(bddm, sizeof(struct block_));
+    bddm->curr_assoc_id             = -1;
+    bddm->curr_assoc                = &bddm->temp_assoc;
+    bddm->assocs                    = 0;
+    bddm->temp_op                   = -1;
+    bddm->super_block               = (block) BDD_NEW_REC(bddm, sizeof(struct block_));
     bddm->super_block->num_children = 0;
     bddm->super_block->children     = 0;
     bddm->super_block->reorderable  = 1;
-    bddm->super_block->first_index = -1;
-    bddm->super_block->last_index = 0;
+    bddm->super_block->first_index  = -1;
+    bddm->super_block->last_index   = 0;
     cmu_bdd_init_unique(bddm);
     cmu_bdd_init_cache(bddm);
-    bddm->one = bdd_find_terminal(bddm, ~(INT_PTR) 0, ~(INT_PTR) 0);
+    bddm->one       = bdd_find_terminal(bddm, ~(INT_PTR) 0, ~(INT_PTR) 0);
     bddm->one->refs = BDD_MAX_REFS;
     bddm->one->mark = 0;
-    bddm->zero = BDD_NOT(bddm->one);
+    bddm->zero      = BDD_NOT(bddm->one);
     if (sizeof(double) > 2 * sizeof(long))
         cmu_bdd_warning("cmu_bdd_init: portability problem for cmu_bdd_satisfying_fraction");
     return (bddm);
@@ -1353,17 +1374,17 @@ cmu_bdd_quit(bddm)
     cmu_bdd_free_unique(bddm);
     cmu_bdd_free_cache(bddm);
     mem_free_block((pointer)
-    bddm->variables);
+                           bddm->variables);
     mem_free_block((pointer)
-    bddm->indexes);
+                           bddm->indexes);
     mem_free_block((pointer)
-    bddm->indexindexes);
+                           bddm->indexindexes);
     mem_free_block((pointer)
-    bddm->temp_assoc.assoc);
+                           bddm->temp_assoc.assoc);
     for (p = bddm->assocs; p; p = q) {
         q = p->next;
         mem_free_block((pointer)
-        p->va.assoc);
+                               p->va.assoc);
         BDD_FREE_REC(bddm, (pointer)
                 p, sizeof(struct assoc_list_));
     }
@@ -1372,5 +1393,5 @@ cmu_bdd_quit(bddm)
     for (i = 0; i < REC_MGRS; ++i)
         mem_free_rec_mgr(bddm->rms[i]);
     mem_free_block((pointer)
-    bddm);
+                           bddm);
 }

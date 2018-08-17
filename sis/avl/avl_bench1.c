@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include "array.h"
-#include "avl.h"
+#include "../include/avl.h"
 #include "util.h"
 
 #define MAX_WORD    1024

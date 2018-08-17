@@ -1,7 +1,7 @@
 
 /* file @(#)permute.c	1.1                      */
 /* last modified on 5/29/91 at 12:35:30   */
-#include "genlib_int.h"
+#include "../include/genlib_int.h"
 
 static void gl_permute_recur();
 

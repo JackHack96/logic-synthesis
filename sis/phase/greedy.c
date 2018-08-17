@@ -1,7 +1,7 @@
 
 #include "sis.h"
-#include "phase.h"
-#include "phase_int.h"
+#include "../include/phase.h"
+#include "../include/phase_int.h"
 
 static void greedy_down();
 

@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 
 /*---------------------------------------------------------------------------
   Does a delay trace on the network. Then finds a node critical node 

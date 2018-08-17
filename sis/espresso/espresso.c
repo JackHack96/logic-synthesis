@@ -37,7 +37,7 @@
  *          skip the make_sparse step (used by opo only)
  */
 
-#include "espresso.h"
+#include "../include/espresso.h"
 
 pcover espresso(F, D1, R)
         pcover F, D1, R;

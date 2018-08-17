@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include "util.h"
-#include "st.h"
+#include "../include/st.h"
 
 #define ST_NUMCMP(x, y) ((x) != (y))
 #define ST_NUMHASH(x, size) (ABS((int)x)%(size))

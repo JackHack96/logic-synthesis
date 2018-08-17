@@ -1,7 +1,7 @@
 
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 
 /*---------------------------------------------------------------------------
    This file carries routines that could make a non-feasible node feasible

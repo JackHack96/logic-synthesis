@@ -29,10 +29,10 @@
  * 
  */
 #include "sis.h"
-#include "map_int.h"
-#include "map_delay.h"
-#include "fanout_int.h"
-#include "fanout_delay.h"
+#include "../include/map_int.h"
+#include "../include/map_delay.h"
+#include "../include/fanout_int.h"
+#include "../include/fanout_delay.h"
 
 static void update_gate_link_loads_rec();
 

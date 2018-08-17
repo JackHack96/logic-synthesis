@@ -2,7 +2,7 @@
 #include <setjmp.h>
 #include <signal.h>
 #include "sis.h"
-#include "simp_int.h"
+#include "../include/simp_int.h"
 
 #define BDD_NODE_LIMIT 480000
 #define BDD_NODE_LOW  50000

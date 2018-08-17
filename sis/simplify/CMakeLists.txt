@@ -1,8 +1,6 @@
-cmake_minimum_required(VERSION 3.8)
 
-set(CMAKE_CXX_STANDARD 11)
 
-add_library(libsimplify STATIC
+add_library(simplify STATIC
         com_simp.c
         compute_dc.c
         dc_filter.c
@@ -15,5 +13,5 @@ add_library(libsimplify STATIC
         simp_sm.c
         simp_util.c
 
-        simp_int.h
+        ../include/simp_int.h
         )

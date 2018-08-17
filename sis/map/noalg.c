@@ -2,8 +2,8 @@
 /* file @(#)noalg.c	1.2 */
 /* last modified on 5/1/91 at 15:51:43 */
 #include "sis.h"
-#include "fanout_int.h"
-#include "fanout_delay.h"
+#include "../include/fanout_int.h"
+#include "../include/fanout_delay.h"
 
 static int noalg_optimize();
 

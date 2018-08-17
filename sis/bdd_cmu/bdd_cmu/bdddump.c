@@ -1,7 +1,7 @@
 /* BDD library dump/undump routines */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 #define MAGIC_COOKIE 0x5e02f795l

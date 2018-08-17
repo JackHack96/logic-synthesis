@@ -2,7 +2,7 @@
 /* file @(#)com_genlib.c	1.1 */
 /* last modified on 7/2/91 at 01:34:28 */
 #include "sis.h"
-#include "genlib_int.h"
+#include "../include/genlib_int.h"
 
 static int
 com_genlib_print(network, argc, argv)

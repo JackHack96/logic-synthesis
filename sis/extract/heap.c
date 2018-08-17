@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "heap.h"
+#include "../include/heap.h"
 
 /*  Author : Huey-Yih Wang */
 /*  Date   : Nov 1. 1990   */

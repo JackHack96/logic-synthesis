@@ -11,7 +11,7 @@
  */
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 #include <math.h>
 
 /*

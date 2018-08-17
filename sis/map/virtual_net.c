@@ -35,10 +35,10 @@
  */
 
 #include "sis.h"
-#include "map_int.h"
-#include "lib_int.h"
-#include "map_delay.h"
-#include "fanout_int.h"
+#include "../include/map_int.h"
+#include "../include/lib_int.h"
+#include "../include/map_delay.h"
+#include "../include/fanout_int.h"
 
 static void check_fanin();
 

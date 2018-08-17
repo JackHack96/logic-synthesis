@@ -43,8 +43,8 @@
  * 
  */
 #include "sis.h"
-#include "cluster.h"
-#include "map_defs.h"
+#include "../include/cluster.h"
+#include "../include/map_defs.h"
 
 /* this file implements Lawler's clustering algorithm */
 /* for a given limit in size of clusters, find a minimum depth */
@@ -77,7 +77,7 @@ typedef struct {
 } clust_node_t;
 
 
-#include "cluster_static.h"
+#include "../include/cluster_static.h"
 
 static clust_options_t global_settings;
 

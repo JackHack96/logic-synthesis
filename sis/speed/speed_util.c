@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include "sis.h"
-#include "speed_int.h"
+#include "../include/speed_int.h"
 
 static st_table *level_table; /* For the levelize routines */
 int level_cmp();

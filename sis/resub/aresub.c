@@ -7,8 +7,8 @@
  */
 
 #include "sis.h"
-#include "resub.h"
-#include "resub_int.h"
+#include "../include/resub.h"
+#include "../include/resub_int.h"
 
 /*
  *  Substitute one function (nodep) into all other 

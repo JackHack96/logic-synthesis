@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.8)
 project(sis)
-set(CMAKE_CXX_STANDARD 11)
+
+include_directories(include)
 
 add_subdirectory(array)
 add_subdirectory(astg)
@@ -22,7 +22,6 @@ add_subdirectory(genlib)
 add_subdirectory(graph)
 add_subdirectory(graphics)
 add_subdirectory(io)
-add_subdirectory(latch)
 add_subdirectory(linsolv)
 add_subdirectory(list)
 add_subdirectory(main)
@@ -50,22 +49,55 @@ add_subdirectory(stg)
 add_subdirectory(test)
 add_subdirectory(timing)
 add_subdirectory(util)
-add_subdirectory(var_set)# Generating the library libsis.a
-set(project "sis")
+add_subdirectory(var_set)
 
-set(${project}, "")
-list(APPEND ${project}_SOURCES
-
-        )
-add_library(libsis STATIC ${${project}_SOURCES})
-# Generating the library sis
-set(project "sis")
-
-set(${project}, "")
-list(APPEND ${project}_SOURCES
-        )
-add_executable(sis ${${project}_SOURCES})
-
+add_executable(sis main/sis.c)
 target_link_libraries(sis
-        m
-        )
+        array
+        astg
+        atpg
+        avl
+        bdd_cmu
+        bdd_ucb
+        clock
+        command
+        decomp
+        delay
+        enc
+        error
+        espresso_sis
+        extract
+        factor
+        gcd
+        genlib
+        graph
+        graphics
+        io
+        linsolv
+        list
+        main
+        map
+        maxflow
+        mincov
+        minimize
+        network
+        node
+        ntbdd
+        octio
+        order
+        phase
+        pld
+        power
+        resub
+        retime
+        seqbdd
+        sim
+        simplify
+        sparse
+        speed
+        st
+        stg
+        test
+        timing
+        util
+        var_set)

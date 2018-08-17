@@ -1,7 +1,7 @@
 
 /* file @(#)count.c	1.1                      */
 /* last modified on 5/29/91 at 12:35:21   */
-#include "genlib_int.h"
+#include "../include/genlib_int.h"
 
 static int f[40][20][20];
 

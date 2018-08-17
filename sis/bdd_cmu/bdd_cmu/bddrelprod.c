@@ -1,7 +1,7 @@
 /* BDD relational product routine */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 static

@@ -1,5 +1,5 @@
 #include "sis.h"
-#include "act_bool.h"
+#include "../include/act_bool.h"
 
 extern int ACT_ITE_DEBUG;
 

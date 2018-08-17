@@ -15,7 +15,7 @@
 +--------------------------------------------------------------------------*/
 
 #include "sis.h"
-#include "power_int.h"
+#include "../include/power_int.h"
 
 
 /* This routine is for finding the power dissipation in combinational circuits

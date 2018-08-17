@@ -3,7 +3,7 @@
    had to change some other stuff, like init_intersection was written,... */
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 #include <math.h>
 
 struct my_cube {

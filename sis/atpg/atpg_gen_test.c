@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "atpg_int.h"
+#include "../include/atpg_int.h"
 
 static sequence_t *justify_and_ff_propagate();
 

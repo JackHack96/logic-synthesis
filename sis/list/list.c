@@ -11,7 +11,7 @@
  */
 
 #include "util.h"
-#include "list.h"        /* Self declaration        */
+#include "../include/list.h"        /* Self declaration        */
 
 #define alloc(type)    (type *) malloc(sizeof(type))
 

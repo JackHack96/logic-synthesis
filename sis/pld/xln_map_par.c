@@ -12,7 +12,7 @@
  */
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 
 extern sm_row *sm_mat_bin_minimum_cover();
 

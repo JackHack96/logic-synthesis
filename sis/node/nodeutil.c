@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "node_int.h"
+#include "../include/node_int.h"
 
 static daemon_t *daemon_func[4];
 static          global_sis_id = 0;

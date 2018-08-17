@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "speed_int.h"
+#include "../include/speed_int.h"
 
 /* Exported interface  */
 array_t *

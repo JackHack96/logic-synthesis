@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "test_int.h"
+#include "../include/test_int.h"
 
 
 /*

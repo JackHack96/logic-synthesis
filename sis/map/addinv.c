@@ -2,7 +2,7 @@
 /* file @(#)addinv.c	1.4 */
 /* last modified on 9/17/91 at 14:29:24 */
 #include "sis.h"
-#include "map_int.h"
+#include "../include/map_int.h"
 
 
 static node_t *

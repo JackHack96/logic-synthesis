@@ -1,7 +1,7 @@
 
 #include "sis.h"
-#include "decomp.h"
-#include "decomp_int.h"
+#include "../include/decomp.h"
+#include "../include/decomp_int.h"
 
 sm_matrix *
 dec_node_to_sm(f)

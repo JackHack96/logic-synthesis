@@ -27,7 +27,7 @@
 /* file @(#)readlib.y	1.2                      */
 /* last modified on 6/13/91 at 17:46:40   */
 #include <setjmp.h>
-#include "genlib_int.h"
+#include "../include/genlib_int.h"
 #include "config.h"
 
 #undef GENLIB_yywrap

@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 
 /*---------------------------------------------------------------------
   Find pairs of nodes for extracting mergeable nodes. This is done as

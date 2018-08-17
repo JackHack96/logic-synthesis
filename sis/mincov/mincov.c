@@ -1,5 +1,5 @@
 
-#include "mincov_int.h"
+#include "../include/mincov_int.h"
 
 /*
  *  mincov.c

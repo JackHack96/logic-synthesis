@@ -7,7 +7,7 @@
  */
 
 #include <stdio.h>
-#include "util.h"
+#include "../include/util.h"
 
 #ifdef notdef /* BSD_SIS */
 #include <sys/types.h>

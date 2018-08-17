@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 
 /*	for order_nodes and p_alap_order_nodes	*/
 typedef struct fanin_record_defn {

@@ -3,11 +3,11 @@
 /* last modified on 5/1/91 at 15:50:22 */
 #include <stdio.h>
 #include "sis.h"
-#include "map_int.h"
-#include "lib_int.h"
-#include "map_delay.h"
-#include "fanout_int.h"
-#include "fanout_delay.h"
+#include "../include/map_int.h"
+#include "../include/lib_int.h"
+#include "../include/map_delay.h"
+#include "../include/fanout_int.h"
+#include "../include/fanout_delay.h"
 
 static int do_fanout_dump();
 

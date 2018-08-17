@@ -1,6 +1,6 @@
 #include "sis.h"
-#include "pld_int.h" /* uncommented Feb 9, 1992 */
-#include "ite_int.h"
+#include "../include/pld_int.h" /* uncommented Feb 9, 1992 */
+#include "../include/ite_int.h"
 
 static check_universal();
 

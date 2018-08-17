@@ -1,5 +1,5 @@
 #include "sis.h"
-#include "enc_int.h"
+#include "../include/enc_int.h"
 
 #define EQN  5
 #define ITER 6

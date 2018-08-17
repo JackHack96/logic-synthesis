@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "util.h"
+#include "../include/util.h"
 
 
 #if defined(BSD_SIS) && !defined(_IBMR2) && !defined(__hpux) && 0

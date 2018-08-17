@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "speed_int.h"
+#include "../include/speed_int.h"
 #include <math.h>
 
 int sp_compare_cutset_nodes();

@@ -1,8 +1,6 @@
-cmake_minimum_required(VERSION 3.8)
 
-set(CMAKE_CXX_STANDARD 11)
 
-add_library(libspeed STATIC
+add_library(speed STATIC
         absorb.c
         buf_delay.c
         buf_recur.c
@@ -33,8 +31,8 @@ add_library(libspeed STATIC
         weight.c
         weight_util.c
 
-        buffer_int.h
-        gbx_int.h
-        new_speed_models.h
-        speed_int.h
+        ../include/buffer_int.h
+        ../include/gbx_int.h
+        ../include/new_speed_models.h
+        ../include/speed_int.h
         )

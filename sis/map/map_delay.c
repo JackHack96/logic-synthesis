@@ -3,11 +3,11 @@
 /* last modified on 7/8/91 at 14:47:03 */
 #include "sis.h"
 #include <math.h>
-#include "map_int.h"
-#include "lib_int.h"
-#include "map_macros.h"
-#include "map_delay.h"
-#include "fanout_delay.h"
+#include "../include/map_int.h"
+#include "../include/lib_int.h"
+#include "../include/map_macros.h"
+#include "../include/map_delay.h"
+#include "../include/fanout_delay.h"
 
 static double compute_fanout_load_correction();
 

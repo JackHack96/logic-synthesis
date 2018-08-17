@@ -1,5 +1,5 @@
 
-#include "espresso.h"
+#include "../include/espresso.h"
 
 /*
     The cofactor of a cover against a cube "c" is a cover formed by the

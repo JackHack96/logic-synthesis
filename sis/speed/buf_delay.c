@@ -1,7 +1,7 @@
 
 #include "sis.h"
-#include "speed_int.h"
-#include "buffer_int.h"
+#include "../include/speed_int.h"
+#include "../include/buffer_int.h"
 
 /*
  * Computes the required time at the "pin" input signal of node "fo".

@@ -13,7 +13,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/file.h>
-#include "util.h"
+#include "../include/util.h"
 
 static char check_directory(char *dir) {
     struct stat statbuf;

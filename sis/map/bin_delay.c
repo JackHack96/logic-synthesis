@@ -3,16 +3,16 @@
 /* last modified on 7/24/91 at 16:46:37 */
 #include "sis.h"
 #include <math.h>
-#include "map_macros.h"
-#include "map_int.h"
-#include "bin_int.h"
-#include "map_delay.h"
-#include "fanout_int.h"
-#include "fanout_delay.h"
+#include "../include/map_macros.h"
+#include "../include/map_int.h"
+#include "../include/bin_int.h"
+#include "../include/map_delay.h"
+#include "../include/fanout_int.h"
+#include "../include/fanout_delay.h"
 
 static bin_global_t global;
 
-#include "bin_delay_static.h"
+#include "../include/bin_delay_static.h"
 
 static char errmsg[1024];
 #ifdef SIS

@@ -1,7 +1,7 @@
 /* Record manager routines */
 
 
-#include "memint.h"
+#include "../../include/memint.h"
 
 
 #define ALLOC_SIZE NICE_BLOCK_SIZE

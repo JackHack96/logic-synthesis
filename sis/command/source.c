@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "com_int.h"
+#include "../include/com_int.h"
 
 static int end_loop();
 

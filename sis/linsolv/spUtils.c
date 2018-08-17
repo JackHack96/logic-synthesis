@@ -70,9 +70,9 @@ static char RCSid[]     =
 
 #define spINSIDE_SPARSE
 
-#include "spConfig.h"
-#include "spMatrix.h"
-#include "spDefs.h"
+#include "../include/spConfig.h"
+#include "../include/spMatrix.h"
+#include "../include/spDefs.h"
 
 
 #if MODIFIED_NODAL

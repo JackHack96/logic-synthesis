@@ -16,7 +16,7 @@
     maximally reduced cubes.
 */
 
-#include "espresso.h"
+#include "../include/espresso.h"
 
 
 /*

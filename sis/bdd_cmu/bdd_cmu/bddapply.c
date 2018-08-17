@@ -1,7 +1,7 @@
 /* BDD generic apply routines */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 static

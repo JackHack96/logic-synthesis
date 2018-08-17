@@ -2,7 +2,7 @@
 /* changed July 29, 1991 - to make lint happy */
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 
 /*	hash table for partial results*/
 st_table *misc_table;

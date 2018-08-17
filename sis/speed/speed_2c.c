@@ -5,7 +5,7 @@
  */
 
 #include "sis.h"
-#include "speed_int.h"
+#include "../include/speed_int.h"
 
 #define SCALE_2 100000
 #define SCALE 100

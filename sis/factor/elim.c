@@ -6,8 +6,8 @@
  */
 
 #include "sis.h"
-#include "factor.h"
-#include "factor_int.h"
+#include "../include/factor.h"
+#include "../include/factor_int.h"
 
 /*
  *  eliminate all nodes with value less than or equal to thresh

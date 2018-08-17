@@ -2,7 +2,7 @@
 #include <setjmp.h>
 #include <signal.h>
 #include "sis.h"
-#include "atpg_int.h"
+#include "../include/atpg_int.h"
 
 static bool remove_redundancy();
 

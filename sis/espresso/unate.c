@@ -3,13 +3,13 @@
  *  unate.c -- routines for dealing with unate functions
  */
 
-#include "espresso.h"
+#include "../include/espresso.h"
 
 static pset_family abs_covered();
 
 static pset_family abs_covered_many();
 
-static int abs_select_restricted();
+static int abs_select_restricteded();
 
 pcover map_cover_to_unate(T)
         pcube *T;
@@ -134,7 +134,7 @@ pset_family unate_complement(A)
         pset_family A;            /* disposes of A */
 {
     pset_family   Abar;
-    register pset p, p1, restrict;
+    register pset p, p1, restricted;
     register int i;
     int          max_i, min_set_ord, j;
 
@@ -161,14 +161,14 @@ pset_family unate_complement(A)
         /* Select splitting variable as the variable which belongs to a set
          * of the smallest size, and which has greatest column count
          */
-        restrict = set_new(A->sf_size);
+        restricted = set_new(A->sf_size);
         min_set_ord = A->sf_size + 1;
         foreachi_set(A, i, p) {
             if (SIZE(p) < min_set_ord) {
-                (void) set_copy(restrict, p);
+                (void) set_copy(restricted, p);
                 min_set_ord = SIZE(p);
             } else if (SIZE(p) == min_set_ord) {
-                (void) set_or(restrict, restrict, p);
+                (void) set_or(restricted, restricted, p);
             }
         }
 
@@ -179,15 +179,15 @@ pset_family unate_complement(A)
 
             /* Check for "essential" columns */
         } else if (min_set_ord == 1) {
-            Abar = unate_complement(abs_covered_many(A, restrict));
+            Abar = unate_complement(abs_covered_many(A, restricted));
             sf_free(A);
             foreachi_set(Abar, i, p) {
-                (void) set_or(p, p, restrict);
+                (void) set_or(p, p, restricted);
             }
 
             /* else, recur as usual */
         } else {
-            max_i = abs_select_restricted(A, restrict);
+            max_i = abs_select_restricteded(A, restricted);
 
             /* Select those rows of A which are not covered by max_i,
              * recursively find all minimal covers of these rows, and
@@ -209,7 +209,7 @@ pset_family unate_complement(A)
 
             Abar = sf_append(Abar, unate_complement(A));
         }
-        set_free(restrict);
+        set_free(restricted);
     }
 
     return Abar;
@@ -401,19 +401,19 @@ abs_covered_many(A, pick_set)
 
 
 /*
- *  abs_select_restricted -- select the column of maximum column count which
- *  also belongs to the set "restrict"; weight each column of a set as
+ *  abs_select_restricteded -- select the column of maximum column count which
+ *  also belongs to the set "restricted"; weight each column of a set as
  *  1 / (set_ord(p) - 1).
  */
 static int
-abs_select_restricted(A, restrict)
+abs_select_restricteded(A, restricted)
         pset_family A;
-        pset restrict;
+        pset restricted;
 {
     register int i, best_var, best_count, *count;
 
     /* Sum the elements in these columns */
-    count = sf_count_restricted(A, restrict);
+    count = sf_count_restricteded(A, restricted);
 
     /* Find which variable has maximum weight */
     best_var   = -1;
@@ -427,7 +427,7 @@ abs_select_restricted(A, restrict)
     FREE(count);
 
     if (best_var == -1)
-        fatal("abs_select_restricted: should not have best_var == -1");
+        fatal("abs_select_restricteded: should not have best_var == -1");
 
     return best_var;
 }

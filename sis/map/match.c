@@ -2,7 +2,7 @@
 /* file @(#)match.c	1.2 */
 /* last modified on 5/1/91 at 15:51:35 */
 #include "sis.h"
-#include "map_int.h"
+#include "../include/map_int.h"
 
 #define DEBUG
 

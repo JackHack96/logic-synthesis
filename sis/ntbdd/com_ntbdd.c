@@ -1,7 +1,7 @@
 #include <setjmp.h>
 #include <signal.h>
 #include "sis.h"
-#include "ntbdd_int.h"
+#include "../include/ntbdd_int.h"
 
 
 static int com_bdd_stats();

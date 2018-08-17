@@ -1,7 +1,7 @@
 
 #include "sis.h"
-#include "sat_int.h"
-#include "fast_avl.h"
+#include "../include/sat_int.h"
+#include "../include/fast_avl.h"
 
 /* Based on original SAT package written by Paul Stephan */
 

@@ -1,8 +1,6 @@
-cmake_minimum_required(VERSION 3.8)
 
-set(CMAKE_CXX_STANDARD 11)
 
-add_library(libseqbdd STATIC
+add_library(seqbdd STATIC
         bull.c
         bull_util.c
         com_verify.c
@@ -12,7 +10,7 @@ add_library(libseqbdd STATIC
         network_info.c
         ordering.c
         prioqueue.c
-        prioqueue.h
+        ../include/prioqueue.h
 
         prl_dep.c
         prl_equiv.c
@@ -21,10 +19,10 @@ add_library(libseqbdd STATIC
         prl_product.c
 
         prl_remlatch.c
-        prl_seqbdd.h
+        ../include/prl_seqbdd.h
         prl_seqinfo.c
         prl_util.c
-        prl_util.h
+        ../include/prl_util.h
 
         product.c
         seqbdd_cycle.c

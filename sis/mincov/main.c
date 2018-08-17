@@ -1,7 +1,7 @@
 
 #include "util.h"
 #include "sparse.h"
-#include "mincov.h"
+#include "../include/mincov.h"
 
 
 /*

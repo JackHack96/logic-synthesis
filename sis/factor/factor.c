@@ -6,8 +6,8 @@
  */
 
 #include "sis.h"
-#include "factor.h"
-#include "factor_int.h"
+#include "../include/factor.h"
+#include "../include/factor_int.h"
 
 /*
  *  factors nodep if nodep->factored is not NULL.

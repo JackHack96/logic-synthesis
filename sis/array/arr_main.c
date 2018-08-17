@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "../util/util.h"
-#include "array.h"
+#include "../include/util.h"
+#include "../include/array.h"
 
 #define IN_ORDER    1
 #define REVERSE_ORDER    2

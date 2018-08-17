@@ -1,8 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
-
-set(CMAKE_CXX_STANDARD 11)
-
-add_library(libpower STATIC
+add_library(power STATIC
         com_power.c
         power_comb.c
         power_comp.c
@@ -18,5 +14,5 @@ add_library(libpower STATIC
         power_sim.c
         power_util.c
 
-        power_int.h
+        ../include/power_int.h
         )

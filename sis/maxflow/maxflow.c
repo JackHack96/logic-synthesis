@@ -8,7 +8,7 @@
 /**********************************************************************/
 
 #include "sis.h"
-#include "maxflow_int.h"
+#include "../include/maxflow_int.h"
 
 void
 maxflow(graph, verify)

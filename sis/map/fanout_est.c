@@ -32,14 +32,14 @@
  * 
  */
 #include "sis.h"
-#include "map_macros.h"
-#include "map_int.h"
-#include "bin_int.h"
-#include "lib_int.h"
-#include "fanout_int.h"
-#include "fanout_delay.h"
+#include "../include/map_macros.h"
+#include "../include/map_int.h"
+#include "../include/bin_int.h"
+#include "../include/lib_int.h"
+#include "../include/fanout_int.h"
+#include "../include/fanout_delay.h"
 
-#include "fanout_est_static.h"
+#include "../include/fanout_est_static.h"
 
 /* this file takes as input an abstract specification */
 /* of a fanout tree and returns a data structure directly usable */

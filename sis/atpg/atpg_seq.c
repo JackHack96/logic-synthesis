@@ -1,6 +1,7 @@
 
+#include <latch/latch.h>
 #include "sis.h"
-#include "atpg_int.h"
+#include "../include/atpg_int.h"
 
 typedef struct {
     int    which_case;

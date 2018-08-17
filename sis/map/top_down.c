@@ -6,9 +6,9 @@
  */
 #include <math.h>
 #include "sis.h"
-#include "map_int.h"
-#include "fanout_int.h"
-#include "fanout_delay.h"
+#include "../include/map_int.h"
+#include "../include/fanout_int.h"
+#include "../include/fanout_delay.h"
 
 #define BUF_MIN_DELAY(result, t1, t2)                         \
     ((result).rise=MIN((t1).rise,(t2).rise),        \

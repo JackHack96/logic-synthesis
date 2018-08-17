@@ -1,6 +1,6 @@
 
 #include <stdio.h>
-#include "sparse_int.h"
+#include "../include/sparse_int.h"
 
 
 /*

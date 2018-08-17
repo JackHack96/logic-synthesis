@@ -1,8 +1,6 @@
-cmake_minimum_required(VERSION 3.8)
 
-set(CMAKE_CXX_STANDARD 11)
 
-add_library(libretime STATIC
+add_library(retime STATIC
         com_retime.c
         re_computeWD.c
         re_delay.c
@@ -18,5 +16,5 @@ add_library(libretime STATIC
         re_simplx.c
         re_util.c
         retime_util.c
-        retime_int.h
+        ../include/retime_int.h
         )

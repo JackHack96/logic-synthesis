@@ -1,5 +1,5 @@
 #include "sis.h"
-#include "enc_int.h"
+#include "../include/enc_int.h"
 
 dic_family_t *
 dic_family_alloc(num, nelem)

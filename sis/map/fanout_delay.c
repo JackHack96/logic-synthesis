@@ -31,10 +31,10 @@
  */
 #include "sis.h"
 #include <math.h>
-#include "map_int.h"
-#include "fanout_int.h"
-#include "fanout_delay.h"
-#include "bin_int.h"
+#include "../include/map_int.h"
+#include "../include/fanout_int.h"
+#include "../include/fanout_delay.h"
+#include "../include/bin_int.h"
 
 typedef enum buffer_type_enum buffer_type_t;
 enum buffer_type_enum {
@@ -97,7 +97,7 @@ struct delay_gate_struct {
     PwlFn          get_delay_pwl;
 };
 
-#include "fanout_delay_static.h"
+#include "../include/fanout_delay_static.h"
 
 static n_gates_t    n_gates;
 static array_t      *gate_array;

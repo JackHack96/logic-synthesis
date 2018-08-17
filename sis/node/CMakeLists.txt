@@ -1,8 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
-
-set(CMAKE_CXX_STANDARD 11)
-
-add_library(libnode STATIC
+add_library(node STATIC
         cofct.c
         collapse.c
         com_node.c
@@ -21,5 +17,5 @@ add_library(libnode STATIC
         print.c
         sethack.c
         substitute.c
-        node_int.h
+        ../include/node_int.h
         )

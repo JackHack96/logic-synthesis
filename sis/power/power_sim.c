@@ -14,7 +14,7 @@
 +--------------------------------------------------------------------------*/
 
 #include "sis.h"
-#include "power_int.h"
+#include "../include/power_int.h"
 
 
 /* This is the one and only routine for symbolic simulation */

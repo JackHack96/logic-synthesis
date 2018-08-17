@@ -1,8 +1,8 @@
 
 /* file @(#)pwl.c	1.2 */
 /* last modified on 5/1/91 at 15:51:47 */
-#include "pwl.h"
-#include "pwl_static.h"
+#include "../include/pwl.h"
+#include "../include/pwl_static.h"
 
 /* NOTE: PWL == Piece-Wise Linear function */
 

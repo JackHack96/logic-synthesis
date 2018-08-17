@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 #include <math.h>
 
 /* Return the ceiling of log2(n). Use the fact that the floor of the binary

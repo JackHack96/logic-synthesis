@@ -13,7 +13,7 @@
 +--------------------------------------------------------------------------*/
 
 #include "sis.h"
-#include "power_int.h"
+#include "../include/power_int.h"
 
 static int com_power_main();
 

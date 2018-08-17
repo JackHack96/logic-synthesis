@@ -1,6 +1,7 @@
 
+#include <latch/latch.h>
 #include "sis.h"
-#include "atpg_int.h"
+#include "../include/atpg_int.h"
 
 void
 free_bdds_in_array(bdd_array)
@@ -85,8 +86,7 @@ convert_product_bdd_to_key(info, seq_info, state_fn)
     state_int = 0;
     gen       = bdd_first_cube(state_fn, &cube);
     i         = 0;
-    foreach_latch(info->network, latch_gen, l)
-    {
+    foreach_latch(info->network, latch_gen, l){
         position_in_cube = array_fetch(
         int, latch_to_product_pi_ordering, i);
         current_lit     = array_fetch(bdd_literal, cube, position_in_cube);

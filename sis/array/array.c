@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "../util/util.h"
-#include "array.h"
+#include "../include/util.h"
+#include "../include/array.h"
 
 #define INIT_SIZE    3
 

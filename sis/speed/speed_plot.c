@@ -2,7 +2,7 @@
 /* speed_plot.c -- highlight critical paths. */
 
 #include "sis.h"
-#include "speed_int.h"
+#include "../include/speed_int.h"
 #include <math.h>
 
 static char *usage[] = {

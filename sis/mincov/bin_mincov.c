@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "mincov_int.h"
+#include "../include/mincov_int.h"
 
 typedef struct _value_t {
     sm_element *elem;

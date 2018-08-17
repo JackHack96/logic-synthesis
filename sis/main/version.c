@@ -1,6 +1,5 @@
 
-#include "sis.h"
-#include "config.h"
+#include "../include/sis.h"
 
 
 #ifndef CUR_DATE

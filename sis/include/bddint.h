@@ -479,7 +479,7 @@ struct jump_buf_ {
     jmp_buf context;
 };
 
-typedef struct jump_buf_                                                                   jump_buf;
+typedef struct jump_buf_ jump_buf;
 
 
 /* A BDD manager */
@@ -621,8 +621,8 @@ extern bdd cmu_bdd_exists_temp(cmu_bdd_manager, bdd, long);
 
 extern bdd cmu_bdd_compose_temp(cmu_bdd_manager, bdd, bdd, bdd);
 
-extern bdd                                                                                 cmu_bdd_substitute_step(
-        cmu_bdd_manager, bdd, long, bdd (*)(cmu_bdd_manager, bdd, bdd, bdd)),              var_assoc;
+extern bdd cmu_bdd_substitute_step(
+        cmu_bdd_manager, bdd, long, bdd (*)(cmu_bdd_manager, bdd, bdd, bdd), var_assoc);
 
 extern bdd cmu_bdd_swap_vars_temp(cmu_bdd_manager, bdd, bdd, bdd);
 
@@ -634,15 +634,11 @@ extern void bdd_mark_shared_nodes(cmu_bdd_manager, bdd);
 
 extern void bdd_number_shared_nodes(cmu_bdd_manager, bdd, hash_table, long *);
 
-extern char *bdd_terminal_id(cmu_bdd_manager, bdd, char *(*)(cmu_bdd_manager, INT_PTR, INT_PTR, pointer)
+extern char *bdd_terminal_id(cmu_bdd_manager, bdd, char *(*)(cmu_bdd_manager, INT_PTR, INT_PTR, pointer),
+                             pointer);
 
-),
-pointer;
-
-extern char *bdd_var_name(cmu_bdd_manager, bdd, char *(*)(cmu_bdd_manager, bdd, pointer)
-
-),
-pointer;
+extern char *bdd_var_name(cmu_bdd_manager, bdd, char *(*)(cmu_bdd_manager, bdd, pointer),
+                          pointer);
 
 extern long bdd_find_block(block, long);
 
@@ -667,23 +663,21 @@ extern void bdd_insert_in_cache13(cmu_bdd_manager, int, INT_PTR, INT_PTR, INT_PT
 
 extern int bdd_lookup_in_cache13(cmu_bdd_manager, int, INT_PTR, INT_PTR *, INT_PTR *, INT_PTR *);
 
-extern void bdd_flush_cache(cmu_bdd_manager, int (*)(cmu_bdd_manager, cache_entry, pointer)
-
-),
-pointer;
+extern void bdd_flush_cache(cmu_bdd_manager, int (*)(cmu_bdd_manager, cache_entry, pointer),
+                            pointer);
 
 extern void bdd_purge_cache(cmu_bdd_manager);
 
 extern void bdd_flush_all(cmu_bdd_manager);
 
-extern int bdd_cache_functions((cmu_bdd_manager,
-                                int,
-                                int (*)(cmu_bdd_manager, cache_entry),
-                                void (*)(cmu_bdd_manager, cache_entry),
-                                void (*)(cmu_bdd_manager, cache_entry),
-                                int (*)(cmu_bdd_manager, cache_entry, pointer)
+extern int bdd_cache_functions(cmu_bdd_manager,
+                               int,
+                               int (*)(cmu_bdd_manager, cache_entry),
+                               void (*)(cmu_bdd_manager, cache_entry),
+                               void (*)(cmu_bdd_manager, cache_entry),
+                               int (*)(cmu_bdd_manager, cache_entry, pointer)
 
-));
+);
 
 extern void cmu_bdd_free_cache_tag(cmu_bdd_manager, int);
 

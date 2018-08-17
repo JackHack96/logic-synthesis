@@ -4,8 +4,8 @@
  */
 
 #include "sis.h"
-#include "factor.h"
-#include "factor_int.h"
+#include "../include/factor.h"
+#include "../include/factor_int.h"
 
 static void factor_special();
 

@@ -25,7 +25,7 @@
 #line 10 "read_eqn.y"
 
 #include "sis.h"
-#include "io_int.h"
+#include "../include/io_int.h"
 #include <setjmp.h>
 #include "config.h"
 

@@ -1,7 +1,7 @@
 /* BDD dynamic reordering stuff */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 static

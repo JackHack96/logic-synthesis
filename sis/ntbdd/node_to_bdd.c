@@ -1,5 +1,5 @@
 #include "sis.h"
-#include "ntbdd_int.h"
+#include "../include/ntbdd_int.h"
 
 
 static bdd_t *construct_local_bdd();

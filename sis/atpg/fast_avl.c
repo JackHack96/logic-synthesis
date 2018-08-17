@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include "util.h"
-#include "fast_avl.h"
+#include "../include/fast_avl.h"
 
 fast_avl_node      *fast_avl_node_freelist      = NIL(fast_avl_node);
 fast_avl_tree      *fast_avl_tree_freelist      = NIL(fast_avl_tree);

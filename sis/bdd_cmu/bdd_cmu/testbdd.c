@@ -11,7 +11,7 @@
 #include <varargs.h>
 #endif
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 #define VARS 500

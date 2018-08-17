@@ -1,8 +1,8 @@
 
 #include "sis.h"
 #include <math.h>
-#include "speed_int.h"
-#include "buffer_int.h"
+#include "../include/speed_int.h"
+#include "../include/buffer_int.h"
 
 static int sp_compare_buf();
 

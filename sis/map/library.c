@@ -49,7 +49,7 @@
  * 
  */
 #include "sis.h"
-#include "map_int.h"
+#include "../include/map_int.h"
 
 static network_t *lib_wire();
 

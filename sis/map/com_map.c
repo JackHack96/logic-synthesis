@@ -2,12 +2,12 @@
 /* file @(#)com_map.c	1.22 */
 /* Last modified on Tue Jun 22 06:43:58 MET DST 1993 by touati */
 #include "sis.h"
-#include "map_defs.h"
-#include "map_int.h"
-#include "lib_int.h"
-#include "fanout_int.h"
-#include "cluster.h"
-#include "map_delay.h"
+#include "../include/map_defs.h"
+#include "../include/map_int.h"
+#include "../include/lib_int.h"
+#include "../include/fanout_int.h"
+#include "../include/cluster.h"
+#include "../include/map_delay.h"
 
 static array_t *current_fanout_alg;
 

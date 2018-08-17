@@ -40,8 +40,8 @@
 
 #include "sis.h"
 #include <math.h>
-#include "fanout_int.h"
-#include "fanout_delay.h"
+#include "../include/fanout_int.h"
+#include "../include/fanout_delay.h"
 
 
 /* A node in the buffer tree data structure for the bottom_up algorithm */

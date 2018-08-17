@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #endif
 
-#include "util.h"
+#include "../include/util.h"
 
 
 static int check_file(char *filename, char *mode) {

@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "io_int.h"
+#include "../include/io_int.h"
 
 
 static void

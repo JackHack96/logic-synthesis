@@ -27,7 +27,7 @@
 
 #define MAIN
 
-#include "power_int.h"
+#include "../include/power_int.h"
 
 #undef MAIN
 

@@ -2,7 +2,7 @@
 /* file @(#)multi_array.c	1.2 */
 /* last modified on 5/1/91 at 15:51:37 */
 #include "sis.h"
-#include "multi_array.h"
+#include "../include/multi_array.h"
 
 multidim_t *generic_multidim_alloc(type_size, n_indices, max_index)
         int type_size;

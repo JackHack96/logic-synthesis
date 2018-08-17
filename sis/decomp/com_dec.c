@@ -1,7 +1,7 @@
 
 #include "sis.h"
-#include "decomp.h"
-#include "decomp_int.h"
+#include "../include/decomp.h"
+#include "../include/decomp_int.h"
 
 static void td_usage();
 

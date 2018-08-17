@@ -58,9 +58,9 @@ static char RCSid[]     =
 
 #define spINSIDE_SPARSE
 
-#include "spConfig.h"
-#include "spMatrix.h"
-#include "spDefs.h"
+#include "../include/spConfig.h"
+#include "../include/spMatrix.h"
+#include "../include/spDefs.h"
 
 
 
@@ -159,8 +159,7 @@ spSolve(eMatrix, RHS, Solution IMAG_VECTORS)
     Size         = Matrix->Size;
 
 /* Correct array pointers for ARRAY_OFFSET. */
-#if NOT
-ARRAY_OFFSET
+#if NOT ARRAY_OFFSET
     --RHS;
     --Solution;
 #endif

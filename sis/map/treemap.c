@@ -3,11 +3,11 @@
 /* last modified on 7/22/91 at 12:36:35 */
 #include "sis.h"
 #include <math.h>
-#include "map_macros.h"
-#include "map_int.h"
-#include "lib_int.h"
-#include "map_delay.h"
-#include "fanout_int.h"
+#include "../include/map_macros.h"
+#include "../include/map_int.h"
+#include "../include/lib_int.h"
+#include "../include/map_delay.h"
+#include "../include/fanout_int.h"
 
 static int do_tree_match();
 

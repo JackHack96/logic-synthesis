@@ -1,5 +1,5 @@
 #include "sis.h"
-#include "enc_int.h"
+#include "../include/enc_int.h"
 
 extern bool enc_debug;
 

@@ -9,10 +9,10 @@
 **/
 #include "sis.h"
 #include <math.h>
-#include "map_int.h"
-#include "map_delay.h"
-#include "map_macros.h"
-#include "gate_link.h"
+#include "../include/map_int.h"
+#include "../include/map_delay.h"
+#include "../include/map_macros.h"
+#include "../include/gate_link.h"
 
 static int gate_link_key_cmp();
 
@@ -269,7 +269,7 @@ static int gate_link_key_hash(key, modulus)
 
 /* for debugging */
 
-#include "map_int.h"
+#include "../include/map_int.h"
 
 void fanout_print_node(node)
         node_t *node;

@@ -4,7 +4,7 @@
 #endif
 
 #include "sis.h"
-#include "octio.h"
+#include "../include/octio.h"
 
 /*
  *  called when the program starts up

@@ -1,24 +1,20 @@
-# Generating the library libio.a
-set(project "io")
 
-set(${project}, "")
-list(APPEND ${project}_SOURCES
-        ${CMAKE_CURRENT_SOURCE_DIR}/com_io.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/eqnlex.l
-        ${CMAKE_CURRENT_SOURCE_DIR}/io_int.h
-        ${CMAKE_CURRENT_SOURCE_DIR}/plot_blif.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/read_blif.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/read_eqn.y
-        ${CMAKE_CURRENT_SOURCE_DIR}/read_kiss.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/read_pla.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/read_slif.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/read_util.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/write_bdnet.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/write_blif.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/write_eqn.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/write_kiss.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/write_pla.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/write_slif.c
-        ${CMAKE_CURRENT_SOURCE_DIR}/write_util.c
+add_library(io STATIC
+        com_io.c
+        eqnlex.l
+        ../include/io_int.h
+        plot_blif.c
+        read_blif.c
+        read_eqn.y
+        read_kiss.c
+        read_pla.c
+        read_slif.c
+        read_util.c
+        write_bdnet.c
+        write_blif.c
+        write_eqn.c
+        write_kiss.c
+        write_pla.c
+        write_slif.c
+        write_util.c
         )
-add_library ( io STATIC ${${project}_SOURCES} )

@@ -1,7 +1,7 @@
 /* Basic multi-terminal BDD routines */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 /* mtbdd_transform_closure(bddm, canonical_fn, transform_fn, env) sets */

@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "speed_int.h"
+#include "../include/speed_int.h"
 #include <sys/types.h>
 #include <signal.h>
 #include <unistd.h>

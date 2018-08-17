@@ -1,7 +1,7 @@
 
 #include "sis.h"
-#include "speed_int.h"
-#include "buffer_int.h"
+#include "../include/speed_int.h"
+#include "../include/buffer_int.h"
 
 static void buf_annotate_trans2();
 

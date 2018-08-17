@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "simp_int.h"
+#include "../include/simp_int.h"
 
 int  simp_fanin_level;
 int  simp_fanin_fanout_level;

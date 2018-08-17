@@ -1,11 +1,9 @@
-cmake_minimum_required(VERSION 3.8)
 
-set(CMAKE_CXX_STANDARD 11)
 
-add_library(libtest STATIC
+add_library(test STATIC
         end_test.c
         example.c
         init_test.c
-        test.h
-        test_int.h
+        ../include/test.h
+        ../include/test_int.h
         )

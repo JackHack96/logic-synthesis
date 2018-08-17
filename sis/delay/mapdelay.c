@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "delay_int.h"
+#include "../include/delay_int.h"
 
 
 #define ARRIVAL(time, new_time)    \

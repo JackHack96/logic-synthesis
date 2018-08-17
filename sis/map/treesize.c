@@ -2,7 +2,7 @@
 /* file @(#)treesize.c	1.2 */
 /* last modified on 5/1/91 at 15:52:02 */
 #include "sis.h"
-#include "map_int.h"
+#include "../include/map_int.h"
 
 
 typedef struct count_struct count_t;

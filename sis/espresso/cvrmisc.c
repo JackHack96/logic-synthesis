@@ -1,5 +1,5 @@
 
-#include "espresso.h"
+#include "../include/espresso.h"
 
 
 /* cost -- compute the cost of a cover */

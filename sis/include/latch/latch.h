@@ -1,4 +1,6 @@
 
+#include <node.h>
+
 typedef enum latch_synch_enum latch_synch_t;
 enum latch_synch_enum {
     ACTIVE_HIGH, ACTIVE_LOW, RISING_EDGE, FALLING_EDGE, COMBINATIONAL,

@@ -1,6 +1,6 @@
 
 #include "util.h"
-#include "var_set.h"
+#include "../include/var_set.h"
 
 var_set_t *var_set_new(size)
         int size;

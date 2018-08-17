@@ -8,7 +8,7 @@
 *****************************************************/
 
 #include "sis.h"
-#include "maxflow_int.h"
+#include "../include/maxflow_int.h"
 
 #define VLARGE (int)1000000
 int maxflow_debug;

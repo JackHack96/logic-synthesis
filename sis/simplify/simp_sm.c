@@ -6,7 +6,7 @@
  */
 
 #include "sis.h"
-#include "simp_int.h"
+#include "../include/simp_int.h"
 
 static int get_fcol_sm();
 

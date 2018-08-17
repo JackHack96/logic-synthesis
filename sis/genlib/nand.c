@@ -2,7 +2,7 @@
 /* file @(#)nand.c	1.1                      */
 /* last modified on 5/29/91 at 12:35:28   */
 #include "util.h"        /* for ASSERT !! */
-#include "genlib_int.h"
+#include "../include/genlib_int.h"
 
 static void
 set_node_type(tree, type)

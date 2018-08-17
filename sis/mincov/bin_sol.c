@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "mincov_int.h"
+#include "../include/mincov_int.h"
 
 bin_solution_t *
 bin_solution_alloc(size)

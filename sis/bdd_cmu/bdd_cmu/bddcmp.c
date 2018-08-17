@@ -1,7 +1,7 @@
 /* BDD comparison routine */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 static

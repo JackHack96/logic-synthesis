@@ -1,7 +1,7 @@
 #include "sis.h"
-#include "extract_int.h"
-#include "heap.h"
-#include "fast_extract_int.h"
+#include "../include/extract_int.h"
+#include "../include/heap.h"
+#include "../include/fast_extract_int.h"
 
 
 /* generate all 2-cube kernels for a node */

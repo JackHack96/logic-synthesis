@@ -1,7 +1,7 @@
 /* BDD support routines */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 static

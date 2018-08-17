@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "io_int.h"
+#include "../include/io_int.h"
 
 network_t *
 sis_read_pla(fp, single_output)

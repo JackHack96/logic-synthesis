@@ -1,8 +1,8 @@
 
 #include "sis.h"
 #include <math.h>
-#include "speed_int.h"
-#include "buffer_int.h"
+#include "../include/speed_int.h"
+#include "../include/buffer_int.h"
 
 static delay_time_t large_req_time = {POS_LARGE, POS_LARGE};
 

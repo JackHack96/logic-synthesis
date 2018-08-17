@@ -1,5 +1,5 @@
 #include "sis.h"
-#include "enc_int.h"
+#include "../include/enc_int.h"
 
 sm_matrix *
 dic_to_sm(prime_list, seed_list)

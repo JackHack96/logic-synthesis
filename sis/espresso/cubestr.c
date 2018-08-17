@@ -3,7 +3,7 @@
     Module: cubestr.c -- routines for managing the global cube structure
 */
 
-#include "espresso.h"
+#include "../include/espresso.h"
 
 /*
     cube_setup -- assume that the fields "num_vars", "num_binary_vars", and

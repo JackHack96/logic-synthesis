@@ -2,10 +2,10 @@
 /* file @(#)fanout_log.c	1.2 */
 /* last modified on 5/1/91 at 15:50:38 */
 #include "sis.h"
-#include "map_macros.h"
-#include "map_int.h"
-#include "fanout_int.h"
-#include "gate_link.h"
+#include "../include/map_macros.h"
+#include "../include/map_int.h"
+#include "../include/fanout_int.h"
+#include "../include/gate_link.h"
 
 /* this file keeps a log of all node creations during fanout optimization and undo them */
 /* nodes are created bottom up; so they can be destroyed in that order as well */

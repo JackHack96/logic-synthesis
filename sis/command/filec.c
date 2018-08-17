@@ -1,5 +1,4 @@
 
-#include "autoconf.h"
 #include <sys/types.h>      /* Part of util.h if PORT_H is not defined */
 /* Still needs to be included for sun4 compile */
 #include "sis.h"
@@ -12,7 +11,7 @@
 
 #endif
 
-#include "com_int.h"
+#include "../include/com_int.h"
 
 #define ESC    '\033'
 

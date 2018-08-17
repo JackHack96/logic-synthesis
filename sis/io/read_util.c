@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "io_int.h"
+#include "../include/io_int.h"
 
 /* from map/map_int.h */
 extern lib_gate_t *choose_smallest_gate();

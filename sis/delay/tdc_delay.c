@@ -5,8 +5,8 @@
  */
 
 #include "sis.h"
-#include "tdc_int.h"
-#include "delay_int.h"
+#include "../include/tdc_int.h"
+#include "../include/delay_int.h"
 
 #define TDC_MAXLINE 255
 /* Macro Definition */

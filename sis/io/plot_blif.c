@@ -7,7 +7,7 @@
  */
 
 #include "sis.h"
-#include "io_int.h"
+#include "../include/io_int.h"
 
 void io_plot_network(fp, network, internal)
         FILE *fp;

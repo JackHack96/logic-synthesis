@@ -44,12 +44,12 @@
 
 #include "sis.h"
 #include <math.h>
-#include "map_macros.h"
-#include "map_int.h"
-#include "fanout_int.h"
-#include "fanout_delay.h"
+#include "../include/map_macros.h"
+#include "../include/map_int.h"
+#include "../include/fanout_int.h"
+#include "../include/fanout_delay.h"
 
-#include "fanout_opt_static.h"
+#include "../include/fanout_opt_static.h"
 
 static bin_global_t global;
 

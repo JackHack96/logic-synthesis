@@ -1,6 +1,6 @@
 #include "sis.h"
-#include "pld_int.h"
-#include "ite_int.h"
+#include "../include/pld_int.h"
+#include "../include/ite_int.h"
 
 /* int ACT_ITE_FIND_KERNEL; */
 st_table *ite_end_table;

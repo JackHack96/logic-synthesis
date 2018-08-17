@@ -78,6 +78,8 @@ extern char *sis_library();
 #define misout sisout
 #define miserr siserr
 
+#ifndef INFINITY
 #define INFINITY    (1 << 30)
+#endif
 
 #endif

@@ -1,7 +1,7 @@
 
 #include "sis.h"
-#include "speed_int.h"
-#include "buffer_int.h"
+#include "../include/speed_int.h"
+#include "../include/buffer_int.h"
 
 #define BUF_GET_PERFORMANCE(network, node, value, area) \
 node = (required_times_set ? sp_minimum_slack((network), &dummy) :\

@@ -1,7 +1,7 @@
 /* Support functions need by miscellaneous BDD routines */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 void

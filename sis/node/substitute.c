@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "node_int.h"
+#include "../include/node_int.h"
 
 
 static int divide_one_phase();

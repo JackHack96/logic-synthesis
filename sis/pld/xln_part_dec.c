@@ -9,7 +9,7 @@
    now it finds nonfeasible kernels also. Feb 13, 91 ---- Rajeev
 */
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 
 int split_node();
 

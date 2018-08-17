@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "extract_int.h"
+#include "../include/extract_int.h"
 
 network_t   *global_network;
 nodeindex_t *global_node_index;

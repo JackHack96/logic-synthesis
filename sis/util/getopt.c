@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "util.h"
+#include "../include/util.h"
 
 
 /*  File   : getopt.c

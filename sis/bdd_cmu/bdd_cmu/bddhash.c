@@ -1,7 +1,7 @@
 /* BDD hash table routines */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 #define HASH(d) ((INT_PTR)(d))

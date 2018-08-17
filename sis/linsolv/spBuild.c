@@ -69,9 +69,9 @@ static char RCSid[]     =
 
 #define spINSIDE_SPARSE
 
-#include "spConfig.h"
-#include "spMatrix.h"
-#include "spDefs.h"
+#include "../include/spConfig.h"
+#include "../include/spMatrix.h"
+#include "../include/spDefs.h"
 
 
 /*
@@ -213,10 +213,8 @@ spGetElement(eMatrix, Row, Col)
     if (Matrix->Error == spNO_MEMORY) return NULL;
 #endif
 
-#if NOT
-TRANSLATE
-#if NOT
-EXPANDABLE
+#if NOT TRANSLATE
+#if NOT EXPANDABLE
     ASSERT(Row <= Matrix->Size
                    AND
                    Col <= Matrix->Size);

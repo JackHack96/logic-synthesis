@@ -1,5 +1,5 @@
 
-#include "espresso.h"
+#include "../include/espresso.h"
 
 static pcube Gcube;
 static pset  Gminterm;

@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 
 /*------------------------------------------------------------------------
   For each node of the network, tries to decompose it using Roth-Karp 

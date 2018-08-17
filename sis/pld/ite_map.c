@@ -1,6 +1,6 @@
 #include "sis.h"
-#include "pld_int.h"
-#include "ite_int.h"
+#include "../include/pld_int.h"
+#include "../include/ite_int.h"
 
 static void act_initialize_ite_area();
 

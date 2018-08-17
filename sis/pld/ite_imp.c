@@ -1,6 +1,6 @@
 #include "sis.h"
-#include "pld_int.h"
-#include "ite_int.h"
+#include "../include/pld_int.h"
+#include "../include/ite_int.h"
 
 static void ite_decomp_big_nodes();
 

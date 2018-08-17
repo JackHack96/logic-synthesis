@@ -3,7 +3,7 @@
    no duplication of the network when a collapse is considered. */
 
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 #include "math.h"
 
 static node_t *act_partial_collapse_find_max_score();

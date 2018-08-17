@@ -14,7 +14,7 @@
 +-------------------------------------------------------------------------*/
 
 #include "sis.h"
-#include "power_int.h"
+#include "../include/power_int.h"
 
 int power_free_info() {
     node_t       *node;

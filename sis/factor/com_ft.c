@@ -1,7 +1,7 @@
 
 #include "sis.h"
-#include "factor.h"
-#include "factor_int.h"
+#include "../include/factor.h"
+#include "../include/factor_int.h"
 
 #define PV_ANY        0
 #define PV_DESCENDING 1

@@ -1,7 +1,7 @@
 /* BDD library profile printing routines */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 static char profile_width[] = "XXXXXXXXX";

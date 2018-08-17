@@ -1,3 +1,5 @@
+#ifndef ESPRESSO_H
+#define ESPRESSO_H
 
 /*
  *  espresso.h -- header file for Espresso-mv
@@ -1048,3 +1050,4 @@ typedef int                           (*ESP_PFI)();
 /* verify.c */    extern bool check_consistency(pPLA);
 
 /* verify.c */    extern bool verify(pcover, pcover, pcover);
+#endif

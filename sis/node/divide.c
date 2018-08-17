@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "node_int.h"
+#include "../include/node_int.h"
 
 
 typedef struct div_cube_struct div_cube_t;

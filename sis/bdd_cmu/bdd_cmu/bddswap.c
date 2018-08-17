@@ -1,7 +1,7 @@
 /* BDD variable exchange routine */
 
 
-#include "bddint.h"
+#include "../../include/bddint.h"
 
 
 static

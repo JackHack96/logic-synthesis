@@ -1,7 +1,7 @@
 /* Memory block management routines */
 
 
-#include "memint.h"
+#include "../../include/memint.h"
 
 
 #if defined(__STDC__)

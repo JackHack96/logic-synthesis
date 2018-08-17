@@ -1,6 +1,6 @@
 #include "sis.h"
-#include "pld_int.h"
-#include "ite_int.h"
+#include "../include/pld_int.h"
+#include "../include/ite_int.h"
 
 /* Log of changes
 *  Jan 16 '93: In my_traverse_ite(), ite vertices were visited

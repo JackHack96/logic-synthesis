@@ -1,5 +1,5 @@
 
-#include "sis.h"
+#include "../include/sis.h"
 
 void
 init_sis(graphics_flag)

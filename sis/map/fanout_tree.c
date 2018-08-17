@@ -3,12 +3,12 @@
 /* last modified on 7/1/91 at 22:40:54 */
 
 #include "sis.h"
-#include "map_macros.h"
-#include "map_int.h"
-#include "fanout_int.h"
-#include "fanout_delay.h"
-#include "gate_link.h"
-#include "bin_int.h"
+#include "../include/map_macros.h"
+#include "../include/map_int.h"
+#include "../include/fanout_int.h"
+#include "../include/fanout_delay.h"
+#include "../include/gate_link.h"
+#include "../include/bin_int.h"
 
 static n_gates_t                  n_gates;
 typedef enum fanout_tree_enum     fanout_tree_t;
@@ -54,7 +54,7 @@ static fanout_node_t DEFAULT_FANOUT_NODE = {
         /* remove_opt */    NIL(array_t)
 };
 
-#include "fanout_tree_static.h"
+#include "../include/fanout_tree_static.h"
 
 /* EXTERNAL INTERFACE */
 
@@ -1655,7 +1655,7 @@ static void adjust_node_children(node, child_array)
 /* INTERFACE to fanout_est.c */
 
 
-#include "bin_int.h"
+#include "../include/bin_int.h"
 
 
 /* the arrival time at a node includes the intrinsic delay but not the load dependent delay */

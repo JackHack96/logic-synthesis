@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "io_int.h"
+#include "../include/io_int.h"
 
 void
 write_eqn(fp, network, short_name)

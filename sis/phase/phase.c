@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "phase_int.h"
+#include "../include/phase_int.h"
 
 #define THRESH 0.00001
 

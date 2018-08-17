@@ -8,8 +8,8 @@
  */
 
 #include "sis.h"
-#include "speed_int.h"
-#include "gbx_int.h"
+#include "../include/speed_int.h"
+#include "../include/gbx_int.h"
 
 #define GBX_MAXWEIGHT 0x7ffffffe
 

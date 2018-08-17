@@ -452,8 +452,8 @@ char *GENLIB_yytext;
 #line 2 "readliblex.l"
 /* file @(#)readliblex.l	1.1                      */
 /* last modified on 5/29/91 at 12:35:32   */
-#include "genlib_int.h"
-#include "readlib.h"
+#include "../include/genlib_int.h"
+#include "../include/readlib.h"
 
 #undef input
 #undef unput

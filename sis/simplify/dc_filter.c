@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "simp_int.h"
+#include "../include/simp_int.h"
 
 static void fobsdc_sm_bp_1();
 

@@ -1,7 +1,6 @@
 
 #include "sis.h"
-#include "com_int.h"
-#include "config.h"
+#include "../include/com_int.h"
 
 network_t *backup_network;
 char      sis_shell_char = '!';      /* can be reset using the "set shell_char" */
@@ -29,7 +28,7 @@ sigterm()
 #else
 
 /* ARGSUSED */
-static RETSIGTYPE
+static int
 sigterm(sig, code, scp) {
     (void) signal(SIGINT, SIG_IGN);    /* ignore further ctl-c */
     longjmp(env, 1);
@@ -155,14 +154,14 @@ apply_alias(network, argcp, argvp, loop)
 
         /* shift all the arguments to the right */
         if (added != 0) {
-            argv = REALLOC(
-            char *, argv, argc + added);
+            argv   = REALLOC(
+                    char *, argv, argc + added);
             for (i = argc - 1; i >= 1; i--) {
                 argv[i + added] = argv[i];
             }
             for (i = 1; i <= added; i++) {
                 argv[i] = NIL(
-                char);
+                        char);
             }
             argc += added;
         }
@@ -200,8 +199,8 @@ apply_alias(network, argcp, argvp, loop)
             }
             added  = newc - 1;
             if (added != 0) {
-                argv = REALLOC(
-                char *, argv, argc + added);
+                argv   = REALLOC(
+                        char *, argv, argc + added);
                 for (j = argc - 1; j > offset; j--) {
                     argv[j + added] = argv[j];
                 }
@@ -217,7 +216,7 @@ apply_alias(network, argcp, argvp, loop)
             for (i = offset; i < argc; i++) {
                 FREE(argv[i]);
             }
-            argc   = offset;
+            argc = offset;
         }
         *argcp = argc;
         *argvp = argv;
@@ -240,7 +239,7 @@ split_line(command, argc, argv)
     int           single_quote, double_quote;
 
     argv_array = array_alloc(
-    char *, 5);
+            char *, 5);
 
     p = command;
     for (;;) {
@@ -269,8 +268,8 @@ split_line(command, argc, argv)
         }
         if (start == p) break;
 
-        new_arg = ALLOC(
-        char, p - start + 1);
+        new_arg    = ALLOC(
+                char, p - start + 1);
         j          = 0;
         for (i     = 0; i < p - start; i++) {
             c = start[i];
@@ -280,12 +279,12 @@ split_line(command, argc, argv)
         }
         new_arg[j] = '\0';
         array_insert_last(
-        char *, argv_array, new_arg);
+                char *, argv_array, new_arg);
     }
 
     *argc = array_n(argv_array);
     *argv = array_data(
-    char *, argv_array);
+            char *, argv_array);
     array_free(argv_array);
     if (*p == ';') {
         p++;
@@ -304,7 +303,7 @@ check_shell_escape(p, status)
     while (isspace(*p)) {
         p++;
     }
-    if ((value = com_get_flag("shell_char")) != NIL(char)){
+    if ((value = com_get_flag("shell_char")) != NIL(char)) {
         sis_shell_char = *value;
     }
     if (*p == sis_shell_char) {

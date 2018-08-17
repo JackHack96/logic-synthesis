@@ -7,7 +7,7 @@
 /**********************************************************************/
 
 #include "sis.h"
-#include "maxflow_int.h"
+#include "../include/maxflow_int.h"
 
 mfgptr
 mf_alloc_graph() {

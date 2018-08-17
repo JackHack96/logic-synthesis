@@ -1,7 +1,7 @@
 
 /* Created by Narendra */
 #include "sis.h"
-#include "pld_int.h"
+#include "../include/pld_int.h"
 
 static check_universal();
 

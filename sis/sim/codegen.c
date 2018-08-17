@@ -1,6 +1,6 @@
 
 #include "sis.h"
-#include "sim_int.h"
+#include "../include/sim_int.h"
 
 static void sim_gen_code();
 

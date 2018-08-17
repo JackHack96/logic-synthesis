@@ -1,5 +1,5 @@
 #include "sis.h"
-#include "simp_int.h"
+#include "../include/simp_int.h"
 
 void copy_dcnetwork();
 

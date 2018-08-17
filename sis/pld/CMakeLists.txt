@@ -1,8 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
-
-set(CMAKE_CXX_STANDARD 11)
-
-add_library(libpld STATIC
+add_library(pld STATIC
         act_apply.c
         act_bdd.c
         act_bool.c
@@ -67,7 +63,7 @@ add_library(libpld STATIC
         xln_part_dec.c
         xln_ufind.c
 
-        act_bool.h
-        ite_int.h
-        pld_int.h
+        ../include/act_bool.h
+        ../include/ite_int.h
+        ../include/pld_int.h
         )

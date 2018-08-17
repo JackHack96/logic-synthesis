@@ -14,7 +14,7 @@
 +--------------------------------------------------------------------------*/
 
 #include "sis.h"
-#include "power_int.h"
+#include "../include/power_int.h"
 
 static double power_count_prob();
 

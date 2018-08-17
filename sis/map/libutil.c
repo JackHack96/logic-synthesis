@@ -2,8 +2,8 @@
 /* file @(#)libutil.c	1.8 */
 /* last modified on 9/16/91 at 17:07:18 */
 #include "sis.h"
-#include "map_int.h"
-#include "lib_int.h"
+#include "../include/map_int.h"
+#include "../include/lib_int.h"
 
 library_t *lib_current_library;
 
