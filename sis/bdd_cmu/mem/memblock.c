@@ -5,7 +5,9 @@
 
 
 #if defined(__STDC__)
+
 extern void exit(int);
+
 #else
 extern void exit();
 #endif
@@ -28,7 +30,7 @@ mem_copy(dest, src, size)
      SIZE_T size;
 #endif
 {
-  MEM_COPY(dest, src, size);
+    MEM_COPY(dest, src, size);
 }
 
 
@@ -43,7 +45,7 @@ mem_zero(ptr, size)
      SIZE_T size;
 #endif
 {
-  MEM_ZERO(ptr, size);
+    MEM_ZERO(ptr, size);
 }
 
 
@@ -57,8 +59,8 @@ mem_fatal(message)
      char *message;
 #endif
 {
-  fprintf(stderr, "Memory management library: error: %s\n", message);
-  exit(1);
+    fprintf(stderr, "Memory management library: error: %s\n", message);
+    exit(1);
 }
 
 
@@ -69,9 +71,9 @@ mem_allocation(void)
 mem_allocation()
 #endif
 {
-  /* This will always returns zero when we're using malloc and free, */
-  /* but you can maybe change it depending on your system. */
-  return (block_allocation);
+    /* This will always returns zero when we're using malloc and free, */
+    /* but you can maybe change it depending on your system. */
+    return (block_allocation);
 }
 
 
@@ -80,17 +82,17 @@ mem_allocation()
 #if !defined(USE_MALLOC_FREE)
 /* Free lists of various sizes */
 
-static block avail[MAX_SIZE_INDEX+1];
+static block avail[MAX_SIZE_INDEX + 1];
 
 
 /* Bogus segment for initialization */
 
-static struct segment_ dummy_seg={(pointer)0, (SIZE_T)0};
+static struct segment_ dummy_seg = {(pointer) 0, (SIZE_T) 0};
 
 
 /* Current segment */
 
-static segment curr_seg= &dummy_seg;
+static segment curr_seg = &dummy_seg;
 
 
 static
@@ -102,11 +104,11 @@ ceiling_log_2(i)
      SIZE_T i;
 #endif
 {
-  SIZE_T j;
-  int result;
+    SIZE_T j;
+    int    result;
 
-  for (result=0, j=1; j < i; ++result, j*=2);
-  return (result);
+    for (result = 0, j = 1; j < i; ++result, j *= 2);
+    return (result);
 }
 
 
@@ -121,13 +123,13 @@ block_size_index(size)
      SIZE_T size;
 #endif
 {
-  if (size < 1)
-    return (-1);
-  if (size > MAX_SIZE)
-    mem_fatal("block_size_index: block size too large");
-  else
-    size+=HEADER_SIZE;
-  return (ceiling_log_2(size));
+    if (size < 1)
+        return (-1);
+    if (size > MAX_SIZE)
+        mem_fatal("block_size_index: block size too large");
+    else
+        size += HEADER_SIZE;
+    return (ceiling_log_2(size));
 }
 
 
@@ -142,23 +144,20 @@ add_to_free_list(b)
      block b;
 #endif
 {
-  int i;
+    int i;
 
-  i=b->size_index;
-  if (!avail[i])
-    {
-      b->next=b;
-      b->prev=b;
-      avail[i]=b;
+    i = b->size_index;
+    if (!avail[i]) {
+        b->next = b;
+        b->prev = b;
+        avail[i] = b;
+    } else {
+        b->next              = avail[i]->next;
+        avail[i]->next->prev = b;
+        avail[i]->next       = b;
+        b->prev = avail[i];
     }
-  else
-    {
-      b->next=avail[i]->next;
-      avail[i]->next->prev=b;
-      avail[i]->next=b;
-      b->prev=avail[i];
-    }
-  b->used=0;
+    b->used = 0;
 }
 
 
@@ -174,20 +173,19 @@ remove_from_free_list(b)
      block b;
 #endif
 {
-  int i;
+    int i;
 
-  i=b->size_index;
-  if (b->next == b)
-    avail[i]=0;
-  else
-    {
-      b->next->prev=b->prev;
-      b->prev->next=b->next;
-      if (avail[i] == b)
-	avail[i]=b->next;
+    i = b->size_index;
+    if (b->next == b)
+        avail[i] = 0;
+    else {
+        b->next->prev = b->prev;
+        b->prev->next = b->next;
+        if (avail[i] == b)
+            avail[i] = b->next;
     }
-  b->used=1;
-  return (b);
+    b->used = 1;
+    return (b);
 }
 
 
@@ -203,13 +201,13 @@ buddy(b)
      block b;
 #endif
 {
-  SIZE_T buddy_offset;
+    SIZE_T buddy_offset;
 
-  buddy_offset=(SIZE_T)(((INT_PTR)b-(INT_PTR)b->seg->base_address) ^ ((SIZE_T)1 << b->size_index));
-  if (buddy_offset < b->seg->limit)
-    return ((block)((INT_PTR)b->seg->base_address+buddy_offset));
-  else
-    return ((block)0);
+    buddy_offset = (SIZE_T) (((INT_PTR) b - (INT_PTR) b->seg->base_address) ^ ((SIZE_T) 1 << b->size_index));
+    if (buddy_offset < b->seg->limit)
+        return ((block) ((INT_PTR) b->seg->base_address + buddy_offset));
+    else
+        return ((block) 0);
 }
 
 
@@ -227,15 +225,14 @@ trim_to_size(b, size_index)
      int size_index;
 #endif
 {
-  block bb;
+    block bb;
 
-  while (b->size_index > size_index)
-    {
-      b->size_index--;
-      bb=buddy(b);
-      bb->size_index=b->size_index;
-      bb->seg=b->seg;
-      add_to_free_list(bb);
+    while (b->size_index > size_index) {
+        b->size_index--;
+        bb = buddy(b);
+        bb->size_index = b->size_index;
+        bb->seg        = b->seg;
+        add_to_free_list(bb);
     }
 }
 
@@ -253,16 +250,15 @@ merge_and_free(b)
      block b;
 #endif
 {
-  block bb;
+    block bb;
 
-  for (bb=buddy(b); bb && !bb->used && bb->size_index == b->size_index; bb=buddy(b))
-    {
-      remove_from_free_list(bb);
-      if ((INT_PTR)bb < (INT_PTR)b)
-	b=bb;
-      b->size_index++;
+    for (bb = buddy(b); bb && !bb->used && bb->size_index == b->size_index; bb = buddy(b)) {
+        remove_from_free_list(bb);
+        if ((INT_PTR) bb < (INT_PTR) b)
+            b = bb;
+        b->size_index++;
     }
-  add_to_free_list(b);
+    add_to_free_list(b);
 }
 
 
@@ -276,73 +272,68 @@ mem_get_block(size)
      SIZE_T size;
 #endif
 {
-  int i;
-  int size_index;
-  int alloc_size_index;
-  int new_seg;
-  SIZE_T alloc_size;
-  pointer sbrk_ret;
-  block b;
+    int     i;
+    int     size_index;
+    int     alloc_size_index;
+    int     new_seg;
+    SIZE_T  alloc_size;
+    pointer sbrk_ret;
+    block   b;
 
-  if ((size_index=block_size_index(size)) < 0)
-    return ((pointer)0);
-  /* Find smallest free block which is large enough. */
-  for (i=size_index; i <= MAX_SIZE_INDEX && !avail[i]; ++i);
-  if (i > MAX_SIZE_INDEX)
-    {
-      /* We must get more storage; don't allocate less than */
-      /* 2^MIN_ALLOC_SIZE_INDEX. */
-      if (size_index < MIN_ALLOC_SIZE_INDEX)
-	alloc_size_index=MIN_ALLOC_SIZE_INDEX;
-      else
-	alloc_size_index=size_index;
-      alloc_size=((SIZE_T)1 << alloc_size_index);
-      /* Pad current segment to be a multiple of 2^alloc_size_index in */
-      /* length. */
-      alloc_size+=((curr_seg->limit+alloc_size-1) & ~(alloc_size-1))-curr_seg->limit;
-      if ((sbrk_ret=(pointer)SBRK(0)) != (pointer)((INT_PTR)curr_seg->base_address+curr_seg->limit) ||
-	  alloc_size+curr_seg->limit > MAX_SEG_SIZE)
-	{
-	  /* Segment is too large or someone else has moved the break. */
-	  /* Pad to get to appropriate boundary. */
-	  alloc_size=ROUNDUP((INT_PTR)sbrk_ret)-(INT_PTR)sbrk_ret;
-	  /* Pad allocation request with storage for new segment */
-	  /* information and indicate that a new segment must be */
-	  /* created. */
-	  alloc_size+=((SIZE_T)1 << alloc_size_index)+ROUNDUP(sizeof(struct segment_));
-	  new_seg=1;
-	}
-      else
-	new_seg=0;
-      sbrk_ret=(pointer)SBRK(alloc_size);
-      if (sbrk_ret == (pointer)-1)
-	mem_fatal("mem_get_block: allocation failed");
-      block_allocation+=alloc_size;
-      if (new_seg)
-	{
-	  curr_seg=(segment)ROUNDUP((INT_PTR)sbrk_ret);
-	  curr_seg->base_address=(pointer)((INT_PTR)curr_seg+ROUNDUP(sizeof(struct segment_)));
-	  curr_seg->limit=0;
-	  /* Readjust allocation size. */
-	  alloc_size=(1l << alloc_size_index);
-	}
-      /* Carve allocated space up into blocks and add to free lists. */
-      while (alloc_size)
-	{
-	  size=alloc_size-(alloc_size & (alloc_size-1));
-	  b=(block)((INT_PTR)curr_seg->base_address+curr_seg->limit);
-	  b->size_index=ceiling_log_2(size);
-	  b->seg=curr_seg;
-	  add_to_free_list(b);
-	  curr_seg->limit+=size;
-	  alloc_size-=size;
-	}
-      /* Find free block of appropriate size. */
-      for (i=size_index; i <= MAX_SIZE_INDEX && !avail[i]; ++i);
+    if ((size_index = block_size_index(size)) < 0)
+        return ((pointer) 0);
+    /* Find smallest free block which is large enough. */
+    for (i = size_index; i <= MAX_SIZE_INDEX && !avail[i]; ++i);
+    if (i > MAX_SIZE_INDEX) {
+        /* We must get more storage; don't allocate less than */
+        /* 2^MIN_ALLOC_SIZE_INDEX. */
+        if (size_index < MIN_ALLOC_SIZE_INDEX)
+            alloc_size_index = MIN_ALLOC_SIZE_INDEX;
+        else
+            alloc_size_index = size_index;
+        alloc_size = ((SIZE_T) 1 << alloc_size_index);
+        /* Pad current segment to be a multiple of 2^alloc_size_index in */
+        /* length. */
+        alloc_size += ((curr_seg->limit + alloc_size - 1) & ~(alloc_size - 1)) - curr_seg->limit;
+        if ((sbrk_ret = (pointer) SBRK(0)) != (pointer) ((INT_PTR) curr_seg->base_address + curr_seg->limit) ||
+            alloc_size + curr_seg->limit > MAX_SEG_SIZE) {
+            /* Segment is too large or someone else has moved the break. */
+            /* Pad to get to appropriate boundary. */
+            alloc_size = ROUNDUP((INT_PTR) sbrk_ret) - (INT_PTR) sbrk_ret;
+            /* Pad allocation request with storage for new segment */
+            /* information and indicate that a new segment must be */
+            /* created. */
+            alloc_size += ((SIZE_T) 1 << alloc_size_index) + ROUNDUP(sizeof(struct segment_));
+            new_seg = 1;
+        } else
+            new_seg = 0;
+        sbrk_ret = (pointer) SBRK(alloc_size);
+        if (sbrk_ret == (pointer) -1)
+            mem_fatal("mem_get_block: allocation failed");
+        block_allocation += alloc_size;
+        if (new_seg) {
+            curr_seg = (segment) ROUNDUP((INT_PTR) sbrk_ret);
+            curr_seg->base_address = (pointer) ((INT_PTR) curr_seg + ROUNDUP(sizeof(struct segment_)));
+            curr_seg->limit = 0;
+            /* Readjust allocation size. */
+            alloc_size = (1l << alloc_size_index);
+        }
+        /* Carve allocated space up into blocks and add to free lists. */
+        while (alloc_size) {
+            size = alloc_size - (alloc_size & (alloc_size - 1));
+            b = (block) ((INT_PTR) curr_seg->base_address + curr_seg->limit);
+            b->size_index = ceiling_log_2(size);
+            b->seg = curr_seg;
+            add_to_free_list(b);
+            curr_seg->limit += size;
+            alloc_size -= size;
+        }
+        /* Find free block of appropriate size. */
+        for (i = size_index; i <= MAX_SIZE_INDEX && !avail[i]; ++i);
     }
-  b=remove_from_free_list(avail[i]);
-  trim_to_size(b, size_index);
-  return ((pointer)((INT_PTR)b+HEADER_SIZE));
+    b = remove_from_free_list(avail[i]);
+    trim_to_size(b, size_index);
+    return ((pointer) ((INT_PTR) b + HEADER_SIZE));
 }
 
 
@@ -356,16 +347,16 @@ mem_free_block(p)
      pointer p;
 #endif
 {
-  block b;
+    block b;
 
-  if (!p)
-    return;
-  b=(block)((INT_PTR)p-HEADER_SIZE);
-  if (!b->used)
-    mem_fatal("mem_free_block: block not in use");
-  if (b->size_index < 0 || b->size_index > MAX_SIZE_INDEX)
-    mem_fatal("mem_free_block: invalid block header");
-  merge_and_free(b);
+    if (!p)
+        return;
+    b = (block) ((INT_PTR) p - HEADER_SIZE);
+    if (!b->used)
+        mem_fatal("mem_free_block: block not in use");
+    if (b->size_index<0 || b->size_index>MAX_SIZE_INDEX)
+        mem_fatal("mem_free_block: invalid block header");
+    merge_and_free(b);
 }
 
 
@@ -382,47 +373,45 @@ mem_resize_block(p, new_size)
      SIZE_T new_size;
 #endif
 {
-  int new_size_index;
-  block b;
-  block bb;
-  pointer q;
-  SIZE_T old_size;
+    int     new_size_index;
+    block   b;
+    block   bb;
+    pointer q;
+    SIZE_T  old_size;
 
-  if (!p)
-    return (mem_get_block(new_size));
-  b=(block)((INT_PTR)p-HEADER_SIZE);
-  if (!b->used)
-    mem_fatal("mem_resize_block: block not in use");
-  if (b->size_index < 0 || b->size_index > MAX_SIZE_INDEX)
-    mem_fatal("mem_resize_block: invalid block header");
-  if ((new_size_index=block_size_index(new_size)) < 0)
-    {
-      mem_free_block(p);
-      return ((pointer)0);
+    if (!p)
+        return (mem_get_block(new_size));
+    b = (block) ((INT_PTR) p - HEADER_SIZE);
+    if (!b->used)
+        mem_fatal("mem_resize_block: block not in use");
+    if (b->size_index<0 || b->size_index>MAX_SIZE_INDEX)
+        mem_fatal("mem_resize_block: invalid block header");
+    if ((new_size_index = block_size_index(new_size)) < 0) {
+        mem_free_block(p);
+        return ((pointer) 0);
     }
-  if (b->size_index >= new_size_index)
-    {
-      /* Shrink block. */
-      trim_to_size(b, new_size_index);
-      return (p);
+    if (b->size_index >= new_size_index) {
+        /* Shrink block. */
+        trim_to_size(b, new_size_index);
+        return (p);
     }
-  old_size=(1l << b->size_index)-HEADER_SIZE;
-  /* Try to expand by adding buddies at higher addresses. */
-  for (bb=buddy(b);
-       bb && (INT_PTR)b < (INT_PTR)bb && !bb->used && bb->size_index == b->size_index;
-       bb=buddy(b))
-    {
-      remove_from_free_list(bb);
-      if (++(b->size_index) == new_size_index)
-	return (p);
+    old_size = (1l << b->size_index) - HEADER_SIZE;
+    /* Try to expand by adding buddies at higher addresses. */
+    for (bb = buddy(b);
+         bb && (INT_PTR) b < (INT_PTR) bb && !bb->used && bb->size_index == b->size_index;
+         bb = buddy(b)) {
+        remove_from_free_list(bb);
+        if (++(b->size_index) == new_size_index)
+            return (p);
     }
-  /* Couldn't expand all the way to needed size; allocate a new block */
-  /* and move the contents of the old one. */
-  q=mem_get_block(new_size);
-  mem_copy(q, p, old_size);
-  merge_and_free(b);
-  return (q);
+    /* Couldn't expand all the way to needed size; allocate a new block */
+    /* and move the contents of the old one. */
+    q       = mem_get_block(new_size);
+    mem_copy(q, p, old_size);
+    merge_and_free(b);
+    return (q);
 }
+
 #endif
 
 

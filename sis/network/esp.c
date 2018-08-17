@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/network/esp.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:32 $
- *
- */
+
 #include "sis.h"
 
 #ifdef SIS
@@ -15,20 +7,20 @@ static void save_latch_info();
 
 network_t *
 network_espresso(network)
-network_t *network;
+        network_t *network;
 {
     network_t *new_net;
-    pPLA PLA;
+    pPLA      PLA;
 
     PLA = network_to_pla(network);
     if (PLA == 0) return 0;
 
     if (PLA->R != 0) sf_free(PLA->R);
     if (PLA->D != 0) {
-      PLA->R = complement(cube2list(PLA->F,PLA->D));
+        PLA->R = complement(cube2list(PLA->F, PLA->D));
     } else {
-      PLA->D = new_cover(0);
-      PLA->R = complement(cube1list(PLA->F));
+        PLA->D = new_cover(0);
+        PLA->R = complement(cube1list(PLA->F));
     }
 
     PLA->F = espresso(PLA->F, PLA->D, PLA->R);
@@ -60,9 +52,9 @@ st_table *newtable;
     node_t *in, *out;
 
     lsForeachItem(list, gen, l1) {
-	l2 = latch_alloc();
-	in = network_find_node(net, node_long_name(latch_get_input(l1)));
-	out = network_find_node(net, node_long_name(latch_get_output(l1)));
+    l2 = latch_alloc();
+    in = network_find_node(net, node_long_name(latch_get_input(l1)));
+    out = network_find_node(net, node_long_name(latch_get_output(l1)));
         latch_set_input(l2, in);
         latch_set_output(l2, out);
         latch_set_initial_value(l2, latch_get_initial_value(l1));

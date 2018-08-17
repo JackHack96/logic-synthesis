@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/seqbdd/seqbdd_cycle.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:54 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 
@@ -83,46 +75,46 @@ st_table *reset_ancestor_table;
     output_info.is_product_network = 0;
     extract_network_info(network, options);
     if (output_info.init_node == NIL (node_t))
-	return 0;
+    return 0;
     range_data = (*options->alloc_range_data)(network, options);
 
     present_state_array = array_alloc(bdd_t *, 0);
     true_pi_array = array_alloc(bdd_t *, 0);
     foreach_primary_input(network, gen, node){
-	var = ntbdd_at_node(node);
-	if (network_latch_end(node) != NIL(node_t)){
-	    array_insert_last(bdd_t *, present_state_array, var);
-	} else {
-	    array_insert_last(bdd_t *, true_pi_array, var);
-	}
+    var = ntbdd_at_node(node);
+    if (network_latch_end(node) != NIL(node_t)){
+        array_insert_last(bdd_t *, present_state_array, var);
+    } else {
+        array_insert_last(bdd_t *, true_pi_array, var);
     }
-  
+    }
+
     total_sets = array_alloc(bdd_t *, 0);
     current_set = bdd_dup(range_data->init_state_fn);
     total_set   = bdd_dup(current_set);
     iter_count = 0;
     cycle_found = 0;
     for (;;) {
-	array_insert(bdd_t *, total_sets, iter_count, bdd_dup(total_set));
-	iter_count++;
-	new_current_set = (*options->compute_next_states)(current_set, range_data, options);
-	bdd_free(current_set);
-	if (bdd_leq(range_data->init_state_fn, new_current_set, 1, 1)) {
-	    cycle_found = 1;
-	    break;
-	}
-	if (bdd_leq(new_current_set, total_set, 1, 1)) {
-	    free_bdd_array(total_sets);
-	    (*options->free_range_data)(range_data, options);
-	    return 1;
-	}
-	care_set = bdd_not(total_set);
-	current_set = bdd_cofactor(new_current_set, care_set);
-	bdd_free(care_set);
-	new_total_set = bdd_or(new_current_set, total_set, 1, 1);
-	bdd_free(new_current_set);
-	bdd_free(total_set);
-	total_set = new_total_set;
+    array_insert(bdd_t *, total_sets, iter_count, bdd_dup(total_set));
+    iter_count++;
+    new_current_set = (*options->compute_next_states)(current_set, range_data, options);
+    bdd_free(current_set);
+    if (bdd_leq(range_data->init_state_fn, new_current_set, 1, 1)) {
+        cycle_found = 1;
+        break;
+    }
+    if (bdd_leq(new_current_set, total_set, 1, 1)) {
+        free_bdd_array(total_sets);
+        (*options->free_range_data)(range_data, options);
+        return 1;
+    }
+    care_set = bdd_not(total_set);
+    current_set = bdd_cofactor(new_current_set, care_set);
+    bdd_free(care_set);
+    new_total_set = bdd_or(new_current_set, total_set, 1, 1);
+    bdd_free(new_current_set);
+    bdd_free(total_set);
+    total_set = new_total_set;
     }
 
     /* need to find the input sequence now */
@@ -131,18 +123,18 @@ st_table *reset_ancestor_table;
     cycle_states = array_alloc(bdd_t *, iter_count);
     cycle_inputs = array_alloc(bdd_t *, iter_count);
     do {
-	iter_count--;
-	edges = (*options->compute_reverse_image)(current_state, range_data, options);
-	bdd_free(current_state);
-	total_set = array_fetch(bdd_t *, total_sets, iter_count);
-	constrained_edges = bdd_and(edges, total_set, 1, 1);
-	bdd_free(edges);
-	seqbdd_get_one_edge(constrained_edges, range_data, present_state_array,
-		true_pi_array, &current_state, &current_input); 
-	bdd_free(constrained_edges);
-	array_insert(bdd_t *, cycle_states, iter_count, bdd_dup(current_state));
-	array_insert(bdd_t *, cycle_inputs, iter_count, bdd_dup(current_input));
-	bdd_free(current_input);
+    iter_count--;
+    edges = (*options->compute_reverse_image)(current_state, range_data, options);
+    bdd_free(current_state);
+    total_set = array_fetch(bdd_t *, total_sets, iter_count);
+    constrained_edges = bdd_and(edges, total_set, 1, 1);
+    bdd_free(edges);
+    seqbdd_get_one_edge(constrained_edges, range_data, present_state_array,
+        true_pi_array, &current_state, &current_input);
+    bdd_free(constrained_edges);
+    array_insert(bdd_t *, cycle_states, iter_count, bdd_dup(current_state));
+    array_insert(bdd_t *, cycle_inputs, iter_count, bdd_dup(current_input));
+    bdd_free(current_input);
     } while (iter_count > 0);
     bdd_free(current_state);
     free_bdd_array(total_sets);
@@ -156,22 +148,22 @@ st_table *reset_ancestor_table;
     /* generate the ancestor state and input sequence */
     cycle_length = array_n(cycle_states);
     if (n_shift == 0 || cycle_length == 1) {
-	ancestor_index = 0;
+    ancestor_index = 0;
     } else {
-	ancestor_index = (- n_shift) % cycle_length;
-	if (ancestor_index < 0) {
-	    ancestor_index += cycle_length;
-	}
+    ancestor_index = (- n_shift) % cycle_length;
+    if (ancestor_index < 0) {
+        ancestor_index += cycle_length;
+    }
     }
     ancestor_state = array_fetch(bdd_t *, cycle_states, ancestor_index);
     store_ancestor_state_info(network, range_data, reset_ancestor_table, ancestor_state);
     free_bdd_array(cycle_states);
-  
+
     edge_index = ancestor_index;
     for (i = n_shift - 1; i >= 0; i--, edge_index++) {
-	current_input = array_fetch(bdd_t *, cycle_inputs, (edge_index % cycle_length));
-	input = convert_input_minterm_to_char_string(network, range_data, input_order, current_input);
-	array_insert(char *, input_seq, i, input);
+    current_input = array_fetch(bdd_t *, cycle_inputs, (edge_index % cycle_length));
+    input = convert_input_minterm_to_char_string(network, range_data, input_order, current_input);
+    array_insert(char *, input_seq, i, input);
     }
     free_bdd_array(cycle_inputs);
     (*options->free_range_data)(range_data, options);
@@ -183,7 +175,7 @@ st_table *reset_ancestor_table;
  /* INTERNAL INTERFACE */
 
 
-static void 
+static void
 store_ancestor_state_info(network, seq_info, reset_ancestor_table, ancestor_state)
 network_t *network;
 range_data_t *seq_info;
@@ -197,11 +189,11 @@ bdd_t *ancestor_state;
     int value;
 
     foreach_primary_input(network, gen, pi){
-	if (network_is_real_pi(network, pi)) continue;
-	assert((latch = latch_from_node(pi)) != NIL(latch_t));
-	var = ntbdd_at_node(pi);
-	value = (bdd_leq(ancestor_state, var, 1, 1)) ? 1 : 0;
-	st_insert(reset_ancestor_table, (char *) latch, (char *) value);
+    if (network_is_real_pi(network, pi)) continue;
+    assert((latch = latch_from_node(pi)) != NIL(latch_t));
+    var = ntbdd_at_node(pi);
+    value = (bdd_leq(ancestor_state, var, 1, 1)) ? 1 : 0;
+    st_insert(reset_ancestor_table, (char *) latch, (char *) value);
     }
 }
 
@@ -223,9 +215,9 @@ bdd_t *input_minterm;
 
 
     st_foreach_item_int(input_order, stgen, (char **)&pi, &index){
-	var = ntbdd_at_node(pi);
-	value = (bdd_leq(input_minterm, var, 1, 1)) ? 1 : 0;
-	input[index] = value;
+    var = ntbdd_at_node(pi);
+    value = (bdd_leq(input_minterm, var, 1, 1)) ? 1 : 0;
+    input[index] = value;
     }
     return input;
 }
@@ -254,7 +246,7 @@ bdd_t **input;
 {
   bdd_t *minterm;
   st_table *var_table;
-  
+
   assert(! bdd_is_tautology(from, 0));
 
  /* precompute the vars to be used */
@@ -302,38 +294,38 @@ st_table *vars;
     n_lits = array_n(cube);
     lits = ALLOC(bdd_literal, n_lits);
     for (i = 0; i < n_lits; i++) {
-	lits[i] = array_fetch(bdd_literal, cube, i);
+    lits[i] = array_fetch(bdd_literal, cube, i);
     }
     (void) bdd_gen_free(gen);
-  
+
     for (i = 0; i < n_lits; i++) {
-	if (! st_lookup(vars, (char *) i, NIL(char *))) {
-	    assert(lits[i] == 2);
-	    continue;
-	}
-	switch (lits[i]) {
-	  case 0:
-	  case 2:
-	    tmp = bdd_get_variable(manager, i);
-	    bdd_lit = bdd_not(tmp);
-	    bdd_free(tmp);
-	    break;
-	  case 1:
-	    bdd_lit = bdd_get_variable(manager, i);
-	    break;
-	    default:
-	    fail("unexpected literal in get_one_minterm");
-	    break;
-	}
-	tmp = bdd_and(minterm, bdd_lit, 1, 1);
-	bdd_free(minterm);
-	bdd_free(bdd_lit);
-	minterm = tmp;
+    if (! st_lookup(vars, (char *) i, NIL(char *))) {
+        assert(lits[i] == 2);
+        continue;
+    }
+    switch (lits[i]) {
+      case 0:
+      case 2:
+        tmp = bdd_get_variable(manager, i);
+        bdd_lit = bdd_not(tmp);
+        bdd_free(tmp);
+        break;
+      case 1:
+        bdd_lit = bdd_get_variable(manager, i);
+        break;
+        default:
+        fail("unexpected literal in get_one_minterm");
+        break;
+    }
+    tmp = bdd_and(minterm, bdd_lit, 1, 1);
+    bdd_free(minterm);
+    bdd_free(bdd_lit);
+    minterm = tmp;
     }
     return minterm;
 }
 
-static void 
+static void
 bdd_add_varids_to_table(vars, table)
 array_t *vars;
 st_table *table;
@@ -344,8 +336,8 @@ st_table *table;
 
     id_array = bdd_get_varids(vars);
     for (i = 0; i < array_n(id_array); i++) {
-	varid = array_fetch(int, id_array, i);
-	st_insert(table, (char *) varid, NIL(char));
+    varid = array_fetch(int, id_array, i);
+    st_insert(table, (char *) varid, NIL(char));
     }
     array_free(id_array);
 }

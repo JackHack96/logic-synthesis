@@ -429,7 +429,7 @@ void get_next_token(char *tok) {
 
   ====================================================================*/
 
-void releaseBIT(struct BITstruct *ptr){
+void releaseBIT(struct BITstruct *ptr) {
     struct BITstruct *tmp;
 
     while (ptr != NULL) {
@@ -440,7 +440,7 @@ void releaseBIT(struct BITstruct *ptr){
 }
 
 
-void releaseSIG(struct SIGstruct *ptr){
+void releaseSIG(struct SIGstruct *ptr) {
     struct SIGstruct *tmp;
 
     while (ptr != NULL) {
@@ -450,7 +450,7 @@ void releaseSIG(struct SIGstruct *ptr){
     }
 }
 
-void addBIT(struct BITstruct **BITptr, char *name, char dir){
+void addBIT(struct BITstruct **BITptr, char *name, char dir) {
 
     (*BITptr)->next = (struct BITstruct *) calloc(1, sizeof(struct BITstruct));
     if ((*BITptr)->next == NULL) {
@@ -462,7 +462,7 @@ void addBIT(struct BITstruct **BITptr, char *name, char dir){
     (*BITptr)->next = NULL;
 }
 
-void addSIG(struct SIGstruct **SIGptr, char *name, char dir, int start, int end){
+void addSIG(struct SIGstruct **SIGptr, char *name, char dir, int start, int end) {
 
     (*SIGptr)->next = (struct SIGstruct *) calloc(1, sizeof(struct SIGstruct));
     if ((*SIGptr)->next == NULL) {
@@ -479,12 +479,12 @@ void addSIG(struct SIGstruct **SIGptr, char *name, char dir, int start, int end)
 #endif
 }
 
-void warning(char *msg){
+void warning(char *msg) {
     if (WARNING) (void) fprintf(stderr, "*parse warning* Line %u : %s\n", line, msg);
     SendTokenBack = 1;
 }
 
-void vst_error(char *name, char *next){
+void vst_error(char *name, char *next) {
     char *w;
     char LocalToken[MAXTOKENLEN];
 
@@ -499,7 +499,7 @@ void vst_error(char *name, char *next){
     } while (!kwrd_cmp(w, next));
 }
 
-int dec_number(char *string){
+int dec_number(char *string) {
     char msg[50];
     char *s;
 
@@ -526,7 +526,7 @@ int dec_number(char *string){
 
  *=========================================================================*/
 
-void print_gates(struct LibCell *cell){
+void print_gates(struct LibCell *cell) {
     struct Ports *ptr;
     int          j;
 
@@ -547,7 +547,7 @@ void print_gates(struct LibCell *cell){
     }
 }
 
-char get_type_of_cell(struct LibCell *cell, char *name){
+char get_type_of_cell(struct LibCell *cell, char *name) {
     while (cell->next != NULL) {
         if (kwrd_cmp(cell->name, name)) {
             if (cell->clk[0]) {
@@ -561,7 +561,7 @@ char get_type_of_cell(struct LibCell *cell, char *name){
     return 'S';   /* type = S(ubcircuit) */
 }
 
-void get_lib_token(FILE *Lib, char *tok){
+void get_lib_token(FILE *Lib, char *tok) {
     enum states {
         tZERO, tLONG, tEOF, tSTRING, tREM
     };
@@ -699,7 +699,7 @@ void get_lib_token(FILE *Lib, char *tok){
     (void) strcpy(tok, &(TOKEN[0]));
 }
 
-struct BITstruct *is_here(char *name, struct BITstruct *ptr){
+struct BITstruct *is_here(char *name, struct BITstruct *ptr) {
     struct BITstruct *BITptr;
 
     BITptr = ptr;
@@ -710,7 +710,7 @@ struct BITstruct *is_here(char *name, struct BITstruct *ptr){
     return (struct BITstruct *) NULL;
 }
 
-struct LibCell *new_lib_cell(char *name, struct BITstruct *ports, int latch){
+struct LibCell *new_lib_cell(char *name, struct BITstruct *ports, int latch) {
     struct LibCell   *tmp;
     struct BITstruct *bptr;
     struct Ports     *pptr;
@@ -752,7 +752,7 @@ struct LibCell *new_lib_cell(char *name, struct BITstruct *ports, int latch){
     return tmp;
 }
 
-struct LibCell *scan_library(char *LibName){
+struct LibCell *scan_library(char *LibName) {
     enum states {
         sZERO, sPIN, sCLOCK, sADDCELL
     }                next;
@@ -874,7 +874,7 @@ struct LibCell *scan_library(char *LibName){
     return (struct LibCell *) first.next;
 }
 
-struct LibCell *what_lib_gate(char *name, struct LibCell *LIBRARY){
+struct LibCell *what_lib_gate(char *name, struct LibCell *LIBRARY) {
     struct LibCell *ptr;
 
     for (ptr = LIBRARY; ptr != NULL; ptr = ptr->next)
@@ -999,7 +999,7 @@ struct Cell *what_gate(char *name, struct Cell *LIBRARY) {
     return (struct Cell *) NULL;
 }
 
-struct Cell *get_port(char *Cname){
+struct Cell *get_port(char *Cname) {
     enum states {
         sFORMAL, sCONN, sANOTHER, sDIR, sTYPE, sVECTOR, sWAIT
     }                next;
@@ -1055,7 +1055,9 @@ struct Cell *get_port(char *Cname){
                     if (*w == ',') {
                         next = sANOTHER;
                     } else {
-                        warning("Expected ':' or ',' ", line);
+                        char s[40];
+                        sprintf(s, "Expected ':' or ',' %d", line);
+                        warning(s);
                         Token = 0;
                     }
                 }
@@ -1212,7 +1214,7 @@ struct Cell *get_port(char *Cname){
     return new_cell(Cname, &BITstart, &FORMstart, LIBRARY);
 }
 
-void get_entity(struct Cell **Entity){
+void get_entity(struct Cell **Entity) {
     char *w;
     char LocalToken[MAXTOKENLEN];
     char name[MAXTOKENLEN];
@@ -1259,7 +1261,7 @@ void get_entity(struct Cell **Entity){
     if (*w != ';') warning("expected ';'");
 }
 
-void get_component(struct Cell **cell){
+void get_component(struct Cell **cell) {
     char *w;
     char LocalToken[MAXTOKENLEN];
     char name[MAXNAMELEN];
@@ -1600,7 +1602,7 @@ struct Instance *get_instance(char *name, struct ENTITYstruct *Entity) {
 
     get_next_token(w);
     if (!kwrd_cmp(w, "PORT")) {
-        warning("PORT keyword missing.sh", "PORT");
+        warning("PORT keyword missing.sh");
     }
 
     get_next_token(w);
@@ -1862,7 +1864,7 @@ void get_architecture(struct ENTITYstruct *ENTITY) {
     }
 }
 
-void print_signals(char *msg, char typ, struct SIGstruct *Sptr){
+void print_signals(char *msg, char typ, struct SIGstruct *Sptr) {
     int i;
     int incr;
 

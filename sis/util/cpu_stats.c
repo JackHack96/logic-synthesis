@@ -1,14 +1,3 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/util/cpu_stats.c,v $
- * $Author: pchong $
- * $Revision: 1.2 $
- * $Date: 2004/02/09 01:02:00 $
- *
- */
-/* LINTLIBRARY */
-
 #include <stdio.h>
 #include "util.h"
 
@@ -22,10 +11,7 @@ extern int end, etext, edata;
 
 #endif
 
-void
-util_print_cpu_stats(fp)
-FILE *fp;
-{
+void util_print_cpu_stats(FILE *fp) {
 #if defined(BSD_SIS) && !defined(_IBMR2) && !defined(__hpux) && 0
     struct rusage rusage;
     struct rlimit rlp;
@@ -68,19 +54,19 @@ FILE *fp;
     (void) fprintf(fp, "Average resident text size       = %5dK\n", text);
     (void) fprintf(fp, "Average resident data+stack size = %5dK\n", data);
     (void) fprintf(fp, "Maximum resident size            = %5dK\n\n", 
-	rusage.ru_maxrss/2);
-    (void) fprintf(fp, "Virtual text size                = %5dK\n", 
-	vm_text);
-    (void) fprintf(fp, "Virtual data size                = %5dK\n", 
-	vm_init_data + vm_uninit_data + vm_sbrk_data);
-    (void) fprintf(fp, "    data size initialized        = %5dK\n", 
-	vm_init_data);
-    (void) fprintf(fp, "    data size uninitialized      = %5dK\n", 
-	vm_uninit_data);
-    (void) fprintf(fp, "    data size sbrk               = %5dK\n", 
-	vm_sbrk_data);
-    (void) fprintf(fp, "Virtual memory limit             = %5dK (%dK)\n\n", 
-	vm_soft_limit, vm_limit);
+    rusage.ru_maxrss/2);
+    (void) fprintf(fp, "Virtual text size                = %5dK\n",
+    vm_text);
+    (void) fprintf(fp, "Virtual data size                = %5dK\n",
+    vm_init_data + vm_uninit_data + vm_sbrk_data);
+    (void) fprintf(fp, "    data size initialized        = %5dK\n",
+    vm_init_data);
+    (void) fprintf(fp, "    data size uninitialized      = %5dK\n",
+    vm_uninit_data);
+    (void) fprintf(fp, "    data size sbrk               = %5dK\n",
+    vm_sbrk_data);
+    (void) fprintf(fp, "Virtual memory limit             = %5dK (%dK)\n\n",
+    vm_soft_limit, vm_limit);
 
     (void) fprintf(fp, "Major page faults = %d\n", rusage.ru_majflt);
     (void) fprintf(fp, "Minor page faults = %d\n", rusage.ru_minflt);

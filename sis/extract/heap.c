@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/extract/heap.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:22 $
- *
- */
+
 #include "sis.h"
 #include "heap.h"
 
@@ -16,35 +8,34 @@
 
 /* Allocate and free the entry of heap */
 heap_entry_t *
-heap_entry_alloc()
-{
+heap_entry_alloc() {
     register heap_entry_t *entry;
-   
+
     entry = ALLOC(heap_entry_t, 1);
-    entry->key = -1;
-    entry->item = NIL(char);
-    return entry; 
+    entry->key  = -1;
+    entry->item = NIL(
+    char);
+    return entry;
 }
 
 void
 heap_entry_free(entry)
-heap_entry_t *entry;
+        heap_entry_t *entry;
 {
     FREE(entry);
 }
 
 /* Allocate and free heap */
 heap_t *
-heap_alloc()
-{
-    int i;
-    int size = 10;
+heap_alloc() {
+    int             i;
+    int             size = 10;
     register heap_t *heap;
 
     heap = ALLOC(heap_t, 1);
-    heap->heapnum = 0;
+    heap->heapnum  = 0;
     heap->heapsize = size;
-    heap->tree = ALLOC(heap_entry_t *, size);
+    heap->tree     = ALLOC(heap_entry_t * , size);
     heap->tree[0] = heap_entry_alloc();
     heap->tree[0]->key = INFINITY;
     for (i = 1; i < size; i++) {
@@ -54,12 +45,12 @@ heap_alloc()
 }
 
 void
-heap_free(heap,delFunc)
-register heap_t *heap;
-void (*delFunc)();
+heap_free(heap, delFunc)
+        register heap_t *heap;
+        void (*delFunc)();
 {
     int i;
-    
+
     for (i = 0; i <= heap->heapnum; i++) {
         if (heap->tree[i]->item) (*delFunc)(heap->tree[i]->item);
         (void) heap_entry_free(heap->tree[i]);
@@ -70,7 +61,7 @@ void (*delFunc)();
 
 heap_entry_t *
 findmax_heap(heap)
-register heap_t *heap;
+        register heap_t *heap;
 {
     if (heap->heapnum == 0) {
         return NIL(heap_entry_t);
@@ -82,7 +73,7 @@ register heap_t *heap;
 /* Swap entry s1 and s2 */
 void
 swap_entry(s1, s2)
-heap_entry_t *s1, *s2;
+        heap_entry_t *s1, *s2;
 {
     heap_entry_t temp;
 
@@ -94,28 +85,28 @@ heap_entry_t *s1, *s2;
 /* Dynamically increase the size of heap */
 void
 resize_heap(heap)
-register heap_t *heap;
+        register heap_t *heap;
 {
     heap->heapsize *= 2;
-    heap->tree = REALLOC(heap_entry_t *, heap->tree, heap->heapsize);
+    heap->tree = REALLOC(heap_entry_t * , heap->tree, heap->heapsize);
 }
 
 /* Insert a new entry in the heap */
 void
 insert_heap(heap, entry)
-register heap_t *heap;
-register heap_entry_t *entry;
+        register heap_t *heap;
+        register heap_entry_t *entry;
 {
     int current, parent;
 
     if ((++heap->heapnum) >= heap->heapsize) (void) resize_heap(heap);
     current = (heap->heapnum);
     heap->tree[current] = entry;
-    parent = current/2;
+    parent = current / 2;
     while ((heap->tree[parent])->key < (heap->tree[current])->key) {
         swap_entry(heap->tree[parent], heap->tree[current]);
         current = parent;
-        parent = current/2;
+        parent  = current / 2;
     }
 }
 
@@ -125,26 +116,27 @@ register heap_entry_t *entry;
  */
 heap_entry_t *
 deletemax_heap(heap)
-register heap_t *heap;
+        register heap_t *heap;
 {
-    int current = 1;
-    int child = 2;
+    int          current = 1;
+    int          child   = 2;
     heap_entry_t *entry;
-  
+
     if (heap->heapnum == 0) return NIL(heap_entry_t);
     entry = heap->tree[1];
     heap->tree[1] = heap->tree[(heap->heapnum)--];
 
     while (child <= heap->heapnum) {
-        if ((child < heap->heapnum) && 
-            (heap->tree[child+1]->key > heap->tree[child]->key)) child++; 
+        if ((child < heap->heapnum) &&
+            (heap->tree[child + 1]->key > heap->tree[child]->key))
+            child++;
         if (heap->tree[current]->key < heap->tree[child]->key) {
-             swap_entry(heap->tree[current], heap->tree[child]);
-             current = child;
-             child = 2 * current;
-        } else { 
-             break;
+            swap_entry(heap->tree[current], heap->tree[child]);
+            current = child;
+            child   = 2 * current;
+        } else {
+            break;
         }
     }
-    return entry; 
+    return entry;
 }

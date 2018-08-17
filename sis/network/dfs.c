@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/network/dfs.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:32 $
- *
- */
+
 #include "sis.h"
 
 
@@ -21,37 +13,39 @@ static int network_dfs_recur();
 
 array_t *
 network_dfs(network)
-network_t *network;
+        network_t *network;
 {
-  int i;
-  st_table *visited;
-  array_t *roots;
-  array_t *node_vec;
-  node_t *node;
-  lsGen gen;
+    int      i;
+    st_table *visited;
+    array_t  *roots;
+    array_t  *node_vec;
+    node_t   *node;
+    lsGen    gen;
 
-  visited = st_init_table(st_ptrcmp, st_ptrhash);
-  node_vec = array_alloc(node_t *, 0);
-  roots = array_alloc(node_t *, 0);
+    visited  = st_init_table(st_ptrcmp, st_ptrhash);
+    node_vec = array_alloc(node_t * , 0);
+    roots    = array_alloc(node_t * , 0);
 
-  foreach_primary_output(network, gen, node) {
-    array_insert_last(node_t *, roots, node);
-  }
-  /* handle floating nodes */
-  foreach_node(network, gen, node) {
-    if (node_num_fanout(node) == 0 && node->type != PRIMARY_OUTPUT) {
-      array_insert_last(node_t *, roots, node);
+    foreach_primary_output(network, gen, node)
+    {
+        array_insert_last(node_t * , roots, node);
     }
-  }
-  for (i = 0; i < array_n(roots); i++) {
-    node = array_fetch(node_t *, roots, i);
-    if (! network_dfs_recur(node, node_vec, visited, 1, INFINITY)) {
-      fail("network_dfs: network contains a cycle\n");
+    /* handle floating nodes */
+    foreach_node(network, gen, node)
+    {
+        if (node_num_fanout(node) == 0 && node->type != PRIMARY_OUTPUT) {
+            array_insert_last(node_t * , roots, node);
+        }
     }
-  }
-  st_free_table(visited);
-  array_free(roots);
-  return node_vec;
+    for (i = 0; i < array_n(roots); i++) {
+        node = array_fetch(node_t * , roots, i);
+        if (!network_dfs_recur(node, node_vec, visited, 1, INFINITY)) {
+            fail("network_dfs: network contains a cycle\n");
+        }
+    }
+    st_free_table(visited);
+    array_free(roots);
+    return node_vec;
 }
 
 #ifdef SIS
@@ -106,56 +100,59 @@ network_t *network;
 
 array_t *
 network_dfs_from_input(network)
-network_t *network;
+        network_t *network;
 {
-  int i;
-  st_table *visited;
-  array_t *node_vec;
-  array_t *roots;
-  node_t *node;
-  lsGen gen;
+    int      i;
+    st_table *visited;
+    array_t  *node_vec;
+    array_t  *roots;
+    node_t   *node;
+    lsGen    gen;
 
-  visited = st_init_table(st_ptrcmp, st_ptrhash);
-  node_vec = array_alloc(node_t *, 0);
-  roots = array_alloc(node_t *, 0);
+    visited  = st_init_table(st_ptrcmp, st_ptrhash);
+    node_vec = array_alloc(node_t * , 0);
+    roots    = array_alloc(node_t * , 0);
 
-  foreach_primary_input(network, gen, node) {
-    array_insert_last(node_t *, roots, node);
-  }
-  /* handle floating nodes */
-  foreach_node(network, gen, node) {
-    if (node_num_fanin(node) == 0 && node->type != PRIMARY_INPUT) {
-      array_insert_last(node_t *, roots, node);
+    foreach_primary_input(network, gen, node)
+    {
+        array_insert_last(node_t * , roots, node);
     }
-  }
-  for (i = 0; i < array_n(roots); i++) {
-    node = array_fetch(node_t *, roots, i);
-    if (! network_dfs_recur(node, node_vec, visited, 0, INFINITY)) {
-      fail("network_dfs_from_input: network contains a cycle\n");
+    /* handle floating nodes */
+    foreach_node(network, gen, node)
+    {
+        if (node_num_fanin(node) == 0 && node->type != PRIMARY_INPUT) {
+            array_insert_last(node_t * , roots, node);
+        }
     }
-  }
-  st_free_table(visited);
-  array_free(roots);
-  return node_vec;
+    for (i = 0; i < array_n(roots); i++) {
+        node = array_fetch(node_t * , roots, i);
+        if (!network_dfs_recur(node, node_vec, visited, 0, INFINITY)) {
+            fail("network_dfs_from_input: network contains a cycle\n");
+        }
+    }
+    st_free_table(visited);
+    array_free(roots);
+    return node_vec;
 }
-
+
 array_t *
 network_tfi(node, level)
-node_t *node;
-int level;
+        node_t *node;
+        int level;
 {
     st_table *visited;
-    array_t *node_vec;
-    node_t *fanin;
-    int i;
+    array_t  *node_vec;
+    node_t   *fanin;
+    int      i;
 
-    visited = st_init_table(st_ptrcmp, st_ptrhash);
-    node_vec = array_alloc(node_t *, 0);
+    visited  = st_init_table(st_ptrcmp, st_ptrhash);
+    node_vec = array_alloc(node_t * , 0);
 
-    foreach_fanin(node, i, fanin) {
-	if (! network_dfs_recur(fanin, node_vec, visited, 1, level)) {
-	    fail("network_tfi: network contains a cycle\n");
-	}
+    foreach_fanin(node, i, fanin)
+    {
+        if (!network_dfs_recur(fanin, node_vec, visited, 1, level)) {
+            fail("network_tfi: network contains a cycle\n");
+        }
     }
 
     st_free_table(visited);
@@ -165,76 +162,79 @@ int level;
 
 array_t *
 network_tfo(node, level)
-node_t *node;
-int level;
+        node_t *node;
+        int level;
 {
     st_table *visited;
-    array_t *node_vec;
-    node_t *fanout;
-    lsGen gen;
+    array_t  *node_vec;
+    node_t   *fanout;
+    lsGen    gen;
 
-    visited = st_init_table(st_ptrcmp, st_ptrhash);
-    node_vec = array_alloc(node_t *, 0);
+    visited  = st_init_table(st_ptrcmp, st_ptrhash);
+    node_vec = array_alloc(node_t * , 0);
 
-    foreach_fanout(node, gen, fanout) {
-	if (! network_dfs_recur(fanout, node_vec, visited, 0, level)) {
-	    fail("network_tfo: network contains a cycle\n");
-	}
+    foreach_fanout(node, gen, fanout)
+    {
+        if (!network_dfs_recur(fanout, node_vec, visited, 0, level)) {
+            fail("network_tfo: network contains a cycle\n");
+        }
     }
 
     st_free_table(visited);
     return node_vec;
 }
-
-static int 
+
+static int
 network_dfs_recur(node, node_vec, visited, dir, level)
-node_t *node;
-array_t *node_vec;
-st_table *visited;
-int dir;		/* 1 == visit inputs, 0 == visit outputs */ 
-int level;
+        node_t *node;
+        array_t *node_vec;
+        st_table *visited;
+        int dir;        /* 1 == visit inputs, 0 == visit outputs */
+        int level;
 {
-    int i;
-    char *value;
+    int    i;
+    char   *value;
     node_t *fanin, *fanout;
-    lsGen gen;
+    lsGen  gen;
 
     if (level > 0) {
 
-	if (st_lookup(visited, (char *) node, &value)) {
-	    return value == 0;		/* if value is 1, then a cycle */
+        if (st_lookup(visited, (char *) node, &value)) {
+            return value == 0;        /* if value is 1, then a cycle */
 
-	} else {
-	    /* add this node to the active path */
-	    value = (char *) 1;
-	    (void) st_insert(visited, (char *) node, value);
+        } else {
+            /* add this node to the active path */
+            value = (char *) 1;
+            (void) st_insert(visited, (char *) node, value);
 
-	    /* avoid recursion if level-1 wouldn't add anything anyways */
-	    if (level > 1) {
-		if (dir) {
-		    foreach_fanin(node, i, fanin) {
-			if (! network_dfs_recur(fanin, node_vec, 
-						    visited, dir, level-1)) {
-			    return 0;
-			}
-		    }
-		} else {
-		    foreach_fanout(node, gen, fanout) {
-			if (! network_dfs_recur(fanout, node_vec, 
-						    visited, dir, level-1)) {
-			    return 0;
-			}
-		    }
-		}
-	    }
+            /* avoid recursion if level-1 wouldn't add anything anyways */
+            if (level > 1) {
+                if (dir) {
+                    foreach_fanin(node, i, fanin)
+                    {
+                        if (!network_dfs_recur(fanin, node_vec,
+                                               visited, dir, level - 1)) {
+                            return 0;
+                        }
+                    }
+                } else {
+                    foreach_fanout(node, gen, fanout)
+                    {
+                        if (!network_dfs_recur(fanout, node_vec,
+                                               visited, dir, level - 1)) {
+                            return 0;
+                        }
+                    }
+                }
+            }
 
-	    /* take this node off of the active path */
-	    value = (char *) 0;
-	    (void) st_insert(visited, (char *) node, value);
+            /* take this node off of the active path */
+            value = (char *) 0;
+            (void) st_insert(visited, (char *) node, value);
 
-	    /* add node to list */
-	    array_insert_last(node_t *, node_vec, node);
-	}
+            /* add node to list */
+            array_insert_last(node_t * , node_vec, node);
+        }
     }
     return 1;
 }

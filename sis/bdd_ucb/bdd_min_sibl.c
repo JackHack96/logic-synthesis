@@ -1,23 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/bdd_min_sibl.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:02 $
- * $Log: bdd_min_sibl.c,v $
- * Revision 1.1.1.1  2004/02/07 10:15:02  pchong
- * imported
- *
- * Revision 1.1  1993/07/27  20:14:50  sis
- * Initial revision
- *
- * Revision 1.1  1993/07/27  19:30:53  shiple
- * Initial revision
- *
- *
- */
-#include <stdio.h>	/* for BDD_DEBUG_LIFESPAN */
+
+#include <stdio.h>    /* for BDD_DEBUG_LIFESPAN */
 
 #include "util.h"
 #include "array.h"
@@ -39,31 +21,31 @@ static bdd_node *min_sibling();
  */
 bdd_t *
 bdd_minimize_with_params(f, c, match_type, compl, no_new_vars, return_min)
-bdd_t *f;
-bdd_t *c;
-bdd_min_match_type_t match_type;
-boolean compl;
-boolean no_new_vars;
-boolean return_min;
+        bdd_t *f;
+        bdd_t *c;
+        bdd_min_match_type_t match_type;
+        boolean compl;
+        boolean no_new_vars;
+        boolean return_min;
 {
     bdd_safeframe frame;
-    bdd_safenode ret;
-    bdd_manager *manager;
-    bdd_t *h;
-    int size_h, size_f;
+    bdd_safenode  ret;
+    bdd_manager   *manager;
+    bdd_t         *h;
+    int           size_h, size_f;
 
     if (f == NIL(bdd_t) || c == NIL(bdd_t)) {
-	fail("bdd_minimize_with_params: invalid BDD");
+        fail("bdd_minimize_with_params: invalid BDD");
     }
 
-    BDD_ASSERT( ! f->free );
-    BDD_ASSERT( ! c->free );
+    BDD_ASSERT(!f->free);
+    BDD_ASSERT(!c->free);
 
     if (f->bdd != c->bdd) {
-	fail("bdd_minimize_with_params: different bdd managers");
+        fail("bdd_minimize_with_params: different bdd managers");
     }
 
-    manager = f->bdd;		/* either this or c->bdd will do */
+    manager = f->bdd;        /* either this or c->bdd will do */
 
     /*
      * Start the safe frame now that we know the input is correct.
@@ -85,20 +67,20 @@ boolean return_min;
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_minimize_with_params(%d, %d)\n",
-	    bdd_index_of_external_pointer(f),
-	    bdd_index_of_external_pointer(c));
+        bdd_index_of_external_pointer(f),
+        bdd_index_of_external_pointer(c));
 #endif /* } */
 
     /*
      * If return_min is TRUE and if h is larger than f, then free h, and return a copy of f.
      */
     if (return_min == TRUE) {
-	size_h = bdd_size(h);
-	size_f = bdd_size(f);
-	if (size_h > size_f) {
-	    bdd_free(h);
-	    h = bdd_dup(f);
-	}
+        size_h = bdd_size(h);
+        size_f = bdd_size(f);
+        if (size_h > size_f) {
+            bdd_free(h);
+            h = bdd_dup(f);
+        }
     }
 
     return (h);
@@ -111,8 +93,8 @@ boolean return_min;
  */
 bdd_t *
 bdd_minimize(f, c)
-bdd_t *f;
-bdd_t *c;
+        bdd_t *f;
+        bdd_t *c;
 {
     return (bdd_minimize_with_params(f, c, BDD_MIN_OSM, TRUE, TRUE, TRUE));
 }
@@ -124,13 +106,13 @@ bdd_t *c;
  */
 bdd_t *
 bdd_between(f_min, f_max)
-bdd_t *f_min;
-bdd_t *f_max;
+        bdd_t *f_min;
+        bdd_t *f_max;
 {
     bdd_t *temp, *ret;
-    
+
     temp = bdd_or(f_min, f_max, 1, 0);
-    ret = bdd_minimize(f_min, temp);
+    ret  = bdd_minimize(f_min, temp);
     bdd_free(temp);
     return ret;
 }
@@ -142,39 +124,39 @@ bdd_t *f_max;
  */
 static bdd_node *
 min_sibling(mgr, f, c, mtype, compl, no_new_vars)
-bdd_manager *mgr;
-bdd_node *f;
-bdd_node *c;
-bdd_min_match_type_t mtype;
-boolean compl;
-boolean no_new_vars;
+        bdd_manager *mgr;
+        bdd_node *f;
+        bdd_node *c;
+        bdd_min_match_type_t mtype;
+        boolean compl;
+        boolean no_new_vars;
 {
-    bdd_safeframe frame;
-    bdd_safenode safe_f, safe_c,
-	    ret,
-	    f_T, f_E,
-	    c_T, c_E, 
-	    var, co_T, co_E,
-	    new_f, new_c, sum;
+    bdd_safeframe  frame;
+    bdd_safenode   safe_f, safe_c,
+                   ret,
+                   f_T, f_E,
+                   c_T, c_E,
+                   var, co_T, co_E,
+                   new_f, new_c, sum;
     bdd_variableId fId, cId, topId;
-    boolean match_made;
+    boolean        match_made;
 
-    mgr->heap.stats.adhoc_ops.calls++; 
+    mgr->heap.stats.adhoc_ops.calls++;
 
     if (BDD_IS_CONSTANT(mgr, f)) {
-	/*
-	 *  f is either zero or one, so just return f.
-	 */
-	mgr->heap.stats.adhoc_ops.returns.trivial++; 
-	return (f);
+        /*
+         *  f is either zero or one, so just return f.
+         */
+        mgr->heap.stats.adhoc_ops.returns.trivial++;
+        return (f);
     }
 
     if (c == BDD_ONE(mgr)) {
-	/*
-	 * The care function is the tautology, so just return f.
-	 */
-	mgr->heap.stats.adhoc_ops.returns.trivial++; 
-	return (f);
+        /*
+         * The care function is the tautology, so just return f.
+         */
+        mgr->heap.stats.adhoc_ops.returns.trivial++;
+        return (f);
     }
 
     assert(c != BDD_ZERO(mgr));  /* operation is undefined for don't care everywhere */
@@ -183,11 +165,11 @@ boolean no_new_vars;
      * Check if we have already computed the result for f,c.
      */
     if (bdd_adhoccache_lookup(mgr, f, c, /* v */ 0, &ret.node)) {
-	/*
-	 *    The answer was already in the cache, so just return it.
-	 */
-	mgr->heap.stats.adhoc_ops.returns.cached++; 
-	return (ret.node);
+        /*
+         *    The answer was already in the cache, so just return it.
+         */
+        mgr->heap.stats.adhoc_ops.returns.cached++;
+        return (ret.node);
     }
 
     /*
@@ -221,14 +203,14 @@ boolean no_new_vars;
      */
     topId = MIN(fId, cId);
     if (topId < cId) {
-	/* c is independent of fId; thus, the two cofactors of c by fId are the same */
-	c_T.node = c;
-	c_E.node = c;
+        /* c is independent of fId; thus, the two cofactors of c by fId are the same */
+        c_T.node = c;
+        c_E.node = c;
     }
     if (topId < fId) {
-	/* f is independent of cId; thus, the two cofactors of f by cId are the same */
-	f_T.node = f;
-	f_E.node = f;
+        /* f is independent of cId; thus, the two cofactors of f by cId are the same */
+        f_T.node = f;
+        f_E.node = f;
     }
 
     /*
@@ -238,77 +220,77 @@ boolean no_new_vars;
      */
     match_made = FALSE;
     if ((fId > cId) && (no_new_vars == TRUE)) {
-	/*
-	 *  f is independent of cId; keep it that way
-	 */
-	match_made = TRUE;
-	sum.node = bdd__ITE_(mgr, c_T.node, BDD_ONE(mgr), c_E.node);
-	ret.node = min_sibling(mgr, f, sum.node, mtype, compl, no_new_vars);
+        /*
+         *  f is independent of cId; keep it that way
+         */
+        match_made = TRUE;
+        sum.node = bdd__ITE_(mgr, c_T.node, BDD_ONE(mgr), c_E.node);
+        ret.node = min_sibling(mgr, f, sum.node, mtype, compl, no_new_vars);
     }
-     
+
     if (match_made == FALSE) {
-	if (bdd_min_is_match(mgr, mtype, FALSE, f_T.node, c_T.node, f_E.node, c_E.node)) {
-	    /* 
-	     * Match T to E.
-	     */
-	    match_made = TRUE;
-	    bdd_min_match_result(mgr, mtype, FALSE, f_T.node, c_T.node, f_E.node, c_E.node, &new_f.node, &new_c.node);
-	    ret.node = min_sibling(mgr, new_f.node, new_c.node, mtype, compl, no_new_vars);
-	}
+        if (bdd_min_is_match(mgr, mtype, FALSE, f_T.node, c_T.node, f_E.node, c_E.node)) {
+            /*
+             * Match T to E.
+             */
+            match_made = TRUE;
+            bdd_min_match_result(mgr, mtype, FALSE, f_T.node, c_T.node, f_E.node, c_E.node, &new_f.node, &new_c.node);
+            ret.node = min_sibling(mgr, new_f.node, new_c.node, mtype, compl, no_new_vars);
+        }
     }
 
     if ((match_made == FALSE) && (mtype != BDD_MIN_TSM)) {  /* BDD_MIN_TSM is symmetric */
-	if (bdd_min_is_match(mgr, mtype, FALSE, f_E.node, c_E.node, f_T.node, c_T.node)) {
-	    /* 
-	     * Match E to T. 
-	     */
-	    match_made = TRUE;
-	    bdd_min_match_result(mgr, mtype, FALSE, f_E.node, c_E.node, f_T.node, c_T.node, &new_f.node, &new_c.node);
-	    ret.node = min_sibling(mgr, new_f.node, new_c.node, mtype, compl, no_new_vars);
-	}
+        if (bdd_min_is_match(mgr, mtype, FALSE, f_E.node, c_E.node, f_T.node, c_T.node)) {
+            /*
+             * Match E to T.
+             */
+            match_made = TRUE;
+            bdd_min_match_result(mgr, mtype, FALSE, f_E.node, c_E.node, f_T.node, c_T.node, &new_f.node, &new_c.node);
+            ret.node = min_sibling(mgr, new_f.node, new_c.node, mtype, compl, no_new_vars);
+        }
     }
 
     if ((match_made == FALSE) && (compl == TRUE)) {
-	if (bdd_min_is_match(mgr, mtype, TRUE, f_T.node, c_T.node, f_E.node, c_E.node)) {
-	    /* 
-	     * Match T to complement of E.
-	     */
-	    match_made = TRUE;
-	    bdd_min_match_result(mgr, mtype, TRUE, f_T.node, c_T.node, f_E.node, c_E.node, &new_f.node, &new_c.node);
-	    co_E.node = min_sibling(mgr, new_f.node, new_c.node, mtype, compl, no_new_vars);
-	    var.node = bdd_find_or_add(mgr, topId, BDD_ONE(mgr), BDD_ZERO(mgr));
-	    ret.node = bdd__ITE_(mgr, var.node, BDD_NOT(co_E.node), co_E.node);
-	}
+        if (bdd_min_is_match(mgr, mtype, TRUE, f_T.node, c_T.node, f_E.node, c_E.node)) {
+            /*
+             * Match T to complement of E.
+             */
+            match_made = TRUE;
+            bdd_min_match_result(mgr, mtype, TRUE, f_T.node, c_T.node, f_E.node, c_E.node, &new_f.node, &new_c.node);
+            co_E.node = min_sibling(mgr, new_f.node, new_c.node, mtype, compl, no_new_vars);
+            var.node  = bdd_find_or_add(mgr, topId, BDD_ONE(mgr), BDD_ZERO(mgr));
+            ret.node  = bdd__ITE_(mgr, var.node, BDD_NOT(co_E.node), co_E.node);
+        }
     }
 
     if ((match_made == FALSE) && (compl == TRUE) && (mtype != BDD_MIN_TSM)) {
-	if (bdd_min_is_match(mgr, mtype, TRUE, f_E.node, c_E.node, f_T.node, c_T.node)) {
-	    /* 
-	     * Match E to complement of T. 
-	     */
-	    match_made = TRUE;
-	    bdd_min_match_result(mgr, mtype, TRUE, f_E.node, c_E.node, f_T.node, c_T.node, &new_f.node, &new_c.node);
-	    co_T.node = min_sibling(mgr, new_f.node, new_c.node, mtype, compl, no_new_vars);
-	    var.node = bdd_find_or_add(mgr, topId, BDD_ONE(mgr), BDD_ZERO(mgr));
-	    ret.node = bdd__ITE_(mgr, var.node, co_T.node, BDD_NOT(co_T.node));
-	}
+        if (bdd_min_is_match(mgr, mtype, TRUE, f_E.node, c_E.node, f_T.node, c_T.node)) {
+            /*
+             * Match E to complement of T.
+             */
+            match_made = TRUE;
+            bdd_min_match_result(mgr, mtype, TRUE, f_E.node, c_E.node, f_T.node, c_T.node, &new_f.node, &new_c.node);
+            co_T.node = min_sibling(mgr, new_f.node, new_c.node, mtype, compl, no_new_vars);
+            var.node  = bdd_find_or_add(mgr, topId, BDD_ONE(mgr), BDD_ZERO(mgr));
+            ret.node  = bdd__ITE_(mgr, var.node, co_T.node, BDD_NOT(co_T.node));
+        }
     }
 
     if (match_made == FALSE) {
-	/*
-	 * No match can be made.  Compute ITE(topId, min_sibling(f_T, c_T), min_sibling(f_E, c_E)).
-	 */
-	co_T.node = min_sibling(mgr, f_T.node, c_T.node, mtype, compl, no_new_vars);
-	co_E.node = min_sibling(mgr, f_E.node, c_E.node, mtype, compl, no_new_vars);
-	var.node = bdd_find_or_add(mgr, topId, BDD_ONE(mgr), BDD_ZERO(mgr));
-	ret.node = bdd__ITE_(mgr, var.node, co_T.node, co_E.node);
+        /*
+         * No match can be made.  Compute ITE(topId, min_sibling(f_T, c_T), min_sibling(f_E, c_E)).
+         */
+        co_T.node = min_sibling(mgr, f_T.node, c_T.node, mtype, compl, no_new_vars);
+        co_E.node = min_sibling(mgr, f_E.node, c_E.node, mtype, compl, no_new_vars);
+        var.node  = bdd_find_or_add(mgr, topId, BDD_ONE(mgr), BDD_ZERO(mgr));
+        ret.node  = bdd__ITE_(mgr, var.node, co_T.node, co_E.node);
     }
 
     /*
      * Insert the result, kill the safeframe, and return.
      */
     bdd_adhoccache_insert(mgr, f, c, /* v */ 0, ret.node);
-    mgr->heap.stats.adhoc_ops.returns.full++; 
+    mgr->heap.stats.adhoc_ops.returns.full++;
 
     bdd_safeframe_end(mgr);
     return (ret.node);

@@ -1,23 +1,12 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/util/cpu_time.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:53 $
- *
- */
-/* LINTLIBRARY */
-
 #include <stdio.h>
 #include "util.h"
 
-#ifdef IBM_WATC		/* IBM Waterloo-C compiler (same as bsd 4.2) */
+#ifdef IBM_WATC        /* IBM Waterloo-C compiler (same as bsd 4.2) */
 #define void int
 #define BSD_SIS
 #endif
 
-#ifdef __hpux		/* HPUX/C compiler -- times() w/system-dependent clk */
+#ifdef __hpux        /* HPUX/C compiler -- times() w/system-dependent clk */
 #undef BSD_SIS
 
 /* The following code for HPUX is based on a man page that claims POSIX  */
@@ -31,7 +20,7 @@
 #include <unistd.h>
 #endif
 
-#ifdef vms		/* VAX/C compiler -- times() with 100 HZ clock */
+#ifdef vms        /* VAX/C compiler -- times() with 100 HZ clock */
 #define UNIX100
 #endif
 
@@ -57,14 +46,11 @@
 #endif
 
 
-
 /*
  *   util_cpu_time -- return a long which represents the elapsed processor
  *   time in milliseconds since some constant reference
  */
-long 
-util_cpu_time()
-{
+long util_cpu_time() {
     long t = 0;
 
 #ifdef BSD_SIS
@@ -79,13 +65,13 @@ util_cpu_time()
     t = ltime * 1000;
 #endif
 
-#ifdef UNIX50			/* times() with 50 Hz resolution */
+#ifdef UNIX50            /* times() with 50 Hz resolution */
     struct tms buffer;
     times(&buffer);
     t = buffer.tms_utime * 20;
 #endif
 
-#ifdef UNIX60			/* times() with 60 Hz resolution */
+#ifdef UNIX60            /* times() with 60 Hz resolution */
     struct tms buffer;
     times(&buffer);
     t = buffer.tms_utime * 16.6667;
@@ -104,10 +90,10 @@ util_cpu_time()
     nticks = sysconf(_SC_CLK_TCK);
     times(&buffer);
     t = buffer.tms_utime * (1000.0/nticks);
-    
+
 #endif
 
-#ifdef vms			/* VAX/C compiler - times() with 100 HZ clock */
+#ifdef vms            /* VAX/C compiler - times() with 100 HZ clock */
     struct {int p1, p2, p3, p4;} buffer;
     static long ref_time;
     times(&buffer);

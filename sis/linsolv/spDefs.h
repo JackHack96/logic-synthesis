@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/linsolv/spDefs.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:04 $
- *
- */
+
 /*
  *  DATA STRUCTURE AND MACRO DEFINITIONS for Sparse.
  *
@@ -104,7 +96,7 @@
 
 
 
-
+
 /*
  *   MACRO DEFINITIONS
  *
@@ -140,8 +132,8 @@
 
 /* Macro commands */
 /* Macro functions that return the maximum or minimum independent of type. */
-#define  MAX(a,b)           ((a) > (b) ? (a) : (b))
-#define  MIN(a,b)           ((a) < (b) ? (a) : (b))
+#define  MAX(a, b)           ((a) > (b) ? (a) : (b))
+#define  MIN(a, b)           ((a) < (b) ? (a) : (b))
 
 /* Macro function that returns the absolute value of a floating point number. */
 #define  ABS(a)             ((a) < 0.0 ? -(a) : (a))
@@ -160,19 +152,19 @@
 #endif
 
 /* Complex assignment statements. */
-#define  CMPLX_ASSIGN(to,from)  \
+#define  CMPLX_ASSIGN(to, from)  \
 {   (to).Real = (from).Real;    \
     (to).Imag = (from).Imag;    \
 }
-#define  CMPLX_CONJ_ASSIGN(to,from)     \
+#define  CMPLX_CONJ_ASSIGN(to, from)     \
 {   (to).Real = (from).Real;            \
     (to).Imag = -(from).Imag;           \
 }
-#define  CMPLX_NEGATE_ASSIGN(to,from)   \
+#define  CMPLX_NEGATE_ASSIGN(to, from)   \
 {   (to).Real = -(from).Real;           \
     (to).Imag = -(from).Imag;           \
 }
-#define  CMPLX_CONJ_NEGATE_ASSIGN(to,from)      \
+#define  CMPLX_CONJ_NEGATE_ASSIGN(to, from)      \
 {   (to).Real = -(from).Real;                   \
     (to).Imag = (from).Imag;                    \
 }
@@ -192,43 +184,43 @@
 #define  CMPLX_2_NORM(a)        (sqrt((a).Real*(a).Real + (a).Imag*(a).Imag))
 
 /* Macro function that performs complex addition. */
-#define  CMPLX_ADD(to,from_a,from_b)            \
+#define  CMPLX_ADD(to, from_a, from_b)            \
 {   (to).Real = (from_a).Real + (from_b).Real;  \
     (to).Imag = (from_a).Imag + (from_b).Imag;  \
 }
 
 /* Macro function that performs complex subtraction. */
-#define  CMPLX_SUBT(to,from_a,from_b)           \
+#define  CMPLX_SUBT(to, from_a, from_b)           \
 {   (to).Real = (from_a).Real - (from_b).Real;  \
     (to).Imag = (from_a).Imag - (from_b).Imag;  \
 }
 
 /* Macro function that is equivalent to += operator for complex numbers. */
-#define  CMPLX_ADD_ASSIGN(to,from)      \
+#define  CMPLX_ADD_ASSIGN(to, from)      \
 {   (to).Real += (from).Real;           \
     (to).Imag += (from).Imag;           \
 }
 
 /* Macro function that is equivalent to -= operator for complex numbers. */
-#define  CMPLX_SUBT_ASSIGN(to,from)     \
+#define  CMPLX_SUBT_ASSIGN(to, from)     \
 {   (to).Real -= (from).Real;           \
     (to).Imag -= (from).Imag;           \
 }
 
 /* Macro function that multiplies a complex number by a scalar. */
-#define  SCLR_MULT(to,sclr,cmplx)       \
+#define  SCLR_MULT(to, sclr, cmplx)       \
 {   (to).Real = (sclr) * (cmplx).Real;  \
     (to).Imag = (sclr) * (cmplx).Imag;  \
 }
 
 /* Macro function that multiply-assigns a complex number by a scalar. */
-#define  SCLR_MULT_ASSIGN(to,sclr)      \
+#define  SCLR_MULT_ASSIGN(to, sclr)      \
 {   (to).Real *= (sclr);                \
     (to).Imag *= (sclr);                \
 }
 
 /* Macro function that multiplies two complex numbers. */
-#define  CMPLX_MULT(to,from_a,from_b)           \
+#define  CMPLX_MULT(to, from_a, from_b)           \
 {   (to).Real = (from_a).Real * (from_b).Real - \
                 (from_a).Imag * (from_b).Imag;  \
     (to).Imag = (from_a).Real * (from_b).Imag + \
@@ -236,7 +228,7 @@
 }
 
 /* Macro function that implements to *= from for complex numbers. */
-#define  CMPLX_MULT_ASSIGN(to,from)             \
+#define  CMPLX_MULT_ASSIGN(to, from)             \
 {   RealNumber to_real_ = (to).Real;            \
     (to).Real = to_real_ * (from).Real -        \
                 (to).Imag * (from).Imag;        \
@@ -246,7 +238,7 @@
 
 /* Macro function that multiplies two complex numbers, the first of which is
  * conjugated. */
-#define  CMPLX_CONJ_MULT(to,from_a,from_b)      \
+#define  CMPLX_CONJ_MULT(to, from_a, from_b)      \
 {   (to).Real = (from_a).Real * (from_b).Real + \
                 (from_a).Imag * (from_b).Imag;  \
     (to).Imag = (from_a).Real * (from_b).Imag - \
@@ -255,7 +247,7 @@
 
 /* Macro function that multiplies two complex numbers and then adds them
  * to another. to = add + mult_a * mult_b */
-#define  CMPLX_MULT_ADD(to,mult_a,mult_b,add)                   \
+#define  CMPLX_MULT_ADD(to, mult_a, mult_b, add)                   \
 {   (to).Real = (mult_a).Real * (mult_b).Real -                 \
                 (mult_a).Imag * (mult_b).Imag + (add).Real;     \
     (to).Imag = (mult_a).Real * (mult_b).Imag +                 \
@@ -264,7 +256,7 @@
 
 /* Macro function that subtracts the product of two complex numbers from
  * another.  to = subt - mult_a * mult_b */
-#define  CMPLX_MULT_SUBT(to,mult_a,mult_b,subt)                 \
+#define  CMPLX_MULT_SUBT(to, mult_a, mult_b, subt)                 \
 {   (to).Real = (subt).Real - (mult_a).Real * (mult_b).Real +   \
                               (mult_a).Imag * (mult_b).Imag;    \
     (to).Imag = (subt).Imag - (mult_a).Real * (mult_b).Imag -   \
@@ -274,7 +266,7 @@
 /* Macro function that multiplies two complex numbers and then adds them
  * to another. to = add + mult_a* * mult_b where mult_a* represents mult_a
  * conjugate. */
-#define  CMPLX_CONJ_MULT_ADD(to,mult_a,mult_b,add)              \
+#define  CMPLX_CONJ_MULT_ADD(to, mult_a, mult_b, add)              \
 {   (to).Real = (mult_a).Real * (mult_b).Real +                 \
                 (mult_a).Imag * (mult_b).Imag + (add).Real;     \
     (to).Imag = (mult_a).Real * (mult_b).Imag -                 \
@@ -283,7 +275,7 @@
 
 /* Macro function that multiplies two complex numbers and then adds them
  * to another. to += mult_a * mult_b */
-#define  CMPLX_MULT_ADD_ASSIGN(to,from_a,from_b)        \
+#define  CMPLX_MULT_ADD_ASSIGN(to, from_a, from_b)        \
 {   (to).Real += (from_a).Real * (from_b).Real -        \
                  (from_a).Imag * (from_b).Imag;         \
     (to).Imag += (from_a).Real * (from_b).Imag +        \
@@ -292,7 +284,7 @@
 
 /* Macro function that multiplies two complex numbers and then subtracts them
  * from another. */
-#define  CMPLX_MULT_SUBT_ASSIGN(to,from_a,from_b)       \
+#define  CMPLX_MULT_SUBT_ASSIGN(to, from_a, from_b)       \
 {   (to).Real -= (from_a).Real * (from_b).Real -        \
                  (from_a).Imag * (from_b).Imag;         \
     (to).Imag -= (from_a).Real * (from_b).Imag +        \
@@ -302,7 +294,7 @@
 /* Macro function that multiplies two complex numbers and then adds them
  * to the destination. to += from_a* * from_b where from_a* represents from_a
  * conjugate. */
-#define  CMPLX_CONJ_MULT_ADD_ASSIGN(to,from_a,from_b)   \
+#define  CMPLX_CONJ_MULT_ADD_ASSIGN(to, from_a, from_b)   \
 {   (to).Real += (from_a).Real * (from_b).Real +        \
                  (from_a).Imag * (from_b).Imag;         \
     (to).Imag += (from_a).Real * (from_b).Imag -        \
@@ -312,7 +304,7 @@
 /* Macro function that multiplies two complex numbers and then subtracts them
  * from the destination. to -= from_a* * from_b where from_a* represents from_a
  * conjugate. */
-#define  CMPLX_CONJ_MULT_SUBT_ASSIGN(to,from_a,from_b)  \
+#define  CMPLX_CONJ_MULT_SUBT_ASSIGN(to, from_a, from_b)  \
 {   (to).Real -= (from_a).Real * (from_b).Real +        \
                  (from_a).Imag * (from_b).Imag;         \
     (to).Imag -= (from_a).Real * (from_b).Imag -        \
@@ -324,7 +316,7 @@
  */
 
 /* Complex division:  to = num / den */
-#define CMPLX_DIV(to,num,den)                                           \
+#define CMPLX_DIV(to, num, den)                                           \
 {   RealNumber  r_, s_;                                                 \
     if (((den).Real >= (den).Imag AND (den).Real > -(den).Imag) OR      \
         ((den).Real < (den).Imag AND (den).Real <= -(den).Imag))        \
@@ -342,7 +334,7 @@
 }
 
 /* Complex division and assignment:  num /= den */
-#define CMPLX_DIV_ASSIGN(num,den)                                       \
+#define CMPLX_DIV_ASSIGN(num, den)                                       \
 {   RealNumber  r_, s_, t_;                                             \
     if (((den).Real >= (den).Imag AND (den).Real > -(den).Imag) OR      \
         ((den).Real < (den).Imag AND (den).Real <= -(den).Imag))        \
@@ -362,7 +354,7 @@
 }
 
 /* Complex reciprocation:  to = 1.0 / den */
-#define CMPLX_RECIPROCAL(to,den)                                        \
+#define CMPLX_RECIPROCAL(to, den)                                        \
 {   RealNumber  r_;                                                     \
     if (((den).Real >= (den).Imag AND (den).Real > -(den).Imag) OR      \
         ((den).Real < (den).Imag AND (den).Real <= -(den).Imag))        \
@@ -429,31 +421,31 @@
 #endif
 
 
-
-
-
-
 /*
  * MEMORY ALLOCATION
  */
 
 extern char *malloc(), *calloc(), *realloc();
+
 #ifdef ultrix
-    extern void free();
-    extern void abort();
+extern void free();
+extern void abort();
 #else
-    extern free();
-    extern abort();
+
+extern free();
+
+extern abort();
+
 #endif
 
-#define ALLOC(type,number)  ((type *)malloc((unsigned)(sizeof(type)*(number))))
-#define REALLOC(ptr,type,number)  \
+#define ALLOC(type, number)  ((type *)malloc((unsigned)(sizeof(type)*(number))))
+#define REALLOC(ptr, type, number)  \
            ptr = (type *)realloc((char *)ptr,(unsigned)(sizeof(type)*(number)))
 #define FREE(ptr) { if ((ptr) != NULL) free((char *)(ptr)); (ptr) = NULL; }
 
 
 /* Calloc that properly handles allocating a cleared vector. */
-#define CALLOC(ptr,type,number)                         \
+#define CALLOC(ptr, type, number)                         \
 {   int i; ptr = ALLOC(type, number);                   \
     if (ptr != (type *)NULL)                            \
         for(i=(number)-1;i>=0; i--) ptr[i] = (type) 0;  \
@@ -464,14 +456,14 @@ extern char *malloc(), *calloc(), *realloc();
 
 
 
-
+
 /*
  *  REAL NUMBER
  */
 
 /* Begin `RealNumber'. */
 
-typedef  spREAL  RealNumber, *RealVector;
+typedef spREAL RealNumber, *RealVector;
 
 
 
@@ -479,7 +471,7 @@ typedef  spREAL  RealNumber, *RealVector;
 
 
 
-
+
 /*
  *  COMPLEX NUMBER DATA STRUCTURE
  *
@@ -494,10 +486,10 @@ typedef  spREAL  RealNumber, *RealVector;
 
 /* Begin `ComplexNumber'. */
 
-typedef  struct
-{   RealNumber  Real;
-    RealNumber  Imag;
-} ComplexNumber, *ComplexVector;
+typedef struct {
+    RealNumber Real;
+    RealNumber Imag;
+}              ComplexNumber, *ComplexVector;
 
 
 
@@ -505,7 +497,7 @@ typedef  struct
 
 
 
-
+
 /*
  *  MATRIX ELEMENT DATA STRUCTURE
  *
@@ -551,22 +543,22 @@ typedef  struct
 
 /* Begin `MatrixElement'. */
 
-struct  MatrixElement
-{   RealNumber   Real;
+struct MatrixElement {
+    RealNumber Real;
 #if spCOMPLEX
     RealNumber   Imag;
 #endif
-    int          Row;
-    int          Col;
-    struct MatrixElement  *NextInRow;
-    struct MatrixElement  *NextInCol;
+    int                  Row;
+    int                  Col;
+    struct MatrixElement *NextInRow;
+    struct MatrixElement *NextInCol;
 #if INITIALIZE
     char        *pInitInfo;
 #endif
 };
 
-typedef  struct MatrixElement  *ElementPtr;
-typedef  ElementPtr  *ArrayOfElementPtrs;
+typedef struct MatrixElement *ElementPtr;
+typedef ElementPtr           *ArrayOfElementPtrs;
 
 
 
@@ -574,7 +566,7 @@ typedef  ElementPtr  *ArrayOfElementPtrs;
 
 
 
-
+
 /*
  *  ALLOCATION DATA STRUCTURE
  *
@@ -592,12 +584,12 @@ typedef  ElementPtr  *ArrayOfElementPtrs;
  */
 
 /* Begin `AllocationRecord'. */
-struct AllocationRecord
-{   char  *AllocatedPtr;
-    struct  AllocationRecord  *NextRecord;
+struct AllocationRecord {
+    char                    *AllocatedPtr;
+    struct AllocationRecord *NextRecord;
 };
 
-typedef  struct  AllocationRecord  *AllocationListPtr;
+typedef struct AllocationRecord *AllocationListPtr;
 
 
 
@@ -606,7 +598,7 @@ typedef  struct  AllocationRecord  *AllocationListPtr;
 
 
 
-
+
 /*
  *  FILL-IN LIST DATA STRUCTURE
  *
@@ -627,10 +619,10 @@ typedef  struct  AllocationRecord  *AllocationListPtr;
  */
 
 /* Begin `FillinListNodeStruct'. */
-struct FillinListNodeStruct
-{   ElementPtr  pFillinList;
-    int         NumberOfFillinsInList;
-    struct      FillinListNodeStruct  *Next;
+struct FillinListNodeStruct {
+    ElementPtr                  pFillinList;
+    int                         NumberOfFillinsInList;
+    struct FillinListNodeStruct *Next;
 };
 
 
@@ -641,7 +633,7 @@ struct FillinListNodeStruct
 
 
 
-
+
 /*
  *  MATRIX FRAME DATA STRUCTURE
  *
@@ -831,56 +823,56 @@ struct FillinListNodeStruct
  */
 
 /* Begin `MatrixFrame'. */
-struct  MatrixFrame
-{   RealNumber                   AbsThreshold;
-    int                          AllocatedSize;
-    int                          AllocatedExtSize;
-    BOOLEAN                      Complex;
-    int                          CurrentSize;
-    ArrayOfElementPtrs           Diag;
-    BOOLEAN                     *DoCmplxDirect;
-    BOOLEAN                     *DoRealDirect;
-    int                          Elements;
-    int                          Error;
-    int                          ExtSize;
-    int                         *ExtToIntColMap;
-    int                         *ExtToIntRowMap;
-    BOOLEAN                      Factored;
-    int                          Fillins;
-    ArrayOfElementPtrs           FirstInCol;
-    ArrayOfElementPtrs           FirstInRow;
-    unsigned long                ID;
-    RealVector                   Intermediate;
-    BOOLEAN                      InternalVectorsAllocated;
-    int                         *IntToExtColMap;
-    int                         *IntToExtRowMap;
-    int                         *MarkowitzRow;
-    int                         *MarkowitzCol;
-    long                        *MarkowitzProd;
-    int                          MaxRowCountInLowerTri;
-    BOOLEAN                      NeedsOrdering;
-    BOOLEAN                      NumberOfInterchangesIsOdd;
-    BOOLEAN                      Partitioned;
-    int                          PivotsOriginalCol;
-    int                          PivotsOriginalRow;
-    char                         PivotSelectionMethod;
-    BOOLEAN                      PreviousMatrixWasComplex;
-    RealNumber                   RelThreshold;
-    BOOLEAN                      Reordered;
-    BOOLEAN                      RowsLinked;
-    int                          SingularCol;
-    int                          SingularRow;
-    int                          Singletons;
-    int                          Size;
-    struct MatrixElement         TrashCan;
+struct MatrixFrame {
+    RealNumber           AbsThreshold;
+    int                  AllocatedSize;
+    int                  AllocatedExtSize;
+    BOOLEAN Complex;
+    int                  CurrentSize;
+    ArrayOfElementPtrs   Diag;
+    BOOLEAN *DoCmplxDirect;
+    BOOLEAN *DoRealDirect;
+    int                  Elements;
+    int                  Error;
+    int                  ExtSize;
+    int                  *ExtToIntColMap;
+    int                  *ExtToIntRowMap;
+    BOOLEAN Factored;
+    int                  Fillins;
+    ArrayOfElementPtrs   FirstInCol;
+    ArrayOfElementPtrs   FirstInRow;
+    unsigned long        ID;
+    RealVector           Intermediate;
+    BOOLEAN InternalVectorsAllocated;
+    int                  *IntToExtColMap;
+    int                  *IntToExtRowMap;
+    int                  *MarkowitzRow;
+    int                  *MarkowitzCol;
+    long                 *MarkowitzProd;
+    int                  MaxRowCountInLowerTri;
+    BOOLEAN NeedsOrdering;
+    BOOLEAN NumberOfInterchangesIsOdd;
+    BOOLEAN Partitioned;
+    int                  PivotsOriginalCol;
+    int                  PivotsOriginalRow;
+    char                 PivotSelectionMethod;
+    BOOLEAN PreviousMatrixWasComplex;
+    RealNumber           RelThreshold;
+    BOOLEAN Reordered;
+    BOOLEAN RowsLinked;
+    int                  SingularCol;
+    int                  SingularRow;
+    int                  Singletons;
+    int                  Size;
+    struct MatrixElement TrashCan;
 
-    AllocationListPtr            TopOfAllocationList;
-    int                          RecordsRemaining;
-    ElementPtr                   NextAvailElement;
-    int                          ElementsRemaining;
-    ElementPtr                   NextAvailFillin;
-    int                          FillinsRemaining;
+    AllocationListPtr           TopOfAllocationList;
+    int                         RecordsRemaining;
+    ElementPtr                  NextAvailElement;
+    int                         ElementsRemaining;
+    ElementPtr                  NextAvailFillin;
+    int                         FillinsRemaining;
     struct FillinListNodeStruct *FirstFillinListNode;
     struct FillinListNodeStruct *LastFillinListNode;
 };
-typedef  struct MatrixFrame  *MatrixPtr;
+typedef struct MatrixFrame      *MatrixPtr;

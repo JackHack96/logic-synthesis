@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/nova/exact_code.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:09 $
- *
- */
+
 /******************************************************************************
 *                       Exact encoding algorithm                              *
 *                                                                             *
@@ -20,65 +12,69 @@ int net_num;
 
 {
 
-    int dim_cube,least_cube;
-    BOOLEAN code_found,outer_loop,init_backtrack_up(),backtrack_up(),
-            backtrack_down();
+int dim_cube, least_cube;
+BOOLEAN code_found, outer_loop, init_backtrack_up(), backtrack_up(),
+        backtrack_down();
 
-    if (VERBOSE) { printf("\n\nExact_code\n"); printf("==========\n"); }
+if (VERBOSE) { printf("\n\nExact_code\n"); printf("==========\n"); }
 
-    faces_alloc(net_num);
+faces_alloc(net_num);
 
-    code_found = FALSE;
-    least_cube = least_dimcube(net_num);
-    if (VERBOSE) printf("least_cube = %d\n", least_cube);
+code_found = FALSE;
+least_cube = least_dimcube(net_num);
+if (VERBOSE) printf("least_cube = %d\n", least_cube);
 
-    /* decides the categories and bounds of the faces (func. of dim_cube) -
-       the dimension of the hypercube (it might be increased) is returned */
-    least_cube = faces_dim_set(least_cube);
+/* decides the categories and bounds of the faces (func. of dim_cube) -
+   the dimension of the hypercube (it might be increased) is returned */
+least_cube = faces_dim_set(least_cube);
 
-    for (dim_cube = least_cube; dim_cube <= net_num; dim_cube++) {
-        if (VERBOSE) printf("\nCURRENT dim_cube = %d\n", dim_cube);
+for (
+dim_cube = least_cube;
+dim_cube <=
+net_num;
+dim_cube++) {
+if (VERBOSE) printf("\nCURRENT dim_cube = %d\n", dim_cube);
 
-	/* finds a starting feasible configuration of the dimensions of faces */
-	outer_loop = init_backtrack_up();
+/* finds a starting feasible configuration of the dimensions of faces */
+outer_loop = init_backtrack_up();
 
-	while (code_found == FALSE && outer_loop == TRUE) {
+while (code_found == FALSE && outer_loop == TRUE) {
 
-	    /* finds an encoding (if any) for the current configuration */ 
-            code_found = backtrack_down(net_num,dim_cube);
+/* finds an encoding (if any) for the current configuration */
+code_found = backtrack_down(net_num, dim_cube);
 
-	    /*if no code was found sets a new feasible configuration (if any) */
-            if (code_found == FALSE) {
-                outer_loop = backtrack_up();
-            }
-
-	}
-
-        cube_summary();
-
-	if (code_found == TRUE) {
-	    if (VERBOSE) 
-                printf("\nA code was found for dim_cube = %d\n", dim_cube);
-	    break;
-        }
- 
-        /* maxdim of constraints of category 0 & 1 are updated because 
-           dim_cube is increased by 1 in the coming iteration         */
-        faces_maxdim_set(dim_cube + 1);
-
-    }
-
-    if (code_found == FALSE) {
-        /*something went wrong*/
-	if (VERBOSE) 
-           printf("SOMETHING WENT WRONG : no code found in the maximum cube\n");
-        exit(-1);
-    }
-
-    exact_summary();
+/*if no code was found sets a new feasible configuration (if any) */
+if (code_found == FALSE) {
+outer_loop = backtrack_up();
+}
 
 }
 
+cube_summary();
+
+if (code_found == TRUE) {
+if (VERBOSE)
+printf("\nA code was found for dim_cube = %d\n", dim_cube);
+break;
+}
+
+/* maxdim of constraints of category 0 & 1 are updated because
+   dim_cube is increased by 1 in the coming iteration         */
+faces_maxdim_set(dim_cube
++ 1);
+
+}
+
+if (code_found == FALSE) {
+/*something went wrong*/
+if (VERBOSE)
+printf("SOMETHING WENT WRONG : no code found in the maximum cube\n");
+exit(-1);
+}
+
+exact_summary();
+
+}
 
 
 /*******************************************************************************
@@ -90,47 +86,67 @@ int net_num;
 
 {
 
-    FACE *new_face;
-    CONSTRAINT_E *constrptr_e;
-    int i;
+FACE         *new_face;
+CONSTRAINT_E *constrptr_e;
+int          i;
 
-    /* total_work (global variable) counts the # of codes tried in overall 
-       by exact_code */
-    total_work = 0;
-    /* bktup_calls (global variable) counts the # of face configurations
-       tried in all */
-    bktup_calls = 1;
+/* total_work (global variable) counts the # of codes tried in overall
+   by exact_code */
+total_work  = 0;
+/* bktup_calls (global variable) counts the # of face configurations
+   tried in all */
+bktup_calls = 1;
 
-    /* set to true to start next_to_code on constraints of category 1 */
-    SEL_CAT1 = TRUE;
+/* set to true to start next_to_code on constraints of category 1 */
+SEL_CAT1 = TRUE;
 
-    /* it allocates the FACE data structure */
-    for (i = graph_depth-1; i >= 0; i--) {
-	for (constrptr_e = graph_levels[i]; constrptr_e != (CONSTRAINT_E *) 0;
-				         constrptr_e = constrptr_e->next ) {
-            if ((new_face = (FACE *) calloc((unsigned)1,sizeof(FACE))) == ( FACE *) 0) {
-                fprintf(stderr,"Insufficient memory for face in faces_alloc");
-                exit(-1);
-            }
-	    constrptr_e->face_ptr = new_face;
+/* it allocates the FACE data structure */
+for (
+i = graph_depth - 1;
+i >= 0; i--) {
+for (
+constrptr_e = graph_levels[i];
+constrptr_e != (CONSTRAINT_E *) 0;
+constrptr_e = constrptr_e->next
+) {
+if ((
+new_face = (FACE *) calloc((unsigned) 1, sizeof(FACE))
+) == ( FACE *) 0) {
+fprintf(stderr,
+"Insufficient memory for face in faces_alloc");
+exit(-1);
+}
+constrptr_e->
+face_ptr = new_face;
 
-            if ((constrptr_e->face_ptr->seed_value = (char *) calloc((unsigned)net_num+1,sizeof(char))) == ( char *) 0) {
-                fprintf(stderr,"Insufficient memory for seed_value in faces_alloc");
-                exit(-1);
-            }
-            if ((constrptr_e->face_ptr->first_value = (char *) calloc((unsigned)net_num+1,sizeof(char))) == ( char *) 0) {
-                fprintf(stderr,"Insufficient memory for first_value in faces_alloc");
-                exit(-1);
-            }
-            if ((constrptr_e->face_ptr->cur_value = (char *) calloc((unsigned)net_num+1,sizeof(char))) == ( char *) 0) {
-                fprintf(stderr,"Insufficient memory for cur_value in faces_alloc");
-                exit(-1);
-            }
+if ((constrptr_e->face_ptr->
+seed_value = (char *) calloc((unsigned) net_num + 1, sizeof(char))
+) == ( char *) 0) {
+fprintf(stderr,
+"Insufficient memory for seed_value in faces_alloc");
+exit(-1);
+}
+if ((constrptr_e->face_ptr->
+first_value = (char *) calloc((unsigned) net_num + 1, sizeof(char))
+) == ( char *) 0) {
+fprintf(stderr,
+"Insufficient memory for first_value in faces_alloc");
+exit(-1);
+}
+if ((constrptr_e->face_ptr->
+cur_value = (char *) calloc((unsigned) net_num + 1, sizeof(char))
+) == ( char *) 0) {
+fprintf(stderr,
+"Insufficient memory for cur_value in faces_alloc");
+exit(-1);
+}
 
-	    constrptr_e->face_ptr->code_valid = FALSE;
-	    constrptr_e->face_ptr->tried_codes = 1;
-        }
-    }
+constrptr_e->face_ptr->
+code_valid = FALSE;
+constrptr_e->face_ptr->
+tried_codes = 1;
+}
+}
 
 }
 
@@ -147,13 +163,13 @@ int net_num;
 *******************************************************************************/
 
 int faces_dim_set(dim_cube)
-int dim_cube;
+        int dim_cube;
 
 {
 
     FATHERS_LINK *ft_scanner;
-    CONSTRAINT_E *constrptr,*supremum_ptr;
-    int i,fathers_num,new_dimcube;
+    CONSTRAINT_E *constrptr, *supremum_ptr;
+    int          i, fathers_num, new_dimcube;
 
     /* cube_work (global variable) counts the # of codes tried in the current 
        cube */
@@ -174,82 +190,88 @@ int dim_cube;
     if (VERBOSE) printf("\nFaces_dim_set - Part A :\n");
 
     /* takes care of the complete constraint */
-    supremum_ptr = graph_levels[graph_depth-1];
+    supremum_ptr = graph_levels[graph_depth - 1];
     supremum_ptr->face_ptr->category = 0;
-    if (VERBOSE) 
-        printf("constraint %s is of cat. %d ",supremum_ptr->relation,
-				              supremum_ptr->face_ptr->category);
+    if (VERBOSE)
+        printf("constraint %s is of cat. %d ", supremum_ptr->relation,
+               supremum_ptr->face_ptr->category);
     supremum_ptr->face_ptr->mindim_face = dim_cube;
     supremum_ptr->face_ptr->maxdim_face = dim_cube;
     supremum_ptr->face_ptr->curdim_face = dim_cube;
-    if (VERBOSE) 
+    if (VERBOSE)
         printf("curdim_face = %d\n", supremum_ptr->face_ptr->curdim_face);
 
-    for (i = graph_depth-2; i >= 0; i--) {
-	for (constrptr = graph_levels[i]; constrptr != (CONSTRAINT_E *) 0;
-				                 constrptr = constrptr->next ) {
+    for (i = graph_depth - 2; i >= 0; i--) {
+        for (constrptr = graph_levels[i]; constrptr != (CONSTRAINT_E *) 0;
+             constrptr = constrptr->next) {
 
-	    fathers_num = 0;
-            for (ft_scanner = constrptr->up_ptr; 
-	      ft_scanner != (FATHERS_LINK *) 0; ft_scanner = ft_scanner->next) {
-	        fathers_num++;
-	    }
+            fathers_num     = 0;
+            for (ft_scanner = constrptr->up_ptr;
+                 ft_scanner != (FATHERS_LINK *) 0; ft_scanner = ft_scanner->next) {
+                fathers_num++;
+            }
 
             /* if the constraint has only one father */
-	    if (fathers_num == 1) {
-	        /* if the father is the complete constraint */
-	        if (constrptr->up_ptr->constraint_e == supremum_ptr) {
+            if (fathers_num == 1) {
+                /* if the father is the complete constraint */
+                if (constrptr->up_ptr->constraint_e == supremum_ptr) {
                     constrptr->face_ptr->category = 1;
-		    if (VERBOSE) 
-		      printf("constraint %s is of cat. %d ",constrptr->relation,
-				                 constrptr->face_ptr->category);
+                    if (VERBOSE)
+                        printf("constraint %s is of cat. %d ", constrptr->relation,
+                               constrptr->face_ptr->category);
                     if (constrptr->card == 1) {
                         /* the dimension of faces of constraints of category 1 
                            and cardinality 1 is nailed down to 0 */
-                        constrptr->face_ptr->mindim_face = 
-						 mylog2(minpow2(constrptr->card));
-		        if (VERBOSE) printf("mindim_face = %d ",
-				              constrptr->face_ptr->mindim_face);
-                        constrptr->face_ptr->maxdim_face = 
-                                               constrptr->face_ptr->mindim_face;
-		        if (VERBOSE) printf("maxdim_face = %d \n",
-				              constrptr->face_ptr->maxdim_face);
+                        constrptr->face_ptr->mindim_face =
+                                mylog2(minpow2(constrptr->card));
+                        if (VERBOSE)
+                            printf("mindim_face = %d ",
+                                   constrptr->face_ptr->mindim_face);
+                        constrptr->face_ptr->maxdim_face =
+                                constrptr->face_ptr->mindim_face;
+                        if (VERBOSE)
+                            printf("maxdim_face = %d \n",
+                                   constrptr->face_ptr->maxdim_face);
                     } else {
-                        constrptr->face_ptr->mindim_face = 
-						 mylog2(minpow2(constrptr->card));
-		        if (VERBOSE) printf("mindim_face = %d ",
-				              constrptr->face_ptr->mindim_face);
+                        constrptr->face_ptr->mindim_face =
+                                mylog2(minpow2(constrptr->card));
+                        if (VERBOSE)
+                            printf("mindim_face = %d ",
+                                   constrptr->face_ptr->mindim_face);
                         constrptr->face_ptr->maxdim_face = dim_cube - 1;
-		        if (VERBOSE) printf("maxdim_face = %d \n",
-				              constrptr->face_ptr->maxdim_face);
+                        if (VERBOSE)
+                            printf("maxdim_face = %d \n",
+                                   constrptr->face_ptr->maxdim_face);
                     }
-	        } else {
+                } else {
                     constrptr->face_ptr->category = 3;
-		    if (VERBOSE) 
-		      printf("constraint %s is of cat. %d ",constrptr->relation,
-				                 constrptr->face_ptr->category);
-                    constrptr->face_ptr->mindim_face = 
-		         	 	         mylog2(minpow2(constrptr->card));
-                    constrptr->face_ptr->curdim_face = 
-                                               constrptr->face_ptr->mindim_face;
-		    if (VERBOSE) printf("mindim_face = %d\n",
-				              constrptr->face_ptr->mindim_face);
-	        }
-	    }
+                    if (VERBOSE)
+                        printf("constraint %s is of cat. %d ", constrptr->relation,
+                               constrptr->face_ptr->category);
+                    constrptr->face_ptr->mindim_face =
+                            mylog2(minpow2(constrptr->card));
+                    constrptr->face_ptr->curdim_face =
+                            constrptr->face_ptr->mindim_face;
+                    if (VERBOSE)
+                        printf("mindim_face = %d\n",
+                               constrptr->face_ptr->mindim_face);
+                }
+            }
 
             /* if the constraint has at least two fathers */
-	    if (fathers_num > 1) {
-                    constrptr->face_ptr->category = 2;
-		    if (VERBOSE) 
-		      printf("constraint %s is of cat. %d ",constrptr->relation,
-				                 constrptr->face_ptr->category);
-                    constrptr->face_ptr->mindim_face = 
-		         	 	         mylog2(minpow2(constrptr->card));
-                    constrptr->face_ptr->curdim_face = 
-                                               constrptr->face_ptr->mindim_face;
-		    if (VERBOSE) printf("mindim_face = %d\n",
-				              constrptr->face_ptr->mindim_face);
-	    }
+            if (fathers_num > 1) {
+                constrptr->face_ptr->category = 2;
+                if (VERBOSE)
+                    printf("constraint %s is of cat. %d ", constrptr->relation,
+                           constrptr->face_ptr->category);
+                constrptr->face_ptr->mindim_face =
+                        mylog2(minpow2(constrptr->card));
+                constrptr->face_ptr->curdim_face =
+                        constrptr->face_ptr->mindim_face;
+                if (VERBOSE)
+                    printf("mindim_face = %d\n",
+                           constrptr->face_ptr->mindim_face);
+            }
 
         }
     }
@@ -266,8 +288,8 @@ int dim_cube;
        this plays the role of another necessary condition (besides those
        implemented in least_dimcube) that needs to be satisfied by the
        hypercube dimension to allow a feasible embedding               */
-    new_dimcube = max_tree(graph_levels[graph_depth-1]);
-    
+    new_dimcube = max_tree(graph_levels[graph_depth - 1]);
+
     /* FORZATURA DELLA DIMENSIONE PER PROVA */
     /*new_dimcube = 6;*/
     /* FORZATURA DELLA DIMENSIONE PER PROVA - FINE */
@@ -329,7 +351,7 @@ int dim_cube;
     show_dimfaces();*/
     /* FORZATURA DELLE FACCE PER PROVA -  FINE */
 
-    return(new_dimcube);
+    return (new_dimcube);
 
 }
 
@@ -347,53 +369,52 @@ int dim_cube;
 *******************************************************************************/
 
 int max_tree(root_ptr)
-CONSTRAINT_E *root_ptr;
+        CONSTRAINT_E *root_ptr;
 
 {
 
     SONS_LINK *son_scanner;
-    int local_max;
-    int parz_max;
+    int       local_max;
+    int       parz_max;
 
     /*printf("max_tree called by %s\n", root_ptr->relation);*/
 
     if (root_ptr->down_ptr == (SONS_LINK *) 0) {
-      /*printf("max_tree evaluates to %d\n", root_ptr->face_ptr->mindim_face);*/
-       return(root_ptr->face_ptr->mindim_face);
+        /*printf("max_tree evaluates to %d\n", root_ptr->face_ptr->mindim_face);*/
+        return (root_ptr->face_ptr->mindim_face);
     } else {
-        local_max = -1;
+        local_max        = -1;
         for (son_scanner = root_ptr->down_ptr; son_scanner != (SONS_LINK *) 0;
-         	                             son_scanner = son_scanner->next ) {
-	     /* computes the max of max_tree of the sons of root_ptr */
-             parz_max = max_tree(son_scanner->constraint_e);
-             if (local_max < parz_max) {
-                 local_max = parz_max;
-             }
+             son_scanner = son_scanner->next) {
+            /* computes the max of max_tree of the sons of root_ptr */
+            parz_max = max_tree(son_scanner->constraint_e);
+            if (local_max < parz_max) {
+                local_max = parz_max;
+            }
         }
         /*printf("local_max = %d\n", local_max);*/
-	/* if mindim_face of root_ptr is bigger than the minimum dimension of
-	   the subgraph rooted here return mindim_face of root_ptr (i.e., it 
-	   can accomodate the subgraph rooted here),
-	   otherwise update mindim_face & curdim_face of face_ptr to the 
-	   minimum dimension of the subgraph + 1 and return it (i.e., it 
-	   needs a dimension larger by one to accomodate the subgraph rooted 
-	   here) */
-        if ( root_ptr->face_ptr->mindim_face > 
-                                      (local_max) ) {
+        /* if mindim_face of root_ptr is bigger than the minimum dimension of
+           the subgraph rooted here return mindim_face of root_ptr (i.e., it
+           can accomodate the subgraph rooted here),
+           otherwise update mindim_face & curdim_face of face_ptr to the
+           minimum dimension of the subgraph + 1 and return it (i.e., it
+           needs a dimension larger by one to accomodate the subgraph rooted
+           here) */
+        if (root_ptr->face_ptr->mindim_face >
+            (local_max)) {
             /*printf("max_tree evaluates to %d\n", 
 		                             root_ptr->face_ptr->mindim_face);*/
-            return(root_ptr->face_ptr->mindim_face);
+            return (root_ptr->face_ptr->mindim_face);
         } else {
-            root_ptr->face_ptr->mindim_face = 
-                                           local_max + 1;
-            root_ptr->face_ptr->curdim_face = 
-                                           local_max + 1;
+            root_ptr->face_ptr->mindim_face =
+                    local_max + 1;
+            root_ptr->face_ptr->curdim_face =
+                    local_max + 1;
             /*printf("max_tree evaluates to %d\n", local_max +1);*/
-            return(local_max + 1);
+            return (local_max + 1);
         }
     }
 }
-
 
 
 /*******************************************************************************
@@ -406,41 +427,49 @@ int dim_cube;
 
 {
 
-    CONSTRAINT_E *constrptr;
-    int i;
+CONSTRAINT_E *constrptr;
+int          i;
 
-    /* cube_work (global variable) counts the # of codes tried in the current 
-       cube */
-    cube_work = 0;
+/* cube_work (global variable) counts the # of codes tried in the current
+   cube */
+cube_work = 0;
 
-    /*printf("\nFace_maxdim_set results :\n");*/
+/*printf("\nFace_maxdim_set results :\n");*/
 
-    /* maxdim of constraints of category 0 & 1 are updated (only for constraints
-       of category 0 & 1 maxdim matters at the upper level) */
-    for (i = graph_depth-1; i >= 0; i--) {
-	for (constrptr = graph_levels[i]; constrptr != (CONSTRAINT_E *) 0;
-				                 constrptr = constrptr->next ) {
-            if (constrptr->face_ptr->category == 0) {
-	        /*printf("constraint %s is of cat. %d ",constrptr->relation,
-				               constrptr->face_ptr->category);*/
-                constrptr->face_ptr->mindim_face = dim_cube;
-                constrptr->face_ptr->maxdim_face = dim_cube;
-                constrptr->face_ptr->curdim_face = dim_cube;
-                /*printf("curdim_face = %d\n", 
-					    constrptr->face_ptr->curdim_face);*/
-            }
-            if (constrptr->face_ptr->category == 1 && constrptr->card != 1) {
-	        /*printf("constraint %s is of cat. %d ",constrptr->relation,
-				               constrptr->face_ptr->category);*/
-                constrptr->face_ptr->maxdim_face = dim_cube - 1;
-                /*printf("maxdim_face = %d \n", 
-					    constrptr->face_ptr->maxdim_face);*/
-            }
-        }
-    }
-
+/* maxdim of constraints of category 0 & 1 are updated (only for constraints
+   of category 0 & 1 maxdim matters at the upper level) */
+for (
+i = graph_depth - 1;
+i >= 0; i--) {
+for (
+constrptr = graph_levels[i];
+constrptr != (CONSTRAINT_E *) 0;
+constrptr = constrptr->next
+) {
+if (constrptr->face_ptr->category == 0) {
+/*printf("constraint %s is of cat. %d ",constrptr->relation,
+                   constrptr->face_ptr->category);*/
+constrptr->face_ptr->
+mindim_face = dim_cube;
+constrptr->face_ptr->
+maxdim_face = dim_cube;
+constrptr->face_ptr->
+curdim_face = dim_cube;
+/*printf("curdim_face = %d\n",
+        constrptr->face_ptr->curdim_face);*/
+}
+if (constrptr->face_ptr->category == 1 && constrptr->card != 1) {
+/*printf("constraint %s is of cat. %d ",constrptr->relation,
+                   constrptr->face_ptr->category);*/
+constrptr->face_ptr->
+maxdim_face = dim_cube - 1;
+/*printf("maxdim_face = %d \n",
+        constrptr->face_ptr->maxdim_face);*/
+}
+}
 }
 
+}
 
 
 /*******************************************************************************
@@ -449,9 +478,7 @@ int dim_cube;
 *  cube_work counts the # of codes tried in the current cube                   *
 *******************************************************************************/
 
-cube_summary()
-
-{
+cube_summary() {
 
     if (VERBOSE) {
         printf("\nCUBE_SUMMARY : \n");
@@ -461,7 +488,6 @@ cube_summary()
 }
 
 
-
 /*******************************************************************************
 *                      prints a summary of exact_code                          *
 *                                                                              *
@@ -469,9 +495,7 @@ cube_summary()
 *  total_work  counts the # of codes tried in overall by exact_code            *
 *******************************************************************************/
 
-exact_summary()
-
-{
+exact_summary() {
 
     if (VERBOSE) {
         printf("\nEXACT_SUMMARY : \n");

@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/astg/astg_contract.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:58 $
- *
- */
+
 /* -------------------------------------------------------------------------- *\
    contract.c -- net contraction for LSFCN STGs.
 
@@ -74,23 +66,23 @@ astg_vertex *te;
         astg_foreach_out_edge (p1,gen2,e2) {
             to = astg_head (e2);
             if (to->flag0) {
-		if (astg_debug_flag >= 2) {
-		    msg("%s fails 6.2a:",astg_v_name(p1));
-		    msg(" it's an input place for %s.\n",astg_v_name(to));
-		    msg("cycle includes: %s -> %s -> %s -> ...\n",
-			astg_v_name(te),astg_v_name(p1),astg_v_name(to));
-		}
+        if (astg_debug_flag >= 2) {
+            msg("%s fails 6.2a:",astg_v_name(p1));
+            msg(" it's an input place for %s.\n",astg_v_name(to));
+            msg("cycle includes: %s -> %s -> %s -> ...\n",
+            astg_v_name(te),astg_v_name(p1),astg_v_name(to));
+        }
                 return ASTG_FALSE;
             }
             astg_foreach_out_edge (to,gen3,e3) {
                 p2 = astg_head (e3);
                 if (p2->flag0) {
-		    if (astg_debug_flag >= 2) {
-			msg("%s fails 6.2b:",astg_v_name(p2));
-			msg(" it's an output place for %s.\n",astg_v_name(to));
-			msg("cycle is: %s -> %s -> %s -> %s ->...\n",
-			    astg_v_name(te),astg_v_name(p1),astg_v_name(to),astg_v_name(p2));
-		    }
+            if (astg_debug_flag >= 2) {
+            msg("%s fails 6.2b:",astg_v_name(p2));
+            msg(" it's an output place for %s.\n",astg_v_name(to));
+            msg("cycle is: %s -> %s -> %s -> %s ->...\n",
+                astg_v_name(te),astg_v_name(p1),astg_v_name(to),astg_v_name(p2));
+            }
                     return ASTG_FALSE;
                 }
             }
@@ -108,11 +100,11 @@ astg_vertex *te;
     astg_generator gen;
 
     astg_foreach_in_edge (te,gen,e) {
-	place = astg_tail (e);
+    place = astg_tail (e);
         if (astg_out_degree (place) > 1) {
-	    dbg(2,msg("6.8a1 violated by %s\n",astg_v_name(place)));
-	    return ASTG_FALSE;
-	}
+        dbg(2,msg("6.8a1 violated by %s\n",astg_v_name(place)));
+        return ASTG_FALSE;
+    }
     }
     return ASTG_TRUE;
 }
@@ -125,11 +117,11 @@ astg_vertex *te;
     astg_generator gen;
 
     astg_foreach_out_edge (te,gen,e) {
-	place = astg_head (e);
+    place = astg_head (e);
         if (astg_in_degree (place) > 1) {
-	    dbg(2,msg("6.8a2 violated by %s\n",astg_v_name(place)));
-	    return ASTG_FALSE;
-	}
+        dbg(2,msg("6.8a2 violated by %s\n",astg_v_name(place)));
+        return ASTG_FALSE;
+    }
     }
     return ASTG_TRUE;
 }
@@ -196,11 +188,11 @@ astg_vertex *te;
                     /* Check for overlap with cycles of ti */
                     overlap = astg_simple_cycles (stg,to,check_flag1,ASTG_NO_DATA,ASTG_ALL);
                     if (overlap == 0) {
-			dbg(2,msg("6.8b violated for %s:",astg_v_name(te)));
-			dbg(2,msg(" %s and",astg_v_name(ti)));
-			dbg(2,msg(" %s would become sequential.\n",astg_v_name(to)));
-			return ASTG_FALSE;
-		    }
+            dbg(2,msg("6.8b violated for %s:",astg_v_name(te)));
+            dbg(2,msg(" %s and",astg_v_name(ti)));
+            dbg(2,msg(" %s would become sequential.\n",astg_v_name(to)));
+            return ASTG_FALSE;
+            }
                 }
             }
         }
@@ -229,9 +221,9 @@ astg_bool    keep_fc;		/*i maintain free choice property?	*/
     astg_bool can_do_it;
 
     if (keep_fc)
-	can_do_it = check_62 (stg,te) && check_68 (stg,te);
+    can_do_it = check_62 (stg,te) && check_68 (stg,te);
     else
-	can_do_it = check_68 (stg,te);
+    can_do_it = check_68 (stg,te);
 
     return can_do_it;
 }
@@ -246,9 +238,9 @@ astg_bool   keep_fc;
     astg_trans *sv;
 
     if (can_do_it) {
-	astg_foreach_sig_trans (sig_p,gen,sv) {
-	    can_do_it &= can_contract_trans (stg,sv,keep_fc);
-	}
+    astg_foreach_sig_trans (sig_p,gen,sv) {
+        can_do_it &= can_contract_trans (stg,sv,keep_fc);
+    }
     }
 
     dbg(2,if (!can_do_it) msg("...cannot contract signal %s.\n",sig_p->name));
@@ -267,26 +259,26 @@ astg_vertex *p;
 
     /* Only can test this for single fanin/fanout places. */
     if (astg_in_degree(p) == 1 && astg_out_degree(p) == 1) {
-	in_trans = p->in_edges->tail;
-	out_trans = p->out_edges->head;
+    in_trans = p->in_edges->tail;
+    out_trans = p->out_edges->head;
 
-	/* First check the pure part. */
-	if (in_trans == out_trans) {
-	    dbg(3,printf("not pure: ")); dbg(3,print_place_info(p));
-	    return ASTG_FALSE;
-	}
+    /* First check the pure part. */
+    if (in_trans == out_trans) {
+        dbg(3,printf("not pure: ")); dbg(3,print_place_info(p));
+        return ASTG_FALSE;
+    }
 
-	/* Now check place simple. */
-	astg_foreach_out_edge (in_trans,gen,e) {
-	    alt_p = astg_head (e);
-	    if (alt_p == p) continue;
-	    if (astg_in_degree(alt_p) != 1 || astg_out_degree(alt_p) != 1) continue;
-	    if (alt_p->out_edges->head == out_trans) {
-		dbg(3,printf("not place simple by %s: ",astg_v_name(alt_p)));
-		dbg(3,print_place_info(p));
-		return ASTG_FALSE;
-	    }
-	}
+    /* Now check place simple. */
+    astg_foreach_out_edge (in_trans,gen,e) {
+        alt_p = astg_head (e);
+        if (alt_p == p) continue;
+        if (astg_in_degree(alt_p) != 1 || astg_out_degree(alt_p) != 1) continue;
+        if (alt_p->out_edges->head == out_trans) {
+        dbg(3,printf("not place simple by %s: ",astg_v_name(alt_p)));
+        dbg(3,print_place_info(p));
+        return ASTG_FALSE;
+        }
+    }
     }
 
     /* Seems to be pure and place simple. */
@@ -311,11 +303,11 @@ astg_vertex *te;
         pin = astg_tail (e1);
         astg_foreach_out_edge (te,gen2,e2) {
             pout = astg_head (e2);
-	    (void) sprintf(pp_name,"pc_%d",n++);
-	    /* Core leak on the name of this vertex... */
-	    /* Need a create_unique_vertex call. */
-	    p_prime = astg_new_place (stg,pp_name,NULL);
-	    /* It is possible that both have a token. */
+        (void) sprintf(pp_name,"pc_%d",n++);
+        /* Core leak on the name of this vertex... */
+        /* Need a create_unique_vertex call. */
+        p_prime = astg_new_place (stg,pp_name,NULL);
+        /* It is possible that both have a token. */
             if (pin->type.place.initial_token || pout->type.place.initial_token) {
                 p_prime->type.place.initial_token = ASTG_TRUE;
             }
@@ -325,8 +317,8 @@ astg_vertex *te;
             astg_foreach_out_edge (pout,gen3,ex) {
                 astg_new_edge (p_prime,astg_head(ex));
             }
-	    /* check for pure and place simple. */
-	    if (!pure_place_simple (p_prime)) astg_delete_place (p_prime);
+        /* check for pure and place simple. */
+        if (!pure_place_simple (p_prime)) astg_delete_place (p_prime);
         }
     }
 
@@ -354,17 +346,17 @@ astg_signal *outsig;
 
     astg_foreach_input_place (v,gen1,place) {
 
-	astg_foreach_input_trans (place,gen2,en_trans) {
+    astg_foreach_input_trans (place,gen2,en_trans) {
 
-	    trigger = en_trans->type.trans.sig_p;
-	    dbg(2,msg("%s is a trigger signal\n",trigger->name));
-	    trigger->can_elim = ASTG_FALSE;
+        trigger = en_trans->type.trans.sig_p;
+        dbg(2,msg("%s is a trigger signal\n",trigger->name));
+        trigger->can_elim = ASTG_FALSE;
 
-	    for (context=trigger; context != NULL; context=context->lg_from) {
-		dbg(2,msg("%s is a context signal\n",context->name));
-		context->can_elim = ASTG_FALSE;
-	    }
-	}
+        for (context=trigger; context != NULL; context=context->lg_from) {
+        dbg(2,msg("%s is a context signal\n",context->name));
+        context->can_elim = ASTG_FALSE;
+        }
+    }
     }
 }
 
@@ -378,13 +370,13 @@ astg_signal *sig_p;
 
     /* eliminate signal completely. */
     astg_foreach_pos_trans (sig_p,gen,sv) {
-	elim_trans (g,sv);
+    elim_trans (g,sv);
     }
 
     astg_foreach_neg_trans (sig_p,gen,sv) {
-	elim_trans (g,sv);
+    elim_trans (g,sv);
     }
-   
+
     stg->n_sig--;
     assert (sig_p->sig_type == ASTG_INPUT_SIG);
     DLL_REMOVE (sig_p,stg->sig_list,next,prev);
@@ -407,12 +399,12 @@ astg_bool keep_fc;
     dbg(2,msg("\ncontract net for %s...\n",outsig->name));
 
     astg_foreach_signal (stg,gen,sig_p) {
-	sig_p->can_elim = ASTG_TRUE;
+    sig_p->can_elim = ASTG_TRUE;
     }
     outsig->can_elim = ASTG_FALSE;
     astg_lock_graph_shortest_path (stg,outsig);
     astg_foreach_sig_trans (outsig,gen,sv) {
-	keep_in_sig (stg,sv,outsig);
+    keep_in_sig (stg,sv,outsig);
     }
 
     /* Make duplicate graph with single output signal. */
@@ -420,7 +412,7 @@ astg_bool keep_fc;
     cstg = astg_duplicate (stg,name);
 
     astg_foreach_signal (cstg,gen,sig_p) {
-	sig_p->sig_type = ASTG_INPUT_SIG;
+    sig_p->sig_type = ASTG_INPUT_SIG;
     }
 
     one_out = astg_find_named_signal (cstg,astg_signal_name(outsig));
@@ -429,7 +421,7 @@ astg_bool keep_fc;
 
     /* Is this order-sensitive? */
     astg_foreach_signal (cstg,gen,sig_p) {
-	if (can_contract (cstg,sig_p,keep_fc)) elim_sig (cstg,sig_p);
+    if (can_contract (cstg,sig_p,keep_fc)) elim_sig (cstg,sig_p);
     }
 
     return cstg;

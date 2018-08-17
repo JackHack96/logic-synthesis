@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/power/power_seq.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:06 $
- *
- */
+
 /*---------------------------------------------------------------------------
 |      This file contains routines that evaluate the power dissipation
 |  in various types of static sequential circuits.

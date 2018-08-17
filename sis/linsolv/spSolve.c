@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/linsolv/spSolve.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:05 $
- *
- */
+
 /*
  *  MATRIX SOLVE MODULE
  *
@@ -45,9 +37,9 @@
 
 #ifndef lint
 static char copyright[] =
-    "Sparse1.3: Copyright (c) 1985,86,87,88 by Kenneth S. Kundert";
-static char RCSid[] =
-    "@(#)$Header: /users/pchong/CVS/sis/sis/linsolv/spSolve.c,v 1.1.1.1 2004/02/07 10:15:05 pchong Exp $";
+                    "Sparse1.3: Copyright (c) 1985,86,87,88 by Kenneth S. Kundert";
+static char RCSid[]     =
+                    "@(#)$Header: /users/pchong/CVS/sis/sis/linsolv/spSolve.c,v 1.1.1.1 2004/02/07 10:15:05 pchong Exp $";
 #endif
 
 
@@ -65,6 +57,7 @@ static char RCSid[] =
  */
 
 #define spINSIDE_SPARSE
+
 #include "spConfig.h"
 #include "spMatrix.h"
 #include "spDefs.h"
@@ -72,7 +65,7 @@ static char RCSid[] =
 
 
 
-
+
 /*
  *  SOLVE MATRIX EQUATION
  *
@@ -136,21 +129,23 @@ static char RCSid[] =
 /*VARARGS3*/
 
 void
-spSolve( eMatrix, RHS, Solution IMAG_VECTORS )
+spSolve(eMatrix, RHS, Solution IMAG_VECTORS)
 
-char *eMatrix;
-RealVector  RHS, Solution IMAG_VECTORS;
+        char *eMatrix;
+        RealVector RHS, Solution IMAG_VECTORS;
 {
-MatrixPtr  Matrix = (MatrixPtr)eMatrix;
-register  ElementPtr  pElement;
-register  RealVector  Intermediate;
-register  RealNumber  Temp;
-register  int  I, *pExtOrder, Size;
-ElementPtr  pPivot;
-void SolveComplexMatrix();
+    MatrixPtr           Matrix = (MatrixPtr) eMatrix;
+    register ElementPtr pElement;
+    register RealVector Intermediate;
+    register RealNumber Temp;
+    register int        I, *pExtOrder, Size;
+    ElementPtr          pPivot;
+    void SolveComplexMatrix();
 
 /* Begin `spSolve'. */
-    ASSERT( IS_VALID(Matrix) AND IS_FACTORED(Matrix) );
+    ASSERT(IS_VALID(Matrix)
+                   AND
+                   IS_FACTORED(Matrix));
 
 #if spCOMPLEX
     if (Matrix->Complex)
@@ -161,41 +156,41 @@ void SolveComplexMatrix();
 
 #if REAL
     Intermediate = Matrix->Intermediate;
-    Size = Matrix->Size;
+    Size         = Matrix->Size;
 
 /* Correct array pointers for ARRAY_OFFSET. */
-#if NOT ARRAY_OFFSET
+#if NOT
+ARRAY_OFFSET
     --RHS;
     --Solution;
 #endif
 
 /* Initialize Intermediate vector. */
     pExtOrder = &Matrix->IntToExtRowMap[Size];
-    for (I = Size; I > 0; I--)
+    for (I    = Size; I > 0; I--)
         Intermediate[I] = RHS[*(pExtOrder--)];
 
 /* Forward elimination. Solves Lc = b.*/
-    for (I = 1; I <= Size; I++)
-    {   
+    for (I = 1; I <= Size; I++) {
 /* This step of the elimination is skipped if Temp equals zero. */
-        if ((Temp = Intermediate[I]) != 0.0)
-        {   pPivot = Matrix->Diag[I];
+        if ((Temp = Intermediate[I]) != 0.0) {
+            pPivot = Matrix->Diag[I];
             Intermediate[I] = (Temp *= pPivot->Real);
 
             pElement = pPivot->NextInCol;
-            while (pElement != NULL)
-            {   Intermediate[pElement->Row] -= Temp * pElement->Real;
+            while (pElement != NULL) {
+                Intermediate[pElement->Row] -= Temp * pElement->Real;
                 pElement = pElement->NextInCol;
             }
         }
     }
 
 /* Backward Substitution. Solves Ux = c.*/
-    for (I = Size; I > 0; I--)
-    {   Temp = Intermediate[I];
+    for (I = Size; I > 0; I--) {
+        Temp     = Intermediate[I];
         pElement = Matrix->Diag[I]->NextInRow;
-        while (pElement != NULL)
-        {   Temp -= pElement->Real * Intermediate[pElement->Col];
+        while (pElement != NULL) {
+            Temp -= pElement->Real * Intermediate[pElement->Col];
             pElement = pElement->NextInRow;
         }
         Intermediate[I] = Temp;
@@ -203,7 +198,7 @@ void SolveComplexMatrix();
 
 /* Unscramble Intermediate vector while placing data in to Solution vector. */
     pExtOrder = &Matrix->IntToExtColMap[Size];
-    for (I = Size; I > 0; I--)
+    for (I    = Size; I > 0; I--)
         Solution[*(pExtOrder--)] = Intermediate[I];
 
     return;
@@ -211,15 +206,6 @@ void SolveComplexMatrix();
 }
 
 
-
-
-
-
-
-
-
-
-
 #if spCOMPLEX
 /*
  *  SOLVE COMPLEX MATRIX EQUATION
@@ -378,18 +364,6 @@ ComplexNumber  Temp;
 #endif /* spCOMPLEX */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 #if TRANSPOSE
 /*
  *  SOLVE TRANSPOSED MATRIX EQUATION
@@ -529,14 +503,6 @@ void SolveComplexTransposedMatrix();
 #endif /* TRANSPOSE */
 
 
-
-
-
-
-
-
-
-
 #if TRANSPOSE AND spCOMPLEX
 /*
  *  SOLVE COMPLEX TRANSPOSED MATRIX EQUATION

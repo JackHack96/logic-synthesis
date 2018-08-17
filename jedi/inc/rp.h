@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/jedi/rp.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:08 $
- *
- */
+
 /*
  * Bill Lin
  * University of California, Berkeley
@@ -24,12 +16,14 @@
 #define SA_DEFAULT_PARAMETER -1.0
 
 #define SA_ASSERT(fct)\
-	if ((fct) != SA_OK) {\
-	    fprintf(stderr, "SA Assertion failed: file %s, line %d\n",\
-		__FILE__, __LINE__);\
-	    exit(-1);\
-	}
+    if ((fct) != SA_OK) {\
+        fprintf(stderr, "SA Assertion failed: file %s, line %d\n",\
+        __FILE__, __LINE__);\
+        exit(-1);\
+    }
 
 void combinatorial_optimize();
+
 double random_generator();
+
 int int_random_generator();

@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/astg/bwd_min_delay.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:59 $
- *
- */
+
 #ifdef SIS
 /*
  * The purpose of this package is the computation of node and network delays
@@ -137,10 +129,10 @@ delay_model_t model;
 
   if (node_type(node) == PRIMARY_INPUT) {
     node_delay->arrival = pi_arrival_time(node);
-	
+
     pin_delay = get_pin_delay(node, /* pin */ 0, model);
     delay = compute_delay(node, pin_delay, model);
-	
+
     node_delay->arrival.rise += delay.rise;
     node_delay->arrival.fall += delay.fall;
     return;
@@ -150,7 +142,7 @@ delay_model_t model;
     node_delay->arrival.rise = DELAY(fanin)->arrival.rise;
     node_delay->arrival.fall = DELAY(fanin)->arrival.fall;
     return;
-  } 
+  }
 
   node_arrival = &node_delay->arrival;
   node_arrival->rise = INFINITY;
@@ -159,7 +151,7 @@ delay_model_t model;
   foreach_fanin (node, i, fanin) {
     pin_delay = get_pin_delay(node, i, model);
     delay = compute_delay(node, pin_delay, model);
-	
+
     fanin_arrival = DELAY(fanin)->arrival;
     phase = pin_delay->phase;
     if (phase == PHASE_NOT_GIVEN) {
@@ -188,13 +180,13 @@ node_t *node;
   pin_delay = DELAY(node)->pin_delay;
   delay = DEF_DELAY(node_network(node))->default_arrival;
 
-  if (pin_delay != 0 && 
+  if (pin_delay != 0 &&
       pin_delay->user_time.rise != DELAY_VALUE_NOT_GIVEN &&
       pin_delay->user_time.fall != DELAY_VALUE_NOT_GIVEN) {
     return(pin_delay->user_time);
   }
   else if (delay.rise != DELAY_VALUE_NOT_GIVEN     &&
-	   delay.fall != DELAY_VALUE_NOT_GIVEN) {
+       delay.fall != DELAY_VALUE_NOT_GIVEN) {
     return(delay);
   }
   else {
@@ -284,7 +276,7 @@ double latest;
     return(pin_delay->user_time);
   }
   else if (delay.rise != DELAY_VALUE_NOT_GIVEN     &&
-	   delay.fall != DELAY_VALUE_NOT_GIVEN) {
+       delay.fall != DELAY_VALUE_NOT_GIVEN) {
     return(delay);
   }
   else {
@@ -306,7 +298,7 @@ delay_model_t model;
   lsGen gen;
 
   /* Sum the output capacitance (load of each pin we fanout to) */
-    
+
   DELAY(node)->load = compute_wire_load(node_network(node), node_num_fanout(node));
   foreach_fanout_pin (node, gen, fanout, pin) {
     pin_delay = get_pin_delay(fanout, pin, model);
@@ -346,21 +338,21 @@ node_t *node;
   else if (nparams != n_old_params) {
     old_pins = delay->pin_params;
     new_pins = ALLOC(delay_pin_t *, nparams);
-	
+
     if (n_old_params < nparams) {
       for (i = 0; i < n_old_params; i++) {
-	new_pins[i] = old_pins[i];
+    new_pins[i] = old_pins[i];
       }
       for (i = n_old_params; i < nparams; i++) {
-	new_pins[i] = ALLOC(delay_pin_t, 1);
+    new_pins[i] = ALLOC(delay_pin_t, 1);
       }
     }
     else {
       for (i = 0; i < n_old_params; i++) {
-	new_pins[i] = old_pins[i];
+    new_pins[i] = old_pins[i];
       }
       for (i = nparams; i < n_old_params; ++i) {
-	FREE(old_pins[i]);
+    FREE(old_pins[i]);
       }
     }
     FREE(old_pins);
@@ -409,13 +401,13 @@ double mode;
     delay_force_pininfo(this_node);
     /*
       delay_set_parameter(this_node, DELAY_ARRIVAL_RISE, INFINITY);
-      delay_set_parameter(this_node, DELAY_ARRIVAL_FALL, INFINITY); 
+      delay_set_parameter(this_node, DELAY_ARRIVAL_FALL, INFINITY);
       */
     user_time = &DELAY(this_node)->pin_delay->user_time;
     user_time->rise = INFINITY;
     user_time->fall = INFINITY;
   }
-    
+
   foreach_primary_input(network, gen, this_node){
     name = node_name(this_node);
     found = 0;
@@ -426,14 +418,14 @@ double mode;
      */
     foreach_fanin(node, i, fanin) {
       if (strcmp(name, node_name(fanin)) == 0) {
-	found = 1;
-	break;
+    found = 1;
+    break;
       }
     }
     if (found == 0) {
       delay_error("Severe internal error in mapped delay model");
     }
-		
+
     pin = DELAY(node)->pin_params[i];
 
     /*
@@ -460,7 +452,7 @@ double mode;
     user_time = &DELAY(this_node)->pin_delay->user_time;
     user_time->rise = 0;
     user_time->fall = 0;
-	
+
     /*
      * Compute block parameter.  This is the delay result when the network
      * output is driving a load of 0.  The drive parameter, similarly, is
@@ -484,14 +476,14 @@ double mode;
     }
 
     /* Compute the load.  This is a little tricky, so watch the comment */
-	
+
     pin -> load = DELAY(this_node) -> load;
 
     /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
        Naive and WRONG.  The load on this_node (a PI) is merely the
        load on the buffer it drives.  What we want is the load driven by
        that buffer.  The following code gets it: */
-	   
+
 
     /*
       foreach_fanout_pin(this_node, gen1, p, i) {
@@ -499,18 +491,18 @@ double mode;
       }
       */
 
-	
+
 #ifdef DEBUG
     printf("Pin parameters for node %s, pin %s\n", node_name(node),
-	   node_name(fanin));
+       node_name(fanin));
     printf("pin %d br %f bf %f dr %f df %f phase %s load %f alt_load %f\n",
-	   i, pin -> block.rise, pin -> block.fall,
-	   pin -> drive.rise, pin -> drive.fall,
-	   (pin -> phase == PHASE_INVERTING?"neg":
-	    (pin -> phase == PHASE_NONINVERTING?"pos":"both")),
-	   pin -> load, DELAY(this_node) -> load);
+       i, pin -> block.rise, pin -> block.fall,
+       pin -> drive.rise, pin -> drive.fall,
+       (pin -> phase == PHASE_INVERTING?"neg":
+        (pin -> phase == PHASE_NONINVERTING?"pos":"both")),
+       pin -> load, DELAY(this_node) -> load);
 #endif
-	
+
 
     /* reset this node's user time given to be INFINITY for next
        iteration */
@@ -530,7 +522,7 @@ delay_pin_t *pin_delay;
 delay_model_t model;
 {
   delay_time_t delay;
-    
+
   switch(model) {
   case DELAY_MODEL_UNIT:
   case DELAY_MODEL_UNIT_FANOUT:
@@ -549,7 +541,7 @@ delay_model_t model;
   }
   return delay;
 }
-	    
+
 static void
 delay_error(string)
 char *string;
@@ -563,10 +555,10 @@ char *string;
 #define DELAY_NODE_CHECK(network, node, fname) \
     network = network_of_node(node);\
     if(!network_has_been_traced(network)) {\
-	fail("fname called before trace done\n");\
+    fail("fname called before trace done\n");\
     } else if (network_has_been_modified(network)) {\
-	(void)fprintf(siserr,\
-		"Warning: network modified between delay_trace and fname\n");\
+    (void)fprintf(siserr,\
+        "Warning: network modified between delay_trace and fname\n");\
     }
     
 

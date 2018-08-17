@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/seqbdd/network_info.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:54 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 
@@ -373,25 +365,25 @@ network_t *network;
   init_state = node_constant(1);
   foreach_latch(network, gen, l){
     value = latch_get_initial_value(l);
-	switch (value) {
-	case 0:
-	case 1:
+    switch (value) {
+    case 0:
+    case 1:
       n1 = latch_get_output(l);
       n2 = node_literal(n1, value);
       n3 = node_and(init_state, n2);
       node_free(n2);
       node_free(init_state);
       init_state = n3;
-	  break;
+      break;
     case 2:
-	  break;
+      break;
     default:
-	  (void) fprintf(sisout, "Latch with input: %s and output: %s is not properly initialized. \n",
+      (void) fprintf(sisout, "Latch with input: %s and output: %s is not properly initialized. \n",
         node_name(latch_get_input(l)),
         node_name(latch_get_output(l)));
       node_free(init_state);
-	  return(NIL (node_t));
-	}
+      return(NIL (node_t));
+    }
   }
   network_add_node(network, init_state);
   network_change_node_name(network, init_state, util_strsav(INIT_STATE_OUTPUT_NAME));

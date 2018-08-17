@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/seqbdd/prl_product.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:54 $
- *
- */
+
 
 #ifdef SIS
 #include "sis.h"
@@ -15,8 +7,8 @@
 
 
 
-static void compute_po_ordering ARGS((seq_info_t *, prl_options_t *));
-static void compute_pi_ordering ARGS((seq_info_t *, prl_options_t *));
+static void compute_po_ordering (seq_info_t *, prl_options_t *);
+static void compute_pi_ordering (seq_info_t *, prl_options_t *);
 
 /*
  *----------------------------------------------------------------------
@@ -53,7 +45,7 @@ prl_options_t *options;
  /* puts the result in seq_info->output_nodes */
  /* add the external outputs at the end */
 
-static var_set_t **extract_support_info ARGS((network_t *, array_t *));
+static var_set_t **extract_support_info (network_t *, array_t *);
 
 static void compute_po_ordering(seq_info, options)
 seq_info_t *seq_info;
@@ -107,11 +99,11 @@ prl_options_t *options;
   array_free(next_state_po);
 }
 
-static array_t *order_dfs_from_count ARGS((node_t *, st_table *, int, int*, int));
-static void add_new_inputs 	     ARGS((seq_info_t *, array_t *));
-static void add_next_state_vars      ARGS((seq_info_t *, st_table *));
-static void ResetVariableOrder	     ARGS((st_table *, node_t *));
-static void SetVariableOrder	     ARGS((st_table *, node_t *, int, int));
+static array_t *order_dfs_from_count (node_t *, st_table *, int, int*, int);
+static void add_new_inputs 	     (seq_info_t *, array_t *);
+static void add_next_state_vars      (seq_info_t *, st_table *);
+static void ResetVariableOrder	     (st_table *, node_t *);
+static void SetVariableOrder	     (st_table *, node_t *, int, int);
 
 /*
  *----------------------------------------------------------------------
@@ -143,7 +135,7 @@ prl_options_t *options;
   
     /* bdd manager + leaves init: make all PI's leaves */
     foreach_primary_input(network, gen, input) {
-	ResetVariableOrder(leaves, input);
+    ResetVariableOrder(leaves, input);
     }
     seq_info->leaves = leaves;
 
@@ -166,40 +158,40 @@ prl_options_t *options;
     /* first treat the next state outputs */
     n_next_state_po = network_num_latch(seq_info->network);
     for (i = 0; i < n_next_state_po; i++) {
-	output = array_fetch(node_t *, seq_info->output_nodes, i);
-	input_order = order_dfs_from_count(output, leaves, DFS_ORDER, &next_index, options->verbose);
-	add_new_inputs(seq_info, input_order);
+    output = array_fetch(node_t *, seq_info->output_nodes, i);
+    input_order = order_dfs_from_count(output, leaves, DFS_ORDER, &next_index, options->verbose);
+    add_new_inputs(seq_info, input_order);
 
-	sprintf(buffer, "y:%d", i);
-	array_insert_last(char *, seq_info->var_names, util_strsav(buffer));
-	st_insert(next_state_table, (char *) output, (char *) next_index);
-	var = bdd_get_variable(seq_info->manager, next_index);
-	array_insert_last(bdd_t *, seq_info->transition.transition_vars, var);
+    sprintf(buffer, "y:%d", i);
+    array_insert_last(char *, seq_info->var_names, util_strsav(buffer));
+    st_insert(next_state_table, (char *) output, (char *) next_index);
+    var = bdd_get_variable(seq_info->manager, next_index);
+    array_insert_last(bdd_t *, seq_info->transition.transition_vars, var);
 
-	next_index++;
-	array_free(input_order);
+    next_index++;
+    array_free(input_order);
     }
 
     /* then treat the external outputs */
     for (i = n_next_state_po; i < array_n(seq_info->output_nodes); i++) {
-	output = array_fetch(node_t *, seq_info->output_nodes, i);
-	input_order = order_dfs_from_count(output, leaves, DFS_ORDER, &next_index, options->verbose);
-	add_new_inputs(seq_info, input_order);
-	array_free(input_order);
+    output = array_fetch(node_t *, seq_info->output_nodes, i);
+    input_order = order_dfs_from_count(output, leaves, DFS_ORDER, &next_index, options->verbose);
+    add_new_inputs(seq_info, input_order);
+    array_free(input_order);
     }
 
     /* then add all the input variables that have not been handled so far */
     input_order = array_alloc(node_t *, 0);
     table_gen = st_init_gen(leaves);
     while (st_gen_int(table_gen, (char**) &input, &index)) {
-	if (index == -1) {
-	    array_insert_last(node_t *, input_order, input);
-	}
+    if (index == -1) {
+        array_insert_last(node_t *, input_order, input);
+    }
     }
     st_free_gen(table_gen);
     for (i = 0; i < array_n(input_order); i++) {
-	input = array_fetch(node_t *, input_order, i);
-	SetVariableOrder(leaves, input, i + next_index, options->verbose);
+    input = array_fetch(node_t *, input_order, i);
+    SetVariableOrder(leaves, input, i + next_index, options->verbose);
     }
     add_new_inputs(seq_info, input_order);
     array_free(input_order);
@@ -213,26 +205,26 @@ prl_options_t *options;
 
     /* debug information */
     if (options->verbose >= 1) {
-	(void) fprintf(sisout, "Variable ordering selected for product method:\n");
-	for (i = 0; i < array_n(seq_info->var_names); i++) {
-	    (void) fprintf(sisout, "%s<id=%d> ", array_fetch(char *, seq_info->var_names, i), i);
-	    if (i % 8 == 7) (void) fprintf(sisout, "\n");
-	}
-	if (i % 8 != 7) (void) fprintf(sisout, "\n");
-    } 
+    (void) fprintf(sisout, "Variable ordering selected for product method:\n");
+    for (i = 0; i < array_n(seq_info->var_names); i++) {
+        (void) fprintf(sisout, "%s<id=%d> ", array_fetch(char *, seq_info->var_names, i), i);
+        if (i % 8 == 7) (void) fprintf(sisout, "\n");
+    }
+    if (i % 8 != 7) (void) fprintf(sisout, "\n");
+    }
     if (options->verbose >= 2) {
-	int discrepancy_found = 0;
-	(void) fprintf(sisout, "Checking the indices of input variables ... \n");
-	for (i = 0; i < array_n(seq_info->input_nodes); i++) {
-	    input = array_fetch(node_t *, seq_info->input_nodes, i);
-	    assert(st_lookup_int(seq_info->leaves, (char *) input, &index));
-	    (void) fprintf(sisout, "%s<id=%d> ", input->name, index);
-	    if (i % 8 == 7) (void) fprintf(sisout, "\n");
-	    discrepancy_found |= strcmp(input->name, array_fetch(char *, seq_info->var_names, index));
-	}
-	if (i % 8 != 7) (void) fprintf(sisout, "\n");
-	assert(discrepancy_found == 0);
-	(void) fprintf(sisout, "Check passed. \n");
+    int discrepancy_found = 0;
+    (void) fprintf(sisout, "Checking the indices of input variables ... \n");
+    for (i = 0; i < array_n(seq_info->input_nodes); i++) {
+        input = array_fetch(node_t *, seq_info->input_nodes, i);
+        assert(st_lookup_int(seq_info->leaves, (char *) input, &index));
+        (void) fprintf(sisout, "%s<id=%d> ", input->name, index);
+        if (i % 8 == 7) (void) fprintf(sisout, "\n");
+        discrepancy_found |= strcmp(input->name, array_fetch(char *, seq_info->var_names, index));
+    }
+    if (i % 8 != 7) (void) fprintf(sisout, "\n");
+    assert(discrepancy_found == 0);
+    (void) fprintf(sisout, "Check passed. \n");
     }
 }
 
@@ -259,7 +251,7 @@ array_t *node_list;
   int index;
   node_t *input;
   bdd_t *var;
-  
+
   for (i = 0; i < array_n(node_list); i++) {
     input = array_fetch(node_t *, node_list, i);
     if (input->type != PRIMARY_INPUT) continue;
@@ -310,7 +302,7 @@ st_table *next_state_table;
   }
 }
 
-static void extract_support_info_rec ARGS((node_t *, st_table *, st_table *, var_set_t *));
+static void extract_support_info_rec (node_t *, st_table *, st_table *, var_set_t *);
 
 /*
  *----------------------------------------------------------------------
@@ -338,18 +330,18 @@ array_t *node_list;
     var_set_t **support_info = ALLOC(var_set_t *, n_po);
 
     for (i = 0; i < n_po; i++) {
-	support_info[i] = var_set_new(n_pi);
+    support_info[i] = var_set_new(n_pi);
     }
     uid = 0;
     foreach_primary_input(network, gen, input) {
-	st_insert(pi_table, (char *) input, (char *) uid);
-	uid++;
+    st_insert(pi_table, (char *) input, (char *) uid);
+    uid++;
     }
     for (i = 0; i < array_n(node_list); i++) {
-	st_table *visited = st_init_table(st_ptrcmp, st_ptrhash);
-	output = array_fetch(node_t *, node_list, i);
-	extract_support_info_rec(output, pi_table, visited, support_info[i]);
-	st_free_table(visited);
+    st_table *visited = st_init_table(st_ptrcmp, st_ptrhash);
+    output = array_fetch(node_t *, node_list, i);
+    extract_support_info_rec(output, pi_table, visited, support_info[i]);
+    st_free_table(visited);
     }
     st_free_table(pi_table);
     return support_info;
@@ -368,12 +360,12 @@ var_set_t *set;
     if (st_lookup(visited, (char *) node, NIL(char *))) return;
     st_insert(visited, (char *) node, NIL(char));
     if (node->type == PRIMARY_INPUT) {
-	assert(st_lookup_int(pi_table, (char *) node, &uid));
-	var_set_set_elt(set, uid);
+    assert(st_lookup_int(pi_table, (char *) node, &uid));
+    var_set_set_elt(set, uid);
     } else {
-	foreach_fanin(node, i, fanin) {
-	    extract_support_info_rec(fanin, pi_table, visited, set);
-	}
+    foreach_fanin(node, i, fanin) {
+        extract_support_info_rec(fanin, pi_table, visited, set);
+    }
     }
 }
 
@@ -396,7 +388,7 @@ var_set_t *set;
  * Side effects:
  *	1. stores that variable ordering in 'leaves'.
  *	2. increments '*order_count' by the number of PIs returned.
- *	 
+ *
  *----------------------------------------------------------------------
  */
 
@@ -415,16 +407,16 @@ int verbosity;
     array_t *roots;
     array_t *nodes;
     array_t *result;
-    
+
     st_table *local_leaves = st_init_table(st_ptrcmp, st_ptrhash);
     st_foreach_item(leaves, gen, &key, &value) {
-	ResetVariableOrder(local_leaves, (node_t *) key);
+    ResetVariableOrder(local_leaves, (node_t *) key);
     }
     roots = array_alloc(node_t *, 0);
     array_insert_last(node_t *, roots, node);
     nodes = order_dfs(roots, local_leaves, DFS_ORDER);
     array_free(roots);
-    
+
     /*
      * If the node already has an index (i.e. >= 0)
      * we skip it (i.e. we keep the index it has).
@@ -437,28 +429,28 @@ int verbosity;
     result = array_alloc(node_t *, 0);
     previous_index = -1;
     for (i = 0; i < array_n(nodes); i++) {
-	node = array_fetch(node_t *, nodes, i);
-	if (node->type != PRIMARY_INPUT) continue;
-	assert(st_lookup_int(leaves, (char *) node, &index));
-	if (index >= 0) continue;
-	assert(st_lookup_int(local_leaves, (char *) node, &index));
-	if (index == -1) continue;
-	assert(previous_index < index);
-	previous_index = index;
-	array_insert_last(node_t *, result, node);
+    node = array_fetch(node_t *, nodes, i);
+    if (node->type != PRIMARY_INPUT) continue;
+    assert(st_lookup_int(leaves, (char *) node, &index));
+    if (index >= 0) continue;
+    assert(st_lookup_int(local_leaves, (char *) node, &index));
+    if (index == -1) continue;
+    assert(previous_index < index);
+    previous_index = index;
+    array_insert_last(node_t *, result, node);
     }
     array_free(nodes);
     st_free_table(local_leaves);
-    
+
     /*
      * For each node in 'result', we store a varid in 'leaves'.
-     * That varid is the index of the node in 'result' 
+     * That varid is the index of the node in 'result'
      * offset by '*order_count'.
      */
 
     for (i = 0; i < array_n(result); i++) {
-	node = array_fetch(node_t *, result, i);
-	SetVariableOrder(leaves, node, i + *order_count, verbosity);
+    node = array_fetch(node_t *, result, i);
+    SetVariableOrder(leaves, node, i + *order_count, verbosity);
     }
 
     *order_count += array_n(result);
@@ -500,9 +492,9 @@ int verbosity;
     int index;
 
     if (verbosity >= 2) {
-	(void) fprintf(sisout, "set var id: %s <id=%d>\n", node->name, varid);
-	assert(st_lookup_int(leaves, (char *) node, &index));
-	assert(index == -1);
+    (void) fprintf(sisout, "set var id: %s <id=%d>\n", node->name, varid);
+    assert(st_lookup_int(leaves, (char *) node, &index));
+    assert(index == -1);
     }
     st_insert(leaves, (char *) node, (char *) varid);
 }
@@ -518,7 +510,7 @@ int verbosity;
  *	Allocates the transition relation part of the 'seq_info' records.
  *
  *----------------------------------------------------------------------
- */ 
+ */
 
 void Prl_ProductInitSeqInfo(seq_info, options)
 seq_info_t *seq_info;
@@ -550,7 +542,7 @@ prl_options_t *options;
  *	Frees the transition relation part of the 'seq_info' records.
  *
  *----------------------------------------------------------------------
- */ 
+ */
 
  /* ARGSUSED */
 
@@ -576,7 +568,7 @@ prl_options_t *options;
  *	Those PIs get a NULL pointer instead.
  *
  *----------------------------------------------------------------------
- */ 
+ */
 
 array_t *Prl_ProductExtractNetworkInputNames(seq_info, options)
 seq_info_t *seq_info;
@@ -585,7 +577,7 @@ prl_options_t *options;
   int i;
   array_t *result;
   char *name;
-  
+
   result = array_alloc(char *, 0);
   for (i = 0; i < array_n(seq_info->var_names); i++) {
     name = array_fetch(char *, seq_info->var_names, i);
@@ -597,7 +589,7 @@ prl_options_t *options;
 
 
 
-static bdd_t *BddIncrAndSmooth ARGS((seq_info_t *, bdd_t *, array_t *, prl_options_t *));
+static bdd_t *BddIncrAndSmooth (seq_info_t *, bdd_t *, array_t *, prl_options_t *);
 
 /*
  *----------------------------------------------------------------------
@@ -624,22 +616,22 @@ prl_options_t *options;
   if (bdd_is_tautology(current_set, 0)) {
       result_as_next_state_vars = bdd_dup(current_set);
   } else {
-      result_as_next_state_vars = BddIncrAndSmooth(seq_info, 
-						   current_set, 
-						   seq_info->transition.next_state_vars, 
-						   options);
+      result_as_next_state_vars = BddIncrAndSmooth(seq_info,
+                           current_set,
+                           seq_info->transition.next_state_vars,
+                           options);
   }
-  new_current_set = bdd_substitute(result_as_next_state_vars, 
-				   seq_info->transition.next_state_vars, 
-				   seq_info->present_state_vars);
+  new_current_set = bdd_substitute(result_as_next_state_vars,
+                   seq_info->transition.next_state_vars,
+                   seq_info->present_state_vars);
 
   if (options->verbose >= 3) {
-    (void) fprintf(sisout, 
-		   "(%d->%d)]", 
-		   bdd_size(result_as_next_state_vars), 
-		   bdd_size(new_current_set));
+    (void) fprintf(sisout,
+           "(%d->%d)]",
+           bdd_size(result_as_next_state_vars),
+           bdd_size(new_current_set));
 
-    (void) fflush(sisout);    
+    (void) fflush(sisout);
   }
 
   bdd_free(result_as_next_state_vars);
@@ -664,14 +656,14 @@ prl_options_t *options;
   bdd_t *next_set_as_next_state_vars;
   bdd_t *result;
 
-  next_set_as_next_state_vars = bdd_substitute(next_set, 
-					       seq_info->present_state_vars, 
-					       seq_info->transition.next_state_vars);
+  next_set_as_next_state_vars = bdd_substitute(next_set,
+                           seq_info->present_state_vars,
+                           seq_info->transition.next_state_vars);
 
-  result = BddIncrAndSmooth(seq_info, 
-			    next_set_as_next_state_vars, 
-			    seq_info->input_vars, 
-			    options);
+  result = BddIncrAndSmooth(seq_info,
+                next_set_as_next_state_vars,
+                seq_info->input_vars,
+                options);
 
   bdd_free(next_set_as_next_state_vars);
   return result;
@@ -695,7 +687,7 @@ typedef struct {
   int fnid;			   /* small integer; unique identifier for the function */
   bdd_t *fn;			   /* accumulation of AND's of functions */
   int cost;			   /* simply an index for static merging; */
-				   /* size of bdd for dynamic merging */
+                   /* size of bdd for dynamic merging */
   var_set_t *support;		   /* support of that function */
   int partition;		   /* to which partition the fn belongs */
 } fn_info_t;
@@ -712,7 +704,7 @@ typedef struct {
   bdd_manager *manager;
   int n_partitions;
   int *partition_count;		   /* number of fns alive in each partition */
-  int *next_partition;		   /* map to tell in which partition to go when current one is empty */ 
+  int *next_partition;		   /* map to tell in which partition to go when current one is empty */
 } support_info_t;
 
  /* result < 0 means obj1 higher priority than obj2 (obj1 comes first) */
@@ -737,9 +729,9 @@ char *obj;
 }
 
 
-static support_info_t *support_info_extract ARGS((seq_info_t *, bdd_t **, int, array_t *, prl_options_t *));
-static void            support_info_free    ARGS((support_info_t *));
-static bdd_t *         do_fn_merging	    ARGS((support_info_t *, prl_options_t *));
+static support_info_t *support_info_extract (seq_info_t *, bdd_t **, int, array_t *, prl_options_t *);
+static void            support_info_free    (support_info_t *);
+static bdd_t *         do_fn_merging	    (support_info_t *, prl_options_t *);
 
 /*
  *----------------------------------------------------------------------
@@ -779,7 +771,7 @@ prl_options_t *options;
     if (options->verbose >= 3) {
       (void) fprintf(misout, "(#%d->%d),", i, bdd_size(tmp));
       (void) fprintf(misout, "(#%d->%d),", i, bdd_size(fns[i]));
-      (void) fflush(misout);    
+      (void) fflush(misout);
     }
   }
 
@@ -791,11 +783,11 @@ prl_options_t *options;
 }
 
 
-static void 	 extract_var_info 	   ARGS((support_info_t *, st_table *));
-static void 	 smooth_lonely_variables   ARGS((support_info_t *, prl_options_t *));
-static void 	 initialize_partition_info ARGS((support_info_t *));
-static st_table *get_varids_in_table 	   ARGS((array_t *));
-static void      extract_fn_info	   ARGS((support_info_t *, bdd_t **, prl_options_t *));
+static void 	 extract_var_info 	   (support_info_t *, st_table *);
+static void 	 smooth_lonely_variables   (support_info_t *, prl_options_t *);
+static void 	 initialize_partition_info (support_info_t *);
+static st_table *get_varids_in_table 	   (array_t *);
+static void      extract_fn_info	   (support_info_t *, bdd_t **, prl_options_t *);
 
 /*
  *----------------------------------------------------------------------
@@ -954,7 +946,7 @@ support_info_t *support_info;
     support_info->next_partition[i + 1] = count;
   }
   support_info->next_partition[n_entries - 1] = n_entries - 1;
-  
+
  /* the hard part is done; simple bookkeeping now */
   support_info->partition_count = ALLOC(int, n_entries);
   for (i = 0; i < n_entries; i++) {
@@ -969,7 +961,7 @@ support_info_t *support_info;
 }
 
 
-static var_info_t *var_info_free ARGS((var_info_t *));
+static var_info_t *var_info_free (var_info_t *);
 
 /*
  *----------------------------------------------------------------------
@@ -1013,8 +1005,8 @@ prl_options_t *options;
 }
 
 
-static void     fn_info_free 	    ARGS((fn_info_t *));
-static array_t *smooth_vars_extract ARGS((support_info_t *, fn_info_t *, fn_info_t *));
+static void     fn_info_free 	    (fn_info_t *);
+static array_t *smooth_vars_extract (support_info_t *, fn_info_t *, fn_info_t *);
 
 /*
  *----------------------------------------------------------------------
@@ -1066,11 +1058,11 @@ prl_options_t *options;
 
     if (options->verbose >= 3) {
       if (array_n(smooth_vars) > 0) {
-	(void) fprintf(misout, "(s%d/#%d->#%d,%d),", array_n(smooth_vars), fn1->fnid, fn0->fnid, bdd_size(fn0->fn));
+    (void) fprintf(misout, "(s%d/#%d->#%d,%d),", array_n(smooth_vars), fn1->fnid, fn0->fnid, bdd_size(fn0->fn));
       } else {
-	(void) fprintf(misout, "(#%d->#%d,%d),", fn1->fnid, fn0->fnid, bdd_size(fn0->fn));
+    (void) fprintf(misout, "(#%d->#%d,%d),", fn1->fnid, fn0->fnid, bdd_size(fn0->fn));
       }
-      (void) fflush(misout);    
+      (void) fflush(misout);
     }
     support_info->fns[fn1->fnid] = NIL(fn_info_t);
     fn_info_free(fn1);
@@ -1104,29 +1096,29 @@ fn_info_t *fn1;
     int is_in_index0;
     int is_in_index1;
     var_info_t *var_info;
-  
+
     result = array_alloc(bdd_t *, 0);
     for (i = 0; i < support_info->n_vars; i++) {
-	var_info = support_info->vars[i];
-	if (var_info == NIL(var_info_t)) continue;
-	remaining = st_count(var_info->fn_table);
-	assert(remaining > 1);
-	is_in_index1 = var_set_get_elt(fn1->support, i);
-	if (! is_in_index1) continue;
-	is_in_index0 = var_set_get_elt(fn0->support, i);
-	if (! is_in_index0) { /* move var i to fn0 */
-	    var_set_set_elt(fn0->support, i);
-	    key = (char *) fn1->fnid; /* for 64 bit support */
-	    st_delete(var_info->fn_table, &key, NIL(char *));
-	    st_insert(var_info->fn_table, (char *) fn0->fnid, NIL(char));
-	} else if (remaining == 2) { /* is in both fns only: can be smoothed out */
-	    array_insert_last(bdd_t *, result, bdd_dup(var_info->var));
-	    var_info_free(var_info);
-	    support_info->vars[i] = NIL(var_info_t);
-	} else { /* is in both but somewhere else as well: remove fn1 occurrence */
-	    key = (char *) fn1->fnid;
-	    st_delete(var_info->fn_table, &key, NIL(char *));
-	}
+    var_info = support_info->vars[i];
+    if (var_info == NIL(var_info_t)) continue;
+    remaining = st_count(var_info->fn_table);
+    assert(remaining > 1);
+    is_in_index1 = var_set_get_elt(fn1->support, i);
+    if (! is_in_index1) continue;
+    is_in_index0 = var_set_get_elt(fn0->support, i);
+    if (! is_in_index0) { /* move var i to fn0 */
+        var_set_set_elt(fn0->support, i);
+        key = (char *) fn1->fnid; /* for 64 bit support */
+        st_delete(var_info->fn_table, &key, NIL(char *));
+        st_insert(var_info->fn_table, (char *) fn0->fnid, NIL(char));
+    } else if (remaining == 2) { /* is in both fns only: can be smoothed out */
+        array_insert_last(bdd_t *, result, bdd_dup(var_info->var));
+        var_info_free(var_info);
+        support_info->vars[i] = NIL(var_info_t);
+    } else { /* is in both but somewhere else as well: remove fn1 occurrence */
+        key = (char *) fn1->fnid;
+        st_delete(var_info->fn_table, &key, NIL(char *));
+    }
     }
     return result;
 }
@@ -1182,9 +1174,9 @@ st_table *skip_varids;
     info->fn_table = st_init_table(st_numcmp, st_numhash);
     for (i = 0; i < support_info->n_fns; i++) {
       if (var_set_get_elt(support_info->fns[i]->support, varid)) {
-	assert(i == support_info->fns[i]->fnid);
-	st_insert(info->fn_table, (char *) i, NIL(char));
-	info->last_index = i;
+    assert(i == support_info->fns[i]->fnid);
+    st_insert(info->fn_table, (char *) i, NIL(char));
+    info->last_index = i;
       }
     }
     support_info->vars[varid] = info;

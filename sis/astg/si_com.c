@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/astg/si_com.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:58 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 #include "astg_int.h"
@@ -93,7 +85,7 @@ char **argv;
   
   (void)fprintf(sisout, "File Name = %s\n", stg->filename);
   (void)fprintf(sisout, "Total Number of Signals = %d (I = %d/O = %d)\n", 
-		stg->n_sig, stg->n_sig - stg->n_out, stg->n_out);
+        stg->n_sig, stg->n_sig - stg->n_out, stg->n_out);
   if (astg_initial_state(stg, &initial) != ASTG_OK) {
     (void)fprintf(sisout, "Initial State = ?? (can't find live, safe initial marking\n");
     (void)fprintf(sisout, "Total Number of States = ??\n");

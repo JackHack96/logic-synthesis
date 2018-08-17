@@ -1,13 +1,5 @@
 %{
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sred/lex.l,v $
- * $Author: pchong $
- * $Revision: 1.4 $
- * $Date: 2004/03/14 05:02:39 $
- *
- */
+
 #include "gram.h"
 #ifdef getc
 #undef getc

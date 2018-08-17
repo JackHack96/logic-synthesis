@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/map/fanout_alg.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:24 $
- *
- */
+
 /* file @(#)fanout_alg.h	1.4 */
 /* last modified on 7/2/91 at 19:44:21 */
 /*
@@ -31,6 +23,7 @@
 #define FANOUT_ALG_H
 
 #include "fanout_alg_macro.h"
+
 #undef use
 
 #endif

@@ -1,19 +1,11 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/main/sis_init.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:30 $
- *
- */
+
 #include "sis.h"
 
 void
 init_sis(graphics_flag)
-int graphics_flag;
+        int graphics_flag;
 {
-#if defined(bsd4_2) || defined(sun)	/* hack, but its nice to have ... */
+#if defined(bsd4_2) || defined(sun)    /* hack, but its nice to have ... */
     setlinebuf(stdout);
     setlinebuf(stderr);
 #endif
@@ -26,10 +18,10 @@ int graphics_flag;
     errCore(1);
 #endif
 
-    sisout = stdout;
-    siserr = stderr;
+    sisout  = stdout;
+    siserr  = stderr;
     sishist = NIL(FILE);
-    init_command(graphics_flag);	/* must be first */
+    init_command(graphics_flag);    /* must be first */
     init_node();
     init_network();
     init_io();
@@ -46,7 +38,7 @@ int graphics_flag;
     init_simplify();
     init_gcd();
 #ifdef OCT
-    init_octio(); 
+    init_octio();
 #endif
     init_ntbdd();
     init_maxflow();
@@ -71,11 +63,10 @@ int graphics_flag;
 
 
 void
-end_sis()
-{
+end_sis() {
     end_test();
 #ifdef SIS
-    end_timing(); 
+    end_timing();
     end_astg();		/* Has daemons and uses node package.	*/
     end_clock();
     end_stg();
@@ -108,12 +99,12 @@ end_sis()
     end_io();
     end_network();
     end_command();
-    end_node();		/* Should be last (to discard daemons).	*/
+    end_node();        /* Should be last (to discard daemons).	*/
     if (sisout != stdout) (void) fclose(sisout);
     if (siserr != stderr) (void) fclose(siserr);
     if (sishist != NIL(FILE)) (void) fclose(sishist);
-    sisout = stdout;
-    siserr = stderr;
+    sisout  = stdout;
+    siserr  = stderr;
     sishist = NIL(FILE);
     sf_cleanup();
 }

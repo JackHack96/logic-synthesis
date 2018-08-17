@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/map/map_defs.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:25 $
- *
- */
+
 /* file @(#)map_defs.h	1.6 */
 /* last modified on 7/25/91 at 11:34:53 */
 /*
@@ -31,7 +23,7 @@
 #ifndef MAP_DEFS_H
 #define MAP_DEFS_H
 
-#define FP_EQUAL(a,b)	(ABS((a)-(b)) < .0001)
+#define FP_EQUAL(a, b)    (ABS((a)-(b)) < .0001)
 #define LARGE 0x7fffffff
 
 typedef int  (*IntFunc)();

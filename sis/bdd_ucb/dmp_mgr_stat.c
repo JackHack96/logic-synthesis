@@ -1,13 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/dmp_mgr_stat.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:01 $
- *
- */
-#include <stdio.h>	/* for BDD_DEBUG_LIFESPAN */
+
+#include <stdio.h>    /* for BDD_DEBUG_LIFESPAN */
 
 #include "util.h"
 #include "array.h"
@@ -16,43 +8,6 @@
 #include "bdd.h"
 #include "bdd_int.h"
 
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/dmp_mgr_stat.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:01 $
- * $Log: dmp_mgr_stat.c,v $
- * Revision 1.1.1.1  2004/02/07 10:15:01  pchong
- * imported
- *
- * Revision 1.3  1992/09/21  23:30:31  sis
- * Updates from Tom Shiple - this is BDD package release 2.4.
- *
- * Revision 1.3  1992/09/21  23:30:31  sis
- * Updates from Tom Shiple - this is BDD package release 2.4.
- *
- * Revision 1.2  1992/09/19  02:58:50  shiple
- * Version 2.4
- * Prefaced compile time debug switches with BDD_. Added typecast to void to some function calls.
- * Totally revamped printing of statistics.  Added all the new fields in stats.
- * Changed ITE and ITE_const caches to be arrays of pointers.
- *
- * Revision 1.1  1992/07/29  00:26:59  shiple
- * Initial revision
- *
- * Revision 1.2  1992/05/06  18:51:03  sis
- * SIS release 1.1
- *
- * Revision 1.1  92/01/08  17:34:36  sis
- * Initial revision
- * 
- * Revision 1.1  91/04/11  20:59:38  shiple
- * Initial revision
- * 
- *
- */
 
 /*
  *    bdd_dump_manager_stats - dump the manager statistics out
@@ -61,20 +16,20 @@
  */
 void
 bdd_dump_manager_stats(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
-    bdd_stats stats;
-    int total_hashtable_queries;
-    int total_itetable_lookups;
-    int total_consttable_lookups;
-    int total_adhoc_lookups;
-    int num_frames;
-    int num_nodes;
-    int tot_frame_mem;
+    bdd_stats     stats;
+    int           total_hashtable_queries;
+    int           total_itetable_lookups;
+    int           total_consttable_lookups;
+    int           total_adhoc_lookups;
+    int           num_frames;
+    int           num_nodes;
+    int           tot_frame_mem;
     bdd_safeframe *sf;
-    bdd_safenode *sn;
-    int overall_memory;
-    int total_sbrk;
+    bdd_safenode  *sn;
+    int           overall_memory;
+    int           total_sbrk;
 
     /*
      * Get the manager's stats.
@@ -84,21 +39,21 @@ bdd_manager *manager;
     /* 
      * Make intermediate calculations.
      */
-    total_hashtable_queries = stats.cache.hashtable.hits + stats.cache.hashtable.misses;    
-    total_itetable_lookups = stats.cache.itetable.hits + stats.cache.itetable.misses;
+    total_hashtable_queries  = stats.cache.hashtable.hits + stats.cache.hashtable.misses;
+    total_itetable_lookups   = stats.cache.itetable.hits + stats.cache.itetable.misses;
     total_consttable_lookups = stats.cache.consttable.hits + stats.cache.consttable.misses;
-    total_adhoc_lookups = stats.cache.adhoc.hits + stats.cache.adhoc.misses;
+    total_adhoc_lookups      = stats.cache.adhoc.hits + stats.cache.adhoc.misses;
 
     /*
      * Memory used by safeframes.
      */
     num_frames = 0;
-    num_nodes = 0;
-    for (sf = manager->heap.internal_refs.frames; sf != NIL(bdd_safeframe); sf = sf->prev) {
+    num_nodes  = 0;
+    for (sf    = manager->heap.internal_refs.frames; sf != NIL(bdd_safeframe); sf = sf->prev) {
         num_frames++;
-	for (sn = sf->nodes; sn != NIL(bdd_safenode); sn = sn->next) {
+        for (sn = sf->nodes; sn != NIL(bdd_safenode); sn = sn->next) {
             num_nodes++;
-	}
+        }
     }
     tot_frame_mem = num_frames * sizeof(bdd_safeframe) + num_nodes * sizeof(bdd_safenode);
 
@@ -113,9 +68,9 @@ bdd_manager *manager;
     total_sbrk = stats.memory.last_sbrk - stats.memory.first_sbrk;
 
 #if defined(BDD_AUTOMATED_STATISTICS_GATHERING) /* { */
-	/*
-	 *    Write out the stuff in a way which is easy to parse. Also, include some extra info.
-	 */
+    /*
+     *    Write out the stuff in a way which is easy to parse. Also, include some extra info.
+     */
     (void) fprintf(stderr, "\
 stats: start\n\
 stats: bdd_nodeBlock %d\n\

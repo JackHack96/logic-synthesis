@@ -1,14 +1,6 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/seqbdd/bull_util.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:54 $
- *
- */
- /* file bull1.c release 1.1 */
- /* last modified: 8/21/90 at 17:02:17 */
+
+/* file bull1.c release 1.1 */
+/* last modified: 8/21/90 at 17:02:17 */
 #ifdef SIS
 #include "sis.h"
 

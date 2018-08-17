@@ -1,13 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/ite.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:02 $
- *
- */
-#include <stdio.h>	/* for BDD_DEBUG_LIFESPAN */
+
+#include <stdio.h>    /* for BDD_DEBUG_LIFESPAN */
 
 #include "util.h"
 #include "array.h"
@@ -16,41 +8,6 @@
 #include "bdd.h"
 #include "bdd_int.h"
 
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/ite.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:02 $
- * $Log: ite.c,v $
- * Revision 1.1.1.1  2004/02/07 10:15:02  pchong
- * imported
- *
- * Revision 1.4  1993/07/19  18:03:50  shiple
- * Fixed calls to bdd_ite_quick_cofactor, which are compiled only when DEBUG flags are on.
- *
- * Revision 1.3  1993/01/22  21:39:31  shiple
- * Cleaned up some comments.
- *
- * Revision 1.2  1992/09/19  01:48:12  shiple
- * Version 2.4
- * Prefaced compile time debug switches with BDD_.
- *
- * Revision 1.1  1992/07/29  00:27:06  shiple
- * Initial revision
- *
- * Revision 1.2  1992/05/06  18:51:03  sis
- * SIS release 1.1
- *
- * Revision 1.1  92/01/08  17:34:39  sis
- * Initial revision
- * 
- * Revision 1.1  91/03/27  14:35:43  shiple
- * Initial revision
- * 
- *
- */
 
 /*
  *    bdd__ITE_ - perform the ITE recursion
@@ -73,20 +30,20 @@
  */
 bdd_node *
 bdd__ITE_(manager, f, g, h)
-bdd_manager *manager;
-bdd_node *f;
-bdd_node *g;
-bdd_node *h;
+        bdd_manager *manager;
+        bdd_node *f;
+        bdd_node *g;
+        bdd_node *h;
 {
-    bdd_safeframe frame;
-    bdd_safenode safe_f, safe_g, safe_h;
-    bdd_safenode ret;
-    bdd_safenode reg_f, f_v, f_nv;
-    bdd_safenode reg_g, g_v, g_nv;
-    bdd_safenode reg_h, h_v, h_nv;
-    bdd_safenode ite_T, ite_E;
+    bdd_safeframe  frame;
+    bdd_safenode   safe_f, safe_g, safe_h;
+    bdd_safenode   ret;
+    bdd_safenode   reg_f, f_v, f_nv;
+    bdd_safenode   reg_g, g_v, g_nv;
+    bdd_safenode   reg_h, h_v, h_nv;
+    bdd_safenode   ite_T, ite_E;
     bdd_variableId varId;
-    boolean complement;
+    boolean        complement;
 
     BDD_ASSERT_NOTNIL(f);
     BDD_ASSERT_NOTNIL(g);
@@ -115,24 +72,24 @@ bdd_node *h;
      * Handle the trivial cases when f is a constant.
      */
     if (f == BDD_ONE(manager)) {
-	/*
-	 *    ITE(1, G, H) = G
-	 */
-	manager->heap.stats.ITE_ops.returns.trivial++;
-	bdd_safeframe_end(manager);
-	return (g);
+        /*
+         *    ITE(1, G, H) = G
+         */
+        manager->heap.stats.ITE_ops.returns.trivial++;
+        bdd_safeframe_end(manager);
+        return (g);
     }
     if (f == BDD_ZERO(manager)) {
-	/*
-	 *    ITE(0, G, H) = H
-	 */
-	manager->heap.stats.ITE_ops.returns.trivial++;
-	bdd_safeframe_end(manager);
-	return (h);
+        /*
+         *    ITE(0, G, H) = H
+         */
+        manager->heap.stats.ITE_ops.returns.trivial++;
+        bdd_safeframe_end(manager);
+        return (h);
     }
 
-#if ! defined(BDD_INLINE_ITE) || defined(BDD_DEBUG_UID) || defined(BDD_DEBUG_LIFESPAN) /* { */
-    (void) bdd_ite_var_to_const(manager, f, &g, &h);
+#if !defined(BDD_INLINE_ITE) || defined(BDD_DEBUG_UID) || defined(BDD_DEBUG_LIFESPAN) /* { */
+        (void) bdd_ite_var_to_const(manager, f, &g, &h);
 #else				/* } else { */
     BDD_ASSERT_NOTNIL(f);
 
@@ -141,63 +98,63 @@ bdd_node *h;
      *    See bdd_ite_var_to_const for documentation.
      */
     if (f == g) {
-	/*
-	 *    ITE(F, F, H) = ITE(F, 1, H) = F + H
-	 */
-	g = BDD_ONE(manager);
+        /*
+         *    ITE(F, F, H) = ITE(F, 1, H) = F + H
+         */
+        g = BDD_ONE(manager);
     } else if (f == BDD_NOT(g)) {
-	/*
-	 *    ITE(F, !F, H) = ITE(F, 0, H) = !F * H
-	 */
-	g = BDD_ZERO(manager);
+        /*
+         *    ITE(F, !F, H) = ITE(F, 0, H) = !F * H
+         */
+        g = BDD_ZERO(manager);
     }
 
     if (f == h) {
-	/*
-	 *    ITE(F, G, F) = ITE(F, G, 0) = F * G
-	 */
-	h = BDD_ZERO(manager);
+        /*
+         *    ITE(F, G, F) = ITE(F, G, 0) = F * G
+         */
+        h = BDD_ZERO(manager);
     } else if (f == BDD_NOT(h)) {
-	/*
-	 *    ITE(F, G, !F) = ITE(F, G, 1) = !F + G
-	 */
-	h = BDD_ONE(manager);
+        /*
+         *    ITE(F, G, !F) = ITE(F, G, 1) = !F + G
+         */
+        h = BDD_ONE(manager);
     }
-#endif				/* } */
+#endif                /* } */
     /* g and/or h may have been converted to constants */
 
     if (g == h) {
-	/* 
-	 *    ITE(F, G, G) = G
-	 */
-	manager->heap.stats.ITE_ops.returns.trivial++;
-	bdd_safeframe_end(manager);
-	return (g);
+        /*
+         *    ITE(F, G, G) = G
+         */
+        manager->heap.stats.ITE_ops.returns.trivial++;
+        bdd_safeframe_end(manager);
+        return (g);
     }
     if (g == BDD_ONE(manager) && h == BDD_ZERO(manager)) {
-	/*
-	 *    ITE(F, 1, 0) = F
-	 */
-	manager->heap.stats.ITE_ops.returns.trivial++;
-	bdd_safeframe_end(manager);
-	return (f);
+        /*
+         *    ITE(F, 1, 0) = F
+         */
+        manager->heap.stats.ITE_ops.returns.trivial++;
+        bdd_safeframe_end(manager);
+        return (f);
     }
     if (g == BDD_ZERO(manager) && h == BDD_ONE(manager)) {
-	/*
-	 *    ITE(F, 0, 1) = !F
-	 */
-	manager->heap.stats.ITE_ops.returns.trivial++;
-	bdd_safeframe_end(manager);
-	return (BDD_NOT(f));
+        /*
+         *    ITE(F, 0, 1) = !F
+         */
+        manager->heap.stats.ITE_ops.returns.trivial++;
+        bdd_safeframe_end(manager);
+        return (BDD_NOT(f));
     }
 
-    /*
-     *    It's not the case that both g and h are are constants; thus,
-     *    at most one is a constant (either g or h).
-     */
+        /*
+         *    It's not the case that both g and h are are constants; thus,
+         *    at most one is a constant (either g or h).
+         */
 
-#if ! defined(BDD_INLINE_ITE) || defined(BDD_DEBUG_UID) || defined(BDD_DEBUG_LIFESPAN) /* { */
-    (void) bdd_ite_canonicalize_ite_inputs(manager, &f, &g, &h, &complement);
+#if !defined(BDD_INLINE_ITE) || defined(BDD_DEBUG_UID) || defined(BDD_DEBUG_LIFESPAN) /* { */
+        (void) bdd_ite_canonicalize_ite_inputs(manager, &f, &g, &h, &complement);
 #else				/* } else { */
     BDD_ASSERT_NOTNIL(f);
     BDD_ASSERT_NOTNIL(g);
@@ -209,82 +166,92 @@ bdd_node *h;
      *    so that the code is as fast as possible.
      */
     if (BDD_IS_CONSTANT(manager, g)) {
-	/*
-	 *    ITE(F, c, H)
-	 *    where c is either zero or one
-	 */
-	if (BDD_REGULAR(f)->id > BDD_REGULAR(h)->id ||
-	    (BDD_REGULAR(f)->id == BDD_REGULAR(h)->id && (int) f > (int) h)) {
-	    /*
-	     *    ``F > H'' implies a rewrite by the rule
-	     */
-	    if (g == BDD_ONE(manager)) {
-		/*
-		 *    ITE(F, 1, H) = ITE(H, 1, F)
-		 */
-		{ bdd_node *tmp;
-		  tmp = h;
-		  h = f;
-		  f = tmp; }
-	    } else {		/* g == BDD_ZERO(manager) */
-		/*
-		 *    ITE(F, 0, H) = ITE(!H, 0, !F)
-		 */
-		{ bdd_node *tmp;
-		  tmp = h;
-		  h = f;
-		  f = tmp; }
-		f = BDD_NOT(f);
-		h = BDD_NOT(h);
-	    }
-	}
+        /*
+         *    ITE(F, c, H)
+         *    where c is either zero or one
+         */
+        if (BDD_REGULAR(f)->id > BDD_REGULAR(h)->id ||
+            (BDD_REGULAR(f)->id == BDD_REGULAR(h)->id && (int) f > (int) h)) {
+            /*
+             *    ``F > H'' implies a rewrite by the rule
+             */
+            if (g == BDD_ONE(manager)) {
+                /*
+                 *    ITE(F, 1, H) = ITE(H, 1, F)
+                 */
+                {
+                    bdd_node *tmp;
+                    tmp = h;
+                    h   = f;
+                    f   = tmp;
+                }
+            } else {        /* g == BDD_ZERO(manager) */
+                /*
+                 *    ITE(F, 0, H) = ITE(!H, 0, !F)
+                 */
+                {
+                    bdd_node *tmp;
+                    tmp = h;
+                    h   = f;
+                    f   = tmp;
+                }
+                f = BDD_NOT(f);
+                h = BDD_NOT(h);
+            }
+        }
     } else if (BDD_IS_CONSTANT(manager, h)) {
-	/*
-	 *    ITE(F, G, c)
-	 *    where c is either zero or one
-	 */
-	if (BDD_REGULAR(f)->id > BDD_REGULAR(g)->id ||
-	    (BDD_REGULAR(f)->id == BDD_REGULAR(g)->id && (int) f > (int) g)) {
-	    /*
-	     *    ``F > G'' implies a rewrite by the rule
-	     */
-	    if (h == BDD_ONE(manager)) {
-		/*
-		 *    ITE(F, G, 1) = ITE(!G, !F, 1)
-		 */
-		{ bdd_node *tmp;
-		  tmp = g;
-		  g = f;
-		  f = tmp; }
-		f = BDD_NOT(f);
-		g = BDD_NOT(g);
-	    } else {		/* h == BDD_ONE(manager) */
-		/*
-		 *    ITE(F, G, 0) = ITE(G, F, 0)
-		 */
-		{ bdd_node *tmp;
-		  tmp = g;
-		  g = f;
-		  f = tmp; }
-	    }
-	}
+        /*
+         *    ITE(F, G, c)
+         *    where c is either zero or one
+         */
+        if (BDD_REGULAR(f)->id > BDD_REGULAR(g)->id ||
+            (BDD_REGULAR(f)->id == BDD_REGULAR(g)->id && (int) f > (int) g)) {
+            /*
+             *    ``F > G'' implies a rewrite by the rule
+             */
+            if (h == BDD_ONE(manager)) {
+                /*
+                 *    ITE(F, G, 1) = ITE(!G, !F, 1)
+                 */
+                {
+                    bdd_node *tmp;
+                    tmp = g;
+                    g   = f;
+                    f   = tmp;
+                }
+                f = BDD_NOT(f);
+                g = BDD_NOT(g);
+            } else {        /* h == BDD_ONE(manager) */
+                /*
+                 *    ITE(F, G, 0) = ITE(G, F, 0)
+                 */
+                {
+                    bdd_node *tmp;
+                    tmp = g;
+                    g   = f;
+                    f   = tmp;
+                }
+            }
+        }
     } else if (g == BDD_NOT(h)) {
-	/*
-	 *    ITE(F, G, !G)
-	 */
-	if (BDD_REGULAR(f)->id > BDD_REGULAR(g)->id ||
-	    (BDD_REGULAR(f)->id == BDD_REGULAR(g)->id && (int) f > (int) g)) {
-	    /*
-	     *    ``F > G'' implies a rewrite by the rule
-	     *
-	     *    ITE(F, G, !G) = ITE(G, F, !F)
-	     */
-	    { bdd_node *tmp;
-	      tmp = f;
-	      f = g;
-	      g = tmp; }
-	    h = BDD_NOT(g);
-	}
+        /*
+         *    ITE(F, G, !G)
+         */
+        if (BDD_REGULAR(f)->id > BDD_REGULAR(g)->id ||
+            (BDD_REGULAR(f)->id == BDD_REGULAR(g)->id && (int) f > (int) g)) {
+            /*
+             *    ``F > G'' implies a rewrite by the rule
+             *
+             *    ITE(F, G, !G) = ITE(G, F, !F)
+             */
+            {
+                bdd_node *tmp;
+                tmp = f;
+                f   = g;
+                g   = tmp;
+            }
+            h = BDD_NOT(g);
+        }
     }
 
     /*
@@ -292,41 +259,43 @@ bdd_node *h;
      *    This canonicalizes the ordering of the ITE inputs some more.
      */
     if (BDD_IS_COMPLEMENT(f)) {
-	/*
-	 *    ITE(!F, G, H) = ITE(F, H, G)
-	 */
-	f = BDD_NOT(f);
-	{ bdd_node *tmp;
-	  tmp = g;
-	  g = h;
-	  h = tmp; }
+        /*
+         *    ITE(!F, G, H) = ITE(F, H, G)
+         */
+        f = BDD_NOT(f);
+        {
+            bdd_node *tmp;
+            tmp = g;
+            g   = h;
+            h   = tmp;
+        }
     }
 
-    if ( ! BDD_IS_COMPLEMENT(g) ) {
-	/*
-	 *    ITE(F, G, H)
-	 *    where H may be complemented or not
-	 */
-	complement = FALSE;
+    if (!BDD_IS_COMPLEMENT(g)) {
+        /*
+         *    ITE(F, G, H)
+         *    where H may be complemented or not
+         */
+        complement = FALSE;
 
-	BDD_ASSERT_REGNODE(f);
-	BDD_ASSERT_REGNODE(g);
-    } else {			/* BDD_IS_COMPLEMENT(g) */
-	/*
-	 *    ITE(F, !G, H) = ! ITE(F, G, !H)
-	 */
-	complement = TRUE;
+        BDD_ASSERT_REGNODE(f);
+        BDD_ASSERT_REGNODE(g);
+    } else {            /* BDD_IS_COMPLEMENT(g) */
+        /*
+         *    ITE(F, !G, H) = ! ITE(F, G, !H)
+         */
+        complement = TRUE;
 
-	g = BDD_NOT(g);
-	h = BDD_NOT(h);
+        g = BDD_NOT(g);
+        h = BDD_NOT(h);
     }
 
     BDD_ASSERT_REGNODE(f);
     BDD_ASSERT_REGNODE(g);
-#endif				/* } */
+#endif                /* } */
 
-    BDD_ASSERT( ! BDD_IS_COMPLEMENT(f) );
-    BDD_ASSERT( ! BDD_IS_COMPLEMENT(g) );
+    BDD_ASSERT(!BDD_IS_COMPLEMENT(f));
+    BDD_ASSERT(!BDD_IS_COMPLEMENT(g));
     /* ASSERT: BDD_IS_COMPLEMENT(h) || ! BDD_IS_COMPLEMENT(h) */
 
     reg_f.node = BDD_REGULAR(f);
@@ -341,27 +310,27 @@ bdd_node *h;
     varId = MIN(reg_g.node->id, reg_h.node->id);
 
     if (reg_f.node->id < varId &&
-	reg_f.node->T == BDD_ONE(manager) &&
-	reg_f.node->E == BDD_ZERO(manager)) {
-	/*
-	 *     f is the trivial case: ITE(v, 1, 0)
-	 */
-	manager->heap.stats.ITE_ops.returns.trivial++;
-	ret.node = bdd_find_or_add(manager, reg_f.node->id, g, h);
-	bdd_safeframe_end(manager);
-	return ( ! complement ? ret.node: BDD_NOT(ret.node));
+        reg_f.node->T == BDD_ONE(manager) &&
+        reg_f.node->E == BDD_ZERO(manager)) {
+        /*
+         *     f is the trivial case: ITE(v, 1, 0)
+         */
+        manager->heap.stats.ITE_ops.returns.trivial++;
+        ret.node = bdd_find_or_add(manager, reg_f.node->id, g, h);
+        bdd_safeframe_end(manager);
+        return (!complement ? ret.node : BDD_NOT(ret.node));
     }
 
     /*
      *    Perform a cache lookup; if it was a hit, then return straightaway.
      */
     if (bdd_hashcache_lookup(manager, f, g, h, &ret.node)) {
-	/*
-	 *    A hit, so blow off the frame, and return (complementing or not).
-	 */
-	manager->heap.stats.ITE_ops.returns.cached++;
-	bdd_safeframe_end(manager);
-	return ( ! complement ? ret.node: BDD_NOT(ret.node));
+        /*
+         *    A hit, so blow off the frame, and return (complementing or not).
+         */
+        manager->heap.stats.ITE_ops.returns.cached++;
+        bdd_safeframe_end(manager);
+        return (!complement ? ret.node : BDD_NOT(ret.node));
     }
 
     /*
@@ -375,128 +344,128 @@ bdd_node *h;
      *        f_v	- f cofactored by v
      *        f_nv	- f cofactored by v bar
      */
-#if ! defined(BDD_INLINE_ITE_CONSTANT) || defined(BDD_DEBUG_UID) || defined(BDD_DEBUG_LIFESPAN) /* { */
+#if !defined(BDD_INLINE_ITE_CONSTANT) || defined(BDD_DEBUG_UID) || defined(BDD_DEBUG_LIFESPAN) /* { */
     (void) bdd_ite_quick_cofactor(manager, f, varId, &(f_v.node), &(f_nv.node));
     (void) bdd_ite_quick_cofactor(manager, g, varId, &(g_v.node), &(g_nv.node));
     (void) bdd_ite_quick_cofactor(manager, h, varId, &(h_v.node), &(h_nv.node));
 #else				/* } else { */
-    
+
     /*
      *    Equivalent to bdd_ite_quick_cofactor(manager, f, varId, &f_v, &f_nv);
      */
     {
-	bdd_node *reg_f;
+        bdd_node *reg_f;
 
-	BDD_ASSERT_NOTNIL(f);
+        BDD_ASSERT_NOTNIL(f);
 
-	reg_f = BDD_REGULAR(f);
+        reg_f = BDD_REGULAR(f);
 
-	if (reg_f->id == varId) {
-	    /*
-	     *    If f's variable is varId, then do a bit
-	     *    of work to cofactor the bdd at f
-	     */
-	    BDD_ASSERT( ! BDD_IS_CONSTANT(manager, f) ); /* can't do this on zero or one */
+        if (reg_f->id == varId) {
+            /*
+             *    If f's variable is varId, then do a bit
+             *    of work to cofactor the bdd at f
+             */
+            BDD_ASSERT(!BDD_IS_CONSTANT(manager, f)); /* can't do this on zero or one */
 
-	    if (BDD_IS_COMPLEMENT(f)) {
-		f_v.node = BDD_NOT(reg_f->T);
-		f_nv.node = BDD_NOT(reg_f->E);
-	    } else {
-		f_v.node = reg_f->T;
-		f_nv.node = reg_f->E;
-	    }
-	} else {
-	    /*
-	     *    If f's variable is not varId, then no work need be done.
-	     */
-	    f_v.node = f;
-	    f_nv.node = f;
-	}
+            if (BDD_IS_COMPLEMENT(f)) {
+                f_v.node  = BDD_NOT(reg_f->T);
+                f_nv.node = BDD_NOT(reg_f->E);
+            } else {
+                f_v.node  = reg_f->T;
+                f_nv.node = reg_f->E;
+            }
+        } else {
+            /*
+             *    If f's variable is not varId, then no work need be done.
+             */
+            f_v.node  = f;
+            f_nv.node = f;
+        }
 
-	BDD_ASSERT_NOTNIL(f_v.node);
-	BDD_ASSERT_NOTNIL(f_nv.node);
+        BDD_ASSERT_NOTNIL(f_v.node);
+        BDD_ASSERT_NOTNIL(f_nv.node);
     }
-    
+
     /*
      *    Equivalent to bdd_ite_quick_cofactor(manager, g, varId, &g_v, &g_nv);
      */
     {
-	bdd_node *reg_g;
+        bdd_node *reg_g;
 
-	BDD_ASSERT_NOTNIL(g);
+        BDD_ASSERT_NOTNIL(g);
 
-	reg_g = BDD_REGULAR(g);
+        reg_g = BDD_REGULAR(g);
 
-	if (reg_g->id == varId) {
-	    /*
-	     *    If g's variable is varId, then do a bit
-	     *    of work to cofactor the bdd at g
-	     */
-	    BDD_ASSERT( ! BDD_IS_CONSTANT(manager, g) ); /* can't do this on zero or one */
+        if (reg_g->id == varId) {
+            /*
+             *    If g's variable is varId, then do a bit
+             *    of work to cofactor the bdd at g
+             */
+            BDD_ASSERT(!BDD_IS_CONSTANT(manager, g)); /* can't do this on zero or one */
 
-	    if (BDD_IS_COMPLEMENT(g)) {
-		g_v.node = BDD_NOT(reg_g->T);
-		g_nv.node = BDD_NOT(reg_g->E);
-	    } else {
-		g_v.node = reg_g->T;
-		g_nv.node = reg_g->E;
-	    }
-	} else {
-	    /*
-	     *    If g's variable is not varId, then no work need be done.
-	     */
-	    g_v.node = g;
-	    g_nv.node = g;
-	}
+            if (BDD_IS_COMPLEMENT(g)) {
+                g_v.node  = BDD_NOT(reg_g->T);
+                g_nv.node = BDD_NOT(reg_g->E);
+            } else {
+                g_v.node  = reg_g->T;
+                g_nv.node = reg_g->E;
+            }
+        } else {
+            /*
+             *    If g's variable is not varId, then no work need be done.
+             */
+            g_v.node  = g;
+            g_nv.node = g;
+        }
 
-	BDD_ASSERT_NOTNIL(g_v.node);
-	BDD_ASSERT_NOTNIL(g_nv.node);
+        BDD_ASSERT_NOTNIL(g_v.node);
+        BDD_ASSERT_NOTNIL(g_nv.node);
     }
-    
+
     /*
      *    Equivalent to bdd_ite_quick_cofactor(manager, h, varId, &h_v, &h_nv);
      */
     {
-	bdd_node *reg_h;
+        bdd_node *reg_h;
 
-	BDD_ASSERT_NOTNIL(h);
+        BDD_ASSERT_NOTNIL(h);
 
-	reg_h = BDD_REGULAR(h);
+        reg_h = BDD_REGULAR(h);
 
-	if (reg_h->id == varId) {
-	    /*
-	     *    If h's variable is varId, then do a bit
-	     *    of work to cofactor the bdd at h
-	     */
-	    BDD_ASSERT( ! BDD_IS_CONSTANT(manager, h) ); /* can't do this on zero or one */
+        if (reg_h->id == varId) {
+            /*
+             *    If h's variable is varId, then do a bit
+             *    of work to cofactor the bdd at h
+             */
+            BDD_ASSERT(!BDD_IS_CONSTANT(manager, h)); /* can't do this on zero or one */
 
-	    if (BDD_IS_COMPLEMENT(h)) {
-		h_v.node = BDD_NOT(reg_h->T);
-		h_nv.node = BDD_NOT(reg_h->E);
-	    } else {
-		h_v.node = reg_h->T;
-		h_nv.node = reg_h->E;
-	    }
-	} else {
-	    /*
-	     *    If h's variable is not varId, then no work need be done.
-	     */
-	    h_v.node = h;
-	    h_nv.node = h;
-	}
+            if (BDD_IS_COMPLEMENT(h)) {
+                h_v.node  = BDD_NOT(reg_h->T);
+                h_nv.node = BDD_NOT(reg_h->E);
+            } else {
+                h_v.node  = reg_h->T;
+                h_nv.node = reg_h->E;
+            }
+        } else {
+            /*
+             *    If h's variable is not varId, then no work need be done.
+             */
+            h_v.node  = h;
+            h_nv.node = h;
+        }
 
-	BDD_ASSERT_NOTNIL(h_v.node);
-	BDD_ASSERT_NOTNIL(h_nv.node);
+        BDD_ASSERT_NOTNIL(h_v.node);
+        BDD_ASSERT_NOTNIL(h_nv.node);
     }
-#endif				/* } */
-	
+#endif                /* } */
+
     ite_T.node = bdd__ITE_(manager, f_v.node, g_v.node, h_v.node);
     ite_E.node = bdd__ITE_(manager, f_nv.node, g_nv.node, h_nv.node);
 
     if (ite_T.node == ite_E.node) {
-	ret.node = ite_T.node;	/* either ite_T or ite_E */
+        ret.node = ite_T.node;    /* either ite_T or ite_E */
     } else {
-	ret.node = bdd_find_or_add(manager, varId, ite_T.node, ite_E.node);
+        ret.node = bdd_find_or_add(manager, varId, ite_T.node, ite_E.node);
     }
 
     (void) bdd_hashcache_insert(manager, f, g, h, ret.node);
@@ -509,7 +478,7 @@ bdd_node *h;
      *    by its complemented name, otherwise by the uncomplemented name
      */
     if (complement) {
-	ret.node = BDD_NOT(ret.node);
+        ret.node = BDD_NOT(ret.node);
     }
 
     manager->heap.stats.ITE_ops.returns.full++;

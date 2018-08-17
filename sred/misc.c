@@ -1,39 +1,31 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sred/misc.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:11 $
- *
- */
-#include "espresso.h"
+
+#include "espresso/inc/espresso.h"
 
 /* sf_insert_set -- add a set in position "i" of a set family */
 pset_family sf_insert_set(A, i, s)
-pset_family A;
-int i;
-pset s;
+        pset_family A;
+        int i;
+        pset s;
 {
     register pset p;
-	register int j, old_count;
+    register int  j, old_count;
 
     while (i >= A->capacity) {
-	A->capacity = A->capacity + A->capacity/2 + 1;
-	A->data = REALLOC(unsigned int, A->data, (long) A->capacity * A->wsize);
+        A->capacity = A->capacity + A->capacity / 2 + 1;
+        A->data     = REALLOC(
+        unsigned int, A->data, (long) A->capacity * A->wsize);
     }
-	if (i >= A->count) {
-	old_count = A->count;
-	A->count = i + 1;
-	for (j = old_count; j < i; j++) {
-		set_clear (GETSET (A, j), A->sf_size);
-	}
-	}
+    if (i >= A->count) {
+        old_count = A->count;
+        A->count = i + 1;
+        for (j = old_count; j < i; j++) {
+            set_clear(GETSET(A, j), A->sf_size);
+        }
+    }
     p = GETSET(A, i);
     INLINEset_copy(p, s);
     return A;
 }
 
-VOVoutput ()
-{
+VOVoutput() {
 }

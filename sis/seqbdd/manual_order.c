@@ -1,14 +1,6 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/seqbdd/manual_order.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:54 $
- *
- */
- /* file %M% release %I% */
- /* last modified: %G% at %U% */
+
+/* file %M% release %I% */
+/* last modified: %G% at %U% */
 #ifdef SIS
 #include "sis.h"
 

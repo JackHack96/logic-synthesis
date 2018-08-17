@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/options/options.doc.src,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:10 $
- *
- */
+
 options - option parsing and usage message package
 Tom Laidig
 University of California, Berkeley

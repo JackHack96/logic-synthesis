@@ -37,12 +37,12 @@
 #define YY_USE_PROTOS
 #define YY_USE_CONST
 
-#endif	/* __STDC__ */
-#endif	/* ! __cplusplus */
+#endif    /* __STDC__ */
+#endif    /* ! __cplusplus */
 
 #ifdef __TURBOC__
- #pragma warn -rch
- #pragma warn -use
+    #pragma warn -rch
+    #pragma warn -use
 #include <io.h>
 #include <stdlib.h>
 #define YY_USE_CONST
@@ -98,7 +98,7 @@
 
 typedef struct GENLIB_yy_buffer_state *YY_BUFFER_STATE;
 
-extern int GENLIB_yyleng;
+extern int  GENLIB_yyleng;
 extern FILE *GENLIB_yyin, *GENLIB_yyout;
 
 #define EOB_ACT_CONTINUE_SCAN 0
@@ -122,15 +122,15 @@ extern FILE *GENLIB_yyin, *GENLIB_yyout;
 /* Return all but the first 'n' matched characters back to the input stream. */
 
 #define GENLIB_yyless(n) \
-	do \
-		{ \
-		/* Undo effects of setting up GENLIB_yytext. */ \
-		*GENLIB_yy_cp = GENLIB_yy_hold_char; \
-		YY_RESTORE_YY_MORE_OFFSET \
-		GENLIB_yy_c_buf_p = GENLIB_yy_cp = GENLIB_yy_bp + n - YY_MORE_ADJ; \
-		YY_DO_BEFORE_ACTION; /* set up GENLIB_yytext again */ \
-		} \
-	while ( 0 )
+    do \
+        { \
+        /* Undo effects of setting up GENLIB_yytext. */ \
+        *GENLIB_yy_cp = GENLIB_yy_hold_char; \
+        YY_RESTORE_YY_MORE_OFFSET \
+        GENLIB_yy_c_buf_p = GENLIB_yy_cp = GENLIB_yy_bp + n - YY_MORE_ADJ; \
+        YY_DO_BEFORE_ACTION; /* set up GENLIB_yytext again */ \
+        } \
+    while ( 0 )
 
 #define unput(c) GENLIB_yyunput( c, GENLIB_yytext_ptr )
 
@@ -141,62 +141,61 @@ extern FILE *GENLIB_yyin, *GENLIB_yyout;
 typedef unsigned int GENLIB_yy_size_t;
 
 
-struct GENLIB_yy_buffer_state
-	{
-	FILE *GENLIB_yy_input_file;
+struct GENLIB_yy_buffer_state {
+    FILE *GENLIB_yy_input_file;
 
-	char *GENLIB_yy_ch_buf;		/* input buffer */
-	char *GENLIB_yy_buf_pos;		/* current position in input buffer */
+    char *GENLIB_yy_ch_buf;        /* input buffer */
+    char *GENLIB_yy_buf_pos;        /* current position in input buffer */
 
-	/* Size of input buffer in bytes, not including room for EOB
-	 * characters.
-	 */
-	GENLIB_yy_size_t GENLIB_yy_buf_size;
+    /* Size of input buffer in bytes, not including room for EOB
+     * characters.
+     */
+    GENLIB_yy_size_t GENLIB_yy_buf_size;
 
-	/* Number of characters read into GENLIB_yy_ch_buf, not including EOB
-	 * characters.
-	 */
-	int GENLIB_yy_n_chars;
+    /* Number of characters read into GENLIB_yy_ch_buf, not including EOB
+     * characters.
+     */
+    int GENLIB_yy_n_chars;
 
-	/* Whether we "own" the buffer - i.e., we know we created it,
-	 * and can realloc() it to grow it, and should free() it to
-	 * delete it.
-	 */
-	int GENLIB_yy_is_our_buffer;
+    /* Whether we "own" the buffer - i.e., we know we created it,
+     * and can realloc() it to grow it, and should free() it to
+     * delete it.
+     */
+    int GENLIB_yy_is_our_buffer;
 
-	/* Whether this is an "interactive" input source; if so, and
-	 * if we're using stdio for input, then we want to use getc()
-	 * instead of fread(), to make sure we stop fetching input after
-	 * each newline.
-	 */
-	int GENLIB_yy_is_interactive;
+    /* Whether this is an "interactive" input source; if so, and
+     * if we're using stdio for input, then we want to use getc()
+     * instead of fread(), to make sure we stop fetching input after
+     * each newline.
+     */
+    int GENLIB_yy_is_interactive;
 
-	/* Whether we're considered to be at the beginning of a line.
-	 * If so, '^' rules will be active on the next match, otherwise
-	 * not.
-	 */
-	int GENLIB_yy_at_bol;
+    /* Whether we're considered to be at the beginning of a line.
+     * If so, '^' rules will be active on the next match, otherwise
+     * not.
+     */
+    int GENLIB_yy_at_bol;
 
-	/* Whether to try to fill the input buffer when we reach the
-	 * end of it.
-	 */
-	int GENLIB_yy_fill_buffer;
+    /* Whether to try to fill the input buffer when we reach the
+     * end of it.
+     */
+    int GENLIB_yy_fill_buffer;
 
-	int GENLIB_yy_buffer_status;
+    int GENLIB_yy_buffer_status;
 #define YY_BUFFER_NEW 0
 #define YY_BUFFER_NORMAL 1
-	/* When an EOF's been seen but there's still some text to process
-	 * then we mark the buffer as YY_EOF_PENDING, to indicate that we
-	 * shouldn't try reading from the input source any more.  We might
-	 * still have a bunch of tokens to match, though, because of
-	 * possible backing-up.
-	 *
-	 * When we actually see the EOF, we change the status to "new"
-	 * (via GENLIB_yyrestart()), so that the user can continue scanning by
-	 * just pointing GENLIB_yyin at a new input file.
-	 */
+    /* When an EOF's been seen but there's still some text to process
+     * then we mark the buffer as YY_EOF_PENDING, to indicate that we
+     * shouldn't try reading from the input source any more.  We might
+     * still have a bunch of tokens to match, though, because of
+     * possible backing-up.
+     *
+     * When we actually see the EOF, we change the status to "new"
+     * (via GENLIB_yyrestart()), so that the user can continue scanning by
+     * just pointing GENLIB_yyin at a new input file.
+     */
 #define YY_BUFFER_EOF_PENDING 2
-	};
+};
 
 static YY_BUFFER_STATE GENLIB_yy_current_buffer = 0;
 
@@ -210,212 +209,235 @@ static YY_BUFFER_STATE GENLIB_yy_current_buffer = 0;
 /* GENLIB_yy_hold_char holds the character lost when GENLIB_yytext is formed. */
 static char GENLIB_yy_hold_char;
 
-static int GENLIB_yy_n_chars;		/* number of characters read into GENLIB_yy_ch_buf */
+static int GENLIB_yy_n_chars;        /* number of characters read into GENLIB_yy_ch_buf */
 
 
 int GENLIB_yyleng;
 
 /* Points to current character in buffer. */
-static char *GENLIB_yy_c_buf_p = (char *) 0;
-static int GENLIB_yy_init = 1;		/* whether we need to initialize */
-static int GENLIB_yy_start = 0;	/* start state number */
+static char *GENLIB_yy_c_buf_p                                       = (char *) 0;
+static int  GENLIB_yy_init                                           = 1;        /* whether we need to initialize */
+static int  GENLIB_yy_start                                          = 0;    /* start state number */
 
 /* Flag which is used to allow GENLIB_yywrap()'s to do buffer switches
  * instead of setting up a fresh GENLIB_yyin.  A bit of a hack ...
  */
-static int GENLIB_yy_did_buffer_switch_on_eof;
+static int                                                   GENLIB_yy_did_buffer_switch_on_eof;
 
-void GENLIB_yyrestart YY_PROTO(( FILE *input_file ));
+void GENLIB_yyrestart YY_PROTO((FILE * input_file));
 
-void GENLIB_yy_switch_to_buffer YY_PROTO(( YY_BUFFER_STATE new_buffer ));
+void GENLIB_yy_switch_to_buffer YY_PROTO((YY_BUFFER_STATE
+                                                 new_buffer ));
+
 void GENLIB_yy_load_buffer_state YY_PROTO(( void ));
-YY_BUFFER_STATE GENLIB_yy_create_buffer YY_PROTO(( FILE *file, int size ));
-void GENLIB_yy_delete_buffer YY_PROTO(( YY_BUFFER_STATE b ));
-void GENLIB_yy_init_buffer YY_PROTO(( YY_BUFFER_STATE b, FILE *file ));
-void GENLIB_yy_flush_buffer YY_PROTO(( YY_BUFFER_STATE b ));
+
+YY_BUFFER_STATE GENLIB_yy_create_buffer YY_PROTO((FILE * file,
+                                                         int size ));
+
+void GENLIB_yy_delete_buffer YY_PROTO((YY_BUFFER_STATE
+                                              b ));
+
+void GENLIB_yy_init_buffer YY_PROTO((YY_BUFFER_STATE
+                                            b, FILE * file ));
+
+void GENLIB_yy_flush_buffer YY_PROTO((YY_BUFFER_STATE
+                                             b ));
+
 #define YY_FLUSH_BUFFER GENLIB_yy_flush_buffer( GENLIB_yy_current_buffer )
 
 YY_BUFFER_STATE GENLIB_yy_scan_buffer YY_PROTO(( char *base, GENLIB_yy_size_t size ));
-YY_BUFFER_STATE GENLIB_yy_scan_string YY_PROTO(( GENLIB_yyconst char *GENLIB_yy_str ));
-YY_BUFFER_STATE GENLIB_yy_scan_bytes YY_PROTO(( GENLIB_yyconst char *bytes, int len ));
 
-static void *GENLIB_yy_flex_alloc YY_PROTO(( GENLIB_yy_size_t ));
+YY_BUFFER_STATE GENLIB_yy_scan_string YY_PROTO((GENLIB_yyconst
+                                                       char  *GENLIB_yy_str ));
+
+YY_BUFFER_STATE GENLIB_yy_scan_bytes YY_PROTO((GENLIB_yyconst
+                                                      char   *bytes,
+                                                      int    len ));
+
+static void *GENLIB_yy_flex_alloc YY_PROTO((GENLIB_yy_size_t));
+
 static void *GENLIB_yy_flex_realloc YY_PROTO(( void *, GENLIB_yy_size_t ));
+
 static void GENLIB_yy_flex_free YY_PROTO(( void * ));
 
 #define GENLIB_yy_new_buffer GENLIB_yy_create_buffer
 
 #define GENLIB_yy_set_interactive(is_interactive) \
-	{ \
-	if ( ! GENLIB_yy_current_buffer ) \
-		GENLIB_yy_current_buffer = GENLIB_yy_create_buffer( GENLIB_yyin, YY_BUF_SIZE ); \
-	GENLIB_yy_current_buffer->GENLIB_yy_is_interactive = is_interactive; \
-	}
+    { \
+    if ( ! GENLIB_yy_current_buffer ) \
+        GENLIB_yy_current_buffer = GENLIB_yy_create_buffer( GENLIB_yyin, YY_BUF_SIZE ); \
+    GENLIB_yy_current_buffer->GENLIB_yy_is_interactive = is_interactive; \
+    }
 
 #define GENLIB_yy_set_bol(at_bol) \
-	{ \
-	if ( ! GENLIB_yy_current_buffer ) \
-		GENLIB_yy_current_buffer = GENLIB_yy_create_buffer( GENLIB_yyin, YY_BUF_SIZE ); \
-	GENLIB_yy_current_buffer->GENLIB_yy_at_bol = at_bol; \
-	}
+    { \
+    if ( ! GENLIB_yy_current_buffer ) \
+        GENLIB_yy_current_buffer = GENLIB_yy_create_buffer( GENLIB_yyin, YY_BUF_SIZE ); \
+    GENLIB_yy_current_buffer->GENLIB_yy_at_bol = at_bol; \
+    }
 
 #define YY_AT_BOL() (GENLIB_yy_current_buffer->GENLIB_yy_at_bol)
 
-typedef unsigned char YY_CHAR;
-FILE *GENLIB_yyin = (FILE *) 0, *GENLIB_yyout = (FILE *) 0;
-typedef int GENLIB_yy_state_type;
-extern char *GENLIB_yytext;
+typedef unsigned char                                   YY_CHAR;
+FILE                                                    *GENLIB_yyin = (FILE *) 0, *GENLIB_yyout = (FILE *) 0;
+typedef int                                             GENLIB_yy_state_type;
+extern char                                             *GENLIB_yytext;
 #define GENLIB_yytext_ptr GENLIB_yytext
 
 static GENLIB_yy_state_type GENLIB_yy_get_previous_state YY_PROTO(( void ));
-static GENLIB_yy_state_type GENLIB_yy_try_NUL_trans YY_PROTO(( GENLIB_yy_state_type current_state ));
+
+static GENLIB_yy_state_type GENLIB_yy_try_NUL_trans YY_PROTO((GENLIB_yy_state_type
+                                                                     current_state ));
+
 static int GENLIB_yy_get_next_buffer YY_PROTO(( void ));
-static void GENLIB_yy_fatal_error YY_PROTO(( GENLIB_yyconst char msg[] ));
+
+static void GENLIB_yy_fatal_error YY_PROTO((GENLIB_yyconst
+                                                   char msg[] ));
 
 /* Done after the current pattern has been matched and before the
  * corresponding action - sets up GENLIB_yytext.
  */
 #define YY_DO_BEFORE_ACTION \
-	GENLIB_yytext_ptr = GENLIB_yy_bp; \
-	GENLIB_yyleng = (int) (GENLIB_yy_cp - GENLIB_yy_bp); \
-	GENLIB_yy_hold_char = *GENLIB_yy_cp; \
-	*GENLIB_yy_cp = '\0'; \
-	GENLIB_yy_c_buf_p = GENLIB_yy_cp;
+    GENLIB_yytext_ptr = GENLIB_yy_bp; \
+    GENLIB_yyleng = (int) (GENLIB_yy_cp - GENLIB_yy_bp); \
+    GENLIB_yy_hold_char = *GENLIB_yy_cp; \
+    *GENLIB_yy_cp = '\0'; \
+    GENLIB_yy_c_buf_p = GENLIB_yy_cp;
 
 #define YY_NUM_RULES 23
 #define YY_END_OF_BUFFER 24
 static GENLIB_yyconst short int GENLIB_yy_accept[73] =
-    {   0,
-        0,    0,   24,   22,   20,   20,    6,   22,   21,    7,
-        2,    3,    9,    8,   19,   22,   19,    4,    5,   19,
-       19,   19,   19,   19,   19,   20,    0,   21,    0,    0,
-       19,   19,    0,   18,    0,   19,   19,   19,   19,   19,
-       19,   19,    1,    0,    0,    0,    0,   19,   19,   19,
-       19,   19,   11,   15,    0,   19,   19,   10,   19,   19,
-       19,   12,   16,   17,   19,   19,   19,   13,   19,   19,
-       14,    0
-    } ;
+                                        {0,
+                                         0, 0, 24, 22, 20, 20, 6, 22, 21, 7,
+                                         2, 3, 9, 8, 19, 22, 19, 4, 5, 19,
+                                         19, 19, 19, 19, 19, 20, 0, 21, 0, 0,
+                                         19, 19, 0, 18, 0, 19, 19, 19, 19, 19,
+                                         19, 19, 1, 0, 0, 0, 0, 19, 19, 19,
+                                         19, 19, 11, 15, 0, 19, 19, 10, 19, 19,
+                                         19, 12, 16, 17, 19, 19, 19, 13, 19, 19,
+                                         14, 0
+                                        };
 
 static GENLIB_yyconst int GENLIB_yy_ec[256] =
-    {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    2,    4,    5,    6,    1,    1,    1,    7,    8,
-        9,   10,   11,    1,   12,   13,    1,   14,   15,   16,
-       16,   16,   16,   16,   16,   16,   16,    1,   17,    1,
-       18,    1,    1,    1,   19,   20,   21,   20,   22,   20,
-       23,   24,   25,   20,   20,   26,   20,   27,   28,   29,
-       30,   31,   32,   33,   20,   20,   20,   20,   20,   20,
-        1,    1,    1,    1,   20,    1,   20,   20,   20,   20,
+                                  {0,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 2, 3,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 2, 4, 5, 6, 1, 1, 1, 7, 8,
+                                   9, 10, 11, 1, 12, 13, 1, 14, 15, 16,
+                                   16, 16, 16, 16, 16, 16, 16, 1, 17, 1,
+                                   18, 1, 1, 1, 19, 20, 21, 20, 22, 20,
+                                   23, 24, 25, 20, 20, 26, 20, 27, 28, 29,
+                                   30, 31, 32, 33, 20, 20, 20, 20, 20, 20,
+                                   1, 1, 1, 1, 20, 1, 20, 20, 20, 20,
 
-       34,   20,   20,   20,   20,   20,   20,   20,   20,   20,
-       20,   20,   20,   20,   20,   20,   20,   20,   20,   20,
-       20,   20,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
+                                   34, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+                                   20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+                                   20, 20, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1
-    } ;
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                   1, 1, 1, 1, 1
+                                  };
 
 static GENLIB_yyconst int GENLIB_yy_meta[35] =
-    {   0,
-        1,    1,    2,    1,    3,    1,    1,    1,    1,    1,
-        1,    4,    4,    4,    4,    4,    1,    1,    4,    4,
-        4,    4,    4,    4,    4,    4,    4,    4,    4,    4,
-        4,    4,    4,    4
-    } ;
+                                  {0,
+                                   1, 1, 2, 1, 3, 1, 1, 1, 1, 1,
+                                   1, 4, 4, 4, 4, 4, 1, 1, 4, 4,
+                                   4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+                                   4, 4, 4, 4
+                                  };
 
 static GENLIB_yyconst short int GENLIB_yy_base[76] =
-    {   0,
-        0,    0,  173,  174,   33,   35,  174,    0,    0,  174,
-      174,  174,  174,   26,   30,   33,   48,  174,  174,  159,
-       39,   40,   41,   43,   44,   69,  164,    0,   59,   81,
-      153,    0,  114,  174,   62,    0,  138,   42,   52,   66,
-       73,   68,  174,    0,   76,    0,   90,   90,  107,   80,
-       67,  101,  149,  148,  118,   94,   95,  147,  111,  124,
-      112,  146,  145,  144,  128,  118,   98,  133,  129,  130,
-      132,  174,  163,  167,   54
-    } ;
+                                        {0,
+                                         0, 0, 173, 174, 33, 35, 174, 0, 0, 174,
+                                         174, 174, 174, 26, 30, 33, 48, 174, 174, 159,
+                                         39, 40, 41, 43, 44, 69, 164, 0, 59, 81,
+                                         153, 0, 114, 174, 62, 0, 138, 42, 52, 66,
+                                         73, 68, 174, 0, 76, 0, 90, 90, 107, 80,
+                                         67, 101, 149, 148, 118, 94, 95, 147, 111, 124,
+                                         112, 146, 145, 144, 128, 118, 98, 133, 129, 130,
+                                         132, 174, 163, 167, 54
+                                        };
 
 static GENLIB_yyconst short int GENLIB_yy_def[76] =
-    {   0,
-       72,    1,   72,   72,   72,   72,   72,   73,   74,   72,
-       72,   72,   72,   72,   75,   72,   75,   72,   72,   75,
-       75,   75,   75,   75,   75,   72,   73,   74,   72,   72,
-       75,   17,   72,   72,   33,   17,   75,   75,   75,   75,
-       75,   75,   72,   30,   72,   35,   72,   37,   37,   75,
-       75,   75,   75,   75,   72,   75,   75,   75,   75,   75,
-       75,   75,   75,   75,   75,   75,   75,   75,   75,   75,
-       75,    0,   72,   72,   72
-    } ;
+                                        {0,
+                                         72, 1, 72, 72, 72, 72, 72, 73, 74, 72,
+                                         72, 72, 72, 72, 75, 72, 75, 72, 72, 75,
+                                         75, 75, 75, 75, 75, 72, 73, 74, 72, 72,
+                                         75, 17, 72, 72, 33, 17, 75, 75, 75, 75,
+                                         75, 75, 72, 30, 72, 35, 72, 37, 37, 75,
+                                         75, 75, 75, 75, 72, 75, 75, 75, 75, 75,
+                                         75, 75, 75, 75, 75, 75, 75, 75, 75, 75,
+                                         75, 0, 72, 72, 72
+                                        };
 
 static GENLIB_yyconst short int GENLIB_yy_nxt[209] =
-    {   0,
-        4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
-       14,   15,   16,   17,   17,   17,   18,   19,   20,   20,
-       21,   20,   22,   20,   20,   23,   20,   20,   24,   20,
-       20,   25,   20,   20,   26,   26,   26,   26,   29,   30,
-       30,   30,   29,   32,   32,   32,   33,   33,   33,   34,
-       34,   72,   72,   72,   72,   72,   72,   31,   39,   40,
-       35,   36,   36,   36,   72,   42,   38,   41,   50,   37,
-       26,   26,   33,   33,   33,   46,   46,   46,   72,   72,
-       72,   37,   34,   34,   51,   72,   47,   47,   58,   55,
-       55,   55,   72,   35,   44,   44,   44,   54,   52,   53,
+                                        {0,
+                                         4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+                                         14, 15, 16, 17, 17, 17, 18, 19, 20, 20,
+                                         21, 20, 22, 20, 20, 23, 20, 20, 24, 20,
+                                         20, 25, 20, 20, 26, 26, 26, 26, 29, 30,
+                                         30, 30, 29, 32, 32, 32, 33, 33, 33, 34,
+                                         34, 72, 72, 72, 72, 72, 72, 31, 39, 40,
+                                         35, 36, 36, 36, 72, 42, 38, 41, 50, 37,
+                                         26, 26, 33, 33, 33, 46, 46, 46, 72, 72,
+                                         72, 37, 34, 34, 51, 72, 47, 47, 58, 55,
+                                         55, 55, 72, 35, 44, 44, 44, 54, 52, 53,
 
-       72,   31,   45,   55,   55,   55,   72,   72,   34,   34,
-       72,   56,   57,   72,   45,   34,   34,   72,   31,   34,
-       34,   59,   69,   72,   72,   61,   60,   33,   33,   33,
-       72,   55,   55,   55,   62,   45,   72,   63,   64,   66,
-       72,   72,   72,   68,   72,   72,   67,   45,   47,   48,
-       72,   49,   49,   49,   65,   70,   72,   72,   72,   72,
-       72,   72,   71,   27,   27,   72,   27,   28,   43,   28,
-       28,   72,   72,    3,   72,   72,   72,   72,   72,   72,
-       72,   72,   72,   72,   72,   72,   72,   72,   72,   72,
-       72,   72,   72,   72,   72,   72,   72,   72,   72,   72,
+                                         72, 31, 45, 55, 55, 55, 72, 72, 34, 34,
+                                         72, 56, 57, 72, 45, 34, 34, 72, 31, 34,
+                                         34, 59, 69, 72, 72, 61, 60, 33, 33, 33,
+                                         72, 55, 55, 55, 62, 45, 72, 63, 64, 66,
+                                         72, 72, 72, 68, 72, 72, 67, 45, 47, 48,
+                                         72, 49, 49, 49, 65, 70, 72, 72, 72, 72,
+                                         72, 72, 71, 27, 27, 72, 27, 28, 43, 28,
+                                         28, 72, 72, 3, 72, 72, 72, 72, 72, 72,
+                                         72, 72, 72, 72, 72, 72, 72, 72, 72, 72,
+                                         72, 72, 72, 72, 72, 72, 72, 72, 72, 72,
 
-       72,   72,   72,   72,   72,   72,   72,   72
-    } ;
+                                         72, 72, 72, 72, 72, 72, 72, 72
+                                        };
 
 static GENLIB_yyconst short int GENLIB_yy_chk[209] =
-    {   0,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    5,    5,    6,    6,   14,   14,
-       14,   14,   15,   15,   15,   15,   16,   16,   16,   17,
-       17,   21,   22,   23,   38,   24,   25,   75,   22,   23,
-       17,   17,   17,   17,   39,   25,   21,   24,   38,   17,
-       26,   26,   29,   29,   29,   35,   35,   35,   40,   51,
-       42,   17,   30,   30,   39,   41,   45,   45,   51,   45,
-       45,   45,   50,   30,   30,   30,   30,   42,   40,   41,
+                                        {0,
+                                         1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                         1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                         1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                         1, 1, 1, 1, 5, 5, 6, 6, 14, 14,
+                                         14, 14, 15, 15, 15, 15, 16, 16, 16, 17,
+                                         17, 21, 22, 23, 38, 24, 25, 75, 22, 23,
+                                         17, 17, 17, 17, 39, 25, 21, 24, 38, 17,
+                                         26, 26, 29, 29, 29, 35, 35, 35, 40, 51,
+                                         42, 17, 30, 30, 39, 41, 45, 45, 51, 45,
+                                         45, 45, 50, 30, 30, 30, 30, 42, 40, 41,
 
-       48,   48,   30,   47,   47,   47,   56,   57,   49,   49,
-       67,   50,   50,   52,   30,   33,   33,   49,   49,   55,
-       55,   52,   67,   59,   61,   57,   56,   33,   33,   33,
-       66,   55,   55,   55,   59,   33,   60,   60,   60,   61,
-       65,   69,   70,   66,   71,   68,   65,   33,   37,   37,
-       37,   37,   37,   37,   60,   69,   64,   63,   62,   58,
-       54,   53,   70,   73,   73,   31,   73,   74,   27,   74,
-       74,   20,    3,   72,   72,   72,   72,   72,   72,   72,
-       72,   72,   72,   72,   72,   72,   72,   72,   72,   72,
-       72,   72,   72,   72,   72,   72,   72,   72,   72,   72,
+                                         48, 48, 30, 47, 47, 47, 56, 57, 49, 49,
+                                         67, 50, 50, 52, 30, 33, 33, 49, 49, 55,
+                                         55, 52, 67, 59, 61, 57, 56, 33, 33, 33,
+                                         66, 55, 55, 55, 59, 33, 60, 60, 60, 61,
+                                         65, 69, 70, 66, 71, 68, 65, 33, 37, 37,
+                                         37, 37, 37, 37, 60, 69, 64, 63, 62, 58,
+                                         54, 53, 70, 73, 73, 31, 73, 74, 27, 74,
+                                         74, 20, 3, 72, 72, 72, 72, 72, 72, 72,
+                                         72, 72, 72, 72, 72, 72, 72, 72, 72, 72,
+                                         72, 72, 72, 72, 72, 72, 72, 72, 72, 72,
 
-       72,   72,   72,   72,   72,   72,   72,   72
-    } ;
+                                         72, 72, 72, 72, 72, 72, 72, 72
+                                        };
 
 static GENLIB_yy_state_type GENLIB_yy_last_accepting_state;
-static char *GENLIB_yy_last_accepting_cpos;
+static char                 *GENLIB_yy_last_accepting_cpos;
 
 /* The intent behind this definition is that it'll catch
  * any uses of REJECT which flex missed.
@@ -432,16 +454,17 @@ char *GENLIB_yytext;
 /* last modified on 5/29/91 at 12:35:32   */
 #include "genlib_int.h"
 #include "readlib.h"
+
 #undef input
 #undef unput
 #ifdef FLEX_SCANNER
 #undef YY_INPUT
-#define YY_INPUT(buf,result,max) (result = genlib_input(buf, max))
+#define YY_INPUT(buf, result, max) (result = genlib_input(buf, max))
 #endif
 
 static char *file_string;
-static int file_mode;
-static int nbuffer;
+static int  file_mode;
+static int  nbuffer;
 static char buffer[20];
 
 /*alnum			[-A-Za-z0-9_.<>$%^&|{}[\]:,?/@]*/
@@ -455,12 +478,16 @@ static char buffer[20];
 #ifdef __cplusplus
 extern "C" int GENLIB_yywrap YY_PROTO(( void ));
 #else
+
 extern int GENLIB_yywrap YY_PROTO(( void ));
+
 #endif
 #endif
 
 #ifndef YY_NO_UNPUT
+
 static void GENLIB_yyunput YY_PROTO(( int c, char *buf_ptr ));
+
 #endif
 
 #ifndef GENLIB_yytext_ptr
@@ -475,7 +502,9 @@ static int GENLIB_yy_flex_strlen YY_PROTO(( GENLIB_yyconst char * ));
 #ifdef __cplusplus
 static int GENLIB_yyinput YY_PROTO(( void ));
 #else
+
 static int input YY_PROTO(( void ));
+
 #endif
 #endif
 
@@ -504,7 +533,9 @@ YY_MALLOC_DECL
 #else
 #if __STDC__
 #ifndef __cplusplus
+
 #include <stdlib.h>
+
 #endif
 #else
 /* Just try to get by without declaring the routines.  This will fail
@@ -533,21 +564,21 @@ YY_MALLOC_DECL
  */
 #ifndef YY_INPUT
 #define YY_INPUT(buf,result,max_size) \
-	if ( GENLIB_yy_current_buffer->GENLIB_yy_is_interactive ) \
-		{ \
-		int c = '*', n; \
-		for ( n = 0; n < max_size && \
-			     (c = getc( GENLIB_yyin )) != EOF && c != '\n'; ++n ) \
-			buf[n] = (char) c; \
-		if ( c == '\n' ) \
-			buf[n++] = (char) c; \
-		if ( c == EOF && ferror( GENLIB_yyin ) ) \
-			YY_FATAL_ERROR( "input in flex scanner failed" ); \
-		result = n; \
-		} \
-	else if ( ((result = fread( buf, 1, max_size, GENLIB_yyin )) == 0) \
-		  && ferror( GENLIB_yyin ) ) \
-		YY_FATAL_ERROR( "input in flex scanner failed" );
+    if ( GENLIB_yy_current_buffer->GENLIB_yy_is_interactive ) \
+        { \
+        int c = '*', n; \
+        for ( n = 0; n < max_size && \
+                 (c = getc( GENLIB_yyin )) != EOF && c != '\n'; ++n ) \
+            buf[n] = (char) c; \
+        if ( c == '\n' ) \
+            buf[n++] = (char) c; \
+        if ( c == EOF && ferror( GENLIB_yyin ) ) \
+            YY_FATAL_ERROR( "input in flex scanner failed" ); \
+        result = n; \
+        } \
+    else if ( ((result = fread( buf, 1, max_size, GENLIB_yyin )) == 0) \
+          && ferror( GENLIB_yyin ) ) \
+        YY_FATAL_ERROR( "input in flex scanner failed" );
 #endif
 
 /* No semi-colon after return; correct usage is to write "GENLIB_yyterminate();" -
@@ -588,353 +619,308 @@ YY_MALLOC_DECL
 #endif
 
 #define YY_RULE_SETUP \
-	YY_USER_ACTION
+    YY_USER_ACTION
 
-YY_DECL
-	{
-	register GENLIB_yy_state_type GENLIB_yy_current_state;
-	register char *GENLIB_yy_cp = NULL, *GENLIB_yy_bp = NULL;
-	register int GENLIB_yy_act;
+YY_DECL {
+    register GENLIB_yy_state_type GENLIB_yy_current_state;
+    register char                 *GENLIB_yy_cp = NULL, *GENLIB_yy_bp = NULL;
+    register int                  GENLIB_yy_act;
 
 #line 28 "readliblex.l"
 
 
 #line 603 "lex.GENLIB_yy.c"
 
-	if ( GENLIB_yy_init )
-		{
-		GENLIB_yy_init = 0;
+    if (GENLIB_yy_init) {
+        GENLIB_yy_init = 0;
 
 #ifdef YY_USER_INIT
-		YY_USER_INIT;
+        YY_USER_INIT;
 #endif
 
-		if ( ! GENLIB_yy_start )
-			GENLIB_yy_start = 1;	/* first start state */
+        if (!GENLIB_yy_start)
+            GENLIB_yy_start = 1;    /* first start state */
 
-		if ( ! GENLIB_yyin )
-			GENLIB_yyin = stdin;
+        if (!GENLIB_yyin)
+            GENLIB_yyin = stdin;
 
-		if ( ! GENLIB_yyout )
-			GENLIB_yyout = stdout;
+        if (!GENLIB_yyout)
+            GENLIB_yyout = stdout;
 
-		if ( ! GENLIB_yy_current_buffer )
-			GENLIB_yy_current_buffer =
-				GENLIB_yy_create_buffer( GENLIB_yyin, YY_BUF_SIZE );
+        if (!GENLIB_yy_current_buffer)
+            GENLIB_yy_current_buffer =
+                    GENLIB_yy_create_buffer(GENLIB_yyin, YY_BUF_SIZE);
 
-		GENLIB_yy_load_buffer_state();
-		}
+        GENLIB_yy_load_buffer_state();
+    }
 
-	while ( 1 )		/* loops until end-of-file is reached */
-		{
-		GENLIB_yy_cp = GENLIB_yy_c_buf_p;
+    while (1)        /* loops until end-of-file is reached */
+    {
+        GENLIB_yy_cp = GENLIB_yy_c_buf_p;
 
-		/* Support of GENLIB_yytext. */
-		*GENLIB_yy_cp = GENLIB_yy_hold_char;
+        /* Support of GENLIB_yytext. */
+        *GENLIB_yy_cp = GENLIB_yy_hold_char;
 
-		/* GENLIB_yy_bp points to the position in GENLIB_yy_ch_buf of the start of
-		 * the current run.
-		 */
-		GENLIB_yy_bp = GENLIB_yy_cp;
+        /* GENLIB_yy_bp points to the position in GENLIB_yy_ch_buf of the start of
+         * the current run.
+         */
+        GENLIB_yy_bp = GENLIB_yy_cp;
 
-		GENLIB_yy_current_state = GENLIB_yy_start;
-GENLIB_yy_match:
-		do
-			{
-			register YY_CHAR GENLIB_yy_c = GENLIB_yy_ec[YY_SC_TO_UI(*GENLIB_yy_cp)];
-			if ( GENLIB_yy_accept[GENLIB_yy_current_state] )
-				{
-				GENLIB_yy_last_accepting_state = GENLIB_yy_current_state;
-				GENLIB_yy_last_accepting_cpos = GENLIB_yy_cp;
-				}
-			while ( GENLIB_yy_chk[GENLIB_yy_base[GENLIB_yy_current_state] + GENLIB_yy_c] != GENLIB_yy_current_state )
-				{
-				GENLIB_yy_current_state = (int) GENLIB_yy_def[GENLIB_yy_current_state];
-				if ( GENLIB_yy_current_state >= 73 )
-					GENLIB_yy_c = GENLIB_yy_meta[(unsigned int) GENLIB_yy_c];
-				}
-			GENLIB_yy_current_state = GENLIB_yy_nxt[GENLIB_yy_base[GENLIB_yy_current_state] + (unsigned int) GENLIB_yy_c];
-			++GENLIB_yy_cp;
-			}
-		while ( GENLIB_yy_base[GENLIB_yy_current_state] != 174 );
+        GENLIB_yy_current_state = GENLIB_yy_start;
+        GENLIB_yy_match:
+        do {
+            register YY_CHAR GENLIB_yy_c = GENLIB_yy_ec[YY_SC_TO_UI(*GENLIB_yy_cp)];
+            if (GENLIB_yy_accept[GENLIB_yy_current_state]) {
+                GENLIB_yy_last_accepting_state = GENLIB_yy_current_state;
+                GENLIB_yy_last_accepting_cpos  = GENLIB_yy_cp;
+            }
+            while (GENLIB_yy_chk[GENLIB_yy_base[GENLIB_yy_current_state] + GENLIB_yy_c] != GENLIB_yy_current_state) {
+                GENLIB_yy_current_state = (int) GENLIB_yy_def[GENLIB_yy_current_state];
+                if (GENLIB_yy_current_state >= 73)
+                    GENLIB_yy_c         = GENLIB_yy_meta[(unsigned int) GENLIB_yy_c];
+            }
+            GENLIB_yy_current_state      = GENLIB_yy_nxt[GENLIB_yy_base[GENLIB_yy_current_state] +
+                                                         (unsigned int) GENLIB_yy_c];
+            ++GENLIB_yy_cp;
+        } while (GENLIB_yy_base[GENLIB_yy_current_state] != 174);
 
-GENLIB_yy_find_action:
-		GENLIB_yy_act = GENLIB_yy_accept[GENLIB_yy_current_state];
-		if ( GENLIB_yy_act == 0 )
-			{ /* have to back up */
-			GENLIB_yy_cp = GENLIB_yy_last_accepting_cpos;
-			GENLIB_yy_current_state = GENLIB_yy_last_accepting_state;
-			GENLIB_yy_act = GENLIB_yy_accept[GENLIB_yy_current_state];
-			}
+        GENLIB_yy_find_action:
+        GENLIB_yy_act = GENLIB_yy_accept[GENLIB_yy_current_state];
+        if (GENLIB_yy_act == 0) { /* have to back up */
+            GENLIB_yy_cp            = GENLIB_yy_last_accepting_cpos;
+            GENLIB_yy_current_state = GENLIB_yy_last_accepting_state;
+            GENLIB_yy_act           = GENLIB_yy_accept[GENLIB_yy_current_state];
+        }
 
-		YY_DO_BEFORE_ACTION;
+        YY_DO_BEFORE_ACTION;
 
 
-do_action:	/* This label is used only to access EOF actions. */
+        do_action:    /* This label is used only to access EOF actions. */
 
 
-		switch ( GENLIB_yy_act )
-	{ /* beginning of action switch */
-			case 0: /* must back up */
-			/* undo the effects of YY_DO_BEFORE_ACTION */
-			*GENLIB_yy_cp = GENLIB_yy_hold_char;
-			GENLIB_yy_cp = GENLIB_yy_last_accepting_cpos;
-			GENLIB_yy_current_state = GENLIB_yy_last_accepting_state;
-			goto GENLIB_yy_find_action;
+        switch (GENLIB_yy_act) { /* beginning of action switch */
+            case 0: /* must back up */
+                /* undo the effects of YY_DO_BEFORE_ACTION */
+                *GENLIB_yy_cp = GENLIB_yy_hold_char;
+                GENLIB_yy_cp            = GENLIB_yy_last_accepting_cpos;
+                GENLIB_yy_current_state = GENLIB_yy_last_accepting_state;
+                goto GENLIB_yy_find_action;
 
-case 1:
-YY_RULE_SETUP
+            case 1:YY_RULE_SETUP
 #line 30 "readliblex.l"
-{ 
-   			    int i;
-			    GENLIB_yytext[GENLIB_yyleng-1] = '\0';
-			    for(i = 0; i < GENLIB_yyleng; i++) GENLIB_yytext[i] = GENLIB_yytext[i+1];
-			    GENLIB_yyleng -= 2;
-			    return IDENTIFIER; 
-			}
-	YY_BREAK
-case 2:
-YY_RULE_SETUP
+            {
+                int i;
+                GENLIB_yytext[GENLIB_yyleng - 1] = '\0';
+                for (i = 0; i < GENLIB_yyleng; i++) GENLIB_yytext[i] = GENLIB_yytext[i + 1];
+                GENLIB_yyleng -= 2;
+                return IDENTIFIER;
+            }
+                YY_BREAK
+            case 2:YY_RULE_SETUP
 #line 38 "readliblex.l"
-{ return LPAREN; }
-	YY_BREAK
-case 3:
-YY_RULE_SETUP
+            { return LPAREN; }
+                YY_BREAK
+            case 3:YY_RULE_SETUP
 #line 39 "readliblex.l"
-{ return RPAREN; }
-	YY_BREAK
-case 4:
-YY_RULE_SETUP
+            { return RPAREN; }
+                YY_BREAK
+            case 4:YY_RULE_SETUP
 #line 40 "readliblex.l"
-{ return SEMI; }
-	YY_BREAK
-case 5:
-YY_RULE_SETUP
+            { return SEMI; }
+                YY_BREAK
+            case 5:YY_RULE_SETUP
 #line 41 "readliblex.l"
-{ return ASSIGN; }
-	YY_BREAK
-case 6:
-YY_RULE_SETUP
+            { return ASSIGN; }
+                YY_BREAK
+            case 6:YY_RULE_SETUP
 #line 42 "readliblex.l"
-{ return OPR_NOT; }
-	YY_BREAK
-case 7:
-YY_RULE_SETUP
+            { return OPR_NOT; }
+                YY_BREAK
+            case 7:YY_RULE_SETUP
 #line 43 "readliblex.l"
-{ return OPR_NOT_POST; }
-	YY_BREAK
-case 8:
-YY_RULE_SETUP
+            { return OPR_NOT_POST; }
+                YY_BREAK
+            case 8:YY_RULE_SETUP
 #line 44 "readliblex.l"
-{ return OPR_OR; }
-	YY_BREAK
-case 9:
-YY_RULE_SETUP
+            { return OPR_OR; }
+                YY_BREAK
+            case 9:YY_RULE_SETUP
 #line 45 "readliblex.l"
-{ return OPR_AND; }
-	YY_BREAK
-case 10:
-YY_RULE_SETUP
+            { return OPR_AND; }
+                YY_BREAK
+            case 10:YY_RULE_SETUP
 #line 47 "readliblex.l"
-{ return GATE; }
-	YY_BREAK
-case 11:
-YY_RULE_SETUP
+            { return GATE; }
+                YY_BREAK
+            case 11:YY_RULE_SETUP
 #line 48 "readliblex.l"
-{ return PIN; }
-	YY_BREAK
-case 12:
-YY_RULE_SETUP
+            { return PIN; }
+                YY_BREAK
+            case 12:YY_RULE_SETUP
 #line 49 "readliblex.l"
-{ return LATCH; }
-	YY_BREAK
-case 13:
-YY_RULE_SETUP
+            { return LATCH; }
+                YY_BREAK
+            case 13:YY_RULE_SETUP
 #line 50 "readliblex.l"
-{ return CONTROL; }
-	YY_BREAK
-case 14:
-YY_RULE_SETUP
+            { return CONTROL; }
+                YY_BREAK
+            case 14:YY_RULE_SETUP
 #line 51 "readliblex.l"
-{ return CONSTRAINT; }
-	YY_BREAK
-case 15:
-YY_RULE_SETUP
+            { return CONSTRAINT; }
+                YY_BREAK
+            case 15:YY_RULE_SETUP
 #line 52 "readliblex.l"
-{ return SEQ; }
-	YY_BREAK
-case 16:
-YY_RULE_SETUP
+            { return SEQ; }
+                YY_BREAK
+            case 16:YY_RULE_SETUP
 #line 53 "readliblex.l"
-{ return CONST0; }
-	YY_BREAK
-case 17:
-YY_RULE_SETUP
+            { return CONST0; }
+                YY_BREAK
+            case 17:YY_RULE_SETUP
 #line 54 "readliblex.l"
-{ return CONST1; }
-	YY_BREAK
-case 18:
-YY_RULE_SETUP
+            { return CONST1; }
+                YY_BREAK
+            case 18:YY_RULE_SETUP
 #line 55 "readliblex.l"
-{ return REAL;}
-	YY_BREAK
-case 19:
-YY_RULE_SETUP
+            { return REAL; }
+                YY_BREAK
+            case 19:YY_RULE_SETUP
 #line 56 "readliblex.l"
-{ return IDENTIFIER; }
-	YY_BREAK
-case 20:
-YY_RULE_SETUP
+            { return IDENTIFIER; }
+                YY_BREAK
+            case 20:YY_RULE_SETUP
 #line 57 "readliblex.l"
-;
-	YY_BREAK
-case 21:
-YY_RULE_SETUP
+                ;
+                YY_BREAK
+            case 21:YY_RULE_SETUP
 #line 58 "readliblex.l"
-; 		/* comments */
-	YY_BREAK
-case 22:
-YY_RULE_SETUP
+                ;        /* comments */
+                YY_BREAK
+            case 22:YY_RULE_SETUP
 #line 60 "readliblex.l"
-{ GENLIB_yyerror("bad character"); }
-	YY_BREAK
-case 23:
-YY_RULE_SETUP
+            { GENLIB_yyerror("bad character"); }
+                YY_BREAK
+            case 23:YY_RULE_SETUP
 #line 62 "readliblex.l"
-ECHO;
-	YY_BREAK
+                ECHO;
+                YY_BREAK
 #line 807 "lex.GENLIB_yy.c"
-case YY_STATE_EOF(INITIAL):
-	GENLIB_yyterminate();
+            case YY_STATE_EOF(INITIAL): GENLIB_yyterminate();
 
-	case YY_END_OF_BUFFER:
-		{
-		/* Amount of text matched not including the EOB char. */
-		int GENLIB_yy_amount_of_matched_text = (int) (GENLIB_yy_cp - GENLIB_yytext_ptr) - 1;
+            case YY_END_OF_BUFFER: {
+                /* Amount of text matched not including the EOB char. */
+                int GENLIB_yy_amount_of_matched_text = (int) (GENLIB_yy_cp - GENLIB_yytext_ptr) - 1;
 
-		/* Undo the effects of YY_DO_BEFORE_ACTION. */
-		*GENLIB_yy_cp = GENLIB_yy_hold_char;
-		YY_RESTORE_YY_MORE_OFFSET
+                /* Undo the effects of YY_DO_BEFORE_ACTION. */
+                *GENLIB_yy_cp = GENLIB_yy_hold_char;
+                YY_RESTORE_YY_MORE_OFFSET
 
-		if ( GENLIB_yy_current_buffer->GENLIB_yy_buffer_status == YY_BUFFER_NEW )
-			{
-			/* We're scanning a new file or input source.  It's
-			 * possible that this happened because the user
-			 * just pointed GENLIB_yyin at a new source and called
-			 * GENLIB_yylex().  If so, then we have to assure
-			 * consistency between GENLIB_yy_current_buffer and our
-			 * globals.  Here is the right place to do so, because
-			 * this is the first action (other than possibly a
-			 * back-up) that will match for the new input source.
-			 */
-			GENLIB_yy_n_chars = GENLIB_yy_current_buffer->GENLIB_yy_n_chars;
-			GENLIB_yy_current_buffer->GENLIB_yy_input_file = GENLIB_yyin;
-			GENLIB_yy_current_buffer->GENLIB_yy_buffer_status = YY_BUFFER_NORMAL;
-			}
+                if (GENLIB_yy_current_buffer->GENLIB_yy_buffer_status == YY_BUFFER_NEW) {
+                    /* We're scanning a new file or input source.  It's
+                     * possible that this happened because the user
+                     * just pointed GENLIB_yyin at a new source and called
+                     * GENLIB_yylex().  If so, then we have to assure
+                     * consistency between GENLIB_yy_current_buffer and our
+                     * globals.  Here is the right place to do so, because
+                     * this is the first action (other than possibly a
+                     * back-up) that will match for the new input source.
+                     */
+                    GENLIB_yy_n_chars = GENLIB_yy_current_buffer->GENLIB_yy_n_chars;
+                    GENLIB_yy_current_buffer->GENLIB_yy_input_file    = GENLIB_yyin;
+                    GENLIB_yy_current_buffer->GENLIB_yy_buffer_status = YY_BUFFER_NORMAL;
+                }
 
-		/* Note that here we test for GENLIB_yy_c_buf_p "<=" to the position
-		 * of the first EOB in the buffer, since GENLIB_yy_c_buf_p will
-		 * already have been incremented past the NUL character
-		 * (since all states make transitions on EOB to the
-		 * end-of-buffer state).  Contrast this with the test
-		 * in input().
-		 */
-		if ( GENLIB_yy_c_buf_p <= &GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[GENLIB_yy_n_chars] )
-			{ /* This was really a NUL. */
-			GENLIB_yy_state_type GENLIB_yy_next_state;
+                /* Note that here we test for GENLIB_yy_c_buf_p "<=" to the position
+                 * of the first EOB in the buffer, since GENLIB_yy_c_buf_p will
+                 * already have been incremented past the NUL character
+                 * (since all states make transitions on EOB to the
+                 * end-of-buffer state).  Contrast this with the test
+                 * in input().
+                 */
+                if (GENLIB_yy_c_buf_p <=
+                    &GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[GENLIB_yy_n_chars]) { /* This was really a NUL. */
+                    GENLIB_yy_state_type GENLIB_yy_next_state;
 
-			GENLIB_yy_c_buf_p = GENLIB_yytext_ptr + GENLIB_yy_amount_of_matched_text;
+                    GENLIB_yy_c_buf_p = GENLIB_yytext_ptr + GENLIB_yy_amount_of_matched_text;
 
-			GENLIB_yy_current_state = GENLIB_yy_get_previous_state();
+                    GENLIB_yy_current_state = GENLIB_yy_get_previous_state();
 
-			/* Okay, we're now positioned to make the NUL
-			 * transition.  We couldn't have
-			 * GENLIB_yy_get_previous_state() go ahead and do it
-			 * for us because it doesn't know how to deal
-			 * with the possibility of jamming (and we don't
-			 * want to build jamming into it because then it
-			 * will run more slowly).
-			 */
+                    /* Okay, we're now positioned to make the NUL
+                     * transition.  We couldn't have
+                     * GENLIB_yy_get_previous_state() go ahead and do it
+                     * for us because it doesn't know how to deal
+                     * with the possibility of jamming (and we don't
+                     * want to build jamming into it because then it
+                     * will run more slowly).
+                     */
 
-			GENLIB_yy_next_state = GENLIB_yy_try_NUL_trans( GENLIB_yy_current_state );
+                    GENLIB_yy_next_state = GENLIB_yy_try_NUL_trans(GENLIB_yy_current_state);
 
-			GENLIB_yy_bp = GENLIB_yytext_ptr + YY_MORE_ADJ;
+                    GENLIB_yy_bp = GENLIB_yytext_ptr + YY_MORE_ADJ;
 
-			if ( GENLIB_yy_next_state )
-				{
-				/* Consume the NUL. */
-				GENLIB_yy_cp = ++GENLIB_yy_c_buf_p;
-				GENLIB_yy_current_state = GENLIB_yy_next_state;
-				goto GENLIB_yy_match;
-				}
+                    if (GENLIB_yy_next_state) {
+                        /* Consume the NUL. */
+                        GENLIB_yy_cp            = ++GENLIB_yy_c_buf_p;
+                        GENLIB_yy_current_state = GENLIB_yy_next_state;
+                        goto GENLIB_yy_match;
+                    } else {
+                        GENLIB_yy_cp = GENLIB_yy_c_buf_p;
+                        goto GENLIB_yy_find_action;
+                    }
+                } else
+                    switch (GENLIB_yy_get_next_buffer()) {
+                        case EOB_ACT_END_OF_FILE: {
+                            GENLIB_yy_did_buffer_switch_on_eof = 0;
 
-			else
-				{
-				GENLIB_yy_cp = GENLIB_yy_c_buf_p;
-				goto GENLIB_yy_find_action;
-				}
-			}
+                            if (GENLIB_yywrap()) {
+                                /* Note: because we've taken care in
+                                 * GENLIB_yy_get_next_buffer() to have set up
+                                 * GENLIB_yytext, we can now set up
+                                 * GENLIB_yy_c_buf_p so that if some total
+                                 * hoser (like flex itself) wants to
+                                 * call the scanner after we return the
+                                 * YY_NULL, it'll still work - another
+                                 * YY_NULL will get returned.
+                                 */
+                                GENLIB_yy_c_buf_p = GENLIB_yytext_ptr + YY_MORE_ADJ;
 
-		else switch ( GENLIB_yy_get_next_buffer() )
-			{
-			case EOB_ACT_END_OF_FILE:
-				{
-				GENLIB_yy_did_buffer_switch_on_eof = 0;
+                                GENLIB_yy_act = YY_STATE_EOF(YY_START);
+                                goto do_action;
+                            } else {
+                                if (!GENLIB_yy_did_buffer_switch_on_eof)
+                                    YY_NEW_FILE;
+                            }
+                            break;
+                        }
 
-				if ( GENLIB_yywrap() )
-					{
-					/* Note: because we've taken care in
-					 * GENLIB_yy_get_next_buffer() to have set up
-					 * GENLIB_yytext, we can now set up
-					 * GENLIB_yy_c_buf_p so that if some total
-					 * hoser (like flex itself) wants to
-					 * call the scanner after we return the
-					 * YY_NULL, it'll still work - another
-					 * YY_NULL will get returned.
-					 */
-					GENLIB_yy_c_buf_p = GENLIB_yytext_ptr + YY_MORE_ADJ;
+                        case EOB_ACT_CONTINUE_SCAN:
+                            GENLIB_yy_c_buf_p =
+                                    GENLIB_yytext_ptr + GENLIB_yy_amount_of_matched_text;
 
-					GENLIB_yy_act = YY_STATE_EOF(YY_START);
-					goto do_action;
-					}
+                            GENLIB_yy_current_state = GENLIB_yy_get_previous_state();
 
-				else
-					{
-					if ( ! GENLIB_yy_did_buffer_switch_on_eof )
-						YY_NEW_FILE;
-					}
-				break;
-				}
+                            GENLIB_yy_cp = GENLIB_yy_c_buf_p;
+                            GENLIB_yy_bp = GENLIB_yytext_ptr + YY_MORE_ADJ;
+                            goto GENLIB_yy_match;
 
-			case EOB_ACT_CONTINUE_SCAN:
-				GENLIB_yy_c_buf_p =
-					GENLIB_yytext_ptr + GENLIB_yy_amount_of_matched_text;
+                        case EOB_ACT_LAST_MATCH:
+                            GENLIB_yy_c_buf_p =
+                                    &GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[GENLIB_yy_n_chars];
 
-				GENLIB_yy_current_state = GENLIB_yy_get_previous_state();
+                            GENLIB_yy_current_state = GENLIB_yy_get_previous_state();
 
-				GENLIB_yy_cp = GENLIB_yy_c_buf_p;
-				GENLIB_yy_bp = GENLIB_yytext_ptr + YY_MORE_ADJ;
-				goto GENLIB_yy_match;
+                            GENLIB_yy_cp = GENLIB_yy_c_buf_p;
+                            GENLIB_yy_bp = GENLIB_yytext_ptr + YY_MORE_ADJ;
+                            goto GENLIB_yy_find_action;
+                    }
+                break;
+            }
 
-			case EOB_ACT_LAST_MATCH:
-				GENLIB_yy_c_buf_p =
-				&GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[GENLIB_yy_n_chars];
-
-				GENLIB_yy_current_state = GENLIB_yy_get_previous_state();
-
-				GENLIB_yy_cp = GENLIB_yy_c_buf_p;
-				GENLIB_yy_bp = GENLIB_yytext_ptr + YY_MORE_ADJ;
-				goto GENLIB_yy_find_action;
-			}
-		break;
-		}
-
-	default:
-		YY_FATAL_ERROR(
-			"fatal flex scanner internal error--no action found" );
-	} /* end of action switch */
-		} /* end of scanning one token */
-	} /* end of GENLIB_yylex */
+            default: YY_FATAL_ERROR(
+                        "fatal flex scanner internal error--no action found");
+        } /* end of action switch */
+    } /* end of scanning one token */
+} /* end of GENLIB_yylex */
 
 
 /* GENLIB_yy_get_next_buffer - try to read in a new buffer
@@ -945,164 +931,144 @@ case YY_STATE_EOF(INITIAL):
  *	EOB_ACT_END_OF_FILE - end of file
  */
 
-static int GENLIB_yy_get_next_buffer()
-	{
-	register char *dest = GENLIB_yy_current_buffer->GENLIB_yy_ch_buf;
-	register char *source = GENLIB_yytext_ptr;
-	register int number_to_move, i;
-	int ret_val;
+static int GENLIB_yy_get_next_buffer() {
+    register char *dest   = GENLIB_yy_current_buffer->GENLIB_yy_ch_buf;
+    register char *source = GENLIB_yytext_ptr;
+    register int  number_to_move, i;
+    int           ret_val;
 
-	if ( GENLIB_yy_c_buf_p > &GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[GENLIB_yy_n_chars + 1] )
-		YY_FATAL_ERROR(
-		"fatal flex scanner internal error--end of buffer missed" );
+    if (GENLIB_yy_c_buf_p > &GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[GENLIB_yy_n_chars + 1])
+        YY_FATAL_ERROR(
+                "fatal flex scanner internal error--end of buffer missed");
 
-	if ( GENLIB_yy_current_buffer->GENLIB_yy_fill_buffer == 0 )
-		{ /* Don't try to fill the buffer, so this is an EOF. */
-		if ( GENLIB_yy_c_buf_p - GENLIB_yytext_ptr - YY_MORE_ADJ == 1 )
-			{
-			/* We matched a single character, the EOB, so
-			 * treat this as a final EOF.
-			 */
-			return EOB_ACT_END_OF_FILE;
-			}
+    if (GENLIB_yy_current_buffer->GENLIB_yy_fill_buffer == 0) { /* Don't try to fill the buffer, so this is an EOF. */
+        if (GENLIB_yy_c_buf_p - GENLIB_yytext_ptr - YY_MORE_ADJ == 1) {
+            /* We matched a single character, the EOB, so
+             * treat this as a final EOF.
+             */
+            return EOB_ACT_END_OF_FILE;
+        } else {
+            /* We matched some text prior to the EOB, first
+             * process it.
+             */
+            return EOB_ACT_LAST_MATCH;
+        }
+    }
 
-		else
-			{
-			/* We matched some text prior to the EOB, first
-			 * process it.
-			 */
-			return EOB_ACT_LAST_MATCH;
-			}
-		}
+    /* Try to read more data. */
 
-	/* Try to read more data. */
+    /* First move last chars to start of buffer. */
+    number_to_move = (int) (GENLIB_yy_c_buf_p - GENLIB_yytext_ptr) - 1;
 
-	/* First move last chars to start of buffer. */
-	number_to_move = (int) (GENLIB_yy_c_buf_p - GENLIB_yytext_ptr) - 1;
+    for (i = 0; i < number_to_move; ++i)
+        *(dest++) = *(source++);
 
-	for ( i = 0; i < number_to_move; ++i )
-		*(dest++) = *(source++);
+    if (GENLIB_yy_current_buffer->GENLIB_yy_buffer_status == YY_BUFFER_EOF_PENDING)
+        /* don't do the read, it's not guaranteed to return an EOF,
+         * just force an EOF
+         */
+        GENLIB_yy_current_buffer->GENLIB_yy_n_chars = GENLIB_yy_n_chars = 0;
 
-	if ( GENLIB_yy_current_buffer->GENLIB_yy_buffer_status == YY_BUFFER_EOF_PENDING )
-		/* don't do the read, it's not guaranteed to return an EOF,
-		 * just force an EOF
-		 */
-		GENLIB_yy_current_buffer->GENLIB_yy_n_chars = GENLIB_yy_n_chars = 0;
+    else {
+        int num_to_read =
+                    GENLIB_yy_current_buffer->GENLIB_yy_buf_size - number_to_move - 1;
 
-	else
-		{
-		int num_to_read =
-			GENLIB_yy_current_buffer->GENLIB_yy_buf_size - number_to_move - 1;
-
-		while ( num_to_read <= 0 )
-			{ /* Not enough room in the buffer - grow it. */
+        while (num_to_read <= 0) { /* Not enough room in the buffer - grow it. */
 #ifdef YY_USES_REJECT
-			YY_FATAL_ERROR(
+            YY_FATAL_ERROR(
 "input buffer overflow, can't enlarge buffer because scanner uses REJECT" );
 #else
 
-			/* just a shorter name for the current buffer */
-			YY_BUFFER_STATE b = GENLIB_yy_current_buffer;
+            /* just a shorter name for the current buffer */
+            YY_BUFFER_STATE b = GENLIB_yy_current_buffer;
 
-			int GENLIB_yy_c_buf_p_offset =
-				(int) (GENLIB_yy_c_buf_p - b->GENLIB_yy_ch_buf);
+            int GENLIB_yy_c_buf_p_offset =
+                        (int) (GENLIB_yy_c_buf_p - b->GENLIB_yy_ch_buf);
 
-			if ( b->GENLIB_yy_is_our_buffer )
-				{
-				int new_size = b->GENLIB_yy_buf_size * 2;
+            if (b->GENLIB_yy_is_our_buffer) {
+                int new_size = b->GENLIB_yy_buf_size * 2;
 
-				if ( new_size <= 0 )
-					b->GENLIB_yy_buf_size += b->GENLIB_yy_buf_size / 8;
-				else
-					b->GENLIB_yy_buf_size *= 2;
+                if (new_size <= 0)
+                    b->GENLIB_yy_buf_size += b->GENLIB_yy_buf_size / 8;
+                else
+                    b->GENLIB_yy_buf_size *= 2;
 
-				b->GENLIB_yy_ch_buf = (char *)
-					/* Include room in for 2 EOB chars. */
-					GENLIB_yy_flex_realloc( (void *) b->GENLIB_yy_ch_buf,
-							 b->GENLIB_yy_buf_size + 2 );
-				}
-			else
-				/* Can't grow it, we don't own it. */
-				b->GENLIB_yy_ch_buf = 0;
+                b->GENLIB_yy_ch_buf = (char *)
+                        /* Include room in for 2 EOB chars. */
+                        GENLIB_yy_flex_realloc((void *) b->GENLIB_yy_ch_buf,
+                                               b->GENLIB_yy_buf_size + 2);
+            } else
+                /* Can't grow it, we don't own it. */
+                b->GENLIB_yy_ch_buf = 0;
 
-			if ( ! b->GENLIB_yy_ch_buf )
-				YY_FATAL_ERROR(
-				"fatal error - scanner input buffer overflow" );
+            if (!b->GENLIB_yy_ch_buf)
+                YY_FATAL_ERROR(
+                        "fatal error - scanner input buffer overflow");
 
-			GENLIB_yy_c_buf_p = &b->GENLIB_yy_ch_buf[GENLIB_yy_c_buf_p_offset];
+            GENLIB_yy_c_buf_p = &b->GENLIB_yy_ch_buf[GENLIB_yy_c_buf_p_offset];
 
-			num_to_read = GENLIB_yy_current_buffer->GENLIB_yy_buf_size -
-						number_to_move - 1;
+            num_to_read = GENLIB_yy_current_buffer->GENLIB_yy_buf_size -
+                          number_to_move - 1;
 #endif
-			}
+        }
 
-		if ( num_to_read > YY_READ_BUF_SIZE )
-			num_to_read = YY_READ_BUF_SIZE;
+        if (num_to_read > YY_READ_BUF_SIZE)
+            num_to_read = YY_READ_BUF_SIZE;
 
-		/* Read in more data. */
-		YY_INPUT( (&GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[number_to_move]),
-			GENLIB_yy_n_chars, num_to_read );
+        /* Read in more data. */
+        YY_INPUT((&GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[number_to_move]),
+                 GENLIB_yy_n_chars, num_to_read);
 
-		GENLIB_yy_current_buffer->GENLIB_yy_n_chars = GENLIB_yy_n_chars;
-		}
+        GENLIB_yy_current_buffer->GENLIB_yy_n_chars = GENLIB_yy_n_chars;
+    }
 
-	if ( GENLIB_yy_n_chars == 0 )
-		{
-		if ( number_to_move == YY_MORE_ADJ )
-			{
-			ret_val = EOB_ACT_END_OF_FILE;
-			GENLIB_yyrestart( GENLIB_yyin );
-			}
+    if (GENLIB_yy_n_chars == 0) {
+        if (number_to_move == YY_MORE_ADJ) {
+            ret_val = EOB_ACT_END_OF_FILE;
+            GENLIB_yyrestart(GENLIB_yyin);
+        } else {
+            ret_val = EOB_ACT_LAST_MATCH;
+            GENLIB_yy_current_buffer->GENLIB_yy_buffer_status =
+                    YY_BUFFER_EOF_PENDING;
+        }
+    } else
+        ret_val = EOB_ACT_CONTINUE_SCAN;
 
-		else
-			{
-			ret_val = EOB_ACT_LAST_MATCH;
-			GENLIB_yy_current_buffer->GENLIB_yy_buffer_status =
-				YY_BUFFER_EOF_PENDING;
-			}
-		}
+    GENLIB_yy_n_chars += number_to_move;
+    GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[GENLIB_yy_n_chars]     = YY_END_OF_BUFFER_CHAR;
+    GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[GENLIB_yy_n_chars + 1] = YY_END_OF_BUFFER_CHAR;
 
-	else
-		ret_val = EOB_ACT_CONTINUE_SCAN;
+    GENLIB_yytext_ptr     = &GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[0];
 
-	GENLIB_yy_n_chars += number_to_move;
-	GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[GENLIB_yy_n_chars] = YY_END_OF_BUFFER_CHAR;
-	GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[GENLIB_yy_n_chars + 1] = YY_END_OF_BUFFER_CHAR;
-
-	GENLIB_yytext_ptr = &GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[0];
-
-	return ret_val;
-	}
+    return ret_val;
+}
 
 
 /* GENLIB_yy_get_previous_state - get the state just before the EOB char was reached */
 
-static GENLIB_yy_state_type GENLIB_yy_get_previous_state()
-	{
-	register GENLIB_yy_state_type GENLIB_yy_current_state;
-	register char *GENLIB_yy_cp;
+static GENLIB_yy_state_type GENLIB_yy_get_previous_state() {
+    register GENLIB_yy_state_type GENLIB_yy_current_state;
+    register char                 *GENLIB_yy_cp;
 
-	GENLIB_yy_current_state = GENLIB_yy_start;
+    GENLIB_yy_current_state = GENLIB_yy_start;
 
-	for ( GENLIB_yy_cp = GENLIB_yytext_ptr + YY_MORE_ADJ; GENLIB_yy_cp < GENLIB_yy_c_buf_p; ++GENLIB_yy_cp )
-		{
-		register YY_CHAR GENLIB_yy_c = (*GENLIB_yy_cp ? GENLIB_yy_ec[YY_SC_TO_UI(*GENLIB_yy_cp)] : 1);
-		if ( GENLIB_yy_accept[GENLIB_yy_current_state] )
-			{
-			GENLIB_yy_last_accepting_state = GENLIB_yy_current_state;
-			GENLIB_yy_last_accepting_cpos = GENLIB_yy_cp;
-			}
-		while ( GENLIB_yy_chk[GENLIB_yy_base[GENLIB_yy_current_state] + GENLIB_yy_c] != GENLIB_yy_current_state )
-			{
-			GENLIB_yy_current_state = (int) GENLIB_yy_def[GENLIB_yy_current_state];
-			if ( GENLIB_yy_current_state >= 73 )
-				GENLIB_yy_c = GENLIB_yy_meta[(unsigned int) GENLIB_yy_c];
-			}
-		GENLIB_yy_current_state = GENLIB_yy_nxt[GENLIB_yy_base[GENLIB_yy_current_state] + (unsigned int) GENLIB_yy_c];
-		}
+    for (GENLIB_yy_cp = GENLIB_yytext_ptr + YY_MORE_ADJ; GENLIB_yy_cp < GENLIB_yy_c_buf_p; ++GENLIB_yy_cp) {
+        register YY_CHAR GENLIB_yy_c = (*GENLIB_yy_cp ? GENLIB_yy_ec[YY_SC_TO_UI(*GENLIB_yy_cp)] : 1);
+        if (GENLIB_yy_accept[GENLIB_yy_current_state]) {
+            GENLIB_yy_last_accepting_state = GENLIB_yy_current_state;
+            GENLIB_yy_last_accepting_cpos  = GENLIB_yy_cp;
+        }
+        while (GENLIB_yy_chk[GENLIB_yy_base[GENLIB_yy_current_state] + GENLIB_yy_c] != GENLIB_yy_current_state) {
+            GENLIB_yy_current_state = (int) GENLIB_yy_def[GENLIB_yy_current_state];
+            if (GENLIB_yy_current_state >= 73)
+                GENLIB_yy_c         = GENLIB_yy_meta[(unsigned int) GENLIB_yy_c];
+        }
+        GENLIB_yy_current_state      = GENLIB_yy_nxt[GENLIB_yy_base[GENLIB_yy_current_state] +
+                                                     (unsigned int) GENLIB_yy_c];
+    }
 
-	return GENLIB_yy_current_state;
-	}
+    return GENLIB_yy_current_state;
+}
 
 
 /* GENLIB_yy_try_NUL_trans - try to make a transition on the NUL character
@@ -1112,264 +1078,264 @@ static GENLIB_yy_state_type GENLIB_yy_get_previous_state()
  */
 
 #ifdef YY_USE_PROTOS
-static GENLIB_yy_state_type GENLIB_yy_try_NUL_trans( GENLIB_yy_state_type GENLIB_yy_current_state )
+
+static GENLIB_yy_state_type GENLIB_yy_try_NUL_trans(GENLIB_yy_state_type GENLIB_yy_current_state)
 #else
 static GENLIB_yy_state_type GENLIB_yy_try_NUL_trans( GENLIB_yy_current_state )
 GENLIB_yy_state_type GENLIB_yy_current_state;
 #endif
-	{
-	register int GENLIB_yy_is_jam;
-	register char *GENLIB_yy_cp = GENLIB_yy_c_buf_p;
+{
+    register int  GENLIB_yy_is_jam;
+    register char *GENLIB_yy_cp = GENLIB_yy_c_buf_p;
 
-	register YY_CHAR GENLIB_yy_c = 1;
-	if ( GENLIB_yy_accept[GENLIB_yy_current_state] )
-		{
-		GENLIB_yy_last_accepting_state = GENLIB_yy_current_state;
-		GENLIB_yy_last_accepting_cpos = GENLIB_yy_cp;
-		}
-	while ( GENLIB_yy_chk[GENLIB_yy_base[GENLIB_yy_current_state] + GENLIB_yy_c] != GENLIB_yy_current_state )
-		{
-		GENLIB_yy_current_state = (int) GENLIB_yy_def[GENLIB_yy_current_state];
-		if ( GENLIB_yy_current_state >= 73 )
-			GENLIB_yy_c = GENLIB_yy_meta[(unsigned int) GENLIB_yy_c];
-		}
-	GENLIB_yy_current_state = GENLIB_yy_nxt[GENLIB_yy_base[GENLIB_yy_current_state] + (unsigned int) GENLIB_yy_c];
-	GENLIB_yy_is_jam = (GENLIB_yy_current_state == 72);
+    register YY_CHAR GENLIB_yy_c = 1;
+    if (GENLIB_yy_accept[GENLIB_yy_current_state]) {
+        GENLIB_yy_last_accepting_state = GENLIB_yy_current_state;
+        GENLIB_yy_last_accepting_cpos  = GENLIB_yy_cp;
+    }
+    while (GENLIB_yy_chk[GENLIB_yy_base[GENLIB_yy_current_state] + GENLIB_yy_c] != GENLIB_yy_current_state) {
+        GENLIB_yy_current_state = (int) GENLIB_yy_def[GENLIB_yy_current_state];
+        if (GENLIB_yy_current_state >= 73)
+            GENLIB_yy_c         = GENLIB_yy_meta[(unsigned int) GENLIB_yy_c];
+    }
+    GENLIB_yy_current_state      = GENLIB_yy_nxt[GENLIB_yy_base[GENLIB_yy_current_state] + (unsigned int) GENLIB_yy_c];
+    GENLIB_yy_is_jam             = (GENLIB_yy_current_state == 72);
 
-	return GENLIB_yy_is_jam ? 0 : GENLIB_yy_current_state;
-	}
+    return GENLIB_yy_is_jam ? 0 : GENLIB_yy_current_state;
+}
 
 
 #ifndef YY_NO_UNPUT
 #ifdef YY_USE_PROTOS
-static void GENLIB_yyunput( int c, register char *GENLIB_yy_bp )
+
+static void GENLIB_yyunput(int c, register char *GENLIB_yy_bp)
 #else
 static void GENLIB_yyunput( c, GENLIB_yy_bp )
 int c;
 register char *GENLIB_yy_bp;
 #endif
-	{
-	register char *GENLIB_yy_cp = GENLIB_yy_c_buf_p;
+{
+    register char *GENLIB_yy_cp = GENLIB_yy_c_buf_p;
 
-	/* undo effects of setting up GENLIB_yytext */
-	*GENLIB_yy_cp = GENLIB_yy_hold_char;
+    /* undo effects of setting up GENLIB_yytext */
+    *GENLIB_yy_cp = GENLIB_yy_hold_char;
 
-	if ( GENLIB_yy_cp < GENLIB_yy_current_buffer->GENLIB_yy_ch_buf + 2 )
-		{ /* need to shift things up to make room */
-		/* +2 for EOB chars. */
-		register int number_to_move = GENLIB_yy_n_chars + 2;
-		register char *dest = &GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[
-					GENLIB_yy_current_buffer->GENLIB_yy_buf_size + 2];
-		register char *source =
-				&GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[number_to_move];
+    if (GENLIB_yy_cp < GENLIB_yy_current_buffer->GENLIB_yy_ch_buf + 2) { /* need to shift things up to make room */
+        /* +2 for EOB chars. */
+        register int  number_to_move = GENLIB_yy_n_chars + 2;
+        register char *dest          = &GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[
+                GENLIB_yy_current_buffer->GENLIB_yy_buf_size + 2];
+        register char *source        =
+                              &GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[number_to_move];
 
-		while ( source > GENLIB_yy_current_buffer->GENLIB_yy_ch_buf )
-			*--dest = *--source;
+        while (source > GENLIB_yy_current_buffer->GENLIB_yy_ch_buf)
+            *--dest = *--source;
 
-		GENLIB_yy_cp += (int) (dest - source);
-		GENLIB_yy_bp += (int) (dest - source);
-		GENLIB_yy_current_buffer->GENLIB_yy_n_chars =
-			GENLIB_yy_n_chars = GENLIB_yy_current_buffer->GENLIB_yy_buf_size;
+        GENLIB_yy_cp += (int) (dest - source);
+        GENLIB_yy_bp += (int) (dest - source);
+        GENLIB_yy_current_buffer->GENLIB_yy_n_chars =
+        GENLIB_yy_n_chars = GENLIB_yy_current_buffer->GENLIB_yy_buf_size;
 
-		if ( GENLIB_yy_cp < GENLIB_yy_current_buffer->GENLIB_yy_ch_buf + 2 )
-			YY_FATAL_ERROR( "flex scanner push-back overflow" );
-		}
+        if (GENLIB_yy_cp < GENLIB_yy_current_buffer->GENLIB_yy_ch_buf + 2)
+            YY_FATAL_ERROR("flex scanner push-back overflow");
+    }
 
-	*--GENLIB_yy_cp = (char) c;
+    *--GENLIB_yy_cp = (char) c;
 
 
-	GENLIB_yytext_ptr = GENLIB_yy_bp;
-	GENLIB_yy_hold_char = *GENLIB_yy_cp;
-	GENLIB_yy_c_buf_p = GENLIB_yy_cp;
-	}
-#endif	/* ifndef YY_NO_UNPUT */
+    GENLIB_yytext_ptr = GENLIB_yy_bp;
+    GENLIB_yy_hold_char = *GENLIB_yy_cp;
+    GENLIB_yy_c_buf_p   = GENLIB_yy_cp;
+}
+
+#endif    /* ifndef YY_NO_UNPUT */
 
 
 #ifdef __cplusplus
 static int GENLIB_yyinput()
 #else
+
 static int input()
 #endif
-	{
-	int c;
+{
+    int c;
 
-	*GENLIB_yy_c_buf_p = GENLIB_yy_hold_char;
+    *GENLIB_yy_c_buf_p = GENLIB_yy_hold_char;
 
-	if ( *GENLIB_yy_c_buf_p == YY_END_OF_BUFFER_CHAR )
-		{
-		/* GENLIB_yy_c_buf_p now points to the character we want to return.
-		 * If this occurs *before* the EOB characters, then it's a
-		 * valid NUL; if not, then we've hit the end of the buffer.
-		 */
-		if ( GENLIB_yy_c_buf_p < &GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[GENLIB_yy_n_chars] )
-			/* This was really a NUL. */
-			*GENLIB_yy_c_buf_p = '\0';
+    if (*GENLIB_yy_c_buf_p == YY_END_OF_BUFFER_CHAR) {
+        /* GENLIB_yy_c_buf_p now points to the character we want to return.
+         * If this occurs *before* the EOB characters, then it's a
+         * valid NUL; if not, then we've hit the end of the buffer.
+         */
+        if (GENLIB_yy_c_buf_p < &GENLIB_yy_current_buffer->GENLIB_yy_ch_buf[GENLIB_yy_n_chars])
+            /* This was really a NUL. */
+            *GENLIB_yy_c_buf_p = '\0';
 
-		else
-			{ /* need more input */
-			int offset = GENLIB_yy_c_buf_p - GENLIB_yytext_ptr;
-			++GENLIB_yy_c_buf_p;
+        else { /* need more input */
+            int offset = GENLIB_yy_c_buf_p - GENLIB_yytext_ptr;
+            ++GENLIB_yy_c_buf_p;
 
-			switch ( GENLIB_yy_get_next_buffer() )
-				{
-				case EOB_ACT_LAST_MATCH:
-					/* This happens because GENLIB_yy_g_n_b()
-					 * sees that we've accumulated a
-					 * token and flags that we need to
-					 * try matching the token before
-					 * proceeding.  But for input(),
-					 * there's no matching to consider.
-					 * So convert the EOB_ACT_LAST_MATCH
-					 * to EOB_ACT_END_OF_FILE.
-					 */
+            switch (GENLIB_yy_get_next_buffer()) {
+                case EOB_ACT_LAST_MATCH:
+                    /* This happens because GENLIB_yy_g_n_b()
+                     * sees that we've accumulated a
+                     * token and flags that we need to
+                     * try matching the token before
+                     * proceeding.  But for input(),
+                     * there's no matching to consider.
+                     * So convert the EOB_ACT_LAST_MATCH
+                     * to EOB_ACT_END_OF_FILE.
+                     */
 
-					/* Reset buffer status. */
-					GENLIB_yyrestart( GENLIB_yyin );
+                    /* Reset buffer status. */
+                    GENLIB_yyrestart(GENLIB_yyin);
 
-					/* fall through */
+                    /* fall through */
 
-				case EOB_ACT_END_OF_FILE:
-					{
-					if ( GENLIB_yywrap() )
-						return EOF;
+                case EOB_ACT_END_OF_FILE: {
+                    if (GENLIB_yywrap())
+                        return EOF;
 
-					if ( ! GENLIB_yy_did_buffer_switch_on_eof )
-						YY_NEW_FILE;
+                    if (!GENLIB_yy_did_buffer_switch_on_eof)
+                        YY_NEW_FILE;
 #ifdef __cplusplus
-					return GENLIB_yyinput();
+                    return GENLIB_yyinput();
 #else
-					return input();
+                    return input();
 #endif
-					}
+                }
 
-				case EOB_ACT_CONTINUE_SCAN:
-					GENLIB_yy_c_buf_p = GENLIB_yytext_ptr + offset;
-					break;
-				}
-			}
-		}
+                case EOB_ACT_CONTINUE_SCAN: GENLIB_yy_c_buf_p = GENLIB_yytext_ptr + offset;
+                    break;
+            }
+        }
+    }
 
-	c = *(unsigned char *) GENLIB_yy_c_buf_p;	/* cast for 8-bit char's */
-	*GENLIB_yy_c_buf_p = '\0';	/* preserve GENLIB_yytext */
-	GENLIB_yy_hold_char = *++GENLIB_yy_c_buf_p;
+    c = *(unsigned char *) GENLIB_yy_c_buf_p;    /* cast for 8-bit char's */
+    *GENLIB_yy_c_buf_p = '\0';    /* preserve GENLIB_yytext */
+    GENLIB_yy_hold_char = *++GENLIB_yy_c_buf_p;
 
 
-	return c;
-	}
+    return c;
+}
 
 
 #ifdef YY_USE_PROTOS
-void GENLIB_yyrestart( FILE *input_file )
+
+void GENLIB_yyrestart(FILE *input_file)
 #else
 void GENLIB_yyrestart( input_file )
 FILE *input_file;
 #endif
-	{
-	if ( ! GENLIB_yy_current_buffer )
-		GENLIB_yy_current_buffer = GENLIB_yy_create_buffer( GENLIB_yyin, YY_BUF_SIZE );
+{
+    if (!GENLIB_yy_current_buffer)
+        GENLIB_yy_current_buffer = GENLIB_yy_create_buffer(GENLIB_yyin, YY_BUF_SIZE);
 
-	GENLIB_yy_init_buffer( GENLIB_yy_current_buffer, input_file );
-	GENLIB_yy_load_buffer_state();
-	}
+    GENLIB_yy_init_buffer(GENLIB_yy_current_buffer, input_file);
+    GENLIB_yy_load_buffer_state();
+}
 
 
 #ifdef YY_USE_PROTOS
-void GENLIB_yy_switch_to_buffer( YY_BUFFER_STATE new_buffer )
+
+void GENLIB_yy_switch_to_buffer(YY_BUFFER_STATE new_buffer)
 #else
 void GENLIB_yy_switch_to_buffer( new_buffer )
 YY_BUFFER_STATE new_buffer;
 #endif
-	{
-	if ( GENLIB_yy_current_buffer == new_buffer )
-		return;
+{
+    if (GENLIB_yy_current_buffer == new_buffer)
+        return;
 
-	if ( GENLIB_yy_current_buffer )
-		{
-		/* Flush out information for old buffer. */
-		*GENLIB_yy_c_buf_p = GENLIB_yy_hold_char;
-		GENLIB_yy_current_buffer->GENLIB_yy_buf_pos = GENLIB_yy_c_buf_p;
-		GENLIB_yy_current_buffer->GENLIB_yy_n_chars = GENLIB_yy_n_chars;
-		}
+    if (GENLIB_yy_current_buffer) {
+        /* Flush out information for old buffer. */
+        *GENLIB_yy_c_buf_p = GENLIB_yy_hold_char;
+        GENLIB_yy_current_buffer->GENLIB_yy_buf_pos = GENLIB_yy_c_buf_p;
+        GENLIB_yy_current_buffer->GENLIB_yy_n_chars = GENLIB_yy_n_chars;
+    }
 
-	GENLIB_yy_current_buffer = new_buffer;
-	GENLIB_yy_load_buffer_state();
+    GENLIB_yy_current_buffer = new_buffer;
+    GENLIB_yy_load_buffer_state();
 
-	/* We don't actually know whether we did this switch during
-	 * EOF (GENLIB_yywrap()) processing, but the only time this flag
-	 * is looked at is after GENLIB_yywrap() is called, so it's safe
-	 * to go ahead and always set it.
-	 */
-	GENLIB_yy_did_buffer_switch_on_eof = 1;
-	}
+    /* We don't actually know whether we did this switch during
+     * EOF (GENLIB_yywrap()) processing, but the only time this flag
+     * is looked at is after GENLIB_yywrap() is called, so it's safe
+     * to go ahead and always set it.
+     */
+    GENLIB_yy_did_buffer_switch_on_eof = 1;
+}
 
 
 #ifdef YY_USE_PROTOS
-void GENLIB_yy_load_buffer_state( void )
+
+void GENLIB_yy_load_buffer_state(void)
 #else
 void GENLIB_yy_load_buffer_state()
 #endif
-	{
-	GENLIB_yy_n_chars = GENLIB_yy_current_buffer->GENLIB_yy_n_chars;
-	GENLIB_yytext_ptr = GENLIB_yy_c_buf_p = GENLIB_yy_current_buffer->GENLIB_yy_buf_pos;
-	GENLIB_yyin = GENLIB_yy_current_buffer->GENLIB_yy_input_file;
-	GENLIB_yy_hold_char = *GENLIB_yy_c_buf_p;
-	}
+{
+    GENLIB_yy_n_chars = GENLIB_yy_current_buffer->GENLIB_yy_n_chars;
+    GENLIB_yytext_ptr = GENLIB_yy_c_buf_p = GENLIB_yy_current_buffer->GENLIB_yy_buf_pos;
+    GENLIB_yyin         = GENLIB_yy_current_buffer->GENLIB_yy_input_file;
+    GENLIB_yy_hold_char = *GENLIB_yy_c_buf_p;
+}
 
 
 #ifdef YY_USE_PROTOS
-YY_BUFFER_STATE GENLIB_yy_create_buffer( FILE *file, int size )
+
+YY_BUFFER_STATE GENLIB_yy_create_buffer(FILE *file, int size)
 #else
 YY_BUFFER_STATE GENLIB_yy_create_buffer( file, size )
 FILE *file;
 int size;
 #endif
-	{
-	YY_BUFFER_STATE b;
+{
+    YY_BUFFER_STATE b;
 
-	b = (YY_BUFFER_STATE) GENLIB_yy_flex_alloc( sizeof( struct GENLIB_yy_buffer_state ) );
-	if ( ! b )
-		YY_FATAL_ERROR( "out of dynamic memory in GENLIB_yy_create_buffer()" );
+    b = (YY_BUFFER_STATE) GENLIB_yy_flex_alloc(sizeof(struct GENLIB_yy_buffer_state));
+    if (!b)
+        YY_FATAL_ERROR("out of dynamic memory in GENLIB_yy_create_buffer()");
 
-	b->GENLIB_yy_buf_size = size;
+    b->GENLIB_yy_buf_size = size;
 
-	/* GENLIB_yy_ch_buf has to be 2 characters longer than the size given because
-	 * we need to put in 2 end-of-buffer characters.
-	 */
-	b->GENLIB_yy_ch_buf = (char *) GENLIB_yy_flex_alloc( b->GENLIB_yy_buf_size + 2 );
-	if ( ! b->GENLIB_yy_ch_buf )
-		YY_FATAL_ERROR( "out of dynamic memory in GENLIB_yy_create_buffer()" );
+    /* GENLIB_yy_ch_buf has to be 2 characters longer than the size given because
+     * we need to put in 2 end-of-buffer characters.
+     */
+    b->GENLIB_yy_ch_buf = (char *) GENLIB_yy_flex_alloc(b->GENLIB_yy_buf_size + 2);
+    if (!b->GENLIB_yy_ch_buf)
+        YY_FATAL_ERROR("out of dynamic memory in GENLIB_yy_create_buffer()");
 
-	b->GENLIB_yy_is_our_buffer = 1;
+    b->GENLIB_yy_is_our_buffer = 1;
 
-	GENLIB_yy_init_buffer( b, file );
+    GENLIB_yy_init_buffer(b, file);
 
-	return b;
-	}
+    return b;
+}
 
 
 #ifdef YY_USE_PROTOS
-void GENLIB_yy_delete_buffer( YY_BUFFER_STATE b )
+
+void GENLIB_yy_delete_buffer(YY_BUFFER_STATE b)
 #else
 void GENLIB_yy_delete_buffer( b )
 YY_BUFFER_STATE b;
 #endif
-	{
-	if ( ! b )
-		return;
+{
+    if (!b)
+        return;
 
-	if ( b == GENLIB_yy_current_buffer )
-		GENLIB_yy_current_buffer = (YY_BUFFER_STATE) 0;
+    if (b == GENLIB_yy_current_buffer)
+        GENLIB_yy_current_buffer = (YY_BUFFER_STATE) 0;
 
-	if ( b->GENLIB_yy_is_our_buffer )
-		GENLIB_yy_flex_free( (void *) b->GENLIB_yy_ch_buf );
+    if (b->GENLIB_yy_is_our_buffer)
+        GENLIB_yy_flex_free((void *) b->GENLIB_yy_ch_buf);
 
-	GENLIB_yy_flex_free( (void *) b );
-	}
-
+    GENLIB_yy_flex_free((void *) b);
+}
 
 
 #ifdef YY_USE_PROTOS
-void GENLIB_yy_init_buffer( YY_BUFFER_STATE b, FILE *file )
+
+void GENLIB_yy_init_buffer(YY_BUFFER_STATE b, FILE *file)
 #else
 void GENLIB_yy_init_buffer( b, file )
 YY_BUFFER_STATE b;
@@ -1377,145 +1343,151 @@ FILE *file;
 #endif
 
 
-	{
-	GENLIB_yy_flush_buffer( b );
+{
+    GENLIB_yy_flush_buffer(b);
 
-	b->GENLIB_yy_input_file = file;
-	b->GENLIB_yy_fill_buffer = 1;
+    b->GENLIB_yy_input_file  = file;
+    b->GENLIB_yy_fill_buffer = 1;
 
 #if YY_ALWAYS_INTERACTIVE
-	b->GENLIB_yy_is_interactive = 1;
+    b->GENLIB_yy_is_interactive = 1;
 #else
 #if YY_NEVER_INTERACTIVE
-	b->GENLIB_yy_is_interactive = 0;
+    b->GENLIB_yy_is_interactive = 0;
 #else
-	b->GENLIB_yy_is_interactive = file ? (isatty( fileno(file) ) > 0) : 0;
+    b->GENLIB_yy_is_interactive = file ? (isatty(fileno(file)) > 0) : 0;
 #endif
 #endif
-	}
+}
 
 
 #ifdef YY_USE_PROTOS
-void GENLIB_yy_flush_buffer( YY_BUFFER_STATE b )
+
+void GENLIB_yy_flush_buffer(YY_BUFFER_STATE b)
 #else
 void GENLIB_yy_flush_buffer( b )
 YY_BUFFER_STATE b;
 #endif
 
-	{
-	if ( ! b )
-		return;
+{
+    if (!b)
+        return;
 
-	b->GENLIB_yy_n_chars = 0;
+    b->GENLIB_yy_n_chars = 0;
 
-	/* We always need two end-of-buffer characters.  The first causes
-	 * a transition to the end-of-buffer state.  The second causes
-	 * a jam in that state.
-	 */
-	b->GENLIB_yy_ch_buf[0] = YY_END_OF_BUFFER_CHAR;
-	b->GENLIB_yy_ch_buf[1] = YY_END_OF_BUFFER_CHAR;
+    /* We always need two end-of-buffer characters.  The first causes
+     * a transition to the end-of-buffer state.  The second causes
+     * a jam in that state.
+     */
+    b->GENLIB_yy_ch_buf[0] = YY_END_OF_BUFFER_CHAR;
+    b->GENLIB_yy_ch_buf[1] = YY_END_OF_BUFFER_CHAR;
 
-	b->GENLIB_yy_buf_pos = &b->GENLIB_yy_ch_buf[0];
+    b->GENLIB_yy_buf_pos = &b->GENLIB_yy_ch_buf[0];
 
-	b->GENLIB_yy_at_bol = 1;
-	b->GENLIB_yy_buffer_status = YY_BUFFER_NEW;
+    b->GENLIB_yy_at_bol        = 1;
+    b->GENLIB_yy_buffer_status = YY_BUFFER_NEW;
 
-	if ( b == GENLIB_yy_current_buffer )
-		GENLIB_yy_load_buffer_state();
-	}
+    if (b == GENLIB_yy_current_buffer)
+        GENLIB_yy_load_buffer_state();
+}
 
 
 #ifndef YY_NO_SCAN_BUFFER
 #ifdef YY_USE_PROTOS
-YY_BUFFER_STATE GENLIB_yy_scan_buffer( char *base, GENLIB_yy_size_t size )
+
+YY_BUFFER_STATE GENLIB_yy_scan_buffer(char *base, GENLIB_yy_size_t size)
 #else
 YY_BUFFER_STATE GENLIB_yy_scan_buffer( base, size )
 char *base;
 GENLIB_yy_size_t size;
 #endif
-	{
-	YY_BUFFER_STATE b;
+{
+    YY_BUFFER_STATE b;
 
-	if ( size < 2 ||
-	     base[size-2] != YY_END_OF_BUFFER_CHAR ||
-	     base[size-1] != YY_END_OF_BUFFER_CHAR )
-		/* They forgot to leave room for the EOB's. */
-		return 0;
+    if (size < 2 ||
+        base[size - 2] != YY_END_OF_BUFFER_CHAR ||
+        base[size - 1] != YY_END_OF_BUFFER_CHAR)
+        /* They forgot to leave room for the EOB's. */
+        return 0;
 
-	b = (YY_BUFFER_STATE) GENLIB_yy_flex_alloc( sizeof( struct GENLIB_yy_buffer_state ) );
-	if ( ! b )
-		YY_FATAL_ERROR( "out of dynamic memory in GENLIB_yy_scan_buffer()" );
+    b = (YY_BUFFER_STATE) GENLIB_yy_flex_alloc(sizeof(struct GENLIB_yy_buffer_state));
+    if (!b)
+        YY_FATAL_ERROR("out of dynamic memory in GENLIB_yy_scan_buffer()");
 
-	b->GENLIB_yy_buf_size = size - 2;	/* "- 2" to take care of EOB's */
-	b->GENLIB_yy_buf_pos = b->GENLIB_yy_ch_buf = base;
-	b->GENLIB_yy_is_our_buffer = 0;
-	b->GENLIB_yy_input_file = 0;
-	b->GENLIB_yy_n_chars = b->GENLIB_yy_buf_size;
-	b->GENLIB_yy_is_interactive = 0;
-	b->GENLIB_yy_at_bol = 1;
-	b->GENLIB_yy_fill_buffer = 0;
-	b->GENLIB_yy_buffer_status = YY_BUFFER_NEW;
+    b->GENLIB_yy_buf_size       = size - 2;    /* "- 2" to take care of EOB's */
+    b->GENLIB_yy_buf_pos        = b->GENLIB_yy_ch_buf = base;
+    b->GENLIB_yy_is_our_buffer  = 0;
+    b->GENLIB_yy_input_file     = 0;
+    b->GENLIB_yy_n_chars        = b->GENLIB_yy_buf_size;
+    b->GENLIB_yy_is_interactive = 0;
+    b->GENLIB_yy_at_bol         = 1;
+    b->GENLIB_yy_fill_buffer    = 0;
+    b->GENLIB_yy_buffer_status  = YY_BUFFER_NEW;
 
-	GENLIB_yy_switch_to_buffer( b );
+    GENLIB_yy_switch_to_buffer(b);
 
-	return b;
-	}
+    return b;
+}
+
 #endif
 
 
 #ifndef YY_NO_SCAN_STRING
 #ifdef YY_USE_PROTOS
-YY_BUFFER_STATE GENLIB_yy_scan_string( GENLIB_yyconst char *GENLIB_yy_str )
+
+YY_BUFFER_STATE GENLIB_yy_scan_string(GENLIB_yyconst char *GENLIB_yy_str)
 #else
 YY_BUFFER_STATE GENLIB_yy_scan_string( GENLIB_yy_str )
 GENLIB_yyconst char *GENLIB_yy_str;
 #endif
-	{
-	int len;
-	for ( len = 0; GENLIB_yy_str[len]; ++len )
-		;
+{
+    int len;
+    for (len = 0; GENLIB_yy_str[len]; ++len);
 
-	return GENLIB_yy_scan_bytes( GENLIB_yy_str, len );
-	}
+    return GENLIB_yy_scan_bytes(GENLIB_yy_str, len);
+}
+
 #endif
 
 
 #ifndef YY_NO_SCAN_BYTES
 #ifdef YY_USE_PROTOS
-YY_BUFFER_STATE GENLIB_yy_scan_bytes( GENLIB_yyconst char *bytes, int len )
+
+YY_BUFFER_STATE GENLIB_yy_scan_bytes(GENLIB_yyconst char *bytes, int len)
 #else
 YY_BUFFER_STATE GENLIB_yy_scan_bytes( bytes, len )
 GENLIB_yyconst char *bytes;
 int len;
 #endif
-	{
-	YY_BUFFER_STATE b;
-	char *buf;
-	GENLIB_yy_size_t n;
-	int i;
+{
+    YY_BUFFER_STATE  b;
+    char             *buf;
+    GENLIB_yy_size_t n;
+    int              i;
 
-	/* Get memory for full buffer, including space for trailing EOB's. */
-	n = len + 2;
-	buf = (char *) GENLIB_yy_flex_alloc( n );
-	if ( ! buf )
-		YY_FATAL_ERROR( "out of dynamic memory in GENLIB_yy_scan_bytes()" );
+    /* Get memory for full buffer, including space for trailing EOB's. */
+    n   = len + 2;
+    buf = (char *) GENLIB_yy_flex_alloc(n);
+    if (!buf)
+        YY_FATAL_ERROR("out of dynamic memory in GENLIB_yy_scan_bytes()");
 
-	for ( i = 0; i < len; ++i )
-		buf[i] = bytes[i];
+    for (i = 0; i < len; ++i)
+        buf[i] = bytes[i];
 
-	buf[len] = buf[len+1] = YY_END_OF_BUFFER_CHAR;
+    buf[len] = buf[len + 1] = YY_END_OF_BUFFER_CHAR;
 
-	b = GENLIB_yy_scan_buffer( buf, n );
-	if ( ! b )
-		YY_FATAL_ERROR( "bad buffer in GENLIB_yy_scan_bytes()" );
+    b = GENLIB_yy_scan_buffer(buf, n);
+    if (!b)
+        YY_FATAL_ERROR("bad buffer in GENLIB_yy_scan_bytes()");
 
-	/* It's okay to grow etc. this buffer, and we should throw it
-	 * away when we're done.
-	 */
-	b->GENLIB_yy_is_our_buffer = 1;
+    /* It's okay to grow etc. this buffer, and we should throw it
+     * away when we're done.
+     */
+    b->GENLIB_yy_is_our_buffer = 1;
 
-	return b;
-	}
+    return b;
+}
+
 #endif
 
 
@@ -1526,49 +1498,49 @@ static void GENLIB_yy_push_state( int new_state )
 static void GENLIB_yy_push_state( new_state )
 int new_state;
 #endif
-	{
-	if ( GENLIB_yy_start_stack_ptr >= GENLIB_yy_start_stack_depth )
-		{
-		GENLIB_yy_size_t new_size;
+    {
+    if ( GENLIB_yy_start_stack_ptr >= GENLIB_yy_start_stack_depth )
+        {
+        GENLIB_yy_size_t new_size;
 
-		GENLIB_yy_start_stack_depth += YY_START_STACK_INCR;
-		new_size = GENLIB_yy_start_stack_depth * sizeof( int );
+        GENLIB_yy_start_stack_depth += YY_START_STACK_INCR;
+        new_size = GENLIB_yy_start_stack_depth * sizeof( int );
 
-		if ( ! GENLIB_yy_start_stack )
-			GENLIB_yy_start_stack = (int *) GENLIB_yy_flex_alloc( new_size );
+        if ( ! GENLIB_yy_start_stack )
+            GENLIB_yy_start_stack = (int *) GENLIB_yy_flex_alloc( new_size );
 
-		else
-			GENLIB_yy_start_stack = (int *) GENLIB_yy_flex_realloc(
-					(void *) GENLIB_yy_start_stack, new_size );
+        else
+            GENLIB_yy_start_stack = (int *) GENLIB_yy_flex_realloc(
+                    (void *) GENLIB_yy_start_stack, new_size );
 
-		if ( ! GENLIB_yy_start_stack )
-			YY_FATAL_ERROR(
-			"out of memory expanding start-condition stack" );
-		}
+        if ( ! GENLIB_yy_start_stack )
+            YY_FATAL_ERROR(
+            "out of memory expanding start-condition stack" );
+        }
 
-	GENLIB_yy_start_stack[GENLIB_yy_start_stack_ptr++] = YY_START;
+    GENLIB_yy_start_stack[GENLIB_yy_start_stack_ptr++] = YY_START;
 
-	BEGIN(new_state);
-	}
+    BEGIN(new_state);
+    }
 #endif
 
 
 #ifndef YY_NO_POP_STATE
 static void GENLIB_yy_pop_state()
-	{
-	if ( --GENLIB_yy_start_stack_ptr < 0 )
-		YY_FATAL_ERROR( "start-condition stack underflow" );
+    {
+    if ( --GENLIB_yy_start_stack_ptr < 0 )
+        YY_FATAL_ERROR( "start-condition stack underflow" );
 
-	BEGIN(GENLIB_yy_start_stack[GENLIB_yy_start_stack_ptr]);
-	}
+    BEGIN(GENLIB_yy_start_stack[GENLIB_yy_start_stack_ptr]);
+    }
 #endif
 
 
 #ifndef YY_NO_TOP_STATE
 static int GENLIB_yy_top_state()
-	{
-	return GENLIB_yy_start_stack[GENLIB_yy_start_stack_ptr - 1];
-	}
+    {
+    return GENLIB_yy_start_stack[GENLIB_yy_start_stack_ptr - 1];
+    }
 #endif
 
 #ifndef YY_EXIT_FAILURE
@@ -1576,15 +1548,16 @@ static int GENLIB_yy_top_state()
 #endif
 
 #ifdef YY_USE_PROTOS
-static void GENLIB_yy_fatal_error( GENLIB_yyconst char msg[] )
+
+static void GENLIB_yy_fatal_error(GENLIB_yyconst char msg[])
 #else
 static void GENLIB_yy_fatal_error( msg )
 char msg[];
 #endif
-	{
-	(void) fprintf( stderr, "%s\n", msg );
-	exit( YY_EXIT_FAILURE );
-	}
+{
+    (void) fprintf(stderr, "%s\n", msg);
+    exit(YY_EXIT_FAILURE);
+}
 
 
 
@@ -1592,16 +1565,16 @@ char msg[];
 
 #undef GENLIB_yyless
 #define GENLIB_yyless(n) \
-	do \
-		{ \
-		/* Undo effects of setting up GENLIB_yytext. */ \
-		GENLIB_yytext[GENLIB_yyleng] = GENLIB_yy_hold_char; \
-		GENLIB_yy_c_buf_p = GENLIB_yytext + n; \
-		GENLIB_yy_hold_char = *GENLIB_yy_c_buf_p; \
-		*GENLIB_yy_c_buf_p = '\0'; \
-		GENLIB_yyleng = n; \
-		} \
-	while ( 0 )
+    do \
+        { \
+        /* Undo effects of setting up GENLIB_yytext. */ \
+        GENLIB_yytext[GENLIB_yyleng] = GENLIB_yy_hold_char; \
+        GENLIB_yy_c_buf_p = GENLIB_yytext + n; \
+        GENLIB_yy_hold_char = *GENLIB_yy_c_buf_p; \
+        *GENLIB_yy_c_buf_p = '\0'; \
+        GENLIB_yyleng = n; \
+        } \
+    while ( 0 )
 
 
 /* Internal utility routines. */
@@ -1615,11 +1588,11 @@ char *s1;
 GENLIB_yyconst char *s2;
 int n;
 #endif
-	{
-	register int i;
-	for ( i = 0; i < n; ++i )
-		s1[i] = s2[i];
-	}
+    {
+    register int i;
+    for ( i = 0; i < n; ++i )
+        s1[i] = s2[i];
+    }
 #endif
 
 #ifdef YY_NEED_STRLEN
@@ -1629,60 +1602,63 @@ static int GENLIB_yy_flex_strlen( GENLIB_yyconst char *s )
 static int GENLIB_yy_flex_strlen( s )
 GENLIB_yyconst char *s;
 #endif
-	{
-	register int n;
-	for ( n = 0; s[n]; ++n )
-		;
+    {
+    register int n;
+    for ( n = 0; s[n]; ++n )
+        ;
 
-	return n;
-	}
+    return n;
+    }
 #endif
 
 
 #ifdef YY_USE_PROTOS
-static void *GENLIB_yy_flex_alloc( GENLIB_yy_size_t size )
+
+static void *GENLIB_yy_flex_alloc(GENLIB_yy_size_t size)
 #else
 static void *GENLIB_yy_flex_alloc( size )
 GENLIB_yy_size_t size;
 #endif
-	{
-	return (void *) malloc( size );
-	}
+{
+    return (void *) malloc(size);
+}
 
 #ifdef YY_USE_PROTOS
-static void *GENLIB_yy_flex_realloc( void *ptr, GENLIB_yy_size_t size )
+
+static void *GENLIB_yy_flex_realloc(void *ptr, GENLIB_yy_size_t size)
 #else
 static void *GENLIB_yy_flex_realloc( ptr, size )
 void *ptr;
 GENLIB_yy_size_t size;
 #endif
-	{
-	/* The cast to (char *) in the following accommodates both
-	 * implementations that use char* generic pointers, and those
-	 * that use void* generic pointers.  It works with the latter
-	 * because both ANSI C and C++ allow castless assignment from
-	 * any pointer type to void*, and deal with argument conversions
-	 * as though doing an assignment.
-	 */
-	return (void *) realloc( (char *) ptr, size );
-	}
+{
+    /* The cast to (char *) in the following accommodates both
+     * implementations that use char* generic pointers, and those
+     * that use void* generic pointers.  It works with the latter
+     * because both ANSI C and C++ allow castless assignment from
+     * any pointer type to void*, and deal with argument conversions
+     * as though doing an assignment.
+     */
+    return (void *) realloc((char *) ptr, size);
+}
 
 #ifdef YY_USE_PROTOS
-static void GENLIB_yy_flex_free( void *ptr )
+
+static void GENLIB_yy_flex_free(void *ptr)
 #else
 static void GENLIB_yy_flex_free( ptr )
 void *ptr;
 #endif
-	{
-	free( ptr );
-	}
+{
+    free(ptr);
+}
 
 #if YY_MAIN
 int main()
-	{
-	GENLIB_yylex();
-	return 0;
-	}
+    {
+    GENLIB_yylex();
+    return 0;
+    }
 #endif
 #line 62 "readliblex.l"
 
@@ -1694,14 +1670,14 @@ input()
     register int c;
 
     if (nbuffer > 0) {
-	c = buffer[--nbuffer];
+    c = buffer[--nbuffer];
     } else {
-	if (file_mode) {
-	    c = getc(GENLIB_yyin);
-	} else {
-	    c = *file_string;
-	    if (c != 0) file_string++;
-	}
+    if (file_mode) {
+        c = getc(GENLIB_yyin);
+    } else {
+        c = *file_string;
+        if (c != 0) file_string++;
+    }
     }
     if (c == '\n') read_lineno++;
     if (c == EOF) c = 0;
@@ -1722,71 +1698,72 @@ int c;
 char *genlib_inp_ptr;
 char *genlib_inp_lim;
 
-int genlib_input(char* buf, int max_size)
-{
+int genlib_input(char *buf, int max_size) {
     char c;
-    int i, n;
+    int  i, n;
 
-    if (! file_mode) {
-	if (max_size > (genlib_inp_lim - genlib_inp_ptr))
-	    n = genlib_inp_lim - genlib_inp_ptr;
-	else 
-	    n = max_size;	
-	if (n > 0) {
-	    for (i = 0; i < n; i++)
-		if (buf[i] == '\n') {
-		    read_lineno++;
-		    i++;
-		    break;
-		}
-	    memcpy (buf, genlib_inp_ptr, i);
-	    genlib_inp_ptr += i;
-	}
+    if (!file_mode) {
+        if (max_size > (genlib_inp_lim - genlib_inp_ptr))
+            n = genlib_inp_lim - genlib_inp_ptr;
+        else
+            n = max_size;
+        if (n > 0) {
+            for (i = 0; i < n; i++)
+                if (buf[i] == '\n') {
+                    read_lineno++;
+                    i++;
+                    break;
+                }
+            memcpy(buf, genlib_inp_ptr, i);
+            genlib_inp_ptr += i;
+        }
     } else {
-	c = getc(GENLIB_yyin);
-	if (c == '\n') read_lineno++;
-	buf[0] = (c == EOF) ? (n = 0, YY_NULL) : (n = 1, c);
+        c = getc(GENLIB_yyin);
+        if (c == '\n') read_lineno++;
+        buf[0] = (c == EOF) ? (n = 0, YY_NULL) : (n = 1, c);
     }
     return n;
 }
+
 #endif
 
 int
 library_setup_file(fp, filename)
-FILE *fp;
-char *filename;
+        FILE *fp;
+        char *filename;
 {
     GENLIB_yyin = fp;
 #if 1 /* #ifdef FLEX_SCANNER */
-    GENLIB_yy_switch_to_buffer( GENLIB_yy_create_buffer( GENLIB_yyin, YY_BUF_SIZE ) );
-    GENLIB_yyrestart(GENLIB_yyin); 
-    BEGIN(INITIAL);
+    GENLIB_yy_switch_to_buffer(GENLIB_yy_create_buffer(GENLIB_yyin, YY_BUF_SIZE));
+    GENLIB_yyrestart(GENLIB_yyin);
+    BEGIN (INITIAL);
 #endif
     file_mode = 1;
-    nbuffer = 0;
+    nbuffer   = 0;
     read_register_filename(filename);
 }
 
 int
 library_setup_string(string)
-char *string;
+        char *string;
 {
     file_string = string;
-    file_mode = 0;
+    file_mode   = 0;
 #if 1 /* #ifdef FLEX_SCANNER */
     GENLIB_yy_switch_to_buffer(
-                 GENLIB_yy_create_buffer( GENLIB_yyin, YY_BUF_SIZE ) );
-    GENLIB_yyrestart(GENLIB_yyin); 
+            GENLIB_yy_create_buffer(GENLIB_yyin, YY_BUF_SIZE));
+    GENLIB_yyrestart(GENLIB_yyin);
     genlib_inp_lim = string + strlen(string);
     genlib_inp_ptr = string;
 #endif
     nbuffer = 0;
-    read_register_filename(NIL(char));
+    read_register_filename(NIL(
+    char));
 }
 
-#undef GENLIB_yywrap 
+#undef GENLIB_yywrap
+
 int
-GENLIB_yywrap()
-{
+GENLIB_yywrap() {
     return 1;
 }

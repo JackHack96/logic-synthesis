@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/linsolv/spBuild.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:04 $
- *
- */
+
 /*
  *  MATRIX BUILD MODULE
  *
@@ -55,9 +47,9 @@
 
 #ifndef lint
 static char copyright[] =
-    "Sparse1.3: Copyright (c) 1985,86,87,88 by Kenneth S. Kundert";
-static char RCSid[] =
-    "@(#)$Header: /users/pchong/CVS/sis/sis/linsolv/spBuild.c,v 1.1.1.1 2004/02/07 10:15:04 pchong Exp $";
+                    "Sparse1.3: Copyright (c) 1985,86,87,88 by Kenneth S. Kundert";
+static char RCSid[]     =
+                    "@(#)$Header: /users/pchong/CVS/sis/sis/linsolv/spBuild.c,v 1.1.1.1 2004/02/07 10:15:04 pchong Exp $";
 #endif
 
 
@@ -76,15 +68,12 @@ static char RCSid[] =
  */
 
 #define spINSIDE_SPARSE
+
 #include "spConfig.h"
 #include "spMatrix.h"
 #include "spDefs.h"
 
 
-
-
-
-
 /*
  *  CLEAR MATRIX
  *
@@ -100,16 +89,16 @@ static char RCSid[] =
  */
 
 void
-spClear( eMatrix )
+spClear(eMatrix)
 
-char *eMatrix;
+        char *eMatrix;
 {
-MatrixPtr  Matrix = (MatrixPtr)eMatrix;
-register  ElementPtr  pElement;
-register  int  I;
+    MatrixPtr           Matrix = (MatrixPtr) eMatrix;
+    register ElementPtr pElement;
+    register int        I;
 
 /* Begin `spClear'. */
-    ASSERT( IS_SPARSE( Matrix ) );
+    ASSERT(IS_SPARSE(Matrix));
 
 /* Clear matrix. */
 #if spCOMPLEX
@@ -125,10 +114,11 @@ register  int  I;
     }
     else
 #endif
-    {   for (I = Matrix->Size; I > 0; I--)
-        {   pElement = Matrix->FirstInCol[I];
-            while (pElement != NULL)
-            {   pElement->Real = 0.0;
+    {
+        for (I = Matrix->Size; I > 0; I--) {
+            pElement = Matrix->FirstInCol[I];
+            while (pElement != NULL) {
+                pElement->Real = 0.0;
                 pElement = pElement->NextInCol;
             }
         }
@@ -140,10 +130,10 @@ register  int  I;
     Matrix->TrashCan.Imag = 0.0;
 #endif
 
-    Matrix->Error = spOKAY;
-    Matrix->Factored = NO;
-    Matrix->SingularCol = 0;
-    Matrix->SingularRow = 0;
+    Matrix->Error                    = spOKAY;
+    Matrix->Factored                 = NO;
+    Matrix->SingularCol              = 0;
+    Matrix->SingularRow              = 0;
     Matrix->PreviousMatrixWasComplex = Matrix->Complex;
     return;
 }
@@ -157,7 +147,7 @@ register  int  I;
 
 
 
-
+
 /*
  *  SINGLE ELEMENT ADDITION TO MATRIX BY INDEX
  *
@@ -194,18 +184,22 @@ register  int  I;
  */
 
 RealNumber *
-spGetElement( eMatrix, Row, Col )
+spGetElement(eMatrix, Row, Col)
 
-char *eMatrix;
-int  Row, Col;
+        char *eMatrix;
+        int Row, Col;
 {
-MatrixPtr  Matrix = (MatrixPtr)eMatrix;
-RealNumber  *pElement;
-ElementPtr spcFindElementInCol();
-void  Translate();
+    MatrixPtr  Matrix = (MatrixPtr) eMatrix;
+    RealNumber *pElement;
+    ElementPtr spcFindElementInCol();
+    void Translate();
 
 /* Begin `spGetElement'. */
-    ASSERT( IS_SPARSE( Matrix ) AND Row >= 0 AND Col >= 0 );
+    ASSERT(IS_SPARSE(Matrix)
+                   AND
+                   Row >= 0
+                   AND
+                   Col >= 0);
 
     if ((Row == 0) OR (Col == 0))
         return &Matrix->TrashCan.Real;
@@ -219,16 +213,20 @@ void  Translate();
     if (Matrix->Error == spNO_MEMORY) return NULL;
 #endif
 
-#if NOT TRANSLATE
-#if NOT EXPANDABLE
-    ASSERT(Row <= Matrix->Size AND Col <= Matrix->Size);
+#if NOT
+TRANSLATE
+#if NOT
+EXPANDABLE
+    ASSERT(Row <= Matrix->Size
+                   AND
+                   Col <= Matrix->Size);
 #endif
 
 #if EXPANDABLE
-/* Re-size Matrix if necessary. */
-    if ((Row > Matrix->Size) OR (Col > Matrix->Size))
-        EnlargeMatrix( Matrix, MAX(Row, Col) );
-    if (Matrix->Error == spNO_MEMORY) return NULL;
+    /* Re-size Matrix if necessary. */
+        if ((Row > Matrix->Size) OR (Col > Matrix->Size))
+            EnlargeMatrix( Matrix, MAX(Row, Col) );
+        if (Matrix->Error == spNO_MEMORY) return NULL;
 #endif
 #endif
 
@@ -242,17 +240,16 @@ void  Translate();
  * is the first record in the MatrixElement structure.
  */
 
-    if ((Row != Col) OR ((pElement = (RealNumber *)Matrix->Diag[Row]) == NULL))
-    {
+    if ((Row != Col) OR ((pElement = (RealNumber *) Matrix->Diag[Row]) == NULL)) {
 /*
  * Element does not exist or does not reside along diagonal.  Search
  * column for element.  As in the if statement above, the pointer to the
  * element which is returned by spcFindElementInCol is cast into a
  * pointer to Real, a RealNumber.
  */
-        pElement = (RealNumber*)spcFindElementInCol( Matrix,
-                                                     &(Matrix->FirstInCol[Col]),
-                                                     Row, Col, YES );
+        pElement = (RealNumber *) spcFindElementInCol(Matrix,
+                                                      &(Matrix->FirstInCol[Col]),
+                                                      Row, Col, YES);
     }
     return pElement;
 }
@@ -266,7 +263,7 @@ void  Translate();
 
 
 
-
+
 /*
  *  FIND ELEMENT BY SEARCHING COLUMN
  *
@@ -300,51 +297,41 @@ void  Translate();
  */
 
 ElementPtr
-spcFindElementInCol( Matrix, LastAddr, Row, Col, CreateIfMissing )
+spcFindElementInCol(Matrix, LastAddr, Row, Col, CreateIfMissing)
 
-MatrixPtr Matrix;
-register ElementPtr *LastAddr;
-register int  Row;
-int  Col;
-BOOLEAN  CreateIfMissing;
+        MatrixPtr Matrix;
+        register ElementPtr *LastAddr;
+        register int Row;
+        int Col;
+        BOOLEAN CreateIfMissing;
 {
-register  ElementPtr  pElement;
-ElementPtr  spcCreateElement();
+    register ElementPtr pElement;
+    ElementPtr spcCreateElement();
 
 /* Begin `spcFindElementInCol'. */
     pElement = *LastAddr;
 
 /* Search for element. */
-    while (pElement != NULL)
-    {   if (pElement->Row < Row)
-        {
+    while (pElement != NULL) {
+        if (pElement->Row < Row) {
 /* Have not reached element yet. */
             LastAddr = &(pElement->NextInCol);
             pElement = pElement->NextInCol;
-        }
-        else if (pElement->Row == Row)
-        {
+        } else if (pElement->Row == Row) {
 /* Reached element. */
             return pElement;
-        }
-        else break;  /* while loop */
+        } else break;  /* while loop */
     }
 
 /* Element does not exist and must be created. */
     if (CreateIfMissing)
-       return spcCreateElement( Matrix, Row, Col, LastAddr, NO );
+        return spcCreateElement(Matrix, Row, Col, LastAddr, NO);
     else return NULL;
 }
 
 
-
-
-
-
-
-
 #if TRANSLATE
-
+
 /*
  *  TRANSLATE EXTERNAL INDICES TO INTERNAL
  *
@@ -450,10 +437,6 @@ register int IntRow, IntCol, ExtRow, ExtCol;
 #endif
 
 
-
-
-
-
 #if QUAD_ELEMENT
 /*
  *  ADDITION OF ADMITTANCE TO MATRIX BY INDEX
@@ -517,13 +500,6 @@ struct  spTemplate  *Template;
 #endif /* QUAD_ELEMENT */
 
 
-
-
-
-
-
-
-
 #if QUAD_ELEMENT
 /*
  *  ADDITION OF FOUR ELEMENTS TO MATRIX BY INDEX
@@ -604,13 +580,6 @@ struct  spTemplate  *Template;
 #endif /* QUAD_ELEMENT */
 
 
-
-
-
-
-
-
-
 #if QUAD_ELEMENT
 /*
  *  ADDITION OF FOUR STRUCTURAL ONES TO MATRIX BY INDEX
@@ -677,11 +646,6 @@ struct  spTemplate  *Template;
 #endif /* QUAD_ELEMENT */
 
 
-
-
-
-
-
 /*
  *
  *  CREATE AND SPLICE ELEMENT INTO MATRIX
@@ -723,28 +687,26 @@ struct  spTemplate  *Template;
  */
 
 ElementPtr
-spcCreateElement( Matrix, Row, Col, LastAddr, Fillin )
+spcCreateElement(Matrix, Row, Col, LastAddr, Fillin)
 
-MatrixPtr Matrix;
-int  Row;
-register int  Col;
-register ElementPtr  *LastAddr;
-BOOLEAN Fillin;
+        MatrixPtr Matrix;
+        int Row;
+        register int Col;
+        register ElementPtr *LastAddr;
+        BOOLEAN Fillin;
 {
-register  ElementPtr  pElement, pLastElement;
-ElementPtr  pCreatedElement, spcGetElement(), spcGetFillin();
+    register ElementPtr pElement, pLastElement;
+    ElementPtr          pCreatedElement, spcGetElement(), spcGetFillin();
 
 /* Begin `spcCreateElement'. */
 
-    if (Matrix->RowsLinked)
-    {
+    if (Matrix->RowsLinked) {
 /* Row pointers cannot be ignored. */
-        if (Fillin)
-        {   pElement = spcGetFillin( Matrix );
+        if (Fillin) {
+            pElement = spcGetFillin(Matrix);
             Matrix->Fillins++;
-        }
-        else
-        {   pElement = spcGetElement( Matrix );
+        } else {
+            pElement = spcGetElement(Matrix);
             Matrix->NeedsOrdering = YES;
         }
         if (pElement == NULL) return NULL;
@@ -754,8 +716,8 @@ ElementPtr  pCreatedElement, spcGetElement(), spcGetFillin();
 
 /* Initialize Element. */
         pCreatedElement = pElement;
-        pElement->Row = Row;
-        pElement->Col = Col;
+        pElement->Row  = Row;
+        pElement->Col  = Col;
         pElement->Real = 0.0;
 #if spCOMPLEX
         pElement->Imag = 0.0;
@@ -768,46 +730,39 @@ ElementPtr  pCreatedElement, spcGetElement(), spcGetFillin();
         pElement->NextInCol = *LastAddr;
         *LastAddr = pElement;
 
- /* Search row for proper element position. */
-        pElement = Matrix->FirstInRow[Row];
+        /* Search row for proper element position. */
+        pElement     = Matrix->FirstInRow[Row];
         pLastElement = NULL;
-        while (pElement != NULL)
-        {
+        while (pElement != NULL) {
 /* Search for element row position. */
-            if (pElement->Col < Col)
-            {
+            if (pElement->Col < Col) {
 /* Have not reached desired element. */
                 pLastElement = pElement;
-                pElement = pElement->NextInRow;
-            }
-            else pElement = NULL;
+                pElement     = pElement->NextInRow;
+            } else pElement = NULL;
         }
 
 /* Splice element into row. */
         pElement = pCreatedElement;
-        if (pLastElement == NULL)
-        {
+        if (pLastElement == NULL) {
 /* Element is first in row. */
             pElement->NextInRow = Matrix->FirstInRow[Row];
             Matrix->FirstInRow[Row] = pElement;
-        }
-        else
+        } else
 /* Element is not first in row. */
         {
-            pElement->NextInRow = pLastElement->NextInRow;
+            pElement->NextInRow     = pLastElement->NextInRow;
             pLastElement->NextInRow = pElement;
         }
 
-    }
-    else
-    {
+    } else {
 /*
  * Matrix has not been factored yet.  Thus get element rather than fill-in.
  * Also, row pointers can be ignored.
  */
 
 /* Allocate memory for Element. */
-        pElement = spcGetElement( Matrix );
+        pElement = spcGetElement(Matrix);
         if (pElement == NULL) return NULL;
 
 /* If element is on diagonal, store pointer in Diag. */
@@ -837,12 +792,6 @@ ElementPtr  pCreatedElement, spcGetElement(), spcGetFillin();
 }
 
 
-
-
-
-
-
-
 /*
  *
  *  LINK ROWS
@@ -873,36 +822,36 @@ spcLinkRows( Matrix )
 
 MatrixPtr Matrix;
 {
-register  ElementPtr  pElement, *FirstInRowEntry;
-register  ArrayOfElementPtrs  FirstInRowArray;
-register  int  Col;
+register ElementPtr         pElement, *FirstInRowEntry;
+register ArrayOfElementPtrs FirstInRowArray;
+register int                Col;
 
 /* Begin `spcLinkRows'. */
-    FirstInRowArray = Matrix->FirstInRow;
-    for (Col = Matrix->Size; Col >= 1; Col--)
-    {
+FirstInRowArray = Matrix->FirstInRow;
+for (
+Col = Matrix->Size;
+Col >= 1; Col--)
+{
 /* Generate row links for the elements in the Col'th column. */
-        pElement = Matrix->FirstInCol[Col];
+pElement = Matrix->FirstInCol[Col];
 
-        while (pElement != NULL)
-        {   pElement->Col = Col;
-            FirstInRowEntry = &FirstInRowArray[pElement->Row];
-            pElement->NextInRow = *FirstInRowEntry;
-            *FirstInRowEntry = pElement;
-            pElement = pElement->NextInCol;
-        }
-    }
-    Matrix->RowsLinked = YES;
-    return;
+while (pElement != NULL)
+{ pElement->
+Col             = Col;
+FirstInRowEntry = &FirstInRowArray[pElement->Row];
+pElement->
+NextInRow = *FirstInRowEntry;
+*
+FirstInRowEntry = pElement;
+pElement        = pElement->NextInCol;
+}
+}
+Matrix->
+RowsLinked                       = YES;
+return;
 }
 
 
-
-
-
-
-
-
 /*
  *  ENLARGE MATRIX
  *
@@ -920,77 +869,91 @@ register  int  Col;
  */
 
 static
-EnlargeMatrix( Matrix, NewSize )
+EnlargeMatrix( Matrix, NewSize
+)
 
-MatrixPtr Matrix;
-register int  NewSize;
+MatrixPtr    Matrix;
+register int NewSize;
 {
 register int I, OldAllocatedSize = Matrix->AllocatedSize;
 
 /* Begin `EnlargeMatrix'. */
-    Matrix->Size = NewSize;
+Matrix->
+Size = NewSize;
 
-    if (NewSize <= OldAllocatedSize)
-        return;
+if (NewSize <= OldAllocatedSize)
+return;
 
 /* Expand the matrix frame. */
-    NewSize = MAX( NewSize, EXPANSION_FACTOR * OldAllocatedSize );
-    Matrix->AllocatedSize = NewSize;
+NewSize = MAX(NewSize, EXPANSION_FACTOR * OldAllocatedSize);
+Matrix->
+AllocatedSize = NewSize;
 
-    if (( REALLOC(Matrix->IntToExtColMap, int, NewSize+1)) == NULL)
-    {   Matrix->Error = spNO_MEMORY;
-        return;
-    }
-    if (( REALLOC(Matrix->IntToExtRowMap, int, NewSize+1)) == NULL)
-    {   Matrix->Error = spNO_MEMORY;
-        return;
-    }
-    if (( REALLOC(Matrix->Diag, ElementPtr, NewSize+1)) == NULL)
-    {   Matrix->Error = spNO_MEMORY;
-        return;
-    }
-    if (( REALLOC(Matrix->FirstInCol, ElementPtr, NewSize+1)) == NULL)
-    {   Matrix->Error = spNO_MEMORY;
-        return;
-    }
-    if (( REALLOC(Matrix->FirstInRow, ElementPtr, NewSize+1)) == NULL)
-    {   Matrix->Error = spNO_MEMORY;
-        return;
-    }
+if (( REALLOC(Matrix->IntToExtColMap, int, NewSize + 1)
+) == NULL)
+{ Matrix->
+Error = spNO_MEMORY;
+return;
+}
+if (( REALLOC(Matrix->IntToExtRowMap, int, NewSize + 1)
+) == NULL)
+{ Matrix->
+Error = spNO_MEMORY;
+return;
+}
+if (( REALLOC(Matrix->Diag, ElementPtr, NewSize + 1)
+) == NULL)
+{ Matrix->
+Error = spNO_MEMORY;
+return;
+}
+if (( REALLOC(Matrix->FirstInCol, ElementPtr, NewSize + 1)
+) == NULL)
+{ Matrix->
+Error = spNO_MEMORY;
+return;
+}
+if (( REALLOC(Matrix->FirstInRow, ElementPtr, NewSize + 1)
+) == NULL)
+{ Matrix->
+Error = spNO_MEMORY;
+return;
+}
 
 /*
  * Destroy the Markowitz and Intermediate vectors, they will be recreated
  * in spOrderAndFactor().
  */
-    FREE( Matrix->MarkowitzRow );
-    FREE( Matrix->MarkowitzCol );
-    FREE( Matrix->MarkowitzProd );
-    FREE( Matrix->DoRealDirect );
-    FREE( Matrix->DoCmplxDirect );
-    FREE( Matrix->Intermediate );
-    Matrix->InternalVectorsAllocated = NO;
+FREE(Matrix->MarkowitzRow);
+FREE(Matrix->MarkowitzCol);
+FREE(Matrix->MarkowitzProd);
+FREE(Matrix->DoRealDirect);
+FREE(Matrix->DoCmplxDirect);
+FREE(Matrix->Intermediate);
+Matrix->
+InternalVectorsAllocated = NO;
 
 /* Initialize the new portion of the vectors. */
-    for (I = OldAllocatedSize+1; I <= NewSize; I++)
-    {   Matrix->IntToExtColMap[I] = I;
-        Matrix->IntToExtRowMap[I] = I;
-        Matrix->Diag[I] = NULL;
-        Matrix->FirstInRow[I] = NULL;
-        Matrix->FirstInCol[I] = NULL;
-    }
+for (
+I = OldAllocatedSize + 1;
+I <=
+NewSize;
+I++)
+{ Matrix->IntToExtColMap[I] =
+I;
+Matrix->IntToExtRowMap[I] =
+I;
+Matrix->Diag[I] = NULL;
+Matrix->FirstInRow[I] = NULL;
+Matrix->FirstInCol[I] = NULL;
+}
 
-    return;
+return;
 }
 
 
-
-
-
-
-
-
 #if TRANSLATE
-
+
 /*
  *  EXPAND TRANSLATION ARRAYS
  *
@@ -1046,13 +1009,6 @@ register int I, OldAllocatedSize = Matrix->AllocatedExtSize;
 #endif
 
 
-
-
-
-
-
-
-
 #if INITIALIZE
 /*
  *   INITIALIZE MATRIX

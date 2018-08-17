@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/stg/stg_sc_sim.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:52 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 #include "stg_int.h"
@@ -32,20 +24,20 @@ int cid;
 
     foreach_fanin (node,k,fi) {
         literal = cube & 1;
-	cube >>= 1;
-	val = nptr(fi)->value[cid];
-	if (val == 2) {
-	    covered = 2;
-	}
-	else if (literal + val == 1) {
-	    covered = 0;
-	    break;
-	}
+    cube >>= 1;
+    val = nptr(fi)->value[cid];
+    if (val == 2) {
+        covered = 2;
+    }
+    else if (literal + val == 1) {
+        covered = 0;
+        break;
+    }
     }
     value = n->value;
     if (value[cid] != covered) {
         value[cid] = covered;
-	n->jflag[cid] |= CHANGED;
+    n->jflag[cid] |= CHANGED;
     }
 }
 
@@ -60,33 +52,33 @@ int cid;
     ndata *n;
 
     foreach_primary_input (copy,gen,node) {
-	n = nptr(node);
+    n = nptr(node);
         jflag = n->jflag;
         if (jflag[cid] & CHANGED) {
-	    jflag[cid] &= ~CHANGED;
-	    foreach_fanout (node,gen2,fo) {
-	        if (node_type(fo) != PRIMARY_OUTPUT) {
-		    nptr(fo)->jflag[cid] |= SCHEDULED;
-		}
-	    }
-	}
+        jflag[cid] &= ~CHANGED;
+        foreach_fanout (node,gen2,fo) {
+            if (node_type(fo) != PRIMARY_OUTPUT) {
+            nptr(fo)->jflag[cid] |= SCHEDULED;
+        }
+        }
+    }
     }
     for (i = npi; i < n_varying_nodes; i++) {
         n = varying_node[i];
         jflag = n->jflag;
-	if (jflag[cid] & SCHEDULED) {
-	    jflag[cid] &= ~SCHEDULED;
-	    sc_evaluate(n,cid);
-	    if (jflag[cid] & CHANGED) {
-	        jflag[cid] &= ~CHANGED;
-		node = n->node;
-		foreach_fanout (node,gen2,fo) {
-		    if (node_type(fo) != PRIMARY_OUTPUT) {
-		        nptr(fo)->jflag[cid] |= SCHEDULED;
-		    }
-		}
-	    }
-	}
+    if (jflag[cid] & SCHEDULED) {
+        jflag[cid] &= ~SCHEDULED;
+        sc_evaluate(n,cid);
+        if (jflag[cid] & CHANGED) {
+            jflag[cid] &= ~CHANGED;
+        node = n->node;
+        foreach_fanout (node,gen2,fo) {
+            if (node_type(fo) != PRIMARY_OUTPUT) {
+                nptr(fo)->jflag[cid] |= SCHEDULED;
+            }
+        }
+        }
+    }
     }
 }
 #endif /* SIS */

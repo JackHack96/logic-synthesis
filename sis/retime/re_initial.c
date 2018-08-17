@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/retime/re_initial.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:48 $
- *
- */
+
 /* 
  * $Log: re_initial.c,v $
  * Revision 1.1.1.1  2004/02/07 10:14:48  pchong
@@ -100,13 +92,13 @@ int *can_init;	       /* Flag to specify if all went OK */
     
     *can_init = TRUE;
     if (network == NIL(network_t)) {
-	*can_init = FALSE;
-	return 2;		       /* Set initial states to Dont Cares */
+    *can_init = FALSE;
+    return 2;		       /* Set initial states to Dont Cares */
     }
 
     retiming = ALLOC(int, re_num_nodes(graph));
     for ( i = re_num_nodes(graph); i-- > 0; ){
-	retiming[i] = r_vec[i];
+    retiming[i] = r_vec[i];
     }
     dup_network = network_dup(network);
     n_shift = make_retiming_negative(graph, retiming);
@@ -118,30 +110,30 @@ int *can_init;	       /* Flag to specify if all went OK */
     input_seq = array_alloc(char *, 0);
 
     if (seqbdd_extract_input_sequence(dup_network, n_shift, input_order, input_seq, reset_ancestor)) {
-	*can_init = FALSE;
+    *can_init = FALSE;
     } else {
-	if (retime_debug) {
-	    (void)fprintf(sisout, "RESET ANCESTOR CHANGES \n");
-	    st_foreach_item_int(reset_ancestor, stgen, (char **)&latch, &value){
-		(void)fprintf(sisout, "%s %d -> %d\n", 
-		    node_name(latch_get_output(latch)), value,
-		    latch_get_initial_value(latch));
-	    }
-	}
-	orig_reset_ancestor = retime_swap_latches(reset_ancestor, latch_table);
-	set_initial_state(graph, orig_reset_ancestor);
-	if (retime_debug){
-	    (void)fprintf(sisout, "ON INPUTS\n");
-	    for ( i = array_n(input_seq); i--> 0; ){
-		input = array_fetch(char *, input_seq, i);
-		for (j = 0; j < st_count(input_order); j++){
-		    (void)fprintf(sisout, "%d", (int)input[j]);
-		}
-		(void)fprintf(sisout, "\n");
-	    }
-	}
-	simulate_forward(graph, retiming, input_seq);
-	st_free_table(orig_reset_ancestor);
+    if (retime_debug) {
+        (void)fprintf(sisout, "RESET ANCESTOR CHANGES \n");
+        st_foreach_item_int(reset_ancestor, stgen, (char **)&latch, &value){
+        (void)fprintf(sisout, "%s %d -> %d\n",
+            node_name(latch_get_output(latch)), value,
+            latch_get_initial_value(latch));
+        }
+    }
+    orig_reset_ancestor = retime_swap_latches(reset_ancestor, latch_table);
+    set_initial_state(graph, orig_reset_ancestor);
+    if (retime_debug){
+        (void)fprintf(sisout, "ON INPUTS\n");
+        for ( i = array_n(input_seq); i--> 0; ){
+        input = array_fetch(char *, input_seq, i);
+        for (j = 0; j < st_count(input_order); j++){
+            (void)fprintf(sisout, "%d", (int)input[j]);
+        }
+        (void)fprintf(sisout, "\n");
+        }
+    }
+    simulate_forward(graph, retiming, input_seq);
+    st_free_table(orig_reset_ancestor);
     }
 
     /* cleanup */
@@ -149,8 +141,8 @@ int *can_init;	       /* Flag to specify if all went OK */
     st_free_table(latch_table);
     st_free_table(reset_ancestor);
     for (i = 0; i < array_n(input_seq); i++) {
-	input = array_fetch(char *, input_seq, i);
-	FREE(input);
+    input = array_fetch(char *, input_seq, i);
+    FREE(input);
     }
     FREE(retiming);
     array_free(input_seq);
@@ -180,17 +172,17 @@ int *retiming;		    /* solution vector */
     re_node *pi, *po;
 
     re_foreach_primary_input(graph, i, pi) {
-	assert(retiming[pi->id] == 0);
+    assert(retiming[pi->id] == 0);
     }
     re_foreach_primary_output(graph, i, po) {
-	assert(retiming[po->id] == 0);
+    assert(retiming[po->id] == 0);
     }
     max_value = 0;
     for (i = n_nodes; i-- > 0; ) {
-	if (max_value < retiming[i]) max_value = retiming[i];
+    if (max_value < retiming[i]) max_value = retiming[i];
     }
     n_shift = max_value;
-    for (i = n_nodes; i-- > 0; ) 
+    for (i = n_nodes; i-- > 0; )
       retiming[i] -= n_shift;
 
     return n_shift;
@@ -205,11 +197,11 @@ int *retiming;		    /* solution vector */
  * Just to make sure the two are consistent.
  */
 
-static void 
+static void
 retime_get_input_order(network, graph, input_order, use_re_node_flag)
-network_t *network;    
-re_graph *graph;       
-st_table *input_order; 
+network_t *network;
+re_graph *graph;
+st_table *input_order;
 int use_re_node_flag; /* if 1, map re_node to integers; if 0, map node_t to integers */
 {
     int i;
@@ -217,15 +209,15 @@ int use_re_node_flag; /* if 1, map re_node to integers; if 0, map node_t to inte
     node_t *old_pi, *pi;
 
     re_foreach_primary_input(graph, i, node) {
-	if (use_re_node_flag) {
-	    (void) st_insert(input_order, (char *) node, (char *) i);
-	} else {
-	    old_pi = node->node;
-	    pi = network_find_node(network, node_long_name(old_pi));
-	    assert(pi != NIL(node_t));
-	    assert(pi->type == PRIMARY_INPUT && network_is_real_pi(network, pi));
-	    (void) st_insert(input_order, (char *) pi, (char *) i);
-	}
+    if (use_re_node_flag) {
+        (void) st_insert(input_order, (char *) node, (char *) i);
+    } else {
+        old_pi = node->node;
+        pi = network_find_node(network, node_long_name(old_pi));
+        assert(pi != NIL(node_t));
+        assert(pi->type == PRIMARY_INPUT && network_is_real_pi(network, pi));
+        (void) st_insert(input_order, (char *) pi, (char *) i);
+    }
     }
 }
 
@@ -246,19 +238,19 @@ st_table *latch_values;
     int edge_index, i, init_val;
 
     re_foreach_edge(graph, edge_index, edge) {
-	if (re_ignore_edge(edge)) continue;
-	if (edge->weight == 0) continue;
-	assert(edge->weight > 0);
-	if (edge->num_val_alloc > 0) FREE(edge->initial_values);
-	edge->initial_values = ALLOC(int, edge->weight);
-	edge->num_val_alloc = edge->weight;
-	for (i = 0; i < edge->weight; i++) {
-	    latch = edge->latches[i];
-	    assert(st_lookup_int(latch_values, (char *) latch, &init_val));
-	    edge->initial_values[i] = init_val;
-	}
-	FREE(edge->latches);
-	edge->latches = NIL(latch_t *);	/* For garbage collection routines */
+    if (re_ignore_edge(edge)) continue;
+    if (edge->weight == 0) continue;
+    assert(edge->weight > 0);
+    if (edge->num_val_alloc > 0) FREE(edge->initial_values);
+    edge->initial_values = ALLOC(int, edge->weight);
+    edge->num_val_alloc = edge->weight;
+    for (i = 0; i < edge->weight; i++) {
+        latch = edge->latches[i];
+        assert(st_lookup_int(latch_values, (char *) latch, &init_val));
+        edge->initial_values[i] = init_val;
+    }
+    FREE(edge->latches);
+    edge->latches = NIL(latch_t *);	/* For garbage collection routines */
     }
 }
 
@@ -270,13 +262,13 @@ st_table *latch_values;
  * A node still needs to be retimed if retiming[node_id] < 0.
  * We need to be careful not to put the same node twice on the stack, or we will get stack overflow.
  * For that,we use the special array 'on_stack' that checks for this condition.
- * After a node has fired, it may enable its outputs: we check to see if any output needs to be 
+ * After a node has fired, it may enable its outputs: we check to see if any output needs to be
  * put on the stack.
  * The algorithm completes when the stack is empty. For consistency, we check that the retiming
  * is complete then (all entries of 'retiming' are 0).
  */
 
-static void 
+static void
 simulate_forward(graph, retiming, input_seq)
 re_graph *graph;	    /* graph representation of network for retiming */
 int *retiming;		    /* solution vector (integer version) */
@@ -295,54 +287,54 @@ array_t *input_seq;	    /* array of char* pointing to input sequences from ances
 
     n_nodes = re_num_nodes(graph);
     for (i = 0; i < n_nodes; i++) {
-	node = array_fetch(re_node *, graph->nodes, i);
-	assert(node->id == i);
-	if (retiming[i] < 0) re_stack_push(stack, node);
+    node = array_fetch(re_node *, graph->nodes, i);
+    assert(node->id == i);
+    if (retiming[i] < 0) re_stack_push(stack, node);
     }
 
 
     while (! re_stack_is_empty(stack)) {
-	/* retime the node at the top of the stack */
-	node = re_stack_pop(stack);
-	local_shift = MIN(min_n_input_latch(node), - retiming[node->id]);
-	assert(local_shift > 0);
-	switch (node->type) {
-	  case RE_PRIMARY_INPUT:
-	    assert(array_n(input_seq) == local_shift);
-	    assert(st_lookup_int(pi_order, (char *) node, &input_position));
-	    retime_primary_input_forward(node, input_position, input_seq);
-	    break;
-	  case RE_PRIMARY_OUTPUT:
-	    retime_primary_output_forward(node, local_shift);
-	    break;
-	  case RE_INTERNAL:
-	    retime_node_forward(node, local_shift);
-	    break;
-	    default:
-	    fail("node of type RE_IGNORE encountered");
-	}
-	retiming[node->id] += local_shift;
+    /* retime the node at the top of the stack */
+    node = re_stack_pop(stack);
+    local_shift = MIN(min_n_input_latch(node), - retiming[node->id]);
+    assert(local_shift > 0);
+    switch (node->type) {
+      case RE_PRIMARY_INPUT:
+        assert(array_n(input_seq) == local_shift);
+        assert(st_lookup_int(pi_order, (char *) node, &input_position));
+        retime_primary_input_forward(node, input_position, input_seq);
+        break;
+      case RE_PRIMARY_OUTPUT:
+        retime_primary_output_forward(node, local_shift);
+        break;
+      case RE_INTERNAL:
+        retime_node_forward(node, local_shift);
+        break;
+        default:
+        fail("node of type RE_IGNORE encountered");
+    }
+    retiming[node->id] += local_shift;
 
-	/*
-	 * propagate readiness to node outputs
-	 */
-	re_foreach_fanout(node, i, outedge) {
-	    if (re_ignore_edge(outedge)) continue;
-	    output = outedge->sink;
-	    if (retiming[output->id] < 0) re_stack_push(stack, output);
-	}
+    /*
+     * propagate readiness to node outputs
+     */
+    re_foreach_fanout(node, i, outedge) {
+        if (re_ignore_edge(outedge)) continue;
+        output = outedge->sink;
+        if (retiming[output->id] < 0) re_stack_push(stack, output);
+    }
     }
 
     /* check that the work has been done and cleanup */
     for (i = 0; i < n_nodes; i++) {
-	assert(retiming[i] == 0);
+    assert(retiming[i] == 0);
     }
     re_stack_free(stack);
     st_free_table(pi_order);
 }
 
 
-/* 
+/*
  * Stack manipulation routines for retiming
  */
 
@@ -361,7 +353,7 @@ re_graph *graph;
     stack->current = stack->bottom;
     stack->in_stack = ALLOC(int, n_nodes);
     for (i = 0; i < n_nodes; i++) {
-	stack->in_stack[i] = 0;
+    stack->in_stack[i] = 0;
     }
     return stack;
 }
@@ -375,7 +367,7 @@ re_stack_t *stack;
     FREE(stack);
 }
 
-/* 
+/*
  * Does not always push. Checks whether the node needs to be pushed on the stack or not.
  * Supposes that the node needs retiming. This should be checked by the caller.
  */
@@ -413,7 +405,7 @@ re_stack_t *stack;
 {
     return (stack->current == stack->bottom);
 }
-    
+
 
  /* yes iff currently a latch is present on each fanin edge */
 
@@ -426,9 +418,9 @@ re_node *node;
     int min_weight = (int) INFINITY;
 
     re_foreach_fanin(node, i, backedge) {
-	if (re_ignore_edge(backedge)) continue;
-	if (min_weight > backedge->weight)
-	  min_weight = backedge->weight;
+    if (re_ignore_edge(backedge)) continue;
+    if (min_weight > backedge->weight)
+      min_weight = backedge->weight;
     }
     return min_weight;
 }
@@ -437,7 +429,7 @@ re_node *node;
 /*
  * array_t *input_seq
  * char *one_seq = array_fetch(char *, input_seq, i)
- * EXPECTS "one_seq" TO BE ORDERED IN THE SAME ORDER AS 
+ * EXPECTS "one_seq" TO BE ORDERED IN THE SAME ORDER AS
  * PRIMARY INPUTS OF GRAPH (guaranteed by 'retime_get_input_order')
  */
 
@@ -453,15 +445,15 @@ array_t *input_seq;
 
     if (n_shift == 0) return;
     re_foreach_fanout(node, i, edge) {
-	if (re_ignore_edge(edge)) continue;
-	realloc_initial_values(edge, n_shift);
+    if (re_ignore_edge(edge)) continue;
+    realloc_initial_values(edge, n_shift);
     }
     re_foreach_fanout(node, j, edge) {
-	if (re_ignore_edge(edge)) continue;
-	for (i = 0; i < n_shift; i++) {
-	    char *input = array_fetch(char *, input_seq, i);
-	    edge->initial_values[i] = (int)(input[input_index]);
-	}
+    if (re_ignore_edge(edge)) continue;
+    for (i = 0; i < n_shift; i++) {
+        char *input = array_fetch(char *, input_seq, i);
+        edge->initial_values[i] = (int)(input[input_index]);
+    }
     }
 }
 
@@ -485,12 +477,12 @@ int size_incr;
     assert(old_size >= 0 && new_size >= 0);
     new_init_values = (new_size > 0) ? ALLOC(int, new_size) : NIL(int);
     if (size_incr > 0) {
-	for (i = 0; i < edge->weight; i++) {
-	    new_init_values[i + size_incr] = edge->initial_values[i];
-	}
+    for (i = 0; i < edge->weight; i++) {
+        new_init_values[i + size_incr] = edge->initial_values[i];
+    }
     } else {			       /* size_incr < 0 */
-	for (i = 0; i < edge->weight + size_incr; i++) {
-	  new_init_values[i] = edge->initial_values[i];
+    for (i = 0; i < edge->weight + size_incr; i++) {
+      new_init_values[i] = edge->initial_values[i];
       }
     }
     if (old_size > 0) FREE(edge->initial_values);
@@ -508,8 +500,8 @@ int n_shift;
     re_edge *edge;
 
     re_foreach_fanin(node, i, edge) {
-	if (re_ignore_edge(edge)) continue;
-	realloc_initial_values(edge, 0 - n_shift);
+    if (re_ignore_edge(edge)) continue;
+    realloc_initial_values(edge, 0 - n_shift);
     }
 }
 
@@ -526,37 +518,37 @@ int n_shift;
     int *output_values = ALLOC(int, n_shift);
 
     for (i = 0; i < n_shift; i++) {
-	input_values[i] = ALLOC(int, n_inputs);
+    input_values[i] = ALLOC(int, n_inputs);
     }
 
     for (i = 0; i < n_shift; i++) {
-	re_foreach_fanin(node, j, edge) {
-	    if (re_ignore_edge(edge)) continue;
-	    input_values[i][edge->sink_fanin_id] = edge->initial_values[i + edge->weight - n_shift];
-	}
+    re_foreach_fanin(node, j, edge) {
+        if (re_ignore_edge(edge)) continue;
+        input_values[i][edge->sink_fanin_id] = edge->initial_values[i + edge->weight - n_shift];
+    }
     }
     re_foreach_fanin(node, j, edge) {
-	if (re_ignore_edge(edge)) continue;
-	realloc_initial_values(edge, 0 - n_shift);
+    if (re_ignore_edge(edge)) continue;
+    realloc_initial_values(edge, 0 - n_shift);
     }
     re_foreach_fanout(node, j, edge) {
-	if (re_ignore_edge(edge)) continue;
-	realloc_initial_values(edge, 0 + n_shift);
+    if (re_ignore_edge(edge)) continue;
+    realloc_initial_values(edge, 0 + n_shift);
     }
 
     for (i = 0; i < n_shift; i++) {
-	output_values[i] = simulate_node_function(node->node, input_values[i]);
+    output_values[i] = simulate_node_function(node->node, input_values[i]);
     }
 
     for (i = 0; i < n_shift; i++) {
-	re_foreach_fanout(node, j, edge) {
-	    if (re_ignore_edge(edge)) continue;
-	    edge->initial_values[i] = output_values[i];
-	}
+    re_foreach_fanout(node, j, edge) {
+        if (re_ignore_edge(edge)) continue;
+        edge->initial_values[i] = output_values[i];
+    }
     }
 
     for (i = 0; i < n_shift; i++) {
-	FREE(input_values[i]);
+    FREE(input_values[i]);
     }
     FREE(input_values);
     FREE(output_values);
@@ -590,28 +582,28 @@ int *in_values;
     if (node_fn == NODE_1) return 1;
     num_in = node_num_fanin(node);
     for (i = 0; i < num_cubes; i++) {
-	int local_out_value = 2;
-	cube = node_get_cube(node, i);
-	for (j = 0; j < num_in; j++) {
-	    int literal = node_get_literal(cube, j);
-	    switch (literal) {
-	      case ZERO:
-		local_out_value = and_table[local_out_value][1 - in_values[j]];
-		break;
-	      case ONE:
-		local_out_value = and_table[local_out_value][in_values[j]];
-		break;
-	      case TWO:
-		break;
-		default:
-		fail("bad literal");
-		/* NOTREACHED */
-	    }
-	    if (local_out_value == 0) break;
-	}
-	assert(local_out_value != 2);
-	out_value = or_table[out_value][local_out_value];
-	if (out_value == 1) break;
+    int local_out_value = 2;
+    cube = node_get_cube(node, i);
+    for (j = 0; j < num_in; j++) {
+        int literal = node_get_literal(cube, j);
+        switch (literal) {
+          case ZERO:
+        local_out_value = and_table[local_out_value][1 - in_values[j]];
+        break;
+          case ONE:
+        local_out_value = and_table[local_out_value][in_values[j]];
+        break;
+          case TWO:
+        break;
+        default:
+        fail("bad literal");
+        /* NOTREACHED */
+        }
+        if (local_out_value == 0) break;
+    }
+    assert(local_out_value != 2);
+    out_value = or_table[out_value][local_out_value];
+    if (out_value == 1) break;
     }
     return out_value;
 }
@@ -630,16 +622,16 @@ network_t *net1, *net2;
     latch_table = st_init_table(st_ptrcmp, st_ptrhash);
 
     foreach_latch(net1, gen, l1){
-	po1 = latch_get_input(l1);
-	assert((po2 = network_find_node(net2, node_long_name(po1))) != NIL(node_t));
-	assert((l2 = latch_from_node(po2)) != NIL(latch_t));
-	(void)st_insert(latch_table, (char *)l1, (char *)l2);
+    po1 = latch_get_input(l1);
+    assert((po2 = network_find_node(net2, node_long_name(po1))) != NIL(node_t));
+    assert((l2 = latch_from_node(po2)) != NIL(latch_t));
+    (void)st_insert(latch_table, (char *)l1, (char *)l2);
     }
     foreach_latch(net2, gen, l2){
-	po2 = latch_get_input(l2);
-	assert((po1 = network_find_node(net1, node_long_name(po2))) != NIL(node_t));
-	assert((l1 = latch_from_node(po1)) != NIL(latch_t));
-	(void)st_insert(latch_table, (char *)l2, (char *)l1);
+    po2 = latch_get_input(l2);
+    assert((po1 = network_find_node(net1, node_long_name(po2))) != NIL(node_t));
+    assert((l1 = latch_from_node(po1)) != NIL(latch_t));
+    (void)st_insert(latch_table, (char *)l2, (char *)l1);
     }
 
     return latch_table;
@@ -656,8 +648,8 @@ st_table *ancestor, *latch_table;
 
     orig_ancestor = st_init_table(st_ptrcmp, st_ptrhash);
     st_foreach_item_int(ancestor, stgen, (char **)&l1, &value){
-	assert(st_lookup(latch_table, (char *)l1, (char **)&l2));
-	st_insert(orig_ancestor, (char *)l2, (char *)value);
+    assert(st_lookup(latch_table, (char *)l1, (char **)&l2));
+    st_insert(orig_ancestor, (char *)l2, (char *)value);
     }
     return orig_ancestor;
 }

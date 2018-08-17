@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * /projects/hsis/CVS/utilities/bdd_cmu/bdd_port/bdditer.c,v
- * shiple
- * 1.6
- * 1993/12/04 06:19:30
- *
- */
+
 #include "util.h"     /* includes math.h */
 #include "array.h"
 #include "st.h"
@@ -16,8 +8,11 @@
 #include "bddint.h"   /* CMU internal routines; for use in bdd_get_branches() and for BDD_POINTER */
 
 static void pop_cube_stack();
+
 static void pop_node_stack();
+
 static void push_cube_stack();
+
 static void push_node_stack();
 
 /*
@@ -38,17 +33,17 @@ static void push_node_stack();
  */
 bdd_gen *
 bdd_first_cube(fn, cube)
-bdd_t *fn;
-array_t **cube;	/* of bdd_literal */
+        bdd_t *fn;
+        array_t **cube;    /* of bdd_literal */
 {
     struct bdd_manager_ *manager;
-    bdd_gen *gen;
-    int i;
-    long num_vars;
-    bdd_node *f;
+    bdd_gen             *gen;
+    int                 i;
+    long                num_vars;
+    bdd_node            *f;
 
     if (fn == NIL(bdd_t)) {
-	cmu_bdd_fatal("bdd_first_cube: invalid BDD");
+        cmu_bdd_fatal("bdd_first_cube: invalid BDD");
     }
 
     manager = fn->mgr;
@@ -59,26 +54,26 @@ array_t **cube;	/* of bdd_literal */
      */
     gen = ALLOC(bdd_gen, 1);
     if (gen == NIL(bdd_gen)) {
-	cmu_bdd_fatal("bdd_first_cube: failed on memory allocation, location 1");
+        cmu_bdd_fatal("bdd_first_cube: failed on memory allocation, location 1");
     }
 
     /*
      *    first - init all the members to a rational value for cube iteration
      */
-    gen->manager = manager;
-    gen->status = bdd_EMPTY;
-    gen->type = bdd_gen_cubes;
+    gen->manager        = manager;
+    gen->status         = bdd_EMPTY;
+    gen->type           = bdd_gen_cubes;
     gen->gen.cubes.cube = NIL(array_t);
-    gen->stack.sp = 0;
-    gen->stack.stack = NIL(bdd_node *);
-    gen->node = NIL(bdd_node);
+    gen->stack.sp       = 0;
+    gen->stack.stack    = NIL(bdd_node * );
+    gen->node           = NIL(bdd_node);
 
     num_vars = cmu_bdd_vars(manager);
     gen->gen.cubes.cube = array_alloc(bdd_literal, num_vars);
     if (gen->gen.cubes.cube == NIL(array_t)) {
-	cmu_bdd_fatal("bdd_first_cube: failed on memory allocation, location 2");
+        cmu_bdd_fatal("bdd_first_cube: failed on memory allocation, location 2");
     }
-    
+
     /*
      * Initialize each literal to 2 (don't care).
      */
@@ -91,38 +86,38 @@ array_t **cube;	/* of bdd_literal */
      * the longest possible path from root to constant 1 is the number of variables 
      * in the BDD.
      */
-    gen->stack.sp = 0;
-    gen->stack.stack = ALLOC(bdd_node *, num_vars);
-    if (gen->stack.stack == NIL(bdd_node *)) {
-	cmu_bdd_fatal("bdd_first_cube: failed on memory allocation, location 3");
+    gen->stack.sp    = 0;
+    gen->stack.stack = ALLOC(bdd_node * , num_vars);
+    if (gen->stack.stack == NIL(bdd_node * )) {
+        cmu_bdd_fatal("bdd_first_cube: failed on memory allocation, location 3");
     }
     /*
      * Clear out the stack so that in bdd_gen_free, we can decrement the ref count
      * of those nodes still on the stack.
      */
     for (i = 0; i < num_vars; i++) {
-	gen->stack.stack[i] = NIL(bdd_node);
+        gen->stack.stack[i] = NIL(bdd_node);
     }
 
     if (bdd_is_tautology(fn, 0)) {
-	/*
-	 *    All done, for this was but the zero constant ...
-	 *    We are enumerating the onset, (which is vacuous).
-         *    gen->status initialized to bdd_EMPTY above, so this
-         *    appears to be redundant.
-	 */
-	gen->status = bdd_EMPTY;
+        /*
+         *    All done, for this was but the zero constant ...
+         *    We are enumerating the onset, (which is vacuous).
+             *    gen->status initialized to bdd_EMPTY above, so this
+             *    appears to be redundant.
+         */
+        gen->status = bdd_EMPTY;
     } else {
-	/*
-	 *    Get to work enumerating the onset.  Get the first cube.  Note that
-         *    if fn is just the constant 1, push_cube_stack will properly handle this.
-	 *    Get a new pointer to fn->node beforehand: this increments
-	 *    the reference count of fn->node; this is necessary, because when fn->node
-	 *    is popped from the stack at the very end, it's ref count is decremented.
-	 */
-	gen->status = bdd_NONEMPTY;
-	f = cmu_bdd_identity(manager, fn->node);
-	push_cube_stack(f, gen);
+        /*
+         *    Get to work enumerating the onset.  Get the first cube.  Note that
+             *    if fn is just the constant 1, push_cube_stack will properly handle this.
+         *    Get a new pointer to fn->node beforehand: this increments
+         *    the reference count of fn->node; this is necessary, because when fn->node
+         *    is popped from the stack at the very end, it's ref count is decremented.
+         */
+        gen->status = bdd_NONEMPTY;
+        f = cmu_bdd_identity(manager, fn->node);
+        push_cube_stack(f, gen);
     }
 
     *cube = gen->gen.cubes.cube;
@@ -135,13 +130,13 @@ array_t **cube;	/* of bdd_literal */
  */
 boolean
 bdd_next_cube(gen, cube)
-bdd_gen *gen;
-array_t **cube;		/* of bdd_literal */
+        bdd_gen *gen;
+        array_t **cube;        /* of bdd_literal */
 {
 
     pop_cube_stack(gen);
     if (gen->status == bdd_EMPTY) {
-      return (FALSE);
+        return (FALSE);
     }
     *cube = gen->gen.cubes.cube;
     return (TRUE);
@@ -153,17 +148,17 @@ array_t **cube;		/* of bdd_literal */
  */
 bdd_gen *
 bdd_first_node(fn, node)
-bdd_t *fn;
-bdd_node **node;	/* return */
+        bdd_t *fn;
+        bdd_node **node;    /* return */
 {
     struct bdd_manager_ *manager;
-    bdd_gen *gen;
-    long num_vars;
-    bdd_node *f;
-    int i;
+    bdd_gen             *gen;
+    long                num_vars;
+    bdd_node            *f;
+    int                 i;
 
     if (fn == NIL(bdd_t)) {
-	cmu_bdd_fatal("bdd_first_node: invalid BDD");
+        cmu_bdd_fatal("bdd_first_node: invalid BDD");
     }
 
     manager = fn->mgr;
@@ -175,27 +170,27 @@ bdd_node **node;	/* return */
      */
     gen = ALLOC(bdd_gen, 1);
     if (gen == NIL(bdd_gen)) {
-	cmu_bdd_fatal("bdd_first_node: failed on memory allocation, location 1");
+        cmu_bdd_fatal("bdd_first_node: failed on memory allocation, location 1");
     }
 
     /*
      *    first - init all the members to a rational value for node iteration.
      */
-    gen->manager = manager;
-    gen->status = bdd_NONEMPTY;
-    gen->type = bdd_gen_nodes;
+    gen->manager           = manager;
+    gen->status            = bdd_NONEMPTY;
+    gen->type              = bdd_gen_nodes;
     gen->gen.nodes.visited = NIL(st_table);
-    gen->stack.sp = 0;
-    gen->stack.stack = NIL(bdd_node *);
-    gen->node = NIL(bdd_node);
-  
+    gen->stack.sp          = 0;
+    gen->stack.stack       = NIL(bdd_node * );
+    gen->node              = NIL(bdd_node);
+
     /* 
      * Set up the hash table for visited nodes.  Every time we visit a node,
      * we insert it into the table.
      */
     gen->gen.nodes.visited = st_init_table(st_ptrcmp, st_ptrhash);
     if (gen->gen.nodes.visited == NIL(st_table)) {
-	cmu_bdd_fatal("bdd_first_node: failed on memory allocation, location 2");
+        cmu_bdd_fatal("bdd_first_node: failed on memory allocation, location 2");
     }
 
     /*
@@ -205,16 +200,16 @@ bdd_node **node;	/* return */
      */
     gen->stack.sp = 0;
     num_vars = cmu_bdd_vars(manager);
-    gen->stack.stack = ALLOC(bdd_node *, num_vars);
-    if (gen->stack.stack == NIL(bdd_node *)) {
-	cmu_bdd_fatal("bdd_first_node: failed on memory allocation, location 3");
+    gen->stack.stack = ALLOC(bdd_node * , num_vars);
+    if (gen->stack.stack == NIL(bdd_node * )) {
+        cmu_bdd_fatal("bdd_first_node: failed on memory allocation, location 3");
     }
     /*
      * Clear out the stack so that in bdd_gen_free, we can decrement the ref count
      * of those nodes still on the stack.
      */
     for (i = 0; i < num_vars; i++) {
-	gen->stack.stack[i] = NIL(bdd_node);
+        gen->stack.stack[i] = NIL(bdd_node);
     }
 
     /*
@@ -226,8 +221,8 @@ bdd_node **node;	/* return */
     push_node_stack(f, gen);
     gen->status = bdd_NONEMPTY;
 
-    *node = gen->node;	/* return the node */
-    return (gen);	/* and the new generator */
+    *node = gen->node;    /* return the node */
+    return (gen);    /* and the new generator */
 }
 
 /*
@@ -236,12 +231,12 @@ bdd_node **node;	/* return */
  */
 boolean
 bdd_next_node(gen, node)
-bdd_gen *gen;
-bdd_node **node;	/* return */
+        bdd_gen *gen;
+        bdd_node **node;    /* return */
 {
     pop_node_stack(gen);
     if (gen->status == bdd_EMPTY) {
-	return (FALSE);
+        return (FALSE);
     }
     *node = gen->node;
     return (TRUE);
@@ -254,30 +249,29 @@ bdd_node **node;	/* return */
  */
 int
 bdd_gen_free(gen)
-bdd_gen *gen;
+        bdd_gen *gen;
 {
-    long num_vars;
-    int i;
+    long                num_vars;
+    int                 i;
     struct bdd_manager_ *mgr;
-    bdd_node *f;
-    st_table *visited_table;
-    st_generator *visited_gen;
+    bdd_node            *f;
+    st_table            *visited_table;
+    st_generator        *visited_gen;
 
     mgr = gen->manager;
 
     switch (gen->type) {
-    case bdd_gen_cubes:
-	array_free(gen->gen.cubes.cube);
-	gen->gen.cubes.cube = NIL(array_t);
-	break;
-    case bdd_gen_nodes:
-        visited_table = gen->gen.nodes.visited;
-	st_foreach_item(visited_table, visited_gen, (refany*) &f, NIL(refany)) {
-	    cmu_bdd_free(mgr, f);
-	}
-	st_free_table(visited_table);
-	visited_table = NIL(st_table);
-	break;
+        case bdd_gen_cubes: array_free(gen->gen.cubes.cube);
+            gen->gen.cubes.cube = NIL(array_t);
+            break;
+        case bdd_gen_nodes:visited_table = gen->gen.nodes.visited;
+            st_foreach_item(visited_table, visited_gen, (refany*) &f, NIL(
+            refany)) {
+        cmu_bdd_free(mgr, f);
+    }
+            st_free_table(visited_table);
+            visited_table = NIL(st_table);
+            break;
     }
 
     /*
@@ -285,17 +279,17 @@ bdd_gen *gen;
      * on the stack, we must free them, to get their ref counts back to what they were before.
      */
     num_vars = cmu_bdd_vars(mgr);
-    for (i = 0; i < num_vars; i++) {
-	f = gen->stack.stack[i];
-	if (f != NIL(bdd_node)) {
-	    cmu_bdd_free(mgr, f);
-	}
+    for (i   = 0; i < num_vars; i++) {
+        f = gen->stack.stack[i];
+        if (f != NIL(bdd_node)) {
+            cmu_bdd_free(mgr, f);
+        }
     }
     FREE(gen->stack.stack);
 
     FREE(gen);
 
-    return (0);	/* make it return some sort of an int */
+    return (0);    /* make it return some sort of an int */
 }
 
 /*
@@ -325,17 +319,17 @@ bdd_gen *gen;
  */
 static void
 push_cube_stack(f, gen)
-bdd_node *f;
-bdd_gen *gen;
+        bdd_node *f;
+        bdd_gen *gen;
 {
-    bdd_variableId topf_id;
-    bdd_node *f0, *f1;
+    bdd_variableId      topf_id;
+    bdd_node            *f0, *f1;
     struct bdd_manager_ *mgr;
 
     mgr = gen->manager;
 
     if (f == cmu_bdd_one(mgr)) {
-	return;
+        return;
     }
 
     topf_id = (bdd_variableId) (cmu_bdd_if_id(mgr, f) - 1);
@@ -348,24 +342,24 @@ bdd_gen *gen;
     f1 = cmu_bdd_then(mgr, f);
 
     if (f1 == cmu_bdd_zero(mgr)) {
-	/*
-	 *    No choice: take the 0 branch.  Since there is only one branch to 
-         *    explore from f, there is no need to push f onto the stack, because
-         *    after exploring this branch we are done with f.  A consequence of 
-         *    this is that there will be no f to pop either.  Same goes for the
-         *    next case.  Decrement the ref count of f and of the branch leading
-         *    to zero, since we will no longer need to access these nodes.
-	 */
-	array_insert(bdd_literal, gen->gen.cubes.cube, topf_id, 0);
-	push_cube_stack(f0, gen);
+        /*
+         *    No choice: take the 0 branch.  Since there is only one branch to
+             *    explore from f, there is no need to push f onto the stack, because
+             *    after exploring this branch we are done with f.  A consequence of
+             *    this is that there will be no f to pop either.  Same goes for the
+             *    next case.  Decrement the ref count of f and of the branch leading
+             *    to zero, since we will no longer need to access these nodes.
+         */
+        array_insert(bdd_literal, gen->gen.cubes.cube, topf_id, 0);
+        push_cube_stack(f0, gen);
         cmu_bdd_free(mgr, f1);
         cmu_bdd_free(mgr, f);
     } else if (f0 == cmu_bdd_zero(mgr)) {
-	/*
-	 *    No choice: take the 1 branch
-	 */
-	array_insert(bdd_literal, gen->gen.cubes.cube, topf_id, 1);
-	push_cube_stack(f1, gen);
+        /*
+         *    No choice: take the 1 branch
+         */
+        array_insert(bdd_literal, gen->gen.cubes.cube, topf_id, 1);
+        push_cube_stack(f1, gen);
         cmu_bdd_free(mgr, f0);
         cmu_bdd_free(mgr, f);
     } else {
@@ -376,24 +370,24 @@ bdd_gen *gen;
 	 * of f1 since we will no longer need to access this node.  Note that 
          * the parent of f1 was bdd_freed above or in pop_cube_stack.
          */
-	gen->stack.stack[gen->stack.sp++] = f;
-	array_insert(bdd_literal, gen->gen.cubes.cube, topf_id, 0);
-	push_cube_stack(f0, gen);
+        gen->stack.stack[gen->stack.sp++] = f;
+        array_insert(bdd_literal, gen->gen.cubes.cube, topf_id, 0);
+        push_cube_stack(f0, gen);
         cmu_bdd_free(mgr, f1);
     }
 }
 
 static void
 pop_cube_stack(gen)
-bdd_gen *gen;
+        bdd_gen *gen;
 {
-    bdd_variableId topf_id, level_i_id;
-    bdd_node *branch_f;
-    bdd_node *f1;
-    int i;
-    long topf_level;
+    bdd_variableId      topf_id, level_i_id;
+    bdd_node            *branch_f;
+    bdd_node            *f1;
+    int                 i;
+    long                topf_level;
     struct bdd_manager_ *mgr;
-    struct bdd_ *var_bdd;
+    struct bdd_         *var_bdd;
 
     mgr = gen->manager;
 
@@ -402,7 +396,7 @@ bdd_gen *gen;
          * Stack is empty.  Have already explored both the 0 and 1 branches of 
          * the root of the BDD.
          */
-	gen->status = bdd_EMPTY;
+        gen->status = bdd_EMPTY;
     } else {
         /*
          * Explore the 1 branch of the node at the top of the stack (since it is
@@ -410,10 +404,10 @@ bdd_gen *gen;
          * permanently pop the top node, and bdd_free it, since there are no more edges left to 
          * explore. 
          */
-	branch_f = gen->stack.stack[--gen->stack.sp];
-	gen->stack.stack[gen->stack.sp] = NIL(bdd_node); /* overwrite with NIL */
+        branch_f = gen->stack.stack[--gen->stack.sp];
+        gen->stack.stack[gen->stack.sp] = NIL(bdd_node); /* overwrite with NIL */
         topf_id = (bdd_variableId) (cmu_bdd_if_id(mgr, branch_f) - 1);
-	array_insert(bdd_literal, gen->gen.cubes.cube, topf_id, 1);
+        array_insert(bdd_literal, gen->gen.cubes.cube, topf_id, 1);
 
         /* 
          * We must set the variables with levels greater than the level of branch_f,
@@ -427,19 +421,19 @@ bdd_gen *gen;
          *                                           UCB starts numbering at 0)
          */
         topf_level = cmu_bdd_if_index(mgr, branch_f);
-	for (i = topf_level + 1; i < array_n(gen->gen.cubes.cube); i++) {
-            var_bdd = cmu_bdd_var_with_index(mgr, i);
+        for (i     = topf_level + 1; i < array_n(gen->gen.cubes.cube); i++) {
+            var_bdd    = cmu_bdd_var_with_index(mgr, i);
             level_i_id = (bdd_variableId) (cmu_bdd_if_id(mgr, var_bdd) - 1);
-	    /*
-             * No need to free var_bdd, since single variable BDDs are never garbage collected.
-             * Note that level_i_id is just (mgr->indexindexes[i] - 1); however, wanted
-             * to avoid using CMU internals.
-             */
-	    array_insert(bdd_literal, gen->gen.cubes.cube, level_i_id, 2);
-	}
-	f1 = cmu_bdd_then(mgr, branch_f);
-	push_cube_stack(f1, gen);
-	cmu_bdd_free(mgr, branch_f);
+            /*
+                 * No need to free var_bdd, since single variable BDDs are never garbage collected.
+                 * Note that level_i_id is just (mgr->indexindexes[i] - 1); however, wanted
+                 * to avoid using CMU internals.
+                 */
+            array_insert(bdd_literal, gen->gen.cubes.cube, level_i_id, 2);
+        }
+        f1         = cmu_bdd_then(mgr, branch_f);
+        push_cube_stack(f1, gen);
+        cmu_bdd_free(mgr, branch_f);
     }
 }
 
@@ -460,11 +454,11 @@ bdd_gen *gen;
  */
 static void
 push_node_stack(f, gen)
-bdd_node *f;
-bdd_gen *gen;
+        bdd_node *f;
+        bdd_gen *gen;
 {
-    bdd_node *f0, *f1;
-    bdd_node *reg_f, *reg_f0, *reg_f1;
+    bdd_node            *f0, *f1;
+    bdd_node            *reg_f, *reg_f0, *reg_f1;
     struct bdd_manager_ *mgr;
 
     mgr = gen->manager;
@@ -474,7 +468,7 @@ bdd_gen *gen;
         /* 
          * Already been visited.
          */
-	return;
+        return;
     }
 
     if (f == cmu_bdd_one(mgr) || f == cmu_bdd_zero(mgr)) {
@@ -484,64 +478,66 @@ bdd_gen *gen;
          * the constant node does not have any branches, and there is no need to free f because 
          * constant nodes have a saturated reference count.
          */
-	st_insert(gen->gen.nodes.visited, (refany) reg_f, NIL(any));
-	gen->node = reg_f;
+        st_insert(gen->gen.nodes.visited, (refany) reg_f, NIL(
+        any));
+        gen->node = reg_f;
     } else {
         /*
          * f has not been marked as visited.  We don't know yet if any of its branches 
          * remain to be explored.  First get its branches.  Note that cmu_bdd_then and 
          * cmu_bdd_else automatically take care of inverted pointers.  
          */
-	f0 = cmu_bdd_else(mgr, f);
-	f1 = cmu_bdd_then(mgr, f);
+        f0 = cmu_bdd_else(mgr, f);
+        f1 = cmu_bdd_then(mgr, f);
 
-	reg_f0 = (bdd_node *) BDD_POINTER(f0);  /* use of bddint.h */
-	reg_f1 = (bdd_node *) BDD_POINTER(f1);
-	if (! st_lookup(gen->gen.nodes.visited, (refany) reg_f0, NIL(refany))) {
+        reg_f0 = (bdd_node *) BDD_POINTER(f0);  /* use of bddint.h */
+        reg_f1 = (bdd_node *) BDD_POINTER(f1);
+        if (!st_lookup(gen->gen.nodes.visited, (refany) reg_f0, NIL(refany))) {
             /* 
              * The 0 child has not been visited, so explore the 0 branch.  First push f on 
              * the stack.  Bdd_free f1 since we will not need to access this exact pointer
              * any more.
              */
-	    gen->stack.stack[gen->stack.sp++] = f;
+            gen->stack.stack[gen->stack.sp++] = f;
             push_node_stack(f0, gen);
-	    cmu_bdd_free(mgr, f1);
-	} else if (! st_lookup(gen->gen.nodes.visited, (refany) reg_f1, NIL(refany))) {
+            cmu_bdd_free(mgr, f1);
+        } else if (!st_lookup(gen->gen.nodes.visited, (refany) reg_f1, NIL(refany))) {
             /* 
              * The 0 child has been visited, but the 1 child has not been visited, so 
              * explore the 1 branch.  First push f on the stack. We are done with f0, 
 	     * so bdd_free it.
              */
-	    gen->stack.stack[gen->stack.sp++] = f;
+            gen->stack.stack[gen->stack.sp++] = f;
             push_node_stack(f1, gen);
-	    cmu_bdd_free(mgr, f0);
-	} else {
+            cmu_bdd_free(mgr, f0);
+        } else {
             /*
              * Both the 0 and 1 children have been visited. Thus we are done exploring from f.  
              * Mark f as visited (put it in the visited table), and set the gen->node pointer.
 	     * We will no longer need to refer to f0 and f1, so bdd_free them.  f will be
              * bdd_freed when the visited table is freed.
              */
-            st_insert(gen->gen.nodes.visited, (refany) reg_f, NIL(any));
-	    gen->node = reg_f;
-	    cmu_bdd_free(mgr, f0);
-	    cmu_bdd_free(mgr, f1);
-	}
+            st_insert(gen->gen.nodes.visited, (refany) reg_f, NIL(
+            any));
+            gen->node = reg_f;
+            cmu_bdd_free(mgr, f0);
+            cmu_bdd_free(mgr, f1);
+        }
     }
 }
 
 static void
 pop_node_stack(gen)
-bdd_gen *gen;
+        bdd_gen *gen;
 {
     bdd_node *branch_f;
 
     if (gen->stack.sp == 0) {
-	gen->status = bdd_EMPTY;
+        gen->status = bdd_EMPTY;
     } else {
-	branch_f = gen->stack.stack[--gen->stack.sp];  /* overwrite with NIL */
-	gen->stack.stack[gen->stack.sp] = NIL(bdd_node);
-	push_node_stack(branch_f, gen);
+        branch_f = gen->stack.stack[--gen->stack.sp];  /* overwrite with NIL */
+        gen->stack.stack[gen->stack.sp] = NIL(bdd_node);
+        push_node_stack(branch_f, gen);
     }
 }
 
@@ -554,9 +550,9 @@ bdd_gen *gen;
  */
 static void
 bdd_get_branches(f, f_T, f_E)
-bdd_node *f;
-bdd_node **f_T;	/* return */
-bdd_node **f_E;	/* return */
+        bdd_node *f;
+        bdd_node **f_T;    /* return */
+        bdd_node **f_E;    /* return */
 {
     BDD_SETUP(f);
 

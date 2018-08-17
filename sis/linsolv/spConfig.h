@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/linsolv/spConfig.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:04 $
- *
- */
+
 /*
  *  CONFIGURATION MACRO DEFINITIONS for sparse matrix routines
  *
@@ -48,8 +40,6 @@
 
 #ifndef spCONFIG_DEFS
 #define spCONFIG_DEFS
-
-
 
 
 #ifdef spINSIDE_SPARSE
@@ -298,7 +288,7 @@
 
 
 
-
+
 /*
  *  MATRIX CONSTANTS
  *

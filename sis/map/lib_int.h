@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/map/lib_int.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:25 $
- *
- */
+
 /* file @(#)lib_int.h	1.4 */
 /* last modified on 7/2/91 at 19:44:31 */
 /*
@@ -28,11 +20,19 @@
 extern library_t *lib_current_library;
 
 extern int lib_pattern_matches();
+
 extern int lib_read_blif();
+
 extern void lib_free();
+
 extern void lib_dump();
+
 extern void lib_dump_class();
+
 extern double lib_gate_area();
+
 extern lib_gate_t *lib_get_default_inverter();
+
 extern array_t *lib_get_prims_from_class(/* lib_class_t *class */);
+
 extern void lib_dump_gate();

@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/clock/clock_util.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:18 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 #include "clock.h"
@@ -56,35 +48,35 @@ input_phase_t *phasep;
     delay_time_t delay;
 
     if (node->type == PRIMARY_OUTPUT){
-	node = node_get_fanin(node, 0);
+    node = node_get_fanin(node, 0);
     }
 
     if (node->type == PRIMARY_INPUT){
-	return clock_get_by_name(network, node_long_name(node));
+    return clock_get_by_name(network, node_long_name(node));
     }
 
     foreach_fanin(node, i, fanin){
-	if ((clock = clock_get_transitive_recur(network, fanin, model, offset, phasep))
-		!= NIL(sis_clock_t)){
-	    delay = delay_node_pin(node, i, model);
-	    offset->rise += delay.rise;
-	    offset->fall += delay.fall;
-	    /*
-	     * Get the correct phase 
-	     */
-	    phase = node_input_phase(node, fanin);
-	    if (phase == BINATE){
-		*phasep = BINATE;
-	    } else if (phase == NEG_UNATE){
-		if (*phasep == POS_UNATE){
-		    *phasep = NEG_UNATE;
-		} else if (*phasep == NEG_UNATE){
-		    *phasep = POS_UNATE;
-		}
-	    }
+    if ((clock = clock_get_transitive_recur(network, fanin, model, offset, phasep))
+        != NIL(sis_clock_t)){
+        delay = delay_node_pin(node, i, model);
+        offset->rise += delay.rise;
+        offset->fall += delay.fall;
+        /*
+         * Get the correct phase
+         */
+        phase = node_input_phase(node, fanin);
+        if (phase == BINATE){
+        *phasep = BINATE;
+        } else if (phase == NEG_UNATE){
+        if (*phasep == POS_UNATE){
+            *phasep = NEG_UNATE;
+        } else if (*phasep == NEG_UNATE){
+            *phasep = POS_UNATE;
+        }
+        }
 
-	    return clock;
-	}
+        return clock;
+    }
     }
     return NIL(sis_clock_t);
 }

@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/astg/bwd_hazard.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:59 $
- *
- */
+
 /* Routines to find out potential hazards in the initial two-level
  * implementation of the next state function of each STG signal
  */
@@ -28,7 +20,7 @@ static int
 array_strcmp (s1, s2)
 char **s1, **s2;
 {
- 	return strcmp (*s1, *s2);
+     return strcmp (*s1, *s2);
 }
 
 /* compare two set families: used to sort hazards (obsolete) */
@@ -47,10 +39,10 @@ set_family_t *sf1, *sf2;
     i = LOOP(p1);
     do {
       if (p1[i] > p2[i]) {
-		return 1; 
+        return 1;
       }
       else if (p1[i] < p2[i]) {
-		return -1;
+        return -1;
       }
     }
     while (--i > 0);
@@ -82,14 +74,14 @@ set_family_t *B;
     if (cdist0(pi, pj)) {
       (void) set_and(pt, pi, pj);
       if (++T->count >= T->capacity) {
-	if (Tsave == NULL)
-	  Tsave = sf_contain(T);
-	else
-	  Tsave = sf_union(Tsave, sf_contain(T));
-	T = new_cover(MAGIC);
-	pt = T->data;
+    if (Tsave == NULL)
+      Tsave = sf_contain(T);
+    else
+      Tsave = sf_union(Tsave, sf_contain(T));
+    T = new_cover(MAGIC);
+    pt = T->data;
       } else
-	pt += T->wsize;
+    pt += T->wsize;
     }
   }
 
@@ -114,9 +106,9 @@ pset cb;
   astg_generator sgen;
 
   astg_foreach_signal (stg, sgen, sig_p) {
-	if (astg_signal_type (sig_p) == ASTG_DUMMY_SIG) {
-		continue;
-	}
+    if (astg_signal_type (sig_p) == ASTG_DUMMY_SIG) {
+        continue;
+    }
     bit = astg_state_bit (sig_p);
     PUTINPUT (cb, i, ((bit & bits) ? ONE : ZERO));
     i++;
@@ -143,26 +135,26 @@ void
 bwd_dup_hazard (new, old)
 hazard_t *new, *old;
 {
-	new->dir1 = old->dir1;
-	new->dir2 = old->dir2;
-	new->s1 = util_strsav (old->s1);
-	new->s2 = util_strsav (old->s2);
-	new->on_cb1 = set_save (old->on_cb1);
-	new->off_cb1 = set_save (old->off_cb1);
-	new->on_cb2 = set_save (old->on_cb2);
-	new->off_cb2 = set_save (old->off_cb2);
+    new->dir1 = old->dir1;
+    new->dir2 = old->dir2;
+    new->s1 = util_strsav (old->s1);
+    new->s2 = util_strsav (old->s2);
+    new->on_cb1 = set_save (old->on_cb1);
+    new->off_cb1 = set_save (old->off_cb1);
+    new->on_cb2 = set_save (old->on_cb2);
+    new->off_cb2 = set_save (old->off_cb2);
 }
 
 void
 bwd_free_hazard (haz)
 hazard_t *haz;
 {
-	FREE (haz->s1);
-	FREE (haz->s2);
-	set_free (haz->on_cb1);
-	set_free (haz->off_cb1);
-	set_free (haz->on_cb2);
-	set_free (haz->off_cb2);
+    FREE (haz->s1);
+    FREE (haz->s2);
+    set_free (haz->on_cb1);
+    set_free (haz->off_cb1);
+    set_free (haz->on_cb2);
+    set_free (haz->off_cb2);
 }
 
 
@@ -171,9 +163,9 @@ static int
 same_hazard (t1, t2)
 hazard_t *t1, *t2;
 {
-  if (t1->dir1 != t2->dir1 || 
-	t1->dir2 != t2->dir2) {
-	return 0;
+  if (t1->dir1 != t2->dir1 ||
+    t1->dir2 != t2->dir2) {
+    return 0;
   }
   if (strcmp (t1->s1, t2->s1)) {
     return 0;
@@ -202,7 +194,7 @@ hazard_t *t1, *t2;
  *     for each on-cube1, on-cube2 in F
  *         if d(on-cube1, top) == d(off-cube, top) - 1 and
  *             d(on-cube2, bot) == d(off-cube, bot) - 1 then
- *             store a potential hazard with the variables changing 
+ *             store a potential hazard with the variables changing
  *                 from on-cube1 to off-cube and from on-cube2 to off-cube
  */
 static void
@@ -255,83 +247,83 @@ char *name;
       /* something went wrong with the enabling conditions... */
       continue;
     }
-	if (astg_debug_flag > 3) {
-		fprintf (sisout, "off_cube %s (%d from top %d from bot)\n", 
-			pc1(off_cube), d_top, d_bot);
-	}
+    if (astg_debug_flag > 3) {
+        fprintf (sisout, "off_cube %s (%d from top %d from bot)\n",
+            pc1(off_cube), d_top, d_bot);
+    }
     foreach_set (F_1, last1, on_cube1) {
       if (cdist (on_cube1, top) == d_top - 1) {
-		SET (on_cube1, ONEFROMTOP);
+        SET (on_cube1, ONEFROMTOP);
       }
       else {
-		RESET (on_cube1, ONEFROMTOP);
+        RESET (on_cube1, ONEFROMTOP);
       }
       if (cdist (on_cube1, bot) == d_bot - 1) {
-		SET (on_cube1, ONEFROMBOT);
+        SET (on_cube1, ONEFROMBOT);
       }
       else {
-		RESET (on_cube1, ONEFROMBOT);
+        RESET (on_cube1, ONEFROMBOT);
       }
     }
     foreach_set (F_1, last1, on_cube1) {
       if (! TESTP (on_cube1, ONEFROMTOP) ||
-		  cdist01 (on_cube1, off_cube) != 1) {
-		continue;
+          cdist01 (on_cube1, off_cube) != 1) {
+        continue;
       }
       INLINEset_and (tmp, on_cube1, off_cube);
       for (i = cnt = 0; i < nvar; i++) {
-		if (GETINPUT (tmp, i) == 0) {
-		  dir1 = (GETINPUT (on_cube1, i) == ZERO) ? '+' : '-';
-		  var1 = i;
-		  cnt++;
-		}
+        if (GETINPUT (tmp, i) == 0) {
+          dir1 = (GETINPUT (on_cube1, i) == ZERO) ? '+' : '-';
+          var1 = i;
+          cnt++;
+        }
       }
       assert (cnt == 1);
-	  if (astg_debug_flag > 3) {
-		fprintf (sisout, "on_cube1 %s\n", pc1(on_cube1));
-	  }
+      if (astg_debug_flag > 3) {
+        fprintf (sisout, "on_cube1 %s\n", pc1(on_cube1));
+      }
       foreach_set (F_1, last2, on_cube2) {
-		if (on_cube1 == on_cube2 ||
-			! TESTP (on_cube2, ONEFROMBOT) ||
-			cdist01 (on_cube2, off_cube) != 1) {
-		  continue;
-		}
-		INLINEset_and (tmp, on_cube2, off_cube);
-		for (i = cnt = 0; i < nvar; i++) {
-		  if (GETINPUT (tmp, i) == 0) {
-			dir2 = (GETINPUT (on_cube2, i) == ONE) ? '+' : '-';
-			var2 = i;
-			cnt++;
-		  }
-		}
-		assert (cnt == 1);
-		if (astg_debug_flag > 3) {
-			fprintf (sisout, "on_cube2 %s\n", pc1(on_cube2));
-		}
+        if (on_cube1 == on_cube2 ||
+            ! TESTP (on_cube2, ONEFROMBOT) ||
+            cdist01 (on_cube2, off_cube) != 1) {
+          continue;
+        }
+        INLINEset_and (tmp, on_cube2, off_cube);
+        for (i = cnt = 0; i < nvar; i++) {
+          if (GETINPUT (tmp, i) == 0) {
+            dir2 = (GETINPUT (on_cube2, i) == ONE) ? '+' : '-';
+            var2 = i;
+            cnt++;
+          }
+        }
+        assert (cnt == 1);
+        if (astg_debug_flag > 3) {
+            fprintf (sisout, "on_cube2 %s\n", pc1(on_cube2));
+        }
 
-		/* check for duplicates */
-		hazard.s1 = node_long_name (array_fetch (node_t *, fanin, var1));
-		hazard.s2 = node_long_name (array_fetch (node_t *, fanin, var2));
-		hazard.dir1 = dir1;
-		hazard.dir2 = dir2;
-		hazard.on = onset;
-		for (i = 0; i < array_n (hazards); i++) {
-		  hazard1 = array_fetch (hazard_t, hazards, i);
-		  if (same_hazard (&hazard, &hazard1)) {
-			break;
-		  }
-		}
+        /* check for duplicates */
+        hazard.s1 = node_long_name (array_fetch (node_t *, fanin, var1));
+        hazard.s2 = node_long_name (array_fetch (node_t *, fanin, var2));
+        hazard.dir1 = dir1;
+        hazard.dir2 = dir2;
+        hazard.on = onset;
+        for (i = 0; i < array_n (hazards); i++) {
+          hazard1 = array_fetch (hazard_t, hazards, i);
+          if (same_hazard (&hazard, &hazard1)) {
+            break;
+          }
+        }
 
-		if (i >= array_n (hazards)) {
-		  hazard.s1 = util_strsav (hazard.s1);
-		  hazard.s2 = util_strsav (hazard.s2);
-		  array_insert_last (hazard_t, hazards, hazard);
-		  if (astg_debug_flag > 0) {
-			fprintf (sisout, 
-			"potential hazard %s%c -> %s%c -> %s (%d)\n", hazard.s2, 
-				hazard.dir2, hazard.s1, hazard.dir1, name, hazard.on);
-		  }
-		}
+        if (i >= array_n (hazards)) {
+          hazard.s1 = util_strsav (hazard.s1);
+          hazard.s2 = util_strsav (hazard.s2);
+          array_insert_last (hazard_t, hazards, hazard);
+          if (astg_debug_flag > 0) {
+            fprintf (sisout,
+            "potential hazard %s%c -> %s%c -> %s (%d)\n", hazard.s2,
+                hazard.dir2, hazard.s1, hazard.dir1, name, hazard.on);
+          }
+        }
       }
     }
   }
@@ -348,7 +340,7 @@ char *name;
  *     for each on_cube1, on_cube2 in F intersected with cb
  *         if d(off_cube1, on_cube1) == 1 and
  *            d(off_cube2, on_cube2) == 1 then
- *             store a potential hazard with the variables changing 
+ *             store a potential hazard with the variables changing
  *                 from on_cube1 to off_cube1 and from off_cube2 to on_cube2
  */
 static void
@@ -407,110 +399,110 @@ char *name;
   tmp = set_new (F->sf_size);
 
   foreachi_set (R_1, off_i1, off_cube1) {
-	top_to_off1 = cdist (top, off_cube1);
-	bot_to_off1 = cdist (bot, off_cube1);
-	if (astg_debug_flag > 3) {
-	  fprintf (sisout, "off_cube1 %s (%d from top %d from bot)\n", 
-		pc1(off_cube1), top_to_off1, bot_to_off1);
-	}
+    top_to_off1 = cdist (top, off_cube1);
+    bot_to_off1 = cdist (bot, off_cube1);
+    if (astg_debug_flag > 3) {
+      fprintf (sisout, "off_cube1 %s (%d from top %d from bot)\n",
+        pc1(off_cube1), top_to_off1, bot_to_off1);
+    }
 
-	foreachi_set (R_1, off_i2, off_cube2) {
-		top_to_off2 = cdist (top, off_cube2);
-		bot_to_off2 = cdist (bot, off_cube2);
-		/* make sure that off_cube1 is closer to top and off_cube2 is
-		 * closer to bot
-		 */
-		if (top_to_off2 < top_to_off1 || bot_to_off1 < bot_to_off2) {
-			continue;
-		}
+    foreachi_set (R_1, off_i2, off_cube2) {
+        top_to_off2 = cdist (top, off_cube2);
+        bot_to_off2 = cdist (bot, off_cube2);
+        /* make sure that off_cube1 is closer to top and off_cube2 is
+         * closer to bot
+         */
+        if (top_to_off2 < top_to_off1 || bot_to_off1 < bot_to_off2) {
+            continue;
+        }
 
-		if (astg_debug_flag > 3) {
-		  fprintf (sisout, "off_cube2 %s (%d from top %d from bot)\n", 
-			pc1(off_cube2), top_to_off2, bot_to_off2);
-		}
+        if (astg_debug_flag > 3) {
+          fprintf (sisout, "off_cube2 %s (%d from top %d from bot)\n",
+            pc1(off_cube2), top_to_off2, bot_to_off2);
+        }
 
-		foreachi_set (F_1, on_i1, on_cube1) {
-		  /* make sure that on_cube1 is at distance 1 from off_cube1 */
-		  if (cdist01 (on_cube1, off_cube1) != 1) {
-			continue;
-		  }
-		  top_to_on1 = cdist (top, on_cube1);
-		  bot_to_on1 = cdist (bot, on_cube1);
+        foreachi_set (F_1, on_i1, on_cube1) {
+          /* make sure that on_cube1 is at distance 1 from off_cube1 */
+          if (cdist01 (on_cube1, off_cube1) != 1) {
+            continue;
+          }
+          top_to_on1 = cdist (top, on_cube1);
+          bot_to_on1 = cdist (bot, on_cube1);
 
-		  INLINEset_and (tmp, on_cube1, off_cube1);
-		  for (i = 0; i < nvar; i++) {
-			if (GETINPUT (tmp, i) == 0) {
-			  dir1 = (GETINPUT (on_cube1, i) == ZERO) ? '+' : '-';
-			  var1 = i;
-			  break;
-			}
-		  }
-		  if (astg_debug_flag > 3) {
-		    fprintf (sisout, "on_cube1 %s (%d from top %d from bot %s%c)\n", 
-				pc1(on_cube1), top_to_on1, bot_to_on1,
-				node_long_name (array_fetch (node_t *, fanin, var1)), dir1);
-		  }
+          INLINEset_and (tmp, on_cube1, off_cube1);
+          for (i = 0; i < nvar; i++) {
+            if (GETINPUT (tmp, i) == 0) {
+              dir1 = (GETINPUT (on_cube1, i) == ZERO) ? '+' : '-';
+              var1 = i;
+              break;
+            }
+          }
+          if (astg_debug_flag > 3) {
+            fprintf (sisout, "on_cube1 %s (%d from top %d from bot %s%c)\n",
+                pc1(on_cube1), top_to_on1, bot_to_on1,
+                node_long_name (array_fetch (node_t *, fanin, var1)), dir1);
+          }
 
-		  foreachi_set (F_1, on_i2, on_cube2) {
-			if (on_i1 == on_i2 || cdist01 (on_cube2, off_cube2) != 1) {
-			  continue;
-			}
-		    top_to_on2 = cdist (top, on_cube2);
-		    bot_to_on2 = cdist (bot, on_cube2);
-			/* make sure that on_cube1 is closer to top and on_cube2 is
-			 * closer to bot
-			 */
-			if (top_to_on2 < top_to_on1 || bot_to_on1 < bot_to_on2) {
-				continue;
-			}
+          foreachi_set (F_1, on_i2, on_cube2) {
+            if (on_i1 == on_i2 || cdist01 (on_cube2, off_cube2) != 1) {
+              continue;
+            }
+            top_to_on2 = cdist (top, on_cube2);
+            bot_to_on2 = cdist (bot, on_cube2);
+            /* make sure that on_cube1 is closer to top and on_cube2 is
+             * closer to bot
+             */
+            if (top_to_on2 < top_to_on1 || bot_to_on1 < bot_to_on2) {
+                continue;
+            }
 
-			INLINEset_and (tmp, on_cube2, off_cube2);
-			for (i = 0; i < nvar; i++) {
-			  if (GETINPUT (tmp, i) == 0) {
-			    dir2 = (GETINPUT (on_cube2, i) == ONE) ? '+' : '-';
-				var2 = i;
-				break;
-			  }
-			}
-			if (astg_debug_flag > 3) {
-			  fprintf (sisout, "on_cube2 %s (%d from top %d from bot %s%c)\n", 
-				pc1(on_cube2), top_to_on2, bot_to_on2,
-				node_long_name (array_fetch (node_t *, fanin, var2)), dir2);
-			}
+            INLINEset_and (tmp, on_cube2, off_cube2);
+            for (i = 0; i < nvar; i++) {
+              if (GETINPUT (tmp, i) == 0) {
+                dir2 = (GETINPUT (on_cube2, i) == ONE) ? '+' : '-';
+                var2 = i;
+                break;
+              }
+            }
+            if (astg_debug_flag > 3) {
+              fprintf (sisout, "on_cube2 %s (%d from top %d from bot %s%c)\n",
+                pc1(on_cube2), top_to_on2, bot_to_on2,
+                node_long_name (array_fetch (node_t *, fanin, var2)), dir2);
+            }
 
-			/* check for duplicates */
-			hazard.s1 = node_long_name (array_fetch (node_t *, fanin, var1));
-			hazard.s2 = node_long_name (array_fetch (node_t *, fanin, var2));
-			hazard.dir1 = dir1;
-			hazard.dir2 = dir2;
-			hazard.on_cb1 = on_cube1;
-			hazard.off_cb1 = off_cube1;
-			hazard.on_cb2 = on_cube2;
-			hazard.off_cb2 = off_cube2;
-			for (i = 0; i < array_n (hazards); i++) {
-			  hazard1 = array_fetch (hazard_t, hazards, i);
-			  if (same_hazard (&hazard, &hazard1)) {
-				break;
-			  }
-			}
+            /* check for duplicates */
+            hazard.s1 = node_long_name (array_fetch (node_t *, fanin, var1));
+            hazard.s2 = node_long_name (array_fetch (node_t *, fanin, var2));
+            hazard.dir1 = dir1;
+            hazard.dir2 = dir2;
+            hazard.on_cb1 = on_cube1;
+            hazard.off_cb1 = off_cube1;
+            hazard.on_cb2 = on_cube2;
+            hazard.off_cb2 = off_cube2;
+            for (i = 0; i < array_n (hazards); i++) {
+              hazard1 = array_fetch (hazard_t, hazards, i);
+              if (same_hazard (&hazard, &hazard1)) {
+                break;
+              }
+            }
 
-			if (i >= array_n (hazards)) {
-			  hazard.s1 = util_strsav (hazard.s1);
-			  hazard.s2 = util_strsav (hazard.s2);
-			  hazard.on_cb1 = set_save (hazard.on_cb1);
-			  hazard.off_cb1 = set_save (hazard.off_cb1);
-			  hazard.on_cb2 = set_save (hazard.on_cb2);
-			  hazard.off_cb2 = set_save (hazard.off_cb2);
-			  array_insert_last (hazard_t, hazards, hazard);
-			  if (astg_debug_flag > 0) {
-				fprintf (sisout, 
-				"potential hazard %s%c -> %s%c -> %s (%d)\n", hazard.s2, 
-					hazard.dir2, hazard.s1, hazard.dir1, name, onset);
-			  }
-			}
-		  }
-		}
-	}
+            if (i >= array_n (hazards)) {
+              hazard.s1 = util_strsav (hazard.s1);
+              hazard.s2 = util_strsav (hazard.s2);
+              hazard.on_cb1 = set_save (hazard.on_cb1);
+              hazard.off_cb1 = set_save (hazard.off_cb1);
+              hazard.on_cb2 = set_save (hazard.on_cb2);
+              hazard.off_cb2 = set_save (hazard.off_cb2);
+              array_insert_last (hazard_t, hazards, hazard);
+              if (astg_debug_flag > 0) {
+                fprintf (sisout,
+                "potential hazard %s%c -> %s%c -> %s (%d)\n", hazard.s2,
+                    hazard.dir2, hazard.s1, hazard.dir1, name, onset);
+              }
+            }
+          }
+        }
+    }
   }
 
   sf_free (F_1);
@@ -545,9 +537,9 @@ char *name;
   i = -1;
   recursions = 0;
   astg_foreach_signal (stg, sgen, sig_p) {
-	if (astg_signal_type (sig_p) == ASTG_DUMMY_SIG) {
-		continue;
-	}
+    if (astg_signal_type (sig_p) == ASTG_DUMMY_SIG) {
+        continue;
+    }
     i++;
     to_fire = astg_state_bit (sig_p);
     if (! (to_fire & enabled)) {
@@ -558,8 +550,8 @@ char *name;
     PUTINPUT (cb, i, TWO);
     bit_to_cube (stg, new_state, bot);
     /* if the function value is different, stop the recursion (remember that
-	 * here F can be on-set or off-set...)
-	 */
+     * here F can be on-set or off-set...)
+     */
     if (func_value (F, bot) == 0) {
       PUTINPUT (cb, i, savebit);
       continue;
@@ -573,8 +565,8 @@ char *name;
     }
     st_insert (reached, (char *) new_state, NIL(char));
 
-    find_bot (fanin, hazards, F, R, stg, sig_bit, new_state, 
-		 reached, cb, top, bot, onset, use_old, name);
+    find_bot (fanin, hazards, F, R, stg, sig_bit, new_state,
+         reached, cb, top, bot, onset, use_old, name);
 
     PUTINPUT (cb, i, savebit);
   }
@@ -582,12 +574,12 @@ char *name;
   /* if we did not recur, then we reached the bottom of a state chain */
   if (! recursions) {
     bit_to_cube (stg, state_code, bot);
-	if (use_old) {
-		store_hazards_old (fanin, hazards, F, R, cb, top, bot, onset, name);
-	}
-	else {
-		store_hazards (fanin, hazards, F, R, cb, top, bot, onset, name);
-	}
+    if (use_old) {
+        store_hazards_old (fanin, hazards, F, R, cb, top, bot, onset, name);
+    }
+    else {
+        store_hazards (fanin, hazards, F, R, cb, top, bot, onset, name);
+    }
   }
 }
 
@@ -611,9 +603,9 @@ int onset;
   enabled = astg_state_enabled (astg_find_state (stg, state_code, 0));
 
   astg_foreach_signal (stg, sgen, sig_p) {
-	if (astg_signal_type (sig_p) == ASTG_DUMMY_SIG) {
-		continue;
-	}
+    if (astg_signal_type (sig_p) == ASTG_DUMMY_SIG) {
+        continue;
+    }
     to_fire = astg_state_bit (sig_p);
     if (! (to_fire & enabled)) {
       continue;
@@ -625,23 +617,23 @@ int onset;
     st_insert (reached, (char *) new_state, NIL(char));
 
     bit_to_cube (stg, new_state, bot);
-	/* Remember that here we always call F what can be on-set or off-set... */
+    /* Remember that here we always call F what can be on-set or off-set... */
     if (func_value (F, bot) == 0) {
       continue;
     }
 
     st_insert (not_top, (char *) new_state, NIL(char));
-    find_not_top (F, stg, sig_bit, new_state, reached, 
-		  not_top, bot, onset);
+    find_not_top (F, stg, sig_bit, new_state, reached,
+          not_top, bot, onset);
   }
 }
 
 /* Must be called with a PO immediately after function generation.
  * It explores all states in the SG where a transition for that signal is
- * enabled. It marks all those that can be reached from other similar states, 
+ * enabled. It marks all those that can be reached from other similar states,
  * and drops them (since they are not maximally distant, or "top").
  * From "top"s we can now traverse depth-first the SG until we meet a
- * transition for the same signal again ("bot"). 
+ * transition for the same signal again ("bot").
  * Now if
  * 1) the signal must be at 0 and its transition cube intersects the on-set OR
  * 2) the signal must be at 1 and its transition cube is not covered by a
@@ -685,7 +677,7 @@ int use_old;
   /* find "not top" states and mark them */
   not_top = st_init_table (st_numcmp, st_numhash);
   astg_foreach_state (stg, gen, state) {
-	state_code = astg_state_code (state);
+    state_code = astg_state_code (state);
     enabled = astg_state_enabled (state);
     if (! (enabled & sig_bit)) {
       continue;
@@ -698,28 +690,28 @@ int use_old;
 
     new_state = state_code ^ sig_bit;
     if (new_state & sig_bit) {
-	  onset = 1;
+      onset = 1;
       F = node_F;
     }
     else {
-	  onset = 0;
+      onset = 0;
       F = node_R;
     }
 
-    find_not_top (F, stg, sig_bit, state_code, reached, not_top, 
-		  bot, onset);
+    find_not_top (F, stg, sig_bit, state_code, reached, not_top,
+          bot, onset);
 
     st_free_table (reached);
   }
 
   /* now explore all "top" states and detect potential hazards */
   astg_foreach_state (stg, gen, state) {
-	state_code = astg_state_code (state);
+    state_code = astg_state_code (state);
     enabled = astg_state_enabled (state);
     if (st_lookup (not_top, (char *) state_code, NIL(char *))) {
       continue;
     }
-		
+
     /* initialize local recursion variables */
     bit_to_cube (stg, state_code, cb);
     bit_to_cube (stg, state_code, top);
@@ -734,27 +726,27 @@ int use_old;
 
     /* check if F or R is the "current on-set" */
     if (new_state & sig_bit) {
-	  onset = 1;
+      onset = 1;
       F = node_F;
-	}
+    }
     else {
-	  onset = 0;
+      onset = 0;
       F = node_R;
-	}
+    }
     R_D = complement (cube1list (F));
-	if (use_old) {
-	    R = primes_consensus (cube1list (R_D));
-	    sf_free (R_D);
-	}
-	else {
-	   R = R_D;
-	}
+    if (use_old) {
+        R = primes_consensus (cube1list (R_D));
+        sf_free (R_D);
+    }
+    else {
+       R = R_D;
+    }
 
     /* do the actual computation, finding all maximally distant
      * "bot" states from currrent "top" state_code
      */
-    find_bot (fanin, hazards, F, R, stg, sig_bit, state_code, 
-		 reached, cb, top, bot, onset, use_old, sig_p->name);
+    find_bot (fanin, hazards, F, R, stg, sig_bit, state_code,
+         reached, cb, top, bot, onset, use_old, sig_p->name);
 
     /* wrap up */
     sf_free (R);

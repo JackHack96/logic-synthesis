@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/seqbdd/prl_util.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:55 $
- *
- */
+
 
 #ifdef SIS
 #include "sis.h"
@@ -77,34 +69,34 @@ network_t *from_network;
     node_t *from_input, *to_input;
 
     foreach_node(from_network, gen, from_node) {
-	from_node->copy = NIL(node_t);
+    from_node->copy = NIL(node_t);
     }
 
     /* visit the PIs of 'source' */
     foreach_primary_input(from_network, gen, from_input) {
 
-	/* find the homonym in 'target' */
-	to_input = network_find_node(to_network, from_input->name);
+    /* find the homonym in 'target' */
+    to_input = network_find_node(to_network, from_input->name);
 
-	/* if names are meaningful and there is a matching node, just use it */
-	if (network_is_real_pi(from_network, from_input) && to_input != NIL(node_t)) {
-	    if (network_is_real_po(to_network, to_input)) {
-		from_input->copy = node_get_fanin(to_input, 0);
-	    } else if (to_input->type == PRIMARY_INPUT) {
-		from_input->copy = to_input;
-	    } 
-	}
-	
-	/* otherwise make one PI up */
-	if (from_input->copy == NIL(node_t)) {
-	    from_input->copy = node_alloc();
-	    from_input->copy->name = Prl_DisambiguateName(to_network, from_input->name, NIL(node_t));
-	    network_add_primary_input(to_network, from_input->copy);
-	}
+    /* if names are meaningful and there is a matching node, just use it */
+    if (network_is_real_pi(from_network, from_input) && to_input != NIL(node_t)) {
+        if (network_is_real_po(to_network, to_input)) {
+        from_input->copy = node_get_fanin(to_input, 0);
+        } else if (to_input->type == PRIMARY_INPUT) {
+        from_input->copy = to_input;
+        }
+    }
+
+    /* otherwise make one PI up */
+    if (from_input->copy == NIL(node_t)) {
+        from_input->copy = node_alloc();
+        from_input->copy->name = Prl_DisambiguateName(to_network, from_input->name, NIL(node_t));
+        network_add_primary_input(to_network, from_input->copy);
+    }
     }
 }
 
-/* 
+/*
  *----------------------------------------------------------------------
  *
  * Prl_DisambiguateName -- EXTERNAL ROUTINE
@@ -133,20 +125,20 @@ node_t *node;
 {
     char *buffer;
     node_t *matching_node;
-    
+
     name = util_strsav(name);
     while ((matching_node = network_find_node(network, name))) {
-	if (matching_node == node) return name;
-	buffer = ALLOC(char, strlen(name) + 5);
-	(void) sprintf(buffer, "%s:dup", name);
-	FREE(name);
-	name = buffer;
+    if (matching_node == node) return name;
+    buffer = ALLOC(char, strlen(name) + 5);
+    (void) sprintf(buffer, "%s:dup", name);
+    FREE(name);
+    name = buffer;
     }
     return name;
 }
 
 
-/* 
+/*
  *----------------------------------------------------------------------
  *
  * Prl_CopySubNetwork -- EXPORTED ROUTINE
@@ -179,18 +171,18 @@ node_t *node;
     node_t *fanin;
 
     if (node->copy == NIL(node_t)) {
-	assert(node->type != PRIMARY_INPUT);
-	node->copy = node_dup(node);
-	foreach_fanin(node, i, fanin) {
-	    fanin->copy = Prl_CopySubnetwork(network, fanin);
-	    node->copy->fanin[i] = fanin->copy;
-	}
-	name = node->copy->name;
-	if (name != NIL(char) && network_find_node(network, name) != NIL(node_t)) {
-	    node->copy->name = Prl_DisambiguateName(network, name, NIL(node_t));
-	    FREE(name);
-	}
-	network_add_node(network, node->copy);
+    assert(node->type != PRIMARY_INPUT);
+    node->copy = node_dup(node);
+    foreach_fanin(node, i, fanin) {
+        fanin->copy = Prl_CopySubnetwork(network, fanin);
+        node->copy->fanin[i] = fanin->copy;
+    }
+    name = node->copy->name;
+    if (name != NIL(char) && network_find_node(network, name) != NIL(node_t)) {
+        node->copy->name = Prl_DisambiguateName(network, name, NIL(node_t));
+        FREE(name);
+    }
+    network_add_node(network, node->copy);
     }
     return node->copy;
 }
@@ -274,7 +266,7 @@ network_t *dc_network;
  *	None.
  *
  * Side effects:
- *	'bdd_array' and all its elements are freed. 
+ *	'bdd_array' and all its elements are freed.
  *
  *----------------------------------------------------------------------
  */
@@ -296,11 +288,11 @@ array_t *bdd_array;
  /*
   *----------------------------------------------------------------------
   *
-  * Prl_CleanupDcNetwork -- 
+  * Prl_CleanupDcNetwork --
   *
   * Removes any PI that does not fanout anywhere.
   *
-  * WARNING: 
+  * WARNING:
   * 	Should guarantee compatibility with 'attach_dcnetwork_to_network',
   *	which attach 'network' PO to 'dc_network' PO based on node->name only.
   *
@@ -320,17 +312,17 @@ network_t *network;
     lsGen gen;
     node_t *pi;
     array_t *nodes_to_be_removed;
-  
+
     if (network->dc_network == NIL(network_t)) return;
     nodes_to_be_removed = array_alloc(node_t *, 0);
     foreach_primary_input(network->dc_network, gen, pi) {
-	if (node_num_fanout(pi) == 0) {
-	    array_insert_last(node_t *, nodes_to_be_removed, pi);
-	}
+    if (node_num_fanout(pi) == 0) {
+        array_insert_last(node_t *, nodes_to_be_removed, pi);
+    }
     }
     for (i = 0; i < array_n(nodes_to_be_removed); i++) {
-	pi = array_fetch(node_t *, nodes_to_be_removed, i);
-	network_delete_node(network->dc_network, pi);
+    pi = array_fetch(node_t *, nodes_to_be_removed, i);
+    network_delete_node(network->dc_network, pi);
     }
     array_free(nodes_to_be_removed);
     network_sweep(network->dc_network);
@@ -364,7 +356,7 @@ char *comment;
 }
 
 
-static bdd_t *array_bdd_and ARGS((bdd_manager *, array_t *));
+static bdd_t *array_bdd_and (bdd_manager *, array_t *);
 
 /*
  *----------------------------------------------------------------------
@@ -380,8 +372,8 @@ static bdd_t *array_bdd_and ARGS((bdd_manager *, array_t *));
 bdd_t *Prl_GetSimpleDc(seq_info)
 seq_info_t *seq_info;
 {
-    bdd_t *tmp1 = array_bdd_and(seq_info->manager, seq_info->next_state_dc);    
-    bdd_t *tmp2 = array_bdd_and(seq_info->manager, seq_info->external_output_dc);    
+    bdd_t *tmp1 = array_bdd_and(seq_info->manager, seq_info->next_state_dc);
+    bdd_t *tmp2 = array_bdd_and(seq_info->manager, seq_info->external_output_dc);
     bdd_t *result = bdd_and(tmp1, tmp2, 1, 1);
     bdd_free(tmp1);
     bdd_free(tmp2);
@@ -409,17 +401,17 @@ array_t *array;
     bdd_t *result = bdd_one(manager);
 
     for (i = 0; i < array_n(array); i++) {
-	tmp = bdd_and(result, array_fetch(bdd_t *, array, i), 1, 1);
-	bdd_free(result);
-	result = tmp;
+    tmp = bdd_and(result, array_fetch(bdd_t *, array, i), 1, 1);
+    bdd_free(result);
+    result = tmp;
     }
     return result;
 }
 
 
 
-static bdd_t *GetOneMinterm 	 ARGS((bdd_manager *, bdd_t *, st_table *));
-static void   StoreVarIdsInTable ARGS((array_t *, st_table *));
+static bdd_t *GetOneMinterm 	 (bdd_manager *, bdd_t *, st_table *);
+static void   StoreVarIdsInTable (array_t *, st_table *);
 
 /*
  *----------------------------------------------------------------------
@@ -438,7 +430,7 @@ static void   StoreVarIdsInTable ARGS((array_t *, st_table *));
  *	Assertion failure if 'from' is equal to 0.
  *
  *----------------------------------------------------------------------
- */ 
+ */
 
 
 void Prl_GetOneEdge(from, seq_info, state, input)
@@ -449,7 +441,7 @@ bdd_t     **input;
 {
   bdd_t *minterm;
   st_table *var_table;
-  
+
   assert(! bdd_is_tautology(from, 0));
 
  /* precompute the vars to be used */
@@ -482,7 +474,7 @@ bdd_t     **input;
  *	Assertion failure if 'fn' is equal to 0.
  *
  *----------------------------------------------------------------------
- */ 
+ */
 
 static bdd_t *GetOneMinterm(manager, fn, vars)
 bdd_manager *manager;
@@ -500,8 +492,8 @@ st_table *vars;
 
     assert(! bdd_is_tautology(fn, 0));
 
-    /* 
-     * WARNING: need to free the bdd_gen immediately 
+    /*
+     * WARNING: need to free the bdd_gen immediately
      * otherwise problems with the BDD garbage collector.
      */
 
@@ -510,33 +502,33 @@ st_table *vars;
     n_lits = array_n(cube);
     lits = ALLOC(bdd_literal, n_lits);
     for (i = 0; i < n_lits; i++) {
-	lits[i] = array_fetch(bdd_literal, cube, i);
+    lits[i] = array_fetch(bdd_literal, cube, i);
     }
     (void) bdd_gen_free(gen);
-  
+
     for (i = 0; i < n_lits; i++) {
-	if (! st_lookup(vars, (char *) i, NIL(char *))) {
-	    assert(lits[i] == 2);
-	    continue;
-	}
-	switch (lits[i]) {
-	  case 0:
-	  case 2:
-	    tmp = bdd_get_variable(manager, i);
-	    bdd_lit = bdd_not(tmp);
-	    bdd_free(tmp);
-	    break;
-	  case 1:
-	    bdd_lit = bdd_get_variable(manager, i);
-	    break;
-	    default:
-	    fail("unexpected literal in GetOneMinterm");
-	    break;
-	}
-	tmp = bdd_and(minterm, bdd_lit, 1, 1);
-	bdd_free(minterm);
-	bdd_free(bdd_lit);
-	minterm = tmp;
+    if (! st_lookup(vars, (char *) i, NIL(char *))) {
+        assert(lits[i] == 2);
+        continue;
+    }
+    switch (lits[i]) {
+      case 0:
+      case 2:
+        tmp = bdd_get_variable(manager, i);
+        bdd_lit = bdd_not(tmp);
+        bdd_free(tmp);
+        break;
+      case 1:
+        bdd_lit = bdd_get_variable(manager, i);
+        break;
+        default:
+        fail("unexpected literal in GetOneMinterm");
+        break;
+    }
+    tmp = bdd_and(minterm, bdd_lit, 1, 1);
+    bdd_free(minterm);
+    bdd_free(bdd_lit);
+    minterm = tmp;
     }
     return minterm;
 }
@@ -559,7 +551,7 @@ st_table *vars;
  *	'table' is augmented with the varids of the variables in 'vars'.
  *
  *----------------------------------------------------------------------
- */ 
+ */
 
 
 static void AddVaridsToTable(vars, table)
@@ -571,9 +563,9 @@ st_table *table;
     int varid;
 
     for (i = 0; i < array_n(vars); i++) {
-	var = array_fetch(bdd_t *, vars, i);
-	varid = bdd_top_var_id(var);
-	st_insert(table, (char *) varid, NIL(char));
+    var = array_fetch(bdd_t *, vars, i);
+    varid = bdd_top_var_id(var);
+    st_insert(table, (char *) varid, NIL(char));
     }
 }
 
@@ -605,9 +597,9 @@ seq_info_t *seq_info;
 
     pi_to_var_table = st_init_table(st_ptrcmp, st_ptrhash);
     for (i = 0; i < array_n(seq_info->input_nodes); i++) {
-	pi = array_fetch(node_t *, seq_info->input_nodes, i);
-	var = array_fetch(bdd_t *, seq_info->input_vars, i);
-	st_insert(pi_to_var_table, (char *) pi, (char *) var);
+    pi = array_fetch(node_t *, seq_info->input_nodes, i);
+    var = array_fetch(bdd_t *, seq_info->input_vars, i);
+    st_insert(pi_to_var_table, (char *) pi, (char *) var);
     }
     return pi_to_var_table;
 }
@@ -640,9 +632,9 @@ st_table *table;
     int varid;
 
     for (i = 0; i < array_n(vars); i++) {
-	var = array_fetch(bdd_t *, vars, i);
-	varid = bdd_top_var_id(var);
-	st_insert(table, (char *) varid, NIL(char));
+    var = array_fetch(bdd_t *, vars, i);
+    varid = bdd_top_var_id(var);
+    st_insert(table, (char *) varid, NIL(char));
     }
 }
 

@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/power/power_psAppr.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:06 $
- *
- */
+
 /*---------------------------------------------------------------------------
 |      Calculate PS lines probabilities of a FSM directly (without
 | enumerating the states of the FSM).

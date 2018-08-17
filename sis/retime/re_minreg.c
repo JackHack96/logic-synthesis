@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/retime/re_minreg.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:48 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 #include "retime_int.h"
@@ -52,23 +44,23 @@ int *retiming;
     N = 0;
     table = st_init_table(st_numcmp, st_numhash);
     re_foreach_node(graph, i, re_no){
-	if (re_no->type == RE_INTERNAL || re_no->type == RE_IGNORE){
-	    (void)st_insert(table, (char *)N, (char *)re_no);
-	    re_no->lp_index = N;
-	    N++;
-	} else if (re_no->user_time > RETIME_TEST_NOT_SET) {
-	    re_no->scaled_user_time = (int)ceil(re_no->user_time * SCALE);
-	}
-	/* Scale the delay values */
-	re_no->scaled_delay = (int)ceil(re_no->final_delay * SCALE);
+    if (re_no->type == RE_INTERNAL || re_no->type == RE_IGNORE){
+        (void)st_insert(table, (char *)N, (char *)re_no);
+        re_no->lp_index = N;
+        N++;
+    } else if (re_no->user_time > RETIME_TEST_NOT_SET) {
+        re_no->scaled_user_time = (int)ceil(re_no->user_time * SCALE);
+    }
+    /* Scale the delay values */
+    re_no->scaled_delay = (int)ceil(re_no->final_delay * SCALE);
     }
 
     re_foreach_node(graph, i, re_no){
-	if (re_no->type == RE_PRIMARY_INPUT){
-	    re_no->lp_index = N;
-	} else if (re_no->type == RE_PRIMARY_OUTPUT){
-	    re_no->lp_index = N+1;
-	}
+    if (re_no->type == RE_PRIMARY_INPUT){
+        re_no->lp_index = N;
+    } else if (re_no->type == RE_PRIMARY_OUTPUT){
+        re_no->lp_index = N+1;
+    }
     }
     N += 2;   /* For the two host vertices */
 
@@ -89,54 +81,54 @@ int *retiming;
     iposv = ALLOC(int, m+1);
     izrov = ALLOC(int, N+1);
     if (re_simplx(a, m, N, m1, m2, m3, &flag, izrov, iposv)){
-	fail(error_string());
+    fail(error_string());
     }
 
     if (!flag){
-	status = 1;
-	if (retime_debug > 20){
-	    (void)fprintf(sisout,"SIMPLEX -- optimum value = %f\n", a[1][1]);
-	}
+    status = 1;
+    if (retime_debug > 20){
+        (void)fprintf(sisout,"SIMPLEX -- optimum value = %f\n", a[1][1]);
+    }
 
-	for (i = re_num_nodes(graph); i-- > 0; ) 
-		retiming[i] = 0;
-	for (i = 1; i <= m; i++){
-	    if (retime_debug > 60){
-		(void)fprintf(sisout,"%-4d: iposv(%d) = %6.3f -- %8s \n",
-		i, iposv[i], a[i+1][1], (iposv[i] > N ? "SLACK" : "VARIABLE"));
-	    }
-	    /*
-	     * The indices are numbered 0 to (N-1) -- not 1 to N 
-	     * We are interested only in the variables (not slack data)
-	     * and the variable indices N,N-1 are actually host. Since those 
-	     * have a retiming equal to 0 and do not have an entry in the
-	     * symbol_table ignore it.
-	     */
-	    if (iposv[i] < N-1){
-		index = iposv[i] - 1;
-		assert(st_lookup(table, (char *)index, (char **)&new_node));
-		retiming[new_node->id] = (int)ceil((double)(a[i+1][1]))-r_host;
-	    }
-	}
+    for (i = re_num_nodes(graph); i-- > 0; )
+        retiming[i] = 0;
+    for (i = 1; i <= m; i++){
+        if (retime_debug > 60){
+        (void)fprintf(sisout,"%-4d: iposv(%d) = %6.3f -- %8s \n",
+        i, iposv[i], a[i+1][1], (iposv[i] > N ? "SLACK" : "VARIABLE"));
+        }
+        /*
+         * The indices are numbered 0 to (N-1) -- not 1 to N
+         * We are interested only in the variables (not slack data)
+         * and the variable indices N,N-1 are actually host. Since those
+         * have a retiming equal to 0 and do not have an entry in the
+         * symbol_table ignore it.
+         */
+        if (iposv[i] < N-1){
+        index = iposv[i] - 1;
+        assert(st_lookup(table, (char *)index, (char **)&new_node));
+        retiming[new_node->id] = (int)ceil((double)(a[i+1][1]))-r_host;
+        }
+    }
 
-	if (retime_debug)
-	    (void)fprintf(sisout,"\tRetiming following nodes\n\t");
-	re_foreach_node(graph, i, re_no){
-	    if (re_no->type == RE_INTERNAL){
-		lag = retiming[re_no->id];
-		if(retime_debug && lag != 0){
-		    (void)fprintf(sisout,"%s by %d  ", re_no->node->name, lag);
-		}
-		retime_single_node(re_no, lag);
-	    }
-	}
-	if (retime_debug) (void)fprintf(sisout,"\n");
+    if (retime_debug)
+        (void)fprintf(sisout,"\tRetiming following nodes\n\t");
+    re_foreach_node(graph, i, re_no){
+        if (re_no->type == RE_INTERNAL){
+        lag = retiming[re_no->id];
+        if(retime_debug && lag != 0){
+            (void)fprintf(sisout,"%s by %d  ", re_no->node->name, lag);
+        }
+        retime_single_node(re_no, lag);
+        }
+    }
+    if (retime_debug) (void)fprintf(sisout,"\n");
     } else {
-	status = 0;
-	if (retime_debug){
-	    (void)fprintf(sisout,"LP HAS %s\n", (flag == -1 ?
-		    "NO FEASIBLE SOLUTION": "UNBOUNDED SOLUTION"));
-	}
+    status = 0;
+    if (retime_debug){
+        (void)fprintf(sisout,"LP HAS %s\n", (flag == -1 ?
+            "NO FEASIBLE SOLUTION": "UNBOUNDED SOLUTION"));
+    }
     }
 
     /* Garbage collection */
@@ -151,7 +143,7 @@ int *retiming;
 
 /*
  * add nodes to appropriately model sharing of registers ---
- * Do this for multi-fanout nodes -- includeing primary inputs 
+ * Do this for multi-fanout nodes -- includeing primary inputs
  * This is tricky since the source (PI vertex) is actually a
  * bunch of vertices....
  */
@@ -166,18 +158,18 @@ re_graph *graph;
 
     /*
      * For each node with multiple fanout --
-     * Add a dummy node for the correct modelling of register sharing 
+     * Add a dummy node for the correct modelling of register sharing
      */
     array = array_alloc(re_node *, 0);
     re_foreach_node(graph, i, re_no){
-	if (re_num_fanouts(re_no) > 1){
-	    array_insert_last(re_node *, array, re_no);
-	}
+    if (re_num_fanouts(re_no) > 1){
+        array_insert_last(re_node *, array, re_no);
+    }
     }
 
     if (retime_debug > 40){
-	(void)fprintf(sisout, "%d nodes added to model register cost\n",
-		array_n(array));
+    (void)fprintf(sisout, "%d nodes added to model register cost\n",
+        array_n(array));
     }
 
     /*
@@ -186,48 +178,48 @@ re_graph *graph;
      */
 
     for (i = array_n(array); i-- > 0; ){
-	re_no = array_fetch(re_node *, array, i);
-	new_node = retime_alloc_node();
-	new_node->node = NIL(node_t);
-	new_node->id = re_num_nodes(graph);
-	new_node->type = RE_IGNORE;
-	new_node->final_area = new_node->final_delay = 0.0;
+    re_no = array_fetch(re_node *, array, i);
+    new_node = retime_alloc_node();
+    new_node->node = NIL(node_t);
+    new_node->id = re_num_nodes(graph);
+    new_node->type = RE_IGNORE;
+    new_node->final_area = new_node->final_delay = 0.0;
 
-	/* First figure out the true fanout and  maximum weight */
-	max_weight = NEG_LARGE;
-	num_fan = 0;
-	re_foreach_fanout(re_no, j, re_ed){
-	    if (re_ignore_edge(re_ed)) continue;
-	    num_fan++;
-	    max_weight = MAX(max_weight, re_ed->weight);
-	    re_ed->temp_breadth = re_ed->breadth;
-	}
+    /* First figure out the true fanout and  maximum weight */
+    max_weight = NEG_LARGE;
+    num_fan = 0;
+    re_foreach_fanout(re_no, j, re_ed){
+        if (re_ignore_edge(re_ed)) continue;
+        num_fan++;
+        max_weight = MAX(max_weight, re_ed->weight);
+        re_ed->temp_breadth = re_ed->breadth;
+    }
 
-	re_foreach_fanout(re_no, j, re_ed){
-	    if (re_ignore_edge(re_ed)) continue;
+    re_foreach_fanout(re_no, j, re_ed){
+        if (re_ignore_edge(re_ed)) continue;
 
-	    /* Modify the breadth of the edge */
-	    re_ed->temp_breadth = re_ed->breadth / num_fan;
+        /* Modify the breadth of the edge */
+        re_ed->temp_breadth = re_ed->breadth / num_fan;
 
-	    /* Add an edge from the curent node to the dummy node */
-	     edge = re_create_edge(graph, re_ed->sink, new_node, 
-		    re_num_fanins(new_node), max_weight-re_ed->weight, 1.0);
-	     edge->temp_breadth = edge->breadth / num_fan;
-	}
-	/* Add the new_node as part of the graph */
-	array_insert_last(re_node *, graph->nodes, new_node);
+        /* Add an edge from the curent node to the dummy node */
+         edge = re_create_edge(graph, re_ed->sink, new_node,
+            re_num_fanins(new_node), max_weight-re_ed->weight, 1.0);
+         edge->temp_breadth = edge->breadth / num_fan;
+    }
+    /* Add the new_node as part of the graph */
+    array_insert_last(re_node *, graph->nodes, new_node);
     }
     array_free(array);
 }
 
 /*
- * First figure the number of constraints 
+ * First figure the number of constraints
  * 2 equality constraint (r(host) = CONST) -- for appropraite scaling
  * num_edge constraints of the type r(u) - r(v) <= w(e) for edges u->v
  * ??? of type r(u) - r(v) <= W(u,v)-1 whenever D(u,v) > c
  * Since the rhs of simplex is always positive, we need see if
  * W(u,v)-1 is negative and if so, then the corresponding constraint has
- * to be multiplied by -1 
+ * to be multiplied by -1
  */
 static void
 re_setup_lp_tableau(graph, N, WD, c, ap, mp, m1p, m2p, m3p, trans)
@@ -252,13 +244,13 @@ int *trans;
     m3 = 2;		/* == constraints -- retiming at host */
 
     for ( i = 0; i < N; i++){
-	for (j = 0; j < N; j++){
-	    if (WD[i][j].w == POS_LARGE) /* No path fron i to j */ continue; 
-	    if (WD[i][j].d > c){ /* Need to add aconstraint */
-		if (WD[i][j].w < 1) m2++;
-		else m1++;
-	    }
-	}
+    for (j = 0; j < N; j++){
+        if (WD[i][j].w == POS_LARGE) /* No path fron i to j */ continue;
+        if (WD[i][j].d > c){ /* Need to add aconstraint */
+        if (WD[i][j].w < 1) m2++;
+        else m1++;
+        }
+    }
     }
     m = m1+m2+m3;
     *trans = num_edges * re_sum_of_edge_weight(graph);
@@ -266,42 +258,42 @@ int *trans;
     /* Now allocate the a matrix --- for the tableau */
     a = ALLOC(double *, m+3);
     for (i = m+3; i-- > 0; ){
-	a[i] = ALLOC(double, N+2);
-	for (j = N+2; j-- > 0; ){
-	    a[i][j] = 0.0;
-	}
+    a[i] = ALLOC(double, N+2);
+    for (j = N+2; j-- > 0; ){
+        a[i][j] = 0.0;
+    }
     }
     /* Now fillin the entries of the tableau */
     cur_m1 = 2;
     cur_m2 = m1+2;
     re_foreach_edge(graph, k, re_ed){
-	/* edge (i,j) */
-	i = re_ed->source->lp_index;
-	j = re_ed->sink->lp_index;
-	/* Add the constraint r(i) - r(j) <= w(e) */
-	a[cur_m1][i+2] -= 1.0; a[cur_m1][j+2] += 1.0; 
-	a[cur_m1][1] = re_ed->weight;
-	cur_m1++;
+    /* edge (i,j) */
+    i = re_ed->source->lp_index;
+    j = re_ed->sink->lp_index;
+    /* Add the constraint r(i) - r(j) <= w(e) */
+    a[cur_m1][i+2] -= 1.0; a[cur_m1][j+2] += 1.0;
+    a[cur_m1][1] = re_ed->weight;
+    cur_m1++;
     }
     for ( i = 0; i < N; i++){
-	for (j = 0; j < N; j++){
-	if (WD[i][j].w == POS_LARGE) continue;  /* No path from i to j */
-	/*
-	 * The constraint: 0 <= (W(i,j)-1) - r(i) + r(j), if D(i,j) > c 
-	 */
-	    if (WD[i][j].d > c){
-		t = WD[i][j].w - 1;
-		if (t < 0) {
-		    a[cur_m2][i+2] += 1.0; a[cur_m2][j+2] -= 1.0; 
-		    a[cur_m2][1] -= (double)t;
-		    cur_m2++;
-		} else {
-		    a[cur_m1][i+2] -= 1.0; a[cur_m1][j+2] += 1.0; 
-		    a[cur_m1][1] += (double)t;
-		    cur_m1++;
-		}
-	    }
-	}
+    for (j = 0; j < N; j++){
+    if (WD[i][j].w == POS_LARGE) continue;  /* No path from i to j */
+    /*
+     * The constraint: 0 <= (W(i,j)-1) - r(i) + r(j), if D(i,j) > c
+     */
+        if (WD[i][j].d > c){
+        t = WD[i][j].w - 1;
+        if (t < 0) {
+            a[cur_m2][i+2] += 1.0; a[cur_m2][j+2] -= 1.0;
+            a[cur_m2][1] -= (double)t;
+            cur_m2++;
+        } else {
+            a[cur_m1][i+2] -= 1.0; a[cur_m1][j+2] += 1.0;
+            a[cur_m1][1] += (double)t;
+            cur_m1++;
+        }
+        }
+    }
     }
 
     /* Retiming at the host (index N and N-1) is set to 0 */
@@ -315,40 +307,40 @@ int *trans;
      * coefficient of the ith variable
      */
     re_foreach_node(graph, k, re_no){
-	i = re_no->lp_index;
-	re_foreach_fanout(re_no, j, re_ed){
-	    a[1][i+2] += re_ed->temp_breadth;
-	}
-	re_foreach_fanin(re_no, j, re_ed){
-	    a[1][i+2] -= re_ed->temp_breadth;
-	}
+    i = re_no->lp_index;
+    re_foreach_fanout(re_no, j, re_ed){
+        a[1][i+2] += re_ed->temp_breadth;
+    }
+    re_foreach_fanin(re_no, j, re_ed){
+        a[1][i+2] -= re_ed->temp_breadth;
+    }
     }
 
     if (retime_debug > 40){
-	(void)fprintf(sisout,"Graph data  :: %d internal nodes, %d edges\n",
-	re_num_internals(graph), num_edges);
-	(void)fprintf(sisout,"Simplex data:: %d variable, %d=%d+%d+%d constraints\n",
-	    N, m, m1, m2, m3);
-	(void)fprintf(sisout,"Translation of the retiming = %d\n", *trans);
-	(void)fprintf(sisout,"Objective function \n");
-	for (i = 2; i <= N+1; i++){
-	    (void)fprintf(sisout,"%s%5.3f r%d ",
-		    (a[1][i] >= 0 ?"+":"-"), ABS(a[1][i]), i-2);
-	}
-	(void)fprintf(sisout,"\n");
-	/*
-	for ( i = 0; i < m; i++){
-	    if (i == num_edges) 
-		    (void)fprintf(sisout,"End of edge constraints\n");
-	    (void)fprintf(sisout,"Eqn %-5d is: ", i);
-	    sign = (i < m1 ? "<=" : (i >= (m1+m2) ? "=" : ">=")); 
-	    for (j = 0; j < N; j++){
-		if (a[i+2][j+2] != 0) (void)fprintf(sisout,"%s%2.0f r%d ",
-		    (a[i+2][j+2] >= 0 ? "+":"-"), ABS(a[i+2][j+2]), j);
-	    }
-	    (void)fprintf(sisout," %s %6.2f\n", sign, a[i+2][1]);
-	}
-	*/
+    (void)fprintf(sisout,"Graph data  :: %d internal nodes, %d edges\n",
+    re_num_internals(graph), num_edges);
+    (void)fprintf(sisout,"Simplex data:: %d variable, %d=%d+%d+%d constraints\n",
+        N, m, m1, m2, m3);
+    (void)fprintf(sisout,"Translation of the retiming = %d\n", *trans);
+    (void)fprintf(sisout,"Objective function \n");
+    for (i = 2; i <= N+1; i++){
+        (void)fprintf(sisout,"%s%5.3f r%d ",
+            (a[1][i] >= 0 ?"+":"-"), ABS(a[1][i]), i-2);
+    }
+    (void)fprintf(sisout,"\n");
+    /*
+    for ( i = 0; i < m; i++){
+        if (i == num_edges)
+            (void)fprintf(sisout,"End of edge constraints\n");
+        (void)fprintf(sisout,"Eqn %-5d is: ", i);
+        sign = (i < m1 ? "<=" : (i >= (m1+m2) ? "=" : ">="));
+        for (j = 0; j < N; j++){
+        if (a[i+2][j+2] != 0) (void)fprintf(sisout,"%s%2.0f r%d ",
+            (a[i+2][j+2] >= 0 ? "+":"-"), ABS(a[i+2][j+2]), j);
+        }
+        (void)fprintf(sisout," %s %6.2f\n", sign, a[i+2][1]);
+    }
+    */
     }
 
     *ap = a;
@@ -382,25 +374,25 @@ re_graph *graph;
     pipo_table = st_init_table(st_ptrcmp, st_ptrhash);
     re_foreach_primary_input(graph, i, re_no){
        if (re_no->user_time > RETIME_TEST_NOT_SET){
-	   re_foreach_fanout(re_no, j, re_ed){
-	       if (re_ed->sink->type == RE_INTERNAL &&
-	           !st_insert(pipo_table, (char *)(re_ed->sink), NIL(char))){
-		   array_insert_last(re_node *, pipo_array, re_ed->sink);
-	       }
-	   }
+       re_foreach_fanout(re_no, j, re_ed){
+           if (re_ed->sink->type == RE_INTERNAL &&
+               !st_insert(pipo_table, (char *)(re_ed->sink), NIL(char))){
+           array_insert_last(re_node *, pipo_array, re_ed->sink);
+           }
+       }
        }
     }
     for (i = array_n(pipo_array); i-- > 0; ){
-	time = RETIME_USER_NOT_SET;
-	re_no = array_fetch(re_node *, pipo_array, i);
-	re_foreach_fanin(re_no, j, re_ed){
-	    if (re_ed->source->type == RE_PRIMARY_INPUT &&
-		    re_ed->source->user_time > RETIME_USER_NOT_SET){
-		time = MAX(time, re_ed->source->scaled_user_time);
-	    }
-	}
-	assert(time > RETIME_TEST_NOT_SET);
-	re_no->scaled_delay += time;
+    time = RETIME_USER_NOT_SET;
+    re_no = array_fetch(re_node *, pipo_array, i);
+    re_foreach_fanin(re_no, j, re_ed){
+        if (re_ed->source->type == RE_PRIMARY_INPUT &&
+            re_ed->source->user_time > RETIME_USER_NOT_SET){
+        time = MAX(time, re_ed->source->scaled_user_time);
+        }
+    }
+    assert(time > RETIME_TEST_NOT_SET);
+    re_no->scaled_delay += time;
     }
     array_free(pipo_array);
     st_free_table(pipo_table);
@@ -409,9 +401,9 @@ re_graph *graph;
     /* Now do the PRIMARY OUTPUTS --- these have a single fanin */
     re_foreach_primary_output(graph, i, re_no){
        if (re_no->user_time > RETIME_TEST_NOT_SET){
-	   re_foreach_fanin(re_no, j, re_ed){
-		re_ed->source->scaled_delay -= re_no->scaled_user_time;
-	   }
+       re_foreach_fanin(re_no, j, re_ed){
+        re_ed->source->scaled_delay -= re_no->scaled_user_time;
+       }
        }
     }
 }

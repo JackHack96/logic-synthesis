@@ -1,13 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/external_ptr.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:01 $
- *
- */
-#include <stdio.h>	/* for BDD_DEBUG_LIFESPAN */
+
+#include <stdio.h>    /* for BDD_DEBUG_LIFESPAN */
 
 #include "util.h"
 #include "array.h"
@@ -16,47 +8,6 @@
 #include "bdd.h"
 #include "bdd_int.h"
 
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/external_ptr.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:01 $
- * $Log: external_ptr.c,v $
- * Revision 1.1.1.1  2004/02/07 10:15:01  pchong
- * imported
- *
- * Revision 1.3  1992/09/21  23:30:31  sis
- * Updates from Tom Shiple - this is BDD package release 2.4.
- *
- * Revision 1.3  1992/09/21  23:30:31  sis
- * Updates from Tom Shiple - this is BDD package release 2.4.
- *
- * Revision 1.2  1992/09/19  03:01:31  shiple
- * Version 2.4
- * Prefaced compile time debug switches with BDD_. Added typecast to void to some function calls.
- * Added and cleaned up comments.  Changed a fail to a bdd_memfail.  Added use of bddBlock count.
- * Removed all use of "used" field of the structure bdd_bddBlock, from the functions
- * bdd_make_external_pointer and new_block.  This cleans up a bug fix made previously where
- * bdd_t's were not being reused because the used field was not being decremented when a
- * bdd_t was freed.  Rather than finding a proper implementation for this feature, we are
- * abandoning it, at the risk of a slight performance penalty.
- *
- * Revision 1.1  1992/07/29  00:27:01  shiple
- * Initial revision
- *
- * Revision 1.2  1992/05/06  18:51:03  sis
- * SIS release 1.1
- *
- * Revision 1.1  92/01/08  17:34:37  sis
- * Initial revision
- * 
- * Revision 1.1  91/04/11  21:00:01  shiple
- * Initial revision
- * 
- *
- */
 
 static void new_block();
 
@@ -67,11 +18,11 @@ static void new_block();
  */
 bdd_t *
 bdd_make_external_pointer(manager, node, origin)
-bdd_manager *manager;
-bdd_node *node;		/* may be NIL(bdd_node) */
-string origin;		/* a static string - neither allocated nor freed (must be persistent across _all_ time) */
+        bdd_manager *manager;
+        bdd_node *node;        /* may be NIL(bdd_node) */
+        string origin;        /* a static string - neither allocated nor freed (must be persistent across _all_ time) */
 {
-    int i;
+    int   i;
     bdd_t *new;
 
     /*
@@ -80,7 +31,7 @@ string origin;		/* a static string - neither allocated nor freed (must be persis
      *    always be known to set the pointer.block != NIL
      */
     if (manager->heap.external_refs.free == 0) {
-	(void) new_block(manager);
+        (void) new_block(manager);
     }
 
     BDD_ASSERT(manager->heap.external_refs.free > 0);
@@ -89,8 +40,8 @@ string origin;		/* a static string - neither allocated nor freed (must be persis
      * If the pointer is not defined, then start at the beginning
      */
     if (manager->heap.external_refs.pointer.block == NIL(bdd_bddBlock)) {
-	manager->heap.external_refs.pointer.block = manager->heap.external_refs.map;
-	manager->heap.external_refs.pointer.index = 0;
+        manager->heap.external_refs.pointer.block = manager->heap.external_refs.map;
+        manager->heap.external_refs.pointer.index = 0;
     }
 
     BDD_ASSERT(manager->heap.external_refs.pointer.block != NIL(bdd_bddBlock));
@@ -104,52 +55,52 @@ string origin;		/* a static string - neither allocated nor freed (must be persis
      * Note that the index i is never explicitly used in the for loop.  It simply keeps track of how
      * many bdd_t entries we have examined thus far.
      */
-    for (i=0; i<manager->heap.external_refs.nmap; i++) {
+    for (i = 0; i < manager->heap.external_refs.nmap; i++) {
         /*
          * If the pointer index is at the end of the current block, then move to the next block.
          */
-	if (manager->heap.external_refs.pointer.index == 
-                         sizeof_el (manager->heap.external_refs.pointer.block->subheap)) {
+        if (manager->heap.external_refs.pointer.index ==
+            sizeof_el (manager->heap.external_refs.pointer.block->subheap)) {
 
-	    manager->heap.external_refs.pointer.block = manager->heap.external_refs.pointer.block->next;
-	    manager->heap.external_refs.pointer.index = 0;
-	    
+            manager->heap.external_refs.pointer.block = manager->heap.external_refs.pointer.block->next;
+            manager->heap.external_refs.pointer.index = 0;
+
             /*
              * If the pointer has fallen off the end of the list, then start over.  Remember, the list
              * of block is not circularly linked.
              */
-	    if (manager->heap.external_refs.pointer.block == NIL(bdd_bddBlock)) {
-		manager->heap.external_refs.pointer.block = manager->heap.external_refs.map;
+            if (manager->heap.external_refs.pointer.block == NIL(bdd_bddBlock)) {
+                manager->heap.external_refs.pointer.block = manager->heap.external_refs.map;
             }
-	}
+        }
 
-	if ( ! manager->heap.external_refs.pointer.block->subheap[manager->heap.external_refs.pointer.index].free ) {
-	    /*
-	     *    It is not free, so go on to the next one
-	     */
-	    manager->heap.external_refs.pointer.index++;
-	} else {
-	    /*
-	     *    It is free
-	     */
-	    new = &manager->heap.external_refs.pointer.block->subheap[manager->heap.external_refs.pointer.index++];
+        if (!manager->heap.external_refs.pointer.block->subheap[manager->heap.external_refs.pointer.index].free) {
+            /*
+             *    It is not free, so go on to the next one
+             */
+            manager->heap.external_refs.pointer.index++;
+        } else {
+            /*
+             *    It is free
+             */
+            new = &manager->heap.external_refs.pointer.block->subheap[manager->heap.external_refs.pointer.index++];
 
-	    /* set the values in the external pointer */
-	    new->free = FALSE;
-	    new->node = node;
-	    new->bdd = manager;
-#if defined(BDD_DEBUG_EXT)		/* { */
-	    new->origin = origin;
-#endif				/* } */
+            /* set the values in the external pointer */
+            new->free = FALSE;
+            new->node = node;
+            new->bdd  = manager;
+#if defined(BDD_DEBUG_EXT)        /* { */
+            new->origin = origin;
+#endif                /* } */
 
-	    /* decrement the number of free external pointers */
-	    manager->heap.external_refs.free--;
+            /* decrement the number of free external pointers */
+            manager->heap.external_refs.free--;
 
-	    manager->heap.stats.extptrs.used++;
-	    manager->heap.stats.extptrs.unused--;
+            manager->heap.stats.extptrs.used++;
+            manager->heap.stats.extptrs.unused--;
 
-	    return (new);
-	}
+            return (new);
+        }
     }
 
     /*
@@ -172,11 +123,11 @@ string origin;		/* a static string - neither allocated nor freed (must be persis
  */
 void
 bdd_destroy_external_pointer(ext_f)
-bdd_t *ext_f;
+        bdd_t *ext_f;
 {
     BDD_ASSERT(ext_f != NIL(bdd_t));
     if (ext_f->free)
-	return;			/* the guy shouldn't be doing this, but no point in failing on it */
+        return;            /* the guy shouldn't be doing this, but no point in failing on it */
 
     /* boost the number of free external pointers */
     ext_f->bdd->heap.external_refs.free++;
@@ -190,7 +141,7 @@ bdd_t *ext_f;
     /* destroy the values in the external pointer */
     ext_f->free = TRUE;
     ext_f->node = NIL(bdd_node);
-    ext_f->bdd = NIL(bdd_manager);
+    ext_f->bdd  = NIL(bdd_manager);
 }
 
 /*
@@ -202,46 +153,46 @@ bdd_t *ext_f;
  */
 static void
 new_block(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
-	bdd_bddBlock *block;
-	int i;
+    bdd_bddBlock *block;
+    int          i;
 
-	/*
-	 * Make a new block.
-	 */
-	block = ALLOC(bdd_bddBlock, 1);
-	if (block == NIL(bdd_bddBlock)) {
-	    (void) bdd_memfail(manager, "new_block");
-	}
-        manager->heap.stats.extptrs.blocks++;
+    /*
+     * Make a new block.
+     */
+    block = ALLOC(bdd_bddBlock, 1);
+    if (block == NIL(bdd_bddBlock)) {
+        (void) bdd_memfail(manager, "new_block");
+    }
+    manager->heap.stats.extptrs.blocks++;
 
-        /*
-         * Initialize all the entries of the block.
-         */
-	for (i=0; i<sizeof_el (block->subheap); i++) {
-	    block->subheap[i].free = TRUE;
-	    block->subheap[i].node = NIL(bdd_node);
-	    block->subheap[i].bdd = NIL(bdd_manager);
-	}
+    /*
+     * Initialize all the entries of the block.
+     */
+    for (i = 0; i < sizeof_el (block->subheap); i++) {
+        block->subheap[i].free = TRUE;
+        block->subheap[i].node = NIL(bdd_node);
+        block->subheap[i].bdd  = NIL(bdd_manager);
+    }
 
-	/* 
+    /*
          * Add the new block to the beginning of the list.
          */
-	block->next = manager->heap.external_refs.map;
-	manager->heap.external_refs.map = block;
+    block->next                     = manager->heap.external_refs.map;
+    manager->heap.external_refs.map = block;
 
-	/* increment the counts */
-	manager->heap.external_refs.free += sizeof_el (block->subheap);
-	manager->heap.external_refs.nmap += sizeof_el (block->subheap);
+    /* increment the counts */
+    manager->heap.external_refs.free += sizeof_el (block->subheap);
+    manager->heap.external_refs.nmap += sizeof_el (block->subheap);
 
-	/* make the pointer point to the beginning */
-	manager->heap.external_refs.pointer.block = block;
-	manager->heap.external_refs.pointer.index = 0;
+    /* make the pointer point to the beginning */
+    manager->heap.external_refs.pointer.block = block;
+    manager->heap.external_refs.pointer.index = 0;
 
-	/* increment the stats */
-	manager->heap.stats.extptrs.unused += sizeof_el (block->subheap);
-	manager->heap.stats.extptrs.total += sizeof_el (block->subheap);
+    /* increment the stats */
+    manager->heap.stats.extptrs.unused += sizeof_el (block->subheap);
+    manager->heap.stats.extptrs.total += sizeof_el (block->subheap);
 }
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
@@ -266,8 +217,8 @@ bdd_t *f;
      * Find the block which contains f.  Then return f's position within the block.
      */
     for (block=manager->heap.external_refs.map; block != NIL(bdd_bddBlock); block=block->next) {
-	if (&block->subheap[0] <= f && f < &block->subheap[sizeof_el (block->subheap)])
-	    return (((int) f - (int) &block->subheap[0]) / sizeof (block->subheap[0]));
+    if (&block->subheap[0] <= f && f < &block->subheap[sizeof_el (block->subheap)])
+        return (((int) f - (int) &block->subheap[0]) / sizeof (block->subheap[0]));
     }
 
     BDD_FAIL("bdd_index_of_external_pointer could not find the bdd_t!");

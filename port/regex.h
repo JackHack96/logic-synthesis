@@ -1,17 +1,9 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/port/regex.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:11 $
- *
- */
+
 #if defined(__hpux)
 /* Definitions for data structures callers pass the regex library.
    Copyright (C) 1985 Free Software Foundation, Inc.
 
-		       NO WARRANTY
+               NO WARRANTY
 
   BECAUSE THIS PROGRAM IS LICENSED FREE OF CHARGE, WE PROVIDE ABSOLUTELY
 NO WARRANTY, TO THE EXTENT PERMITTED BY APPLICABLE STATE LAW.  EXCEPT
@@ -35,7 +27,7 @@ A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS) THIS
 PROGRAM, EVEN IF YOU HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH
 DAMAGES, OR FOR ANY CLAIM BY ANY OTHER PARTY.
 
-		GENERAL PUBLIC LICENSE TO COPY
+        GENERAL PUBLIC LICENSE TO COPY
 
   1. You may copy and distribute verbatim copies of this source file
 as you receive it, in any medium, provided that you conspicuously and
@@ -148,9 +140,9 @@ what you give them.   Help stamp out software-hoarding!  */
      their special meaning regardless of the surrounding context.
    1 means that special characters may act as normal characters in some
      contexts.  Specifically, this applies to:
-	^ - only special at the beginning, or after ( or |
-	$ - only special at the end, or before ) or |
-	*, +, ? - only special when not after the beginning, (, or | */
+    ^ - only special at the beginning, or after ( or |
+    $ - only special at the end, or before ) or |
+    *, +, ? - only special when not after the beginning, (, or | */
 #define RE_CONTEXT_INDEP_OPS 32
 
 /* Now define combinations of bits for the standard possibilities.  */
@@ -167,15 +159,15 @@ struct re_pattern_buffer
     int allocated;	/* Size of space that  buffer  points to */
     int used;		/* Length of portion of buffer actually occupied */
     char *fastmap;	/* Pointer to fastmap, if any, or zero if none. */
-			/* re_search uses the fastmap, if there is one,
-			   to skip quickly over totally implausible characters */
+            /* re_search uses the fastmap, if there is one,
+               to skip quickly over totally implausible characters */
     char *translate;	/* Translate table to apply to all characters before comparing.
 			   Or zero for no translation.
 			   The translation is applied to a pattern when it is compiled
 			   and to data when it is matched. */
     char fastmap_accurate;
-			/* Set to zero when a new pattern is stored,
-			   set to one when the fastmap is updated from it. */
+            /* Set to zero when a new pattern is stored,
+               set to one when the fastmap is updated from it. */
     char can_be_null;   /* Set to one by compiling fastmap
 			   if this pattern might match the null string.
 			   It does not necessarily match the null string

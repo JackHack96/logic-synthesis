@@ -1,14 +1,3 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/util/pipefork.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:53 $
- *
- */
-/* LINTLIBRARY */
-
 #include <stdio.h>
 #include <sys/wait.h>
 #include "util.h"
@@ -27,13 +16,7 @@
  */
 
 /* ARGSUSED */
-int
-util_pipefork(argv, toCommand, fromCommand, pid)
-char **argv;				/* normal argv argument list */
-FILE **toCommand;			/* pointer to the sending stream */
-FILE **fromCommand;			/* pointer to the reading stream */
-int *pid;
-{
+int util_pipefork(char **argv, FILE **toCommand, FILE **fromCommand, int *pid) {
 #ifdef UNIX
     int forkpid, waitpid;
     int topipe[2], frompipe[2];
@@ -52,19 +35,19 @@ int *pid;
     (void) pipe(frompipe);
 
     if ((forkpid = vfork()) == 0) {
-	/* child here, connect the pipes */
-	(void) dup2(topipe[0], fileno(stdin));
-	(void) dup2(frompipe[1], fileno(stdout));
+    /* child here, connect the pipes */
+    (void) dup2(topipe[0], fileno(stdin));
+    (void) dup2(frompipe[1], fileno(stdout));
 
-	(void) close(topipe[0]);
-	(void) close(topipe[1]);
-	(void) close(frompipe[0]);
-	(void) close(frompipe[1]);
+    (void) close(topipe[0]);
+    (void) close(topipe[1]);
+    (void) close(frompipe[0]);
+    (void) close(frompipe[1]);
 
-	(void) execvp(argv[0], argv);
-	(void) sprintf(buffer, "util_pipefork: can not exec %s", argv[0]);
-	perror(buffer);
-	(void) _exit(1);
+    (void) execvp(argv[0], argv);
+    (void) sprintf(buffer, "util_pipefork: can not exec %s", argv[0]);
+    perror(buffer);
+    (void) _exit(1);
     }
 
     if (pid) {
@@ -75,20 +58,20 @@ int *pid;
 
     /* parent here, use slimey vfork() semantics to get return status */
     if (waitpid == forkpid && WIFEXITED(status)) {
-	return 0;
+    return 0;
     }
     if ((*toCommand = fdopen(topipe[1], "w")) == NULL) {
-	return 0;
+    return 0;
     }
     if ((*fromCommand = fdopen(frompipe[0], "r")) == NULL) {
-	return 0;
+    return 0;
     }
     (void) close(topipe[0]);
     (void) close(frompipe[1]);
     return 1;
 #else
-    (void) fprintf(stderr, 
-	"util_pipefork: not implemented on your operating system\n");
+    (void) fprintf(stderr,
+                   "util_pipefork: not implemented on your operating system\n");
     return 0;
 #endif
 }

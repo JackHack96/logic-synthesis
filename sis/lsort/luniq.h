@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/lsort/luniq.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:29 $
- *
- */
+
 /*
  *  Generic linked-list uniqifier package
  *  Richard Rudell, UC Berkeley, 4/1/87
@@ -49,41 +41,41 @@
 
 DECL_UNIQ TYPE *
 UNIQ(list, compare, free_routine)
-TYPE *list;				/* linked-list of objects */
-int (*compare)();			/* how to compare two objects */
-void (*free_routine)();			/* dispose of duplicate objects */
+        TYPE *list;                /* linked-list of objects */
+        int (*compare)();            /* how to compare two objects */
+        void (*free_routine)();            /* dispose of duplicate objects */
 {
     register TYPE *p1, *p2;
 
 #ifdef FREQ
     for(p1 = list; p1 != 0; p1 = p1->next) {
-	p1->FREQ = 1;
+    p1->FREQ = 1;
     }
 #endif
 
     if (list != 0) {
-	p1 = list;
-	while ((p2 = p1->NEXT) != 0) {
+        p1         = list;
+        while ((p2 = p1->NEXT) != 0) {
 
 #ifdef FIELD
 #ifdef DIRECT_COMPARE
-	    if (p1->FIELD == p2->FIELD) {
+            if (p1->FIELD == p2->FIELD) {
 #else
-	    if ((*compare)(p1->FIELD, p2->FIELD) == 0) {
+            if ((*compare)(p1->FIELD, p2->FIELD) == 0) {
 #endif
 #else
-	    if ((*compare)(p1, p2) == 0) {
+            if ((*compare)(p1, p2) == 0) {
 #endif
-		p1->NEXT = p2->NEXT;
+                p1->NEXT = p2->NEXT;
 #ifdef FREQ
-		p1->FREQ++;
+                p1->FREQ++;
 #endif
-		if (free_routine != 0) (*free_routine)(p2);
-	    } else {
-		p1 = p2;
-	    }
-	}
-	p1->NEXT = 0;
+                if (free_routine != 0) (*free_routine)(p2);
+            } else {
+                p1 = p2;
+            }
+        }
+        p1->NEXT = 0;
     }
     return list;
 }

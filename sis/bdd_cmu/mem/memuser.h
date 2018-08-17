@@ -9,18 +9,18 @@
 
 
 #if defined(__STDC__)
-#define ARGS(args) args
+#define args args
 #else
-#define ARGS(args) ()
+#define args) (
 #endif
 
 
 /* >>> Potentially machine dependent stuff */
 /* See memint.h as well. */
 
-typedef unsigned long INT_PTR;	/* Integral type that can hold a pointer */
-typedef unsigned long SIZE_T;	/* Integral type that can hold the maximum */
-				/* size of an object */
+typedef unsigned long INT_PTR;    /* Integral type that can hold a pointer */
+typedef unsigned long SIZE_T;    /* Integral type that can hold the maximum */
+/* size of an object */
 
 /* REQUIRED_ALIGNMENT is the alignment required by the machine hardware; */
 /* it is provided for user use. */
@@ -54,20 +54,28 @@ typedef struct rec_mgr_ *rec_mgr;
 
 /* Block storage management routines */
 
-extern pointer mem_get_block ARGS((SIZE_T));
-extern void mem_free_block ARGS((pointer));
-extern pointer mem_resize_block ARGS((pointer, SIZE_T));
-extern void mem_copy ARGS((pointer, pointer, SIZE_T));
-extern void mem_zero ARGS((pointer, SIZE_T));
-extern SIZE_T mem_allocation ARGS((void));
+extern pointer mem_get_block(SIZE_T);
+
+extern void mem_free_block(pointer);
+
+extern pointer mem_resize_block(pointer, SIZE_T);
+
+extern void mem_copy(pointer, pointer, SIZE_T);
+
+extern void mem_zero(pointer, SIZE_T);
+
+extern SIZE_T mem_allocation(void);
 
 
 /* Record manager routines */
 
-extern pointer mem_new_rec ARGS((rec_mgr));
-extern void mem_free_rec ARGS((rec_mgr, pointer));
-extern rec_mgr mem_new_rec_mgr ARGS((int));
-extern void mem_free_rec_mgr ARGS((rec_mgr));
+extern pointer mem_new_rec(rec_mgr);
+
+extern void mem_free_rec(rec_mgr, pointer);
+
+extern rec_mgr mem_new_rec_mgr(int);
+
+extern void mem_free_rec_mgr(rec_mgr);
 
 
 #undef ARGS

@@ -1,66 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/bdd_int.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:02 $
- *
- */
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/bdd_int.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:02 $
- * $Log: bdd_int.h,v $
- * Revision 1.1.1.1  2004/02/07 10:15:02  pchong
- * imported
- *
- * Revision 1.7  1993/07/27  20:16:10  sis
- * Added declarations for BDD minimization related routines.
- *
- * Revision 1.7  1993/07/27  19:29:53  shiple
- * Added declarations for BDD minimization related routines.
- *
- * Revision 1.6  1993/07/19  21:28:18  shiple
- * Removed external declaration of bdd_get_varids.
- *
- * Revision 1.5  1993/05/03  20:32:24  shiple
- * Made changes for ANSI C compatibility: removed illegal comma in enum
- * definition.  Added bdd_internal_quantify declaration.  Added enum for
- * quantification type.
- *
- * Revision 1.4  1993/01/11  23:43:19  shiple
- * Made changes for DEC Alpha compatibility.
- *
- * Revision 1.3  1992/09/19  03:45:08  shiple
- * Fix typo on change just made.
- *
- * Revision 1.2  1992/09/19  02:35:33  shiple
- * Version 2.4
- * Prefaced compile time debug switches with BDD_.   Added declaration of bdd_get_percentage.
- * Defined bdd_const_hash macro.  Before, the constcache was using the bdd_ITE_hash function, and
- * thus there was an implicit assumption that the constcache and ITE cache had the same number of
- * entries.  Renamed hashtable struct in manager to itetable. Changed ITE and ITE_const caches to
- * be arrays of pointers.  In manager, added rehash_at and max_size fields to caches.  In manager,
- * added node_ratio, init_node_blocks, and memory structure.
- *
- * Revision 1.1  1992/07/29  00:26:47  shiple
- * Initial revision
- *
- * Revision 1.2  1992/05/06  18:51:03  sis
- * SIS release 1.1
- *
- * Revision 1.1  92/01/08  17:34:27  sis
- * Initial revision
- * 
- * Revision 1.1  91/03/27  14:35:30  shiple
- * Initial revision
- * 
- *
- */
+
+
 
 /*
  *    Internal stuff for the BDD package
@@ -76,7 +15,7 @@
  *    the global .h files for any project.
  */
 
-#if ! defined(__STDC__) && ! defined(boolean)
+#if !defined(__STDC__) && !defined(boolean)
 /*
  * Ansi C defines this right?
  * this otta be a typedef somewhere
@@ -86,38 +25,38 @@
 
 #ifndef NIL
 /* this otta be a defined somewhere for us already */
-#define NIL(type)	((type *) 0)
+#define NIL(type)    ((type *) 0)
 #endif
 
-#ifndef string	/* Ansi C defines this right? */
+#ifndef string    /* Ansi C defines this right? */
 /* this otta be a typedef somewhere */
-#define string char *	/* a real live '\0' terminated string, not a refany */
+#define string char *    /* a real live '\0' terminated string, not a refany */
 #endif
 
 #ifndef refany
 /* this otta be a typedef somewhere */
-#define refany char *	/* a void * or any sort of untyped pointer */
+#define refany char *    /* a void * or any sort of untyped pointer */
 #endif
 
-#ifndef any	/* Ansi C defines this right? */
+#ifndef any    /* Ansi C defines this right? */
 /* this otta be a typedef somewhere */
-#define any char	/* so that NIL(any) == refany */
+#define any char    /* so that NIL(any) == refany */
 #endif
 
-#ifndef TRUE	/* Ansi C defines this right? */
+#ifndef TRUE    /* Ansi C defines this right? */
 #define TRUE 1
 #endif
-#ifndef FALSE	/* Ansi C defines this right? */
+#ifndef FALSE    /* Ansi C defines this right? */
 #define FALSE 0
 #endif
 
 #define sizeof_el(thing)                (sizeof (thing)/sizeof (thing[0]))
 
-#ifndef MIN	/* Ansi C defines this right? */
+#ifndef MIN    /* Ansi C defines this right? */
 #define MIN(a, b)       ((a) < (b) ? (a): (b))
 #endif
 
-#ifndef MAX	/* Ansi C defines this right? */
+#ifndef MAX    /* Ansi C defines this right? */
 #define MAX(a, b)       ((a) > (b) ? (a): (b))
 #endif
 
@@ -135,7 +74,7 @@
  *    This is the formal beginning of the internal bdd stuff
 */
 
-extern int bdd__fail();		/* must return an int so it can be in an expression */
+extern int bdd__fail();        /* must return an int so it can be in an expression */
 extern void bdd_memfail();
 
 /*
@@ -143,13 +82,13 @@ extern void bdd_memfail();
  *    BDD_FAIL(message)
  *    string message;
  */
-#define BDD_FAIL(message)	bdd__fail(__FILE__, __LINE__, message, /* assertion */ NIL(char))
+#define BDD_FAIL(message)    bdd__fail(__FILE__, __LINE__, message, /* assertion */ NIL(char))
 
 #if defined(BDD_DEBUG) /* { */
 #define BDD_ASSERT(condition)	((condition) ? TRUE: \
-				 bdd__fail(__FILE__, __LINE__, "BDD_ASSERT assertion failed", "condition"))
+                 bdd__fail(__FILE__, __LINE__, "BDD_ASSERT assertion failed", "condition"))
 #else /* } else { */
-#define BDD_ASSERT(condition)	(/* be happy */ TRUE)
+#define BDD_ASSERT(condition)    (/* be happy */ TRUE)
 #endif /* } */
 
 /*
@@ -162,15 +101,15 @@ extern void bdd_memfail();
  *    unsigned int c;
  *    unsigned int nbuckets;	- presumably a prime
  */
-#define bdd_generic_hash(a, b, c, nbuckets)	\
-	(((((unsigned int) (a)) << 5) + (((unsigned int) (b)) << 7) + (((unsigned int) (c)) << 11)) % ((unsigned int) (nbuckets)))
+#define bdd_generic_hash(a, b, c, nbuckets)    \
+    (((((unsigned int) (a)) << 5) + (((unsigned int) (b)) << 7) + (((unsigned int) (c)) << 11)) % ((unsigned int) (nbuckets)))
 
 /*
  *    The id's and how some are reserved for system use
 */
-#define BDD_ONE_ID		((bdd_variableId) (1<<30))
-#define BDD_BROKEN_HEART_ID	((bdd_variableId) (1<<30)-1)	/* see the broken_heart implementation below */
-#define BDD_USER_0_ID		((bdd_variableId) 0)		/* the 0th variableId */
+#define BDD_ONE_ID        ((bdd_variableId) (1<<30))
+#define BDD_BROKEN_HEART_ID    ((bdd_variableId) (1<<30)-1)    /* see the broken_heart implementation below */
+#define BDD_USER_0_ID        ((bdd_variableId) 0)        /* the 0th variableId */
 
 /*
  *    Note the caveat above about referencing bdd nodes only
@@ -183,10 +122,10 @@ extern void bdd_memfail();
  */
 /* typedef struct bdd_node bdd_node is in bdd.h */
 struct bdd_node {
-    bdd_variableId id;		/* variableId is the index of the variable in the bdd */
-    struct bdd_node *T;		/* then */
-    struct bdd_node *E;		/* else */
-    struct bdd_node *next;	/* chain pointer of the containing hashtable */
+    bdd_variableId  id;        /* variableId is the index of the variable in the bdd */
+    struct bdd_node *T;        /* then */
+    struct bdd_node *E;        /* else */
+    struct bdd_node *next;    /* chain pointer of the containing hashtable */
 #if defined(BDD_DEBUG) /* { */
 #if defined(BDD_DEBUG_AGE) || defined(BDD_DEBUG_LIFESPAN) /* { */
     unsigned int age;		/* the garbage-collect epoch of its creation */
@@ -211,20 +150,20 @@ struct bdd_node {
  */
 #if defined(BDD_DEBUG) /* { */
 #define BDD_ASSERT_REGNODE(p)			\
-	( ! BDD_IS_COMPLEMENT(p) ? TRUE:	\
-	  bdd__fail(__FILE__, __LINE__, "BDD_ASSERT_REGNODE - a bdd_node* is complemented", "p"))
+    ( ! BDD_IS_COMPLEMENT(p) ? TRUE:	\
+      bdd__fail(__FILE__, __LINE__, "BDD_ASSERT_REGNODE - a bdd_node* is complemented", "p"))
 #else /* } else { */
-#define BDD_ASSERT_REGNODE(p)		\
-	(/* be happy */ TRUE)
+#define BDD_ASSERT_REGNODE(p)        \
+    (/* be happy */ TRUE)
 #endif /* } */
 
 #if defined(BDD_DEBUG) /* { */
 #define BDD_ASSERT_NOTNIL(p)		\
-	( (p) != NIL(bdd_node) ? TRUE:	\
-	  bdd__fail(__FILE__, __LINE__, "BDD_ASSERT_NOTNIL - a bdd_node* is NIL", "p"))
+    ( (p) != NIL(bdd_node) ? TRUE:	\
+      bdd__fail(__FILE__, __LINE__, "BDD_ASSERT_NOTNIL - a bdd_node* is NIL", "p"))
 #else /* } else { */
-#define BDD_ASSERT_NOTNIL(p)		\
-	(/* be happy */ TRUE)
+#define BDD_ASSERT_NOTNIL(p)        \
+    (/* be happy */ TRUE)
 #endif /* } */
 
 /*
@@ -248,40 +187,40 @@ struct bdd_node {
  *    bdd_node *node;
  *    bdd_node *forward;
  */
-#define BDD__BROKEN_HEART(node)			( (node) != NIL(bdd_node) && \
-						  ! BDD_IS_COMPLEMENT(node) && \
-						  (node)->id == BDD_BROKEN_HEART_ID )
-#define BDD__FORWARD_POINTER(node)		((node)->T)
-#define BDD__SET_FORWARD_POINTER(node, forward)	{ (node)->id = BDD_BROKEN_HEART_ID; \
-						  (node)->T = (forward); }
+#define BDD__BROKEN_HEART(node)            ( (node) != NIL(bdd_node) && \
+                          ! BDD_IS_COMPLEMENT(node) && \
+                          (node)->id == BDD_BROKEN_HEART_ID )
+#define BDD__FORWARD_POINTER(node)        ((node)->T)
+#define BDD__SET_FORWARD_POINTER(node, forward)    { (node)->id = BDD_BROKEN_HEART_ID; \
+                          (node)->T = (forward); }
 
 #if defined(BDD_DEBUG_GC) /* { */
 #define BDD_ASSERT_BROKEN_HEART(n)		\
-	( BDD_BROKEN_HEART(n) ? TRUE:	\
-	  bdd__fail(__FILE__, __LINE__, "BDD_ASSERT_BROKEN_HEART - not a broken heart", "n"))
+    ( BDD_BROKEN_HEART(n) ? TRUE:	\
+      bdd__fail(__FILE__, __LINE__, "BDD_ASSERT_BROKEN_HEART - not a broken heart", "n"))
 #else /* } else { */
-#define BDD_ASSERT_BROKEN_HEART(n)		\
-	(/* be happy */ TRUE)
+#define BDD_ASSERT_BROKEN_HEART(n)        \
+    (/* be happy */ TRUE)
 #endif /* } */
 
 #if defined(BDD_DEBUG_GC) /* { */
 #define BDD_ASSERT_NOT_BROKEN_HEART(n)		\
-	( ! BDD_BROKEN_HEART(n) ? TRUE:	\
-	  bdd__fail(__FILE__, __LINE__, "BDD_ASSERT_NOT_BROKEN_HEART - is a broken heart", "n"))
+    ( ! BDD_BROKEN_HEART(n) ? TRUE:	\
+      bdd__fail(__FILE__, __LINE__, "BDD_ASSERT_NOT_BROKEN_HEART - is a broken heart", "n"))
 #else /* } else { */
-#define BDD_ASSERT_NOT_BROKEN_HEART(n)		\
-	(/* be happy */ TRUE)
+#define BDD_ASSERT_NOT_BROKEN_HEART(n)        \
+    (/* be happy */ TRUE)
 #endif /* } */
 
-#define BDD_BROKEN_HEART(node)		\
-	BDD__BROKEN_HEART(node)
-#define BDD_FORWARD_POINTER(node)	\
-	( BDD_ASSERT_BROKEN_HEART(node),	\
-	  BDD__FORWARD_POINTER(node))
-#define BDD_SET_FORWARD_POINTER(node, forward)	\
-	{ BDD_ASSERT_REGNODE(node);		\
-	  BDD_ASSERT_REGNODE(forward);		\
-	  BDD__SET_FORWARD_POINTER(node, forward); }
+#define BDD_BROKEN_HEART(node)        \
+    BDD__BROKEN_HEART(node)
+#define BDD_FORWARD_POINTER(node)    \
+    ( BDD_ASSERT_BROKEN_HEART(node),    \
+      BDD__FORWARD_POINTER(node))
+#define BDD_SET_FORWARD_POINTER(node, forward)    \
+    { BDD_ASSERT_REGNODE(node);        \
+      BDD_ASSERT_REGNODE(forward);        \
+      BDD__SET_FORWARD_POINTER(node, forward); }
 
 /*
  *    int
@@ -293,13 +232,13 @@ struct bdd_node {
  */
 #if defined(BDD_DEBUG) && (defined(BDD_DEBUG_UID) || defined(BDD_DEBUG_LIFESPAN)) /* { */
 #define bdd_raw_node_hash(manager, variableId, T, E)			\
-	bdd_generic_hash(variableId,					\
-		(T) == NIL(bdd_node) ? 0: BDD_REGULAR(T)->uniqueId,	\
-		(E) == NIL(bdd_node) ? 0: BDD_REGULAR(E)->uniqueId,	\
-		(manager)->heap.hashtable.nbuckets)
+    bdd_generic_hash(variableId,					\
+        (T) == NIL(bdd_node) ? 0: BDD_REGULAR(T)->uniqueId,	\
+        (E) == NIL(bdd_node) ? 0: BDD_REGULAR(E)->uniqueId,	\
+        (manager)->heap.hashtable.nbuckets)
 #else /* } else { */
-#define bdd_raw_node_hash(manager, variableId, T, E)			\
-	bdd_generic_hash(variableId, T, E, (manager)->heap.hashtable.nbuckets)
+#define bdd_raw_node_hash(manager, variableId, T, E)            \
+    bdd_generic_hash(variableId, T, E, (manager)->heap.hashtable.nbuckets)
 #endif /* } */
 
 /*
@@ -308,8 +247,8 @@ struct bdd_node {
  *    bdd_manager *manager;
  *    bdd_node *node;		- may not be nil
  */
-#define bdd_node_hash(manager, node)	\
-	bdd_raw_node_hash(manager, (node)->id, BDD_REGULAR(node)->T, BDD_REGULAR(node)->E)
+#define bdd_node_hash(manager, node)    \
+    bdd_raw_node_hash(manager, (node)->id, BDD_REGULAR(node)->T, BDD_REGULAR(node)->E)
 
 /*
  *    WATCHOUT A sign bit is encoded in the low-order bit of a
@@ -342,10 +281,10 @@ struct bdd_node {
  *
  *        Does this reprsent a (the) constant?
  */
-#define BDD_NOT(node)			((bdd_node *) ((long) (node) ^ 01L))
-#define BDD_REGULAR(node)		((bdd_node *) ((long) (node) & ~01L))
-#define BDD_IS_COMPLEMENT(node)		((long) (node) & 01L)
-#define BDD_IS_CONSTANT(manager, node)	(BDD_REGULAR(node) == (manager)->bdd.one)
+#define BDD_NOT(node)            ((bdd_node *) ((long) (node) ^ 01L))
+#define BDD_REGULAR(node)        ((bdd_node *) ((long) (node) & ~01L))
+#define BDD_IS_COMPLEMENT(node)        ((long) (node) & 01L)
+#define BDD_IS_CONSTANT(manager, node)    (BDD_REGULAR(node) == (manager)->bdd.one)
 
 /*
  *    The constants available in the system
@@ -362,8 +301,8 @@ struct bdd_node {
  *
  *        the constant zero (derived from one by complementation)
  */
-#define BDD_ONE(manager)		(manager)->bdd.one
-#define BDD_ZERO(manager)		BDD_NOT(BDD_ONE(manager))
+#define BDD_ONE(manager)        (manager)->bdd.one
+#define BDD_ZERO(manager)        BDD_NOT(BDD_ONE(manager))
 
 /*
  *    The bdd_node heap is made up of a chain of nodeBlocks, each
@@ -380,7 +319,7 @@ struct bdd_node {
  *    Want: BDD_NODES_PER_NODEBLOCK == 2^k - BDD_MALLOC_OVERHEAD_ESTIMATE
  *    ... for appropriate value of k (k is called BDD_NODEBLOCK_PO2 here)
  */
-#define BDD_MALLOC_OVERHEAD_ESTIMATE		8	/* assume malloc adds 4 bytes of header info */
+#define BDD_MALLOC_OVERHEAD_ESTIMATE        8    /* assume malloc adds 4 bytes of header info */
 
 #if defined(BDD_DEBUG_GC) /* { */
 #define BDD_NODEBLOCK_PO2			7	/* 2^7 = 128 - small for debugging */
@@ -388,21 +327,21 @@ struct bdd_node {
 #if defined(BDD_DEBUG_LIFESPAN) /* { */
 #define BDD_NODEBLOCK_PO2			12	/* 2^12 = 4K - small(er) for debuggin lifespans */
 #else /* } else { */
-#define BDD_NODEBLOCK_PO2			15	/* 2^15 = 32K - the magic Power 'O 2 (PO2) */
+#define BDD_NODEBLOCK_PO2            15    /* 2^15 = 32K - the magic Power 'O 2 (PO2) */
 #endif /* } */
 #endif /* } */
 
-#define BDD_NODES_PER_NODEBLOCK			\
-	(((1<<(BDD_NODEBLOCK_PO2-1)) -		\
-	  BDD_MALLOC_OVERHEAD_ESTIMATE -	\
-	  /* used */ sizeof (int) -		\
-	  /* next */ sizeof (long)) / sizeof (bdd_node))
+#define BDD_NODES_PER_NODEBLOCK            \
+    (((1<<(BDD_NODEBLOCK_PO2-1)) -        \
+      BDD_MALLOC_OVERHEAD_ESTIMATE -    \
+      /* used */ sizeof (int) -        \
+      /* next */ sizeof (long)) / sizeof (bdd_node))
 
 typedef struct bdd_nodeBlock {
-    int used;
+    int                  used;
     struct bdd_nodeBlock *next;
-    bdd_node subheap[BDD_NODES_PER_NODEBLOCK];
-} bdd_nodeBlock;	/* total size plus malloc overhead should be an exact power of 2 */
+    bdd_node             subheap[BDD_NODES_PER_NODEBLOCK];
+} bdd_nodeBlock;    /* total size plus malloc overhead should be an exact power of 2 */
 
 /*
  *    The hashtable cache
@@ -412,14 +351,15 @@ typedef struct bdd_nodeBlock {
  */
 typedef struct bdd_hashcache_entry {
     struct {
-	bdd_node *f;
-	bdd_node *g;
-	bdd_node *h;
-    } ITE;		/* ITE(f, g, h) */
-    bdd_node *data;		/* NIL(bdd_node) indicates in invalid entry */
+        bdd_node *f;
+        bdd_node *g;
+        bdd_node *h;
+    }        ITE;        /* ITE(f, g, h) */
+    bdd_node *data;        /* NIL(bdd_node) indicates in invalid entry */
 } bdd_hashcache_entry;
 
 extern void bdd_hashcache_insert();
+
 extern boolean bdd_hashcache_lookup();
 
 /*
@@ -430,8 +370,8 @@ extern boolean bdd_hashcache_lookup();
  *    bdd_node *g;		- may not be nil
  *    bdd_node *h;		- may not be nil
  */
-#define bdd_ITE_hash(manager, f, g, h)	\
-	bdd_generic_hash(f, g, h, (manager)->heap.cache.itetable.nbuckets)
+#define bdd_ITE_hash(manager, f, g, h)    \
+    bdd_generic_hash(f, g, h, (manager)->heap.cache.itetable.nbuckets)
 
 /*
  *    int
@@ -439,8 +379,8 @@ extern boolean bdd_hashcache_lookup();
  *    bdd_manager *manager;
  *    bdd_hashcache_entry *entry;	- may not be nil
  */
-#define bdd_hashcache_entry_hash(manager, entry)	\
-	bdd_ITE_hash(manager, (entry)->ITE.f, (entry)->ITE.g, (entry)->ITE.h)
+#define bdd_hashcache_entry_hash(manager, entry)    \
+    bdd_ITE_hash(manager, (entry)->ITE.f, (entry)->ITE.g, (entry)->ITE.h)
 
 /*
  *    The constant cache
@@ -449,22 +389,23 @@ extern boolean bdd_hashcache_lookup();
  *    be (e.g. it is and always must be) possible to turn off the cache.
  */
 typedef enum bdd_constant_status {
-    bdd_status_unknown,		/* the cache entry is invalid */
-    bdd_constant_zero,		/* has the constant value of zero */
-    bdd_constant_one,		/* has the constant value of one */
-    bdd_nonconstant		/* has a nonconstant value */
+    bdd_status_unknown,        /* the cache entry is invalid */
+    bdd_constant_zero,        /* has the constant value of zero */
+    bdd_constant_one,        /* has the constant value of one */
+    bdd_nonconstant        /* has a nonconstant value */
 } bdd_constant_status;
 
 typedef struct bdd_constcache_entry {
     struct {
-	bdd_node *f;
-	bdd_node *g;
-	bdd_node *h;
-    } ITE;		/* ITE(f, g, h) */
-    bdd_constant_status data;	/* bdd_status_unknown indicates an invalid entry */
+        bdd_node *f;
+        bdd_node *g;
+        bdd_node *h;
+    }                   ITE;        /* ITE(f, g, h) */
+    bdd_constant_status data;    /* bdd_status_unknown indicates an invalid entry */
 } bdd_constcache_entry;
 
 extern void bdd_constcache_insert();
+
 extern boolean bdd_constcache_lookup();
 
 /*
@@ -475,8 +416,8 @@ extern boolean bdd_constcache_lookup();
  *    bdd_node *g;		- may not be nil
  *    bdd_node *h;		- may not be nil
  */
-#define bdd_const_hash(manager, f, g, h)	\
-	bdd_generic_hash(f, g, h, (manager)->heap.cache.consttable.nbuckets)
+#define bdd_const_hash(manager, f, g, h)    \
+    bdd_generic_hash(f, g, h, (manager)->heap.cache.consttable.nbuckets)
 
 /*
  *    int
@@ -484,25 +425,27 @@ extern boolean bdd_constcache_lookup();
  *    bdd_manager *manager;
  *    bdd_constcache_entry *entry;	- may not be nil
  */
-#define bdd_constcache_entry_hash(manager, entry)	\
-	bdd_const_hash(manager, (entry)->ITE.f, (entry)->ITE.g, (entry)->ITE.h)
+#define bdd_constcache_entry_hash(manager, entry)    \
+    bdd_const_hash(manager, (entry)->ITE.f, (entry)->ITE.g, (entry)->ITE.h)
 
 
 /*
  *    The ad hoc cache
  */
-typedef int bdd_int;		/* any integer value */
+typedef int bdd_int;        /* any integer value */
 
 typedef struct bdd_adhoccache_key {
-    bdd_node *f;		/* may be NIL(bdd_node) */
-    bdd_node *g; 		/* may be NIL(bdd_node) */
-    bdd_int v;			/* may be any integer value */
-} bdd_adhoccache_key;
+    bdd_node *f;        /* may be NIL(bdd_node) */
+    bdd_node *g;        /* may be NIL(bdd_node) */
+    bdd_int  v;            /* may be any integer value */
+}           bdd_adhoccache_key;
 
 extern void bdd_adhoccache_init();
+
 extern void bdd_adhoccache_uninit();
 
 extern void bdd_adhoccache_insert();
+
 extern boolean bdd_adhoccache_lookup();
 
 /*
@@ -516,9 +459,9 @@ extern boolean bdd_adhoccache_lookup();
  */
 /* typedef struct bdd_t bdd_t; already typedef'd in bdd.h */
 struct bdd_t {
-    boolean free;		/* TRUE if this is free, FALSE otherwise ... */
-    bdd_node *node;		/* the node referenced */
-    bdd_manager *bdd;		/* the manager from whence this came */
+    boolean     free;        /* TRUE if this is free, FALSE otherwise ... */
+    bdd_node    *node;        /* the node referenced */
+    bdd_manager *bdd;        /* the manager from whence this came */
 #if defined(BDD_DEBUG_EXT) /* { */
     string origin;		/* track the origin of all bdd_t*'s */
 #endif /* } */
@@ -527,16 +470,17 @@ struct bdd_t {
 /*
  *    And then how these bdd_t's are managed internally (in blocks)
  */
-#define BDD_BDDBLOCK_PO2		6		/* 2^6 = 64 */
+#define BDD_BDDBLOCK_PO2        6        /* 2^6 = 64 */
 
-#define BDD_NODES_PER_BDDBLOCK		(1<<(BDD_BDDBLOCK_PO2-1))
+#define BDD_NODES_PER_BDDBLOCK        (1<<(BDD_BDDBLOCK_PO2-1))
 
 typedef struct bdd_bddBlock {
     struct bdd_bddBlock *next;
-    bdd_t subheap[BDD_NODES_PER_BDDBLOCK];
-} bdd_bddBlock;	/* total size plus malloc overhead should be an exact power of 2 */
+    bdd_t               subheap[BDD_NODES_PER_BDDBLOCK];
+}           bdd_bddBlock;    /* total size plus malloc overhead should be an exact power of 2 */
 
 extern bdd_t *bdd_make_external_pointer();
+
 extern void bdd_destroy_external_pointer();
 
 /*
@@ -548,20 +492,20 @@ extern void bdd_destroy_external_pointer();
  *        used in the same routine
  */
 typedef struct bdd_safenode {
-    bdd_node *node;			/* the node referenced */
-    bdd_node **arg;			/* the address of a value to clean up */
-    struct bdd_safenode *next;		/* next (safe) node in the list */
-} bdd_safenode;
+    bdd_node            *node;            /* the node referenced */
+    bdd_node            **arg;            /* the address of a value to clean up */
+    struct bdd_safenode *next;        /* next (safe) node in the list */
+}           bdd_safenode;
 
 typedef struct bdd_safeframe {
     struct bdd_safeframe *prev;
-    bdd_safenode *nodes;
-} bdd_safeframe;
+    bdd_safenode         *nodes;
+}           bdd_safeframe;
 
 #if defined(BDD_DEBUG_SF) /* { */
 #define BDD_ASSERT_FRAMES_CORRECT(manager)	bdd_assert_frames_correct(manager)
 #else /* } else { */
-#define BDD_ASSERT_FRAMES_CORRECT(manager)	(/* be happy */ TRUE)
+#define BDD_ASSERT_FRAMES_CORRECT(manager)    (/* be happy */ TRUE)
 #endif /* } */
 
 /*
@@ -577,13 +521,13 @@ typedef struct bdd_safeframe {
  *    Usage: DO NOT USE THESE (they are only useful in bdd_new_node)
  *           use the versions below which do the assertion checks.
  */
-#define bdd_safeframe__start(manager, sf)	\
-		    { (sf).nodes = NIL(bdd_safenode); \
-		      (sf).prev = (manager)->heap.internal_refs.frames; \
-		      (manager)->heap.internal_refs.frames = &(sf); }
-#define bdd_safeframe__end(manager)			\
-		    { (manager)->heap.internal_refs.frames = \
-		              (manager)->heap.internal_refs.frames->prev; }
+#define bdd_safeframe__start(manager, sf)    \
+            { (sf).nodes = NIL(bdd_safenode); \
+              (sf).prev = (manager)->heap.internal_refs.frames; \
+              (manager)->heap.internal_refs.frames = &(sf); }
+#define bdd_safeframe__end(manager)            \
+            { (manager)->heap.internal_refs.frames = \
+                      (manager)->heap.internal_refs.frames->prev; }
 
 /*
  *    void
@@ -597,13 +541,13 @@ typedef struct bdd_safeframe {
  *
  *    Usage: (see below)
  */
-#define bdd_safeframe_start(manager, sf)	\
-		    { BDD_ASSERT_FRAMES_CORRECT(manager); \
-		      bdd_safeframe__start(manager, sf); }
-#define bdd_safeframe_end(manager)		\
-		    { BDD_ASSERT((manager)->heap.internal_refs.frames != NIL(bdd_safeframe)); \
-		      BDD_ASSERT_FRAMES_CORRECT(manager); \
-		      bdd_safeframe__end(manager); }
+#define bdd_safeframe_start(manager, sf)    \
+            { BDD_ASSERT_FRAMES_CORRECT(manager); \
+              bdd_safeframe__start(manager, sf); }
+#define bdd_safeframe_end(manager)        \
+            { BDD_ASSERT((manager)->heap.internal_refs.frames != NIL(bdd_safeframe)); \
+              BDD_ASSERT_FRAMES_CORRECT(manager); \
+              bdd_safeframe__end(manager); }
 
 /*
  *    void
@@ -620,17 +564,17 @@ typedef struct bdd_safeframe {
  *    Usage: DO NOT USE THESE (they are only useful in bdd_new_node)
  *           use the versions below which do the assertion checks.
  */
-#define bdd_safenode__link(manager, sn, n)	\
-		    { (sn).node = NIL(bdd_node); \
-		      (sn).arg = &(n); \
-		      (sn).next = (manager)->heap.internal_refs.frames->nodes; \
-		      (manager)->heap.internal_refs.frames->nodes = &(sn); }
+#define bdd_safenode__link(manager, sn, n)    \
+            { (sn).node = NIL(bdd_node); \
+              (sn).arg = &(n); \
+              (sn).next = (manager)->heap.internal_refs.frames->nodes; \
+              (manager)->heap.internal_refs.frames->nodes = &(sn); }
 
-#define bdd_safenode__declare(manager, sn)	\
-		    { (sn).node = NIL(bdd_node); \
-		      (sn).arg = NIL(bdd_node *); \
-		      (sn).next = (manager)->heap.internal_refs.frames->nodes; \
-		      (manager)->heap.internal_refs.frames->nodes = &(sn); }
+#define bdd_safenode__declare(manager, sn)    \
+            { (sn).node = NIL(bdd_node); \
+              (sn).arg = NIL(bdd_node *); \
+              (sn).next = (manager)->heap.internal_refs.frames->nodes; \
+              (manager)->heap.internal_refs.frames->nodes = &(sn); }
 
 /*
  *    void
@@ -646,13 +590,13 @@ typedef struct bdd_safeframe {
  *
  *    Usage: (see below)
  */
-#define bdd_safenode_link(manager, sn, n)	\
-		    { bdd_safenode__link(manager, sn, n); \
-		      BDD_ASSERT_FRAMES_CORRECT(manager); }
+#define bdd_safenode_link(manager, sn, n)    \
+            { bdd_safenode__link(manager, sn, n); \
+              BDD_ASSERT_FRAMES_CORRECT(manager); }
 
-#define bdd_safenode_declare(manager, sn)	\
-		    { bdd_safenode__declare(manager, sn); \
-		      BDD_ASSERT_FRAMES_CORRECT(manager); }
+#define bdd_safenode_declare(manager, sn)    \
+            { bdd_safenode__declare(manager, sn); \
+              BDD_ASSERT_FRAMES_CORRECT(manager); }
 
 /*
  *    Usage:
@@ -692,108 +636,110 @@ typedef struct bdd_safeframe {
  */
 /* typedef struct bdd_manager bdd_manager; already typedef'd in bdd.h */
 struct bdd_manager {
-    char *undef1;                       /* used for debugging */
+    char               *undef1;                       /* used for debugging */
     struct {
-	struct {
-	    unsigned int nkeys;		/* the number of keys in the hash table */
-	    unsigned int nbuckets;	/* the size of the buckets array */
-	    bdd_node **buckets;		/* the buckets array */
-	    int rehash_at_nkeys;	/* the number of keys at which we rehash */
-	} hashtable;		/* all live bdd_nodes are in this hash table */
-	struct {
-	    struct {
-		unsigned int index;		/* the roving index in the block */
-		bdd_bddBlock *block;		/* the block in which we look */
-	    } pointer;			/* the roving pointer in the map */
-	    unsigned int free;		/* the number which are known to be free */
-	    unsigned int nmap;		/* the total number of bdd_t's in map */
-	    bdd_bddBlock *map;		/* mapping bdd_t*'s to bdd_node*'s */
-	} external_refs;	/* external references from the package user */
-	struct {
-	    bdd_safeframe *frames;	/* a list of safe frames on the stack */
-	} internal_refs;	/* internal references from the bdd package */
-	struct {
-	    struct {
-		boolean on;			/* is caching even turned on? */
-		boolean invalidate_on_gc;	/* always invalidate the cache on a gc */
-                unsigned int resize_at;         /* percentage at which to resize (e.g. 85% is 85) */
+        struct {
+            unsigned int nkeys;        /* the number of keys in the hash table */
+            unsigned int nbuckets;    /* the size of the buckets array */
+            bdd_node     **buckets;        /* the buckets array */
+            int          rehash_at_nkeys;    /* the number of keys at which we rehash */
+        }            hashtable;        /* all live bdd_nodes are in this hash table */
+        struct {
+            struct {
+                unsigned int index;        /* the roving index in the block */
+                bdd_bddBlock *block;        /* the block in which we look */
+            }            pointer;            /* the roving pointer in the map */
+            unsigned int free;        /* the number which are known to be free */
+            unsigned int nmap;        /* the total number of bdd_t's in map */
+            bdd_bddBlock *map;        /* mapping bdd_t*'s to bdd_node*'s */
+        }            external_refs;    /* external references from the package user */
+        struct {
+            bdd_safeframe *frames;    /* a list of safe frames on the stack */
+        }            internal_refs;    /* internal references from the bdd package */
+        struct {
+            struct {
+                boolean             on;            /* is caching even turned on? */
+                boolean             invalidate_on_gc;    /* always invalidate the cache on a gc */
+                unsigned int        resize_at;         /* percentage at which to resize (e.g. 85% is 85) */
+                unsigned int        max_size;          /* don't resize if nbuckets exceeds this */
+                unsigned int        nbuckets;        /* buckets in the cache */
+                unsigned int        nentries;        /* entries in the cache */
+                bdd_hashcache_entry **buckets;    /* the cache */
+            } itetable;                /* cache of the hashtable entries */
+            struct {
+                boolean              on;            /* is caching even turned on? */
+                boolean              invalidate_on_gc;    /* always invalidate the cache on a gc */
+                unsigned int         resize_at;         /* percentage at which to resize (e.g. 85% is 85) */
+                unsigned int         max_size;          /* don't resize if nbuckets exceeds this */
+                unsigned int         nbuckets;        /* buckets in the cache */
+                unsigned int         nentries;        /* entries in the cache */
+                bdd_constcache_entry **buckets;    /* the cache */
+            } consttable;        /* for the exclusive use of ITE_constant */
+            struct {
+                boolean      on;            /* is caching even turned on? */
                 unsigned int max_size;          /* don't resize if nbuckets exceeds this */
-		unsigned int nbuckets;		/* buckets in the cache */
-		unsigned int nentries;		/* entries in the cache */
-		bdd_hashcache_entry **buckets;	/* the cache */
-	    } itetable;		        /* cache of the hashtable entries */
-	    struct {
-		boolean on;			/* is caching even turned on? */
-		boolean invalidate_on_gc;	/* always invalidate the cache on a gc */
-                unsigned int resize_at;         /* percentage at which to resize (e.g. 85% is 85) */
-                unsigned int max_size;          /* don't resize if nbuckets exceeds this */
-		unsigned int nbuckets;		/* buckets in the cache */
-		unsigned int nentries;		/* entries in the cache */
-		bdd_constcache_entry **buckets;	/* the cache */
-	    } consttable;		/* for the exclusive use of ITE_constant */
-	    struct {
-		boolean on;			/* is caching even turned on? */
-                unsigned int max_size;          /* don't resize if nbuckets exceeds this */
-		st_table *table;		/* may be NIL - of {bdd_adhoccache_key, bdd_node *} */
-	    } adhoc;			/* cache used for various nefarious purposes (transient) */
-	} cache;		/* a cache for past computations (partially voided on gc) */
-	struct {
-	    struct {
-		bdd_nodeBlock *top;	/* the top of the in-use list (append only) */
-		bdd_nodeBlock **tail;	/* either &top or &p->next of some member of the list */
-	    } inuse;			/* an in-use list of nodeBlock */
-	    bdd_nodeBlock *free;	/* a free list of unused blocks in this space */
-	} half[2];
+                st_table     *table;        /* may be NIL - of {bdd_adhoccache_key, bdd_node *} */
+            } adhoc;            /* cache used for various nefarious purposes (transient) */
+        }            cache;        /* a cache for past computations (partially voided on gc) */
+        struct {
+            struct {
+                bdd_nodeBlock *top;    /* the top of the in-use list (append only) */
+                bdd_nodeBlock **tail;    /* either &top or &p->next of some member of the list */
+            }             inuse;            /* an in-use list of nodeBlock */
+            bdd_nodeBlock *free;    /* a free list of unused blocks in this space */
+        }            half[2];
         unsigned int init_node_blocks;  /* number of bdd_nodeBlocks initially allocated */
-	struct {
-	    bdd_nodeBlock *block;
-	    unsigned int index;
-	} pointer;		/* a pointer to the next block/object at which to allocate */
-	struct {
-	    boolean on;			/* is garbage-collection even turned on? */
-	    int halfspace;		/* either 0 or 1, indicating which halfspace is in use */
-            float node_ratio;           /* ratio of used to unused nodes */
-	    struct {
-		int open_generators;	/* must be zero to perform a garbage-collect */
-	    } status;
-	    struct {
-		struct {
-		    bdd_nodeBlock *block;
-		    unsigned int index;
-		} start;		/* to communicate where to start gc passes */
-	    } during;			/* used _during_ gc only */
-	} gc;			/* garbage-collection relevancies */
-	bdd_stats stats;
-    } heap;
+        struct {
+            bdd_nodeBlock *block;
+            unsigned int  index;
+        }            pointer;        /* a pointer to the next block/object at which to allocate */
+        struct {
+            boolean on;            /* is garbage-collection even turned on? */
+            int     halfspace;        /* either 0 or 1, indicating which halfspace is in use */
+            float   node_ratio;           /* ratio of used to unused nodes */
+            struct {
+                int open_generators;    /* must be zero to perform a garbage-collect */
+            }       status;
+            struct {
+                struct {
+                    bdd_nodeBlock *block;
+                    unsigned int  index;
+                } start;        /* to communicate where to start gc passes */
+            }       during;            /* used _during_ gc only */
+        }            gc;            /* garbage-collection relevancies */
+        bdd_stats    stats;
+    }                  heap;
     struct {
-	bdd_node *one;			/* the constant 1 (there is no constant 0) */
-	unsigned int nvariables;	/* variables in the bdd (same as array_n(order) */
-    } bdd;			/* stuff relevant to bdd's and algorithms on bdd's */
+        bdd_node     *one;            /* the constant 1 (there is no constant 0) */
+        unsigned int nvariables;    /* variables in the bdd (same as array_n(order) */
+    }                  bdd;            /* stuff relevant to bdd's and algorithms on bdd's */
     bdd_external_hooks hooks;
+
     struct {
         void (*daemon)();               /* used for callback when memory limit exceeded */
         unsigned int limit;             /* upper bound on memory allocated by the manager; in megabytes */
-    } memory;
+    }                  memory;
+
 #if defined(BDD_DEBUG) /* { */
     struct {
-	struct {
+    struct {
 #if defined(BDD_DEBUG_UID) || defined(BDD_DEBUG_LIFESPAN) /* { */
-	    unsigned int uniqueId;		/* to assign each bdd_node a unique id */
+        unsigned int uniqueId;		/* to assign each bdd_node a unique id */
 #endif /* } */
 #if defined(BDD_DEBUG_AGE) || defined(BDD_DEBUG_LIFESPAN) /* { */
-	    unsigned int age;			/* the age is determined by number of garbage collections */
+        unsigned int age;			/* the age is determined by number of garbage collections */
 #endif /* } */
-	    int dummy;	/* just in case nothing else is defined ... */
-	} gc;				/* debugging of the garbage collector */
+        int dummy;	/* just in case nothing else is defined ... */
+    } gc;				/* debugging of the garbage collector */
 #if defined(BDD_DEBUG_LIFESPAN) /* { */
-	struct {
-	    FILE *trace;			/* where to write out the lifespan trace */
-	} lifespan;
+    struct {
+        FILE *trace;			/* where to write out the lifespan trace */
+    } lifespan;
 #endif /* } */
 #if defined(BDD_FLIGHT_RECORDER) /* { */
-	struct {
-	    FILE *log;				/* where to write out the log */
-	} flight_recorder;
+    struct {
+        FILE *log;				/* where to write out the log */
+    } flight_recorder;
 #endif /* } */
     } debug;			/* all this stuff goes away when not debugging */
 #endif /* } */
@@ -802,13 +748,13 @@ struct bdd_manager {
 /*
  *    Various bdd_manager initialization values
  */
-#define BDD_HASHTABLE_INITIAL_SIZE		113	/* the cache must be the same size, must match an entry in bdd_get_next_hash_prime */
-#define BDD_CACHE_INITIAL_SIZE			113
+#define BDD_HASHTABLE_INITIAL_SIZE        113    /* the cache must be the same size, must match an entry in bdd_get_next_hash_prime */
+#define BDD_CACHE_INITIAL_SIZE            113
 
-#define BDD_CACHE_GROW_FACTOR			2.0	/* grow the caches by this factor */
+#define BDD_CACHE_GROW_FACTOR            2.0    /* grow the caches by this factor */
 
-#define BDD_HASHTABLE_MAXCHAINLEN		4	/* max number bdd_nodes per chain (before a rehash) */
-#define BDD_HASHTABLE_GROW_FACTOR		2.0	/* grow the hashtable by this factor */
+#define BDD_HASHTABLE_MAXCHAINLEN        4    /* max number bdd_nodes per chain (before a rehash) */
+#define BDD_HASHTABLE_GROW_FACTOR        2.0    /* grow the hashtable by this factor */
 
 /*
  *    Node allocation and management
@@ -818,18 +764,24 @@ struct bdd_manager {
  *    with the structure declarations for bdd_safeframe and bdd_safenode.
  */
 extern bdd_node *bdd_find_or_add();
+
 extern bdd_node *bdd_new_node();
+
 extern void bdd_garbage_collect();
+
 extern void bdd_resize_hashtable();
 
 /*
  *    return or die - debugging various things
  */
 extern void bdd_assert_frames_correct();
+
 extern void bdd_assert_heap_correct();
 
 extern void bdd_dump_external_pointers();
+
 extern void bdd_dump_node_ages();
+
 extern void bdd_dump_manager_stats();
 
 /*
@@ -845,36 +797,51 @@ extern void bdd_dump_manager_stats();
  *    exported routine.  This is a matter of robustness rather than style.
  */
 extern bdd_node *bdd__ITE_();
+
 extern bdd_constant_status bdd__ITE_constant();
 
 /*
  *    Generally useful
  */
 extern void bdd_get_branches();
+
 extern array_t *bdd_get_sorted_varids();
+
 extern float bdd_get_percentage();
+
 extern unsigned int bdd_get_next_hash_prime();
+
 extern boolean bdd_will_exceed_mem_limit();
 
 /*
  * Quantification function.
  */
-typedef enum {BDD_EXISTS, BDD_FORALL} bdd_quantify_type_t;
+typedef enum {
+    BDD_EXISTS, BDD_FORALL
+}           bdd_quantify_type_t;
+
 extern bdd_node *bdd_internal_quantify(); /* used by bdd_cproject also */
 
 /*
  * BDD minimization related functions.
  */
-EXTERN void bdd_match_result ARGS((bdd_manager *, bdd_min_match_type_t, boolean, 
-				   bdd_node *, bdd_node *, bdd_node *, bdd_node *, bdd_node **, bdd_node **));
-EXTERN boolean bdd_is_match ARGS((bdd_manager *, bdd_min_match_type_t, boolean, 
-				   bdd_node *, bdd_node *, bdd_node *, bdd_node *));
+extern void bdd_match_result((bdd_manager *, bdd_min_match_type_t, boolean,
+                              bdd_node *, bdd_node *, bdd_node *, bdd_node *, bdd_node **, bdd_node **)
+
+);
+
+extern boolean bdd_is_match((bdd_manager *, bdd_min_match_type_t, boolean,
+                             bdd_node *, bdd_node *, bdd_node *, bdd_node *)
+
+);
 
 /*
  *    helper funtions common to bdd__ITE_() and bdd__ITE_constant()
  */
 extern void bdd_ite_quick_cofactor();
+
 extern void bdd_ite_var_to_const();
+
 extern void bdd_ite_canonicalize_ite_inputs();
 
 

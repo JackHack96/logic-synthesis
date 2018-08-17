@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/timing/timing_util.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:00 $
- *
- */
+
 #ifdef SIS
 #include "timing_int.h"
 
@@ -31,66 +23,66 @@ delay_model_t model;
     lsGen gen;
     
     if (network_num_internal(network) == 0 || 
-	network_num_latch(network) == 0) {
-	(void)fprintf(sisout, "Serious error: no memory elements\n");
-	return FALSE;
+    network_num_latch(network) == 0) {
+    (void)fprintf(sisout, "Serious error: no memory elements\n");
+    return FALSE;
     }
     if (model == DELAY_MODEL_LIBRARY) {
-	if(!lib_network_is_mapped(network)) {
-	    (void)fprintf(sisout,"Serious error: not all nodes are mapped\n"); 
-	    return FALSE;
-	}
+    if(!lib_network_is_mapped(network)) {
+        (void)fprintf(sisout,"Serious error: not all nodes are mapped\n");
+        return FALSE;
     }
-    
+    }
+
     foreach_latch(network, gen, latch) {
-	gate = latch_get_control(latch);
-	if(gate == NIL(node_t)){
-	    (void)fprintf(sisout,"Serious error: latch without clock \n");
-	    return FALSE;
-	} 
-	clock_pi = node_get_fanin(gate, 0);
-	if(node_function(clock_pi) != NODE_PI){
-	    (void)fprintf(sisout,"Serious error: logic preceeding latch\n");
-	    return FALSE;
-	}
-	clock = clock_get_by_name(clock_pi->network, node_long_name(clock_pi));
-	if (clock == NIL(sis_clock_t)) {
-	    (void)fprintf(sisout, "Serious error: unable to locate clock\n");
-	    (void)fprintf(sisout, "to latch \n");
-	    return FALSE;
-	}
+    gate = latch_get_control(latch);
+    if(gate == NIL(node_t)){
+        (void)fprintf(sisout,"Serious error: latch without clock \n");
+        return FALSE;
+    }
+    clock_pi = node_get_fanin(gate, 0);
+    if(node_function(clock_pi) != NODE_PI){
+        (void)fprintf(sisout,"Serious error: logic preceeding latch\n");
+        return FALSE;
+    }
+    clock = clock_get_by_name(clock_pi->network, node_long_name(clock_pi));
+    if (clock == NIL(sis_clock_t)) {
+        (void)fprintf(sisout, "Serious error: unable to locate clock\n");
+        (void)fprintf(sisout, "to latch \n");
+        return FALSE;
+    }
     }
     return TRUE;
 }
 
-/* function definition 
+/* function definition
     name:     tmg_alloc_graph()
     args:     algorithm (OPTIMAL_CLOCK or CLOCK_VERIFY), network
-    job:      allocate data structures 
+    job:      allocate data structures
     return value: l_graph_t *
     calls: tmg_determine_clock_order()
-*/ 
+*/
 l_graph_t *
 tmg_alloc_graph(algorithm, network)
 algorithm_type_t algorithm;
 network_t *network;
 {
     l_graph_t *g;
-    
+
     g = ALLOC(l_graph_t, 1);
     g->clock_order = tmg_determine_clock_order(network);
     g->host = NIL(vertex_t);
     return g;
 }
 
-/* function definition 
+/* function definition
     name:     tmg_alloc_node()
     args:     -
-    job:      allocate structure to store with node->user_data in 
+    job:      allocate structure to store with node->user_data in
               the latch_graph
     return value: (l_node_t *)
     calls:    -
-*/ 
+*/
 l_node_t *
 tmg_alloc_node(algorithm)
 algorithm_type_t algorithm;
@@ -108,27 +100,27 @@ algorithm_type_t algorithm;
     node->copt = NIL(copt_node_t);
     node->cv = NIL(cv_node_t);
     if (algorithm == OPTIMAL_CLOCK) {
-	copt = ALLOC(copt_node_t, 1);
-	copt->w = 0.0;
-	copt->prevw = 0.0;
-	copt->r = 0;
-	copt->dirty = FALSE;
-	node->copt = copt;
+    copt = ALLOC(copt_node_t, 1);
+    copt->w = 0.0;
+    copt->prevw = 0.0;
+    copt->r = 0;
+    copt->dirty = FALSE;
+    node->copt = copt;
     } else if (algorithm == CLOCK_VERIFY) {
-	cv = ALLOC(cv_node_t, 1);
-	cv->A = cv->a = cv->D = cv->d = 0.0;
-	node->cv = cv;
+    cv = ALLOC(cv_node_t, 1);
+    cv->A = cv->a = cv->D = cv->d = 0.0;
+    node->cv = cv;
     }
     return node;
 }
 
-/* function definition 
+/* function definition
     name:     tmg_alloc_edge()
     args:     -
     job:      allocate structure to store with edge->user_data in latch_graph
     return value: (l_edge_t *)
     calls:    -
-*/ 
+*/
 
 l_edge_t *
 tmg_alloc_edge()
@@ -143,42 +135,42 @@ tmg_alloc_edge()
 }
 
 
-/* function definition 
+/* function definition
     name:     tmg_get_latch_type
     args:     latch
     job:      finds if latch is a flip-flop or level sensitive
     return value: int (LS for level-sensitive and FF for flip-flop)
     calls:   -
-*/ 
-int 
+*/
+int
 tmg_get_latch_type(latch)
 latch_t *latch;
 {
     switch (latch_get_type(latch)) {
       case FALLING_EDGE:
-	return FFF;
+    return FFF;
       case RISING_EDGE:
-	return FFR;
+    return FFR;
       case ACTIVE_HIGH:
-	return LSH;
+    return LSH;
       case ACTIVE_LOW:
-	return LSL;
+    return LSL;
       default:
-	fprintf(sisout, "Warning latch type unknown\n");
-	fprintf(sisout, "Assuming edge-triggered on falling edge\n");
-	return FFF;
+    fprintf(sisout, "Warning latch type unknown\n");
+    fprintf(sisout, "Assuming edge-triggered on falling edge\n");
+    return FFF;
     }
 }
-    
 
-/* function defipnition 
+
+/* function defipnition
     name:     g_get_edge()
     args:     source, sink, &edge
-    job:      check if edge is present 
-    return value: 1 if edge is present - edge returned in edge, else 
-                  0 if no edge - allocate new edge and returned in edge 
+    job:      check if edge is present
+    return value: 1 if edge is present - edge returned in edge, else
+                  0 if no edge - allocate new edge and returned in edge
     calls:    -
-*/ 
+*/
 
 int
 g_get_edge(from, to, edge)
@@ -191,26 +183,26 @@ register edge_t **edge;
 
     in_edges = g_get_in_edges(to);
 
-    for (gen1 = lsStart(in_edges); lsNext(gen1, (lsGeneric *) edge, LS_NH) 
-	 == LS_OK   || ((void) lsFinish(gen1), 0); ) {
-	if (from == g_e_source(*edge)) {
-	    lsFinish(gen1);
-	    return 1;
-	}
+    for (gen1 = lsStart(in_edges); lsNext(gen1, (lsGeneric *) edge, LS_NH)
+     == LS_OK   || ((void) lsFinish(gen1), 0); ) {
+    if (from == g_e_source(*edge)) {
+        lsFinish(gen1);
+        return 1;
+    }
     }
     *edge = g_add_edge(from, to);
     return FALSE;
 }
 
 
-/* function definition 
+/* function definition
     name:     tmg_determine_clock_order()
     args:     network
-    job:      construct an array of clock signals according to the 
+    job:      construct an array of clock signals according to the
               ordering (e1 <= e1 <= ...en)
     return value:  (array_t *)
     calls:
-*/ 
+*/
 
 array_t *
 tmg_determine_clock_order(network)
@@ -223,44 +215,44 @@ network_t *network;
     clock_edge_t transition;
     int  tmg_clock_compare(), i;
     double e1;
-    
+
     clock_order = array_alloc(sis_clock_t *, 0);
     no_sort = FALSE;
     foreach_clock(network, gen, clock){
-	array_insert_last(sis_clock_t *, clock_order, clock);
-	transition.clock = clock;
-	transition.transition = FALL_TRANSITION;
-	e1 = clock_get_parameter(transition, CLOCK_NOMINAL_POSITION);
-	if(e1 == CLOCK_NOT_SET ){ /* clock edges not set!! */
-	    (void)fprintf(sisout,"Warning clock phases not set\n");
-	    (void)fprintf(sisout,"Arbitrary selection\n");
-	    no_sort = TRUE;
-	}
+    array_insert_last(sis_clock_t *, clock_order, clock);
+    transition.clock = clock;
+    transition.transition = FALL_TRANSITION;
+    e1 = clock_get_parameter(transition, CLOCK_NOMINAL_POSITION);
+    if(e1 == CLOCK_NOT_SET ){ /* clock edges not set!! */
+        (void)fprintf(sisout,"Warning clock phases not set\n");
+        (void)fprintf(sisout,"Arbitrary selection\n");
+        no_sort = TRUE;
     }
-    
+    }
+
     /* Compute the clock ordering by sorting the clock edges-
        tmg_clock_compare() */
     /* --------------- */
 
     if(!no_sort){
-	array_sort(clock_order, tmg_clock_compare);
+    array_sort(clock_order, tmg_clock_compare);
     }
     if(debug_type == ALL || debug_type == LGRAPH) {
-	for(i = 0; i < array_n(clock_order); i++) {
-	    clock = array_fetch(sis_clock_t *, clock_order, i);
-	    (void)fprintf(sisout,"%s\n", clock_name(clock));
-	}
+    for(i = 0; i < array_n(clock_order); i++) {
+        clock = array_fetch(sis_clock_t *, clock_order, i);
+        (void)fprintf(sisout,"%s\n", clock_name(clock));
+    }
     }
     return clock_order;
 }
 
-/* function definition 
+/* function definition
     name:     tmg_latch_get_clock()
     args:     latch_t *latch
     job:      returns the clock signal on the gate to trhe latch
     return value:    sis_clock_t *
     calls: -
-*/ 
+*/
 sis_clock_t *
 tmg_latch_get_clock(latch)
 latch_t *latch;
@@ -276,15 +268,15 @@ latch_t *latch;
 
 
 /* Sorts the clock phases */
-/* function definition 
+/* function definition
     name:     tmg_clock_compare()
     args:     sis_clock_t * clock1,*clock2
-    job:      used in array_sort to sort the clock signals according 
+    job:      used in array_sort to sort the clock signals according
               to falling edges
     return value: int
     calls:
-*/ 
-static int 
+*/
+static int
 tmg_clock_compare(k1, k2)
 char **k1;
 char **k2;
@@ -298,27 +290,27 @@ char **k2;
     transition.clock = clock1;
     transition.transition = FALL_TRANSITION;
     e1 = clock_get_parameter(transition, CLOCK_NOMINAL_POSITION);
-    
+
     transition.clock = clock2;
     transition.transition = FALL_TRANSITION;
     e2 = clock_get_parameter(transition, CLOCK_NOMINAL_POSITION);
     if (e1 - e2 < 0) {
-	return -1;
+    return -1;
     } else if (e1 - e2 > 0) {
-	return 1;
+    return 1;
     } else {
-	return 0;
+    return 0;
     }
 }
 
-/* function definition 
+/* function definition
     name:     tmg_latch_get_phase()
     args:     latch_t *l, graph_t *g
-    job:      returns an int from 1, 2, ... num_phases giving the phase of control 
-    signal  
+    job:      returns an int from 1, 2, ... num_phases giving the phase of control
+    signal
     return value: int
     calls:
-*/ 
+*/
 int
 tmg_latch_get_phase(l, a)
 latch_t *l;
@@ -327,10 +319,10 @@ array_t *a;
     int i;
 
     for (i = 0; i < array_n(a); i++) {
-	if (array_fetch(sis_clock_t *, a, i) == 
-	    tmg_latch_get_clock(l)) return (i+1);
+    if (array_fetch(sis_clock_t *, a, i) ==
+        tmg_latch_get_clock(l)) return (i+1);
     }
-    
+
     /* NOT REACHED */
     (void)fprintf(sisout, "Serious error: latch without clock signal!\n");
     return NOT_SET;
@@ -348,17 +340,17 @@ double s;
     Uhold = s;
 }
 
-double 
+double
 tmg_get_set_up(v)
 vertex_t *v;
 {
     lib_gate_t *gate;
     latch_time_t **lt;
-    
+
     if ((gate = latch_get_gate(NLAT(v))) != NIL(lib_gate_t)) {
-	lt = lib_gate_latch_time(gate);
-	return lt[0]->setup;
-    } 
+    lt = lib_gate_latch_time(gate);
+    return lt[0]->setup;
+    }
     return Uset_up;
 }
 
@@ -368,10 +360,10 @@ vertex_t *v;
 {
     lib_gate_t *gate;
     latch_time_t **lt;
-    
+
     if ((gate = latch_get_gate(NLAT(v))) != NIL(lib_gate_t)) {
-	lt = lib_gate_latch_time(gate);
-	return lt[0]->hold;
+    lt = lib_gate_latch_time(gate);
+    return lt[0]->hold;
     }
 
     return Uhold;
@@ -401,18 +393,18 @@ tmg_get_max_sep()
     return Umax_sep;
 }
 
-/* function definition 
+/* function definition
     name:     tmg_alloc_cedge()
     args:      -
     job:      allocates memory for an edge in the constraint graph
     return value: c_edge_t *
     calls:
-*/ 
+*/
 c_edge_t *
 tmg_alloc_cedge()
 {
     c_edge_t *edge;
-    
+
     edge = ALLOC(c_edge_t, 1);
     edge->c_1 = st_init_table(st_numcmp, st_numhash);
     edge->c_2 = NIL(double);
@@ -422,11 +414,11 @@ tmg_alloc_cedge()
     edge->w = INFTY;
     edge->duty = 2;
     return edge;
-    
+
 }
 
 
-static void 
+static void
 tmg_cg_free_g(c)
 gGeneric c;
 {
@@ -459,22 +451,22 @@ gGeneric c;
     e = (c_edge_t *)c;
 
     st_foreach_item(e->c_1, sgen, (char **)&dummy, (char **)&value) {
-	FREE(value);
+    FREE(value);
     }
     st_free_table(e->c_1);
     if (e->c_2 != NIL(double)) {
-	FREE(e->c_2);
+    FREE(e->c_2);
     }
     FREE(e);
 }
 
-/* function definition 
+/* function definition
     name:     tmg_constraint_graph_free()
     args:     graph *g
     job:      frees memory associated with the clock graph
     return value: -
     calls: tmg_cg_free_g(), tmg_cg_free_v(), tmg_cg_free_e()
-*/ 
+*/
 tmg_constraint_graph_free(g)
 graph_t *g;
 {
@@ -482,8 +474,8 @@ graph_t *g;
     phase_t *p;
 
     for (i = 0; i < NUM_PHASE(g); i++) {
-	p = PHASE_LIST(g)[i];
-	FREE(p);
+    p = PHASE_LIST(g)[i];
+    FREE(p);
     }
     g_free(g, tmg_cg_free_g, tmg_cg_free_v, tmg_cg_free_e);
 }
@@ -517,39 +509,39 @@ c_graph_t *
 tmg_alloc_cgraph()
 {
     c_graph_t *c;
-    
+
     c = ALLOC(c_graph_t, 1);
     return c;
 }
-    
+
 tmg_alloc_phase_vertices(cg, lg)
 graph_t *cg, *lg;
 {
     phase_t **list;
     int i;
-    
+
     list = ALLOC(phase_t *, array_n(CL(lg)));
     for (i = 0; i < array_n(CL(lg)); i++) {
-	list[i] = ALLOC(phase_t, 1);
-	list[i]->rise = g_add_vertex(cg);
-	list[i]->rise->user_data = (gGeneric)ALLOC(c_node_t, 1);
-	list[i]->fall = g_add_vertex(cg);
-	list[i]->fall->user_data = (gGeneric)ALLOC(c_node_t, 1);
-	PID(list[i]->rise) = i+1;
-	PID(list[i]->fall) = -(i+1);
+    list[i] = ALLOC(phase_t, 1);
+    list[i]->rise = g_add_vertex(cg);
+    list[i]->rise->user_data = (gGeneric)ALLOC(c_node_t, 1);
+    list[i]->fall = g_add_vertex(cg);
+    list[i]->fall->user_data = (gGeneric)ALLOC(c_node_t, 1);
+    PID(list[i]->rise) = i+1;
+    PID(list[i]->fall) = -(i+1);
     }
     PHASE_LIST(cg) = list;
     NUM_PHASE(cg) = array_n(CL(lg));
 }
 
 
-/* function definition 
+/* function definition
     name:     f_free_g(), f_free_v(), f_free_e()
     args:     graph,       vertex,      edge
     job:      free associated data in ->user_data
     return value: -
     calls: -
-*/ 
+*/
 static void
 tmg_lg_free_g(c)
 gGeneric c;
@@ -568,10 +560,10 @@ gGeneric c;
     l_node_t *n;
     n = (l_node_t *)c;
     if (n->copt != NIL(copt_node_t)) {
-	FREE(n->copt);
+    FREE(n->copt);
     }
     if (n->cv != NIL(cv_node_t)) {
-	FREE(n->cv);
+    FREE(n->cv);
     }
     FREE(n);
 }

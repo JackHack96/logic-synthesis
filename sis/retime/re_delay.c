@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/retime/re_delay.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:48 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 #include "retime_int.h"
@@ -30,46 +22,46 @@ double delay_r;
     delay_table = ALLOC(double, n);
 
     for (i = n; i-- > 0; ){
-	valid_table[i] = FALSE;
-	delay_table[i] = 0.0;
+    valid_table[i] = FALSE;
+    delay_table[i] = 0.0;
     }
 
     /* primary input and primary output nodes need not be evaluated */
     re_foreach_node(graph, i, node){
-	if (re_num_fanins(node) == 0) {
-	    valid_table[i] = TRUE;
-	    if (node->user_time > RETIME_TEST_NOT_SET){
-		delay_table[i] = node->user_time;
-	    }
-	}
+    if (re_num_fanins(node) == 0) {
+        valid_table[i] = TRUE;
+        if (node->user_time > RETIME_TEST_NOT_SET){
+        delay_table[i] = node->user_time;
+        }
+    }
     }
 
     /* compute delays */
     for (i = n; i-- > 0; ){
-	if (!valid_table[i]) {
-	    node = array_fetch(re_node *, graph->nodes, i);
-	    re_evaluate_delay(node, valid_table, delay_table);
-	}
+    if (!valid_table[i]) {
+        node = array_fetch(re_node *, graph->nodes, i);
+        re_evaluate_delay(node, valid_table, delay_table);
+    }
     }
 
     /* find critical delay */
     crit = 0.0;
     for (i = n; i-- > 0; ){
-	d = delay_table[i];
-	node = array_fetch(re_node *, graph->nodes, i);
+    d = delay_table[i];
+    node = array_fetch(re_node *, graph->nodes, i);
 
-	if (node->type == RE_PRIMARY_OUTPUT &&
-		node->user_time > RETIME_TEST_NOT_SET){
-	    /* The po signal is required early */
-	    offset = 0.0 - (node->user_time);
-	} else if (re_max_fanout_weight(node) > 0) {
-	    /* Add the delay delay thru the latch that follows */
-	    offset = delay_r;
-	} else {
-	    offset = 0.0;
-	}
+    if (node->type == RE_PRIMARY_OUTPUT &&
+        node->user_time > RETIME_TEST_NOT_SET){
+        /* The po signal is required early */
+        offset = 0.0 - (node->user_time);
+    } else if (re_max_fanout_weight(node) > 0) {
+        /* Add the delay delay thru the latch that follows */
+        offset = delay_r;
+    } else {
+        offset = 0.0;
+    }
 
-	crit = MAX(crit, d+offset);
+    crit = MAX(crit, d+offset);
     }
     FREE(valid_table);
     FREE(delay_table);
@@ -93,17 +85,17 @@ double *delay_table;
     re_edge *edge;
 
     re_foreach_fanin(node, i, edge){
-	if ((edge->weight == 0) && (!valid_table[edge->source->id])) {
-	    /* recursively evaluate the fanins */
-	    re_evaluate_delay(edge->source, valid_table, delay_table);
-	}
+    if ((edge->weight == 0) && (!valid_table[edge->source->id])) {
+        /* recursively evaluate the fanins */
+        re_evaluate_delay(edge->source, valid_table, delay_table);
+    }
     }
 
     m = 0.0;
     re_foreach_fanin(node, i, edge){
-	if (edge->weight == 0) {
-	    m = MAX(m, delay_table[edge->source->id]);
-	}
+    if (edge->weight == 0) {
+        m = MAX(m, delay_table[edge->source->id]);
+    }
     }
     valid_table[node->id] = TRUE;
     delay_table[node->id] = m + node->final_delay;
@@ -123,9 +115,9 @@ re_graph *graph;
 
     bound = -1.0;
     re_foreach_node(graph, i, node){
-	if (node->type == RE_INTERNAL){
-	    bound = MAX(bound, node->final_delay);
-	}
+    if (node->type == RE_INTERNAL){
+        bound = MAX(bound, node->final_delay);
+    }
     }
     return bound;
 }

@@ -1,13 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/boolean_ops.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:01 $
- *
- */
-#include <stdio.h>	/* for BDD_DEBUG_LIFESPAN */
+
+#include <stdio.h>    /* for BDD_DEBUG_LIFESPAN */
 
 #include "util.h"
 #include "array.h"
@@ -16,41 +8,6 @@
 #include "bdd.h"
 #include "bdd_int.h"
 
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/boolean_ops.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:01 $
- * $Log: boolean_ops.c,v $
- * Revision 1.1.1.1  2004/02/07 10:15:01  pchong
- * imported
- *
- * Revision 1.3  1992/09/21  23:30:31  sis
- * Updates from Tom Shiple - this is BDD package release 2.4.
- *
- * Revision 1.3  1992/09/21  23:30:31  sis
- * Updates from Tom Shiple - this is BDD package release 2.4.
- *
- * Revision 1.2  1992/09/19  01:47:17  shiple
- * Version 2.4
- * Prefaced compile time debug switches with BDD_.
- *
- * Revision 1.1  1992/07/29  00:26:56  shiple
- * Initial revision
- *
- * Revision 1.2  1992/05/06  18:51:03  sis
- * SIS release 1.1
- *
- * Revision 1.1  92/01/08  17:34:34  sis
- * Initial revision
- * 
- * Revision 1.1  91/04/11  20:59:01  shiple
- * Initial revision
- * 
- *
- */
 
 /*
  *    bdd_and - returns the and of two bdd's
@@ -61,26 +18,26 @@
  */
 bdd_t *
 bdd_and(f, g, f_phase, g_phase)
-bdd_t *f;
-bdd_t *g;
-boolean f_phase;		/* if ! f_phase then negate f */
-boolean g_phase;		/* if ! g_phase then negate g */
+        bdd_t *f;
+        bdd_t *g;
+        boolean f_phase;        /* if ! f_phase then negate f */
+        boolean g_phase;        /* if ! g_phase then negate g */
 {
     bdd_safeframe frame;
-    bdd_safenode real_f, real_g, ret;
-    bdd_manager *manager;
-    bdd_t *h;
+    bdd_safenode  real_f, real_g, ret;
+    bdd_manager   *manager;
+    bdd_t         *h;
 
     if (f == NIL(bdd_t) || g == NIL(bdd_t))
-	fail("bdd_and: invalid BDD");
+        fail("bdd_and: invalid BDD");
 
-    BDD_ASSERT( ! f->free );
-    BDD_ASSERT( ! g->free );
+    BDD_ASSERT(!f->free);
+    BDD_ASSERT(!g->free);
 
     if (f->bdd != g->bdd)
-	fail("bdd_and: different bdd managers");
+        fail("bdd_and: different bdd managers");
 
-    manager = f->bdd;		/* either this or g->bdd will do */
+    manager = f->bdd;        /* either this or g->bdd will do */
 
     /*
      *    After the input is checked for correctness, start the safe frame
@@ -91,8 +48,8 @@ boolean g_phase;		/* if ! g_phase then negate g */
     bdd_safenode_declare(manager, real_g);
     bdd_safenode_declare(manager, ret);
 
-    real_f.node = f_phase ? f->node: BDD_NOT(f->node);
-    real_g.node = g_phase ? g->node: BDD_NOT(g->node);
+    real_f.node = f_phase ? f->node : BDD_NOT(f->node);
+    real_g.node = g_phase ? g->node : BDD_NOT(g->node);
 
     ret.node = bdd__ITE_(manager, real_f.node, real_g.node, BDD_ZERO(manager));
 
@@ -104,9 +61,9 @@ boolean g_phase;		/* if ! g_phase then negate g */
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_and(%d, %d)\n",
-	    bdd_index_of_external_pointer(h),
-	    bdd_index_of_external_pointer(f),
-	    bdd_index_of_external_pointer(g));
+        bdd_index_of_external_pointer(h),
+        bdd_index_of_external_pointer(f),
+        bdd_index_of_external_pointer(g));
 #endif /* } */
 
     return (h);
@@ -119,15 +76,15 @@ boolean g_phase;		/* if ! g_phase then negate g */
  */
 bdd_t *
 bdd_not(f)
-bdd_t *f;
+        bdd_t *f;
 {
     bdd_manager *manager;
-    bdd_t *g;
+    bdd_t       *g;
 
     if (f == NIL(bdd_t))
-	fail("bdd_not: invalid BDD");
+        fail("bdd_not: invalid BDD");
 
-    BDD_ASSERT( ! f->free );
+    BDD_ASSERT(!f->free);
 
     manager = f->bdd;
 
@@ -137,8 +94,8 @@ bdd_t *f;
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_not(%d)\n",
-	    bdd_index_of_external_pointer(g),
-	    bdd_index_of_external_pointer(f));
+        bdd_index_of_external_pointer(g),
+        bdd_index_of_external_pointer(f));
 #endif /* } */
 
     return (g);
@@ -153,26 +110,26 @@ bdd_t *f;
  */
 bdd_t *
 bdd_or(f, g, f_phase, g_phase)
-bdd_t *f;
-bdd_t *g;
-boolean f_phase;		/* if ! f_phase then negate f */
-boolean g_phase;		/* if ! g_phase then negate g */
+        bdd_t *f;
+        bdd_t *g;
+        boolean f_phase;        /* if ! f_phase then negate f */
+        boolean g_phase;        /* if ! g_phase then negate g */
 {
     bdd_safeframe frame;
-    bdd_safenode real_f, real_g, ret;
-    bdd_manager *manager;
-    bdd_t *h;
-	
-    if (f == NIL(bdd_t) || g == NIL(bdd_t))
-	fail("bdd_or: invalid BDD");
+    bdd_safenode  real_f, real_g, ret;
+    bdd_manager   *manager;
+    bdd_t         *h;
 
-    BDD_ASSERT( ! f->free );
-    BDD_ASSERT( ! g->free );
+    if (f == NIL(bdd_t) || g == NIL(bdd_t))
+        fail("bdd_or: invalid BDD");
+
+    BDD_ASSERT(!f->free);
+    BDD_ASSERT(!g->free);
 
     if (f->bdd != g->bdd)
-	fail("bdd_or: different bdd managers");
+        fail("bdd_or: different bdd managers");
 
-    manager = f->bdd;		/* either this or g->bdd will do */
+    manager = f->bdd;        /* either this or g->bdd will do */
 
     /*
      *    After the input is checked for correctness, start the safe frame
@@ -183,8 +140,8 @@ boolean g_phase;		/* if ! g_phase then negate g */
     bdd_safenode_declare(manager, real_g);
     bdd_safenode_declare(manager, ret);
 
-    real_f.node = f_phase ? f->node: BDD_NOT(f->node);
-    real_g.node = g_phase ? g->node: BDD_NOT(g->node);
+    real_f.node = f_phase ? f->node : BDD_NOT(f->node);
+    real_g.node = g_phase ? g->node : BDD_NOT(g->node);
 
     ret.node = bdd__ITE_(manager, real_f.node, BDD_ONE(manager), real_g.node);
 
@@ -196,9 +153,9 @@ boolean g_phase;		/* if ! g_phase then negate g */
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_or(%d, %d)\n",
-	    bdd_index_of_external_pointer(h),
-	    bdd_index_of_external_pointer(f),
-	    bdd_index_of_external_pointer(g));
+        bdd_index_of_external_pointer(h),
+        bdd_index_of_external_pointer(f),
+        bdd_index_of_external_pointer(g));
 #endif /* } */
 
     return (h);
@@ -212,25 +169,25 @@ boolean g_phase;		/* if ! g_phase then negate g */
  *    return the new bdd (external pointer)
  */
 bdd_t *
-bdd_xor(f, g)		/* F xor G  =  ITE(F, !G, G) */
-bdd_t *f;
-bdd_t *g;
+bdd_xor(f, g)        /* F xor G  =  ITE(F, !G, G) */
+        bdd_t *f;
+        bdd_t *g;
 {
     bdd_safeframe frame;
-    bdd_safenode ret;
-    bdd_manager *manager;
-    bdd_t *h;
+    bdd_safenode  ret;
+    bdd_manager   *manager;
+    bdd_t         *h;
 
     if (f == NIL(bdd_t) || g == NIL(bdd_t))
-	fail("bdd_xor: invalid BDD");
+        fail("bdd_xor: invalid BDD");
 
-    BDD_ASSERT( ! f->free );
-    BDD_ASSERT( ! g->free );
+    BDD_ASSERT(!f->free);
+    BDD_ASSERT(!g->free);
 
     if (f->bdd != g->bdd)
-	fail("bdd_xor: different bdd managers");
+        fail("bdd_xor: different bdd managers");
 
-    manager = f->bdd;		/* either this or g->bdd will do */
+    manager = f->bdd;        /* either this or g->bdd will do */
 
     /*
      *    After the input is checked for correctness, start the safe frame
@@ -249,9 +206,9 @@ bdd_t *g;
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_xor(%d, %d)\n",
-	    bdd_index_of_external_pointer(h),
-	    bdd_index_of_external_pointer(f),
-	    bdd_index_of_external_pointer(g));
+        bdd_index_of_external_pointer(h),
+        bdd_index_of_external_pointer(f),
+        bdd_index_of_external_pointer(g));
 #endif /* } */
 
     return (h);
@@ -265,46 +222,46 @@ bdd_t *g;
  *    return the new bdd (external pointer)
  */
 bdd_t *
-bdd_xnor(f, g)		/* !(F xor G)  =  ITE(F, G, !G) */
-bdd_t *f;
-bdd_t *g;
+bdd_xnor(f, g)        /* !(F xor G)  =  ITE(F, G, !G) */
+        bdd_t *f;
+        bdd_t *g;
 {
-	bdd_safeframe frame;
-	bdd_safenode ret;
-	bdd_manager *manager;
-	bdd_t *h;
+    bdd_safeframe frame;
+    bdd_safenode  ret;
+    bdd_manager   *manager;
+    bdd_t         *h;
 
-	if (f == NIL(bdd_t) || g == NIL(bdd_t))
-	    fail("bdd_xnor: invalid BDD");
+    if (f == NIL(bdd_t) || g == NIL(bdd_t))
+        fail("bdd_xnor: invalid BDD");
 
-	if (f->bdd != g->bdd)
-	    fail("bdd_xnor: different bdd managers");
+    if (f->bdd != g->bdd)
+        fail("bdd_xnor: different bdd managers");
 
-	manager = f->bdd;	/* either this or g->bdd will do */
+    manager = f->bdd;    /* either this or g->bdd will do */
 
-	/*
-	 *    After the input is checked for correctness, start the safe frame
-	 *    f and g are already external pointers so they need not be protected
-	 */
-	bdd_safeframe_start(manager, frame);
-	bdd_safenode_declare(manager, ret);
+    /*
+     *    After the input is checked for correctness, start the safe frame
+     *    f and g are already external pointers so they need not be protected
+     */
+    bdd_safeframe_start(manager, frame);
+    bdd_safenode_declare(manager, ret);
 
-	ret.node = bdd__ITE_(manager, f->node, g->node, BDD_NOT(g->node));
+    ret.node = bdd__ITE_(manager, f->node, g->node, BDD_NOT(g->node));
 
-	/*
-	 *    End the safe frame and return the result
-	 */
-	bdd_safeframe_end(manager);
-	h = bdd_make_external_pointer(manager, ret.node, "bdd_xnor");
+    /*
+     *    End the safe frame and return the result
+     */
+    bdd_safeframe_end(manager);
+    h = bdd_make_external_pointer(manager, ret.node, "bdd_xnor");
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_xnor(%d, %d)\n",
-	    bdd_index_of_external_pointer(h),
-	    bdd_index_of_external_pointer(f),
-	    bdd_index_of_external_pointer(g));
+        bdd_index_of_external_pointer(h),
+        bdd_index_of_external_pointer(f),
+        bdd_index_of_external_pointer(g));
 #endif /* } */
 
-	return (h);
+    return (h);
 }
 
 /*
@@ -314,23 +271,23 @@ bdd_t *g;
  */
 bdd_t *
 bdd_one(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
-	bdd_t *one;
+    bdd_t *one;
 
-	if (manager == NIL(bdd_manager))
-	    fail("bdd_one: bad bdd manager");
+    if (manager == NIL(bdd_manager))
+        fail("bdd_one: bad bdd manager");
 
-	/* WATCHOUT - no safe frame is declared here (b/c its not needed) */
+    /* WATCHOUT - no safe frame is declared here (b/c its not needed) */
 
-	one = bdd_make_external_pointer(manager, BDD_ONE(manager), "bdd_one");
+    one = bdd_make_external_pointer(manager, BDD_ONE(manager), "bdd_one");
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_one(manager)\n",
-	    bdd_index_of_external_pointer(one));
+        bdd_index_of_external_pointer(one));
 #endif /* } */
 
-	return (one);
+    return (one);
 }
 
 /*
@@ -340,23 +297,23 @@ bdd_manager *manager;
  */
 bdd_t *
 bdd_zero(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
-	bdd_t *zero;
+    bdd_t *zero;
 
-	if (manager == NIL(bdd_manager))
-	    fail("bdd_zero: bad bdd manager");
+    if (manager == NIL(bdd_manager))
+        fail("bdd_zero: bad bdd manager");
 
-	/* WATCHOUT - no safe frame is declared here (b/c its not needed) */
+    /* WATCHOUT - no safe frame is declared here (b/c its not needed) */
 
-	zero = bdd_make_external_pointer(manager, BDD_ZERO(manager), "bdd_zero");
+    zero = bdd_make_external_pointer(manager, BDD_ZERO(manager), "bdd_zero");
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_zero(manager)\n",
-	    bdd_index_of_external_pointer(zero));
+        bdd_index_of_external_pointer(zero));
 #endif /* } */
 
-	return (zero);
+    return (zero);
 }
 
 /*
@@ -368,28 +325,28 @@ bdd_manager *manager;
  */
 boolean
 bdd_is_tautology(f, phase)
-bdd_t *f;
-boolean phase;
+        bdd_t *f;
+        boolean phase;
 {
     bdd_manager *manager;
-    bdd_node *constant;
-    boolean ret;
+    bdd_node    *constant;
+    boolean     ret;
 
     if (f == NIL(bdd_t))
-	fail("bdd_is_tautology: invalid BDD");
+        fail("bdd_is_tautology: invalid BDD");
 
-    BDD_ASSERT( ! f->free );
+    BDD_ASSERT(!f->free);
 
     manager = f->bdd;
 
     /* WATCHOUT - no safe frame is declared here (b/c its not needed) */
 
-    constant = phase ? BDD_ONE(f->bdd): BDD_ZERO(f->bdd);
-    ret = f->node == constant ? TRUE: FALSE;
+    constant = phase ? BDD_ONE(f->bdd) : BDD_ZERO(f->bdd);
+    ret      = f->node == constant ? TRUE : FALSE;
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "bdd_is_tautology(%d, %d)\n",
-	    bdd_index_of_external_pointer(f), phase);
+        bdd_index_of_external_pointer(f), phase);
 #endif /* } */
 
     return (ret);
@@ -402,31 +359,31 @@ boolean phase;
  */
 boolean
 bdd_equal(f, g)
-bdd_t *f;
-bdd_t *g;
+        bdd_t *f;
+        bdd_t *g;
 {
     bdd_manager *manager;
-    boolean ret;
+    boolean     ret;
 
     if (f == NIL(bdd_t) || g == NIL(bdd_t))
-	fail("bdd_equal: invalid BDD");
+        fail("bdd_equal: invalid BDD");
 
-    BDD_ASSERT( ! f->free );
-    BDD_ASSERT( ! g->free );
+    BDD_ASSERT(!f->free);
+    BDD_ASSERT(!g->free);
 
     if (f->bdd != g->bdd)
-	fail("bdd_equal: different bdd managers");
+        fail("bdd_equal: different bdd managers");
 
-    manager = f->bdd;	/* or g->bdd */
+    manager = f->bdd;    /* or g->bdd */
 
     /* WATCHOUT - no safe frame is declared here (b/c its not needed) */
 
-    ret = f->node == g->node ? TRUE: FALSE;
+    ret = f->node == g->node ? TRUE : FALSE;
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "bdd_equal(%d, %d)\n",
-	    bdd_index_of_external_pointer(f),
-	    bdd_index_of_external_pointer(g));
+        bdd_index_of_external_pointer(f),
+        bdd_index_of_external_pointer(g));
 #endif /* } */
 
     return (ret);
@@ -441,26 +398,26 @@ bdd_t *g;
  */
 boolean
 bdd_leq(f, g, f_phase, g_phase)
-bdd_t *f;
-bdd_t *g;
-boolean f_phase;		/* if ! f_phase then negate f */
-boolean g_phase;		/* if ! g_phase then negate g */
+        bdd_t *f;
+        bdd_t *g;
+        boolean f_phase;        /* if ! f_phase then negate f */
+        boolean g_phase;        /* if ! g_phase then negate g */
 {
     bdd_safeframe frame;
-    bdd_safenode real_f, real_g;
-    bdd_manager *manager;
-    boolean ret;
+    bdd_safenode  real_f, real_g;
+    bdd_manager   *manager;
+    boolean       ret;
 
     if (f == NIL(bdd_t) || g == NIL(bdd_t))
-	fail("bdd_leq: invalid BDD");
+        fail("bdd_leq: invalid BDD");
 
-    BDD_ASSERT( ! f->free );
-    BDD_ASSERT( ! g->free );
+    BDD_ASSERT(!f->free);
+    BDD_ASSERT(!g->free);
 
     if (f->bdd != g->bdd)
-	fail("bdd_leq: different bdd managers");
+        fail("bdd_leq: different bdd managers");
 
-    manager = f->bdd;		/* either this or g->bdd will do */
+    manager = f->bdd;        /* either this or g->bdd will do */
 
     /*
      *    After the input is checked for correctness, start the safe frame
@@ -470,19 +427,19 @@ boolean g_phase;		/* if ! g_phase then negate g */
     bdd_safenode_declare(manager, real_f);
     bdd_safenode_declare(manager, real_g);
 
-    real_f.node = f_phase ? f->node: BDD_NOT(f->node);
-    real_g.node = g_phase ? g->node: BDD_NOT(g->node);
+    real_f.node = f_phase ? f->node : BDD_NOT(f->node);
+    real_g.node = g_phase ? g->node : BDD_NOT(g->node);
 
-    ret = bdd__ITE_constant(manager, real_f.node, real_g.node, BDD_ONE(manager)) == bdd_constant_one ? TRUE: FALSE;
+    ret = bdd__ITE_constant(manager, real_f.node, real_g.node, BDD_ONE(manager)) == bdd_constant_one ? TRUE : FALSE;
 
     bdd_safeframe_end(manager);
 
-#if defined(BDD_FLIGHT_RECORDER)	/* { */
+#if defined(BDD_FLIGHT_RECORDER)    /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "bdd_leq(%d, %d, %d, %d)\n",
-	    bdd_index_of_external_pointer(f),
-	    bdd_index_of_external_pointer(g),
-	    f_phase, g_phase);
-#endif				/* } */
+        bdd_index_of_external_pointer(f),
+        bdd_index_of_external_pointer(g),
+        f_phase, g_phase);
+#endif                /* } */
 
     return (ret);
 }

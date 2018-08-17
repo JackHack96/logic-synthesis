@@ -1,12 +1,3 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/util/restart.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:53 $
- *
- */
 #ifdef notdef
 #include <stdio.h>
 #include "util.h"
@@ -28,53 +19,44 @@ static char *new_file_name;
 
 char *util_save_sp;		/* set by util_restart_save_state() */
 extern char *sbrk();
-
-static void
-grow_stack() 
-{
+
+static void grow_stack() {
     int i, space[256];
 
     for(i = 0; i < 256; i++) {
-	space[i] = 0;
+    space[i] = 0;
     }
     if ((char *) &i > stack_lo_addr) {
-	grow_stack();
+    grow_stack();
     }
 }
 
 
 /* ARGSUSED */
-static int
-handle_sigquit(sig, code, scp)
-int sig;
-int code;
-struct sigcontext *scp;
-{
+static int handle_sigquit(int sig, int code, struct sigcontext *scp){
     if (util_restart_save_state()) {
-	/* we are restarting ! -- return from signal */
+    /* we are restarting ! -- return from signal */
 
     } else {
-	/* copy stack to user data space */
-	stack_lo_addr = util_save_sp;
-	stack_size = stack_hi_addr - stack_lo_addr + 1;
-	save_stack_base = sbrk(stack_size);
-	(void) memcpy(save_stack_base, stack_lo_addr, stack_size);
+    /* copy stack to user data space */
+    stack_lo_addr = util_save_sp;
+    stack_size = stack_hi_addr - stack_lo_addr + 1;
+    save_stack_base = sbrk(stack_size);
+    (void) memcpy(save_stack_base, stack_lo_addr, stack_size);
 
-	/* write a new executable */
-	(void) fprintf(stderr, "Writing executable %s ...\n", new_file_name);
-	(void) util_save_image(old_file_name, new_file_name);
+    /* write a new executable */
+    (void) fprintf(stderr, "Writing executable %s ...\n", new_file_name);
+    (void) util_save_image(old_file_name, new_file_name);
 
-	/* terminate if signal was a QUIT */
-	if (sig == SIGQUIT) {
-	    (void) _exit(1);
-	}
+    /* terminate if signal was a QUIT */
+    if (sig == SIGQUIT) {
+        (void) _exit(1);
+    }
     }
 }
 
 
-static void
-restart_program()
-{
+static void restart_program() {
     (void) fprintf(stderr, "Continuing execution ...\n");
 
     /* create the stack */
@@ -92,17 +74,14 @@ restart_program()
 
     /* remove the sbrk for the stack */
     if (sbrk(-stack_size) < 0) {
-	perror("sbrk");
+    perror("sbrk");
     }
 
     util_restart_restore_state();	/* jump back into handle_sigquit() */
 }
-
-void
-util_restart(old, new, interval)
-char *old, *new;
-int interval;
-{
+
+
+void util_restart(char *old, char *new, int interval){
     struct itimerval itimer;
 
 #ifdef vax
@@ -113,7 +92,7 @@ int interval;
 #endif
 #endif
 #ifdef sun
-    stack_hi_addr = (char *) 0x0effffff;	/* Sun OS 3.2, 3.4 */ 
+    stack_hi_addr = (char *) 0x0effffff;	/* Sun OS 3.2, 3.4 */
 #endif
 
     old_file_name = old;
@@ -122,19 +101,19 @@ int interval;
     (void) signal(SIGQUIT, handle_sigquit);
 
     if (interval > 0) {
-	(void) signal(SIGVTALRM, handle_sigquit);
-	itimer.it_interval.tv_sec = interval;
-	itimer.it_interval.tv_usec = 0;
-	itimer.it_value.tv_sec = interval;
-	itimer.it_value.tv_usec = 0;
-	if (setitimer(ITIMER_VIRTUAL, &itimer, (struct itimerval *) 0) < 0) {
-	    perror("setitimer");
-	    exit(1);
-	}
+    (void) signal(SIGVTALRM, handle_sigquit);
+    itimer.it_interval.tv_sec = interval;
+    itimer.it_interval.tv_usec = 0;
+    itimer.it_value.tv_sec = interval;
+    itimer.it_value.tv_usec = 0;
+    if (setitimer(ITIMER_VIRTUAL, &itimer, (struct itimerval *) 0) < 0) {
+        perror("setitimer");
+        exit(1);
+    }
     }
 
     if (restart_global_flag) {
-	restart_program();
+    restart_program();
     }
     restart_global_flag = 1;
 }
@@ -142,14 +121,9 @@ int interval;
 #else
 
 /* ARGSUSED */
-void
-util_restart(old, new, interval)
-char *old;
-char *new;
-int interval;
-{
-    (void) fprintf(stderr, 
-	"util_restart: not supported on your operating system/hardware\n");
+void util_restart(char *old, char *new, int interval){
+    (void) fprintf(stderr,
+    "util_restart: not supported on your operating system/hardware\n");
 }
 
 #endif

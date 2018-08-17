@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/io/read_eqn.y,v $
- * $Author: pchong $
- * $Revision: 1.6 $
- * $Date: 2004/03/14 17:14:13 $
- *
- */
+
 %{
 #include "sis.h"
 #include "io_int.h"

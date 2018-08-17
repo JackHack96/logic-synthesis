@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/stamina/hash/README,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:15 $
- *
- */
+
 The Hash functions are lint free except the warning message:
 
 	"possible pointer alignment problem".

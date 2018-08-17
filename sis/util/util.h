@@ -1,36 +1,7 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/util/util.h,v $
- * $Author: pchong $
- * $Revision: 1.4 $
- * $Date: 2005/03/08 04:13:30 $
- *
- */
 #ifndef UTIL_H
 #define UTIL_H
 
-#if defined(_IBMR2)
-#ifndef _POSIX_SOURCE
-#define _POSIX_SOURCE           /* Argh!  IBM strikes again */
-#endif
-#ifndef _ALL_SOURCE
-#define _ALL_SOURCE             /* Argh!  IBM strikes again */
-#endif
-#ifndef _ANSI_C_SOURCE
-#define _ANSI_C_SOURCE          /* Argh!  IBM strikes again */
-#endif
-#endif
-
-#if defined(__STDC__) || defined(sprite) || defined(_IBMR2) || defined(__osf__)
 #include <unistd.h>
-#endif
-
-#if defined(_IBMR2) && !defined(__STDC__)
-#define _BSD
-#endif
-
-#include "ansi.h"	/* since some files don't include sis.h */
 
 /* for CUDD package */
 #if SIZEOF_VOID_P == 8 && SIZEOF_INT == 4
@@ -44,9 +15,16 @@ typedef int util_ptrint;
    because the OctTools contain libmm.a.  Otherwise, USE_MM is not defined,
    since the mm package is not distributed with SIS, only with Oct. */
 
-/* #define USE_MM */		/* choose libmm.a as the memory allocator */
+/* #define USE_MM */        /* choose libmm.a as the memory allocator */
 
-#define NIL(type)		((type *) 0)
+/**
+ * Returns 0 properly casted into a pointer to an object of type
+ * 'type'.  Strictly speaking, this macro is only required when
+ * a 0 pointer is passed as an argument to a function.  Still,
+ * some prefer the style of always casting their 0 pointers using
+ * this macro.
+ */
+#define NIL(type)        ((type *) 0)
 
 #ifdef USE_MM
 /*
@@ -59,7 +37,7 @@ typedef int util_ptrint;
     ((type *) malloc(sizeof(type) * (num)))
 #define REALLOC(type, obj, num)	\
     (obj) ? ((type *) realloc((char *) obj, sizeof(type) * (num))) : \
-	    ((type *) malloc(sizeof(type) * (num)))
+        ((type *) malloc(sizeof(type) * (num)))
 #define FREE(obj)		\
     ((obj) ? (free((char *) (obj)), (obj) = 0) : 0)
 #else
@@ -67,14 +45,35 @@ typedef int util_ptrint;
  *  enforce strict semantics on the memory allocator
  *	- when in doubt, delete the '#define USE_MM' above
  */
-#define ALLOC(type, num)	\
+/**
+ * Allocates 'number' objects of type 'type'.  This macro should be
+ * used rather than calling malloc() directly because it casts the
+ * arguments appropriately, and ALLOC() will never return NIL(char),
+ * choosing instead to terminate the program.
+ */
+#define ALLOC(type, num)    \
     ((type *) MMalloc((long) sizeof(type) * (long) (num)))
-#define REALLOC(type, obj, num)	\
+
+/**
+ * Re-allocate 'obj' to hold 'number' objects of type 'type'.
+ * This macro should be used rather than calling realloc()
+ * directly because it casts the arguments appropriately, and
+ * REALLOC() will never return NIL(char), instead choosing to
+ * terminate the program.  It also guarantees that REALLOC(type, 0, n)
+ * is the same as ALLOC(type, n).
+ */
+#define REALLOC(type, obj, num)    \
     ((type *) MMrealloc((char *) (obj), (long) sizeof(type) * (long) (num)))
-#define FREE(obj)		\
+
+/**
+ * Free object 'obj'.  This macro should be used rather than
+ * calling free() directly because it casts the argument
+ * appropriately.  It also guarantees that FREE(0) will work
+ * properly.
+ */
+#define FREE(obj)        \
     ((obj) ? (free((void *) (obj)), (obj) = 0) : 0)
 #endif
-
 
 /* Ultrix (and SABER) have 'fixed' certain functions which used to be int */
 #if defined(ultrix) || defined(SABER) || defined(aiws) || defined(__hpux) || defined(__STDC__) || defined(apollo)
@@ -83,11 +82,9 @@ typedef int util_ptrint;
 #define VOID_HACK int
 #endif
 
-
 /* No machines seem to have much of a problem with these */
 #include <stdio.h>
 #include <ctype.h>
-
 
 /* Some machines fail to define some functions in stdio.h */
 #if !defined(__STDC__) && !defined(sprite) && !defined(_IBMR2) && !defined(__osf__)
@@ -102,8 +99,10 @@ extern VOID_HACK rewind();
 #endif
 
 #ifndef PORT_H
+
 #include <sys/types.h>
 #include <signal.h>
+
 #if defined(ultrix)
 #if defined(_SIZE_T_)
 #define ultrix4
@@ -119,7 +118,9 @@ extern VOID_HACK rewind();
 
 /* most machines don't give us a header file for these */
 #if defined(__STDC__) || defined(sprite) || defined(_IBMR2) || defined(__osf__) || defined(sunos4) || defined(__hpux)
+
 #include <stdlib.h>
+
 #if defined(__hpux)
 #include <errno.h>    /* For perror() defininition */
 #endif /* __hpux */
@@ -153,7 +154,9 @@ extern double atof();
 
 /* some call it strings.h, some call it string.h; others, also have memory.h */
 #if defined(__STDC__) || defined(sprite)
+
 #include <string.h>
+
 #else
 #if defined(ultrix4) || defined(__hpux)
 #include <strings.h>
@@ -189,16 +192,18 @@ extern long random();
 #endif
 
 #if defined(__STDC__) || defined(sprite)
+
 #include <assert.h>
+
 #else
 #ifndef NDEBUG
 #define assert(ex) {\
     if (! (ex)) {\
-	(void) fprintf(stderr,\
-	    "Assertion failed: file %s, line %d\n\"%s\"\n",\
-	    __FILE__, __LINE__, "ex");\
-	(void) fflush(stdout);\
-	abort();\
+    (void) fprintf(stderr,\
+        "Assertion failed: file %s, line %d\n\"%s\"\n",\
+        __FILE__, __LINE__, "ex");\
+    (void) fflush(stdout);\
+    abort();\
     }\
 }
 #else
@@ -209,7 +214,7 @@ extern long random();
 
 #define fail(why) {\
     (void) fprintf(stderr, "Fatal error: file %s, line %d\n%s\n",\
-	__FILE__, __LINE__, why);\
+    __FILE__, __LINE__, why);\
     (void) fflush(stdout);\
     abort();\
 }
@@ -229,49 +234,151 @@ extern long random();
 
 /* These arguably do NOT belong in util.h */
 #ifndef ABS
-#define ABS(a)			((a) < 0 ? -(a) : (a))
+#define ABS(a)            ((a) < 0 ? -(a) : (a))
 #endif
 #ifndef MAX
-#define MAX(a,b)		((a) > (b) ? (a) : (b))
+#define MAX(a, b)        ((a) > (b) ? (a) : (b))
 #endif
 #ifndef MIN
-#define MIN(a,b)		((a) < (b) ? (a) : (b))
+#define MIN(a, b)        ((a) < (b) ? (a) : (b))
 #endif
 
 
 #ifndef USE_MM
-EXTERN void MMout_of_memory ARGS((long));
-EXTERN char *MMalloc ARGS((long));
-EXTERN char *MMrealloc ARGS((char *, long));
-EXTERN void MMfree ARGS((char *));
+
+extern void MMout_of_memory(long size);
+
+extern char *MMalloc(long size);
+
+extern char *MMrealloc(char *obj, long size);
+
+extern void MMfree(char *obj);
+
 #endif
 
-EXTERN void util_print_cpu_stats ARGS((FILE *));
-EXTERN long util_cpu_time ARGS((void));
-EXTERN void util_getopt_reset ARGS((void));
-EXTERN int util_getopt ARGS((int, char **, char *));
-EXTERN char *util_path_search ARGS((char *));
-EXTERN char *util_file_search ARGS((char *, char *, char *));
-EXTERN int util_pipefork ARGS((char **, FILE **, FILE **, int *));
-EXTERN char *util_print_time ARGS((long));
-EXTERN int util_save_image ARGS((char *, char *));
-EXTERN char *util_strsav ARGS((char *));
-EXTERN int util_do_nothing ARGS((void));
-EXTERN char *util_tilde_expand ARGS((char *));
-EXTERN char *util_tempnam ARGS((char *, char *));
-EXTERN FILE *util_tmpfile ARGS((void));
+/**
+ * Dump to the given file a summary of processor usage statistics.
+ * For BSD machines, this includes a formatted dump of the
+ * getrusage(2) structure.
+ */
+extern void util_print_cpu_stats(FILE *fp);
+
+/**
+ * Returns the processor time used since some constant reference
+ * in milliseconds.
+ */
+extern long util_cpu_time();
+
+/**
+ * Reset getopt argument parsing to start parsing a new argc/argv pair.
+ * Not available from the standard getopt(3).
+ */
+extern void util_getopt_reset();
+
+/**
+ * Also known as getopt(3) for backwards compatability.
+ * Parses options from an argc/argv command line pair.
+ */
+extern int util_getopt(int argc, char *argv[], char *optstring);
+
+/**
+ * Simulate the execvp(3) semantics of searching the user's environment
+ * variable PATH for an executable 'program'.  Returns the file name
+ * of the first executable matching 'program' in getenv("PATH"), or
+ * returns NIL(char) if none was found.  This routines uses
+ * util_file_search().
+ */
+extern char *util_path_search(char *prog);
+
+/**
+ * 'path' is string of the form "dir1:dir2: ...".  Each of the
+ * directories is searched (in order) for a file matching 'file'
+ * in that directory.  'mode' checks that the file can be accessed
+ * with read permission ("r"), write permission ("w"), or execute
+ * permission ("x").  The expanded filename is returned, or
+ * NIL(char) is returned if no file could be found.  The returned
+ * string should be freed by the caller.  Tilde expansion is
+ * performed on both 'file' and any directory in 'path'.
+ */
+extern char *util_file_search(char *file, char *path, char *mode);
+
+/**
+ * Fork (using execvp(3)) the program argv[0] with argv[1] ...
+ * argv[n] as arguments.  (argv[n+1] is set to NIL(char) to
+ * indicate the end of the list).  Set up two-way pipes between
+ * the child process and the parent, returning file pointer
+ * 'toCommand' which can be used to write information to the
+ * child, and the file pointer 'fromCommand' which can be used to
+ * read information from the child.  As always with unix pipes,
+ * watch out for dead-locks.
+ * @return Returns 1 for success, 0 if any failure occured forking the child.
+ */
+extern int util_pipefork(char **argv, FILE **toCommand, FILE **fromCommand, int *pid);
+
+/**
+ * Converts a time into a (static) printable string.  Intended to
+ * allow different hosts to provide differing degrees of
+ * significant digits in the result (e.g., IBM 3090 is printed to
+ * the millisecond, and the IBM PC usually is printed to the
+ * second).
+ * @return Returns a string of the form "10.5 sec".
+ */
+extern char *util_print_time(long t);
+
+/**
+ * Save the text and data segments of the current executable
+ * (which is the file 'old_file') into the file 'new_file'.
+ * Returns 1 for success, 0 for failure.  'old_file' is required
+ * in order to preserve symbol table information for the new
+ * executable.  'old_file' can be derived from argv[0] of the
+ * current executable using util_path_search().  NOTE: no stack
+ * information is preserved.  When the program restarts, it
+ * re-enters main() with no valid stack.  This is currently highly
+ * BSD-specific, but should run on most operating systems which are
+ * derived from Berkeley Unix 4.2.
+ */
+extern int util_save_image(char *orig_file_name, char *save_file_name);
+
+/**
+ * Also known as strsav() for backwards compatability.
+ * Returns a copy of the string 's'.
+ */
+extern char *util_strsav(char *s);
+
+/**
+ * Returns a new string corresponding to 'tilde-expansion' of the
+ * given filename (see csh(1), "filename substitution").  This
+ * means recognizing ~user and ~/ constructs, and inserting the
+ * appropriate user's home directory.  The returned string should
+ * be free'd by the caller.
+ */
+extern char *util_tilde_expand(char *fname);
+
+extern char *util_tempnam(char *dir, char *pfx);
+
+/**
+ * Returns a file pointer to a temporary file.  It uses util_tempnam()
+ * to determine a unique filename.  If TMPDIR is defined in the
+ * environment, it uses that directory.  Otherwise, it uses the
+ * directory defined by the system as P_tmpdir.  If that is not
+ * defined, it uses /tmp.  The file can be written to, and subsequently
+ * read from by calling rewind before reading.  The file should be
+ * closed using fclose when it is no longer needed.
+ */
+extern FILE *util_tmpfile();
 
 #define ptime()         util_cpu_time()
 #define print_time(t)   util_print_time(t)
 
 /* util_getopt() global variables (ack !) */
-extern int util_optind;
+extern int  util_optind;
 extern char *util_optarg;
 
 /* for CUDD package */
-extern long getSoftDataLimit (void);
+extern long getSoftDataLimit(void);
 
 #include <math.h>
+
 #ifndef HUGE
 #define HUGE  8.9884656743115790e+307
 #endif
@@ -283,4 +390,5 @@ extern long getSoftDataLimit (void);
 #endif
 
 #include <stdarg.h>
+
 #endif

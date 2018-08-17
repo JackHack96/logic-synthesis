@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/seqbdd/bull.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:54 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 
@@ -208,7 +200,7 @@ int *output_size;
   if (output_size) {
     *output_size = 0;
     if (data->external_outputs == NIL (array_t))
-	  return;
+      return;
     for (i = 0; i < array_n(data->external_outputs); i++) {
       output = array_fetch(bdd_t *, data->external_outputs, i);
       *output_size += bdd_size(output);

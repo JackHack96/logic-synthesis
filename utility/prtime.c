@@ -1,14 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/utility/prtime.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:13 $
- *
- */
-/* LINTLIBRARY */
-#include "copyright.h"
+#include "../port/copyright.h"
 #include "../port/port.h"
 #include "../utility/utility.h"
 
@@ -19,12 +9,9 @@
  *  Hack for IBM/PC -- avoids using floating point
  */
 
-char *
-util_print_time(t)
-long t;
-{
+char *util_print_time(long t) {
     static char s[40];
 
-    (void) sprintf(s, "%ld.%02ld sec", t/1000, (t%1000)/10);
+    (void) sprintf(s, "%ld.%02ld sec", t / 1000, (t % 1000) / 10);
     return s;
 }

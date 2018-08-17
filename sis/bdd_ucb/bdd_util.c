@@ -1,13 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/bdd_util.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:01 $
- *
- */
-#include <stdio.h>	/* for BDD_DEBUG_LIFESPAN */
+
+#include <stdio.h>    /* for BDD_DEBUG_LIFESPAN */
 
 #include "util.h"
 #include "array.h"
@@ -16,53 +8,6 @@
 #include "bdd.h"
 #include "bdd_int.h"
 
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/bdd_util.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:01 $
- * $Log: bdd_util.c,v $
- * Revision 1.1.1.1  2004/02/07 10:15:01  pchong
- * imported
- *
- * Revision 1.7  1993/06/30  00:14:37  shiple
- * Added definition of new function bdd_dynamic_reordering.
- *
- * Revision 1.6  1993/06/28  22:34:05  shiple
- * Added definition of new function bdd_num_vars.
- *
- * Revision 1.5  1993/06/22  00:42:45  shiple
- * Made it illegal to free a bdd_t more than once.
- *
- * Revision 1.4  1993/06/04  15:42:51  shiple
- * Added functions bdd_get_manager, bdd_get_external_hooks, bdd_top_var_id, and bdd_get_node.
- *
- * Revision 1.3  1993/01/11  23:48:44  shiple
- * Incorrect comment in function bdd_size removed.
- *
- * Revision 1.2  1992/09/19  02:50:47  shiple
- * Version 2.4
- * Prefaced compile time debug switches with BDD_. Added typecast to void to some function calls.
- * Subtracted one from return value of bdd_size because it was wrong.  Added get_mem_stats function.
- * In bdd_get_branches, return NIL for then and else pointers if argument is the constant 0.
- * Added bdd_will_exceed_mem_limit function.
- *
- * Revision 1.1  1992/07/29  00:26:55  shiple
- * Initial revision
- *
- * Revision 1.2  1992/05/06  18:51:03  sis
- * SIS release 1.1
- *
- * Revision 1.1  92/01/08  17:34:34  sis
- * Initial revision
- * 
- * Revision 1.1  91/03/27  14:35:36  shiple
- * Initial revision
- * 
- *
- */
 
 #define BDD_ONE_MEGABYTE 1048576
 
@@ -78,15 +23,15 @@ static void get_mem_stats();
  */
 bdd_t *
 bdd_create_variable(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
     bdd_t *var;
-    
+
     var = bdd_get_variable(manager, manager->bdd.nvariables++);
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_create_variable(manager)\n",
-	    bdd_index_of_external_pointer(var));
+        bdd_index_of_external_pointer(var));
 #endif /* } */
 
     return (var);
@@ -104,15 +49,15 @@ bdd_manager *manager;
  */
 bdd_t *
 bdd_dup(f)
-bdd_t *f;
+        bdd_t *f;
 {
     bdd_manager *manager;
-    bdd_t *f1;
+    bdd_t       *f1;
 
     if (f == NIL(bdd_t))
-	return (NIL(bdd_t));	/* robustness */
+        return (NIL(bdd_t));    /* robustness */
 
-    BDD_ASSERT( ! f->free );
+    BDD_ASSERT(!f->free);
 
     manager = f->bdd;
 
@@ -122,8 +67,8 @@ bdd_t *f;
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_dup(%d)\n",
-	    bdd_index_of_external_pointer(f1),
-	    bdd_index_of_external_pointer(f));
+        bdd_index_of_external_pointer(f1),
+        bdd_index_of_external_pointer(f));
 #endif /* } */
 
     return (f1);
@@ -140,23 +85,23 @@ bdd_t *f;
  */
 void
 bdd_free(f)
-bdd_t *f;
+        bdd_t *f;
 {
     bdd_manager *manager;
-    
+
     if (f == NIL(bdd_t)) {
-	fail("bdd_free: trying to free a NIL bdd_t");			
+        fail("bdd_free: trying to free a NIL bdd_t");
     }
 
     if (f->free == TRUE) {
-	fail("bdd_free: trying to free a freed bdd_t");			
-    }	
+        fail("bdd_free: trying to free a freed bdd_t");
+    }
 
     manager = f->bdd;
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "bdd_free(%d)\n",
-	    bdd_index_of_external_pointer(f));
+        bdd_index_of_external_pointer(f));
 #endif /* } */
 
     (void) bdd_destroy_external_pointer(f);
@@ -169,20 +114,20 @@ bdd_t *f;
  */
 bdd_t *
 bdd_else(f)
-bdd_t *f;
+        bdd_t *f;
 {
     bdd_safeframe frame;
-    bdd_safenode reg_f, ret;
-    bdd_manager *manager;
-    bdd_t *e;
+    bdd_safenode  reg_f, ret;
+    bdd_manager   *manager;
+    bdd_t         *e;
 
     if (f == NIL(bdd_t))
-	fail("bdd_else: invalid BDD");
+        fail("bdd_else: invalid BDD");
 
-    BDD_ASSERT( ! f->free );
+    BDD_ASSERT(!f->free);
 
     if (BDD_IS_CONSTANT(f->bdd, f->node))
-	fail("bdd_else: constant BDD");
+        fail("bdd_else: constant BDD");
 
     manager = f->bdd;
 
@@ -195,7 +140,7 @@ bdd_t *f;
     bdd_safenode_declare(manager, ret);
 
     reg_f.node = BDD_REGULAR(f->node);
-    ret.node = BDD_IS_COMPLEMENT(f->node) ? BDD_NOT(reg_f.node->E) : reg_f.node->E;
+    ret.node   = BDD_IS_COMPLEMENT(f->node) ? BDD_NOT(reg_f.node->E) : reg_f.node->E;
 
     /*
      *    End the safe frame and return the result
@@ -205,8 +150,8 @@ bdd_t *f;
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_else(%d)\n",
-	    bdd_index_of_external_pointer(e),
-	    bdd_index_of_external_pointer(f));
+        bdd_index_of_external_pointer(e),
+        bdd_index_of_external_pointer(f));
 #endif /* } */
 
     return (e);
@@ -219,21 +164,21 @@ bdd_t *f;
  */
 bdd_t *
 bdd_then(f)
-bdd_t *f;
+        bdd_t *f;
 {
     bdd_safeframe frame;
-    bdd_safenode reg_f, ret;
-    bdd_manager *manager;
-    bdd_t *t;
+    bdd_safenode  reg_f, ret;
+    bdd_manager   *manager;
+    bdd_t         *t;
 
     if (f == NIL(bdd_t))
-	fail("bdd_then: invalid BDD");
+        fail("bdd_then: invalid BDD");
 
-    BDD_ASSERT( ! f->free );
+    BDD_ASSERT(!f->free);
 
     if (BDD_IS_CONSTANT(f->bdd, f->node))
-	fail("bdd_then: constant BDD");
-	
+        fail("bdd_then: constant BDD");
+
     manager = f->bdd;
 
     /*
@@ -245,7 +190,7 @@ bdd_t *f;
     bdd_safenode_declare(manager, ret);
 
     reg_f.node = BDD_REGULAR(f->node);
-    ret.node = BDD_IS_COMPLEMENT(f->node) ? BDD_NOT(reg_f.node->T) : reg_f.node->T;
+    ret.node   = BDD_IS_COMPLEMENT(f->node) ? BDD_NOT(reg_f.node->T) : reg_f.node->T;
 
     /*
      *    End the safe frame and return the result
@@ -255,8 +200,8 @@ bdd_t *f;
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_then(%d)\n",
-	    bdd_index_of_external_pointer(t),
-	    bdd_index_of_external_pointer(f));
+        bdd_index_of_external_pointer(t),
+        bdd_index_of_external_pointer(f));
 #endif /* } */
 
     return (t);
@@ -269,29 +214,29 @@ bdd_t *f;
  */
 void
 bdd_get_branches(f, f_T, f_E)
-bdd_node *f;
-bdd_node **f_T;	/* return */
-bdd_node **f_E;	/* return */
+        bdd_node *f;
+        bdd_node **f_T;    /* return */
+        bdd_node **f_E;    /* return */
 {
-	bdd_node *reg_f;
-        int is_constant;
+    bdd_node *reg_f;
+    int      is_constant;
 
-	reg_f = BDD_REGULAR(f);
+    reg_f = BDD_REGULAR(f);
 
-        /* 
-         * If f is the constant 0, we just want to return NIL for the then 
-         * and else branches.  Since we can't access the manager from this
-         * routine, we simply check the id of the node.
-         */
-        is_constant = (reg_f->id == BDD_ONE_ID) ? TRUE : FALSE;
+    /*
+     * If f is the constant 0, we just want to return NIL for the then
+     * and else branches.  Since we can't access the manager from this
+     * routine, we simply check the id of the node.
+     */
+    is_constant = (reg_f->id == BDD_ONE_ID) ? TRUE : FALSE;
 
-	if (BDD_IS_COMPLEMENT(f) && !(is_constant)) {
-	    *f_T = BDD_NOT(reg_f->T);
-	    *f_E = BDD_NOT(reg_f->E);
-	} else {
-	    *f_T = reg_f->T;
-	    *f_E = reg_f->E;
-	}
+    if (BDD_IS_COMPLEMENT(f) && !(is_constant)) {
+        *f_T = BDD_NOT(reg_f->T);
+        *f_E = BDD_NOT(reg_f->E);
+    } else {
+        *f_T = reg_f->T;
+        *f_E = reg_f->E;
+    }
 }
 
 /* 
@@ -301,23 +246,23 @@ bdd_node **f_E;	/* return */
  */
 bdd_t *
 bdd_top_var(f)
-bdd_t *f;
+        bdd_t *f;
 {
     bdd_safeframe frame;
-    bdd_safenode reg_f, ret;
-    bdd_t *v;
-    bdd_manager *manager;
+    bdd_safenode  reg_f, ret;
+    bdd_t         *v;
+    bdd_manager   *manager;
 
     if (f == NIL(bdd_t))
-	fail("bdd_top_var: invalid BDD");
+        fail("bdd_top_var: invalid BDD");
 
-    BDD_ASSERT( ! f->free );
+    BDD_ASSERT(!f->free);
 
     if (f->node == BDD_ONE(f->bdd))
-	return (bdd_one(f->bdd));
+        return (bdd_one(f->bdd));
 
     if (f->node == BDD_ZERO(f->bdd))
-	return (bdd_zero(f->bdd));
+        return (bdd_zero(f->bdd));
 
     manager = f->bdd;
 
@@ -330,7 +275,7 @@ bdd_t *f;
     bdd_safenode_declare(manager, ret);
 
     reg_f.node = BDD_REGULAR(f->node);
-    ret.node = bdd_find_or_add(manager, reg_f.node->id, BDD_ONE(manager), BDD_ZERO(manager));
+    ret.node   = bdd_find_or_add(manager, reg_f.node->id, BDD_ONE(manager), BDD_ZERO(manager));
 
     /*
      *    End the safe frame and return the result
@@ -340,8 +285,8 @@ bdd_t *f;
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_top_var(%d)\n",
-	    bdd_index_of_external_pointer(v),
-	    bdd_index_of_external_pointer(f));
+        bdd_index_of_external_pointer(v),
+        bdd_index_of_external_pointer(f));
 #endif /* } */
 
     return (v);
@@ -352,13 +297,13 @@ bdd_t *f;
  */
 bdd_variableId
 bdd_top_var_id(f)
-bdd_t *f;
+        bdd_t *f;
 {
 
     if (f == NIL(bdd_t))
-	fail("bdd_top_var_id: invalid BDD");
+        fail("bdd_top_var_id: invalid BDD");
 
-    BDD_ASSERT( ! f->free );
+    BDD_ASSERT(!f->free);
 
     return (BDD_REGULAR(f->node)->id);
 }
@@ -377,12 +322,12 @@ bdd_t *f;
  */
 bdd_t *
 bdd_get_variable(manager, variable_i)
-bdd_manager *manager;
-bdd_variableId variable_i;
+        bdd_manager *manager;
+        bdd_variableId variable_i;
 {
     bdd_safeframe frame;
-    bdd_safenode v;
-    bdd_t *var;
+    bdd_safenode  v;
+    bdd_t         *var;
 
     bdd_safeframe_start(manager, frame);
     bdd_safenode_declare(manager, v);
@@ -397,7 +342,7 @@ bdd_variableId variable_i;
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_get_variable(manager, %d)\n",
-	    bdd_index_of_external_pointer(var), variable_i);
+        bdd_index_of_external_pointer(var), variable_i);
 #endif /* } */
 
     return (var);
@@ -410,11 +355,11 @@ bdd_variableId variable_i;
  */
 void
 bdd_get_stats(manager, stats)
-bdd_manager *manager;
-bdd_stats *stats;	/* return */
+        bdd_manager *manager;
+        bdd_stats *stats;    /* return */
 {
     BDD_ASSERT(manager != NIL(bdd_manager));
-    
+
     (void) get_mem_stats(manager);
     *stats = manager->heap.stats;
 }
@@ -427,29 +372,29 @@ bdd_stats *stats;	/* return */
  */
 int
 bdd_size(f)
-bdd_t *f;
+        bdd_t *f;
 {
-    int count;
-    bdd_gen *gen;
+    int      count;
+    bdd_gen  *gen;
     bdd_node *node;
 
     if (f == NIL(bdd_t))
-	fail("bdd_size: illegal BDD");
+        fail("bdd_size: illegal BDD");
 
-    BDD_ASSERT( ! f->free );
+    BDD_ASSERT(!f->free);
 
     if (f->node == NIL(bdd_node)) {
-	static already_warned = 0;
-	if (! already_warned) {
-	    already_warned = 1;
-	    (void) printf("WARNING: size of nil bdd computed????\n");
-	}
-	return (0);
+        static already_warned = 0;
+        if (!already_warned) {
+            already_warned = 1;
+            (void) printf("WARNING: size of nil bdd computed????\n");
+        }
+        return (0);
     }
 
     count = 0;
     foreach_bdd_node(f, gen, node) {
-	count++;
+        count++;
     }
 
     return (count);
@@ -462,26 +407,26 @@ bdd_t *f;
  *
  *    don't return, just do it
  */
-int		/* must return an int so it can be in an expression */
+int        /* must return an int so it can be in an expression */
 bdd__fail(__file__, __line__, message, failed)
-string __file__;
-int __line__;
-string message;
-string failed;		/* may be NIL(char) indicating don't print it */
+        string __file__;
+        int __line__;
+        string message;
+        string failed;        /* may be NIL(char) indicating don't print it */
 {
-	(void) fprintf(stderr, "\
+    (void) fprintf(stderr, "\
 Fatal error in file %s, line %d\n\
 \tmessage:   %s\n\
 ", __file__, __line__, message);
 
-	if (failed != NIL(char)) {
-	    (void) fprintf(stderr, "\
+    if (failed != NIL(char)) {
+        (void) fprintf(stderr, "\
 \tassertion: %s\n\
 ", failed);
-	}
+    }
 
-	(void) fflush(stdout);	/* not stderr - it is unbuffered */
-	abort();
+    (void) fflush(stdout);    /* not stderr - it is unbuffered */
+    abort();
 }
 
 /*
@@ -493,30 +438,30 @@ Fatal error in file %s, line %d\n\
  */
 void
 bdd_memfail(manager, function)
-bdd_manager *manager;	/* may be NIL(bdd_manager) in case of bdd_start() */
-string function;
+        bdd_manager *manager;    /* may be NIL(bdd_manager) in case of bdd_start() */
+        string function;
 {
-	bdd_stats stats;
+    bdd_stats stats;
 
-	/*
-	 *    WATCHOUT - assume NOTHING about the manager except that you can
-	 *    go in and recover the statistics from it.  During garbage_collection
-	 *    the manager is in a state if semi-inconsistence, so it is not
-	 *    possible to do many operations on it.
-	 */
+    /*
+     *    WATCHOUT - assume NOTHING about the manager except that you can
+     *    go in and recover the statistics from it.  During garbage_collection
+     *    the manager is in a state if semi-inconsistence, so it is not
+     *    possible to do many operations on it.
+     */
 
-	/*
-	 *    If there was a bdd_manager, then get some stats before death
-	 */
-	if (manager != NIL(bdd_manager)) {
-	    (void) fprintf(stderr, "\nBDD Manager Death Statistics\n\n");
-	    (void) bdd_get_stats(manager, &stats);
-	    (void) bdd_print_stats(stats, stderr);
-	}
+    /*
+     *    If there was a bdd_manager, then get some stats before death
+     */
+    if (manager != NIL(bdd_manager)) {
+        (void) fprintf(stderr, "\nBDD Manager Death Statistics\n\n");
+        (void) bdd_get_stats(manager, &stats);
+        (void) bdd_print_stats(stats, stderr);
+    }
 
-	(void) fprintf(stderr, "Fatal error: memory allocation failure in %s\n", function);
-	(void) fflush(stdout);
-	exit(1);
+    (void) fprintf(stderr, "Fatal error: memory allocation failure in %s\n", function);
+    (void) fflush(stdout);
+    exit(1);
 }
 
 /*
@@ -525,12 +470,12 @@ string function;
  * Compute the memory used by the BDD manager and fill in the appropriate 
  * fields of the stats.memory data structure.
  */
-static void 
+static void
 get_mem_stats(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
     bdd_stats *stats;
-    
+
     /*
      * Get the current stats for the manager.
      */
@@ -565,13 +510,13 @@ bdd_manager *manager;
      * Memory used by ITE table entries and ITE table buckets.
      */
     stats->memory.ITE_cache = (manager->heap.cache.itetable.nbuckets * sizeof(bdd_hashcache_entry *))
-        + (manager->heap.cache.itetable.nentries * sizeof(bdd_hashcache_entry));
+                              + (manager->heap.cache.itetable.nentries * sizeof(bdd_hashcache_entry));
 
     /*
      * Memory used by consttable entries and consttable buckets.
      */
     stats->memory.ITE_const_cache = (manager->heap.cache.consttable.nbuckets * sizeof(bdd_constcache_entry *))
-        + (manager->heap.cache.consttable.nentries * sizeof(bdd_constcache_entry));
+                                    + (manager->heap.cache.consttable.nentries * sizeof(bdd_constcache_entry));
 
     /*
      * Memory used by the adhoc table: table + buckets + entries.
@@ -579,17 +524,18 @@ bdd_manager *manager;
     if (manager->heap.cache.adhoc.table == NIL(st_table)) {
         stats->memory.adhoc_cache = 0;
     } else {
-        stats->memory.adhoc_cache = (sizeof(st_table) 
-            + (manager->heap.cache.adhoc.table->num_bins * sizeof(st_table_entry *))
-            + (st_count(manager->heap.cache.adhoc.table) * (sizeof(st_table_entry) + sizeof(bdd_adhoccache_key))) );
+        stats->memory.adhoc_cache = (sizeof(st_table)
+                                     + (manager->heap.cache.adhoc.table->num_bins * sizeof(st_table_entry * ))
+                                     + (st_count(manager->heap.cache.adhoc.table) *
+                                        (sizeof(st_table_entry) + sizeof(bdd_adhoccache_key))));
     }
 
     /*
      * Total memory used.
      */
     stats->memory.total = stats->memory.manager + stats->memory.nodes
-        + stats->memory.hashtable + stats->memory.ext_ptrs + stats->memory.ITE_cache
-        + stats->memory.ITE_const_cache + stats->memory.adhoc_cache;
+                          + stats->memory.hashtable + stats->memory.ext_ptrs + stats->memory.ITE_cache
+                          + stats->memory.ITE_const_cache + stats->memory.adhoc_cache;
 
 }
 
@@ -603,17 +549,17 @@ bdd_manager *manager;
  */
 boolean
 bdd_will_exceed_mem_limit(manager, alloc_size, call_daemon)
-bdd_manager *manager;
-int alloc_size;
-boolean call_daemon;
+        bdd_manager *manager;
+        int alloc_size;
+        boolean call_daemon;
 {
 
     /*
      * If there is no memory limit, then return FALSE.
      */
-    if (manager->memory.limit == BDD_NO_LIMIT) { 
+    if (manager->memory.limit == BDD_NO_LIMIT) {
         return FALSE;
-    } 
+    }
 
     /* 
      * Compute the memory statistics for the manager. TODO: if get_mem_stats is taking too much time,
@@ -624,7 +570,7 @@ boolean call_daemon;
     /*
      * If allocating alloc_size bytes will not cause the limit to be exceeded, then return FALSE.
      */
-    if ((manager->heap.stats.memory.total + alloc_size) < (manager->memory.limit * BDD_ONE_MEGABYTE)) { 
+    if ((manager->heap.stats.memory.total + alloc_size) < (manager->memory.limit * BDD_ONE_MEGABYTE)) {
         return FALSE;
     } else {
         /*
@@ -633,7 +579,7 @@ boolean call_daemon;
          */
         if (call_daemon == FALSE) {
             return TRUE;
-	} else {
+        } else {
             /*
              * Reset the safeframe pointer of the manager.  All of the data structures associated with the
              * safeframe mechanism are automatic (e.g. stack) variables which are on the stack somewhere.
@@ -652,33 +598,33 @@ boolean call_daemon;
              * Call the garbage collector to get rid of the current computation, and to try
              * to free up additional space.
              */
-	    (void) bdd_garbage_collect(manager);
+            (void) bdd_garbage_collect(manager);
 
             /*
              * Call the daemon specified by the application.
              */
-            if (manager->memory.daemon != NIL(void)) {   
-                (*(manager->memory.daemon)) (manager); 
+            if (manager->memory.daemon != NIL(void)) {
+                (*(manager->memory.daemon))(manager);
             } else {
                 fail("bdd_will_exceed_mem_limit: memory limit set, but no daemon registered");
             }
-	}
+        }
     }
 }
 
 
 /*
  * Get the manager of the bdd_t.
- */    
+ */
 bdd_manager *
 bdd_get_manager(f)
-bdd_t *f;
+        bdd_t *f;
 {
     if (f == NIL(bdd_t)) {
-	fail("bdd_get_manager: invalid BDD");
+        fail("bdd_get_manager: invalid BDD");
     }
 
-    BDD_ASSERT( ! f->free );
+    BDD_ASSERT(!f->free);
 
     return f->bdd;
 }
@@ -688,7 +634,7 @@ bdd_t *f;
  */
 bdd_external_hooks *
 bdd_get_external_hooks(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
     return &(manager->hooks);
 }
@@ -700,13 +646,13 @@ bdd_manager *manager;
  */
 bdd_node *
 bdd_get_node(f, is_complemented)
-bdd_t *f;
-boolean *is_complemented; /* return */
+        bdd_t *f;
+        boolean *is_complemented; /* return */
 {
     if (f == NIL(bdd_t))
-	fail("bdd_equal: invalid BDD");
+        fail("bdd_equal: invalid BDD");
 
-    BDD_ASSERT( ! f->free );
+    BDD_ASSERT(!f->free);
 
     *is_complemented = BDD_IS_COMPLEMENT(f->node);
     return (BDD_REGULAR(f->node));
@@ -717,7 +663,7 @@ boolean *is_complemented; /* return */
  */
 unsigned int
 bdd_num_vars(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
     return (manager->bdd.nvariables);
 }
@@ -725,10 +671,10 @@ bdd_manager *manager;
 /*
  * Shell for dynamic variable reordering.
  */
-void 
+void
 bdd_dynamic_reordering(manager, algorithm_type)
-bdd_manager *manager;
-bdd_reorder_type_t algorithm_type;
+        bdd_manager *manager;
+        bdd_reorder_type_t algorithm_type;
 {
     (void) printf("WARNING: Dynamic variable reordering not implemented in the Berkeley BDD package.\n");
 }

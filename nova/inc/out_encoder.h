@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/nova/out_encoder.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:10 $
- *
- */
+
 /*#define isdigit(ch) ((ch >= '0') && (ch <= '9'))
 #define isalpha(ch) (((ch >= 'a') && (ch <= 'z')) || ((ch >= 'A') && (ch <= 'Z')))*/
 
@@ -21,19 +13,19 @@
 #define FAIL '\0'
 
 typedef struct g_type {
-	int num;
-        int name;
-	struct g_type *next;
-} t_graph,*pgraph;
+    int           num;
+    int           name;
+    struct g_type *next;
+} t_graph, *pgraph;
 
 typedef struct dag_t {
-	int depth;
-	int incard;
+    int depth;
+    int incard;
     int outcard;
-	int out_done;
+    int out_done;
 } t_dag;
 
 typedef struct sol_type {
-	int dim;
-	char node[MAXNODE] [MAXDIM];
+    int  dim;
+    char node[MAXNODE][MAXDIM];
 } t_solution;

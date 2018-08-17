@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/extract/cubeindex.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:22 $
- *
- */
+
 #include "sis.h"
 #include "extract_int.h"
 
@@ -17,27 +9,26 @@
 
 
 cubeindex_t *
-cubeindex_alloc()
-{
+cubeindex_alloc() {
     cubeindex_t *table;
 
     table = ALLOC(cubeindex_t, 1);
     table->cube_to_integer = st_init_table(sm_row_compare, sm_row_hash);
-    table->integer_to_cube = array_alloc(sm_row *, 0);
+    table->integer_to_cube = array_alloc(sm_row * , 0);
     return table;
 }
 
 
 void
 cubeindex_free(table)
-cubeindex_t *table;
+        cubeindex_t *table;
 {
     st_generator *gen;
-    char *key;
+    char         *key;
 
     gen = st_init_gen(table->cube_to_integer);
     while (st_gen(gen, &key, NIL(char *))) {
-	sm_row_free((sm_row *) key);
+        sm_row_free((sm_row *) key);
     }
     st_free_gen(gen);
 
@@ -49,21 +40,21 @@ cubeindex_t *table;
 
 int
 cubeindex_getindex(table, cube)
-cubeindex_t *table;
-sm_row *cube;
+        cubeindex_t *table;
+        sm_row *cube;
 {
-    int index;
-    char *value;
+    int    index;
+    char   *value;
     sm_row *cube_save;
 
     if (st_lookup(table->cube_to_integer, (char *) cube, &value)) {
-	index = (int) value;
+        index = (int) value;
     } else {
-	index = st_count(table->cube_to_integer);
-	cube_save = sm_row_dup(cube);
-	(void) st_insert(table->cube_to_integer, 
-				    (char *) cube_save, (char *) index);
-	array_insert(sm_row *, table->integer_to_cube, index, cube_save);
+        index     = st_count(table->cube_to_integer);
+        cube_save = sm_row_dup(cube);
+        (void) st_insert(table->cube_to_integer,
+                         (char *) cube_save, (char *) index);
+        array_insert(sm_row * , table->integer_to_cube, index, cube_save);
     }
     return index;
 }
@@ -71,8 +62,8 @@ sm_row *cube;
 
 sm_row *
 cubeindex_getcube(table, index)
-cubeindex_t *table;
-int index;
+        cubeindex_t *table;
+        int index;
 {
-    return array_fetch(sm_row *, table->integer_to_cube, index);
+    return array_fetch(sm_row * , table->integer_to_cube, index);
 }

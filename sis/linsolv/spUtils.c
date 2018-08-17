@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/linsolv/spUtils.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:05 $
- *
- */
+
 /*
  *  MATRIX UTILITY MODULE
  *
@@ -57,9 +49,9 @@
 
 #ifndef lint
 static char copyright[] =
-    "Sparse1.3: Copyright (c) 1985,86,87,88 by Kenneth S. Kundert";
-static char RCSid[] =
-    "@(#)$Header: /users/pchong/CVS/sis/sis/linsolv/spUtils.c,v 1.1.1.1 2004/02/07 10:15:05 pchong Exp $";
+                    "Sparse1.3: Copyright (c) 1985,86,87,88 by Kenneth S. Kundert";
+static char RCSid[]     =
+                    "@(#)$Header: /users/pchong/CVS/sis/sis/linsolv/spUtils.c,v 1.1.1.1 2004/02/07 10:15:05 pchong Exp $";
 #endif
 
 
@@ -77,15 +69,12 @@ static char RCSid[] =
  */
 
 #define spINSIDE_SPARSE
+
 #include "spConfig.h"
 #include "spMatrix.h"
 #include "spDefs.h"
 
 
-
-
-
-
 #if MODIFIED_NODAL
 /*
  *  PREORDER MODIFIED NODE ADMITTANCE MATRIX TO REMOVE ZEROS FROM DIAGONAL
@@ -304,13 +293,6 @@ int Col1 = pTwin1->Col, Col2 = pTwin2->Col;
 #endif /* MODIFIED_NODAL */
 
 
-
-
-
-
-
-
-
 #if SCALING
 /*
  *  SCALE MATRIX
@@ -432,13 +414,6 @@ void ScaleComplexMatrix();
 #endif /* SCALING */
 
 
-
-
-
-
-
-
-
 #if spCOMPLEX AND SCALING
 /*
  *  SCALE COMPLEX MATRIX
@@ -547,12 +522,6 @@ RealNumber  ScaleFactor;
 #endif /* SCALING AND spCOMPLEX */
 
 
-
-
-
-
-
-
 #if MULTIPLICATION
 /*
  *  MATRIX MULTIPLICATION
@@ -639,11 +608,6 @@ extern void ComplexMatrixMultiply();
 #endif /* MULTIPLICATION */
 
 
-
-
-
-
-
 #if spCOMPLEX AND MULTIPLICATION
 /*
  *  COMPLEX MATRIX MULTIPLICATION
@@ -739,12 +703,6 @@ register  int  I, *pExtOrder;
 #endif /* spCOMPLEX AND MULTIPLICATION */
 
 
-
-
-
-
-
-
 #if MULTIPLICATION AND TRANSPOSE
 /*
  *  TRANSPOSED MATRIX MULTIPLICATION
@@ -830,11 +788,6 @@ extern void ComplexTransposedMatrixMultiply();
 #endif /* MULTIPLICATION AND TRANSPOSE */
 
 
-
-
-
-
-
 #if spCOMPLEX AND MULTIPLICATION AND TRANSPOSE
 /*
  *  COMPLEX TRANSPOSED MATRIX MULTIPLICATION
@@ -930,12 +883,6 @@ register  int  I, *pExtOrder;
 #endif /* spCOMPLEX AND MULTIPLICATION AND TRANSPOSE */
 
 
-
-
-
-
-
-
 #if DETERMINANT
 /*
  *  CALCULATE DETERMINANT
@@ -1104,14 +1051,8 @@ ComplexNumber Pivot, cDeterminant;
 #endif /* DETERMINANT */
 
 
-
-
-
-
-
-
 #if STRIP
-
+
 /*
  *  STRIP FILL-INS FROM MATRIX
  *
@@ -1200,11 +1141,6 @@ struct FillinListNodeStruct  *pListNode;
 #endif
 
 
-
-
-
-
-
 #if TRANSLATE AND DELETE
 /*
  *  DELETE A ROW AND COLUMN FROM THE MATRIX
@@ -1325,12 +1261,6 @@ ElementPtr  spcFindElementInCol();
 #endif
 
 
-
-
-
-
-
-
 #if PSEUDOCONDITION
 /*
  *  CALCULATE PSEUDOCONDITION
@@ -1387,12 +1317,6 @@ RealNumber MaxPivot, MinPivot, Mag;
 #endif
 
 
-
-
-
-
-
-
 #if CONDITION
 /*
  *  ESTIMATE CONDITION NUMBER
@@ -1898,10 +1822,6 @@ RealNumber Max = 0.0, AbsRowSum;
 #endif /* CONDITION */
 
 
-
-
-
-
 #if STABILITY
 /*
  *  STABILITY OF FACTORIZATION

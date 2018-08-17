@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/timing/timing_int.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:00 $
- *
- */
+
 #include "sis.h"
 /* definitions */
 #define EPS 1e-3
@@ -35,32 +27,32 @@ enum algorithm_enum {
 };
 
 /* LATCH GRAPH structures: common for optimal clocking and clock 
-   verification  */     
+   verification  */
 typedef struct copt_node_struct copt_node_t;
-typedef struct cv_node_struct cv_node_t;
+typedef struct cv_node_struct   cv_node_t;
 
 typedef struct l_node_struct l_node_t;
 struct l_node_struct {
-    int pio;
-    int num;
-    latch_t *latch;
-    int latch_type;
-    int phase;
+    int         pio;
+    int         num;
+    latch_t     *latch;
+    int         latch_type;
+    int         phase;
     copt_node_t *copt;
-    cv_node_t *cv;
+    cv_node_t   *cv;
 };
 
 typedef struct l_edge_struct l_edge_t;
 struct l_edge_struct {
     double Dmax, Dmin;
-    int K;
+    int    K;
     double w;
 };
 
 typedef struct sp_matrix_struct sp_matrix_t;
-typedef struct l_graph_struct l_graph_t;
+typedef struct l_graph_struct   l_graph_t;
 struct l_graph_struct {
-    array_t *clock_order;
+    array_t  *clock_order;
     vertex_t *host;
 };
 
@@ -84,27 +76,27 @@ struct l_graph_struct {
 
 /* CONSTRAINT GRAPH structes: used ONLY for OPTIMAL CLOCKING*/
 typedef struct c_edge_struct c_edge_t;
-struct c_edge_struct{
-    int ignore;
-    int evaluate_c;
+struct c_edge_struct {
+    int      ignore;
+    int      evaluate_c;
     st_table *c_1;
-    double w, fixed_w, duty, *c_2;
+    double   w, fixed_w, duty, *c_2;
 };
 
 typedef struct c_node_struct c_node_t;
-struct c_node_struct{
+struct c_node_struct {
     double p;
-    int id, m_id;
+    int    id, m_id;
 };
-typedef struct phase_struct phase_t;
-struct phase_struct{
+typedef struct phase_struct  phase_t;
+struct phase_struct {
     vertex_t *rise, *fall;
 };
 
 typedef struct c_graph_struct c_graph_t;
 struct c_graph_struct {
-    phase_t **phase_list;
-    int num_phases;
+    phase_t  **phase_list;
+    int      num_phases;
     vertex_t *zero;
 };
 
@@ -128,15 +120,15 @@ struct c_graph_struct {
              (flag == FROM ? ((LTYPE(v) == FFR || LTYPE(v) == \
               LSH) ? PHASE_LIST(g)[PHASE(v) - 1]->rise : \
               PHASE_LIST(g)[PHASE(v)-1]->fall) : \
-	      ((LTYPE(v) == FFR || LTYPE(v) == \
+          ((LTYPE(v) == FFR || LTYPE(v) == \
               LSL) ? PHASE_LIST(g)[PHASE(v) - 1]->rise : \
               PHASE_LIST(g)[PHASE(v)-1]->fall))
 
 #define get_index(v, flag, g) \
              (flag == FROM ? ((LTYPE(v) == FFR || LTYPE(v) == \
               LSH) ? PHASE(v) - 1 : \
-	      PHASE(v)-1+NUM_PHASE(g)) : \
-	      ((LTYPE(v) == FFR || LTYPE(v) == \
+          PHASE(v)-1+NUM_PHASE(g)) : \
+          ((LTYPE(v) == FFR || LTYPE(v) == \
               LSL) ? PHASE(v) - 1 : \
               PHASE(v)-1+NUM_PHASE(g)))
 
@@ -150,7 +142,7 @@ struct c_graph_struct {
 typedef struct matrix_struct matrix_t;
 struct matrix_struct {
     double **W_old, **W_new, **beta_old, **beta_new, c, c_L, c_U;
-    int num_v;
+    int    num_v;
 };
 
 #define W_n(m) (m->W_new)
@@ -167,7 +159,7 @@ struct matrix_struct {
 typedef struct my_delay_struct my_delay_t;
 struct my_delay_struct {
     delay_time_t max, min;
-    int dirty;
+    int          dirty;
 };
 #define UNDEF(n) (n->undef1)
 #define MDEL(n) ((my_delay_t *)(n->undef1))
@@ -181,8 +173,8 @@ struct my_delay_struct {
 
 /* GRAPH structures for OPTIMAL CLOCK COMPUTATION*/
 struct copt_node_struct {
-    double w, prevw;
-    int r, dirty;
+    double   w, prevw;
+    int      r, dirty;
     vertex_t *parent;
 };
 #define COPT(v) (NODE(v)->copt)
@@ -194,7 +186,7 @@ struct copt_node_struct {
 
 struct cv_node_struct {
     double A, D, a, d;
-    int dirty;
+    int    dirty;
 };
 #define CV(v) (NODE(v)->cv)
 #define ARR(v) (CV(v)->A)
@@ -207,7 +199,7 @@ typedef struct clock_event_struct clock_event_t;
 struct clock_event_struct {
     double *rise;
     double *fall;
-    int num_phases;
+    int    num_phases;
     double *shift;
 };
 #define NUM_CLOCK(e) (e->num_phases)
@@ -223,52 +215,87 @@ debug_type_t debug_type;
 
 /* timing_graph.c */
 graph_t *tmg_network_to_graph();
+
 int timing_update_K_edge();
+
 int tmg_build_graph();
+
 static void tmg_delay_alloc();
+
 static void tmg_delay_free();
+
 int tmg_all_negative_cycles();
 
 /* timing_util.c */
 array_t *tmg_determine_clock_order();
+
 sis_clock_t *tmg_latch_get_clock();
+
 double tmg_get_set_up();
+
 double tmg_get_hold();
+
 double tmg_get_min_sep();
+
 double tmg_get_max_sep();
+
 c_edge_t *tmg_alloc_cedge();
+
 c_graph_t *tmg_alloc_cgraph();
+
 l_graph_t *tmg_alloc_graph();
+
 l_node_t *tmg_alloc_node();
+
 l_edge_t *tmg_alloc_edge();
+
 int tmg_get_gen_algorithm_flag();
+
 double tmg_max_clock_skew();
+
 double tmg_min_clock_skew();
 
 /* timing_comp.c */
 int cycle_in_graph();
+
 static int my_pq_cmp();
+
 double tmg_compute_optimal_clock();
+
 graph_t *tmg_construct_clock_graph();
+
 vertex_t *tmg_get_constraint_vertex();
+
 double tmg_guess_clock_bound();
+
 double tmg_clock_lower_bound();
+
 double tmg_solve_constraints();
+
 int tmg_all_negative_cycles();
+
 int tmg_is_feasible();
+
 double tmg_solve_gen_constraints();
+
 array_t *tmg_compute_intervals();
+
 matrix_t *tmg_init_matrix();
+
 int timing_exterior_path_search();
+
 int tmg_update_matrix();
 
 /* timing_seq.c */
-delay_time_t  tmg_node_get_delay();
-delay_time_t  tmg_map_get_delay();
+delay_time_t tmg_node_get_delay();
+
+delay_time_t tmg_map_get_delay();
 
 /* timing_verify.c */
 int tmg_check_clocking_scheme();
+
 int trace_recursive_path();
+
 clock_event_t *tmg_get_clock_events();
 
 

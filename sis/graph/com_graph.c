@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/graph/com_graph.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:26 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 
@@ -38,12 +30,12 @@ graph_test()
 
     for (i = 0; i < 10; i++) {
         v[i] = g_add_vertex(g1);
-	v[i]->user_data = (gGeneric) i;
+    v[i]->user_data = (gGeneric) i;
     }
     for (i = 0; i < 9; i++) {
         for (j = i + 1; j < 10; j++) {
-	    (void) g_add_edge(v[i],v[j]);
-	}
+        (void) g_add_edge(v[i],v[j]);
+    }
     }
     (void) g_add_edge(v[5],v[5]);			/* self loop */
 
@@ -51,19 +43,19 @@ graph_test()
     g_delete_edge(edge,voidNULL);
 
     g_delete_vertex(v[8],voidNULL,voidNULL);
-        
+
     g_add_vertex(g1)->user_data = (gGeneric) 10;  /* unconnected vertex */
 
     g2 = g_dup(g1,gGenericNULL,gGenericNULL,gGenericNULL);
     foreach_vertex (g2,gen,vert) {
         (void) fprintf(misout,"\nCopy of %d\ngoes to:    ",vert->user_data);
         foreach_out_edge (vert,gen2,edge) {
-	    (void) fprintf(misout,"%d ",g_e_dest(edge)->user_data);
-	}
-	(void) fprintf(misout,"\ncomes from: ");
-	foreach_in_edge (vert,gen2,edge) {
-	    (void) fprintf(misout,"%d ",g_e_source(edge)->user_data);
-	}
+        (void) fprintf(misout,"%d ",g_e_dest(edge)->user_data);
+    }
+    (void) fprintf(misout,"\ncomes from: ");
+    foreach_in_edge (vert,gen2,edge) {
+        (void) fprintf(misout,"%d ",g_e_source(edge)->user_data);
+    }
     }
     (void) fputc('\n',misout);
     g_check(g1);
@@ -122,19 +114,19 @@ graph_static_test()
 
     for (i = 0; i < 10; i++) {
         v[i] = g_add_vertex_static(g1);
-	g_set_v_slot_static(v[i],0,(gGeneric) i);
-	g_set_v_slot_static(v[i],1,(gGeneric) (2 * i));
+    g_set_v_slot_static(v[i],0,(gGeneric) i);
+    g_set_v_slot_static(v[i],1,(gGeneric) (2 * i));
     }
     x = 0;
     for (i = 0; i < 9; i++) {
         for (j = i + 1; j < 10; j++) {
-	    e = g_add_edge_static(v[i],v[j]);
-	    g_set_e_slot_static(e,2,(gGeneric) util_strsav(month[i]));
-	    g_set_e_slot_static(e,1,(gGeneric) x++);
-	}
+        e = g_add_edge_static(v[i],v[j]);
+        g_set_e_slot_static(e,2,(gGeneric) util_strsav(month[i]));
+        g_set_e_slot_static(e,1,(gGeneric) x++);
+    }
     }
     g_delete_vertex_static(v[3],voidNULL,edge_free);	/* kill v[3] */
-    (void) lsLastItem(g_get_out_edges(v[6]),(lsGeneric *) &edge,LS_NH); 
+    (void) lsLastItem(g_get_out_edges(v[6]),(lsGeneric *) &edge,LS_NH);
     g_delete_edge_static(edge,edge_free);	/* kill last edge of v[6] */
 
     g_set_g_slot_static(g1,1,(gGeneric) 'f');
@@ -145,11 +137,11 @@ graph_static_test()
 
     foreach_edge (g2,gen,edge) {
         v1 = g_e_source(edge);
-	v2 = g_e_dest(edge);
+    v2 = g_e_dest(edge);
         (void) fprintf(misout,
-		"%d (%s) connects %d & %d\n",g_get_e_slot_static(edge,1),
-		g_get_e_slot_static(edge,2),g_get_v_slot_static(v1,0),
-		g_get_v_slot_static(v2,0));
+        "%d (%s) connects %d & %d\n",g_get_e_slot_static(edge,1),
+        g_get_e_slot_static(edge,2),g_get_v_slot_static(v1,0),
+        g_get_v_slot_static(v2,0));
     }
     g_free_static(g1,voidNULL,voidNULL,edge_free);
     g_free_static(g2,voidNULL,voidNULL,edge_free);
@@ -171,11 +163,11 @@ graph_dfs_test()
     array_t *arr;
     graph_t *g;
     vertex_t *x;
-    
+
     g = g_alloc();
     for (i = 0; i < 10; i++) {
         v[i] = g_add_vertex(g);
-	v[i]->user_data = (gGeneric) i;
+    v[i]->user_data = (gGeneric) i;
     }
     (void) g_add_edge(v[3],v[4]);
     (void) g_add_edge(v[0],v[3]);
@@ -227,14 +219,14 @@ end_graph()
 
        ______     1
       /      \	 /
-     /	      v v 
+     /	      v v
      |	0 ---> 3 ----> 4	9 --> 8
      |	| \    ^\		|    ^
      |	|  \   | \		|   /
      |	|   \  |  \		|  /
       \	|    \ |   \		| /
        \v     v|    v		v/
-      	6 ---> 2 --> 5		7
+          6 ---> 2 --> 5		7
 
   This is the graph represented in test_graph_dfs
 */

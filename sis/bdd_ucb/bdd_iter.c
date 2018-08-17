@@ -1,13 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/bdd_iter.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:01 $
- *
- */
-#include <stdio.h>	/* for BDD_DEBUG_LIFESPAN */
+
+#include <stdio.h>    /* for BDD_DEBUG_LIFESPAN */
 
 #include "util.h"
 #include "array.h"
@@ -16,49 +8,13 @@
 #include "bdd.h"
 #include "bdd_int.h"
 
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/bdd_iter.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:01 $
- * $Log: bdd_iter.c,v $
- * Revision 1.1.1.1  2004/02/07 10:15:01  pchong
- * imported
- *
- * Revision 1.4  1993/05/04  15:30:57  sis
- * BDD package updates.  Tom Shiple 5/4/93.
- *
- * Revision 1.3  1993/05/03  20:32:57  shiple
- * Changed occurences of "refany *" to "refany".  Removed unused variable
- * "literal" in bdd_first_cube.
- *
- * Revision 1.2  1992/09/19  01:46:31  shiple
- * Version 2.4
- * Prefaced compile time debug switches with BDD_.
- *
- * Revision 1.1  1992/07/29  00:26:49  shiple
- * Initial revision
- *
- * Revision 1.2  1992/05/06  18:51:03  sis
- * SIS release 1.1
- *
- * Revision 1.1  92/01/08  17:34:28  sis
- * Initial revision
- * 
- * Revision 1.2  91/04/29  16:32:43  shiple
- * bug fix in pop_cube_stack to reset literals to 2; added comments in code
- * 
- * Revision 1.1  91/03/27  14:35:32  shiple
- * Initial revision
- * 
- *
- */
 
 static void pop_cube_stack();
+
 static void pop_node_stack();
+
 static void push_cube_stack();
+
 static void push_node_stack();
 
 /*
@@ -79,17 +35,17 @@ static void push_node_stack();
  */
 bdd_gen *
 bdd_first_cube(fn, cube)
-bdd_t *fn;
-array_t **cube;	/* of bdd_literal */
+        bdd_t *fn;
+        array_t **cube;    /* of bdd_literal */
 {
     bdd_manager *manager;
-    bdd_gen *gen;
-    int i;
+    bdd_gen     *gen;
+    int         i;
 
     if (fn == NIL(bdd_t))
-	fail("bdd_first_cube: invalid BDD");
+        fail("bdd_first_cube: invalid BDD");
 
-    BDD_ASSERT( ! fn->free );
+    BDD_ASSERT(!fn->free);
 
     manager = fn->bdd;
 
@@ -99,27 +55,27 @@ array_t **cube;	/* of bdd_literal */
      */
     gen = ALLOC(bdd_gen, 1);
     if (gen == NIL(bdd_gen))
-	(void) bdd_memfail(manager, "bdd_first_cube");
+        (void) bdd_memfail(manager, "bdd_first_cube");
 
     /*
      *    first - init all the members to a rational value for cube iteration
      */
-    gen->manager = manager;
-    gen->status = bdd_EMPTY;
-    gen->type = bdd_gen_cubes;
+    gen->manager        = manager;
+    gen->status         = bdd_EMPTY;
+    gen->type           = bdd_gen_cubes;
     gen->gen.cubes.cube = NIL(array_t);
-    gen->stack.sp = 0;
-    gen->stack.stack = NIL(bdd_node *);
-    gen->node = NIL(bdd_node);
+    gen->stack.sp       = 0;
+    gen->stack.stack    = NIL(bdd_node *);
+    gen->node           = NIL(bdd_node);
 
     gen->gen.cubes.cube = array_alloc(bdd_literal, manager->bdd.nvariables);
     if (gen->gen.cubes.cube == NIL(array_t))
-	(void) bdd_memfail(manager, "bdd_first_cube");
-    
+        (void) bdd_memfail(manager, "bdd_first_cube");
+
     /*
      * Initialize each literal to 2 (don't care).
      */
-    for (i = manager->bdd.nvariables; --i >= 0; ) {
+    for (i = manager->bdd.nvariables; --i >= 0;) {
         (void) array_insert(bdd_literal, gen->gen.cubes.cube, i, 2);
     }
 
@@ -128,26 +84,26 @@ array_t **cube;	/* of bdd_literal */
      * the longest possible path from root to constant 1 is the number of variables 
      * in the BDD.
      */
-    gen->stack.sp = 0;
-    gen->stack.stack = ALLOC(bdd_node *, manager->bdd.nvariables);
+    gen->stack.sp    = 0;
+    gen->stack.stack = ALLOC(bdd_node * , manager->bdd.nvariables);
     if (gen->stack.stack == NIL(bdd_node *))
-	(void) bdd_memfail(fn->bdd, "bdd_first_cube");
+        (void) bdd_memfail(fn->bdd, "bdd_first_cube");
 
     if (fn->node == BDD_ZERO(gen->manager)) {
-	/*
-	 *    All done, for this was but the zero constant ...
-	 *    We are enumerating the onset, (which is vacuous).
-         *    gen->status initialized to bdd_EMPTY above, so this
-         *    appears to be redundant.
-	 */
-	gen->status = bdd_EMPTY;
+        /*
+         *    All done, for this was but the zero constant ...
+         *    We are enumerating the onset, (which is vacuous).
+             *    gen->status initialized to bdd_EMPTY above, so this
+             *    appears to be redundant.
+         */
+        gen->status = bdd_EMPTY;
     } else {
-	/*
-	 *    Get to work enumerating the onset.  Get the first cube.  Note that
-         *    if fn is just the constant 1, push_cube_stack will properly handle this.
-	 */
-	gen->status = bdd_NONEMPTY;
-	(void) push_cube_stack(fn->node, gen);
+        /*
+         *    Get to work enumerating the onset.  Get the first cube.  Note that
+             *    if fn is just the constant 1, push_cube_stack will properly handle this.
+         */
+        gen->status = bdd_NONEMPTY;
+        (void) push_cube_stack(fn->node, gen);
     }
 
     /*
@@ -165,13 +121,13 @@ array_t **cube;	/* of bdd_literal */
  */
 boolean
 bdd_next_cube(gen, cube)
-bdd_gen *gen;
-array_t **cube;		/* of bdd_literal */
+        bdd_gen *gen;
+        array_t **cube;        /* of bdd_literal */
 {
 
     (void) pop_cube_stack(gen);
     if (gen->status == bdd_EMPTY) {
-      return (FALSE);
+        return (FALSE);
     }
     *cube = gen->gen.cubes.cube;
     return (TRUE);
@@ -183,16 +139,16 @@ array_t **cube;		/* of bdd_literal */
  */
 bdd_gen *
 bdd_first_node(fn, node)
-bdd_t *fn;
-bdd_node **node;	/* return */
+        bdd_t *fn;
+        bdd_node **node;    /* return */
 {
     bdd_manager *manager;
-    bdd_gen *gen;
+    bdd_gen     *gen;
 
     if (fn == NIL(bdd_t))
-	fail("bdd_first_node: invalid BDD");
+        fail("bdd_first_node: invalid BDD");
 
-    BDD_ASSERT(! fn->free );
+    BDD_ASSERT(!fn->free);
 
     manager = fn->bdd;
 
@@ -203,36 +159,36 @@ bdd_node **node;	/* return */
      */
     gen = ALLOC(bdd_gen, 1);
     if (gen == NIL(bdd_gen))
-	(void) bdd_memfail(manager, "bdd_first_node");
+        (void) bdd_memfail(manager, "bdd_first_node");
 
     /*
      *    first - init all the members to a rational value for node iteration.
      */
-    gen->manager = manager;
-    gen->status = bdd_NONEMPTY;
-    gen->type = bdd_gen_nodes;
+    gen->manager           = manager;
+    gen->status            = bdd_NONEMPTY;
+    gen->type              = bdd_gen_nodes;
     gen->gen.nodes.visited = NIL(st_table);
-    gen->stack.sp = 0;
-    gen->stack.stack = NIL(bdd_node *);
-    gen->node = NIL(bdd_node);
-  
+    gen->stack.sp          = 0;
+    gen->stack.stack       = NIL(bdd_node *);
+    gen->node              = NIL(bdd_node);
+
     /* 
      * Set up the hash table for visited nodes.  Every time we visit a node,
      * we insert it into the table.
      */
     gen->gen.nodes.visited = st_init_table(st_ptrcmp, st_ptrhash);
     if (gen->gen.nodes.visited == NIL(st_table))
-	(void) bdd_memfail(manager, "bdd_first_node");
+        (void) bdd_memfail(manager, "bdd_first_node");
 
     /*
      * The stack size will never exceed the number of variables in the BDD, since
      * the longest possible path from root to constant 1 is the number of variables 
      * in the BDD.
      */
-    gen->stack.sp = 0;
-    gen->stack.stack = ALLOC(bdd_node *, manager->bdd.nvariables);
+    gen->stack.sp    = 0;
+    gen->stack.stack = ALLOC(bdd_node * , manager->bdd.nvariables);
     if (gen->stack.stack == NIL(bdd_node *))
-	(void) bdd_memfail(manager, "bdd_first_node");
+        (void) bdd_memfail(manager, "bdd_first_node");
 
     /*
      * Get the first node.
@@ -245,8 +201,8 @@ bdd_node **node;	/* return */
      */
     gen->manager->heap.gc.status.open_generators++;
 
-    *node = gen->node;	/* return the node */
-    return (gen);	/* and the new generator */
+    *node = gen->node;    /* return the node */
+    return (gen);    /* and the new generator */
 }
 
 /*
@@ -255,12 +211,12 @@ bdd_node **node;	/* return */
  */
 boolean
 bdd_next_node(gen, node)
-bdd_gen *gen;
-bdd_node **node;	/* return */
+        bdd_gen *gen;
+        bdd_node **node;    /* return */
 {
     (void) pop_node_stack(gen);
     if (gen->status == bdd_EMPTY)
-	return (FALSE);
+        return (FALSE);
 
     *node = gen->node;
     return (TRUE);
@@ -273,19 +229,17 @@ bdd_node **node;	/* return */
  */
 int
 bdd_gen_free(gen)
-bdd_gen *gen;
+        bdd_gen *gen;
 {
     gen->manager->heap.gc.status.open_generators--;
 
     switch (gen->type) {
-    case bdd_gen_cubes:
-	(void) array_free(gen->gen.cubes.cube);
-	gen->gen.cubes.cube = NIL(array_t);
-	break;
-    case bdd_gen_nodes:
-	(void) st_free_table(gen->gen.nodes.visited);
-	gen->gen.nodes.visited = NIL(st_table);
-	break;
+        case bdd_gen_cubes: (void) array_free(gen->gen.cubes.cube);
+            gen->gen.cubes.cube = NIL(array_t);
+            break;
+        case bdd_gen_nodes: (void) st_free_table(gen->gen.nodes.visited);
+            gen->gen.nodes.visited = NIL(st_table);
+            break;
     }
 
     /*
@@ -294,7 +248,7 @@ bdd_gen *gen;
     FREE(gen->stack.stack);
     FREE(gen);
 
-    return (0);	/* make it return some sort of an int */
+    return (0);    /* make it return some sort of an int */
 }
 
 /*
@@ -324,14 +278,14 @@ bdd_gen *gen;
  */
 static void
 push_cube_stack(f, gen)
-bdd_node *f;
-bdd_gen *gen;
+        bdd_node *f;
+        bdd_gen *gen;
 {
     bdd_variableId topf;
-    bdd_node *f0, *f1;
+    bdd_node       *f0, *f1;
 
     if (f == BDD_ONE(gen->manager))
-	return;
+        return;
 
     topf = BDD_REGULAR(f)->id;
 
@@ -343,48 +297,48 @@ bdd_gen *gen;
      */
     (void) bdd_get_branches(f, &f1, &f0);
     if (f1 == BDD_ZERO(gen->manager)) {
-	/*
-	 *    No choice: take the 0 branch.  Since there is only one branch to 
-         *    explore from f, there is no need to push f onto the stack, because
-         *    after exploring this branch we are done with f.  A consequence of 
-         *    this is that there will be no f to pop either.  Same goes for the
-         *    next case.
-	 */
-	(void) array_insert(bdd_literal, gen->gen.cubes.cube, topf, 0);
-	(void) push_cube_stack(f0, gen);
+        /*
+         *    No choice: take the 0 branch.  Since there is only one branch to
+             *    explore from f, there is no need to push f onto the stack, because
+             *    after exploring this branch we are done with f.  A consequence of
+             *    this is that there will be no f to pop either.  Same goes for the
+             *    next case.
+         */
+        (void) array_insert(bdd_literal, gen->gen.cubes.cube, topf, 0);
+        (void) push_cube_stack(f0, gen);
     } else if (f0 == BDD_ZERO(gen->manager)) {
-	/*
-	 *    No choice: take the 1 branch
-	 */
-	(void) array_insert(bdd_literal, gen->gen.cubes.cube, topf, 1);
-	(void) push_cube_stack(f1, gen);
+        /*
+         *    No choice: take the 1 branch
+         */
+        (void) array_insert(bdd_literal, gen->gen.cubes.cube, topf, 1);
+        (void) push_cube_stack(f1, gen);
     } else {
         /*
          * In this case, we must explore both branches of f.  We always choose
          * to explore the 0 branch first.  We must push f on the stack, so that
          * we can later pop it and explore its 1 branch.
          */
-	gen->stack.stack[gen->stack.sp++] = f;
-	(void) array_insert(bdd_literal, gen->gen.cubes.cube, topf, 0);
-	(void) push_cube_stack(f0, gen);
+        gen->stack.stack[gen->stack.sp++] = f;
+        (void) array_insert(bdd_literal, gen->gen.cubes.cube, topf, 0);
+        (void) push_cube_stack(f0, gen);
     }
 }
 
 static void
 pop_cube_stack(gen)
-bdd_gen *gen;
+        bdd_gen *gen;
 {
     bdd_variableId topf;
-    bdd_node *branch_f;
-    bdd_node *f0, *f1;
-    int i;
+    bdd_node       *branch_f;
+    bdd_node       *f0, *f1;
+    int            i;
 
     if (gen->stack.sp == 0) {
         /*
          * Stack is empty.  Have already explored both the 0 and 1 branches of 
          * the root of the BDD.
          */
-	gen->status = bdd_EMPTY;
+        gen->status = bdd_EMPTY;
     } else {
         /*
          * Explore the 1 branch of the node at the top of the stack (since it is
@@ -392,20 +346,20 @@ bdd_gen *gen;
          * permanently pop the top node, since there are no more edges left to 
          * explore. 
          */
-	branch_f = gen->stack.stack[--gen->stack.sp];
-	topf = BDD_REGULAR(branch_f)->id;
-	(void) bdd_get_branches(branch_f, &f1, &f0);
-	(void) array_insert(bdd_literal, gen->gen.cubes.cube, topf, 1);
+        branch_f = gen->stack.stack[--gen->stack.sp];
+        topf     = BDD_REGULAR(branch_f)->id;
+        (void) bdd_get_branches(branch_f, &f1, &f0);
+        (void) array_insert(bdd_literal, gen->gen.cubes.cube, topf, 1);
 
         /* 
          * We must set the variables with variables ids greater than topf, 
          * back to 2 (don't care).  This is because these variables are not
          * on the current path, and thus there values are don't care.
          */
-	for (i=topf+1; i<array_n(gen->gen.cubes.cube); i++) {
-	    array_insert(bdd_literal, gen->gen.cubes.cube, i, 2);
-	}
-	(void) push_cube_stack(f1, gen);
+        for (i = topf + 1; i < array_n(gen->gen.cubes.cube); i++) {
+            array_insert(bdd_literal, gen->gen.cubes.cube, i, 2);
+        }
+        (void) push_cube_stack(f1, gen);
     }
 }
 
@@ -426,8 +380,8 @@ bdd_gen *gen;
  */
 static void
 push_node_stack(f, gen)
-bdd_node *f;
-bdd_gen *gen;
+        bdd_node *f;
+        bdd_gen *gen;
 {
     bdd_node *f0, *f1;
 
@@ -435,7 +389,7 @@ bdd_gen *gen;
         /* 
          * Already been visited.
          */
-	return;
+        return;
     }
 
     if (f == BDD_ONE(gen->manager) || f == BDD_ZERO(gen->manager)) {
@@ -444,50 +398,50 @@ bdd_gen *gen;
          * and set the gen->node pointer.  There is no need to put it in the stack because
          * the constant node does not have any branches.  
          */
-	(void) st_insert(gen->gen.nodes.visited, (refany) BDD_REGULAR(f), NIL(any));
-	gen->node = BDD_REGULAR(f);
+        (void) st_insert(gen->gen.nodes.visited, (refany) BDD_REGULAR(f), NIL(any));
+        gen->node = BDD_REGULAR(f);
     } else {
         /*
          * f has not been marked as visited.  We don't know yet if any of its branches remain to be explored.
          * First get its branches.  Note that bdd_get_branches properly handles inverted pointers.
          */
-	(void) bdd_get_branches(f, &f1, &f0);
-	if (! st_lookup(gen->gen.nodes.visited, (refany) BDD_REGULAR(f0), NIL(refany))) {
+        (void) bdd_get_branches(f, &f1, &f0);
+        if (!st_lookup(gen->gen.nodes.visited, (refany) BDD_REGULAR(f0), NIL(refany))) {
             /* 
              * The 0 child has not been visited, so explore the 0 branch.  First push f on 
              * the stack.
              */
-	    gen->stack.stack[gen->stack.sp++] = f;
+            gen->stack.stack[gen->stack.sp++] = f;
             (void) push_node_stack(f0, gen);
-	} else if (! st_lookup(gen->gen.nodes.visited, (refany) BDD_REGULAR(f1), NIL(refany))) {
+        } else if (!st_lookup(gen->gen.nodes.visited, (refany) BDD_REGULAR(f1), NIL(refany))) {
             /* 
              * The 0 child has been visited, but the 1 child has not been visited, so 
              * explore the 1 branch.  First push f on the stack.
              */
-	    gen->stack.stack[gen->stack.sp++] = f;
+            gen->stack.stack[gen->stack.sp++] = f;
             (void) push_node_stack(f1, gen);
-	} else {
+        } else {
             /*
              * Both the 0 and 1 children have been visited. Thus we are done exploring from f.  
              * Mark f as visited (put it in the visited table), and set the gen->node pointer.
              */
             (void) st_insert(gen->gen.nodes.visited, (refany) BDD_REGULAR(f), NIL(any));
-	    gen->node = BDD_REGULAR(f);
-	}
+            gen->node = BDD_REGULAR(f);
+        }
     }
 }
 
 static void
 pop_node_stack(gen)
-bdd_gen *gen;
+        bdd_gen *gen;
 {
     bdd_node *branch_f;
 
     if (gen->stack.sp == 0) {
-	gen->status = bdd_EMPTY;
+        gen->status = bdd_EMPTY;
     } else {
-	branch_f = gen->stack.stack[--gen->stack.sp];
-	(void) push_node_stack(branch_f, gen);
+        branch_f = gen->stack.stack[--gen->stack.sp];
+        (void) push_node_stack(branch_f, gen);
     }
 }
 

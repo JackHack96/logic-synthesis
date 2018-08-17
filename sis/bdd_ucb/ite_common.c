@@ -1,13 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/ite_common.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:02 $
- *
- */
-#include <stdio.h>	/* for BDD_DEBUG_LIFESPAN */
+
+#include <stdio.h>    /* for BDD_DEBUG_LIFESPAN */
 
 #include "util.h"
 #include "array.h"
@@ -16,41 +8,6 @@
 #include "bdd.h"
 #include "bdd_int.h"
 
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/ite_common.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:02 $
- * $Log: ite_common.c,v $
- * Revision 1.1.1.1  2004/02/07 10:15:02  pchong
- * imported
- *
- * Revision 1.3  1992/09/21  23:30:31  sis
- * Updates from Tom Shiple - this is BDD package release 2.4.
- *
- * Revision 1.3  1992/09/21  23:30:31  sis
- * Updates from Tom Shiple - this is BDD package release 2.4.
- *
- * Revision 1.2  1992/09/19  03:18:26  shiple
- * Version 2.4
- * Prefaced compile time debug switches with BDD_.  Fixed a typo in a comment.
- *
- * Revision 1.1  1992/07/29  00:27:07  shiple
- * Initial revision
- *
- * Revision 1.2  1992/05/06  18:51:03  sis
- * SIS release 1.1
- *
- * Revision 1.1  92/01/08  17:34:39  sis
- * Initial revision
- * 
- * Revision 1.1  91/03/27  14:35:43  shiple
- * Initial revision
- * 
- *
- */
 
 /*
  *    bdd_ite_quick_cofactor - perform a quick cofactoring of f
@@ -59,44 +16,44 @@
  */
 void
 bdd_ite_quick_cofactor(manager, f, varId, pf_v, pf_nv)
-bdd_manager *manager;
-bdd_node *f;
-bdd_variableId varId;
-bdd_node **pf_v;	/* return - f cofactored by varId */
-bdd_node **pf_nv;	/* return - f cofactored by varId bar */
+        bdd_manager *manager;
+        bdd_node *f;
+        bdd_variableId varId;
+        bdd_node **pf_v;    /* return - f cofactored by varId */
+        bdd_node **pf_nv;    /* return - f cofactored by varId bar */
 {
-	bdd_node *reg_f;
+    bdd_node *reg_f;
 
-	/* WATCHOUT - no safe frame is declared here (b/c its not needed) */
+    /* WATCHOUT - no safe frame is declared here (b/c its not needed) */
 
-	BDD_ASSERT_NOTNIL(f);
+    BDD_ASSERT_NOTNIL(f);
 
-	reg_f = BDD_REGULAR(f);
+    reg_f = BDD_REGULAR(f);
 
-	if (reg_f->id == varId) {
-	    /*
-	     *    If f's variable is varId, then do a bit
-	     *    of work to cofactor the bdd at f
-	     */
-	    BDD_ASSERT( ! BDD_IS_CONSTANT(manager, f) );	/* can't do this on zero or one */
+    if (reg_f->id == varId) {
+        /*
+         *    If f's variable is varId, then do a bit
+         *    of work to cofactor the bdd at f
+         */
+        BDD_ASSERT(!BDD_IS_CONSTANT(manager, f));    /* can't do this on zero or one */
 
-	    if (BDD_IS_COMPLEMENT(f)) {
-		*pf_v = BDD_NOT(reg_f->T);
-		*pf_nv = BDD_NOT(reg_f->E);
-	    } else {
-		*pf_v = reg_f->T;
-		*pf_nv = reg_f->E;
-	    }
-	} else {
-	    /*
-	     *    If f's variable is not varId, then no work need be done.
-	     */
-	    *pf_v = f;
-	    *pf_nv = f;
-	}
+        if (BDD_IS_COMPLEMENT(f)) {
+            *pf_v  = BDD_NOT(reg_f->T);
+            *pf_nv = BDD_NOT(reg_f->E);
+        } else {
+            *pf_v  = reg_f->T;
+            *pf_nv = reg_f->E;
+        }
+    } else {
+        /*
+         *    If f's variable is not varId, then no work need be done.
+         */
+        *pf_v  = f;
+        *pf_nv = f;
+    }
 
-	BDD_ASSERT_NOTNIL(*pf_v);
-	BDD_ASSERT_NOTNIL(*pf_nv);
+    BDD_ASSERT_NOTNIL(*pf_v);
+    BDD_ASSERT_NOTNIL(*pf_nv);
 }
 
 /*
@@ -114,41 +71,42 @@ bdd_node **pf_nv;	/* return - f cofactored by varId bar */
  */
 void
 bdd_ite_var_to_const(manager, f, pg, ph)
-bdd_manager *manager;
-bdd_node *f;		/* value */
-bdd_node **pg;		/* value/return */
-bdd_node **ph;		/* value/return */
+        bdd_manager *manager;
+        bdd_node *f;        /* value */
+        bdd_node **pg;        /* value/return */
+        bdd_node **ph;        /* value/return */
 {
-	/* WATCHOUT - no safe frame is declared here (b/c its not needed) */
+    /* WATCHOUT - no safe frame is declared here (b/c its not needed) */
 
-	BDD_ASSERT_NOTNIL(f);
+    BDD_ASSERT_NOTNIL(f);
 
-	if (f == *pg) {
-	    /*
-	     *    ITE(F, F, H) = ITE(F, 1, H) = F + H
-	     */
-	    *pg = BDD_ONE(manager);
-	} else if (f == BDD_NOT(*pg)) {
-	    /*
-	     *    ITE(F, !F, H) = ITE(F, 0, H) = !F * H
-	     */
-	    *pg = BDD_ZERO(manager);
-	}
+    if (f == *pg) {
+        /*
+         *    ITE(F, F, H) = ITE(F, 1, H) = F + H
+         */
+        *pg = BDD_ONE(manager);
+    } else if (f == BDD_NOT(*pg)) {
+        /*
+         *    ITE(F, !F, H) = ITE(F, 0, H) = !F * H
+         */
+        *pg = BDD_ZERO(manager);
+    }
 
-	if (f == *ph) {
-	    /*
-	     *    ITE(F, G, F) = ITE(F, G, 0) = F * G
-	     */
-	    *ph = BDD_ZERO(manager);
-	} else if (f == BDD_NOT(*ph)) {
-	    /*
-	     *    ITE(F, G, !F) = ITE(F, G, 1) = !F + G
-	     */
-	    *ph = BDD_ONE(manager);
-	}
+    if (f == *ph) {
+        /*
+         *    ITE(F, G, F) = ITE(F, G, 0) = F * G
+         */
+        *ph = BDD_ZERO(manager);
+    } else if (f == BDD_NOT(*ph)) {
+        /*
+         *    ITE(F, G, !F) = ITE(F, G, 1) = !F + G
+         */
+        *ph = BDD_ONE(manager);
+    }
 }
 
 static boolean greaterthan_equalp();
+
 static void swap();
 
 /*
@@ -169,117 +127,117 @@ static void swap();
  */
 void
 bdd_ite_canonicalize_ite_inputs(manager, pf, pg, ph, pcomplement)
-bdd_manager *manager;
-bdd_node **pf;			/* value/return */
-bdd_node **pg;			/* value/return */
-bdd_node **ph;			/* value/return */
-boolean *pcomplement;		/* return */
+        bdd_manager *manager;
+        bdd_node **pf;            /* value/return */
+        bdd_node **pg;            /* value/return */
+        bdd_node **ph;            /* value/return */
+        boolean *pcomplement;        /* return */
 {
-	/* WATCHOUT - no safe frame is declared here (b/c its not needed) */
+    /* WATCHOUT - no safe frame is declared here (b/c its not needed) */
 
-	BDD_ASSERT(pf != NIL(bdd_node *));
-	BDD_ASSERT_NOTNIL(*pf);
+    BDD_ASSERT(pf != NIL(bdd_node * ));
+    BDD_ASSERT_NOTNIL(*pf);
 
-	BDD_ASSERT(pg != NIL(bdd_node *));
-	BDD_ASSERT_NOTNIL(*pg);
+    BDD_ASSERT(pg != NIL(bdd_node * ));
+    BDD_ASSERT_NOTNIL(*pg);
 
-	BDD_ASSERT(ph != NIL(bdd_node *));
-	BDD_ASSERT_NOTNIL(*ph);
+    BDD_ASSERT(ph != NIL(bdd_node * ));
+    BDD_ASSERT_NOTNIL(*ph);
 
-	if (BDD_IS_CONSTANT(manager, *pg)) {
-	    /*
-	     *    ITE(F, c, H)
-	     *    where c is either zero or one
-	     */
-	    if (greaterthan_equalp(*pf, *ph)) {
-		/*
-		 *    ``F > H'' implies a rewrite by the rule
-		 */
-		if (*pg == BDD_ONE(manager)) {
-		    /*
-		     *    ITE(F, 1, H) = ITE(H, 1, F)
-		     */
-		    swap(ph, pf);
-		} else {	/* *pg == BDD_ZERO(manager) */
-		    /*
-		     *    ITE(F, 0, H) = ITE(!H, 0, !F)
-		     */
-		    swap(ph, pf);
-		    *pf = BDD_NOT(*pf);
-		    *ph = BDD_NOT(*ph);
-		}
-	    }
-	} else if (BDD_IS_CONSTANT(manager, *ph)) {
-	    /*
-	     *    ITE(F, G, c)
-	     *    where c is either zero or one
-	     */
-	    if (greaterthan_equalp(*pf, *pg)) {
-		/*
-		 *    ``F > G'' implies a rewrite by the rule
-		 */
-		if (*ph == BDD_ONE(manager)) {
-		    /*
-		     *    ITE(F, G, 1) = ITE(!G, !F, 1)
-		     */
-		    swap(pg, pf);
-		    *pf = BDD_NOT(*pf);
-		    *pg = BDD_NOT(*pg);
-		} else {	/* *ph == BDD_ONE(manager) */
-		    /*
-		     *    ITE(F, G, 0) = ITE(G, F, 0)
-		     */
-		    swap(pg, pf);
-		}
-	    }
-	} else if (*pg == BDD_NOT(*ph)) {
-	    /*
-	     *    ITE(F, G, !G)
-	     */
-	    if (greaterthan_equalp(*pf, *pg)) {
-		/*
-		 *    ``F > G'' implies a rewrite by the rule
-		 *
-		 *    ITE(F, G, !G) = ITE(G, F, !F)
-		 */
-		swap(pf, pg);
-		*ph = BDD_NOT(*pg);
-	    }
-	}
+    if (BDD_IS_CONSTANT(manager, *pg)) {
+        /*
+         *    ITE(F, c, H)
+         *    where c is either zero or one
+         */
+        if (greaterthan_equalp(*pf, *ph)) {
+            /*
+             *    ``F > H'' implies a rewrite by the rule
+             */
+            if (*pg == BDD_ONE(manager)) {
+                /*
+                 *    ITE(F, 1, H) = ITE(H, 1, F)
+                 */
+                swap(ph, pf);
+            } else {    /* *pg == BDD_ZERO(manager) */
+                /*
+                 *    ITE(F, 0, H) = ITE(!H, 0, !F)
+                 */
+                swap(ph, pf);
+                *pf = BDD_NOT(*pf);
+                *ph = BDD_NOT(*ph);
+            }
+        }
+    } else if (BDD_IS_CONSTANT(manager, *ph)) {
+        /*
+         *    ITE(F, G, c)
+         *    where c is either zero or one
+         */
+        if (greaterthan_equalp(*pf, *pg)) {
+            /*
+             *    ``F > G'' implies a rewrite by the rule
+             */
+            if (*ph == BDD_ONE(manager)) {
+                /*
+                 *    ITE(F, G, 1) = ITE(!G, !F, 1)
+                 */
+                swap(pg, pf);
+                *pf = BDD_NOT(*pf);
+                *pg = BDD_NOT(*pg);
+            } else {    /* *ph == BDD_ONE(manager) */
+                /*
+                 *    ITE(F, G, 0) = ITE(G, F, 0)
+                 */
+                swap(pg, pf);
+            }
+        }
+    } else if (*pg == BDD_NOT(*ph)) {
+        /*
+         *    ITE(F, G, !G)
+         */
+        if (greaterthan_equalp(*pf, *pg)) {
+            /*
+             *    ``F > G'' implies a rewrite by the rule
+             *
+             *    ITE(F, G, !G) = ITE(G, F, !F)
+             */
+            swap(pf, pg);
+            *ph = BDD_NOT(*pg);
+        }
+    }
 
-	/*
-	 *    Adjust pointers so that the first 2 arguments to ITE are regular.
-	 *    This canonicalizes the ordering of the ITE inputs some more.
-	 */
-	if (BDD_IS_COMPLEMENT(*pf)) {
-	    /*
-	     *    ITE(!F, G, H) = ITE(F, H, G)
-	     */
-	    *pf = BDD_NOT(*pf);
-	    swap(pg, ph);
-	}
+    /*
+     *    Adjust pointers so that the first 2 arguments to ITE are regular.
+     *    This canonicalizes the ordering of the ITE inputs some more.
+     */
+    if (BDD_IS_COMPLEMENT(*pf)) {
+        /*
+         *    ITE(!F, G, H) = ITE(F, H, G)
+         */
+        *pf = BDD_NOT(*pf);
+        swap(pg, ph);
+    }
 
-	if ( ! BDD_IS_COMPLEMENT(*pg) ) {
-	    /*
-	     *    ITE(F, G, H)
-	     *    where H may be complemented or not
-	     */
-	    *pcomplement = FALSE;
+    if (!BDD_IS_COMPLEMENT(*pg)) {
+        /*
+         *    ITE(F, G, H)
+         *    where H may be complemented or not
+         */
+        *pcomplement = FALSE;
 
-	    BDD_ASSERT_REGNODE(*pf);
-	    BDD_ASSERT_REGNODE(*pg);
-	} else {	/* BDD_IS_COMPLEMENT(*pg) */
-	    /*
-	     *    ITE(F, !G, H) = ! ITE(F, G, !H)
-	     */
-	    *pcomplement = TRUE;
+        BDD_ASSERT_REGNODE(*pf);
+        BDD_ASSERT_REGNODE(*pg);
+    } else {    /* BDD_IS_COMPLEMENT(*pg) */
+        /*
+         *    ITE(F, !G, H) = ! ITE(F, G, !H)
+         */
+        *pcomplement = TRUE;
 
-	    *pg = BDD_NOT(*pg);
-	    *ph = BDD_NOT(*ph);
-	}
+        *pg = BDD_NOT(*pg);
+        *ph = BDD_NOT(*ph);
+    }
 
-	BDD_ASSERT_REGNODE(*pf);
-	BDD_ASSERT_REGNODE(*pg);
+    BDD_ASSERT_REGNODE(*pf);
+    BDD_ASSERT_REGNODE(*pg);
 }
 
 /*
@@ -294,45 +252,45 @@ boolean *pcomplement;		/* return */
  */
 static boolean
 greaterthan_equalp(f, g)
-bdd_node *f;
-bdd_node *g;
+        bdd_node *f;
+        bdd_node *g;
 {
-	bdd_node *reg_f, *reg_g;
+    bdd_node *reg_f, *reg_g;
 
-	BDD_ASSERT_NOTNIL(f);
-	BDD_ASSERT_NOTNIL(g);
+    BDD_ASSERT_NOTNIL(f);
+    BDD_ASSERT_NOTNIL(g);
 
-	reg_f = BDD_REGULAR(f);
-	reg_g = BDD_REGULAR(g);
+    reg_f = BDD_REGULAR(f);
+    reg_g = BDD_REGULAR(g);
 
-	if (reg_f->id > reg_g->id) {
-	    /*
-	     *    If the nodes are different,
-	     *    then f is clearly greater than g.
-	     */
-	    return (TRUE);
-	}
-	    
-	if (reg_f->id == reg_g->id) {
-	    /*
-	     *    The variableId's are equal (they refer to the same variable),
-	     *    so pick an arbitrary ordering for the two.  This is based
-	     *    on some unique (yet arbitrary) property of the node, such
-	     *    as its uniqueId or memory location (another uniqueId).
-	     */
-	    boolean arbitraryp;
+    if (reg_f->id > reg_g->id) {
+        /*
+         *    If the nodes are different,
+         *    then f is clearly greater than g.
+         */
+        return (TRUE);
+    }
 
-#if defined(BDD_DEBUG_UID) && ! defined(BDD_DEBUG_LIFESPAN) /* { */
-	    arbitraryp = reg_f->uniqueId > reg_g->uniqueId;
+    if (reg_f->id == reg_g->id) {
+        /*
+         *    The variableId's are equal (they refer to the same variable),
+         *    so pick an arbitrary ordering for the two.  This is based
+         *    on some unique (yet arbitrary) property of the node, such
+         *    as its uniqueId or memory location (another uniqueId).
+         */
+        boolean arbitraryp;
+
+#if defined(BDD_DEBUG_UID) && !defined(BDD_DEBUG_LIFESPAN) /* { */
+        arbitraryp = reg_f->uniqueId > reg_g->uniqueId;
 #else /* } else { */
-	    arbitraryp = (int) f > (int) g;
+        arbitraryp = (int) f > (int) g;
 #endif /* } */
 
-	    if (arbitraryp);
-		return (TRUE);
-	}
+        if (arbitraryp);
+        return (TRUE);
+    }
 
-	return (FALSE);
+    return (FALSE);
 }
 
 /*
@@ -342,12 +300,12 @@ bdd_node *g;
  */
 static void
 swap(pf, pg)
-bdd_node **pf;	/* value/return */
-bdd_node **pg;	/* value/return */
+        bdd_node **pf;    /* value/return */
+        bdd_node **pg;    /* value/return */
 {
-	bdd_node *tmp;	/* swap f and h */
+    bdd_node *tmp;    /* swap f and h */
 
-	tmp = *pg;
-	*pg = *pf;
-	*pf = tmp;
+    tmp = *pg;
+    *pg = *pf;
+    *pf = tmp;
 }

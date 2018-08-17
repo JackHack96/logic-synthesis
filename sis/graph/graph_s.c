@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/graph/graph_s.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:26 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 #include "graph_int.h"
@@ -55,21 +47,21 @@ void (*f_free_e)();
 
     foreach_vertex(g,gen,v) {
         if (f_free_v != (void (*)()) NULL) {
-	    (*f_free_v)(v->user_data);
-	}
-	FREE(v->user_data);
-	(void) lsDestroy(g_get_in_edges(v),(void (*)()) NULL);
-	(void) lsDestroy(g_get_out_edges(v),(void (*)()) NULL);
-	(void) lsRemoveItem(((vertex_t_int *) v)->handle,&junk);
-	FREE(v);
+        (*f_free_v)(v->user_data);
+    }
+    FREE(v->user_data);
+    (void) lsDestroy(g_get_in_edges(v),(void (*)()) NULL);
+    (void) lsDestroy(g_get_out_edges(v),(void (*)()) NULL);
+    (void) lsRemoveItem(((vertex_t_int *) v)->handle,&junk);
+    FREE(v);
     }
     foreach_edge(g,gen,e) {
         if (f_free_e != (void (*)()) NULL) {
-	    (*f_free_e)(e->user_data);
-	}
-	FREE(e->user_data);
-	(void) lsRemoveItem(((edge_t_int *) e)->handle,&junk);
-	FREE(e);
+        (*f_free_e)(e->user_data);
+    }
+    FREE(e->user_data);
+    (void) lsRemoveItem(((edge_t_int *) e)->handle,&junk);
+    FREE(e);
     }
     g_free(g,(void (*)()) NULL,(void (*)()) NULL,(void (*)()) NULL);
 }
@@ -88,7 +80,7 @@ gGeneric user_data;
         new[i] = ((gGeneric *) user_data)[i];
     }
     return((gGeneric) new);
-}    
+}
 
 static gGeneric
 copy_e_slots(user_data)
@@ -102,7 +94,7 @@ gGeneric user_data;
         new[i] = ((gGeneric *) user_data)[i];
     }
     return((gGeneric) new);
-}    
+}
 
 graph_t *
 g_dup_static(g, f_copy_g, f_copy_v, f_copy_e)
@@ -117,12 +109,12 @@ gGeneric (*f_copy_e)();
     int i;
 
     if (f_copy_v == (gGeneric (*)()) NULL) {
-        theGraph = g;        
+        theGraph = g;
         f_copy_v = copy_v_slots;
     }
     if (f_copy_e == (gGeneric (*)()) NULL) {
         theGraph = g;
-	f_copy_e = copy_e_slots;
+    f_copy_e = copy_e_slots;
     }
     g2 = g_dup(g,(gGeneric (*)()) NULL,f_copy_v,f_copy_e);
     if (g == NIL(graph_t)) {
@@ -136,15 +128,15 @@ gGeneric (*f_copy_e)();
     gf2->num_e_slots = gf->num_e_slots;
     if (f_copy_g == (gGeneric (*)()) NULL) {
         new = ALLOC(gGeneric,gf->num_g_slots);
-	for (i = gf->num_g_slots - 1; i >= 0; i--) {
-	    new[i] = ((gGeneric *) gf->user_data)[i];
-	}
-	gf2->user_data = (gGeneric) new;
+    for (i = gf->num_g_slots - 1; i >= 0; i--) {
+        new[i] = ((gGeneric *) gf->user_data)[i];
+    }
+    gf2->user_data = (gGeneric) new;
     }
     else {
         gf2->user_data = (*f_copy_g)(gf->user_data);
     }
-    g2->user_data = (gGeneric) gf2;        
+    g2->user_data = (gGeneric) gf2;
     return(g2);
 }
 
@@ -197,8 +189,8 @@ gGeneric (*f_copy_g)();
     slots2 = (gGeneric *) gf2->user_data;
     if (f_copy_g == (gGeneric (*)()) NULL) {
         for (n-- ; n >= 0; n--) {
-	    slots2[n] = ((gGeneric *) slots1)[n];
-	}
+        slots2[n] = ((gGeneric *) slots1)[n];
+    }
     }
     else {
         FREE(slots2);
@@ -207,7 +199,7 @@ gGeneric (*f_copy_g)();
 }
 
 
-edge_t * 
+edge_t *
 g_add_edge_static(v1, v2)
 vertex_t *v1, *v2;
 {
@@ -253,7 +245,7 @@ gGeneric val;
 }
 
 
-gGeneric 
+gGeneric
 g_get_e_slot_static(e, i)
 edge_t *e;
 int i;
@@ -284,8 +276,8 @@ gGeneric (*f_copy_e)();
     slots2 = (gGeneric *) e2->user_data;
     if (f_copy_e == (gGeneric (*)()) NULL) {
         for (n--; n >= 0; n--) {
-	    slots2[n] = ((gGeneric *) slots1)[n];
-	}
+        slots2[n] = ((gGeneric *) slots1)[n];
+    }
     }
     else {
         FREE(slots2);
@@ -309,7 +301,7 @@ graph_t *g;
     v->user_data = (gGeneric) ALLOC(gGeneric, gf->num_v_slots);
     return(v);
 }
-    
+
 
 void
 g_delete_vertex_static(v,f_free_v,f_free_e)
@@ -325,15 +317,15 @@ void (*f_free_e)();
     }
     foreach_in_edge(v, gen, e) {
         if (f_free_e != (void (*)()) NULL) {
-	    (*f_free_e)(e->user_data);
-	}
-	FREE(e->user_data);
+        (*f_free_e)(e->user_data);
+    }
+    FREE(e->user_data);
     }
     foreach_out_edge(v, gen, e) {
         if (f_free_e != (void (*)()) NULL) {
-	    (*f_free_e)(e->user_data);
-	}
-	FREE(e->user_data);
+        (*f_free_e)(e->user_data);
+    }
+    FREE(e->user_data);
     }
     if (f_free_v != (void (*)()) NULL) {
         (*f_free_v)(v->user_data);
@@ -364,7 +356,7 @@ int i;
     if (v == NIL(vertex_t)) {
         fail("g_get_v_slot_static: Null vertex");
     }
-    return ((gGeneric *) v->user_data)[i]; 
+    return ((gGeneric *) v->user_data)[i];
 }
 
 void
@@ -374,7 +366,7 @@ gGeneric (*f_copy_v)();
 {
     int n;
     gGeneric slots1,*slots2;
-    
+
     if (v1 == NIL(vertex_t) || v2 == NIL(vertex_t)) {
         fail("g_copy_v_slots_static: Null vertex");
     }
@@ -387,8 +379,8 @@ gGeneric (*f_copy_v)();
     slots2 = (gGeneric *) v2->user_data;
     if (f_copy_v == (gGeneric (*)()) NULL) {
         for (n--; n >= 0; n--) {
-	    slots2[n] = ((gGeneric *) slots1)[n];
-	}
+        slots2[n] = ((gGeneric *) slots1)[n];
+    }
     }
     else {
         FREE(slots2);

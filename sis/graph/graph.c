@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/graph/graph.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:26 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 #include "graph_int.h"
@@ -44,17 +36,17 @@ void (*f_free_e)();
     }
     foreach_vertex (g,gen,v) {
         if (f_free_v != (void (*)()) NULL) {
-	    (*f_free_v)(v->user_data);
-	}
-	(void) lsDestroy(g_get_in_edges(v),(void (*)()) NULL);
-	(void) lsDestroy(g_get_out_edges(v),(void (*)()) NULL);
-	FREE(v);
+        (*f_free_v)(v->user_data);
+    }
+    (void) lsDestroy(g_get_in_edges(v),(void (*)()) NULL);
+    (void) lsDestroy(g_get_out_edges(v),(void (*)()) NULL);
+    FREE(v);
     }
     foreach_edge (g,gen,e) {
         if (f_free_e != (void (*)()) NULL) {
-	    (*f_free_e)(e->user_data);
-	}
-	FREE(e);
+        (*f_free_e)(e->user_data);
+    }
+    FREE(e);
     }
     (void) lsDestroy(g_get_vertices(g),(void (*)()) NULL);
     (void) lsDestroy(g_get_edges(g),(void (*)()) NULL);
@@ -75,57 +67,57 @@ graph_t *g;
     }
     foreach_edge (g,gen,e) {
         source = g_e_source(e);
-	dest = g_e_dest(e);
+    dest = g_e_dest(e);
         if (source == NIL(vertex_t)) {
-	    fail("g_check: Edge has no source");
-	}
-	if (dest == NIL(vertex_t)) {
-	    fail("g_check: Edge has no destination");
-	}
-	if (g_vertex_graph(source) != g_vertex_graph(dest)) {
-	    fail("g_check: Edge connects different graphs");
-	}
-	found = FALSE;
-	foreach_out_edge (source,gen2,test) {
-	    if (test == e) {
-	        found = TRUE;
-		(void) lsFinish(gen2);
-		break;
-	    }
-	}
-	if (found == FALSE) {
-	    fail("g_check: Vertex does not point back to edge");
-	}
-	found = FALSE;
-	foreach_in_edge (dest,gen2,test) {
-	    if (test == e) {
-	        found = TRUE;
-		(void) lsFinish(gen2);
-		break;
-	    }
-	}
-	if (found == FALSE) {
-	    fail("g_check: Vertex does not point back to edge");
-	}
+        fail("g_check: Edge has no source");
+    }
+    if (dest == NIL(vertex_t)) {
+        fail("g_check: Edge has no destination");
+    }
+    if (g_vertex_graph(source) != g_vertex_graph(dest)) {
+        fail("g_check: Edge connects different graphs");
+    }
+    found = FALSE;
+    foreach_out_edge (source,gen2,test) {
+        if (test == e) {
+            found = TRUE;
+        (void) lsFinish(gen2);
+        break;
+        }
+    }
+    if (found == FALSE) {
+        fail("g_check: Vertex does not point back to edge");
+    }
+    found = FALSE;
+    foreach_in_edge (dest,gen2,test) {
+        if (test == e) {
+            found = TRUE;
+        (void) lsFinish(gen2);
+        break;
+        }
+    }
+    if (found == FALSE) {
+        fail("g_check: Vertex does not point back to edge");
+    }
     }
     foreach_vertex (g,gen,v) {
         if (g_vertex_graph(v) != g) {
-	    fail("g_check: Vertex not a member of graph");
-	}
+        fail("g_check: Vertex not a member of graph");
+    }
         if (lsLength(g_get_in_edges(v)) + lsLength(g_get_out_edges(v)) == 0) {
-	    (void) fprintf(miserr,"Warning: g_check: Unconnected vertex\n");
-	    continue;
-	}
-	foreach_in_edge(v,gen2,test) {
-	    if (g_e_dest(test) != v) {
-	        fail("g_check: Edge does not point back to vertex");
-	    }
-	}
-	foreach_out_edge(v,gen2,test) {
-	    if (g_e_source(test) != v) {
-	        fail("g_check: Edge does not point back to vertex");
-	    }
-	}
+        (void) fprintf(miserr,"Warning: g_check: Unconnected vertex\n");
+        continue;
+    }
+    foreach_in_edge(v,gen2,test) {
+        if (g_e_dest(test) != v) {
+            fail("g_check: Edge does not point back to vertex");
+        }
+    }
+    foreach_out_edge(v,gen2,test) {
+        if (g_e_source(test) != v) {
+            fail("g_check: Edge does not point back to vertex");
+        }
+    }
     }
 }
 
@@ -155,24 +147,24 @@ gGeneric (*f_copy_e)();
     }
     foreach_vertex (g,gen,v) {
         new_v = g_add_vertex(new);
-	if (f_copy_v == (gGeneric (*)()) NULL) {
-	    new_v->user_data = v->user_data;
-	}
-	else {
-	    new_v->user_data = (*f_copy_v)(v->user_data);
-	}
-	(void) st_insert(ptrtable,(char *) v,(char *) new_v);
+    if (f_copy_v == (gGeneric (*)()) NULL) {
+        new_v->user_data = v->user_data;
+    }
+    else {
+        new_v->user_data = (*f_copy_v)(v->user_data);
+    }
+    (void) st_insert(ptrtable,(char *) v,(char *) new_v);
     }
     foreach_edge (g,gen,e) {
         (void) st_lookup(ptrtable,(char *) g_e_source(e),(char **) &from);
-	(void) st_lookup(ptrtable,(char *) g_e_dest(e),(char **) &to);
-	new_e = g_add_edge(from,to);
-	if (f_copy_e == (gGeneric (*)()) NULL) {
-	    new_e->user_data = e->user_data;
-	}
-	else {
-	    new_e->user_data = (*f_copy_e)(e->user_data);
-	}
+    (void) st_lookup(ptrtable,(char *) g_e_dest(e),(char **) &to);
+    new_e = g_add_edge(from,to);
+    if (f_copy_e == (gGeneric (*)()) NULL) {
+        new_e->user_data = e->user_data;
+    }
+    else {
+        new_e->user_data = (*f_copy_e)(e->user_data);
+    }
     }
     st_free_table(ptrtable);
     return(new);
@@ -268,11 +260,11 @@ lsGeneric item;
     gen = lsStart(list);
     while (lsNext(gen,&looking,&handle) != LS_NOMORE) {
         if (item == looking) {
-	    if (lsRemoveItem(handle,&dummy) != LS_OK) {
-	        fail("g_del_from_list: Can't remove edge");
-	    }
-	    break;
-	}
+        if (lsRemoveItem(handle,&dummy) != LS_OK) {
+            fail("g_del_from_list: Can't remove edge");
+        }
+        break;
+    }
     }
     (void) lsFinish(gen);
 }
@@ -351,7 +343,7 @@ graph_t *g;
     vert = ALLOC(vertex_t_int,1);
     if (lsNewEnd(g_get_vertices(g),(lsGeneric) vert,&handle) != LS_OK) {
         fail("g_add_vertex: Can't add vertex");
-    }    
+    }
     vert->user_data = (gGeneric) NULL;
     vert->g = (graph_t_int *) g;
     vert->in_list = lsCreate();
@@ -379,23 +371,23 @@ void (*f_free_e)();
     }
     foreach_in_edge (v,gen,e) {
         g_del_from_list(g_get_out_edges(g_e_source(e)),(lsGeneric) e);
-	if (f_free_e != (void (*)()) NULL) {
-	    (*f_free_e)(e->user_data);
-	}
-	if (lsRemoveItem(((edge_t_int *) e)->handle,&junk) != LS_OK) {
-	    fail("g_delete_vertex: Can't remove edge from graph");
-	}
-	FREE(e);
+    if (f_free_e != (void (*)()) NULL) {
+        (*f_free_e)(e->user_data);
+    }
+    if (lsRemoveItem(((edge_t_int *) e)->handle,&junk) != LS_OK) {
+        fail("g_delete_vertex: Can't remove edge from graph");
+    }
+    FREE(e);
     }
     foreach_out_edge (v,gen,e) {
         g_del_from_list(g_get_in_edges(g_e_dest(e)),(lsGeneric) e);
-	if (f_free_e != (void (*)()) NULL) {
-	    (*f_free_e)(e->user_data);
-	}
-	if (lsRemoveItem(((edge_t_int *) e)->handle,&junk) != LS_OK) {
-	    fail("g_delete_vertex: Can't remove edge from graph");
-	}
-	FREE(e);
+    if (f_free_e != (void (*)()) NULL) {
+        (*f_free_e)(e->user_data);
+    }
+    if (lsRemoveItem(((edge_t_int *) e)->handle,&junk) != LS_OK) {
+        fail("g_delete_vertex: Can't remove edge from graph");
+    }
+    FREE(e);
     }
     (void) lsDestroy(g_get_out_edges(v),(void (*)()) NULL);
     (void) lsDestroy(g_get_in_edges(v),(void (*)()) NULL);

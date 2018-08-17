@@ -1,14 +1,6 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/map/cluster.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:24 $
- *
- */
- /* file cluster.h release 1.2 */
- /* last modified: 7/2/91 at 19:44:29 */
+
+/* file cluster.h release 1.2 */
+/* last modified: 7/2/91 at 19:44:29 */
 /* 
  * $Log: cluster.h,v $
  * Revision 1.1.1.1  2004/02/07 10:14:24  pchong
@@ -50,21 +42,21 @@
 #define CLUSTER_H
 
 typedef enum {
-  DEPTH_CONSTRAINT,
-  SIZE_CONSTRAINT,
-  SIZE_AS_DEPTH_CONSTRAINT,
-  CLUSTER_STATISTICS,
-  BEST_RATIO_CONSTRAINT,
-  FANIN_CONSTRAINT
+    DEPTH_CONSTRAINT,
+    SIZE_CONSTRAINT,
+    SIZE_AS_DEPTH_CONSTRAINT,
+    CLUSTER_STATISTICS,
+    BEST_RATIO_CONSTRAINT,
+    FANIN_CONSTRAINT
 } clust_type_t;
 
 typedef struct {
-  clust_type_t type;
-  int cluster_size;
-  int depth;
-  int relabel;
-  int verbose;
-  double dup_ratio;
+    clust_type_t type;
+    int          cluster_size;
+    int          depth;
+    int          relabel;
+    int          verbose;
+    double       dup_ratio;
 } clust_options_t;
 
 /* redundant - use ARGS defined in ansi.h
@@ -75,6 +67,6 @@ typedef struct {
 #endif
 */
 
-extern network_t *cluster_under_constraint ARGS((network_t *, clust_options_t *));
+extern network_t *cluster_under_constraint(network_t *, clust_options_t *);
 
 #endif /* CLUSTER_H */

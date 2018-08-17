@@ -1,18 +1,12 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/maxflow/maxflow_int.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:31 $
- *
- */
+
 /*
  * functions that will be used internal to the package
  */
-extern  void mf_error();
-extern  char *MF_calloc();
-extern  void get_cutset();
+extern void mf_error();
+
+extern char *MF_calloc();
+
+extern void get_cutset();
 
 #define LABELLED   1
 #define MARKED     2
@@ -26,6 +20,6 @@ extern  void get_cutset();
 /*
  * miscellaneous marcos 
  */
-#define MF_ALLOC(num,type) 						\
-	((type *)MF_calloc((int)(num), sizeof(type)))
+#define MF_ALLOC(num, type)                        \
+    ((type *)MF_calloc((int)(num), sizeof(type)))
 

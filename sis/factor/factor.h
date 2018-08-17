@@ -1,31 +1,31 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/factor/factor.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:23 $
- *
- */
+
 #ifndef FACTOR_H
 #define FACTOR_H
 
-EXTERN void factor ARGS((node_t *));
-EXTERN void factor_quick ARGS((node_t *));
-EXTERN void factor_good ARGS((node_t *));
+extern void factor(node_t *);
 
-EXTERN void factor_free ARGS((node_t *));
-EXTERN void factor_dup ARGS((node_t *, node_t *));
-EXTERN void factor_alloc ARGS((node_t *));
-EXTERN void factor_invalid ARGS((node_t *));
+extern void factor_quick(node_t *);
 
-EXTERN void factor_print ARGS((FILE *, node_t *));
-EXTERN int node_value ARGS((node_t *));
-EXTERN int factor_num_literal ARGS((node_t *));
-EXTERN int factor_num_used ARGS((node_t *, node_t *));
+extern void factor_good(node_t *);
 
-EXTERN void eliminate ARGS((network_t *, int, int));
+extern void factor_free(node_t *);
 
-EXTERN array_t *factor_to_nodes ARGS((node_t *));
+extern void factor_dup(node_t *, node_t *);
+
+extern void factor_alloc(node_t *);
+
+extern void factor_invalid(node_t *);
+
+extern void factor_print(FILE *, node_t *);
+
+extern int node_value(node_t *);
+
+extern int factor_num_literal(node_t *);
+
+extern int factor_num_used(node_t *, node_t *);
+
+extern void eliminate(network_t *, int, int);
+
+extern array_t *factor_to_nodes(node_t *);
 
 #endif

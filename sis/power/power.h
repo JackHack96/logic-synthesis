@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/power/power.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:05 $
- *
- */
+
 /*--------------------------------------------------------------------------
 |   Constants and structures needed to use the power package routines.
 |
@@ -34,8 +26,8 @@
 
 #define CAPACITANCE  0.01 /* In pico farads per fanout */
 
-typedef struct{
-    int cap_factor;        /* The load of the gate */
+typedef struct {
+    int    cap_factor;        /* The load of the gate */
     double switching_prob; /* Expected number of transistions in one cycle */
 } power_info_t;
 

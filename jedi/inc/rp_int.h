@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/jedi/rp_int.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:08 $
- *
- */
+
 /*
  * Bill Lin
  * University of California, Berkeley
@@ -27,11 +19,11 @@
 /*
  * global variables
  */
-FILE *Fin;
-FILE *Fout;
-FILE *Ferr;
-int RangeSmall;
-int Verbose;
+FILE   *Fin;
+FILE   *Fout;
+FILE   *Ferr;
+int    RangeSmall;
+int    Verbose;
 double OldCost;
 double NewCost;
 double StatesBegin;

@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/power/power_psExact.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:06 $
- *
- */
+
 /*---------------------------------------------------------------------------
 |      Calculates state probabilities of a FSM. Also calculates PS lines
 | probabilities from state probabilities.

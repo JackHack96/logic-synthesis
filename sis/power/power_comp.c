@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/power/power_comp.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:05 $
- *
- */
+
 /*---------------------------------------------------------------------------
 |      This file contains the "SCAN" operation on the BDD whereby all the
 | probabilities are easily obtained using static probabilities of inputs.
@@ -25,6 +17,7 @@
 #include "power_int.h"
 
 static double power_count_prob();
+
 #ifdef SIS
 static double power_count_prob_w_stateProb();
 static void   evaluate_included_state_prob();
@@ -42,21 +35,22 @@ static power_pi_t *PIInfo;
 *  inputs in the zero and one array
 */
 double power_calc_func_prob(f_bdd, infoPIs)
-bdd_t *f_bdd;
-power_pi_t *infoPIs;
+        bdd_t *f_bdd;
+        power_pi_t *infoPIs;
 {
-    double result;
-    char *value, *key;
+    double       result;
+    char         *value, *key;
     st_generator *gen;
 
     assert(f_bdd != NIL(bdd_t));
 
     visited = st_init_table(st_ptrcmp, st_ptrhash);
-    PIInfo = infoPIs;
+    PIInfo  = infoPIs;
 
     result = power_count_prob(f_bdd);
 
-    st_foreach_item(visited, gen, &key, &value){
+    st_foreach_item(visited, gen, &key, &value)
+    {
         FREE(value);
     }
     st_free_table(visited);
@@ -68,32 +62,33 @@ power_pi_t *infoPIs;
 *  sums it up to give the total probability of function being one
 */
 static double power_count_prob(f)
-bdd_t *f;
+        bdd_t *f;
 {
-    bdd_t *child;
+    bdd_t  *child;
     double result,
            *stored;
-    long topf;
+    long   topf;
 
-    if(st_lookup(visited, (char *) f->node, (char **) &stored))
+    if (st_lookup(visited, (char *) f->node, (char **) &stored))
         return *stored;
 
-    if(f->node == cmu_bdd_zero(f->mgr))
+    if (f->node == cmu_bdd_zero(f->mgr))
         return 0.0;
-    if(f->node == cmu_bdd_one(f->mgr))
+    if (f->node == cmu_bdd_one(f->mgr))
         return 1.0;
 
     topf = cmu_bdd_if_index(f->mgr, f->node);
 
-    child = bdd_else(f);
+    child  = bdd_else(f);
     result = (1.0 - PIInfo[topf].probOne) * power_count_prob(child);
     FREE(child);
 
     child = bdd_then(f);
     result += PIInfo[topf].probOne * power_count_prob(child);
     FREE(child);
-    
-    stored = ALLOC(double, 1);
+
+    stored = ALLOC(
+    double, 1);
     *stored = result;
     st_insert(visited, (char *) f->node, (char *) stored);
 

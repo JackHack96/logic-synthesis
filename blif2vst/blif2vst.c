@@ -97,7 +97,7 @@ struct cell *match_gate(char *name) {
     return (struct cell *) NULL;
 }
 
-void release_bit(struct BITstruct *ptr){
+void release_bit(struct BITstruct *ptr) {
     struct BITstruct *tmp;
     struct BITstruct *ptr2;
 
@@ -109,7 +109,7 @@ void release_bit(struct BITstruct *ptr){
     }
 }
 
-struct cell *new_cell(char *name, struct BITstruct *ports){
+struct cell *new_cell(char *name, struct BITstruct *ports) {
     struct cell      *tmp;
     struct BITstruct *Bptr;
     struct ports     *Pptr;
@@ -153,7 +153,7 @@ struct cell *new_cell(char *name, struct BITstruct *ports){
     return tmp;
 }
 
-struct instance *new_instance(struct cell *cell){
+struct instance *new_instance(struct cell *cell) {
     struct instance *tmp;
     unsigned        i;
 
@@ -201,7 +201,7 @@ struct MODELstruct *new_model() {
     return LocModel;
 }
 
-void add_vect(struct VECTstruct **VECTptr, char *name, int a, int b){
+void add_vect(struct VECTstruct **VECTptr, char *name, int a, int b) {
     (*VECTptr)->next = (struct VECTstruct *) calloc(1, sizeof(struct VECTstruct));
     if ((*VECTptr)->next == NULL) {
         error("Allocation error or not enought memory !");
@@ -213,7 +213,7 @@ void add_vect(struct VECTstruct **VECTptr, char *name, int a, int b){
     (*VECTptr)->next  = NULL;
 }
 
-void add_bit(struct BITstruct **BITptr, char *name){
+void add_bit(struct BITstruct **BITptr, char *name) {
     (*BITptr)->next = (struct BITstruct *) calloc(1, sizeof(struct BITstruct));
     if ((*BITptr)->next == NULL) {
         error("Allocation error or not enought memory !");
@@ -237,7 +237,7 @@ struct TMPstruct **TMPptr;
 }
 */
 
-struct BITstruct *is_here(char *name, struct BITstruct *ptr){
+struct BITstruct *is_here(char *name, struct BITstruct *ptr) {
     struct BITstruct *BITptr;
 
     BITptr = ptr;
@@ -263,7 +263,7 @@ struct MODELstruct *model;
 }
 */
 
-void get_token(char *tok){
+void get_token(char *tok) {
     enum states {
         tZERO, tLONG, tEOF, tSTRING, tCONT, tREM
     };
@@ -419,7 +419,7 @@ void get_token(char *tok){
     (void) strcpy(tok, &(TOKEN[0]));
 }
 
-void print_gates(struct cell *cell){
+void print_gates(struct cell *cell) {
     struct ports *ptr;
     int          j;
 
@@ -433,7 +433,7 @@ void print_gates(struct cell *cell){
     }
 }
 
-void get_lib_token(FILE *lib, char *tok){
+void get_lib_token(FILE *lib, char *tok) {
     enum states {
         tZERO, tLONG, tEOF, tSTRING, tREM
     };
@@ -565,7 +565,7 @@ void get_lib_token(FILE *lib, char *tok){
     (void) strcpy(tok, &(TOKEN[0]));
 }
 
-struct cell *scan_library(char *lib_name){
+struct cell *scan_library(char *lib_name) {
     enum states {
         sZERO, sPIN, sCLOCK, sADDCELL
     }                next;
@@ -741,7 +741,7 @@ void check_args(int argc, char **argv) {
     }
 }
 
-int dec_number(char *string){
+int dec_number(char *string) {
     char *s;
 
     for (s = string; *s != '\0'; s++)
@@ -829,7 +829,7 @@ void get_signals(struct TYPEterms *TYPEptr) {
 
 }
 
-void order_vectors(struct VECTstruct *VECTptr){
+void order_vectors(struct VECTstruct *VECTptr) {
     struct VECTstruct *actual;
     struct VECTstruct *ptr;
     struct VECTstruct *tmp;
@@ -881,7 +881,7 @@ void order_vectors(struct VECTstruct *VECTptr){
     }
 }
 
-void print_signals(struct MODELstruct *model){
+void print_signals(struct MODELstruct *model) {
     struct BITstruct  *BITptr;
     struct VECTstruct *VECTptr;
 
@@ -920,7 +920,7 @@ void print_signals(struct MODELstruct *model){
     if (DEBUG) (void) fprintf(stderr, "\n");
 }
 
-void print_net(struct instance *cell){
+void print_net(struct instance *cell) {
     struct ports *ptr1;
     struct ports *ptr2;
     int          j;
@@ -1097,7 +1097,7 @@ struct instance *get_names(char *name, char type, struct MODELstruct *model) {
     return Inst;
 }
 
-void print_vst(struct MODELstruct *model){
+void print_vst(struct MODELstruct *model) {
     struct cell       *Cptr;
     struct instance   *Iptr;
     struct ports      *Fptr;

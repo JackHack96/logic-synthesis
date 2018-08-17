@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/seqbdd/verif_util.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:54 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 
@@ -305,7 +297,7 @@ verif_options_t *options;
     new_network = ntbdd_bdd_single_to_network(unreached_states, "foo", var_names);
     nodes_array = network_dfs(new_network);
     exdc_prefix = "dc";
-	prefix_lenght = strlen(exdc_prefix) + 1;
+    prefix_lenght = strlen(exdc_prefix) + 1;
     for(i= 0; i < array_n(nodes_array); i++){
       node = array_fetch(node_t *, nodes_array, i);
       if (node_function(node) == NODE_PI)
@@ -313,17 +305,17 @@ verif_options_t *options;
       if (node_function(node) == NODE_PO)
         continue;
       name = ALLOC(char , (int) (strlen(node->name) + prefix_lenght));
-	  (void) sprintf(name, "%s%s", exdc_prefix, node->name);
+      (void) sprintf(name, "%s%s", exdc_prefix, node->name);
       network_change_node_name(new_network, node, name);
     }
-	foreach_node(new_network, listgen, node){
-		node->bdd = (char *) NIL (bdd_t);
-	}
+    foreach_node(new_network, listgen, node){
+        node->bdd = (char *) NIL (bdd_t);
+    }
     bdd_free(unreached_states);
     array_free(var_names);
     array_free(nodes_array);
 
-	eliminate(new_network, 0, 10000);
+    eliminate(new_network, 0, 10000);
     /* The old network is not freed here.  It is the responsibility of
        any routine calling breadth_first_traversal and asking NOT to keep 
        the old network to free that network itself.  The reason is that

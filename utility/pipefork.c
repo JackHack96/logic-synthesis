@@ -1,16 +1,7 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/utility/pipefork.c,v $
- * $Author: pchong $
- * $Revision: 1.2 $
- * $Date: 2004/03/27 10:33:58 $
- *
- */
-/* LINTLIBRARY */
-#include "copyright.h"
+#include "../port/copyright.h"
 #include "../port/port.h"
-#include "autoconf.h"
+#include <unistd.h>
+#include <sys/wait.h>
 
 /*
  * util_pipefork - fork a command and set up pipes to and from
@@ -24,19 +15,21 @@
  *   0 for failure
  */
 
-/* ARGSUSED */
-int
-util_pipefork(argv, toCommand, fromCommand, pid)
-char **argv;				/* normal argv argument list */
-FILE **toCommand;			/* pointer to the sending stream */
-FILE **fromCommand;			/* pointer to the reading stream */
-int *pid;
-{
+/**
+ * Fork (using execvp(3)) the program argv[0] with argv[1] ... argv[n] as arguments
+ * (argv[n+1] is set to NIL(char) to indicate the end of the list).
+ * Set up two-way pipes between	the child process and the parent, returning file pointer
+ * 'toCommand' which can be used to write information to the
+ * child, and the file pointer `fromCommand' which can be used to
+ * read information from the child.  As always with unix pipes,	watch out for dead-locks.
+ * @return Returns 1 for success, 0 if any failure occured forking the child.
+ */
+int util_pipefork(char **argv, FILE **toCommand, FILE **fromCommand, int *pid) {
 #ifdef unix
-    int forkpid, mywaitpid;
-    int topipe[2], frompipe[2];
+    int  forkpid, mywaitpid;
+    int  topipe[2], frompipe[2];
     char buffer[1024];
-    RETWAITTYPE status;
+    int  status;
 
     /* create the PIPES...
      * fildes[0] for reading from command
@@ -46,43 +39,42 @@ int *pid;
     (void) pipe(frompipe);
 
     if ((forkpid = vfork()) == 0) {
-	/* child here, connect the pipes */
-	(void) dup2(topipe[0], fileno(stdin));
-	(void) dup2(frompipe[1], fileno(stdout));
+        /* child here, connect the pipes */
+        (void) dup2(topipe[0], fileno(stdin));
+        (void) dup2(frompipe[1], fileno(stdout));
 
-	(void) close(topipe[0]);
-	(void) close(topipe[1]);
-	(void) close(frompipe[0]);
-	(void) close(frompipe[1]);
+        (void) close(topipe[0]);
+        (void) close(topipe[1]);
+        (void) close(frompipe[0]);
+        (void) close(frompipe[1]);
 
-	(void) execvp(argv[0], argv);
-	(void) sprintf(buffer, "util_pipefork: can not exec %s", argv[0]);
-	perror(buffer);
-	(void) _exit(1);
+        (void) execvp(argv[0], argv);
+        (void) sprintf(buffer, "util_pipefork: can not exec %s", argv[0]);
+        perror(buffer);
+        (void) _exit(1);
     }
 
     if (pid) {
-	*pid = forkpid;
+        *pid = forkpid;
     }
 
     mywaitpid = wait3(&status, WNOHANG, 0);
 
     /* parent here, use slimey vfork() semantics to get return status */
     if (mywaitpid == forkpid && WIFEXITED(status)) {
-	return 0;
+        return 0;
     }
-    if ((*toCommand = fdopen(topipe[1], "w")) == NULL) {
-	return 0;
+    if ((*toCommand   = fdopen(topipe[1], "w")) == NULL) {
+        return 0;
     }
     if ((*fromCommand = fdopen(frompipe[0], "r")) == NULL) {
-	return 0;
+        return 0;
     }
     (void) close(topipe[0]);
     (void) close(frompipe[1]);
     return 1;
 #else
-    (void) fprintf(stderr, 
-	"util_pipefork: not implemented on your operating system\n");
+    (void) fprintf(stderr, "util_pipefork: not implemented on your operating system\n");
     return 0;
 #endif
 }

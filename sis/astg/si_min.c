@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/astg/si_min.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:58 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 #include "astg_int.h"
@@ -174,24 +166,24 @@ network_t *old, *new;
     if (node_num_fanout(out_new) == 1) {
       node = node_get_fanout(out_new, 0);
       if (node_type(node) == INTERNAL) {
-	node2 = node_get_fanout(node, 0);
-	assert(node_num_fanout(node) == 1 && node_type(node2) == PRIMARY_OUTPUT);
-	network_delete_node(new, node2);
+    node2 = node_get_fanout(node, 0);
+    assert(node_num_fanout(node) == 1 && node_type(node2) == PRIMARY_OUTPUT);
+    network_delete_node(new, node2);
       } else {
-	assert(node_type(node) == PRIMARY_OUTPUT);
+    assert(node_type(node) == PRIMARY_OUTPUT);
       }
       network_delete_node(new, node);
       network_delete_node(new, out_new);
     } else {
       network_create_latch(new, &latch_new, in_new, out_new);
       if (!network_is_real_po(new, in_new)) {
-	/* hack to preserve the fake PO name - is this needed? */
-	network_swap_names(new, in_new, node_get_fanin(in_new, 0));
+    /* hack to preserve the fake PO name - is this needed? */
+    network_swap_names(new, in_new, node_get_fanin(in_new, 0));
       }
       latch_set_initial_value(latch_new, latch_get_initial_value(latch_old));
       latch_set_current_value(latch_new, latch_get_current_value(latch_old));
       latch_set_type(latch_new, latch_get_type(latch_old));
-    } 
+    }
   }
 }
 
@@ -283,10 +275,10 @@ astg_graph *stg;
       state = astg_state_code(state_p);
       print_state(stg, state);
       if (st_lookup(table, (char*) state, (char**) &c)) {
-	fprint_cube(c, PLA);
-	(void)fprintf(sisout, "\n");
+    fprint_cube(c, PLA);
+    (void)fprintf(sisout, "\n");
       } else {
-	(void)fprintf(sisout, " offset minterm\n");
+    (void)fprintf(sisout, " offset minterm\n");
       }
     }
   }
@@ -313,29 +305,29 @@ astg_scode state;
       assert(s != NIL(astg_signal));
       val = (s->state_bit & state)?1:0;
       switch(GETINPUT(p, i)) {
-      case ZERO: 
-	if (val) match = 0;
-	break;
-      case ONE: 
-	if (!val) match = 0;
-	break;
+      case ZERO:
+    if (val) match = 0;
+    break;
+      case ONE:
+    if (!val) match = 0;
+    break;
       default:
-	match = 0;
+    match = 0;
 /*
-	fail("PLA should contain only minterms");
+    fail("PLA should contain only minterms");
 */
-	break;
+    break;
       }
       if (!match) break;
     }
     if (match) {
       if (c == NULL) {
-	c = set_save(p);
+    c = set_save(p);
       } else {
-	for (i = cube.first_part[cube.output]; 
-	     i < cube.first_part[cube.output] + NUMOUTPUTS; i++) {
-	  if (is_in_set(p, i)) set_insert(c, i);
-	}
+    for (i = cube.first_part[cube.output];
+         i < cube.first_part[cube.output] + NUMOUTPUTS; i++) {
+      if (is_in_set(p, i)) set_insert(c, i);
+    }
       }
     }
   }
@@ -364,27 +356,27 @@ st_table *state_minterms;
 
       /* for each next state */
       astg_foreach_signal(stg, sgen, s) {
-	if (s->state_bit & enabled) {
-	  next_state = state ^ s->state_bit;
-	  if (st_lookup(state_minterms, (char*)next_state, (char**) &c2)) {
+    if (s->state_bit & enabled) {
+      next_state = state ^ s->state_bit;
+      if (st_lookup(state_minterms, (char*)next_state, (char**) &c2)) {
 
-	    /* distance of 1 between 2 state minterms means that there is at least one
-	     *  output which should stay at 1 during the state change
-	     */
-	    if (cdist(c1, c2) == 1) {
-	      c = new_cube();
-	      consensus(c, c1, c2);
-	      PLA->F= sf_addset(PLA->F, c);
-	      if (g_debug > 1) {
-		(void)fprintf(sisout, "#### Adding a cube ");
-		print_state(stg, state);
-		print_state(stg, next_state);
-		fprint_cube(c, PLA);
-		(void)fprintf(sisout, "\n");
-	      }
-	    }
-	  }
-	}
+        /* distance of 1 between 2 state minterms means that there is at least one
+         *  output which should stay at 1 during the state change
+         */
+        if (cdist(c1, c2) == 1) {
+          c = new_cube();
+          consensus(c, c1, c2);
+          PLA->F= sf_addset(PLA->F, c);
+          if (g_debug > 1) {
+        (void)fprintf(sisout, "#### Adding a cube ");
+        print_state(stg, state);
+        print_state(stg, next_state);
+        fprint_cube(c, PLA);
+        (void)fprintf(sisout, "\n");
+          }
+        }
+      }
+    }
       } /* end of for each next state */
     }
   }
@@ -412,9 +404,9 @@ astg_graph *stg;
     for (i = 0; i < array_n(state_array); i++) {
       state_info = array_fetch(state_rec *, state_array, i);
       foreachi_set (F, index, c) {
-	if (remove_glitch(index, c, state_info, state_array, stg, F, PLA)) {
-	  reducing = 1;
-	}
+    if (remove_glitch(index, c, state_info, state_array, stg, F, PLA)) {
+      reducing = 1;
+    }
       }
     }
   } while (reducing);
@@ -426,7 +418,7 @@ astg_graph *stg;
     FREE(state_info);
   }
   array_free(state_array);
-}    
+}
 
 /* try to remove a glitch by introducing a constant 0 literal */
 static int
@@ -469,21 +461,21 @@ pPLA PLA;
     if (GETINPUT(c, i) == ZERO) {
       if (!changing && init_val == 1) return 0;
       if (changing) {
-	if (init_val) rising++;
-	else falling++;
+    if (init_val) rising++;
+    else falling++;
       }
     } else {
       if (!changing && init_val == 0) return 0;
       if (changing) {
-	if (init_val) falling++;
-	else rising++;
+    if (init_val) falling++;
+    else rising++;
       }
     }
   }
 
   if (rising && falling) {
     if (g_debug) {
-      (void)fprintf(sisout, "glitching cube = "); 
+      (void)fprintf(sisout, "glitching cube = ");
       fprint_cube(c, PLA);
       (void)fprintf(sisout, "\n");
       print_enabled(stg, state_info->state, state_info->enabled);
@@ -538,13 +530,13 @@ pPLA PLA;
     set_insert(c2, cube.first_part[cube.output] + i);
   }
   if (g_debug) {(void)fprintf(sisout,"\t..> checking for constant 1 : c1 = (%s), c2 = (%s)\n",
-			      pc1(c1), pc2(c2));}
+                  pc1(c1), pc2(c2));}
   foreach_set(F, last, p) {
     (void) set_and(p1, p, c1);
     (void) set_and(p2, p, c2);
     for (i = NUMOUTPUTS - 1; i >= 0; i--) {
       if (GETOUTPUT(c, i) && GETOUTPUT(p1, i) && GETOUTPUT(p2, i)) {
-	if (!cube_empty(p1) && !cube_empty(p2)) const1[i]++;
+    if (!cube_empty(p1) && !cube_empty(p2)) const1[i]++;
       }
     }
   }
@@ -584,7 +576,7 @@ pPLA PLA;
   state_rec *s;
   int best_literal, best_cost;
 
-  F_old = sf_save(PLA->F); 
+  F_old = sf_save(PLA->F);
   sf_delset(F_old, index);
   FD = cube2list(F_old, PLA->D);
 
@@ -601,17 +593,17 @@ pPLA PLA;
     if (signal->state_bit & state_info->state) {
       /* need to preserve the positive unateness of output */
       if (signal->sig_type != ASTG_INPUT_SIG) {
-	PUTINPUT(c, i, ZERO);
+    PUTINPUT(c, i, ZERO);
       } else {
-	if (g_debug) (void)fprintf(sisout,"\t..>< invalid reduction because of neg output %s\n", signal->name);
-	cost[i] = INFINITY;
-	continue;
+    if (g_debug) (void)fprintf(sisout,"\t..>< invalid reduction because of neg output %s\n", signal->name);
+    cost[i] = INFINITY;
+    continue;
       }
     } else {
       PUTINPUT(c, i, ONE);
     }
     if (g_debug){
-      (void)fprintf(sisout, "\t..> trying reduced cube = "); 
+      (void)fprintf(sisout, "\t..> trying reduced cube = ");
       fprint_cube(c, PLA);
       (void)fprintf(sisout, "\n");
     }
@@ -627,29 +619,29 @@ pPLA PLA;
 
       /* check if this reduction doesn't undo the previous add_redundant step */
       if (logic_hazard(F, PLA, signal, stg)) {
-	cost[i] = INFINITY;
+    cost[i] = INFINITY;
       } else {
-	/* check how many additional conflicts this reduction can cause */
-	for (j = array_n(state_array) - 1 ; j >= 0; j--) {
-	  s = array_fetch(state_rec *, state_array, j);
-	  if (j == state_info->index) continue;
-	  if (possible_glitch(c, s, stg, F, PLA)) {
-	    if (j < state_info->index) { 
-	      /* we processed this state already--can't go back */
-	      cost[i] = INFINITY;
-	      break;
-	    } else {
-	      cost[i]++;
-	    }
-	  }
-	}
-	if (g_debug)(void)fprintf(sisout, "\t..< reduction is valid (%d additional glitches)\n", cost[i]);
+    /* check how many additional conflicts this reduction can cause */
+    for (j = array_n(state_array) - 1 ; j >= 0; j--) {
+      s = array_fetch(state_rec *, state_array, j);
+      if (j == state_info->index) continue;
+      if (possible_glitch(c, s, stg, F, PLA)) {
+        if (j < state_info->index) {
+          /* we processed this state already--can't go back */
+          cost[i] = INFINITY;
+          break;
+        } else {
+          cost[i]++;
+        }
+      }
+    }
+    if (g_debug)(void)fprintf(sisout, "\t..< reduction is valid (%d additional glitches)\n", cost[i]);
       }
     } else {
       if (g_debug){
-	(void)fprintf(sisout,"\t..< invalid reduction because this cube is no longer covered : ");
-	fprint_cube(c1, PLA);
-	(void)fprintf(sisout, "\n");
+    (void)fprintf(sisout,"\t..< invalid reduction because this cube is no longer covered : ");
+    fprint_cube(c1, PLA);
+    (void)fprintf(sisout, "\n");
       }
       cost[i] = INFINITY;
     }
@@ -671,7 +663,7 @@ pPLA PLA;
   free_cubelist(FD);
 
   if (best_literal == -1) {
-    (void)fprintf(sisout,"warning: no valid reduction found for cube :"); 
+    (void)fprintf(sisout,"warning: no valid reduction found for cube :");
     fprint_cube(c, PLA);
     (void)fprintf(sisout,"\n\t");
     print_state(stg, state_info->state);
@@ -712,7 +704,7 @@ astg_graph *stg;
     astg_foreach_place(stg, gen, p) {
       i = 0;
       astg_foreach_output_trans(p, _gen, t) {
-	i++;
+    i++;
       }
       if (i > 1) array_insert_last(astg_place *, fc_places, p);
     }
@@ -731,11 +723,11 @@ astg_graph *stg;
     if (num_fanouts > 1) {
       /*  check if this marking involves a free-choice place */
       if ( !fc_marking(state_p, fc_places)) {
-	s = ALLOC(state_rec, 1);
-	s->state = state;
-	s->enabled = enabled;
-	s->num_fanouts = num_fanouts;
-	array_insert_last(state_rec *, state_array, s);
+    s = ALLOC(state_rec, 1);
+    s->state = state;
+    s->enabled = enabled;
+    s->num_fanouts = num_fanouts;
+    array_insert_last(state_rec *, state_array, s);
       }
     }
   }
@@ -830,56 +822,56 @@ astg_graph *stg;
 
     if (signal->state_bit & enabled) {
       if (g_debug) {
-	(void)fprintf(sisout,"\t....>> checking for logic hazard : "); 
-	print_state(stg, state); 
-	(void)fprintf(sisout,"\t");
-	print_enabled(stg, state, enabled);
+    (void)fprintf(sisout,"\t....>> checking for logic hazard : ");
+    print_state(stg, state);
+    (void)fprintf(sisout,"\t");
+    print_enabled(stg, state, enabled);
       }
       for (i = NUMINPUTS - 1; i >= 0; i--) {
-	s = astg_find_named_signal(stg, STG_INLABEL(i));
-	assert(s != NIL(astg_signal));
-	if (s->state_bit & state) {
-	  PUTINPUT(c1, i, ONE);
-	  if (s != signal) PUTINPUT(c2, i, ONE);
-	  else PUTINPUT(c2, i, ZERO);
-	} else {
-	  PUTINPUT(c1, i, ZERO);
-	  if (s != signal) PUTINPUT(c2, i, ZERO);
-	  else PUTINPUT(c2, i, ONE);
-	}
+    s = astg_find_named_signal(stg, STG_INLABEL(i));
+    assert(s != NIL(astg_signal));
+    if (s->state_bit & state) {
+      PUTINPUT(c1, i, ONE);
+      if (s != signal) PUTINPUT(c2, i, ONE);
+      else PUTINPUT(c2, i, ZERO);
+    } else {
+      PUTINPUT(c1, i, ZERO);
+      if (s != signal) PUTINPUT(c2, i, ZERO);
+      else PUTINPUT(c2, i, ONE);
+    }
       }
       for (i = 0 ; i < NUMOUTPUTS; i++) {
-	set_insert(c1, cube.first_part[cube.output] + i);
-	set_insert(c2, cube.first_part[cube.output] + i);
+    set_insert(c1, cube.first_part[cube.output] + i);
+    set_insert(c2, cube.first_part[cube.output] + i);
       }
       if (g_debug) {(void)fprintf(sisout,"\t....>> c1 = (%s), c2 = (%s) [changing signal = %s]\n",
-				  pc1(c1), pc2(c2), signal->name);}
+                  pc1(c1), pc2(c2), signal->name);}
       for (i = NUMOUTPUTS - 1; i >= 0; i--) {
-	rising[i] = falling[i] = const1[i] = 0;
+    rising[i] = falling[i] = const1[i] = 0;
       }
       foreach_set(F, last, p) {
-	(void) set_and(p1, p, c1);
-	(void) set_and(p2, p, c2);
-	for (i = NUMOUTPUTS - 1; i >= 0; i--) {
-	  if (GETOUTPUT(p1, i) && GETOUTPUT(p2, i)) {
-	    p1_zero = cube_empty(p1);
-	    p2_zero = cube_empty(p2);
-	    if (p1_zero && !p2_zero) rising[i]++;
-	    if (!p1_zero && p2_zero) falling[i]++;
-	    if (!p1_zero && !p2_zero) const1[i]++;
-	  }
-	}
+    (void) set_and(p1, p, c1);
+    (void) set_and(p2, p, c2);
+    for (i = NUMOUTPUTS - 1; i >= 0; i--) {
+      if (GETOUTPUT(p1, i) && GETOUTPUT(p2, i)) {
+        p1_zero = cube_empty(p1);
+        p2_zero = cube_empty(p2);
+        if (p1_zero && !p2_zero) rising[i]++;
+        if (!p1_zero && p2_zero) falling[i]++;
+        if (!p1_zero && !p2_zero) const1[i]++;
+      }
+    }
       }
       for (i = NUMOUTPUTS - 1; i >= 0; i--) {
-	if (rising[i] && falling[i] && !const1[i]) {
-	  if (g_debug) (void)fprintf(sisout,"\t....<< found logic hazard in %s (r=%d,f=%d,1=%d)\n",
-				     STG_OUTLABEL(i), rising[i], falling[i], const1[i]);
-	  hazard = 1;
-	  break;
-	}
+    if (rising[i] && falling[i] && !const1[i]) {
+      if (g_debug) (void)fprintf(sisout,"\t....<< found logic hazard in %s (r=%d,f=%d,1=%d)\n",
+                     STG_OUTLABEL(i), rising[i], falling[i], const1[i]);
+      hazard = 1;
+      break;
+    }
       }
       if (hazard) {
-	goto hazard_end;
+    goto hazard_end;
       }
       if (g_debug) (void)fprintf(sisout,"\t....<< no logic hazard in %s\n", STG_OUTLABEL(i));
     }

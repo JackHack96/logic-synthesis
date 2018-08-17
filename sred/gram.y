@@ -1,13 +1,5 @@
 %{
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sred/gram.y,v $
- * $Author: pchong $
- * $Revision: 1.2 $
- * $Date: 2004/03/14 02:46:10 $
- *
- */
+
 #include "reductio.h"
 extern char yytext[];
 %}

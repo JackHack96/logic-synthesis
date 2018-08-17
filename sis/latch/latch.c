@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/latch/latch.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:29 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 
@@ -33,7 +25,7 @@ latch_free(l)
 latch_t *l;
 {
     if (l != NIL(latch_t)) {
-	FREE(l);
+    FREE(l);
     }
 }
 
@@ -44,12 +36,12 @@ latch_t *latch;
 node_t *control;
 {
     network_t *network;
-    
+
     if (control != NIL(node_t)) {
         network = node_network(control);
-	if (network == NIL(network_t)) {
-	    fail("latch_set_control:  node not part of network");
-	}
+    if (network == NIL(network_t)) {
+        fail("latch_set_control:  node not part of network");
+    }
         (void) st_insert(network->latch_table, (char *) control, NIL(char));
     }
     latch->control = control;
@@ -65,12 +57,12 @@ node_t *n;
 
     network = node_network(n);
     if (network == NIL(network_t)) {
-	fail("latch_from_node: node not part of a network");
+    fail("latch_from_node: node not part of a network");
     }
     if (st_lookup(network->latch_table, (char *) n, (char **) &latch)) {
-	return latch;
+    return latch;
     } else {
-   	return NIL(latch_t);
+       return NIL(latch_t);
     }
 }
 

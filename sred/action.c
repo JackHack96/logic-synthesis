@@ -1,326 +1,309 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sred/action.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:12 $
- *
- */
+
 #include "reductio.h"
 
-char *strcopyall (from)
+char *strcopyall(from)
 
-char *from;
+        char *from;
 
 {
-	char *to;
+    char *to;
 
-	MYCALLOC(char,to,strlen(from)+1);
-	strcpy (to, from);
+    MYCALLOC(char, to, strlen(from) + 1);
+    strcpy(to, from);
 
-	return (to);
+    return (to);
 }
 
 yyerror(message)
 char *message;
 
 {
-	int lp;
+int lp;
 
-	errorcount++;
+errorcount++;
 
-	if (mylinepos < 0) {
-		fprintf(stderr,"unexpected end of file \n");
-	}
-	else {
-		fprintf(stderr, myline);
-		for (lp = 0; lp < mylinepos - 1; lp++)
-			if (myline[lp] == '\t') fprintf(stderr, "\t");
-			else	fprintf(stderr, " ");
-		fprintf(stderr, "^\n");
+if (mylinepos < 0) {
+fprintf(stderr,
+"unexpected end of file \n");
+}
+else {
+fprintf(stderr, myline
+);
+for (
+lp = 0;
+lp < mylinepos - 1; lp++)
+if (myline[lp] == '\t')
+fprintf(stderr,
+"\t");
+else
+fprintf(stderr,
+" ");
+fprintf(stderr,
+"^\n");
 
-		fprintf(stderr, "%s\n", message);
-	}
+fprintf(stderr,
+"%s\n", message);
+}
 }
 
-error(message,element)
+error(message, element
+)
 
 char *message, *element;
 
 {
-	errorcount++;
+errorcount++;
 
-	fprintf(stderr,"%s%s\n", message, element);
+fprintf(stderr,
+"%s%s\n", message, element);
 }
 
-faterr (message,element)
+faterr (message, element
+)
 
 char *message, *element;
 
 {
-	errorcount++;
+errorcount++;
 
-	fprintf(stderr,"%s%s\n", message, element);
+fprintf(stderr,
+"%s%s\n", message, element);
 
-	abort ();
+abort();
 }
 
 int mygetc(file)
 
-FILE *file;
+        FILE *file;
 
 {
-	while ( myline[mylinepos] == '\0' ) {
+    while (myline[mylinepos] == '\0') {
 
-		if (myline[mylinepos] == '\0')
-			if (fgets (myline, 512, file)) {
-				mylinepos = 0;
-			}
-			else {
-				mylinepos = -1;
-				return (EOF);
-			}
-		else mylinepos++;
-	}
+        if (myline[mylinepos] == '\0')
+            if (fgets(myline, 512, file)) {
+                mylinepos = 0;
+            } else {
+                mylinepos = -1;
+                return (EOF);
+            }
+        else mylinepos++;
+    }
 
-	return ((int) myline[mylinepos++]);
+    return ((int) myline[mylinepos++]);
 }
 
-addoutputname()
+addoutputname() {
+    NAMETABLE *temp, *newname();
+    char      wire[MAXNAME];
 
-{
-	NAMETABLE *temp, *newname ();
-	char wire[MAXNAME];
+    strcpy(wire, "y");
+    strcat(wire, lastnum);
 
-	strcpy (wire, "y");
-	strcat (wire, lastnum);
+    temp = newname(lastid, wire);
 
-	temp = newname (lastid, wire);
-
-	temp->next = nametable;
-	nametable = temp;
+    temp->next = nametable;
+    nametable = temp;
 }
 
-addinputname()
+addinputname() {
+    NAMETABLE *temp, *newname();
+    char      wire[MAXNAME];
 
-{
-	NAMETABLE *temp, *newname ();
-	char wire[MAXNAME];
+    strcpy(wire, "x");
+    strcat(wire, lastnum);
 
-	strcpy (wire, "x");
-	strcat (wire, lastnum);
+    temp = newname(lastid, wire);
 
-	temp = newname (lastid, wire);
-
-	temp->next = nametable;
-	nametable = temp;
+    temp->next = nametable;
+    nametable = temp;
 }
 
-addinput()
+addinput() {
+    SYMTABLE *temp, *search(), *newsymbol();
 
-{
-	SYMTABLE *temp, *search(), *newsymbol();
+    if (strlen(lastvect) != nis)
+        error("wrong length input: ", lastin);
 
-	if (strlen (lastvect) != nis)
-		error("wrong length input: ", lastin);
+    if (search(inputlist, lastin) != 0)
+        error("multiple defined input symbol: ", lastin);
 
-	if (search (inputlist, lastin) != 0)
-		error("multiple defined input symbol: ", lastin);
-
-	temp = newsymbol (lastin, lastvect);
-	temp->next = inputlist;
-	inputlist = temp;
+    temp = newsymbol(lastin, lastvect);
+    temp->next = inputlist;
+    inputlist = temp;
 }
 
-addoutput()
+addoutput() {
+    SYMTABLE *temp, *search(), *newsymbol();
 
-{
-	SYMTABLE *temp, *search(), *newsymbol();
+    if (strlen(lastvect) != nos)
+        error("wrong length output: ", lastout);
 
-	if (strlen (lastvect) != nos)
-		error("wrong length output: ", lastout);
+    if (search(outputlist, lastout) != 0)
+        error("multiple defined output symbol: ", lastout);
 
-	if (search (outputlist, lastout) != 0)
-		error("multiple defined output symbol: ", lastout);
-
-	temp = newsymbol (lastout, lastvect);
-	temp->next = outputlist;
-	outputlist = temp;
+    temp = newsymbol(lastout, lastvect);
+    temp->next = outputlist;
+    outputlist = temp;
 }
 
-addstate()
+addstate() {
+    SYMTABLE *temp, *search(), *newsymbol();
 
-{
-	SYMTABLE *temp, *search(), *newsymbol();
+    if (search(statelist, laststate) != 0)
+        error("multiple output associated to state: ", laststate);
 
-	if (search (statelist, laststate) != 0)
-		error("multiple output associated to state: ", laststate);
-
-	temp = newsymbol (laststate, lastvect);
-	temp->next = statelist;
-	statelist = temp;
+    temp = newsymbol(laststate, lastvect);
+    temp->next = statelist;
+    statelist = temp;
 }
 
-NAMETABLE *newname (name, wire)
+NAMETABLE *newname(name, wire)
 
-char *name, *wire;
+        char *name, *wire;
 
 {
-	NAMETABLE *temp;
+    NAMETABLE *temp;
 
-	MYCALLOC (NAMETABLE, temp, 1);
+    MYCALLOC (NAMETABLE, temp, 1);
 
-	temp->symbol = strcopyall(name);
-	temp->wire = strcopyall (wire);
+    temp->symbol = strcopyall(name);
+    temp->wire   = strcopyall(wire);
 
-	return (temp);
+    return (temp);
 }
 
-SYMTABLE *newsymbol (name, value)
+SYMTABLE *newsymbol(name, value)
 
-char *name, *value;
+        char *name, *value;
 
 {
-	SYMTABLE *temp;
+    SYMTABLE *temp;
 
-	MYCALLOC (SYMTABLE, temp, 1);
+    MYCALLOC (SYMTABLE, temp, 1);
 
-	temp->symbol = strcopyall(name);
-	temp->vector = strcopyall (value);
+    temp->symbol = strcopyall(name);
+    temp->vector = strcopyall(value);
 
-	return (temp);
+    return (temp);
 }
 
-SYMTABLE *search (list, string)
+SYMTABLE *search(list, string)
 
-SYMTABLE *list;
-char *string;
+        SYMTABLE *list;
+        char *string;
 
 {
-	while ( list != (SYMTABLE *) 0 ) {
-		if ( strcmp (list->symbol, string) == 0 )
-			return (list);
-		list = list->next;
-	}
-	return ( (SYMTABLE *) 0 );
+    while (list != (SYMTABLE *) 0) {
+        if (strcmp(list->symbol, string) == 0)
+            return (list);
+        list = list->next;
+    }
+    return ((SYMTABLE *) 0);
 }
 
-moorewithinput()
+moorewithinput() {
+    SYMTABLE *temp;
 
-{
-	SYMTABLE *temp;
+    if (type != MOORE) {
+        error("Moore type line in Mealy type machine", "");
+        return;
+    }
 
-	if (type!=MOORE) {
-		error("Moore type line in Mealy type machine","");
-		return;
-	}
+    MYREALLOC(INPUTTABLE, itable, itable_size, np);
+    if ((lastin[0] == 'e') || (lastin[0] == '*')) {
 
-	MYREALLOC(INPUTTABLE, itable, itable_size, np);
-	if ((lastin[0] == 'e') || (lastin[0] == '*')) {
+        if (!isymb) {
 
-		if (!isymb) {
+            temp = search(inputlist, lastin);
 
-			temp = search (inputlist, lastin);
+            if (temp == (SYMTABLE *) 0)
+                error("undefined input: ", lastin);
+            else itable[np].input = strcopyall(temp->vector);
+        } else itable[np].input = strcopyall(lastin);
+    } else {
+        if (strlen(lastin) != nis)
+            error("wrong length input: x", lastin);
+        else itable[np].input = strcopyall(lastin);
+    }
 
-			if (temp == (SYMTABLE *) 0)
-				error("undefined input: ", lastin);
-			else 	itable[np].input = strcopyall (temp->vector);
-		}
-		else 	itable[np].input = strcopyall (lastin);
-	}
-	else {
-		if (strlen(lastin) != nis) 
-			error("wrong length input: x", lastin);
-		else	itable[np].input = strcopyall (lastin);
-	}
+    temp = search(statelist, laststate);
 
-	temp = search (statelist, laststate);
+    if (temp == (SYMTABLE *) 0)
+        error("no output associated with state: ", laststate);
+    else itable[np].output = strcopyall(temp->vector);
 
-	if ( temp == (SYMTABLE *) 0 )
-		error("no output associated with state: ", laststate);
-	else 	itable[np].output = strcopyall (temp->vector);
+    itable[np].pstate = strcopyall(laststate);
+    itable[np].nstate = strcopyall(lastnext);
 
-	itable[np].pstate = strcopyall (laststate);
-	itable[np].nstate = strcopyall (lastnext);
-
-	np++;
+    np++;
 }
 
-moorenoinput()
+moorenoinput() {
+    SYMTABLE *temp;
 
-{
-	SYMTABLE *temp;
+    if (type != MOORE) {
+        error("Moore type line in Mealy type machine", "");
+        return;
+    }
 
-	if (type!=MOORE) {
-		error("Moore type line in Mealy type machine","");
-		return;
-	}
+    MYREALLOC(INPUTTABLE, itable, itable_size, np);
+    if (nis != 0) error("missing.sh input specification", "");
 
-	MYREALLOC(INPUTTABLE, itable, itable_size, np);
-	if (nis!=0) error("missing.sh input specification","");
+    temp = search(statelist, laststate);
 
-	temp = search (statelist, laststate);
+    if (temp == (SYMTABLE *) 0)
+        error("no output associated with state: ", laststate);
+    else itable[np].output = strcopyall(temp->vector);
 
-	if ( temp == (SYMTABLE *) 0 )
-		error("no output associated with state: ", laststate);
-	else 	itable[np].output = strcopyall (temp->vector);
+    itable[np].pstate = strcopyall(laststate);
+    itable[np].nstate = strcopyall(lastnext);
 
-	itable[np].pstate = strcopyall (laststate);
-	itable[np].nstate = strcopyall (lastnext);
-
-	np++;
+    np++;
 }
 
-mealy()
+mealy() {
+    SYMTABLE *temp;
 
-{
-	SYMTABLE *temp;
+    if (type != MEALY) {
+        error("Mealy type line in Moore type machine", "");
+        return;
+    }
 
-	if (type!=MEALY) {
-		error("Mealy type line in Moore type machine","");
-		return;
-	}
+    MYREALLOC(INPUTTABLE, itable, itable_size, np);
+    if ((lastin[0] == 'e') || (lastin[0] == '*')) {
 
-	MYREALLOC(INPUTTABLE, itable, itable_size, np);
-	if ((lastin[0] == 'e') || (lastin[0] == '*')) {
+        if (!isymb) {
 
-		if (!isymb) {
+            temp = search(inputlist, lastin);
 
-			temp = search (inputlist, lastin);
+            if (temp == (SYMTABLE *) 0)
+                error("undefined input: ", lastin);
+            else itable[np].input = strcopyall(temp->vector);
+        } else itable[np].input = strcopyall(lastin);
+    } else {
+        if (strlen(lastin) != nis)
+            error("wrong length input: x", lastin);
+        else itable[np].input = strcopyall(lastin);
+    }
 
-			if (temp == (SYMTABLE *) 0)
-				error("undefined input: ", lastin);
-			else 	itable[np].input = strcopyall (temp->vector);
-		}
-		else 	itable[np].input = strcopyall (lastin);
-	}
-	else {
-		if (strlen(lastin) != nis) 
-			error("wrong length input: x", lastin);
-		else	itable[np].input = strcopyall (lastin);
-	}
+    if ((lastout[0] == 'a') || (lastout[0] == '*')) {
 
-	if ((lastout[0] == 'a') || (lastout[0] == '*')) {
+        if (!osymb) {
 
-		if (!osymb) {
+            temp = search(outputlist, lastout);
 
-			temp = search (outputlist, lastout);
+            if (temp == (SYMTABLE *) 0)
+                error("undefined output: ", lastout);
+            else itable[np].output = strcopyall(temp->vector);
+        } else itable[np].output = strcopyall(lastout);
+    } else {
+        if (strlen(lastout) != nos)
+            error("wrong length output: y", lastout);
+        else itable[np].output = strcopyall(lastout);
+    }
 
-			if (temp == (SYMTABLE *) 0)
-				error("undefined output: ", lastout);
-			else 	itable[np].output = strcopyall (temp->vector);
-		}
-		else 	itable[np].output = strcopyall (lastout);
-	}
-	else {
-		if (strlen(lastout) != nos) 
-			error("wrong length output: y", lastout);
-		else	itable[np].output = strcopyall (lastout);
-	}
+    itable[np].pstate = strcopyall(laststate);
+    itable[np].nstate = strcopyall(lastnext);
 
-	itable[np].pstate = strcopyall (laststate);
-	itable[np].nstate = strcopyall (lastnext);
-
-	np++;
+    np++;
 }

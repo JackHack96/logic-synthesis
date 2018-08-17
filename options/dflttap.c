@@ -1,13 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/options/dflttap.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:10 $
- *
- */
-#include "copyright.h"
+
+#include "../port/copyright.h"
 #include "../port/port.h"
 #include "../utility/utility.h"
 #include "options.h"
@@ -22,9 +14,9 @@
 
 /*ARGSUSED*/
 char *tapRootDirectory(new)
-char *new;
+        char *new;
 {
-    return(NIL(char));
+    return (NIL(char));
 }
 
 #endif /*lint*/

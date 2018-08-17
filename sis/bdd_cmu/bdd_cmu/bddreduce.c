@@ -15,52 +15,48 @@ cmu_bdd_reduce_step(bddm, f, c)
      bdd c;
 #endif
 {
-  bdd_indexindex_type top_indexindex;
-  bdd f1, f2;
-  bdd c1, c2;
-  bdd temp1, temp2;
-  bdd result;
+    bdd_indexindex_type top_indexindex;
+    bdd                 f1, f2;
+    bdd                 c1, c2;
+    bdd                 temp1, temp2;
+    bdd                 result;
 
-  BDD_SETUP(f);
-  BDD_SETUP(c);
-  if (BDD_IS_CONST(c))
-    {
-      if (c == BDD_ZERO(bddm))
-	return ((bdd)0);
-      BDD_TEMP_INCREFS(f);
-      return (f);
+    BDD_SETUP(f);
+    BDD_SETUP(c);
+    if (BDD_IS_CONST(c)) {
+        if (c == BDD_ZERO(bddm))
+            return ((bdd) 0);
+        BDD_TEMP_INCREFS(f);
+        return (f);
     }
-  if (BDD_IS_CONST(f))
-    return (f);
-  if (bdd_lookup_in_cache2(bddm, OP_RED, f, c, &result))
+    if (BDD_IS_CONST(f))
+        return (f);
+    if (bdd_lookup_in_cache2(bddm, OP_RED, f, c, &result))
+        return (result);
+    BDD_TOP_VAR2(top_indexindex, bddm, f, c);
+    BDD_COFACTOR(top_indexindex, f, f1, f2);
+    BDD_COFACTOR(top_indexindex, c, c1, c2);
+    if (f == f1) {
+        bddm->op_cache.cache_level++;
+        temp1 = cmu_bdd_ite_step(bddm, c1, BDD_ONE(bddm), c2);
+        bddm->op_cache.cache_level--;
+        result = cmu_bdd_reduce_step(bddm, f, temp1);
+        {
+            BDD_SETUP(temp1);
+            BDD_TEMP_DECREFS(temp1);
+        }
+    } else {
+        temp1 = cmu_bdd_reduce_step(bddm, f1, c1);
+        temp2 = cmu_bdd_reduce_step(bddm, f2, c2);
+        if (!temp1)
+            result = temp2;
+        else if (!temp2)
+            result = temp1;
+        else
+            result = bdd_find(bddm, top_indexindex, temp1, temp2);
+    }
+    bdd_insert_in_cache2(bddm, OP_RED, f, c, result);
     return (result);
-  BDD_TOP_VAR2(top_indexindex, bddm, f, c);
-  BDD_COFACTOR(top_indexindex, f, f1, f2);
-  BDD_COFACTOR(top_indexindex, c, c1, c2);
-  if (f == f1)
-    {
-      bddm->op_cache.cache_level++;
-      temp1=cmu_bdd_ite_step(bddm, c1, BDD_ONE(bddm), c2);
-      bddm->op_cache.cache_level--;
-      result=cmu_bdd_reduce_step(bddm, f, temp1);
-      {
-	BDD_SETUP(temp1);
-	BDD_TEMP_DECREFS(temp1);
-      }
-    }
-  else
-    {
-      temp1=cmu_bdd_reduce_step(bddm, f1, c1);
-      temp2=cmu_bdd_reduce_step(bddm, f2, c2);
-      if (!temp1)
-	result=temp2;
-      else if (!temp2)
-	result=temp1;
-      else
-	result=bdd_find(bddm, top_indexindex, temp1, temp2);
-    }
-  bdd_insert_in_cache2(bddm, OP_RED, f, c, result);
-  return (result);
 }
 
 
@@ -78,17 +74,16 @@ cmu_bdd_reduce(bddm, f, c)
      bdd c;
 #endif
 {
-  bdd result;
+    bdd result;
 
-  if (bdd_check_arguments(2, f, c))
-    {
-      FIREWALL(bddm);
-      result=cmu_bdd_reduce_step(bddm, f, c);
-      if (!result)
-	return (BDD_ZERO(bddm));
-      RETURN_BDD(result);
+    if (bdd_check_arguments(2, f, c)) {
+        FIREWALL(bddm);
+        result = cmu_bdd_reduce_step(bddm, f, c);
+        if (!result)
+            return (BDD_ZERO(bddm));
+        RETURN_BDD(result);
     }
-  return ((bdd)0);
+    return ((bdd) 0);
 }
 
 
@@ -103,38 +98,37 @@ cmu_bdd_cofactor_step(bddm, f, c)
      bdd c;
 #endif
 {
-  bdd_indexindex_type top_indexindex;
-  bdd f1, f2;
-  bdd c1, c2;
-  bdd temp1, temp2;
-  bdd result;
+    bdd_indexindex_type top_indexindex;
+    bdd                 f1, f2;
+    bdd                 c1, c2;
+    bdd                 temp1, temp2;
+    bdd                 result;
 
-  BDD_SETUP(f);
-  BDD_SETUP(c);
-  if (BDD_IS_CONST(c))
-    {
-      if (c == BDD_ZERO(bddm))
-	return ((bdd)0);
-      BDD_TEMP_INCREFS(f);
-      return (f);
+    BDD_SETUP(f);
+    BDD_SETUP(c);
+    if (BDD_IS_CONST(c)) {
+        if (c == BDD_ZERO(bddm))
+            return ((bdd) 0);
+        BDD_TEMP_INCREFS(f);
+        return (f);
     }
-  if (BDD_IS_CONST(f))
-    return (f);
-  if (bdd_lookup_in_cache2(bddm, OP_COFACTOR, f, c, &result))
+    if (BDD_IS_CONST(f))
+        return (f);
+    if (bdd_lookup_in_cache2(bddm, OP_COFACTOR, f, c, &result))
+        return (result);
+    BDD_TOP_VAR2(top_indexindex, bddm, f, c);
+    BDD_COFACTOR(top_indexindex, f, f1, f2);
+    BDD_COFACTOR(top_indexindex, c, c1, c2);
+    temp1 = cmu_bdd_cofactor_step(bddm, f1, c1);
+    temp2 = cmu_bdd_cofactor_step(bddm, f2, c2);
+    if (!temp1)
+        result = temp2;
+    else if (!temp2)
+        result = temp1;
+    else
+        result = bdd_find(bddm, top_indexindex, temp1, temp2);
+    bdd_insert_in_cache2(bddm, OP_COFACTOR, f, c, result);
     return (result);
-  BDD_TOP_VAR2(top_indexindex, bddm, f, c);
-  BDD_COFACTOR(top_indexindex, f, f1, f2);
-  BDD_COFACTOR(top_indexindex, c, c1, c2);
-  temp1=cmu_bdd_cofactor_step(bddm, f1, c1);
-  temp2=cmu_bdd_cofactor_step(bddm, f2, c2);
-  if (!temp1)
-    result=temp2;
-  else if (!temp2)
-    result=temp1;
-  else
-    result=bdd_find(bddm, top_indexindex, temp1, temp2);
-  bdd_insert_in_cache2(bddm, OP_COFACTOR, f, c, result);
-  return (result);
 }
 
 
@@ -155,15 +149,13 @@ cmu_bdd_cofactor(bddm, f, c)
      bdd c;
 #endif
 {
-  if (bdd_check_arguments(2, f, c))
-    {
-      if (c == BDD_ZERO(bddm))
-	{
-	  cmu_bdd_warning("cmu_bdd_cofactor: second argument is false");
-	  return (BDD_ONE(bddm));
-	}
-      FIREWALL(bddm);
-      RETURN_BDD(cmu_bdd_cofactor_step(bddm, f, c));
+    if (bdd_check_arguments(2, f, c)) {
+        if (c == BDD_ZERO(bddm)) {
+            cmu_bdd_warning("cmu_bdd_cofactor: second argument is false");
+            return (BDD_ONE(bddm));
+        }
+        FIREWALL(bddm);
+        RETURN_BDD(cmu_bdd_cofactor_step(bddm, f, c));
     }
-  return ((bdd)0);
+    return ((bdd) 0);
 }

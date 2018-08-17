@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/resub/aresub.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:48 $
- *
- */
+
 /*
  *  aresub: algebraic re-sutstitution. 
  *  routines provided:
@@ -25,33 +17,34 @@
  *  if use_complement =0 then don't use it
  */
 int
-resub_alge_node(f,use_complement)
-node_t *f;
-int use_complement;
+resub_alge_node(f, use_complement)
+        node_t *f;
+        int use_complement;
 {
     array_t *target, *tl1;
-    node_t *np;
-    int i, status;
+    node_t  *np;
+    int     i, status;
 
     status = 0;
-    if (f->type == PRIMARY_INPUT || f->type == PRIMARY_OUTPUT) { 
-	return status;
+    if (f->type == PRIMARY_INPUT || f->type == PRIMARY_OUTPUT) {
+        return status;
     }
 
-    target = array_alloc(node_t *, 0);
-    foreach_fanin(f, i, np) {
-	tl1 = network_tfo(np, 1);
-	array_append(target, tl1);
-	array_free(tl1);
+    target = array_alloc(node_t * , 0);
+    foreach_fanin(f, i, np)
+    {
+        tl1 = network_tfo(np, 1);
+        array_append(target, tl1);
+        array_free(tl1);
     }
     array_sort(target, node_compare_id);
     array_uniq(target, node_compare_id, (void (*)()) 0);
 
-    for(i = 0; i < array_n(target); i++) {
-	np = array_fetch(node_t *, target, i);
-	if (node_substitute(f, np, use_complement)) {
-	    status = 1;
-	}
+    for (i = 0; i < array_n(target); i++) {
+        np = array_fetch(node_t * , target, i);
+        if (node_substitute(f, np, use_complement)) {
+            status = 1;
+        }
     }
     array_free(target);
 
@@ -64,21 +57,22 @@ int use_complement;
  *  its complement.
  */
 void
-resub_alge_network(network,use_complement)
-network_t *network;
-int use_complement;
+resub_alge_network(network, use_complement)
+        network_t *network;
+        int use_complement;
 {
-    lsGen gen;
+    lsGen  gen;
     node_t *np;
-    bool not_done;
+    bool   not_done;
 
     not_done = TRUE;
     while (not_done) {
-	not_done = FALSE;
-	foreach_node(network, gen, np) {
-	    if (resub_alge_node(np,use_complement)) {
-		not_done = TRUE;
-	    }
-	}
+        not_done = FALSE;
+        foreach_node(network, gen, np)
+        {
+            if (resub_alge_node(np, use_complement)) {
+                not_done = TRUE;
+            }
+        }
     }
 }

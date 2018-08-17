@@ -1,13 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/and_smooth.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:01 $
- *
- */
-#include <stdio.h>	/* for BDD_DEBUG_LIFESPAN */
+
+#include <stdio.h>    /* for BDD_DEBUG_LIFESPAN */
 
 #include "util.h"
 #include "array.h"
@@ -16,44 +8,9 @@
 #include "bdd.h"
 #include "bdd_int.h"
 
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/and_smooth.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:01 $
- * $Log: and_smooth.c,v $
- * Revision 1.1.1.1  2004/02/07 10:15:01  pchong
- * imported
- *
- * Revision 1.3  1992/09/21  23:30:31  sis
- * Updates from Tom Shiple - this is BDD package release 2.4.
- *
- * Revision 1.3  1992/09/21  23:30:31  sis
- * Updates from Tom Shiple - this is BDD package release 2.4.
- *
- * Revision 1.2  1992/09/19  02:03:04  shiple
- * Version 2.4
- * Prefaced compile time debug switches with BDD_. In and_smooth, in first nonterminal case, changed g to h.
- * Added typecast to void to some function calls. Added adhoc_ops stats.
- *
- * Revision 1.1  1992/07/29  00:26:37  shiple
- * Initial revision
- *
- * Revision 1.2  1992/05/06  18:51:03  sis
- * SIS release 1.1
- *
- * Revision 1.1  92/01/08  17:34:22  sis
- * Initial revision
- * 
- * Revision 1.1  91/04/11  20:58:46  shiple
- * Initial revision
- * 
- *
- */
 
 static bdd_variableId get_next_variable();
+
 static bdd_node *and_smooth();
 
 /*
@@ -65,26 +22,26 @@ static bdd_node *and_smooth();
  */
 bdd_t *
 bdd_and_smooth(f, g, smoothing_vars)
-bdd_t *f;
-bdd_t *g;
-array_t *smoothing_vars;	/* of bdd_t* */
+        bdd_t *f;
+        bdd_t *g;
+        array_t *smoothing_vars;    /* of bdd_t* */
 {
     bdd_safeframe frame;
-    bdd_safenode real_f, real_g, ret;
-    bdd_manager *manager;
-    array_t *vars;
-    bdd_t *h;
+    bdd_safenode  real_f, real_g, ret;
+    bdd_manager   *manager;
+    array_t       *vars;
+    bdd_t         *h;
 
     if (f == NIL(bdd_t) || g == NIL(bdd_t))
-	fail("bdd_and_smooth: invalid BDD");
+        fail("bdd_and_smooth: invalid BDD");
 
-    BDD_ASSERT( ! f->free );
-    BDD_ASSERT( ! g->free );
+    BDD_ASSERT(!f->free);
+    BDD_ASSERT(!g->free);
 
     if (f->bdd != g->bdd)
-	fail("bdd_and_smooth: different bdd managers");
+        fail("bdd_and_smooth: different bdd managers");
 
-    manager = f->bdd;		/* either this or g->bdd will do */
+    manager = f->bdd;        /* either this or g->bdd will do */
 
     /*
      *    After the input is checked for correctness, start the safe frame
@@ -113,20 +70,20 @@ array_t *smoothing_vars;	/* of bdd_t* */
 
 #if defined(BDD_FLIGHT_RECORDER) /* { */
     (void) fprintf(manager->debug.flight_recorder.log, "%d <- bdd_and_smooth(%d, %d, { ",
-	    bdd_index_of_external_pointer(h),
-	    bdd_index_of_external_pointer(f),
-	    bdd_index_of_external_pointer(g));
+        bdd_index_of_external_pointer(h),
+        bdd_index_of_external_pointer(f),
+        bdd_index_of_external_pointer(g));
     {
-	int i;
+    int i;
 
-	for (i=0; i<array_n(smoothing_vars); i++) {
-	    bdd_t *v;
-	    
-	    v = array_fetch(bdd_t *, smoothing_vars, i);
-	    (void) fprintf(manager->debug.flight_recorder.log, "%d%s",
-		    bdd_index_of_external_pointer(v),
-		    i+1 == array_n(smoothing_vars) ? " } )\n": ", ");
-	}
+    for (i=0; i<array_n(smoothing_vars); i++) {
+        bdd_t *v;
+
+        v = array_fetch(bdd_t *, smoothing_vars, i);
+        (void) fprintf(manager->debug.flight_recorder.log, "%d%s",
+            bdd_index_of_external_pointer(v),
+            i+1 == array_n(smoothing_vars) ? " } )\n": ", ");
+    }
     }
 #endif /* } */
 
@@ -143,20 +100,20 @@ array_t *smoothing_vars;	/* of bdd_t* */
  */
 static bdd_node *
 and_smooth(manager, f, g, index, vars)
-bdd_manager *manager;
-bdd_node *f;
-bdd_node *g;
-int index;
-array_t *vars;
+        bdd_manager *manager;
+        bdd_node *f;
+        bdd_node *g;
+        int index;
+        array_t *vars;
 {
-    bdd_safeframe frame;
-    bdd_safenode safe_f, safe_g;
-    bdd_safenode f_T, f_E, g_T, g_E;
-    bdd_safenode T, E;
-    bdd_safenode h;
-    bdd_safenode ret, var;
+    bdd_safeframe  frame;
+    bdd_safenode   safe_f, safe_g;
+    bdd_safenode   f_T, f_E, g_T, g_E;
+    bdd_safenode   T, E;
+    bdd_safenode   h;
+    bdd_safenode   ret, var;
     bdd_variableId fId, gId, varId;
-    int next_index;
+    int            next_index;
 
     bdd_safeframe_start(manager, frame);
     bdd_safenode_link(manager, safe_f, f);
@@ -170,23 +127,23 @@ array_t *vars;
     bdd_safenode_declare(manager, T);
     bdd_safenode_declare(manager, E);
     bdd_safenode_declare(manager, h);
-  
-    manager->heap.stats.adhoc_ops.calls++; 
+
+    manager->heap.stats.adhoc_ops.calls++;
 
     if (f == BDD_ZERO(manager) || g == BDD_ZERO(manager)) {
-	manager->heap.stats.adhoc_ops.returns.trivial++; 
-	bdd_safeframe_end(manager);
-	return BDD_ZERO(manager);
-    } 
+        manager->heap.stats.adhoc_ops.returns.trivial++;
+        bdd_safeframe_end(manager);
+        return BDD_ZERO(manager);
+    }
     if (f == BDD_ONE(manager) && g == BDD_ONE(manager)) {
-	manager->heap.stats.adhoc_ops.returns.trivial++; 
-	bdd_safeframe_end(manager);
-	return BDD_ONE(manager);
+        manager->heap.stats.adhoc_ops.returns.trivial++;
+        bdd_safeframe_end(manager);
+        return BDD_ONE(manager);
     }
     if (bdd_adhoccache_lookup(manager, f, g, /* unused */ 0, &ret.node)) {
-	manager->heap.stats.adhoc_ops.returns.cached++; 
-	bdd_safeframe_end(manager);
-	return (ret.node);
+        manager->heap.stats.adhoc_ops.returns.cached++;
+        bdd_safeframe_end(manager);
+        return (ret.node);
     }
 
     fId = BDD_REGULAR(f)->id;
@@ -203,62 +160,62 @@ array_t *vars;
     /*
      *    skip over uninteresting variables
      */
-    varId = get_next_variable(MIN(fId,gId), index, vars, &next_index);
+    varId = get_next_variable(MIN(fId, gId), index, vars, &next_index);
     if (fId > gId) {
-	if (varId == gId) {
-	    /*
-	     *    should smooth
-	     *    not clear to me whether faster to smooth g first,
-	     *    and then recur or the other way around
-	     */
-	    h.node = bdd__ITE_(manager, g_T.node, BDD_ONE(manager), g_E.node);
-	    ret.node = and_smooth(manager, f, h.node, next_index, vars);
-	} else {
-	    /*
-	     *    should not smooth
-	     */
-	    T.node = and_smooth(manager, f, g_T.node, next_index, vars);
-	    E.node = and_smooth(manager, f, g_E.node, next_index, vars);
-	    var.node = bdd_find_or_add(manager, gId, BDD_ONE(manager), BDD_ZERO(manager));
-	    ret.node = bdd__ITE_(manager, var.node, T.node, E.node);
-	}
+        if (varId == gId) {
+            /*
+             *    should smooth
+             *    not clear to me whether faster to smooth g first,
+             *    and then recur or the other way around
+             */
+            h.node   = bdd__ITE_(manager, g_T.node, BDD_ONE(manager), g_E.node);
+            ret.node = and_smooth(manager, f, h.node, next_index, vars);
+        } else {
+            /*
+             *    should not smooth
+             */
+            T.node   = and_smooth(manager, f, g_T.node, next_index, vars);
+            E.node   = and_smooth(manager, f, g_E.node, next_index, vars);
+            var.node = bdd_find_or_add(manager, gId, BDD_ONE(manager), BDD_ZERO(manager));
+            ret.node = bdd__ITE_(manager, var.node, T.node, E.node);
+        }
     } else if (fId == gId) {
-	T.node = and_smooth(manager, f_T.node, g_T.node, next_index, vars);
-	E.node = and_smooth(manager, f_E.node, g_E.node, next_index, vars);
-	if (varId == fId) {
-	    /*
-	     *    should smooth
-	     */
-	    ret.node = bdd__ITE_(manager, T.node, BDD_ONE(manager), E.node);
-	} else {
-	    /*
-	     *    should not smooth
-	     */
-	    var.node = bdd_find_or_add(manager, fId, BDD_ONE(manager), BDD_ZERO(manager));
-	    ret.node = bdd__ITE_(manager, var.node, T.node, E.node);
-	}
-    } else {			/* fId < gId */
-	if (varId == fId) {
-	    /*
-	     *    should smooth
-	     *    should we or f first, or recur first?
-	     */
-	    T.node = and_smooth(manager, f_T.node, g, next_index, vars);
-	    E.node = and_smooth(manager, f_E.node, g, next_index, vars);
-	    ret.node = bdd__ITE_(manager, T.node, BDD_ONE(manager), E.node);
-	} else {
-	    /*
-	     *    should not smooth
-	     */
-	    T.node = and_smooth(manager, f_T.node, g, next_index, vars);
-	    E.node = and_smooth(manager, f_E.node, g, next_index, vars);
-	    var.node = bdd_find_or_add(manager, fId, BDD_ONE(manager), BDD_ZERO(manager));
-	    ret.node = bdd__ITE_(manager, var.node, T.node, E.node);
-	}
+        T.node = and_smooth(manager, f_T.node, g_T.node, next_index, vars);
+        E.node = and_smooth(manager, f_E.node, g_E.node, next_index, vars);
+        if (varId == fId) {
+            /*
+             *    should smooth
+             */
+            ret.node = bdd__ITE_(manager, T.node, BDD_ONE(manager), E.node);
+        } else {
+            /*
+             *    should not smooth
+             */
+            var.node = bdd_find_or_add(manager, fId, BDD_ONE(manager), BDD_ZERO(manager));
+            ret.node = bdd__ITE_(manager, var.node, T.node, E.node);
+        }
+    } else {            /* fId < gId */
+        if (varId == fId) {
+            /*
+             *    should smooth
+             *    should we or f first, or recur first?
+             */
+            T.node   = and_smooth(manager, f_T.node, g, next_index, vars);
+            E.node   = and_smooth(manager, f_E.node, g, next_index, vars);
+            ret.node = bdd__ITE_(manager, T.node, BDD_ONE(manager), E.node);
+        } else {
+            /*
+             *    should not smooth
+             */
+            T.node   = and_smooth(manager, f_T.node, g, next_index, vars);
+            E.node   = and_smooth(manager, f_E.node, g, next_index, vars);
+            var.node = bdd_find_or_add(manager, fId, BDD_ONE(manager), BDD_ZERO(manager));
+            ret.node = bdd__ITE_(manager, var.node, T.node, E.node);
+        }
     }
     (void) bdd_adhoccache_insert(manager, f, g, /* unused */ 0, ret.node);
-    manager->heap.stats.adhoc_ops.returns.full++; 
-  
+    manager->heap.stats.adhoc_ops.returns.full++;
+
     bdd_safeframe_end(manager);
     return ret.node;
 }
@@ -275,26 +232,26 @@ array_t *vars;
  */
 static bdd_variableId
 get_next_variable(top_var, index, smoothing_vars, next_index)
-bdd_variableId top_var;
-int index;
-array_t *smoothing_vars;
-int *next_index;
+        bdd_variableId top_var;
+        int index;
+        array_t *smoothing_vars;
+        int *next_index;
 {
-    int i;
+    int            i;
     bdd_variableId value;
 
     for (i = index; i < array_n(smoothing_vars); i++) {
-	value = array_fetch(bdd_variableId, smoothing_vars, i);
-	if (value >= top_var) break;
+        value = array_fetch(bdd_variableId, smoothing_vars, i);
+        if (value >= top_var) break;
     }
     if (i >= array_n(smoothing_vars)) {
-	*next_index = array_n(smoothing_vars);
-	return BDD_ONE_ID;
+        *next_index = array_n(smoothing_vars);
+        return BDD_ONE_ID;
     } else if (value == top_var) {
-	*next_index = i + 1;
-	return value;
+        *next_index = i + 1;
+        return value;
     } else {
-	*next_index = i;
-	return value;
+        *next_index = i;
+        return value;
     }
 }

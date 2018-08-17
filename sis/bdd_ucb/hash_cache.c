@@ -1,13 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/hash_cache.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:02 $
- *
- */
-#include <stdio.h>	/* for BDD_DEBUG_LIFESPAN */
+
+#include <stdio.h>    /* for BDD_DEBUG_LIFESPAN */
 
 #include "util.h"
 #include "array.h"
@@ -16,49 +8,6 @@
 #include "bdd.h"
 #include "bdd_int.h"
 
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/hash_cache.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:02 $
- * $Log: hash_cache.c,v $
- * Revision 1.1.1.1  2004/02/07 10:15:02  pchong
- * imported
- *
- * Revision 1.5  1993/05/04  15:30:57  sis
- * BDD package updates.  Tom Shiple 5/4/93.
- *
- * Revision 1.4  1993/05/03  20:28:37  shiple
- * In insert routine, changed policy on what to do if a new key cannot be
- * allocated because it would cause the memory limit to be exceeded.
- * Before, just returned, without inserting. Now, insert, even if memory
- * limit will be exceeded.
- *
- * Revision 1.3  1992/09/29  19:37:32  shiple
- * Fixed bug in conditional to resize cache; ints were not being cast to floats
- *
- * Revision 1.2  1992/09/19  03:16:52  shiple
- * Version 2.4
- * Prefaced compile time debug switches with BDD_.  Added comment on hashtable vs. itetable.
- * Changed ITE and ITE_const caches to be arrays of pointers. Added resize_itetable function.
- * Add usage of bdd_will_exceed_mem_limit in bdd_hashcache_insert and resize_itetable.
- *
- * Revision 1.1  1992/07/29  00:27:04  shiple
- * Initial revision
- *
- * Revision 1.2  1992/05/06  18:51:03  sis
- * SIS release 1.1
- *
- * Revision 1.1  92/01/08  17:34:39  sis
- * Initial revision
- * 
- * Revision 1.1  91/03/27  14:35:42  shiple
- * Initial revision
- * 
- *
- */
 
 /*
  * NOTE: The "hashcache" should really have been named the "itecache", since it caches 
@@ -77,13 +26,13 @@ static void resize_itetable();
  */
 void
 bdd_hashcache_insert(manager, ITE_f, ITE_g, ITE_h, data)
-bdd_manager *manager;
-bdd_node *ITE_f;
-bdd_node *ITE_g;
-bdd_node *ITE_h;
-bdd_node *data;
+        bdd_manager *manager;
+        bdd_node *ITE_f;
+        bdd_node *ITE_g;
+        bdd_node *ITE_h;
+        bdd_node *data;
 {
-    int pos;
+    int                 pos;
     bdd_hashcache_entry *entry;
 
     BDD_ASSERT_NOTNIL(ITE_f);
@@ -91,42 +40,42 @@ bdd_node *data;
     BDD_ASSERT_NOTNIL(ITE_h);
     BDD_ASSERT_NOTNIL(data);
 
-    if ( ! manager->heap.cache.itetable.on ) {
-	/* 
-	 * Has no effect if caching is off.
-	 */
-	return;		
+    if (!manager->heap.cache.itetable.on) {
+        /*
+         * Has no effect if caching is off.
+         */
+        return;
     }
 
-    pos = bdd_ITE_hash(manager, ITE_f, ITE_g, ITE_h);
+    pos   = bdd_ITE_hash(manager, ITE_f, ITE_g, ITE_h);
     entry = manager->heap.cache.itetable.buckets[pos];
 
     if (entry != NIL(bdd_hashcache_entry)) {
-	/*
-	 * An entry already exists at pos.  Since we are using an open-addressing
-	 * scheme, we will just reuse the memory of this entry.  Number of entries
-	 * stays constant.
-	 */
-	manager->heap.stats.cache.itetable.collisions++;
+        /*
+         * An entry already exists at pos.  Since we are using an open-addressing
+         * scheme, we will just reuse the memory of this entry.  Number of entries
+         * stays constant.
+         */
+        manager->heap.stats.cache.itetable.collisions++;
     } else {
-	/*
-	 * Must allocate a new entry, since one does not already exist at pos. It's possible
-	 * that allocating a bdd_hashcache_entry will cause the manager's 
-         * memory limit to be exceeded. However, we allow this to happen, because the alternative
-	 * is that we don't cache this call.  Not caching new calls could be deadly for runtime.
-	 */
-	entry = ALLOC(bdd_hashcache_entry, 1);
-        if (entry == NIL(bdd_hashcache_entry)) {  
-	    (void) bdd_memfail(manager, "bdd_hashcache_insert");
+        /*
+         * Must allocate a new entry, since one does not already exist at pos. It's possible
+         * that allocating a bdd_hashcache_entry will cause the manager's
+             * memory limit to be exceeded. However, we allow this to happen, because the alternative
+         * is that we don't cache this call.  Not caching new calls could be deadly for runtime.
+         */
+        entry = ALLOC(bdd_hashcache_entry, 1);
+        if (entry == NIL(bdd_hashcache_entry)) {
+            (void) bdd_memfail(manager, "bdd_hashcache_insert");
         }
         manager->heap.cache.itetable.buckets[pos] = entry;
-	manager->heap.cache.itetable.nentries++;
+        manager->heap.cache.itetable.nentries++;
     }
 
     entry->ITE.f = ITE_f;
     entry->ITE.g = ITE_g;
     entry->ITE.h = ITE_h;
-    entry->data = data;
+    entry->data  = data;
 
     manager->heap.stats.cache.itetable.inserts++;
 
@@ -134,9 +83,9 @@ bdd_node *data;
      * Check to see if table needs resizing.  We base the decision on the ratio of the number of entries to the number
      * of buckets.
      */
-    if ( (unsigned int) (((float) manager->heap.cache.itetable.nentries  
-                          / (float) manager->heap.cache.itetable.nbuckets) * 100) 
-                         > manager->heap.cache.itetable.resize_at) {
+    if ((unsigned int) (((float) manager->heap.cache.itetable.nentries
+                         / (float) manager->heap.cache.itetable.nbuckets) * 100)
+        > manager->heap.cache.itetable.resize_at) {
         (void) resize_itetable(manager);
     }
 }
@@ -148,41 +97,41 @@ bdd_node *data;
  */
 boolean
 bdd_hashcache_lookup(manager, f, g, h, value)
-bdd_manager *manager;
-bdd_node *f;
-bdd_node *g;
-bdd_node *h;
-bdd_node **value;		/* return */
+        bdd_manager *manager;
+        bdd_node *f;
+        bdd_node *g;
+        bdd_node *h;
+        bdd_node **value;        /* return */
 {
-    int pos;
+    int                 pos;
     bdd_hashcache_entry *entry;
 
-    if ( ! manager->heap.cache.itetable.on ) {
-	/* 
-	 * Always fails if caching is off.
-	 */
-	return (FALSE);		
+    if (!manager->heap.cache.itetable.on) {
+        /*
+         * Always fails if caching is off.
+         */
+        return (FALSE);
     }
 
-    pos = bdd_ITE_hash(manager, f, g, h);
+    pos   = bdd_ITE_hash(manager, f, g, h);
     entry = manager->heap.cache.itetable.buckets[pos];
 
     if (entry != NIL(bdd_hashcache_entry)) {
-	/*
-	 * Entry exists at pos.  See if it matches.  If not (a miss) return.  If it does match
-	 * (a hit), then will drop out of IF and set value.
-	 */
-	if (entry->data == NIL(bdd_node) || (entry->ITE.f != f || entry->ITE.g != g || entry->ITE.h != h)) {
-	    manager->heap.stats.cache.itetable.misses++;
-	    return (FALSE);
-	}
+        /*
+         * Entry exists at pos.  See if it matches.  If not (a miss) return.  If it does match
+         * (a hit), then will drop out of IF and set value.
+         */
+        if (entry->data == NIL(bdd_node) || (entry->ITE.f != f || entry->ITE.g != g || entry->ITE.h != h)) {
+            manager->heap.stats.cache.itetable.misses++;
+            return (FALSE);
+        }
     } else {
-	/*
-	 * No entry exists at pos.  Definitely a miss.
-	 */
-	manager->heap.stats.cache.itetable.misses++;
-	return (FALSE);
-    }  
+        /*
+         * No entry exists at pos.  Definitely a miss.
+         */
+        manager->heap.stats.cache.itetable.misses++;
+        return (FALSE);
+    }
 
     manager->heap.stats.cache.itetable.hits++;
 
@@ -199,11 +148,11 @@ bdd_node **value;		/* return */
  */
 static void
 resize_itetable(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
-    unsigned int old_nbuckets, next_hash_prime;
+    unsigned int        old_nbuckets, next_hash_prime;
     bdd_hashcache_entry **old_buckets, *old_entry;
-    int i, pos;
+    int                 i, pos;
 
     /*
      * If the max_size has already been exceeded, then just return.
@@ -217,7 +166,7 @@ bdd_manager *manager;
      * be exceeded, then just return.  Trading off time in favor of space.
      */
     next_hash_prime = bdd_get_next_hash_prime(manager->heap.cache.itetable.nbuckets);
-    if (bdd_will_exceed_mem_limit(manager, (next_hash_prime * sizeof(bdd_hashcache_entry *)), FALSE) == TRUE) { 
+    if (bdd_will_exceed_mem_limit(manager, (next_hash_prime * sizeof(bdd_hashcache_entry *)), FALSE) == TRUE) {
         return;
     }
 
@@ -225,7 +174,7 @@ bdd_manager *manager;
      * Save the old buckets.
      */
     old_nbuckets = manager->heap.cache.itetable.nbuckets;
-    old_buckets = manager->heap.cache.itetable.buckets;
+    old_buckets  = manager->heap.cache.itetable.buckets;
 
     /*
      * Get the new size and allocate the new table.  We are growing by roughly a factor of two.
@@ -233,10 +182,10 @@ bdd_manager *manager;
      * is meant to enhance performance, but we can still continue even if we can't resize.
      */
     manager->heap.cache.itetable.nbuckets = next_hash_prime;
-    manager->heap.cache.itetable.buckets = ALLOC(bdd_hashcache_entry *, manager->heap.cache.itetable.nbuckets);
+    manager->heap.cache.itetable.buckets  = ALLOC(bdd_hashcache_entry * , manager->heap.cache.itetable.nbuckets);
     if (manager->heap.cache.itetable.buckets == NIL(bdd_hashcache_entry *)) {
         manager->heap.cache.itetable.nbuckets = old_nbuckets;
-        manager->heap.cache.itetable.buckets = old_buckets;
+        manager->heap.cache.itetable.buckets  = old_buckets;
         return;
     }
 
@@ -244,7 +193,7 @@ bdd_manager *manager;
      * Initialize all the entries to NIL.
      */
     for (i = 0; i < manager->heap.cache.itetable.nbuckets; i++) {
-	manager->heap.cache.itetable.buckets[i] = NIL(bdd_hashcache_entry);
+        manager->heap.cache.itetable.buckets[i] = NIL(bdd_hashcache_entry);
     }
 
     /*
@@ -252,22 +201,22 @@ bdd_manager *manager;
      */
     manager->heap.cache.itetable.nentries = 0;
     for (i = 0; i < old_nbuckets; i++) {
-	old_entry = old_buckets[i];
-	if (old_entry != NIL(bdd_hashcache_entry)) {
+        old_entry = old_buckets[i];
+        if (old_entry != NIL(bdd_hashcache_entry)) {
 
-	    /*
-	     * Get the hash position for the entry in the new cache.  If the position is already
-	     * occupied, then old_entry will not be rehashed; it's lost;  If the position is not
-	     * occupied, then simply set the new cache bucket pointer to old_entry.
-	     */
-	    pos = bdd_hashcache_entry_hash(manager, old_entry);
-	    if (manager->heap.cache.itetable.buckets[pos] != NIL(bdd_hashcache_entry)) {
-		FREE(old_entry);
-	    } else {
-		manager->heap.cache.itetable.buckets[pos] = old_entry;
-		manager->heap.cache.itetable.nentries++;
-	    }
-	}
+            /*
+             * Get the hash position for the entry in the new cache.  If the position is already
+             * occupied, then old_entry will not be rehashed; it's lost;  If the position is not
+             * occupied, then simply set the new cache bucket pointer to old_entry.
+             */
+            pos = bdd_hashcache_entry_hash(manager, old_entry);
+            if (manager->heap.cache.itetable.buckets[pos] != NIL(bdd_hashcache_entry)) {
+                FREE(old_entry);
+            } else {
+                manager->heap.cache.itetable.buckets[pos] = old_entry;
+                manager->heap.cache.itetable.nentries++;
+            }
+        }
     }
 
     /*

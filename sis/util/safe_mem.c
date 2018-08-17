@@ -1,14 +1,3 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/util/safe_mem.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:53 $
- *
- */
-/* LINTLIBRARY */
-
 #include <stdio.h>
 #include "util.h"
 
@@ -32,7 +21,9 @@
  */
 
 extern char *MMalloc();
+
 extern void MMout_of_memory();
+
 extern char *MMrealloc();
 
 
@@ -40,65 +31,52 @@ void (*MMoutOfMemory)() = MMout_of_memory;
 
 
 /* MMout_of_memory -- out of memory for lazy people, flush and exit */
-void 
-MMout_of_memory(size)
-long size;
-{
+void MMout_of_memory(long size) {
     (void) fflush(stdout);
     (void) fprintf(stderr, "\nout of memory allocating %ld bytes\n", size);
     exit(1);
 }
 
 
-char *
-MMalloc(size)
-long size;
-{
+char *MMalloc(long size) {
     char *p;
 
 #ifdef IBMPC
     if (size > 65000L) {
-	if (MMoutOfMemory != (void (*)()) 0 ) (*MMoutOfMemory)(size);
-	return NIL(char);
+    if (MMoutOfMemory != (void (*)()) 0 ) (*MMoutOfMemory)(size);
+    return NIL(char);
     }
 #endif
     if (size <= 0) size = sizeof(long);
     if ((p = (char *) malloc((unsigned) size)) == NIL(char)) {
-	if (MMoutOfMemory != (void (*)()) 0 ) (*MMoutOfMemory)(size);
-	return NIL(char);
+        if (MMoutOfMemory != (void (*)()) 0) (*MMoutOfMemory)(size);
+        return NIL(char);
     }
     return p;
 }
 
 
-char *
-MMrealloc(obj, size)
-char *obj;
-long size;
-{
+char *MMrealloc(char *obj, long size) {
     char *p;
 
 #ifdef IBMPC
     if (size > 65000L) {
-	if (MMoutOfMemory != (void (*)()) 0 ) (*MMoutOfMemory)(size);
-	return NIL(char);
+    if (MMoutOfMemory != (void (*)()) 0 ) (*MMoutOfMemory)(size);
+    return NIL(char);
     }
 #endif
     if (obj == NIL(char)) return MMalloc(size);
     if (size <= 0) size = sizeof(long);
     if ((p = (char *) realloc(obj, (unsigned) size)) == NIL(char)) {
-	if (MMoutOfMemory != (void (*)()) 0 ) (*MMoutOfMemory)(size);
-	return NIL(char);
+        if (MMoutOfMemory != (void (*)()) 0) (*MMoutOfMemory)(size);
+        return NIL(char);
     }
     return p;
 }
 
 
-void
-MMfree(obj)
-char *obj;
-{
+void MMfree(char *obj) {
     if (obj != 0) {
-	free(obj);
+        free(obj);
     }
 }

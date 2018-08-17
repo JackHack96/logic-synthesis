@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/jedi/util.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:08 $
- *
- */
+
 /*
  * Bill Lin
  * University of California, Berkeley
@@ -29,16 +21,16 @@ typedef int Boolean;
 #define TRUE 1
 #define FALSE 0
 
-#define pow_of_2(x)			(int) pow((double) 2, (double) x)
+#define pow_of_2(x)            (int) pow((double) 2, (double) x)
 
 /*
  * token holders for parse_line
  */
-char *targv[5000];			/* pointer to tokens */
-int targc;				/* number of tokens */
+char *targv[5000];            /* pointer to tokens */
+int  targc;                /* number of tokens */
 
 /*
  * forward declarations
  */
-char *int_to_binary();			/* converts decimal to binary */
-FILE *my_fopen();			/* opens a file */
+char *int_to_binary();            /* converts decimal to binary */
+FILE *my_fopen();            /* opens a file */

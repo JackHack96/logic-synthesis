@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/astg/astg_lkgraph.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:58 $
- *
- */
+
 /* -------------------------------------------------------------------------- *\
    lockgraph.c -- build lock graph for a marked graph STG.
 
@@ -47,12 +39,12 @@ astg_graph *stg;
     astg_signal *sig_p, *edge;
 
     astg_foreach_signal (stg,gen,sig_p) {
-	printf("%s:",sig_p->name);
-	for (n=0; n < array_n(sig_p->lg_edges); n++) {
-	    edge = array_fetch (astg_signal *, sig_p->lg_edges, n);
-	    printf(" %s", edge->name);
-	}
-	printf("\n");
+    printf("%s:",sig_p->name);
+    for (n=0; n < array_n(sig_p->lg_edges); n++) {
+        edge = array_fetch (astg_signal *, sig_p->lg_edges, n);
+        printf(" %s", edge->name);
+    }
+    printf("\n");
     }
 }
 
@@ -63,8 +55,8 @@ astg_graph *stg;
     astg_generator gen;
 
     astg_foreach_path_vertex (stg,gen,v) {
-	if (v->vtype == ASTG_PLACE) continue;
-	printf(" %s",astg_v_name(v));
+    if (v->vtype == ASTG_PLACE) continue;
+    printf(" %s",astg_v_name(v));
     }
     printf("\n");
 }
@@ -83,12 +75,12 @@ array_t *component;
     int n;
 
     if (sig_p->unprocessed) {
-	sig_p->unprocessed = ASTG_FALSE;
-	array_insert_last (astg_signal *,component,sig_p);
-	for (n=array_n(sig_p->lg_edges); n--; ) {
-	    s = array_fetch (astg_signal *,sig_p->lg_edges,n);
-	    astg_lg_comp (s,component);
-	}
+    sig_p->unprocessed = ASTG_FALSE;
+    array_insert_last (astg_signal *,component,sig_p);
+    for (n=array_n(sig_p->lg_edges); n--; ) {
+        s = array_fetch (astg_signal *,sig_p->lg_edges,n);
+        astg_lg_comp (s,component);
+    }
     }
 }
 
@@ -103,17 +95,17 @@ void *fdata;
     int n_comp = 0;
 
     astg_foreach_signal (stg,gen,sig_p) {
-	sig_p->unprocessed = ASTG_TRUE;
+    sig_p->unprocessed = ASTG_TRUE;
     }
 
     astg_foreach_signal (stg,gen,sig_p) {
-	if (sig_p->unprocessed) {
-	    component = array_alloc (astg_signal *,0);
-	    astg_lg_comp (sig_p,component);
-	    if (f != NULL) (*f) (component,n_comp,fdata);
-	    n_comp++;
-	    array_free (component);
-	}
+    if (sig_p->unprocessed) {
+        component = array_alloc (astg_signal *,0);
+        astg_lg_comp (sig_p,component);
+        if (f != NULL) (*f) (component,n_comp,fdata);
+        n_comp++;
+        array_free (component);
+    }
     }
 
     return n_comp;
@@ -142,7 +134,7 @@ astg_signal *src;
 
     gen = lsStart (q);
     while (lsNext(gen,(lsGeneric*)&old_sig,LS_NH) == LS_OK) {
-	if (new_weight <= old_sig->lg_weight) break;
+    if (new_weight <= old_sig->lg_weight) break;
     }
 
     lsInBefore (gen,(lsGeneric)sig_p,&sig_p->lg_queue);
@@ -155,11 +147,11 @@ lsList src_pqueue;
     int new_weight = src->lg_weight + 1;	/* edge weight == 1 */
 
     if (dest->unprocessed) {
-	dest->unprocessed = ASTG_FALSE;
-	astg_sp_insert (src_pqueue,dest,new_weight,src);
+    dest->unprocessed = ASTG_FALSE;
+    astg_sp_insert (src_pqueue,dest,new_weight,src);
     }
     else if (new_weight < dest->lg_weight) {
-	astg_sp_insert (src_pqueue,dest,new_weight,src);
+    astg_sp_insert (src_pqueue,dest,new_weight,src);
     }
 }
 
@@ -173,9 +165,9 @@ astg_signal *source;	/*u Signal to start with in lock graph.		*/
     int n;
 
     astg_foreach_signal (stg,gen,sig_p) {
-	sig_p->unprocessed = ASTG_TRUE;
-	sig_p->lg_queue = NULL;
-	sig_p->lg_from = NULL;
+    sig_p->unprocessed = ASTG_TRUE;
+    sig_p->lg_queue = NULL;
+    sig_p->lg_from = NULL;
     }
 
     src_pqueue = lsCreate ();
@@ -184,10 +176,10 @@ astg_signal *source;	/*u Signal to start with in lock graph.		*/
 
     while (lsDelBegin(src_pqueue,(lsGeneric*)&sig_p) == LS_OK) {
         sig_p->lg_queue = NULL;
-	for (n=array_n(sig_p->lg_edges); n--; ) {
-	    head = array_fetch (astg_signal *,sig_p->lg_edges,n);
-	    astg_sp_adjust (sig_p,head,src_pqueue);
-	}
+    for (n=array_n(sig_p->lg_edges); n--; ) {
+        head = array_fetch (astg_signal *,sig_p->lg_edges,n);
+        astg_sp_adjust (sig_p,head,src_pqueue);
+    }
     }
 
     lsDestroy (src_pqueue,NULL);
@@ -221,14 +213,14 @@ int *weightp, *weightn;
     astg_trans *t;
 
     astg_foreach_sig_trans (sig_p,gen,t) {
-	if (!t->on_path) return ASTG_FALSE;
-	if (t->type.trans.trans_type == ASTG_POS_X) {
-	    *weightp = t->weight1.i;
-	} else if (t->type.trans.trans_type == ASTG_NEG_X) {
-	    *weightn = t->weight1.i;
-	} else {
-	    fail("bad trans");
-	}
+    if (!t->on_path) return ASTG_FALSE;
+    if (t->type.trans.trans_type == ASTG_POS_X) {
+        *weightp = t->weight1.i;
+    } else if (t->type.trans.trans_type == ASTG_NEG_X) {
+        *weightn = t->weight1.i;
+    } else {
+        fail("bad trans");
+    }
     }
     return ASTG_TRUE;
 }
@@ -246,29 +238,29 @@ void *data;
     int weight1p, weight1n, weight2p, weight2n;
 
     astg_foreach_path_vertex (stg,sgen1,v) {
-	v->weight1.i = n++;
+    v->weight1.i = n++;
     }
 
     astg_foreach_signal (lminfo->stg,sgen1,sig1) {
 
-	if (!lg_all_on_path(sig1,&weight1p,&weight1n)) continue;
+    if (!lg_all_on_path(sig1,&weight1p,&weight1n)) continue;
 
-	astg_foreach_signal (lminfo->stg,sgen2,sig2) {
+    astg_foreach_signal (lminfo->stg,sgen2,sig2) {
 
-	    if (!lg_all_on_path(sig2,&weight2p,&weight2n)) continue;
+        if (!lg_all_on_path(sig2,&weight2p,&weight2n)) continue;
 
-	    /* Both signals are on cycle -- check for interleaving. */
-	    if (interleaved (weight1p,weight1n,weight2p,weight2n)) {
-		if (sm_find (lminfo->lock_matrix,sig1->id,sig2->id) == 0) {
-		    if (sig1->id < sig2->id) {
-			dbg(3,msg("%s SL %s because:",sig1->name,sig2->name));
-			dbg(3,print_path (stg));
-		    }
-		    sm_insert (lminfo->lock_matrix,sig1->id,sig2->id);
-		}
-	    }
+        /* Both signals are on cycle -- check for interleaving. */
+        if (interleaved (weight1p,weight1n,weight2p,weight2n)) {
+        if (sm_find (lminfo->lock_matrix,sig1->id,sig2->id) == 0) {
+            if (sig1->id < sig2->id) {
+            dbg(3,msg("%s SL %s because:",sig1->name,sig2->name));
+            dbg(3,print_path (stg));
+            }
+            sm_insert (lminfo->lock_matrix,sig1->id,sig2->id);
+        }
+        }
 
-	} /* end for each sig2 */
+    } /* end for each sig2 */
     } /* end for each sig1 */
 
     return 1;
@@ -294,11 +286,11 @@ lc_rec *lc_info;
     int n;
 
     if (lc_info->classes != NULL) {
-	for (n=array_n(lc_info->classes); n--; ) {
-	    array_free (array_fetch(array_t *,lc_info->classes,n));
-	}
-	array_free (lc_info->classes);
-	lc_info->classes = NULL;
+    for (n=array_n(lc_info->classes); n--; ) {
+        array_free (array_fetch(array_t *,lc_info->classes,n));
+    }
+    array_free (lc_info->classes);
+    lc_info->classes = NULL;
     }
 }
 
@@ -316,24 +308,24 @@ lc_rec *lc_info;
     lc_info->lock_matrix = sm_alloc ();
     mapping = array_alloc (astg_vertex *,0);
     astg_foreach_signal (stg,sgen,sig_p) {
-	sig_p->id = n++;
-	array_insert_last (astg_signal *, mapping, sig_p);
+    sig_p->id = n++;
+    array_insert_last (astg_signal *, mapping, sig_p);
     }
 
     lc_info->stg = stg;
     astg_simple_cycles (stg,ASTG_ALL_CYCLES,find_interlocks,(void *)lc_info,ASTG_ALL);
 
     for (i=0; i < stg->n_sig; i++) {
-	for (j=0; j < i; j++) {
-	    assert ((sm_find(lc_info->lock_matrix,i,j) == 0) == (sm_find(lc_info->lock_matrix,j,i) == 0));
-	    if (sm_find(lc_info->lock_matrix,i,j)) {
-		sig1 = array_fetch (astg_signal *,mapping,i);
-		sig2 = array_fetch (astg_signal *,mapping,j);
-		/* Add to both lists since lock graph is undirected. */
-		array_insert_last (astg_signal *,sig1->lg_edges,sig2);
-		array_insert_last (astg_signal *,sig2->lg_edges,sig1);
-	    }
-	}
+    for (j=0; j < i; j++) {
+        assert ((sm_find(lc_info->lock_matrix,i,j) == 0) == (sm_find(lc_info->lock_matrix,j,i) == 0));
+        if (sm_find(lc_info->lock_matrix,i,j)) {
+        sig1 = array_fetch (astg_signal *,mapping,i);
+        sig2 = array_fetch (astg_signal *,mapping,j);
+        /* Add to both lists since lock graph is undirected. */
+        array_insert_last (astg_signal *,sig1->lg_edges,sig2);
+        array_insert_last (astg_signal *,sig2->lg_edges,sig1);
+        }
+    }
     }
 
     array_free (mapping);
@@ -343,7 +335,7 @@ lc_rec *lc_info;
     lc_info->classes = array_alloc (array_t *,0);
     n_comp = astg_lock_graph_components (stg, save_lock_classes,(void *)lc_info);
     if (n_comp <= 1) {
-	free_lock_classes (lc_info);
+    free_lock_classes (lc_info);
     }
     dbg(1,msg("lock graph has %d componen%s\n",n_comp,n_comp==1?"t":"ts"));
     return n_comp;
@@ -354,14 +346,14 @@ lc_rec *lc_info;
 static astg_bool can_lock_trans (t1,t2)
 astg_trans *t1, *t2;
 {
-    /* Try t1 -> t2 -> t1->opp_trans -> t2->opp_trans 
-	This has to bypass places -- not a gr function */
+    /* Try t1 -> t2 -> t1->opp_trans -> t2->opp_trans
+    This has to bypass places -- not a gr function */
     astg_bool can_lock = ASTG_TRUE;
 
     if (astg_is_rel (astg_noninput_trigger(t2),t1) ||
-	astg_is_rel (astg_noninput_trigger(astg_trx(t1)->opp_trans),t2) ||
-	astg_is_rel (astg_noninput_trigger(astg_trx(t2)->opp_trans),astg_trx(t1)->opp_trans) ||
-	astg_is_rel (astg_noninput_trigger(t1),astg_trx(t2)->opp_trans)) {
+    astg_is_rel (astg_noninput_trigger(astg_trx(t1)->opp_trans),t2) ||
+    astg_is_rel (astg_noninput_trigger(astg_trx(t2)->opp_trans),astg_trx(t1)->opp_trans) ||
+    astg_is_rel (astg_noninput_trigger(t1),astg_trx(t2)->opp_trans)) {
             can_lock = ASTG_FALSE;
     }
     dbg(3,msg("can_lock %s %s = %d\n",astg_trans_name(t1),astg_trans_name(t2),can_lock));
@@ -385,23 +377,23 @@ astg_signal *s1, *s2;
 astg_bool modify;
 {
     /* Try either s1+ -> s2+ -> s1- -> s2- or
-		  s1+ -> s2- -> s1- -> s2+	*/
+          s1+ -> s2- -> s1- -> s2+	*/
 
     astg_trans *t_s1_plus;
     astg_trans *t_s2_plus;
     astg_generator tgen1, tgen2;
 
     astg_foreach_pos_trans (s1,tgen1,t_s1_plus) {
-	astg_foreach_pos_trans (s2,tgen2,t_s2_plus) {
-	    if (can_lock_trans (t_s1_plus,t_s2_plus)) {
-		if (modify) astg_do_lock (t_s1_plus,t_s2_plus);
-		return ASTG_TRUE;
-	    }
-	    else if (can_lock_trans (t_s1_plus,astg_trx(t_s2_plus)->opp_trans)) {
-		if (modify) astg_do_lock (t_s1_plus,astg_trx(t_s2_plus)->opp_trans);
-		return ASTG_TRUE;
-	    }
-	}
+    astg_foreach_pos_trans (s2,tgen2,t_s2_plus) {
+        if (can_lock_trans (t_s1_plus,t_s2_plus)) {
+        if (modify) astg_do_lock (t_s1_plus,t_s2_plus);
+        return ASTG_TRUE;
+        }
+        else if (can_lock_trans (t_s1_plus,astg_trx(t_s2_plus)->opp_trans)) {
+        if (modify) astg_do_lock (t_s1_plus,astg_trx(t_s2_plus)->opp_trans);
+        return ASTG_TRUE;
+        }
+    }
     }
 
     return ASTG_FALSE;
@@ -421,12 +413,12 @@ astg_signal *sig2;
     array_insert_last (astg_signal *, sig2->lg_edges, sig1);
 
     astg_foreach_signal (stg,gen1,s1) {
-	astg_lock_graph_shortest_path (stg,s1);
-	astg_foreach_signal (stg,gen2,s2) {
-	    if (astg_is_trigger(s1,s2) || astg_is_trigger(s2,s1)) {
-		cost += s2->lg_weight;
-	    }
-	}
+    astg_lock_graph_shortest_path (stg,s1);
+    astg_foreach_signal (stg,gen2,s2) {
+        if (astg_is_trigger(s1,s2) || astg_is_trigger(s2,s1)) {
+        cost += s2->lg_weight;
+        }
+    }
     }
 
     ARRAY_DELETE_LAST (sig1->lg_edges);
@@ -447,21 +439,21 @@ astg_signal **sig1_p, **sig2_p;
     *sig1_p = *sig2_p = NULL;
 
     for (n1=array_n(lc1->lg_vertices); n1--; ) {
-	sig1 = array_fetch (astg_signal *,lc1->lg_vertices,n1);
-	for (n2=array_n(lc2->lg_vertices); n2--; ) {
-	    sig2 = array_fetch (astg_signal *,lc2->lg_vertices,n2);
+    sig1 = array_fetch (astg_signal *,lc1->lg_vertices,n1);
+    for (n2=array_n(lc2->lg_vertices); n2--; ) {
+        sig2 = array_fetch (astg_signal *,lc2->lg_vertices,n2);
 
-	    if (astg_lock_sig(sig1,sig2,ASTG_FALSE)) {
-		new_cost = astg_lock_sig_cost (stg,sig1,sig2);
-		dbg(2,msg("  cost = %d (min=%d)\n",new_cost,min_cost));
-		if (!found_sigs || new_cost < min_cost) {
-		    found_sigs = ASTG_TRUE;
-		    min_cost = new_cost;
-		    *sig1_p = sig1;  *sig2_p = sig2;
-		}
-	    }
+        if (astg_lock_sig(sig1,sig2,ASTG_FALSE)) {
+        new_cost = astg_lock_sig_cost (stg,sig1,sig2);
+        dbg(2,msg("  cost = %d (min=%d)\n",new_cost,min_cost));
+        if (!found_sigs || new_cost < min_cost) {
+            found_sigs = ASTG_TRUE;
+            min_cost = new_cost;
+            *sig1_p = sig1;  *sig2_p = sig2;
+        }
+        }
 
-	} /* end for each sig2 */
+    } /* end for each sig2 */
     } /* end for each sig2 */
 
     return found_sigs;
@@ -500,18 +492,18 @@ astg_signal **sig2_p;
     lc1->connectivity = 0;
 
     for (n=0; n < array_n(lc_info->classes); n++) {
-	lc2 = array_fetch (lock_class *,lc_info->classes,n);
-	if (lc2 == lc1) continue;
-	lc2->connectivity = measure_lc (lc1,lc2);
+    lc2 = array_fetch (lock_class *,lc_info->classes,n);
+    if (lc2 == lc1) continue;
+    lc2->connectivity = measure_lc (lc1,lc2);
     }
     array_sort (lc_info->classes,cmp_lc);
 
     for (n=0; n < array_n(lc_info->classes); n++) {
-	lc2 = array_fetch (lock_class *,lc_info->classes,n);
-	if (lc2 == lc1) continue;
-	dbg(2,msg("checking LC %d\n",n));
-	found_sig = select_from_lc (lc_info->stg,lc1,sig1_p,lc2,sig2_p);
-	if (found_sig) break;
+    lc2 = array_fetch (lock_class *,lc_info->classes,n);
+    if (lc2 == lc1) continue;
+    dbg(2,msg("checking LC %d\n",n));
+    found_sig = select_from_lc (lc_info->stg,lc1,sig1_p,lc2,sig2_p);
+    if (found_sig) break;
     }
 
     dbg(1,msg("exit select two sig %d\n",found_sig));
@@ -532,7 +524,7 @@ astg_graph *stg;
 
     /* Go ahead and lock this up. */
     if (pos_t != NULL && neg_t != NULL) {
-	dbg(1,msg("How to lock these?\n"));
+    dbg(1,msg("How to lock these?\n"));
     }
 }
 
@@ -548,20 +540,20 @@ astg_bool do_lock;
     lc_rec lc_info;
 
     if (!astg_is_marked_graph(stg)) {
-	printf("Sorry, lock graphs only work for marked graph STGs.\n");
-	return 1;
+    printf("Sorry, lock graphs only work for marked graph STGs.\n");
+    return 1;
     }
 
     if (astg_set_opp (stg,ASTG_ALL) != 0) return 1;
 
     astg_foreach_signal (stg,sgen,sig_p) {
-	ARRAY_RESET (sig_p->lg_edges);
-	if (sig_p->n_trans != 2) {
-	    printf("%s has %d transitions of signal %s.\n",
-		astg_name(stg), sig_p->n_trans, astg_signal_name(sig_p));
-	    printf("Lock graph only applies for unique transitions.\n");
-	    return 1;
-	}
+    ARRAY_RESET (sig_p->lg_edges);
+    if (sig_p->n_trans != 2) {
+        printf("%s has %d transitions of signal %s.\n",
+        astg_name(stg), sig_p->n_trans, astg_signal_name(sig_p));
+        printf("Lock graph only applies for unique transitions.\n");
+        return 1;
+    }
     }
 
     lc_info.stg = stg;
@@ -570,16 +562,16 @@ astg_bool do_lock;
 
     while (make_lock_graph (stg,&lc_info) > 1 && do_lock) {
 
-	if (select_two_signals (&lc_info,&sig1,&sig2)) {
-	    astg_lock_sig (sig1,sig2,ASTG_TRUE);
-	}
-	else {
-	    /* Add a signal and lock to that. */
-	    dbg(1,msg("Could not find two signals to lock.\n"));
-	    lock_new_sig (stg);
-	    rc = ASTG_FALSE;
-	    break;
-	}
+    if (select_two_signals (&lc_info,&sig1,&sig2)) {
+        astg_lock_sig (sig1,sig2,ASTG_TRUE);
+    }
+    else {
+        /* Add a signal and lock to that. */
+        dbg(1,msg("Could not find two signals to lock.\n"));
+        lock_new_sig (stg);
+        rc = ASTG_FALSE;
+        break;
+    }
 
     } /* end while */
 

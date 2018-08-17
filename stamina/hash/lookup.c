@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/stamina/hash/lookup.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:16 $
- *
- */
+
 /************************************************************
  *  lookup(s,hashtab,hash_size) --- Look for s in hashtab.  *
  *                If lookup finds the entry already present,*
@@ -19,20 +11,20 @@
 
 
 NLIST *lookup(s, hashtab, hash_size)
-char *s;
-NLIST *hashtab[];
-int hash_size;
+        char *s;
+        NLIST *hashtab[];
+        int hash_size;
 {
-	NLIST *np;	/* a pointer to nlist */
-	int hash_index;
+    NLIST *np;    /* a pointer to nlist */
+    int   hash_index;
 
-	hash_index = hash(s, hash_size);
-	for (np = hashtab[hash_index]; np != NIL(NLIST); np = np->next)  {
-	    if ( strcmp(s, np->name) == 0 )  {
-		return(np);	/* found it */
-	    }
-	}
+    hash_index = hash(s, hash_size);
+    for (np    = hashtab[hash_index]; np != NIL(NLIST); np = np->next) {
+        if (strcmp(s, np->name) == 0) {
+            return (np);    /* found it */
+        }
+    }
 
-	return (NIL(NLIST));		/* not found */
+    return (NIL(NLIST));        /* not found */
 
 }

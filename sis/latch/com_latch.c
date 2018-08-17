@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/latch/com_latch.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:29 $
- *
- */
+
 #ifdef SIS
 #include "sis.h"
 
@@ -29,79 +21,79 @@ char **argv;
 
     util_getopt_reset();
     while ((c = util_getopt(argc, argv, "s")) != EOF) {
-	switch(c) {
-	  case 's':
-	    summary = 1;
-	    break;
-	  default:
-	    goto usage;
-	}
+    switch(c) {
+      case 's':
+        summary = 1;
+        break;
+      default:
+        goto usage;
+    }
     }
 
     node_vec = com_get_nodes(*network, argc-util_optind+1, argv+util_optind-1);
     if ((argc == 1) || ((argc == 2) && (summary))) {
-	foreach_latch(*network, gen, l) {
-	    latch_type = latch_get_type(l);
-	    if (latch_type == ACTIVE_HIGH) buf = "ah";
-	    if (latch_type == ACTIVE_LOW) buf = "al";
-	    if (latch_type == RISING_EDGE) buf = "re";
-	    if (latch_type == FALLING_EDGE) buf = "fe";
-	    if (latch_type == COMBINATIONAL) buf = "co";
-	    if (latch_type == ASYNCH) buf = "as";
-	    if (latch_type == UNKNOWN) buf = "un";
-	    (void) fprintf(sisout, "input: %s output: %s",
-			   node_name(latch_get_input(l)),
-			   node_name(latch_get_output(l)));
-	    (void) fprintf(sisout, " init val: %d cur val: %d",
-			   latch_get_initial_value(l),
-			   latch_get_current_value(l));
-	    if (!summary) {
-		control = latch_get_control(l);
-		if (control != NIL(node_t)) {
-		    (void) fprintf(sisout, " type: %s control: %s", buf,
-				   node_name(control));
-		} else {
-		    (void) fprintf(sisout, " type: %s control: none", buf);
-		}
-	    }
-	    (void) fprintf(misout, "\n");
+    foreach_latch(*network, gen, l) {
+        latch_type = latch_get_type(l);
+        if (latch_type == ACTIVE_HIGH) buf = "ah";
+        if (latch_type == ACTIVE_LOW) buf = "al";
+        if (latch_type == RISING_EDGE) buf = "re";
+        if (latch_type == FALLING_EDGE) buf = "fe";
+        if (latch_type == COMBINATIONAL) buf = "co";
+        if (latch_type == ASYNCH) buf = "as";
+        if (latch_type == UNKNOWN) buf = "un";
+        (void) fprintf(sisout, "input: %s output: %s",
+               node_name(latch_get_input(l)),
+               node_name(latch_get_output(l)));
+        (void) fprintf(sisout, " init val: %d cur val: %d",
+               latch_get_initial_value(l),
+               latch_get_current_value(l));
+        if (!summary) {
+        control = latch_get_control(l);
+        if (control != NIL(node_t)) {
+            (void) fprintf(sisout, " type: %s control: %s", buf,
+                   node_name(control));
+        } else {
+            (void) fprintf(sisout, " type: %s control: none", buf);
+        }
+        }
+        (void) fprintf(misout, "\n");
         }
         (void) array_free(node_vec);
         return 0;
     }
     for (i = 0; i < array_n(node_vec); i++){
         p = array_fetch(node_t *, node_vec, i);
-	l = latch_from_node(p);
-	if ((l = latch_from_node(p)) != NIL(latch_t)) {
-	    latch_type = latch_get_type(l);
-	    if (latch_type == ACTIVE_HIGH) buf = "ah";
-	    if (latch_type == ACTIVE_LOW) buf = "al";
-	    if (latch_type == RISING_EDGE) buf = "re";
-	    if (latch_type == FALLING_EDGE) buf = "fe";
-	    if (latch_type == COMBINATIONAL) buf = "co";
-	    if (latch_type == ASYNCH) buf = "as";
-	    if (latch_type == UNKNOWN) buf = "un";
-	    (void) fprintf(misout, "input: %s output: %s",
-			   node_name(latch_get_input(l)),
-			   node_name(latch_get_output(l)));
-	    (void) fprintf(misout, " init val: %d cur val: %d",
-			   latch_get_initial_value(l),
-			   latch_get_current_value(l));
-	    if (!summary) {
-		control = latch_get_control(l);
-		if (control != NIL(node_t)) {
-		    (void) fprintf(misout, " type: %s control: %s", buf,
-				   node_name(control));
-		} else {
-		    (void) fprintf(misout, " type: %s control: none", buf);
-		}
-	    }
-	    (void) fprintf(misout, "\n");
-	} else {
-	    (void) fprintf(misout,
-			   "\tNode %s is not a latch input or output\n",
-			   node_name(p));
-	}
+    l = latch_from_node(p);
+    if ((l = latch_from_node(p)) != NIL(latch_t)) {
+        latch_type = latch_get_type(l);
+        if (latch_type == ACTIVE_HIGH) buf = "ah";
+        if (latch_type == ACTIVE_LOW) buf = "al";
+        if (latch_type == RISING_EDGE) buf = "re";
+        if (latch_type == FALLING_EDGE) buf = "fe";
+        if (latch_type == COMBINATIONAL) buf = "co";
+        if (latch_type == ASYNCH) buf = "as";
+        if (latch_type == UNKNOWN) buf = "un";
+        (void) fprintf(misout, "input: %s output: %s",
+               node_name(latch_get_input(l)),
+               node_name(latch_get_output(l)));
+        (void) fprintf(misout, " init val: %d cur val: %d",
+               latch_get_initial_value(l),
+               latch_get_current_value(l));
+        if (!summary) {
+        control = latch_get_control(l);
+        if (control != NIL(node_t)) {
+            (void) fprintf(misout, " type: %s control: %s", buf,
+                   node_name(control));
+        } else {
+            (void) fprintf(misout, " type: %s control: none", buf);
+        }
+        }
+        (void) fprintf(misout, "\n");
+    } else {
+        (void) fprintf(misout,
+               "\tNode %s is not a latch input or output\n",
+               node_name(p));
+    }
     }
     array_free(node_vec);
     return 0;

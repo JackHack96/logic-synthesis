@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/options/options-test.usage,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:10 $
- *
- */
+
 options-test: unknown option -- j
 usage: options-test [-=E on_error] [-=M mem_flags] [-xy] [-b|-k frammitz_size]
                     [-d debug_type] file_name ... [host:display]

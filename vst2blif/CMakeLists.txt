@@ -1,6 +1,7 @@
-cmake_minimum_required(VERSION 3.8)
-project(vst2blif)
+set(project "vst2blif")
 
-set(CMAKE_CXX_STANDARD 11)
-
-add_executable(${PROJECT_NAME} vst2blif.c vst2blif.h)
+set(${project}, "")
+list(APPEND ${project}_SOURCES
+        ${CMAKE_CURRENT_SOURCE_DIR}/vst2blif.c
+        )
+add_executable(vst2blif ${${project}_SOURCES})

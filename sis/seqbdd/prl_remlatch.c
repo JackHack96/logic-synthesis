@@ -1,22 +1,14 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/seqbdd/prl_remlatch.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:54 $
- *
- */
+
 
 #ifdef SIS
 #include "sis.h"
 #include "prl_util.h"
 
 
-static void   PerformLocalRetiming     ARGS((network_t *, int));
-static void   FirstFitLatchRemoval     ARGS((network_t *, seq_info_t *, bdd_t *, prl_options_t *));
-static void   RemoveOneBootLatch       ARGS((network_t *, prl_options_t *));
-static bdd_t *GetReachableStatesFromDc ARGS((seq_info_t *, prl_options_t *));
+static void   PerformLocalRetiming     (network_t *, int);
+static void   FirstFitLatchRemoval     (network_t *, seq_info_t *, bdd_t *, prl_options_t *);
+static void   RemoveOneBootLatch       (network_t *, prl_options_t *);
+static bdd_t *GetReachableStatesFromDc (seq_info_t *, prl_options_t *);
 
 
 /*
@@ -74,10 +66,10 @@ prl_options_t *options;
  /* remove the boot latches */
   if (options->remlatch.remove_boot) {
       do {
-	  n_latches = network_num_latch(network);
-	  RemoveOneBootLatch(network, options);
-	  network_sweep(network);
-	  new_n_latches = network_num_latch(network);
+      n_latches = network_num_latch(network);
+      RemoveOneBootLatch(network, options);
+      network_sweep(network);
+      new_n_latches = network_num_latch(network);
       } while (new_n_latches < n_latches);
   }
 
@@ -135,7 +127,7 @@ typedef struct {
 /* It seems that only 'old_vars' is ever used */
 
 typedef struct {
-    bdd_manager *manager;	
+    bdd_manager *manager;
     array_t *old_vars;			/* of bdd_t*; present state variables */
     array_t *new_vars;			/* of bdd_t*; as many as 'old_vars'; fresh variables */
     array_t *support_vars;		/* of bdd_t*; as many as 'old_vars'; fresh variables */
@@ -189,39 +181,39 @@ prl_options_t *options;
     var_array = array_alloc(var_info_t, 0);
     set = bdd_dup(valid_states);
     for (i = 0; i < array_n(state_vars); i++) {
-	var = array_fetch(bdd_t *, state_vars, i);
-	extract_var_info(extra_vars, var, set, &var_info);
-	if (var_info.var == NIL(bdd_t)) continue;
-	if (var_info.support_size > options->remlatch.max_cost) {
-	    if (options->verbose > 0) {
-		(void) fprintf(siserr, "latch support %d too large\n", var_info.support_size);
-	    }
-	    bdd_free(var_info.new_set);
-	    bdd_free(var_info.recoding_fn);
-	    bdd_free(var_info.recoding_fn_dc);
-	    continue;
-	}
-	if (options->verbose > 0) {
-	    assert(st_lookup(from_var_to_pi, (char *) var_info.var, (char **) &pi));
-	    (void) fprintf(siserr, "remove latch [%s] of support %d\n", 
-			   io_name(pi, 0), 
-			   var_info.support_size);
-	}
-	array_insert_last(var_info_t, var_array, var_info);
-	bdd_free(set);
-	set = bdd_dup(var_info.new_set);
+    var = array_fetch(bdd_t *, state_vars, i);
+    extract_var_info(extra_vars, var, set, &var_info);
+    if (var_info.var == NIL(bdd_t)) continue;
+    if (var_info.support_size > options->remlatch.max_cost) {
+        if (options->verbose > 0) {
+        (void) fprintf(siserr, "latch support %d too large\n", var_info.support_size);
+        }
+        bdd_free(var_info.new_set);
+        bdd_free(var_info.recoding_fn);
+        bdd_free(var_info.recoding_fn_dc);
+        continue;
+    }
+    if (options->verbose > 0) {
+        assert(st_lookup(from_var_to_pi, (char *) var_info.var, (char **) &pi));
+        (void) fprintf(siserr, "remove latch [%s] of support %d\n",
+               io_name(pi, 0),
+               var_info.support_size);
+    }
+    array_insert_last(var_info_t, var_array, var_info);
+    bdd_free(set);
+    set = bdd_dup(var_info.new_set);
     }
     extra_vars_free(extra_vars);
     st_free_table(from_var_to_pi);
     array_free(input_names);
 
     RemoveRedundantLatches(network, seq_info, var_array, options);
-  
+
     for (i = 0; i < array_n(var_array); i++) {
-	var_info = array_fetch(var_info_t, var_array, i);
-	bdd_free(var_info.new_set);
-	bdd_free(var_info.recoding_fn);
-	bdd_free(var_info.recoding_fn_dc);
+    var_info = array_fetch(var_info_t, var_array, i);
+    bdd_free(var_info.new_set);
+    bdd_free(var_info.recoding_fn);
+    bdd_free(var_info.recoding_fn_dc);
     }
     array_free(var_array);
 }
@@ -254,19 +246,19 @@ var_info_t *var_info;
     var_is_redundant = bdd_is_tautology(independence_check, 0);
     bdd_free(independence_check);
     if (var_is_redundant) {
-	var_info->var = var;
-	var_info->new_set = bdd_smooth(set, var_array);
-	fn = bdd_cofactor(set, var);
-	dc = bdd_not(var_info->new_set);
-	get_good_support_fn(extra_vars, fn, dc, &support_size, &new_fn, &new_dc);
-	var_info->recoding_fn = new_fn;
-	var_info->recoding_fn_dc = new_dc;
-	var_info->support_size = support_size;
-	bdd_free(fn);
-	bdd_free(dc);
+    var_info->var = var;
+    var_info->new_set = bdd_smooth(set, var_array);
+    fn = bdd_cofactor(set, var);
+    dc = bdd_not(var_info->new_set);
+    get_good_support_fn(extra_vars, fn, dc, &support_size, &new_fn, &new_dc);
+    var_info->recoding_fn = new_fn;
+    var_info->recoding_fn_dc = new_dc;
+    var_info->support_size = support_size;
+    bdd_free(fn);
+    bdd_free(dc);
     } else {
-	var_info->support_size = INFINITY;
-	var_info->var = NIL(bdd_t);
+    var_info->support_size = INFINITY;
+    var_info->var = NIL(bdd_t);
     }
     array_free(var_array);
 }
@@ -278,7 +270,7 @@ var_info_t *var_info;
  *
  * Since 'network' is updated possibly several times, to avoid
  * dangling pointers from 'seq_info', 'seq_info' is constructed
- * from a copy of 'network'. 
+ * from a copy of 'network'.
  *
  * 'input_names' is an array_t * of char*; one per PI of 'network'.
  * The index in 'input_names' correspond to the BDD varid of the PI.
@@ -314,21 +306,21 @@ prl_options_t *options;
     from_var_to_pi = compute_from_var_to_pi_table(network, seq_info, input_names);
 
     for (i = 0; i < array_n(removed_vars); i++) {
-	var_info = array_fetch(var_info_t, removed_vars, i);
-	var_info.output_distance = get_output_distance(from_var_to_pi, var_info.var);
-	if (var_info.output_distance + 1 > options->remlatch.max_level) { 	
-	    assert(st_lookup(from_var_to_pi, (char *) var_info.var, (char **) &pi)); 	 
-	    if (options->verbose > 0) {
- 		(void) fprintf(siserr, "latch [%s,%d] too far: kept\n",
-			       io_name(pi, 0), 			 
-			       var_info.output_distance); 	 
-	    } 	 
-	    continue; 	
-	}
-	RemoveOneLatch(network, input_names, from_var_to_pi, &var_info); 
+    var_info = array_fetch(var_info_t, removed_vars, i);
+    var_info.output_distance = get_output_distance(from_var_to_pi, var_info.var);
+    if (var_info.output_distance + 1 > options->remlatch.max_level) {
+        assert(st_lookup(from_var_to_pi, (char *) var_info.var, (char **) &pi));
+        if (options->verbose > 0) {
+         (void) fprintf(siserr, "latch [%s,%d] too far: kept\n",
+                   io_name(pi, 0),
+                   var_info.output_distance);
+        }
+        continue;
     }
-    st_free_table(from_var_to_pi); 
-    array_free(input_names); 
+    RemoveOneLatch(network, input_names, from_var_to_pi, &var_info);
+    }
+    st_free_table(from_var_to_pi);
+    array_free(input_names);
 }
 
 /*
@@ -398,7 +390,7 @@ var_info_t *var_info;
  /* get latch corresponding to var */
   assert(st_lookup(from_var_to_pi, (char *) var_info->var, (char **) &pi));
   assert((latch = latch_from_node(pi)) != NIL(latch_t));
-  
+
  /* build a network with a single output for the recoding function */
   recoding_network    = ntbdd_bdd_single_to_network(var_info->recoding_fn,    "dummy_name!", input_names);
   dc_recoding_network = ntbdd_bdd_single_to_network(var_info->recoding_fn_dc, "dummy_name!", input_names);
@@ -430,12 +422,12 @@ network_t *network;
     n_nodes = 0;
     nodes = ALLOC(node_t *, network_num_pi(network));
     foreach_primary_input(network, gen, node) {
-	if (node_num_fanout(node) == 0) {
-	    nodes[n_nodes++] = node;
-	}
+    if (node_num_fanout(node) == 0) {
+        nodes[n_nodes++] = node;
+    }
     }
     for (i = 0; i < n_nodes; i++) {
-	network_delete_node(network, nodes[i]);
+    network_delete_node(network, nodes[i]);
     }
     FREE(nodes);
 }
@@ -457,7 +449,7 @@ node_t *node;
     network_connect(po, pi);
 }
 
-/* 
+/*
  * given a function 'fn' and its don't care set 'dc'
  * computes a function in the interval (fn, dc)
  * with small support. Heuristic.
@@ -483,19 +475,19 @@ bdd_t **new_dc;
     h = bdd_or(fn, dc, 1, 1);
     var_array = array_alloc(bdd_t *, 1);
     for (i = 0; i < array_n(extra_vars->old_vars); i++) {
-	var = array_fetch(bdd_t *, extra_vars->old_vars, i);
-	array_insert(bdd_t *, var_array, 0, var);
-	bigger_g = bdd_smooth(g, var_array);
-	smaller_h = bdd_consensus(h, var_array);
-	if (bdd_leq(bigger_g, smaller_h, 1, 1)) {
-	    bdd_free(g);
-	    g = bigger_g;
-	    bdd_free(h);
-	    h = smaller_h;
-	} else {
-	    bdd_free(bigger_g);
-	    bdd_free(smaller_h);
-	}
+    var = array_fetch(bdd_t *, extra_vars->old_vars, i);
+    array_insert(bdd_t *, var_array, 0, var);
+    bigger_g = bdd_smooth(g, var_array);
+    smaller_h = bdd_consensus(h, var_array);
+    if (bdd_leq(bigger_g, smaller_h, 1, 1)) {
+        bdd_free(g);
+        g = bigger_g;
+        bdd_free(h);
+        h = smaller_h;
+    } else {
+        bdd_free(bigger_g);
+        bdd_free(smaller_h);
+    }
     }
     array_free(var_array);
     *new_fn = g;
@@ -506,11 +498,11 @@ bdd_t **new_dc;
     var_set_free(support);
 }
 
-/* 
+/*
  * Allocates an 'extra_var_t' structure.
  */
 
-static extra_vars_t *extra_vars_alloc(seq_info) 
+static extra_vars_t *extra_vars_alloc(seq_info)
 seq_info_t *seq_info;
 {
     int i;
@@ -524,13 +516,13 @@ seq_info_t *seq_info;
     result->support_vars = array_alloc(bdd_t *, 0);
     result->new_to_support_map = st_init_table(st_numcmp, st_numhash);
     for (i = 0; i < array_n(result->old_vars); i++) {
-	support_var = bdd_create_variable(seq_info->manager);
-	array_insert_last(bdd_t *, result->support_vars, support_var);
-	new_var = bdd_create_variable(seq_info->manager);
-	array_insert_last(bdd_t *, result->new_vars, new_var);
-	st_insert(result->new_to_support_map, 
-		  (char *) bdd_top_var_id(new_var), 
-		  (char *) bdd_top_var_id(support_var));
+    support_var = bdd_create_variable(seq_info->manager);
+    array_insert_last(bdd_t *, result->support_vars, support_var);
+    new_var = bdd_create_variable(seq_info->manager);
+    array_insert_last(bdd_t *, result->new_vars, new_var);
+    st_insert(result->new_to_support_map,
+          (char *) bdd_top_var_id(new_var),
+          (char *) bdd_top_var_id(support_var));
     }
     return result;
 }
@@ -576,15 +568,15 @@ node_t *node;
     if (st_lookup(table, (char *) node, NIL(char *))) return;
     distance = 0;
     foreach_fanout(node, gen, fanout) {
-	fanout_distance = get_output_distance_rec(table, fanout);
-	distance = MAX(distance, fanout_distance);
+    fanout_distance = get_output_distance_rec(table, fanout);
+    distance = MAX(distance, fanout_distance);
     }
     if (node->type != PRIMARY_INPUT) distance++;
     st_insert(table, (char *) node, (char *) distance);
     return distance;
 }
 
- /* 
+ /*
   * Checks for gates that are fed only by latches
   * and move the latches forward.
   * Be careful to compute the initial state properly.
@@ -598,21 +590,21 @@ int verbosity;
     int i;
     node_t *node;
     array_t *nodes;
-    
+
     network_sweep(network);
     do {
-	done = 1;
-	nodes = network_dfs(network);
-	for (i = 0; i < array_n(nodes); i++) {
-	    node = array_fetch(node_t *, nodes, i);
-	    if (save_enough_latches(network, node)) {
-		move_latches_forward(network, node, verbosity);
-		network_sweep(network);
-		done = 0;
-		break;
-	    } 
-	}
-	array_free(nodes);
+    done = 1;
+    nodes = network_dfs(network);
+    for (i = 0; i < array_n(nodes); i++) {
+        node = array_fetch(node_t *, nodes, i);
+        if (save_enough_latches(network, node)) {
+        move_latches_forward(network, node, verbosity);
+        network_sweep(network);
+        done = 0;
+        break;
+        }
+    }
+    array_free(nodes);
     } while (done == 0);
 }
 
@@ -632,9 +624,9 @@ node_t *node;
     if (node->type == PRIMARY_OUTPUT) return 0;
     n_latches_saved = -1;
     foreach_fanin(node, i, fanin) {
-	if (fanin->type != PRIMARY_INPUT) return 0;
-	if (network_is_real_pi(network, fanin)) return 0;
-	if (node_num_fanout(fanin) == 1) n_latches_saved++;
+    if (fanin->type != PRIMARY_INPUT) return 0;
+    if (network_is_real_pi(network, fanin)) return 0;
+    if (node_num_fanout(fanin) == 1) n_latches_saved++;
     }
     return (n_latches_saved < 0) ? 0 : n_latches_saved;
 }
@@ -660,43 +652,43 @@ int verbosity;
     st_table *latches;
 
     if (verbosity > 0) {
-	(void) fprintf(sisout, "latches moved forward node %s\n", node->name);
+    (void) fprintf(sisout, "latches moved forward node %s\n", node->name);
     }
 
 
-    /* 
-     * First add the new latch at the output of 'node' 
+    /*
+     * First add the new latch at the output of 'node'
      */
 
     foreach_fanin(node, i, fanin) {
-	assert((latch = latch_from_node(fanin)) != NIL(latch_t));
-	SET_VALUE(fanin, latch_get_initial_value(latch));
-	if (verbosity > 1) {
-	    (void) fprintf(sisout, "fanin %s\n", fanin->name);
-	}
+    assert((latch = latch_from_node(fanin)) != NIL(latch_t));
+    SET_VALUE(fanin, latch_get_initial_value(latch));
+    if (verbosity > 1) {
+        (void) fprintf(sisout, "fanin %s\n", fanin->name);
+    }
     }
     simulate_node(node);
     init_value = GET_VALUE(node);
     buffer = node_literal(node, 1);
     network_add_node(network, buffer);
     foreach_fanout(node, gen, fanout) {
-	if (fanout == buffer) continue;
-	assert(node_patch_fanin(fanout, node, buffer));
-	node_scc(fanout);
+    if (fanout == buffer) continue;
+    assert(node_patch_fanin(fanout, node, buffer));
+    node_scc(fanout);
     }
     network_disconnect(node, buffer, &po, &pi);
     network_create_latch(network, &latch, po, pi);
     latch_set_initial_value(latch, init_value);
     latch_set_current_value(latch, init_value);
 
-    /* 
-     * Then remove the latches at the input of 'node' 
+    /*
+     * Then remove the latches at the input of 'node'
      */
 
     latches = st_init_table(st_ptrcmp, st_ptrhash);
     foreach_fanin(node, i, fanin) {
-	assert((latch = latch_from_node(fanin)) != NIL(latch_t));
-	st_insert(latches, (char *) latch, NIL(char));
+    assert((latch = latch_from_node(fanin)) != NIL(latch_t));
+    st_insert(latches, (char *) latch, NIL(char));
     }
     red_latch_remove_latches(network, node, latches);
     st_free_table(latches);
@@ -718,19 +710,19 @@ st_table *table;
     st_generator *gen;
     latch_t *latch;
     node_t *input, *output, *fanin;
-    
+
     st_foreach_item(table, gen, (char **) &latch, NIL(char *)) {
-	input = latch_get_input(latch);
-	output = latch_get_output(latch);
-	if (node_num_fanout(output) == 1) {
-	    assert(node_get_fanout(output, 0) == node);
-	    network_delete_latch(network, latch);
-	    network_connect(input, output);
-	} else {
-	    fanin = node_get_fanin(input, 0);
-	    assert(node_patch_fanin(node, output, fanin));
-	    node_scc(node);
-	}
+    input = latch_get_input(latch);
+    output = latch_get_output(latch);
+    if (node_num_fanout(output) == 1) {
+        assert(node_get_fanout(output, 0) == node);
+        network_delete_latch(network, latch);
+        network_connect(input, output);
+    } else {
+        fanin = node_get_fanin(input, 0);
+        assert(node_patch_fanin(node, output, fanin));
+        node_scc(node);
+    }
     }
 }
 
@@ -746,19 +738,19 @@ st_table *table;
  * If one of the POs depends combinationally on one of the external PIs
  * the routine reports an error status code.
  * This function is useful out there in the real world; i.e.
- * if we want to control a memory chip, 'latch_output' is a simple way to make sure 
+ * if we want to control a memory chip, 'latch_output' is a simple way to make sure
  * that the write_enable signal does not glitch.
  *
  * Results:
  *	Returns 0 iff the listed POs are all fed by a latch or a constant.
- * 
+ *
  * Side effects:
  *	'network' is modified in place.
  *
  *----------------------------------------------------------------------
  */
 
-static int force_latched_output ARGS((network_t *, node_t *, int));
+static int force_latched_output (network_t *, node_t *, int);
 
 int Prl_LatchOutput(network, node_vec, verbosity)
 network_t *network;
@@ -768,7 +760,7 @@ int verbosity;
   int i;
   int status;
   node_t *node;
-    
+
   for (i = 0; i < array_n(node_vec); i++) {
     node = array_fetch(node_t *, node_vec, i);
     if (! network_is_real_po(network, node)) {
@@ -788,7 +780,7 @@ int verbosity;
 }
 
 
-/* 
+/*
  *----------------------------------------------------------------------
  *
  * force_latched_output -- INTERNAL ROUTINE
@@ -798,11 +790,11 @@ int verbosity;
  * a node only fed by latches. Across such a node, called 'candidate' here,
  * we push latches. This process continues until the fanin of the PO is
  * a latch or until we do not find any more candidates.
- * 
+ *
  * WARNING: if the PO is fed by a constant node, the algorithm outlined
  * above enters an infinite loop ('candidate' will always be equal to 'fanin')
  * To avoid problems with constant nodes, we perform a 'network_sweep'
- * before entering the loop, and add a special test. 
+ * before entering the loop, and add a special test.
  *
  * Results:
  *	0 if PO is set to be the output of a latch.
@@ -816,7 +808,7 @@ int verbosity;
  *----------------------------------------------------------------------
  */
 
-static node_t *get_candidate_node ARGS((node_t *));
+static node_t *get_candidate_node (node_t *);
 
 static int force_latched_output(network, po, verbosity)
 network_t *network;
@@ -824,38 +816,38 @@ node_t *po;
 int verbosity;
 {
     node_t *fanin, *candidate;
-    
+
     network_sweep(network);
     for (;;) {
-	fanin = node_get_fanin(po, 0);
-	if (fanin->type == PRIMARY_INPUT && latch_from_node(fanin) != NIL(latch_t)) return 0;
-	if (node_num_fanin(fanin) == 0) return 2;
-	candidate = get_candidate_node(fanin);
-	if (candidate == NIL(node_t)) return 1;
-	move_latches_forward(network, candidate, verbosity);
-	network_sweep(network);
+    fanin = node_get_fanin(po, 0);
+    if (fanin->type == PRIMARY_INPUT && latch_from_node(fanin) != NIL(latch_t)) return 0;
+    if (node_num_fanin(fanin) == 0) return 2;
+    candidate = get_candidate_node(fanin);
+    if (candidate == NIL(node_t)) return 1;
+    move_latches_forward(network, candidate, verbosity);
+    network_sweep(network);
     }
 }
 
-/* 
+/*
  * returns a node in the transitive fanin of "node" whose fanins are all latches.
  * returns NIL(node_t) if it cannot find any.
  */
 
-static node_t *get_candidate_node_rec ARGS((node_t *, st_table *));
+static node_t *get_candidate_node_rec (node_t *, st_table *);
 
 static node_t *get_candidate_node(node)
 node_t *node;
 {
     node_t *candidate;
     st_table *visited = st_init_table(st_ptrcmp, st_ptrhash);
-    
+
     candidate = get_candidate_node_rec(node, visited);
     st_free_table(visited);
     return candidate;
 }
 
-static int node_only_fed_by_latches ARGS((node_t *));
+static int node_only_fed_by_latches (node_t *);
 
 static node_t *get_candidate_node_rec(node, visited)
 node_t *node;
@@ -868,7 +860,7 @@ st_table *visited;
     if (st_lookup(visited, (char *) node, NIL(char *))) return NIL(node_t);
     if (node_only_fed_by_latches(node)) return node;
     foreach_fanin(node, i, fanin) {
-	if ((candidate = get_candidate_node_rec(fanin, visited)) != NIL(node_t)) return candidate;
+    if ((candidate = get_candidate_node_rec(fanin, visited)) != NIL(node_t)) return candidate;
     }
     st_insert(visited, (char *) node, NIL(char));
     return NIL(node_t);
@@ -884,8 +876,8 @@ node_t *node;
     if (node->type == PRIMARY_INPUT) return 0;
     if (node->type == PRIMARY_OUTPUT) return 0;
     foreach_fanin(node, i, fanin) {
-	if (fanin->type != PRIMARY_INPUT) return 0;
-	if (latch_from_node(fanin) == NIL(latch_t)) return 0;
+    if (fanin->type != PRIMARY_INPUT) return 0;
+    if (latch_from_node(fanin) == NIL(latch_t)) return 0;
     }
     return 1;
 }
@@ -907,7 +899,7 @@ array_t *var_names;
 
 
 
-static int CanFlipInitialBit ARGS((network_t *, seq_info_t *, latch_t *));
+static int CanFlipInitialBit (network_t *, seq_info_t *, latch_t *);
 
 /*
  *----------------------------------------------------------------------
@@ -944,36 +936,36 @@ prl_options_t *options;
 
     seq_info = Prl_SeqInitNetwork(network, options);
     foreach_latch(network, gen, latch) {
-	po = latch_get_input(latch);
-	fanin = node_get_fanin(po, 0);
-	switch (node_function(fanin)) {
-	  case NODE_0:
-	    input_value = 0;
-	    break;
-	  case NODE_1:
-	    input_value = 1;
-	    break;
-	  default:
-	    continue;
-	}
-	if (input_value == latch_get_initial_value(latch)) continue;
-	if (! CanFlipInitialBit(network, seq_info, latch)) continue;
-	
-	/* replace the latch by a constant and exit the loop */
-	constant_node = node_constant(latch_get_initial_value(latch));
-	network_add_node(network, constant_node);
-	replace_latch_by_node(network, latch, constant_node);
-	break;
+    po = latch_get_input(latch);
+    fanin = node_get_fanin(po, 0);
+    switch (node_function(fanin)) {
+      case NODE_0:
+        input_value = 0;
+        break;
+      case NODE_1:
+        input_value = 1;
+        break;
+      default:
+        continue;
+    }
+    if (input_value == latch_get_initial_value(latch)) continue;
+    if (! CanFlipInitialBit(network, seq_info, latch)) continue;
+
+    /* replace the latch by a constant and exit the loop */
+    constant_node = node_constant(latch_get_initial_value(latch));
+    network_add_node(network, constant_node);
+    replace_latch_by_node(network, latch, constant_node);
+    break;
     }
     Prl_SeqInfoFree(seq_info, options);
 }
 
 
-static bdd_t *ComputeFlippedLiteral ARGS((network_t *, seq_info_t *, latch_t *));
-static bdd_t *BddFindAlternateInit  ARGS((bdd_t *, bdd_t *, seq_info_t *));
-static bdd_t *BddAndPositive	    ARGS((bdd_t *, bdd_t *));
-static bdd_t *BinaryMergeBdds	    ARGS((bdd_t **, int, BddFn, bdd_t *));
-static void   ForceNewInitState	    ARGS((network_t *, seq_info_t *, bdd_t *));
+static bdd_t *ComputeFlippedLiteral (network_t *, seq_info_t *, latch_t *);
+static bdd_t *BddFindAlternateInit  (bdd_t *, bdd_t *, seq_info_t *);
+static bdd_t *BddAndPositive	    (bdd_t *, bdd_t *);
+static bdd_t *BinaryMergeBdds	    (bdd_t **, int, BddFn, bdd_t *);
+static void   ForceNewInitState	    (network_t *, seq_info_t *, bdd_t *);
 
 /*
  *----------------------------------------------------------------------

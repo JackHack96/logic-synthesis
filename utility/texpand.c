@@ -1,16 +1,6 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/utility/texpand.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:13 $
- *
- */
-/* LINTLIBRARY */
 #ifdef notdef
 #define _POSIX_SOURCE		/* Argh!  IBM strikes again... */
-#include "copyright.h"
+#include "../port/copyright.h"
 #include "../port/port.h"
 #include "st.h"
 #include "../utility/utility.h"
@@ -49,7 +39,7 @@ init_table()
      /* Get CADROOT directory from environment */
     dir = getenv("OCTTOOLS");
     if (dir) {
-	(void) st_add_direct(table, "octtools", dir);
+    (void) st_add_direct(table, "octtools", dir);
     }
 
     /* Get user set of translations from environment */
@@ -61,28 +51,28 @@ init_table()
         while ((token = strtok(ptr, ", \t")) != NIL(char)) {
             ptr = NIL(char);
             if ((home = strchr(token, ':')) == NIL(char)) {
-		/* malformed entry */
-		continue;
-	    }
-	    user = token;
-	    *home = '\0';
-	    home++;
-	    (void) st_add_direct(table, user, home);
+        /* malformed entry */
+        continue;
+        }
+        user = token;
+        *home = '\0';
+        home++;
+        (void) st_add_direct(table, user, home);
         }
     }
 
     return;
 }
 
-static void 
+static void
 insert_other_table(home_dir, user_name)
 char *home_dir;
 char *user_name;
 {
     if (other_table->num_entries >= other_table->alloc_size) {
-	other_table->alloc_size += DEF_INCR;
-	other_table->items =
-	  REALLOC(rev_user, other_table->items, other_table->alloc_size);
+    other_table->alloc_size += DEF_INCR;
+    other_table->items =
+      REALLOC(rev_user, other_table->items, other_table->alloc_size);
     }
     other_table->items[other_table->num_entries].home_dir = SCPY(home_dir);
     other_table->items[other_table->num_entries].user_name = SCPY(user_name);
@@ -90,7 +80,7 @@ char *user_name;
     other_table->needs_to_be_sorted = 1;
 }
 
-static void 
+static void
 init_other_table()
 {
     struct passwd *entry;
@@ -104,7 +94,7 @@ init_other_table()
 
     dir = getenv("OCTTOOLS");
     if (dir) {
-	insert_other_table(dir, "octtools");
+    insert_other_table(dir, "octtools");
     }
     dir = getenv("OCTTOOLS-TRANSLATIONS");
     if (dir) {
@@ -114,18 +104,18 @@ init_other_table()
         while ((token = strtok(ptr, ", \t")) != NIL(char)) {
             ptr = NIL(char);
             if ((home = strchr(token, ':')) == NIL(char)) {
-		/* malformed entry */
-		continue;
-	    }
-	    user = token;
-	    *home = '\0';
-	    home++;
-	    insert_other_table(home, user);
+        /* malformed entry */
+        continue;
+        }
+        user = token;
+        *home = '\0';
+        home++;
+        insert_other_table(home, user);
         }
     }
     setpwent();
     while (entry = getpwent()) {
-	insert_other_table(entry->pw_dir, entry->pw_name);
+    insert_other_table(entry->pw_dir, entry->pw_name);
     }
     endpwent();
 }
@@ -139,7 +129,7 @@ char *user, *directory;
     }
     (void) st_insert(table, user, directory);
     if (other_table == NIL(rev_tbl)) {
-	init_other_table();
+    init_other_table();
     }
     insert_other_table(directory, user);
     return;
@@ -159,7 +149,7 @@ char *fname;
     char *dir;
 
     if (++count > 7) {
-	count = 0;
+    count = 0;
     }
 
     /* Clear the return string */
@@ -168,37 +158,37 @@ char *fname;
 
     /* Tilde? */
     if (fname[0] == '~') {
-	j = 0;
-	i = 1;
-	while ((fname[i] != '\0') && (fname[i] != '/')) {
-	    username[j++] = fname[i++];
-	}
-	username[j] = '\0';
+    j = 0;
+    i = 1;
+    while ((fname[i] != '\0') && (fname[i] != '/')) {
+        username[j++] = fname[i++];
+    }
+    username[j] = '\0';
 
-	if (table == NIL(st_table)) {
-	    init_table();
-	}
+    if (table == NIL(st_table)) {
+        init_table();
+    }
 
-	if (!st_lookup(table, username, &dir)) {
-	    /* ~/ resolves to the home directory of the current user */
-	    if (username[0] == '\0') {
-		if ((userRecord = getpwuid(getuid())) != 0) {
-		    (void) strcpy(result[count], userRecord->pw_dir);
-		    (void) st_add_direct(table, "", util_strsav(userRecord->pw_dir));
-		} else {
-		    i = 0;
-		}
-	    } else if ((userRecord = getpwnam(username)) != 0) {
-		/* ~user/ resolves to home directory of 'user' */
-		(void) strcpy(result[count], userRecord->pw_dir);
-		(void) st_add_direct(table, util_strsav(username),
-				     util_strsav(userRecord->pw_dir));
-	    } else {
-		i = 0;
-	    }
-	} else {
-	    (void) strcat(result[count], dir);
-	}
+    if (!st_lookup(table, username, &dir)) {
+        /* ~/ resolves to the home directory of the current user */
+        if (username[0] == '\0') {
+        if ((userRecord = getpwuid(getuid())) != 0) {
+            (void) strcpy(result[count], userRecord->pw_dir);
+            (void) st_add_direct(table, "", util_strsav(userRecord->pw_dir));
+        } else {
+            i = 0;
+        }
+        } else if ((userRecord = getpwnam(username)) != 0) {
+        /* ~user/ resolves to home directory of 'user' */
+        (void) strcpy(result[count], userRecord->pw_dir);
+        (void) st_add_direct(table, util_strsav(username),
+                     util_strsav(userRecord->pw_dir));
+        } else {
+        i = 0;
+        }
+    } else {
+        (void) strcat(result[count], dir);
+    }
     }
 
     /* Concantenate remaining portion of file name */
@@ -216,8 +206,8 @@ char *a, *b;
     diff = strlen(((rev_user *) b)->home_dir) -
       strlen(((rev_user *) a)->home_dir);
     if (diff == 0) {
-	diff = strlen(((rev_user *) a)->user_name) -
-	  strlen(((rev_user *) b)->user_name);
+    diff = strlen(((rev_user *) a)->user_name) -
+      strlen(((rev_user *) b)->user_name);
     }
     return diff;
 }
@@ -237,19 +227,19 @@ char *fname;
     if (++count > 7) count = 0;
     if (!other_table) init_other_table();
     if (other_table->needs_to_be_sorted) {
-	qsort(other_table->items, other_table->num_entries,
-	      sizeof(rev_user), comp);
-	other_table->needs_to_be_sorted = 0;
+    qsort(other_table->items, other_table->num_entries,
+          sizeof(rev_user), comp);
+    other_table->needs_to_be_sorted = 0;
     }
     for (i = 0;  i < other_table->num_entries;  i++) {
-	len = strlen(other_table->items[i].home_dir);
-	if (strncmp(other_table->items[i].home_dir, fname, len) == 0) {
-	    result[count][0] = '\0';
-	    strcat(result[count], "~");
-	    strcat(result[count], other_table->items[i].user_name);
-	    strcat(result[count], fname+len);
-	    return result[count];
-	}
+    len = strlen(other_table->items[i].home_dir);
+    if (strncmp(other_table->items[i].home_dir, fname, len) == 0) {
+        result[count][0] = '\0';
+        strcat(result[count], "~");
+        strcat(result[count], other_table->items[i].user_name);
+        strcat(result[count], fname+len);
+        return result[count];
+    }
     }
     return fname;
 }

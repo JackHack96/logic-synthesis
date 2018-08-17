@@ -1,14 +1,3 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/util/texpand.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:53 $
- *
- */
-/* LINTLIBRARY */
-
 #include <stdio.h>
 #include "util.h"
 
@@ -17,10 +6,7 @@
 #endif
 
 
-char *
-util_tilde_expand(fname)
-char *fname;
-{
+char *util_tilde_expand(char *fname) {
 #ifdef BSD_SIS
     struct passwd *userRecord;
     char username[256], *filename, *dir;
@@ -34,29 +20,29 @@ char *fname;
 
     /* Tilde? */
     if (fname[0] == '~') {
-	j = 0;
-	i = 1;
-	while ((fname[i] != '\0') && (fname[i] != '/')) {
-	    username[j++] = fname[i++];
-	}
-	username[j] = '\0';
-	dir = (char *)0;
-	if (username[0] == '\0') {
-	    /* ~/ resolves to home directory of current user */
-	    userRecord = getpwuid(getuid());
-	    if (userRecord) dir = userRecord->pw_dir;
-	} else {
-	    /* Special check for ~octtools */
-	    if (!strcmp(username,"octtools"))
-	        dir = getenv("OCTTOOLS");
-	    /* ~user/ resolves to home directory of 'user' */
-	    if (!dir) {
-	        userRecord = getpwnam(username);
-		if (userRecord) dir = userRecord->pw_dir;
-	    }
-	}
-	if (dir) (void) strcat(filename, dir);
-	else i = 0;	/* leave fname as-is */
+    j = 0;
+    i = 1;
+    while ((fname[i] != '\0') && (fname[i] != '/')) {
+        username[j++] = fname[i++];
+    }
+    username[j] = '\0';
+    dir = (char *)0;
+    if (username[0] == '\0') {
+        /* ~/ resolves to home directory of current user */
+        userRecord = getpwuid(getuid());
+        if (userRecord) dir = userRecord->pw_dir;
+    } else {
+        /* Special check for ~octtools */
+        if (!strcmp(username,"octtools"))
+            dir = getenv("OCTTOOLS");
+        /* ~user/ resolves to home directory of 'user' */
+        if (!dir) {
+            userRecord = getpwnam(username);
+        if (userRecord) dir = userRecord->pw_dir;
+        }
+    }
+    if (dir) (void) strcat(filename, dir);
+    else i = 0;	/* leave fname as-is */
     } /* if tilde */
 
     /* Concantenate remaining portion of file name */

@@ -1,20 +1,12 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/seqbdd/prl_seqinfo.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:54 $
- *
- */
+
 
 #ifdef SIS
 #include "sis.h"
 #include "prl_util.h"
 
-static void seq_compute_init_state ARGS((seq_info_t *));
-static void seq_build_dc_bdds ARGS((seq_info_t *));
-static void seq_build_output_bdds ARGS((seq_info_t *));
+static void seq_compute_init_state (seq_info_t *);
+static void seq_build_dc_bdds (seq_info_t *);
+static void seq_build_output_bdds (seq_info_t *);
 
 /*
  *----------------------------------------------------------------------
@@ -102,7 +94,7 @@ seq_info_t *seq_info;
 }
 
 
-static void seq_register_pis_as_bdd_inputs ARGS((seq_info_t *, network_t *));
+static void seq_register_pis_as_bdd_inputs (seq_info_t *, network_t *);
 
 /*
  *----------------------------------------------------------------------
@@ -125,24 +117,24 @@ seq_info_t *seq_info;
 
     seq_info->next_state_dc = array_alloc(bdd_t *, 0);
     seq_info->external_output_dc = array_alloc(bdd_t *, 0);
-		 
+
     dc_network = seq_info->network->dc_network;
     seq_register_pis_as_bdd_inputs(seq_info, dc_network);
 
     for (i = 0; i < array_n(seq_info->output_nodes); i++) {
-	output = array_fetch(node_t *, seq_info->output_nodes, i);
-	/* if no don't care for that node, put a 0 BDD */
-	if (st_lookup(seq_info->dc_map, (char *) output, (char **) &dc_output)) {
-	    dc_fn = ntbdd_node_to_bdd(dc_output, seq_info->manager, seq_info->leaves);
-	} else {
-	    dc_fn = bdd_zero(seq_info->manager);
-	}
-	/* store BDDs in the same order as for the main network */
-	if (network_is_real_po(seq_info->network, output)) {
-	    array_insert_last(bdd_t *, seq_info->external_output_dc, dc_fn);
-	} else {
-	    array_insert_last(bdd_t *, seq_info->next_state_dc, dc_fn);
-	}
+    output = array_fetch(node_t *, seq_info->output_nodes, i);
+    /* if no don't care for that node, put a 0 BDD */
+    if (st_lookup(seq_info->dc_map, (char *) output, (char **) &dc_output)) {
+        dc_fn = ntbdd_node_to_bdd(dc_output, seq_info->manager, seq_info->leaves);
+    } else {
+        dc_fn = bdd_zero(seq_info->manager);
+    }
+    /* store BDDs in the same order as for the main network */
+    if (network_is_real_po(seq_info->network, output)) {
+        array_insert_last(bdd_t *, seq_info->external_output_dc, dc_fn);
+    } else {
+        array_insert_last(bdd_t *, seq_info->next_state_dc, dc_fn);
+    }
     }
 }
 
@@ -171,9 +163,9 @@ network_t *dc_network;
 
     if (dc_network == NIL(network_t)) return;
     foreach_primary_input(dc_network, gen, dc_input) {
-	assert(st_lookup(seq_info->dc_map, (char *) dc_input, (char **) &input));
-	assert(st_lookup_int(seq_info->leaves, (char *) input, &var_index));
-	st_insert(seq_info->leaves, (char *) dc_input, (char *) var_index);
+    assert(st_lookup(seq_info->dc_map, (char *) dc_input, (char **) &input));
+    assert(st_lookup_int(seq_info->leaves, (char *) input, &var_index));
+    st_insert(seq_info->leaves, (char *) dc_input, (char *) var_index);
     }
 }
 
@@ -200,7 +192,7 @@ seq_info_t *seq_info;
   network_t *network = seq_info->network;
 
   foreach_latch(network, gen, latch) {
- /* 
+ /*
   *  first, compute the initial value. If 2, specifying it: -> get a cube, not a minterm
   */
     init_value = latch_get_initial_value(latch);
@@ -209,13 +201,13 @@ seq_info_t *seq_info;
     if (init_value == 3) {
       init_value = 0;
       if (! warning_done) {
-	warning_done = 1;
-	pi = latch_get_input(latch);
-	(void) fprintf(siserr, "WARNING: unspecified init value of node %s set to 0\n", node_long_name(pi));
+    warning_done = 1;
+    pi = latch_get_input(latch);
+    (void) fprintf(siserr, "WARNING: unspecified init value of node %s set to 0\n", node_long_name(pi));
       }
     }
 
- /* 
+ /*
   *  then compute the literal to AND with the current result
   */
     pi = latch_get_output(latch);
@@ -241,7 +233,7 @@ seq_info_t *seq_info;
  *	Frees the 'seq_info' record.
  *
  *----------------------------------------------------------------------
- */ 
+ */
 
 void Prl_SeqInfoFree(seq_info, options)
 seq_info_t *seq_info;
@@ -254,7 +246,7 @@ prl_options_t *options;
   array_free(seq_info->next_state_fns);
   array_free(seq_info->external_output_fns);
   array_free(seq_info->output_nodes);
-  
+
   Prl_FreeBddArray(seq_info->present_state_vars);
   Prl_FreeBddArray(seq_info->external_input_vars);
   Prl_FreeBddArray(seq_info->input_vars);
@@ -264,17 +256,17 @@ prl_options_t *options;
     FREE(name);
   }
   array_free(seq_info->var_names);
-  
+
   array_free(seq_info->next_state_dc);
   array_free(seq_info->external_output_dc);
-  
+
   (*options->free_seq_info)(seq_info, options);
 
   st_free_table(seq_info->leaves);
   ntbdd_end_manager(seq_info->manager);
 
   st_free_table(seq_info->dc_map);
-  
+
   FREE(seq_info);
 }
 
@@ -285,7 +277,7 @@ prl_options_t *options;
  * Prl_ExtractReachableStates -- EXPORTED ROUTINE
  *
  *----------------------------------------------------------------------
- */ 
+ */
 
 bdd_t *Prl_ExtractReachableStates(seq_info, options)
 seq_info_t *seq_info;
@@ -304,23 +296,23 @@ prl_options_t *options;
     total_set = bdd_dup(current_set);
     Prl_ReportElapsedTime(options, "begin STG traversal");
     for (;;) {
-	new_current_set = (*options->compute_next_states)(current_set, seq_info, options);
-	bdd_free(current_set);
-	if (options->verbose >= 1) {
-	    total_onset = bdd_count_onset(total_set, seq_info->present_state_vars);
-	    new_states = bdd_and(new_current_set, total_set, 1, 0);
-	    new_onset = bdd_count_onset(new_states, seq_info->present_state_vars);
-	    bdd_free(new_states);
-	    (void) fprintf(sisout, "add %2.0f states to %2.0f states\n", new_onset, total_onset);
-	}
-	if (bdd_leq(new_current_set, total_set, 1, 1)) break;
-	care_set = bdd_not(total_set);
-	current_set = bdd_cofactor(new_current_set, care_set);
-	bdd_free(care_set);
-	new_total_set = bdd_or(new_current_set, total_set, 1, 1);
-	bdd_free(new_current_set);
-	bdd_free(total_set);
-	total_set = new_total_set;
+    new_current_set = (*options->compute_next_states)(current_set, seq_info, options);
+    bdd_free(current_set);
+    if (options->verbose >= 1) {
+        total_onset = bdd_count_onset(total_set, seq_info->present_state_vars);
+        new_states = bdd_and(new_current_set, total_set, 1, 0);
+        new_onset = bdd_count_onset(new_states, seq_info->present_state_vars);
+        bdd_free(new_states);
+        (void) fprintf(sisout, "add %2.0f states to %2.0f states\n", new_onset, total_onset);
+    }
+    if (bdd_leq(new_current_set, total_set, 1, 1)) break;
+    care_set = bdd_not(total_set);
+    current_set = bdd_cofactor(new_current_set, care_set);
+    bdd_free(care_set);
+    new_total_set = bdd_or(new_current_set, total_set, 1, 1);
+    bdd_free(new_current_set);
+    bdd_free(total_set);
+    total_set = new_total_set;
     }
     bdd_free(new_current_set);
     Prl_ReportElapsedTime(options, "end STG traversal");

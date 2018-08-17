@@ -1,21 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/nova/oldport.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:10 $
- *
- */
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/nova/oldport.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:10 $
- *
- */
+
+
 #ifndef PORT_H
 #define PORT_H
 
@@ -36,9 +20,9 @@
 typedef int int32;
 typedef short int16;
 #else
-     /* Ansi-C promises that these definitions should always work */
+/* Ansi-C promises that these definitions should always work */
 typedef long int32;
-typedef int int16;
+typedef int  int16;
 #endif /* vax */
 #endif /* MACHDEP_INCLUDED */
 
@@ -68,7 +52,9 @@ typedef int int16;
 #include <stdio.h>
 #include <ctype.h>
 #include <sys/types.h>
+
 #undef HUGE
+
 #include <math.h>
 #include <signal.h>
 
@@ -103,7 +89,7 @@ extern double trunc();
 #define SIGNAL_FN	void
 #else
 /* sequent, ultrix2, 4.3BSD (vax, hp), sunos3 */
-#define SIGNAL_FN	int
+#define SIGNAL_FN    int
 #endif
 
 /* Some systems have 'fixed' certain functions which used to be int */
@@ -123,7 +109,7 @@ extern double trunc();
  */
 
 #ifndef CHARBITS
-#	define	UNSCHAR(c)	((unsigned char)(c))
+#	define    UNSCHAR(c)    ((unsigned char)(c))
 #else
 #	define	UNSCHAR(c)	((c)&CHARBITS)
 #endif
@@ -154,7 +140,9 @@ extern VOID_HACK rewind();
 
 /* most machines don't give us a header file for these */
 #ifdef __STDC__
+
 #include <stdlib.h>
+
 #else
 #ifdef __hpux
 extern int abort();
@@ -177,7 +165,9 @@ extern int sscanf();
 
 /* some call it strings.h, some call it string.h; others, also have memory.h */
 #ifdef __STDC__
+
 #include <string.h>
+
 #else
 /* ANSI C string.h -- 1/11/88 Draft Standard */
 #if defined(ultrix4)
@@ -197,27 +187,32 @@ extern int memcmp(), strcmp();
 
 /* a few extras */
 extern VOID_HACK srandom();
+
 extern long random();
 
 #if defined(ultrix3)
 extern unsigned sleep();
 #else
+
 extern VOID_HACK sleep();
+
 #endif
 
 /* assertion macro */
 
 #ifndef assert
 #ifdef __STDC__
+
 #include <assert.h>
+
 #else
 #ifndef NDEBUG
 #define assert(ex) {\
     if (! (ex)) {\
-	(void) fprintf(stderr, "Assertion failed: file %s, line %d\n",\
-	    __FILE__, __LINE__);\
-	(void) fflush(stdout);\
-	abort();\
+    (void) fprintf(stderr, "Assertion failed: file %s, line %d\n",\
+        __FILE__, __LINE__);\
+    (void) fflush(stdout);\
+    abort();\
     }\
 }
 #else
@@ -228,7 +223,9 @@ extern VOID_HACK sleep();
 
 /* handle the various limits */
 #if defined(__STDC__) || defined(POSIX)
+
 #include <limits.h>
+
 #else
 #define USHRT_MAX	(~ (unsigned short int) 0)
 #define UINT_MAX	(~ (unsigned int) 0)

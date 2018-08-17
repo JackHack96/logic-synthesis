@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/astg/astg_core2.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:58 $
- *
- */
+
 /* -------------------------------------------------------------------------- *\
    astg2.c -- Graph and net algorithms for STG's.
 \* ---------------------------------------------------------------------------*/
@@ -29,7 +21,7 @@ astg_daemon_enum type;
     dbg(1,printf("do daemons %lX %lX %d\n",stg1,stg2,type));
 
     for (d=daemon_list; d != NULL; d=d->next) {
-	if (type == d->type) (*d->daemon)(stg1,stg2);
+    if (type == d->type) (*d->daemon)(stg1,stg2);
     }
 }
 
@@ -38,15 +30,15 @@ astg_daemon_enum type;
 astg_daemon daemon;
 {
     /*	Register an ASTG daemon.  A daemon is a function which takes two
-	arguments:
-	  static void daemon (astg_graph *g1, astg_graph *g2);
-	The usage of the arguments depends on the daemon type: 
-	  ASTG_DAEMON_ALLOC: g1 is the new astg, and g2 is NULL.
-	  ASTG_DAEMON_DUP: g1 is the new astg, and g2 is the old astg.
-	  ASTG_DAEMON_INVALID: g1 is invalidated astg, g2 is NULL.
-	  ASTG_DAEMON_FREE: g1 is the old astg, and and g2 is NULL.
-	The astg g2 must never be modified. */
-	  
+    arguments:
+      static void daemon (astg_graph *g1, astg_graph *g2);
+    The usage of the arguments depends on the daemon type:
+      ASTG_DAEMON_ALLOC: g1 is the new astg, and g2 is NULL.
+      ASTG_DAEMON_DUP: g1 is the new astg, and g2 is the old astg.
+      ASTG_DAEMON_INVALID: g1 is invalidated astg, g2 is NULL.
+      ASTG_DAEMON_FREE: g1 is the old astg, and and g2 is NULL.
+    The astg g2 must never be modified. */
+
     astg_daemon_t *info = ALLOC(astg_daemon_t,1);
     info->daemon = daemon;
     info->type = type;
@@ -61,8 +53,8 @@ void astg_discard_daemons ()
     astg_daemon_t *info = daemon_list, *next;
 
     for (info=daemon_list; info != NULL; info=next) {
-	next = info->next;
-	FREE (info);
+    next = info->next;
+    FREE (info);
     }
     daemon_list = NULL;
 }
@@ -96,9 +88,9 @@ astg_graph *stg;
     astg_bool is_mg = ASTG_TRUE;
 
     astg_foreach_place (stg,pgen,p) {
-	if (astg_in_degree(p) > 1 || astg_out_degree(p) > 1) {
-	    is_mg = ASTG_FALSE;
-	}
+    if (astg_in_degree(p) > 1 || astg_out_degree(p) > 1) {
+        is_mg = ASTG_FALSE;
+    }
     }
     return is_mg;
 }
@@ -113,9 +105,9 @@ astg_graph *stg;
     astg_trans *t;
 
     astg_foreach_trans (stg,tgen,t) {
-	if (astg_in_degree(t) > 1 || astg_out_degree(t) > 1) {
-	    is_sm = ASTG_FALSE;
-	}
+    if (astg_in_degree(t) > 1 || astg_out_degree(t) > 1) {
+        is_sm = ASTG_FALSE;
+    }
     }
     return is_sm;
 }
@@ -132,14 +124,14 @@ astg_graph *stg;
 
     astg_sel_new (stg,"not free choice",ASTG_FALSE);
     astg_foreach_place (stg,pgen,p) {
-	if (astg_out_degree(p) <= 1) continue;
-	astg_foreach_output_trans (p,tgen,t) {
-	    if (astg_in_degree(t) != 1) {
-		astg_sel_vertex (p,ASTG_TRUE);
-		astg_sel_vertex (t,ASTG_TRUE);
-		is_fcn = ASTG_FALSE;
-	    }
-	}
+    if (astg_out_degree(p) <= 1) continue;
+    astg_foreach_output_trans (p,tgen,t) {
+        if (astg_in_degree(t) != 1) {
+        astg_sel_vertex (p,ASTG_TRUE);
+        astg_sel_vertex (t,ASTG_TRUE);
+        is_fcn = ASTG_FALSE;
+        }
+    }
     }
     return is_fcn;
 }
@@ -155,18 +147,18 @@ astg_graph *g;
     astg_foreach_trans (g,gen1,src_t) src_t->flag0 = ASTG_FALSE;
 
     astg_foreach_trans (g,gen1,src_t) {
-	astg_foreach_out_edge (src_t,gen2,e) {
-	    astg_foreach_out_edge (astg_head(e),gen3,e2) {
-		dest_t = astg_head (e2);
-		if (dest_t->flag0) place_simple = ASTG_FALSE;
-		dest_t->flag0 = ASTG_TRUE;
-	    }   
-	}
-	astg_foreach_out_edge (src_t,gen2,e) {
-	    astg_foreach_out_edge (astg_head(e),gen3,e2) {
-		astg_head(e2)->flag0 = ASTG_FALSE;
-	    }
-	}
+    astg_foreach_out_edge (src_t,gen2,e) {
+        astg_foreach_out_edge (astg_head(e),gen3,e2) {
+        dest_t = astg_head (e2);
+        if (dest_t->flag0) place_simple = ASTG_FALSE;
+        dest_t->flag0 = ASTG_TRUE;
+        }
+    }
+    astg_foreach_out_edge (src_t,gen2,e) {
+        astg_foreach_out_edge (astg_head(e),gen3,e2) {
+        astg_head(e2)->flag0 = ASTG_FALSE;
+        }
+    }
     }
     return place_simple;
 }
@@ -181,17 +173,17 @@ astg_graph *g;
     astg_bool    rc = ASTG_TRUE;
 
     astg_foreach_place (g,gen1,p) {
-	astg_foreach_out_edge (p,gen2,e1) {
-	    t = astg_head (e1);
-	    astg_foreach_out_edge (t,gen3,e2) {
-		p2 = astg_head (e2);
-		if (p == p2) {
-		    rc = ASTG_FALSE;
-		    printf("warning: place %s, trans %s not pure.\n",
-			astg_v_name(p), astg_v_name(t));
-		}
-	    }
-	}
+    astg_foreach_out_edge (p,gen2,e1) {
+        t = astg_head (e1);
+        astg_foreach_out_edge (t,gen3,e2) {
+        p2 = astg_head (e2);
+        if (p == p2) {
+            rc = ASTG_FALSE;
+            printf("warning: place %s, trans %s not pure.\n",
+            astg_v_name(p), astg_v_name(t));
+        }
+        }
+    }
     }
     return rc;
 }
@@ -206,11 +198,11 @@ astg_graph *g;
     int rc;
 
     astg_foreach_path_vertex (g,gen,v) {
-	v->on_path = ASTG_TRUE;
+    v->on_path = ASTG_TRUE;
     }
     rc = (*g->f) (g,g->f_data);
     astg_foreach_path_vertex (g,gen,v) {
-	v->on_path = ASTG_FALSE;
+    v->on_path = ASTG_FALSE;
     }
     return rc;
 }
@@ -225,9 +217,9 @@ astg_vertex *v;
 
     if (v->active) {
         if (v->unprocessed) {
-	    g->path_start = v;
-	    rc = astg_report_cycle (g);
-	}
+        g->path_start = v;
+        rc = astg_report_cycle (g);
+    }
     }
     else if (v->subset) {
         v->active =  ASTG_TRUE;
@@ -241,9 +233,9 @@ astg_vertex *v;
 }
 
 int astg_simple_cycles (g,target_v,f,f_data,subset)
-astg_graph  *g;		
-astg_vertex *target_v;	
-int      (*f)();	
+astg_graph  *g;
+astg_vertex *target_v;
+int      (*f)();
 void	  *f_data;
 astg_bool    subset;
 {
@@ -253,22 +245,22 @@ astg_bool    subset;
     astg_generator gen;
 
     /* Initialize the unprocessed flag to ASTG_TRUE if all cycles are
-	being reported, or ASTG_FALSE if a specific target is given. */
+    being reported, or ASTG_FALSE if a specific target is given. */
     x = (target_v == NULL);
 
     astg_foreach_vertex (g,gen,v) {
-	v->active = ASTG_FALSE;
-	if (!subset) v->subset = ASTG_TRUE;
-	v->unprocessed = x && v->subset;
-	v->on_path = ASTG_FALSE;
-	v->alg.sc.trail = NULL;
+    v->active = ASTG_FALSE;
+    if (!subset) v->subset = ASTG_TRUE;
+    v->unprocessed = x && v->subset;
+    v->on_path = ASTG_FALSE;
+    v->alg.sc.trail = NULL;
     }
 
     /* Save callback and callback data */
     g->f = f;   g->f_data = f_data;
 
     if (target_v != NULL) {
-	target_v->unprocessed = ASTG_TRUE;
+    target_v->unprocessed = ASTG_TRUE;
         rc = astg_cycles (g,target_v);
     }
     else {
@@ -291,10 +283,10 @@ int *num_p;
 
     if (v->unprocessed) {
         v->unprocessed = ASTG_FALSE;
-	astg_foreach_out_edge (v,gen,e) {
-	    astg_ts_dfs (g,astg_head(e),num_p);
-	}
-	v->alg.ts.index = (*num_p)++;
+    astg_foreach_out_edge (v,gen,e) {
+        astg_ts_dfs (g,astg_head(e),num_p);
+    }
+    v->alg.ts.index = (*num_p)++;
     }
 }
 
@@ -308,26 +300,26 @@ astg_bool subset;		/*i only process vertices marked with subset flag	*/
     array_t *varray;
 
     astg_foreach_vertex (g,gen,v) {
-	v->alg.ts.index = 0;
-	if (subset) {
-	    v->unprocessed = v->subset;
-	}
-	else {
-	    v->subset = v->unprocessed = ASTG_TRUE;
-	}
+    v->alg.ts.index = 0;
+    if (subset) {
+        v->unprocessed = v->subset;
+    }
+    else {
+        v->subset = v->unprocessed = ASTG_TRUE;
+    }
     }
 
     vertex_n = 0;
     astg_foreach_vertex (g,gen,v) {
-    	if (v->unprocessed) astg_ts_dfs (g,v,&vertex_n);
+        if (v->unprocessed) astg_ts_dfs (g,v,&vertex_n);
     }
 
     assert (vertex_n <= g->n_vertex);
     varray = array_alloc (astg_vertex *, g->n_vertex);
     astg_foreach_vertex (g,gen,v) {
-	v->unprocessed = v->subset;
-	if (!v->subset) continue;
-	array_insert (astg_vertex *, varray, v->alg.ts.index, v);
+    v->unprocessed = v->subset;
+    if (!v->subset) continue;
+    array_insert (astg_vertex *, varray, v->alg.ts.index, v);
     }
 
     return varray;
@@ -344,15 +336,15 @@ int component_n;
     astg_edge *e;
 
     if (v->unprocessed) {
-	v->unprocessed = ASTG_FALSE;
-	v->alg.cc.comp_num = component_n;
-	array_insert_last (astg_vertex *, vcomp, v);
-	astg_foreach_in_edge (v,gen,e) {
-	    astg_cc_dfs (astg_tail(e),vcomp,component_n);
-	}
-	astg_foreach_out_edge (v,gen,e) {
-	    astg_cc_dfs (astg_head(e),vcomp,component_n);
-	}
+    v->unprocessed = ASTG_FALSE;
+    v->alg.cc.comp_num = component_n;
+    array_insert_last (astg_vertex *, vcomp, v);
+    astg_foreach_in_edge (v,gen,e) {
+        astg_cc_dfs (astg_tail(e),vcomp,component_n);
+    }
+    astg_foreach_out_edge (v,gen,e) {
+        astg_cc_dfs (astg_head(e),vcomp,component_n);
+    }
     }
 }
 
@@ -368,18 +360,18 @@ astg_bool subset;	/*i only process vertices marked with subset flag	*/
     array_t *vcomp;
 
     if (!subset) {
-	astg_foreach_vertex (g,gen,v) v->unprocessed = ASTG_TRUE;
+    astg_foreach_vertex (g,gen,v) v->unprocessed = ASTG_TRUE;
     }
     component_n = 0;
 
     astg_foreach_vertex (g,gen,v) {
-	if (v->unprocessed) {
-	    vcomp = array_alloc (astg_vertex *,0);
-	    astg_cc_dfs (v,vcomp,component_n);
-	    if (f != NULL) (*f) (vcomp,component_n,f_data);
-	    component_n++;
-	    array_free (vcomp);
-	}
+    if (v->unprocessed) {
+        vcomp = array_alloc (astg_vertex *,0);
+        astg_cc_dfs (v,vcomp,component_n);
+        if (f != NULL) (*f) (vcomp,component_n,f_data);
+        component_n++;
+        array_free (vcomp);
+    }
     }
     return component_n;
 }
@@ -393,13 +385,13 @@ int component_n;
     astg_edge *e;
 
     if (v->unprocessed) {
-	v->unprocessed = ASTG_FALSE;
-	/* Add to component array, and number it. */
-	v->alg.scc.comp_num = component_n;
-	array_insert_last (astg_vertex *, vcomp, v);
-	astg_foreach_in_edge (v,gen,e) {
-	    astg_scc_dfs (astg_tail(e),vcomp,component_n);
-	}
+    v->unprocessed = ASTG_FALSE;
+    /* Add to component array, and number it. */
+    v->alg.scc.comp_num = component_n;
+    array_insert_last (astg_vertex *, vcomp, v);
+    astg_foreach_in_edge (v,gen,e) {
+        astg_scc_dfs (astg_tail(e),vcomp,component_n);
+    }
     }
 }
 
@@ -419,14 +411,14 @@ astg_bool subset;	/*i only process vertices marked with subset flag	*/
     component_n = 0;
 
     for (n=array_n(varray); n--; /*empty*/) {
-	v = array_fetch (astg_vertex *,varray,n);
-	if (v->unprocessed) {
-	    vcomp = array_alloc (astg_vertex *,0);
-	    astg_scc_dfs (v,vcomp,component_n);
-	    if (f != NULL) (*f) (vcomp,component_n,f_data);
-	    component_n++;
-	    array_free (vcomp);
-	}
+    v = array_fetch (astg_vertex *,varray,n);
+    if (v->unprocessed) {
+        vcomp = array_alloc (astg_vertex *,0);
+        astg_scc_dfs (v,vcomp,component_n);
+        if (f != NULL) (*f) (vcomp,component_n,f_data);
+        component_n++;
+        array_free (vcomp);
+    }
     }
 
     array_free (varray);
@@ -464,15 +456,15 @@ astg_graph *g;
     int n_cycles;
 
     astg_foreach_vertex (g,gen,v) {
-	v->active = ASTG_FALSE;
-	v->unprocessed = ASTG_TRUE;
+    v->active = ASTG_FALSE;
+    v->unprocessed = ASTG_TRUE;
     }
 
     astg_foreach_vertex (g,gen,v) {
         n_cycles = astg_find_cycles (v);
         if (n_cycles != 0) break;
     }
-    
+
     return (n_cycles != 0);
 }
 
@@ -487,10 +479,10 @@ astg_vertex *dest;	/*i target vertex for the path		*/
     astg_generator gen;
 
     if (v->unprocessed) {
-	v->unprocessed = ASTG_FALSE;
-	astg_foreach_out_edge (v,gen,e) {
-	    if (!path_found) path_found = astg_cp_dfs (astg_head(e),dest);
-	}
+    v->unprocessed = ASTG_FALSE;
+    astg_foreach_out_edge (v,gen,e) {
+        if (!path_found) path_found = astg_cp_dfs (astg_head(e),dest);
+    }
     }
     return path_found;
 }
@@ -516,7 +508,7 @@ FILE *stream;
 
     fprintf (stream,"Path:");
     astg_foreach_path_vertex (stg,gen,v) {
-	fprintf(stream," %s",astg_v_name(v));
+    fprintf(stream," %s",astg_v_name(v));
     }
     fputs("\n",stream);
 }

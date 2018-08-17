@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/stg/enumerate.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:52 $
- *
- */
+
 #ifdef SIS
 /**********************************************************************/
 /*           This is the sequential circuit enumeration source file.  */
@@ -41,8 +33,8 @@ char *key1, *key2;
 
     equal_parts = 0;
     for ( i = stg_longs_per_state; (equal_parts == 0) && (i-- > 0); ){
-	if (st1[i] > st2[i]) equal_parts = 1;
-	else if (st1[i] < st2[i]) equal_parts = -1;
+    if (st1[i] > st2[i]) equal_parts = 1;
+    else if (st1[i] < st2[i]) equal_parts = -1;
     }
     return equal_parts;
 }
@@ -69,7 +61,7 @@ unsigned *s;
 {
     int i;
     for (i = stg_longs_per_state; i-- > 0;){
-	fprintf(fp, "%x", s[i]);
+    fprintf(fp, "%x", s[i]);
     }
 }
 */
@@ -102,7 +94,7 @@ stg_get_state_hash()
     unsigned *block;
 
     if (stg_position_in_chunk == STG_CHUNKSIZE){
-	stg_realloc_state_hash();
+    stg_realloc_state_hash();
     }
     block = stg_hash_space[stg_num_chunks-1];
     block += stg_longs_per_state * stg_position_in_chunk;
@@ -115,7 +107,7 @@ stg_end_state_hash()
 {
     int i;
     for ( i = 0; i < stg_num_chunks; i++){
-	FREE(stg_hash_space[i]);
+    FREE(stg_hash_space[i]);
     }
     FREE(stg_hash_space);
     st_free_table(stg_storelist);
@@ -132,11 +124,11 @@ int *stg_state;
     unsigned compact_state;
 
     for (i = 0, k = 0; i < stg_longs_per_state; i++){
-	compact_state = h_state[i];
-	for (j = 0; (j < stg_bits_per_long) && (k < nlatch); j++){
-	   stg_state[k++] = compact_state & 1;
-	   compact_state >>= 1;
-	}
+    compact_state = h_state[i];
+    for (j = 0; (j < stg_bits_per_long) && (k < nlatch); j++){
+       stg_state[k++] = compact_state & 1;
+       compact_state >>= 1;
+    }
     }
 }
 
@@ -154,11 +146,11 @@ int *level;
     foreach_primary_output (copy,gen,node) {
         n = nptr(node_get_fanin(node,0));
         if (n->value[cid] == 2) {
-	    *obj = n;
-	    *level = random() & 01;
-	    (void) lsFinish(gen);
-	    return(FALSE);
-	}
+        *obj = n;
+        *level = random() & 01;
+        (void) lsFinish(gen);
+        return(FALSE);
+    }
     }
     return(TRUE);
 }
@@ -175,9 +167,9 @@ int *noinv;
     for (i = node_num_fanin(node) - 1; i >= 0; i--) {
         n = nptr(node_get_fanin(node,i));
         if (n->value[cid] == 2) {
-	    *noinv = (nptr(node)->cube >> i) & 01;
-	    return(n);
-	}
+        *noinv = (nptr(node)->cube >> i) & 01;
+        return(n);
+    }
     }
     return(NIL(ndata));
 }
@@ -195,7 +187,7 @@ int *noinv;
     for (i = 0; i < nin; i++) {
         n = nptr(node_get_fanin(node,i));
         if (n->value[cid] == 2) {
-	    *noinv = (nptr(node)->cube >> i) & 01;
+        *noinv = (nptr(node)->cube >> i) & 01;
             return(n);
         }
     }
@@ -218,10 +210,10 @@ int level;
 
     if (node_type(node) == PRIMARY_INPUT) {
         obj->value[cid] = level;
-	return(obj);
+    return(obj);
     }
     n = (level) ? find_hardest_control(cid,node,&noinv)
-    		: find_easiest_control(cid,node,&noinv);
+            : find_easiest_control(cid,node,&noinv);
     if (n == NIL(ndata)) {
         return(NIL(ndata));
     }
@@ -249,9 +241,9 @@ graph_t *stg;
 
     for (i = nlatch - 1; i >= 0 ; i--) {
         from = from << 1;
-	from += (unsigned) stg_pstate[i]->value[cid];
+    from += (unsigned) stg_pstate[i]->value[cid];
         to = to << 1;
-	to += (unsigned) stg_nstate[i]->value[cid];
+    to += (unsigned) stg_nstate[i]->value[cid];
     }
     /*
     (void)fprintf(sisout, "From %x to %x on ", from, to);
@@ -261,29 +253,29 @@ graph_t *stg;
     t2 = outstring;
     for (i = 0; i < nlatch; i++) {
         *t1++ = statechar[stg_pstate[i]->value[cid]];
-	*t2++ = statechar[stg_nstate[i]->value[cid]];
+    *t2++ = statechar[stg_nstate[i]->value[cid]];
     }
     *t1 = '\0';
     *t2 = '\0';
     if (!st_lookup(state_table,instring,(char **) &instate)) {
         instate = g_add_vertex_static(stg);
-	total_no_of_states++;
-	b1 = util_strsav(instring);
-	g_set_v_slot_static(instate,STATE_STRING,(gGeneric) b1);
-	g_set_v_slot_static(instate,ENCODING_STRING, (gGeneric) util_strsav(instring));
-	(void) st_insert(state_table,b1,(char *) instate);
+    total_no_of_states++;
+    b1 = util_strsav(instring);
+    g_set_v_slot_static(instate,STATE_STRING,(gGeneric) b1);
+    g_set_v_slot_static(instate,ENCODING_STRING, (gGeneric) util_strsav(instring));
+    (void) st_insert(state_table,b1,(char *) instate);
     }
     if (!st_lookup(state_table,outstring,(char **) &outstate)) {
-	total_no_of_states++;
+    total_no_of_states++;
         outstate = g_add_vertex_static(stg);
-	b2 = util_strsav(outstring);
-	g_set_v_slot_static(outstate,STATE_STRING,(gGeneric) b2);
-	g_set_v_slot_static(outstate,ENCODING_STRING,(gGeneric) util_strsav(outstring));
-	(void) st_insert(state_table,b2,(char *) outstate);
+    b2 = util_strsav(outstring);
+    g_set_v_slot_static(outstate,STATE_STRING,(gGeneric) b2);
+    g_set_v_slot_static(outstate,ENCODING_STRING,(gGeneric) util_strsav(outstring));
+    (void) st_insert(state_table,b2,(char *) outstate);
     }
     if (is_first_state) {
         g_set_g_slot_static(stg,START,(gGeneric) instate);
-	g_set_g_slot_static(stg,CURRENT,(gGeneric) instate);
+    g_set_g_slot_static(stg,CURRENT,(gGeneric) instate);
     }
     e = g_add_edge_static(instate,outstate);
     total_no_of_edges++;
@@ -308,7 +300,7 @@ graph_t *stg;
 }
 
 int barray[16] = {1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096,
-	8192, 16384, 32768}; 
+    8192, 16384, 32768};
 
 void
 ctable_enum(stg)
@@ -317,93 +309,93 @@ graph_t *stg;
     ndata **pi_stack,*n,*wpi,*state,*obj;
     int total_state,cur_state,tmp,i,no_state,pi_num,find_state,level;
     char *jflag,*value;
-    
+
     pi_stack = SENUM_ALLOC(ndata *,npi);
     total_state = barray[nlatch];
 
     for (cur_state = 0; cur_state < total_state; cur_state++) {
-	for (i = 0; i < n_varying_nodes; i++) {
-	    n = varying_node[i];
-	    n->value[0] = 2;
-	    n->jflag[0] = 0;
-	}
-	tmp = cur_state;
-	for (i = nlatch - 1; i >= 0; i--) {
-	    n = stg_pstate[i];
-	    if (tmp >= barray[i]) {
-	        tmp -= barray[i];
-		n->value[0] = 1;
-	    }
-	    else {
-	        n->value[0] = 0;
-	    }
-	    n->jflag[0] |= CHANGED;
-	}
-	stg_sc_sim(0);
-	no_state = FALSE;
-	pi_num = 0;
-	do {
-	    wpi = NIL(ndata);
-	    find_state = is_state(0,&obj,&level);
-	    switch (find_state) {
-	        case TRUE:
-		    save_edge(0,stg);
-		    while (wpi == NIL(ndata) && pi_num != 0) {
-		        pi_num--;
-			state = pi_stack[pi_num];
-			jflag = state->jflag;
-			value = state->value;
-			if (*jflag & ALL_ASSIGNED) {
-			    *jflag &= ~ALL_ASSIGNED;
-			    *jflag |= CHANGED;
-			    *value = 2;
-			}
-			else {
-			    *jflag |= (ALL_ASSIGNED | CHANGED);
-			    *value ^= 1;
-			    wpi = state;
-			    pi_num++;
-			}
-		    }
-		    if (wpi == NIL(ndata)) {
-		        no_state = TRUE;
-		    }
-		    break;
-		case FALSE:
-		    wpi = find_pi_assignment(0,obj,level);
-		    if (wpi != NIL(ndata)) {
-		        pi_stack[pi_num] = wpi;
-			*wpi->jflag |= CHANGED;
-			pi_num++;
-		    }
-		    while (wpi == NIL(ndata) && pi_num > 0) {
-		        pi_num--;
-			state = pi_stack[pi_num];
-			jflag = state->jflag;
-			value = state->value;
-			if (*jflag & ALL_ASSIGNED) {
-			    *jflag &= ~ALL_ASSIGNED;
-			    *jflag |= CHANGED;
-			    *value = 2;
-			}
-			else {
-			    *jflag |= (ALL_ASSIGNED | CHANGED);
-			    *value ^= 1;
-			    wpi = state;
-			    pi_num++;
-			}
-		    }
-		    if (wpi == NIL(ndata)) {
-		        no_state = TRUE;
-		    }
-		    break;
-	    }
-	    stg_sc_sim(0);
-	} while (no_state == FALSE);
-	while (pi_num > 0) {
-	    pi_num--;
-	    pi_stack[pi_num]->jflag[0] &= ~ALL_ASSIGNED;
-	}
+    for (i = 0; i < n_varying_nodes; i++) {
+        n = varying_node[i];
+        n->value[0] = 2;
+        n->jflag[0] = 0;
+    }
+    tmp = cur_state;
+    for (i = nlatch - 1; i >= 0; i--) {
+        n = stg_pstate[i];
+        if (tmp >= barray[i]) {
+            tmp -= barray[i];
+        n->value[0] = 1;
+        }
+        else {
+            n->value[0] = 0;
+        }
+        n->jflag[0] |= CHANGED;
+    }
+    stg_sc_sim(0);
+    no_state = FALSE;
+    pi_num = 0;
+    do {
+        wpi = NIL(ndata);
+        find_state = is_state(0,&obj,&level);
+        switch (find_state) {
+            case TRUE:
+            save_edge(0,stg);
+            while (wpi == NIL(ndata) && pi_num != 0) {
+                pi_num--;
+            state = pi_stack[pi_num];
+            jflag = state->jflag;
+            value = state->value;
+            if (*jflag & ALL_ASSIGNED) {
+                *jflag &= ~ALL_ASSIGNED;
+                *jflag |= CHANGED;
+                *value = 2;
+            }
+            else {
+                *jflag |= (ALL_ASSIGNED | CHANGED);
+                *value ^= 1;
+                wpi = state;
+                pi_num++;
+            }
+            }
+            if (wpi == NIL(ndata)) {
+                no_state = TRUE;
+            }
+            break;
+        case FALSE:
+            wpi = find_pi_assignment(0,obj,level);
+            if (wpi != NIL(ndata)) {
+                pi_stack[pi_num] = wpi;
+            *wpi->jflag |= CHANGED;
+            pi_num++;
+            }
+            while (wpi == NIL(ndata) && pi_num > 0) {
+                pi_num--;
+            state = pi_stack[pi_num];
+            jflag = state->jflag;
+            value = state->value;
+            if (*jflag & ALL_ASSIGNED) {
+                *jflag &= ~ALL_ASSIGNED;
+                *jflag |= CHANGED;
+                *value = 2;
+            }
+            else {
+                *jflag |= (ALL_ASSIGNED | CHANGED);
+                *value ^= 1;
+                wpi = state;
+                pi_num++;
+            }
+            }
+            if (wpi == NIL(ndata)) {
+                no_state = TRUE;
+            }
+            break;
+        }
+        stg_sc_sim(0);
+    } while (no_state == FALSE);
+    while (pi_num > 0) {
+        pi_num--;
+        pi_stack[pi_num]->jflag[0] &= ~ALL_ASSIGNED;
+    }
     }
     FREE(pi_stack);
 }
@@ -419,21 +411,21 @@ int *estate;
     j = nlatch % stg_bits_per_long;
     j = (j == 0 ? stg_bits_per_long : j);
     for (k = nlatch, i = stg_longs_per_state; i-- > 0; ){
-	state = 0L;
-	for (; j-- > 0 ; ){
-	    state = state << 1;
-	    state += (unsigned)estate[--k];
-	}
-	hashed_state[i] = state;
-	j = stg_bits_per_long;
+    state = 0L;
+    for (; j-- > 0 ; ){
+        state = state << 1;
+        state += (unsigned)estate[--k];
+    }
+    hashed_state[i] = state;
+    j = stg_bits_per_long;
     }
 
     if (!st_lookup(stg_storelist, (char *)hashed_state, (char **)&new_hashed)){
-	new_hashed = stg_get_state_hash();
-	for ( i = 0; i < stg_longs_per_state; i++){
-	    *(new_hashed+i) = hashed_state[i];
-	}
-	(void)st_insert(stg_storelist, (char *)new_hashed, (char *)new_hashed);
+    new_hashed = stg_get_state_hash();
+    for ( i = 0; i < stg_longs_per_state; i++){
+        *(new_hashed+i) = hashed_state[i];
+    }
+    (void)st_insert(stg_storelist, (char *)new_hashed, (char *)new_hashed);
     }
     return(new_hashed);
 }
@@ -454,8 +446,8 @@ graph_t *stg;
 
     for (i = 0; i < n_varying_nodes; i++) {
         n = varying_node[i];
-	n->value[elength] = 2;
-	n->jflag[elength] = 0;
+    n->value[elength] = 2;
+    n->jflag[elength] = 0;
     }
     for (i = 0; i < nlatch; i++) {
         state = stg_pstate[i];
@@ -469,60 +461,60 @@ graph_t *stg;
         wpi = NIL(ndata);
         find_state = is_state(elength,&obj,&level);
         switch (find_state) {
-	    case TRUE:
-	        save_edge(elength,stg);
-		for (i = 0; i < nlatch; i++) {
-		    next_estate[i] = stg_nstate[i]->value[elength];
+        case TRUE:
+            save_edge(elength,stg);
+        for (i = 0; i < nlatch; i++) {
+            next_estate[i] = stg_nstate[i]->value[elength];
                 }
-		s = shashcode(next_estate);
-		if (!st_is_member(slist,(char *) s)) {
+        s = shashcode(next_estate);
+        if (!st_is_member(slist,(char *) s)) {
                     if ((elength + 1) == MAX_ELENGTH) {
-			/*
-			(void)fprintf(sisout,"Reached ELENGTH LIMIT for ");
-			stg_print_hashed_state(sisout, s);
-			(void)fprintf(sisout,"\n");
-			*/
-		        (void) st_insert(slist,(char *) s,(char *) unfinish_head);
+            /*
+            (void)fprintf(sisout,"Reached ELENGTH LIMIT for ");
+            stg_print_hashed_state(sisout, s);
+            (void)fprintf(sisout,"\n");
+            */
+                (void) st_insert(slist,(char *) s,(char *) unfinish_head);
                         unfinish_head = s;
-		    }
-		    else {
-		        (void) st_insert(slist, (char *) s,(char *)(NIL(unsigned)));
-		        enumerate(elength + 1, next_estate, stg);
-		    }
+            }
+            else {
+                (void) st_insert(slist, (char *) s,(char *)(NIL(unsigned)));
+                enumerate(elength + 1, next_estate, stg);
+            }
                 }
                 while (wpi == NIL(ndata) && pi_num != 0) {
                     pi_num--;
-		    state = pi_stack[pi_num];
-		    jflag = state->jflag;
-		    value = state->value;
+            state = pi_stack[pi_num];
+            jflag = state->jflag;
+            value = state->value;
                     if (jflag[elength] & ALL_ASSIGNED) {
-		        jflag[elength] &= ~ALL_ASSIGNED;
-			jflag[elength] |= CHANGED;
+                jflag[elength] &= ~ALL_ASSIGNED;
+            jflag[elength] |= CHANGED;
                         value[elength] = 2;
                     }
                     else {
-		        jflag[elength] |= (ALL_ASSIGNED | CHANGED);
-			value[elength] ^= 1;
+                jflag[elength] |= (ALL_ASSIGNED | CHANGED);
+            value[elength] ^= 1;
                         wpi = state;
                         pi_num++;
                     }
                 }
                 if (wpi == NIL(ndata)) {
-		    no_state = TRUE;
-		}
+            no_state = TRUE;
+        }
                 break;
             case FALSE:
-		wpi = find_pi_assignment(elength,obj,level);
-		if (wpi != NIL(ndata)) {
+        wpi = find_pi_assignment(elength,obj,level);
+        if (wpi != NIL(ndata)) {
                     pi_stack[pi_num] = wpi;
                     wpi->jflag[elength] |= CHANGED;
                     pi_num++;
                 }
                 while (wpi == NIL(ndata) && pi_num > 0) {
                     pi_num--;
-		    state = pi_stack[pi_num];
-		    jflag = state->jflag;
-		    value = state->value;
+            state = pi_stack[pi_num];
+            jflag = state->jflag;
+            value = state->value;
                     if (jflag[elength] & ALL_ASSIGNED) {
                         jflag[elength] &= ~ALL_ASSIGNED;
                         jflag[elength] |= CHANGED;
@@ -536,8 +528,8 @@ graph_t *stg;
                     }
                 }
                 if (wpi == NIL(ndata)) {
-		    no_state = TRUE;
-		}
+            no_state = TRUE;
+        }
                 break;
         }
         stg_sc_sim(elength);

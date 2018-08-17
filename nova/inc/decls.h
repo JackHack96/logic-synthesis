@@ -1,17 +1,9 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/nova/decls.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:08 $
- *
- */
+
 /*
  * actual storage for the global variables, see nova.h for descriptions
  * of these variables
  */
-int cost_function,num_moves;
+int        cost_function, num_moves;
 CONSTRAINT *inputnet;
 CONSTRAINT *statenet;
 CONSTRAINT *outputnet;
@@ -50,9 +42,9 @@ int min_products;
 int best_products;
 int worst_products;
 
-int first_size;
-int best_size;
-int rand_trials;
+int  first_size;
+int  best_size;
+int  rand_trials;
 char zero_state[MAXSTRING];
 char init_state[MAXSTRING];
 char init_code[MAXSTRING];
@@ -106,17 +98,17 @@ BOOLEAN ANALYSIS;
 BOOLEAN I_EXACT;
 BOOLEAN NAMES;
 BOOLEAN SEL_CAT1;
-int graph_depth;
-int cart_prod;
-int bktup_count;
-int bktup_calls;
-int cube_work;
-int total_work;
+int  graph_depth;
+int  cart_prod;
+int  bktup_count;
+int  bktup_calls;
+int  cube_work;
+int  total_work;
 
 CONSTRAINT_E **graph_levels;
 
 IMPLICANT *implicant_list;
-int *select_array;
+int       *select_array;
 
 int symbmin_products;
 
@@ -128,12 +120,12 @@ BOOLEAN OUT_VERIFY;
 
 BOOLEAN OUT_ALL;
 
-int *reached;
-OUTSYMBOL *outsymbol_list;
+int            *reached;
+OUTSYMBOL      *outsymbol_list;
 ORDER_RELATION **order_graph;
-ORDER_PATH **path_graph;
-char **order_array;
-int *gain_array;
+ORDER_PATH     **path_graph;
+char           **order_array;
+int            *gain_array;
 BOOLEAN L_BOUND;
 BOOLEAN SIS;
 BOOLEAN VERBOSE;

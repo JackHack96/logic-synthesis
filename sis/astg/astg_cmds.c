@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/astg/astg_cmds.c,v $
- * $Author: pchong $
- * $Revision: 1.2 $
- * $Date: 2004/03/14 08:35:21 $
- *
- */
+
 /* -------------------------------------------------------------------------- *\
    astg_cmds.c -- SIS command interface to basic ASTG commands.
 \* ---------------------------------------------------------------------------*/
@@ -36,7 +28,7 @@ extern astg_graph *astg_current (network)
 network_t *network;		/*i network to find astg info for	*/
 {
     /*	Return the ASTG corresponding to this network, or NULL if either
-	the network pointer is NULL or it has no ASTG. */
+    the network pointer is NULL or it has no ASTG. */
 
     return (network==NULL) ? NULL : (astg_graph*)(network->astg);
 }
@@ -47,43 +39,43 @@ astg_graph *stg;
 astg_bool reset;
 {
     /*	Whenever the astg is changed, call astg_set_current with the indirect
-	network pointer, and set reset to ASTG_TRUE if the previous network
-	contents should be destroyed, or ASTG_FALSE if the network does
-	correspond with the astg you are setting.  This handles all special
-	cases such as a nonexistent network, or if the current astg equals
-	the new one, etc.  The one special case is if stg is NULL and reset
-	is ASTG_FALSE, then any previous stg is not freed first.  This is
-	useful if you need to do some command which will destroy the network
-	and you want to preserve the astg across the call: set it to NULL,
-	then set it back. */
+    network pointer, and set reset to ASTG_TRUE if the previous network
+    contents should be destroyed, or ASTG_FALSE if the network does
+    correspond with the astg you are setting.  This handles all special
+    cases such as a nonexistent network, or if the current astg equals
+    the new one, etc.  The one special case is if stg is NULL and reset
+    is ASTG_FALSE, then any previous stg is not freed first.  This is
+    useful if you need to do some command which will destroy the network
+    and you want to preserve the astg across the call: set it to NULL,
+    then set it back. */
 
     if (*network_p != NULL) {		/* Destroy old stuff. */
-	if (reset) {
-	    /* Destroy the previous network. */
-	    if ((*network_p)->astg == (astg_t*)stg) {
-		/* Don't destroy the astg we are trying to install. */
-		(*network_p)->astg = NULL;
-	    }
-	    network_free (*network_p);
-	    *network_p = NULL;
-	}
-	else if ((*network_p)->astg != NULL) {
-	    /* Destroy previous astg if necessary. */
-	    if ((*network_p)->astg != (astg_t*)stg) {
-		if (stg != NULL) astg_free ((*network_p)->astg);
-		(*network_p)->astg = NULL;
-	    }
-	}
+    if (reset) {
+        /* Destroy the previous network. */
+        if ((*network_p)->astg == (astg_t*)stg) {
+        /* Don't destroy the astg we are trying to install. */
+        (*network_p)->astg = NULL;
+        }
+        network_free (*network_p);
+        *network_p = NULL;
+    }
+    else if ((*network_p)->astg != NULL) {
+        /* Destroy previous astg if necessary. */
+        if ((*network_p)->astg != (astg_t*)stg) {
+        if (stg != NULL) astg_free ((*network_p)->astg);
+        (*network_p)->astg = NULL;
+        }
+    }
     }
 
     if (stg != NULL) {			/* Install the new astg. */
-	if (reset) {
-	    astg_do_daemons (stg,NIL(astg_graph),ASTG_DAEMON_INVALID);
-	}
-	if (*network_p == NULL) {
-	    *network_p = network_alloc();
-	}
-	(*network_p)->astg = (astg_t*) stg;
+    if (reset) {
+        astg_do_daemons (stg,NIL(astg_graph),ASTG_DAEMON_INVALID);
+    }
+    if (*network_p == NULL) {
+        *network_p = network_alloc();
+    }
+    (*network_p)->astg = (astg_t*) stg;
     }
 }
 
@@ -92,15 +84,15 @@ char **usage;
 char  *cmd;
 {
     /*	Print a set of usage strings, replacing the first %s with cmd.  A
-	newline is automatically added to each line in usage; you can put
-	more for special formatting.  The last element in the usage array
-	must be a NULL pointer. */
+    newline is automatically added to each line in usage; you can put
+    more for special formatting.  The last element in the usage array
+    must be a NULL pointer. */
 
     char **p;
 
     for (p=usage; *p != NULL; p++) {
-	printf(*p,cmd);
-	fputs ("\n",stdout);
+    printf(*p,cmd);
+    fputs ("\n",stdout);
     }
 }
 
@@ -136,64 +128,64 @@ char **argv;
     util_getopt_reset ();
     while ((c=util_getopt(argc,argv,"xo:l:q")) != EOF) {
       switch (c) {
-	case 'x': full_checks = ASTG_FALSE; break;
-	case 'l': latch_type = util_optarg; break;
-	case 'o': outfile = util_strsav(util_optarg);
-		  del_out = ASTG_FALSE; break;
-	case 'q': verbose = ASTG_FALSE; break;
-	default : result = ASTG_BAD_OPTION; break;
+    case 'x': full_checks = ASTG_FALSE; break;
+    case 'l': latch_type = util_optarg; break;
+    case 'o': outfile = util_strsav(util_optarg);
+          del_out = ASTG_FALSE; break;
+    case 'q': verbose = ASTG_FALSE; break;
+    default : result = ASTG_BAD_OPTION; break;
       }
     }
 
     stg = curr_stg = astg_current (*network_p);
 
     if (stg == NULL || util_optind != argc) {
-	result = ASTG_BAD_OPTION;
+    result = ASTG_BAD_OPTION;
     }
     else if (result == ASTG_OK) {
-	if (outfile == NULL) {
-	    strcpy(stempname, "/tmp/fileXXXXXX");
-	    sfd = mkstemp(stempname);
-	    fout = fdopen(sfd, "w+");
-	} else if (!strcmp(outfile,"-")) {
-	    fout = stdout;
-	} else {
-	    fout = com_open_file (outfile,"w+",NULL,ASTG_FALSE);
-	}
-	if (fout != NULL) {
-	    if (!astg_is_free_choice_net(stg)) {
-		printf("Note: %s is not a free-choice net.\n",astg_name(stg));
-		if (!stg->has_marking) {
-		    printf("  You must specify an initial marking first.\n");
-		    result = ASTG_ERROR;
-		}
-	    } else if (full_checks) {
-		if (!astg_one_sm_token (stg)) result = ASTG_ERROR;
-	    }
-	    if (result == ASTG_OK && astg_token_flow (stg,verbose) == ASTG_OK) {
-		astg_to_blif (fout,stg,latch_type);
-		if (del_out) {
-		    rewind (fout);
-		    /* Clear astg, read new network, restore astg. */
-		    astg_set_current(network_p,NIL(astg_graph),ASTG_FALSE);
-		    network_free (*network_p);  *network_p = NULL;
-		    error_init();
-		    read_register_filename ("astg_flow");
-		    if (read_blif (fout,network_p) == 0) {
-			fprintf(siserr,"%s",error_string());
-			result = ASTG_ERROR;
-		    }
-		    astg_set_current(network_p,curr_stg,ASTG_FALSE);
-		}
-	    }
-	    if (fout != stdout) fclose (fout);
-	    if (del_out) unlink (outfile);
-	    if (outfile) FREE (outfile);
-	}
+    if (outfile == NULL) {
+        strcpy(stempname, "/tmp/fileXXXXXX");
+        sfd = mkstemp(stempname);
+        fout = fdopen(sfd, "w+");
+    } else if (!strcmp(outfile,"-")) {
+        fout = stdout;
+    } else {
+        fout = com_open_file (outfile,"w+",NULL,ASTG_FALSE);
+    }
+    if (fout != NULL) {
+        if (!astg_is_free_choice_net(stg)) {
+        printf("Note: %s is not a free-choice net.\n",astg_name(stg));
+        if (!stg->has_marking) {
+            printf("  You must specify an initial marking first.\n");
+            result = ASTG_ERROR;
+        }
+        } else if (full_checks) {
+        if (!astg_one_sm_token (stg)) result = ASTG_ERROR;
+        }
+        if (result == ASTG_OK && astg_token_flow (stg,verbose) == ASTG_OK) {
+        astg_to_blif (fout,stg,latch_type);
+        if (del_out) {
+            rewind (fout);
+            /* Clear astg, read new network, restore astg. */
+            astg_set_current(network_p,NIL(astg_graph),ASTG_FALSE);
+            network_free (*network_p);  *network_p = NULL;
+            error_init();
+            read_register_filename ("astg_flow");
+            if (read_blif (fout,network_p) == 0) {
+            fprintf(siserr,"%s",error_string());
+            result = ASTG_ERROR;
+            }
+            astg_set_current(network_p,curr_stg,ASTG_FALSE);
+        }
+        }
+        if (fout != stdout) fclose (fout);
+        if (del_out) unlink (outfile);
+        if (outfile) FREE (outfile);
+    }
     }
 
     if (result == ASTG_BAD_OPTION) {
-	astg_usage (flow_usage,argv[0]);
+    astg_usage (flow_usage,argv[0]);
     }
 
     return (result != ASTG_OK);
@@ -221,42 +213,42 @@ char **argv;
 
     util_getopt_reset ();
     while ((c=util_getopt(argc,argv,"")) != EOF) {
-	switch (c) {
-	    default : result = ASTG_BAD_OPTION; break;
-	}
+    switch (c) {
+        default : result = ASTG_BAD_OPTION; break;
+    }
     }
 
     if (util_optind < argc) {
-	infile = argv[util_optind++];
-	strcpy (alt_infile,infile);
-	fin = com_open_file (alt_infile,"r",NULL,ASTG_FALSE);
-	if (fin == NULL) {
-	    printf("Failed to open input file '%s'\n",infile);
-	    result = ASTG_ERROR;
-	} else {
-	    from_file = ASTG_TRUE;
-	}
+    infile = argv[util_optind++];
+    strcpy (alt_infile,infile);
+    fin = com_open_file (alt_infile,"r",NULL,ASTG_FALSE);
+    if (fin == NULL) {
+        printf("Failed to open input file '%s'\n",infile);
+        result = ASTG_ERROR;
+    } else {
+        from_file = ASTG_TRUE;
+    }
     }
     else {
-	strcpy (alt_infile,"<stdin>");
-	fin = stdin;
-	from_file = ASTG_FALSE;
+    strcpy (alt_infile,"<stdin>");
+    fin = stdin;
+    from_file = ASTG_FALSE;
     }
 
     if (util_optind != argc) {
-	result = ASTG_BAD_OPTION;
+    result = ASTG_BAD_OPTION;
     }
     else if (result == ASTG_OK) {
-	stg = astg_read (fin,alt_infile);
-	if (from_file) fclose (fin);
-	if (stg == NULL) result = ASTG_ERROR;
+    stg = astg_read (fin,alt_infile);
+    if (from_file) fclose (fin);
+    if (stg == NULL) result = ASTG_ERROR;
     }
 
     if (result == ASTG_BAD_OPTION) {
-	astg_usage (read_usage,argv[0]);
+    astg_usage (read_usage,argv[0]);
     }
     else if (result == ASTG_OK) {
-	astg_set_current (network_p,stg,ASTG_TRUE);
+    astg_set_current (network_p,stg,ASTG_TRUE);
     }
     return (result != ASTG_OK);
 }
@@ -283,26 +275,26 @@ char **argv;
 
     util_getopt_reset ();
     while ((c=util_getopt(argc,argv,"p")) != EOF) {
-	switch (c) {
-	    case 'p': hide_places = ASTG_FALSE; break;
-	    default : result = ASTG_BAD_OPTION; break;
-	}
+    switch (c) {
+        case 'p': hide_places = ASTG_FALSE; break;
+        default : result = ASTG_BAD_OPTION; break;
+    }
     }
     if (util_optind < argc) {
-	outfile = argv[util_optind++];
+    outfile = argv[util_optind++];
     }
     curr_stg = astg_current (*network_p);
 
     if (result == ASTG_BAD_OPTION || util_optind != argc || curr_stg == NULL) {
-	astg_usage (print_usage,argv[0]);
-	return 1;
+    astg_usage (print_usage,argv[0]);
+    return 1;
     }
 
     if (outfile != NULL) {
-	fout = com_open_file (outfile,"w",NULL,ASTG_TRUE);
-	if (fout == NULL) return 1;
+    fout = com_open_file (outfile,"w",NULL,ASTG_TRUE);
+    if (fout == NULL) return 1;
         astg_write (curr_stg,hide_places,fout);
-	fclose (fout);
+    fclose (fout);
     }
     else {
         astg_write (curr_stg,hide_places,stdout);
@@ -350,35 +342,35 @@ char **argv;
     util_getopt_reset ();
     while ((c=util_getopt(argc,argv,"t:lac")) != EOF) {
         switch (c) {
-	    case 'a': append = ASTG_TRUE; break;
-	    case 'l': longest = ASTG_TRUE; break;
-	    case 't': tname = util_optarg; break;
-	    case 'c': count_em = ASTG_TRUE; break;
-	    default : result = ASTG_BAD_OPTION; break;
-	}
+        case 'a': append = ASTG_TRUE; break;
+        case 'l': longest = ASTG_TRUE; break;
+        case 't': tname = util_optarg; break;
+        case 'c': count_em = ASTG_TRUE; break;
+        default : result = ASTG_BAD_OPTION; break;
+    }
     }
 
     if ((stg=astg_current (*network_p)) == NULL) result = ASTG_BAD_OPTION;
 
     if (result == ASTG_OK && tname != NULL) {
-	io_open (&source,NIL(FILE),tname);
-	io_token (&source);
-	thru = find_trans_by_name (&source,stg,ASTG_FALSE);
-	io_close (&source);
-	if (thru == NULL) result = ASTG_BAD_OPTION;
+    io_open (&source,NIL(FILE),tname);
+    io_token (&source);
+    thru = find_trans_by_name (&source,stg,ASTG_FALSE);
+    io_close (&source);
+    if (thru == NULL) result = ASTG_BAD_OPTION;
     }
 
     if (util_optind != argc) {
-	cycle_n = atoi (argv[util_optind++]);
+    cycle_n = atoi (argv[util_optind++]);
     }
 
     if (result == ASTG_BAD_OPTION) {
-	astg_usage (cycle_usage,argv[0]);
+    astg_usage (cycle_usage,argv[0]);
     } else if (count_em) {
-	n_cycle = astg_simple_cycles (stg,NULL,astg_count_cycles,NULL,ASTG_ALL);
-	printf("Total number of simple cycles: %d\n",n_cycle);
+    n_cycle = astg_simple_cycles (stg,NULL,astg_count_cycles,NULL,ASTG_ALL);
+    printf("Total number of simple cycles: %d\n",n_cycle);
     } else {
-	astg_select_cycle (stg,thru,cycle_n,longest,append);
+    astg_select_cycle (stg,thru,cycle_n,longest,append);
     }
     return (result != ASTG_OK);
 }
@@ -423,31 +415,31 @@ char **argv;
     util_getopt_reset ();
     while ((c=util_getopt(argc,argv,"l")) != EOF) {
         switch (c) {
-	  case 'l': do_lock = ASTG_TRUE; break;
-	  default : result = ASTG_BAD_OPTION; break;
-	}
+      case 'l': do_lock = ASTG_TRUE; break;
+      default : result = ASTG_BAD_OPTION; break;
+    }
     }
 
     curr_stg = astg_current (*network_p);
 
     if (result == ASTG_BAD_OPTION || curr_stg == NULL) {
-	result = ASTG_BAD_OPTION;
-	astg_usage (lockgraph_usage,argv[0]);
+    result = ASTG_BAD_OPTION;
+    astg_usage (lockgraph_usage,argv[0]);
     }
     else {
-	stg = curr_stg;
-	if (! astg_state_coding (stg,do_lock)) {
-		return 1;
-	}
-	n_comp = astg_lock_graph_components (stg,ASTG_NO_CALLBACK,ASTG_NO_DATA);
-	dbg(1,msg("lock graph has %d componen%s\n",n_comp,n_comp==1?"t":"ts"));
-	if (n_comp != 1) {
-	    printf("\nwarning: STG may have complementary sets:\n");
-	    astg_lock_graph_components (stg,print_stg_comp,ASTG_NO_DATA);
-	    printf("This could cause duplicate state codings.\n");
-	}
-	dbg(1,msg("\n"));
-	if (do_lock) astg_set_current (network_p,stg,ASTG_TRUE);
+    stg = curr_stg;
+    if (! astg_state_coding (stg,do_lock)) {
+        return 1;
+    }
+    n_comp = astg_lock_graph_components (stg,ASTG_NO_CALLBACK,ASTG_NO_DATA);
+    dbg(1,msg("lock graph has %d componen%s\n",n_comp,n_comp==1?"t":"ts"));
+    if (n_comp != 1) {
+        printf("\nwarning: STG may have complementary sets:\n");
+        astg_lock_graph_components (stg,print_stg_comp,ASTG_NO_DATA);
+        printf("This could cause duplicate state codings.\n");
+    }
+    dbg(1,msg("\n"));
+    if (do_lock) astg_set_current (network_p,stg,ASTG_TRUE);
     }
     return (result != ASTG_OK);
 }
@@ -473,7 +465,7 @@ char **argv;
     util_getopt_reset ();
     while ((c=util_getopt(argc,argv,"p")) != EOF) {
         switch (c) {
-	    case 'p': modify = ASTG_FALSE; break;
+        case 'p': modify = ASTG_FALSE; break;
             default : result = ASTG_BAD_OPTION; break;
         }
     }
@@ -481,16 +473,16 @@ char **argv;
     stg = astg_current (*network_p);
 
     if (result == ASTG_BAD_OPTION || stg == NULL) {
-	result = ASTG_BAD_OPTION;
+    result = ASTG_BAD_OPTION;
         astg_usage (persist_usage,argv[0]);
     }
     else {
-	make_persistent (stg,modify);
-	if (!modify) {
-	    astg_sel_show (stg);
-	} else {
-	    astg_set_current (network_p,stg,ASTG_TRUE);
-	}
+    make_persistent (stg,modify);
+    if (!modify) {
+        astg_sel_show (stg);
+    } else {
+        astg_set_current (network_p,stg,ASTG_TRUE);
+    }
     }
 
     return (result != ASTG_OK);
@@ -516,7 +508,7 @@ char **argv;
     util_getopt_reset ();
     while ((c=util_getopt(argc,argv,"p")) != EOF) {
         switch (c) {
-	    case 'p': modify = ASTG_FALSE; break;
+        case 'p': modify = ASTG_FALSE; break;
             default : result = ASTG_BAD_OPTION; break;
         }
     }
@@ -524,12 +516,12 @@ char **argv;
     curr_stg = astg_current (*network_p);
 
     if (result == ASTG_BAD_OPTION || curr_stg == NULL) {
-	result = ASTG_BAD_OPTION;
-	astg_usage (red_usage,argv[0]);
+    result = ASTG_BAD_OPTION;
+    astg_usage (red_usage,argv[0]);
     }
     else {
-	astg_irred (curr_stg,modify);
-	if (modify) astg_set_current (network_p,curr_stg,ASTG_TRUE);
+    astg_irred (curr_stg,modify);
+    if (modify) astg_set_current (network_p,curr_stg,ASTG_TRUE);
     }
     return (result != ASTG_OK);
 }
@@ -558,51 +550,51 @@ char **argv;
 
     util_getopt_reset ();
     while ((c=util_getopt(argc,argv,"d:")) != EOF) {
-	switch (c) {
-	    case 'd': astg_debug_flag = atoi(util_optarg); break;
-	    default : result = ASTG_BAD_OPTION; break;
-	}
+    switch (c) {
+        case 'd': astg_debug_flag = atoi(util_optarg); break;
+        default : result = ASTG_BAD_OPTION; break;
+    }
     }
 
     curr_stg = astg_current (*network_p);
 
     if (argc > util_optind || result == ASTG_BAD_OPTION) {
-	result = ASTG_BAD_OPTION;
-	astg_usage (current_usage,argv[0]);
+    result = ASTG_BAD_OPTION;
+    astg_usage (current_usage,argv[0]);
     }
     else if (curr_stg == NULL) {
-	fprintf(sisout,"No current ASTG.\n");
+    fprintf(sisout,"No current ASTG.\n");
     }
     else {
-	change_count = astg_change_count (curr_stg);
-	printf("%s\n", astg_name(curr_stg));
-	/* Print all comments for this graph. */
-	cgen = lsStart (curr_stg->comments);
-	while (lsNext(cgen,&data,LS_NH) == LS_OK) {
-	    printf("  %s\n",(char *) data);
-	}
-	lsFinish (cgen);
-	printf("\tFile: %s", curr_stg->filename);
-	if (curr_stg->file_count != change_count) {
-	    fputs(" (modified)",stdout);
-	}
-	fputs("\n",stdout);
-	printf("\tPure: %c  Place-simple: %c\n",
-		astg_is_pure(curr_stg)?'Y':'N', astg_is_place_simple(curr_stg)?'Y':'N');
-	n_comp1 = astg_connected_comp (curr_stg,ASTG_NO_CALLBACK,ASTG_NO_DATA,ASTG_ALL);
-	n_comp2 = astg_strong_comp    (curr_stg,ASTG_NO_CALLBACK,ASTG_NO_DATA,ASTG_ALL);
-	printf("\tConnected: %c  Strongly Connected: %c\n",
-		(n_comp1==1?'Y':'N'), (n_comp2==1?'Y':'N'));
-	printf("\tFree Choice: %c  Marked Graph: %c  State Machine: %c\n",
-		astg_is_free_choice_net(curr_stg)?'Y':'N',
-		astg_is_marked_graph(curr_stg)?'Y':'N',
-		astg_is_state_machine(curr_stg)?'Y':'N');
-	if (curr_stg->sm_comp != NULL) {
-	    printf("\tSM components: %d\n",array_n(curr_stg->sm_comp));
-	}
-	if (curr_stg->mg_comp != NULL) {
-	    printf("\tMG components: %d\n",array_n(curr_stg->mg_comp));
-	}
+    change_count = astg_change_count (curr_stg);
+    printf("%s\n", astg_name(curr_stg));
+    /* Print all comments for this graph. */
+    cgen = lsStart (curr_stg->comments);
+    while (lsNext(cgen,&data,LS_NH) == LS_OK) {
+        printf("  %s\n",(char *) data);
+    }
+    lsFinish (cgen);
+    printf("\tFile: %s", curr_stg->filename);
+    if (curr_stg->file_count != change_count) {
+        fputs(" (modified)",stdout);
+    }
+    fputs("\n",stdout);
+    printf("\tPure: %c  Place-simple: %c\n",
+        astg_is_pure(curr_stg)?'Y':'N', astg_is_place_simple(curr_stg)?'Y':'N');
+    n_comp1 = astg_connected_comp (curr_stg,ASTG_NO_CALLBACK,ASTG_NO_DATA,ASTG_ALL);
+    n_comp2 = astg_strong_comp    (curr_stg,ASTG_NO_CALLBACK,ASTG_NO_DATA,ASTG_ALL);
+    printf("\tConnected: %c  Strongly Connected: %c\n",
+        (n_comp1==1?'Y':'N'), (n_comp2==1?'Y':'N'));
+    printf("\tFree Choice: %c  Marked Graph: %c  State Machine: %c\n",
+        astg_is_free_choice_net(curr_stg)?'Y':'N',
+        astg_is_marked_graph(curr_stg)?'Y':'N',
+        astg_is_state_machine(curr_stg)?'Y':'N');
+    if (curr_stg->sm_comp != NULL) {
+        printf("\tSM components: %d\n",array_n(curr_stg->sm_comp));
+    }
+    if (curr_stg->mg_comp != NULL) {
+        printf("\tMG components: %d\n",array_n(curr_stg->mg_comp));
+    }
     }
 
     return (result != ASTG_OK);
@@ -640,62 +632,62 @@ char **argv;
 
     util_getopt_reset ();
     while ((c=util_getopt(argc,argv,"s")) != EOF) {
-	switch (c) {
-	    case 's': by_state_code = ASTG_TRUE; break;
-	    default : result = ASTG_BAD_OPTION; break;
-	}
+    switch (c) {
+        case 's': by_state_code = ASTG_TRUE; break;
+        default : result = ASTG_BAD_OPTION; break;
+    }
     }
 
     stg = curr_stg = astg_current (*network_p);
 
     if (stg == NULL || result != ASTG_OK) {
-	result = ASTG_BAD_OPTION;
+    result = ASTG_BAD_OPTION;
     }
     else if (util_optind == argc) {
-	if (stg->has_marking) {
-	    if (by_state_code) {
-		status = astg_initial_state (stg,&state_code);
-		if (status == ASTG_OK || status == ASTG_NOT_USC) {
-		    printf("%X\n",state_code);
-		}
-	    }
-	    else {
-		astg_write_marking (stg,stdout);
-	    }
-	}
-	else {
-	    printf("%s does not have an initial marking set.\n",
-		astg_name(curr_stg));
-	}
-    }
-    else if (util_optind == argc-1 || by_state_code) {
-	if (by_state_code) {
-	    sig_values = st_init_table (strcmp,st_strhash);
-	    while (util_optind < argc) {
-		sig_name = argv[util_optind++];
-		if (util_optind < argc && sscanf(argv[util_optind++],"%d",&value) == 1) {
-		    st_insert (sig_values,sig_name,(char *)value);
-		}
-		else {
-		    printf("Bad value for signal '%s' ignored.\n",
-			sig_name);
-		}
-	    }
-	    astg_set_marking_by_name (stg,sig_values);
-	    st_free_table (sig_values);
-	}
-	else {
-	    astg_foreach_place (stg,pgen,p) {
-		p->type.place.initial_token = ASTG_FALSE;
-	    }
-	    io_open (&source,NIL(FILE),argv[util_optind++]);
-	    astg_read_marking (&source,stg);
-	    if (io_status (&source) != 0) result = ASTG_ERROR;
-	}
-	astg_set_current (network_p,stg,ASTG_TRUE);
+    if (stg->has_marking) {
+        if (by_state_code) {
+        status = astg_initial_state (stg,&state_code);
+        if (status == ASTG_OK || status == ASTG_NOT_USC) {
+            printf("%X\n",state_code);
+        }
+        }
+        else {
+        astg_write_marking (stg,stdout);
+        }
     }
     else {
-	result = ASTG_BAD_OPTION;
+        printf("%s does not have an initial marking set.\n",
+        astg_name(curr_stg));
+    }
+    }
+    else if (util_optind == argc-1 || by_state_code) {
+    if (by_state_code) {
+        sig_values = st_init_table (strcmp,st_strhash);
+        while (util_optind < argc) {
+        sig_name = argv[util_optind++];
+        if (util_optind < argc && sscanf(argv[util_optind++],"%d",&value) == 1) {
+            st_insert (sig_values,sig_name,(char *)value);
+        }
+        else {
+            printf("Bad value for signal '%s' ignored.\n",
+            sig_name);
+        }
+        }
+        astg_set_marking_by_name (stg,sig_values);
+        st_free_table (sig_values);
+    }
+    else {
+        astg_foreach_place (stg,pgen,p) {
+        p->type.place.initial_token = ASTG_FALSE;
+        }
+        io_open (&source,NIL(FILE),argv[util_optind++]);
+        astg_read_marking (&source,stg);
+        if (io_status (&source) != 0) result = ASTG_ERROR;
+    }
+    astg_set_current (network_p,stg,ASTG_TRUE);
+    }
+    else {
+    result = ASTG_BAD_OPTION;
     }
 
     if (result == ASTG_BAD_OPTION) astg_usage (marking_usage,argv[0]);
@@ -708,19 +700,19 @@ int n;
 void *fdata;	/*  ARGSUSED */
 {
     /*	Callback for astg_strong_comp, to print parts of a component
-	to the user. */
+    to the user. */
 
     astg_vertex *v;
     int i;
 
     printf("\n %d)",n);
     for (i=array_n(vertices); i--; ) {
-	v = array_fetch (astg_vertex *, vertices, i);
-	if (astg_v_type(v) == ASTG_TRANS) {
-	    printf(" %s",astg_trans_name(v));
-	} else {
-	    printf(" %s",astg_place_name(v));
-	}
+    v = array_fetch (astg_vertex *, vertices, i);
+    if (astg_v_type(v) == ASTG_TRANS) {
+        printf(" %s",astg_trans_name(v));
+    } else {
+        printf(" %s",astg_place_name(v));
+    }
     }
     printf("\n");
     return 1;
@@ -742,19 +734,19 @@ int comp_n;
     astg_foreach_vertex (stg,gen,v) v->subset = ASTG_FALSE;
 
     for (n=array_n(comp); n--; ) {
-	v = array_fetch (astg_vertex *,comp,n);
-	v->subset = ASTG_TRUE;
-	astg_sel_vertex (v,ASTG_TRUE);
+    v = array_fetch (astg_vertex *,comp,n);
+    v->subset = ASTG_TRUE;
+    astg_sel_vertex (v,ASTG_TRUE);
     }
 
     astg_sel_show (stg);
     n_scc = astg_strong_comp (stg,ASTG_NO_CALLBACK,ASTG_NO_DATA,ASTG_SUBSET);
     if (n_scc != 1) {
-	printf(
-	"warning: this %s component has %d strongly connected components.\n",
-	comp_name,n_scc);
-	astg_strong_comp (stg,astg_print_component_pieces,
-				ASTG_NO_DATA,ASTG_SUBSET);
+    printf(
+    "warning: this %s component has %d strongly connected components.\n",
+    comp_name,n_scc);
+    astg_strong_comp (stg,astg_print_component_pieces,
+                ASTG_NO_DATA,ASTG_SUBSET);
     }
 }
 
@@ -781,36 +773,36 @@ char **argv;
 
     util_getopt_reset ();
     while ((c=util_getopt(argc,argv,"")) != EOF) {
-	switch (c) {
-	    default : result = ASTG_BAD_OPTION; break;
-	}
+    switch (c) {
+        default : result = ASTG_BAD_OPTION; break;
+    }
     }
 
     stg = astg_current (*network_p);
 
     if (result == ASTG_BAD_OPTION || stg == NULL) {
-	astg_usage (mgc_usage,argv[0]);
-	return 1;
+    astg_usage (mgc_usage,argv[0]);
+    return 1;
     }
 
     status = get_mg_comp (stg,ASTG_TRUE);
     dbg(1,msg("%d marked graph (MG) components.\n", array_n(stg->mg_comp)));
 
     if (util_optind == argc) {
-	if (status == ASTG_NOT_COVER) astg_sel_show (stg);
+    if (status == ASTG_NOT_COVER) astg_sel_show (stg);
     }
     else {
-	for (; util_optind < argc; util_optind++) {
-	    n = atoi (argv[util_optind]);
-	    if (n > 0 && n <= array_n(stg->mg_comp)) {
-		comp = array_fetch (array_t *,stg->mg_comp,n-1);
-		select_comp (stg,comp,"MG",n);
-	    }
-	    else {
-		printf("There are only %d MG components.\n",
-			array_n(stg->mg_comp));
-	    }
-	}
+    for (; util_optind < argc; util_optind++) {
+        n = atoi (argv[util_optind]);
+        if (n > 0 && n <= array_n(stg->mg_comp)) {
+        comp = array_fetch (array_t *,stg->mg_comp,n-1);
+        select_comp (stg,comp,"MG",n);
+        }
+        else {
+        printf("There are only %d MG components.\n",
+            array_n(stg->mg_comp));
+        }
+    }
     }
 
     return (result != ASTG_OK);
@@ -838,36 +830,36 @@ char **argv;
 
     util_getopt_reset ();
     while ((c=util_getopt(argc,argv,"")) != EOF) {
-	switch (c) {
-	    default : result = ASTG_BAD_OPTION; break;
-	}
+    switch (c) {
+        default : result = ASTG_BAD_OPTION; break;
+    }
     }
 
     stg = astg_current (*network_p);
 
     if (result == ASTG_BAD_OPTION || stg == NULL) {
-	astg_usage (smc_usage,argv[0]);
-	return 1;
+    astg_usage (smc_usage,argv[0]);
+    return 1;
     }
 
     status = get_sm_comp (stg,ASTG_TRUE);
     dbg(1,msg("%d state machine (SM) components.\n", array_n(stg->sm_comp)));
 
     if (util_optind == argc) {
-	if (status == ASTG_NOT_COVER) astg_sel_show (stg);
+    if (status == ASTG_NOT_COVER) astg_sel_show (stg);
     }
     else {
-	for (; util_optind < argc; util_optind++) {
-	    n = atoi (argv[util_optind]);
-	    if (n > 0 && n <= array_n(stg->sm_comp)) {
-		comp = array_fetch (array_t *,stg->sm_comp,n-1);
-		select_comp (stg,comp,"SM",n);
-	    }
-	    else {
-		printf("There are only %d SM components.\n",
-			array_n(stg->sm_comp));
-	    }
-	}
+    for (; util_optind < argc; util_optind++) {
+        n = atoi (argv[util_optind]);
+        if (n > 0 && n <= array_n(stg->sm_comp)) {
+        comp = array_fetch (array_t *,stg->sm_comp,n-1);
+        select_comp (stg,comp,"SM",n);
+        }
+        else {
+        printf("There are only %d SM components.\n",
+            array_n(stg->sm_comp));
+        }
+    }
     }
 
     return (result != ASTG_OK);
@@ -897,36 +889,36 @@ char **argv;
     util_getopt_reset ();
     while ((c=util_getopt(argc,argv,"f")) != EOF) {
       switch (c) {
-      case 'f': 
-	keep_fc = ASTG_TRUE;
-	break;
-      default: 
-	result = ASTG_BAD_OPTION; 
-	break;
+      case 'f':
+    keep_fc = ASTG_TRUE;
+    break;
+      default:
+    result = ASTG_BAD_OPTION;
+    break;
       }
     }
 
     curr_stg = astg_current (*network_p);
 
     if (result == ASTG_BAD_OPTION || util_optind != argc - 1 || curr_stg == NULL) {
-	result = ASTG_BAD_OPTION;
-	astg_usage (contract_usage,argv[0]);
+    result = ASTG_BAD_OPTION;
+    astg_usage (contract_usage,argv[0]);
     }
     else {
       if (! astg_state_coding (curr_stg,ASTG_TRUE)) {
-		return 1;
-	  }
+        return 1;
+      }
       sig_p = astg_find_named_signal (curr_stg,argv[util_optind]);
       if (sig_p == NULL) {
-	printf("STG %s does not have signal '%s'.\n",
-	       astg_name(curr_stg), argv[util_optind]);
+    printf("STG %s does not have signal '%s'.\n",
+           astg_name(curr_stg), argv[util_optind]);
       } else if (sig_p->sig_type == ASTG_INPUT_SIG) {
-	printf("'%s' is an input signal.\n",argv[util_optind]);
+    printf("'%s' is an input signal.\n",argv[util_optind]);
       } else {
-	cstg = astg_contract (curr_stg,sig_p,keep_fc);
-	astg_irred (cstg,ASTG_TRUE);
-	/* Set current stg to the contracted net. */
-	astg_set_current (network_p,cstg,ASTG_TRUE);
+    cstg = astg_contract (curr_stg,sig_p,keep_fc);
+    astg_irred (cstg,ASTG_TRUE);
+    /* Set current stg to the contracted net. */
+    astg_set_current (network_p,cstg,ASTG_TRUE);
       }
     }
 
@@ -963,13 +955,13 @@ astg_bool do_init;	/*i ASTG_TRUE=do initialize, ASTG_FALSE=do end.	*/
     int i;
 
     if (do_init) {
-	i = sizeof(basic_commands) / sizeof(basic_commands[0]);
-	for (p=basic_commands; i--; p++) {
-	    com_add_command (p->cmd_name, p->cmd, p->modifies);
-	}
+    i = sizeof(basic_commands) / sizeof(basic_commands[0]);
+    for (p=basic_commands; i--; p++) {
+        com_add_command (p->cmd_name, p->cmd, p->modifies);
+    }
     }
     else {
-	astg_discard_daemons ();
+    astg_discard_daemons ();
     }
 }
 #endif /* SIS */

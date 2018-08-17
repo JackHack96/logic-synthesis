@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/astg/com_astg.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:59 $
- *
- */
+
 /* -------------------------------------------------------------------------- *\
    com_astg.c -- Add commands for ASTG package.
 

@@ -1,14 +1,6 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/seqbdd/com_verify.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:54 $
- *
- */
- /* file %M% release %I% */
- /* last modified: %G% at %U% */
+
+/* file %M% release %I% */
+/* last modified: %G% at %U% */
 #ifdef SIS
 #include <setjmp.h>
 #include <signal.h>
@@ -364,8 +356,8 @@ char *filename;
  * env_seq_dc,remove_latches,latch_output,equiv_nets
  */
 
-static void Prl_PrintUsage  ARGS((char *, char *));
-static int  Prl_FillOptions ARGS((prl_options_t *, int *, char ***));
+static void Prl_PrintUsage  (char *, char *);
+static int  Prl_FillOptions (prl_options_t *, int *, char ***);
 
 
 /* Given another network, passed as an argument to the command, do:
@@ -398,29 +390,29 @@ char **argv;
     if (network_num_latch(fsm_network) == 0) return 0;
 
     if (argc - util_optind == 0) {
-	(void) fprintf(siserr, "Warning: no network specified as argument\n");
-	env_network = NIL(network_t);
+    (void) fprintf(siserr, "Warning: no network specified as argument\n");
+    env_network = NIL(network_t);
     } else if (argc - util_optind == 1) {
-	env_network = read_optional_network("read_blif", argv[util_optind]);
-	if (env_network == NIL(network_t)) {
-	    (void) fprintf(siserr, "Warning: can't read network \"%s\";", argv[util_optind]);
-	}
+    env_network = read_optional_network("read_blif", argv[util_optind]);
+    if (env_network == NIL(network_t)) {
+        (void) fprintf(siserr, "Warning: can't read network \"%s\";", argv[util_optind]);
+    }
     } else {
-	goto usage;
+    goto usage;
     }
 
     if (env_network == NIL(network_t)) {
-	(void) fprintf(siserr, "\"extract_seq_dc\" is being called instead\n");
-	return com_execute(network, "extract_seq_dc");
+    (void) fprintf(siserr, "\"extract_seq_dc\" is being called instead\n");
+    return com_execute(network, "extract_seq_dc");
     }
 
     if (options.timeout > 0) {
-	(void) signal(SIGALRM, timeout_handle);
-	(void) alarm(options.timeout);
-	if (setjmp(timeout_env) > 0) {
-	    fprintf(sisout, "timeout occurred after %d seconds\n", options.timeout);
-	    return 1;
-	}
+    (void) signal(SIGALRM, timeout_handle);
+    (void) alarm(options.timeout);
+    if (setjmp(timeout_env) > 0) {
+        fprintf(sisout, "timeout occurred after %d seconds\n", options.timeout);
+        return 1;
+    }
     }
     status = Prl_ExtractEnvDc(fsm_network, env_network, &options);
     return status;
@@ -430,7 +422,7 @@ char **argv;
 }
 
 
-/* 
+/*
  *----------------------------------------------------------------------
  *
  * com_env_verify_fsm -- INTERNAL ROUTINE
@@ -458,24 +450,24 @@ char **argv;
 
     env_network = read_optional_network("read_blif", argv[util_optind+1]);
     if (env_network == NIL(network_t)) {
-	(void) fprintf(siserr, "Warning: can't read network \"%s\";", argv[util_optind+1]);
-	(void) fprintf(siserr, " verify_fsm is being called instead\n");
-	return com_verify_fsm(network, argc - 1, argv);
+    (void) fprintf(siserr, "Warning: can't read network \"%s\";", argv[util_optind+1]);
+    (void) fprintf(siserr, " verify_fsm is being called instead\n");
+    return com_verify_fsm(network, argc - 1, argv);
     }
 
     check_network = read_optional_network("read_blif", argv[util_optind]);
     if (check_network == NIL(network_t)) {
-	(void) fprintf(siserr, "can't read network %s\n", argv[util_optind]);
-	return 1;
+    (void) fprintf(siserr, "can't read network %s\n", argv[util_optind]);
+    return 1;
     }
 
     if (options.timeout > 0) {
-	(void) signal(SIGALRM, timeout_handle);
-	(void) alarm(options.timeout);
-	if (setjmp(timeout_env) > 0) {
-	    fprintf(sisout, "timeout occurred after %d seconds\n", options.timeout);
-	    return 1;
-	}
+    (void) signal(SIGALRM, timeout_handle);
+    (void) alarm(options.timeout);
+    if (setjmp(timeout_env) > 0) {
+        fprintf(sisout, "timeout occurred after %d seconds\n", options.timeout);
+        return 1;
+    }
     }
     status = Prl_VerifyEnvFsm(fsm_network, check_network, env_network, &options);
     network_free(check_network);
@@ -549,21 +541,21 @@ char **argv;
     if (argc - util_optind != 0) goto usage;
 
     if (options.timeout > 0) {
-	(void) signal(SIGALRM, timeout_handle);
-	(void) alarm(options.timeout);
-	if (setjmp(timeout_env) > 0) {
-	    fprintf(sisout, "timeout occurred after %d seconds\n", options.timeout);
-	    return 1;
-	}
+    (void) signal(SIGALRM, timeout_handle);
+    (void) alarm(options.timeout);
+    if (setjmp(timeout_env) > 0) {
+        fprintf(sisout, "timeout occurred after %d seconds\n", options.timeout);
+        return 1;
+    }
     }
 
     if (*network == NIL(network_t)) {
-	(void) fprintf(siserr, "no network specified\n");
-	return 1;
+    (void) fprintf(siserr, "no network specified\n");
+    return 1;
     }
     if (network_num_latch(*network) == 0) {
-	/* nothing to do */
-	return 0;
+    /* nothing to do */
+    return 0;
     }
     Prl_RemoveLatches(*network, &options);
     return 0;
@@ -579,7 +571,7 @@ char **argv;
  * If one of the POs depends combinationally on one of the external PIs
  * the routine reports an error status code.
  * This function is useful out there in the real world; i.e.
- * if we want to control a memory chip, 'latch_output' is a simple way to make sure 
+ * if we want to control a memory chip, 'latch_output' is a simple way to make sure
  * that the write_enable signal does not glitch.
  */
 
@@ -595,13 +587,13 @@ char **argv;
 
     util_getopt_reset();
     while ((c = util_getopt(argc, argv, "v:")) != EOF) {
-	switch(c) {
-	  case 'v':
-	    verbosity = atoi(util_optarg);
-	    break;
-	  default:
-	    goto usage;
-	}
+    switch(c) {
+      case 'v':
+        verbosity = atoi(util_optarg);
+        break;
+      default:
+        goto usage;
+    }
     }
     node_vec = com_get_true_nodes(*network, argc-util_optind+1, argv+util_optind-1);
     status = Prl_LatchOutput(*network, node_vec, verbosity);
@@ -633,19 +625,19 @@ char **argv;
 
     util_getopt_reset();
     while ((c = util_getopt(argc, argv, "opv:")) != EOF) {
-	switch(c) {
-	  case 'o':
-	    options.insert_a_one = 1;
-	    break;
-	  case 'p':
-	    options.perform_check = 1;
-	    break;
-	  case 'v':
-	    options.verbosity = atoi(util_optarg);
-	    break;
-	  default:
-	    goto usage;
-	}
+    switch(c) {
+      case 'o':
+        options.insert_a_one = 1;
+        break;
+      case 'p':
+        options.perform_check = 1;
+        break;
+      case 'v':
+        options.verbosity = atoi(util_optarg);
+        break;
+      default:
+        goto usage;
+    }
     }
     node_vec = com_get_true_nodes(*network, argc-util_optind+1, argv+util_optind-1);
     status = Prl_RemoveDependencies(*network, node_vec, &options);
@@ -659,7 +651,7 @@ char **argv;
 }
 
 
-/* 
+/*
  *----------------------------------------------------------------------
  *
  * com_free_dc -- INTERNAL ROUTINE
@@ -682,7 +674,7 @@ char **argv;
 /*
  *----------------------------------------------------------------------
  *
- * Prl_FillOptions -- 
+ * Prl_FillOptions --
  *
  *----------------------------------------------------------------------
  */
@@ -697,7 +689,7 @@ char ***argv_addr;
     char **argv = *argv_addr;
     char *method_name = NIL(char);
     char *red_latch_method_name = NIL(char);
-  
+
     /* global options */
     options->verbose = 0;
 
@@ -721,38 +713,38 @@ char ***argv_addr;
     error_init();
     util_getopt_reset();
     while ((c = util_getopt(argc, argv, "o:p:f:t:v:l:riV")) != EOF) {
-	switch(c) {
-	  case 'o':
-	    options->ordering_depth = atoi(util_optarg);
-	    break;
-	  case 't':
-	    options->timeout = atoi(util_optarg);
-	    if (options->timeout < 0 || options->timeout > 3600 * 24 * 365) return 1;
-	    break;
-	  case 'v':
-	    options->verbose = atoi(util_optarg);
-	    break;
-	    /* the rest is for "remove_latches" */
-	  case 'l':
-	    options->remlatch.max_level = atoi(util_optarg);
-	    if (options->remlatch.max_level <= 1) return 1;
-	    break;
-	  case 'f':
-	    options->remlatch.max_cost = atoi(util_optarg);
-	    if (options->remlatch.max_cost < 1) return 1;
-	    break;
-	  case 'r':
-	    options->remlatch.local_retiming = 0;
-	    break;
-	  case 'i':
-	    options->remlatch.remove_boot = 0;
-	    break;
-	  case 'V':
-	    options->stop_if_verify = 1;
-	    break;
-	  default:
-	    return 1;
-	}
+    switch(c) {
+      case 'o':
+        options->ordering_depth = atoi(util_optarg);
+        break;
+      case 't':
+        options->timeout = atoi(util_optarg);
+        if (options->timeout < 0 || options->timeout > 3600 * 24 * 365) return 1;
+        break;
+      case 'v':
+        options->verbose = atoi(util_optarg);
+        break;
+        /* the rest is for "remove_latches" */
+      case 'l':
+        options->remlatch.max_level = atoi(util_optarg);
+        if (options->remlatch.max_level <= 1) return 1;
+        break;
+      case 'f':
+        options->remlatch.max_cost = atoi(util_optarg);
+        if (options->remlatch.max_cost < 1) return 1;
+        break;
+      case 'r':
+        options->remlatch.local_retiming = 0;
+        break;
+      case 'i':
+        options->remlatch.remove_boot = 0;
+        break;
+      case 'V':
+        options->stop_if_verify = 1;
+        break;
+      default:
+        return 1;
+    }
     }
 
     /* select a method: only one supported here */

@@ -41,11 +41,11 @@ int heuristic;
     initial = 1;
     stg_foreach_state(stg, gen, state) {
       if (initial) {
-		stg_set_state_encoding(state, ZERO_CODE);
-		initial = 0;
+        stg_set_state_encoding(state, ZERO_CODE);
+        initial = 0;
       } else {
-		stg_set_state_encoding(state, ONE_CODE);
-		  }
+        stg_set_state_encoding(state, ONE_CODE);
+          }
     }
     break;
   default:
@@ -64,22 +64,22 @@ int l1, l2, r1, r2, n;
 pset dic;
 dic_family_t *list;
 {
-	set_clear (lhs_dic(dic), n);
-	if (l1 >= 0) {
-		set_insert (lhs_dic(dic), l1);
-	}
-	if (l2 >= 0) {
-		set_insert (lhs_dic(dic), l2);
-	}
+    set_clear (lhs_dic(dic), n);
+    if (l1 >= 0) {
+        set_insert (lhs_dic(dic), l1);
+    }
+    if (l2 >= 0) {
+        set_insert (lhs_dic(dic), l2);
+    }
 
-	set_clear (rhs_dic(dic), n);
-	if (r1 >= 0) {
-		set_insert (rhs_dic(dic), r1);
-	}
-	if (r2 >= 0) {
-		set_insert (rhs_dic(dic), r2);
-	}
-	dic_family_add_irred(list, dic);
+    set_clear (rhs_dic(dic), n);
+    if (r1 >= 0) {
+        set_insert (rhs_dic(dic), r1);
+    }
+    if (r2 >= 0) {
+        set_insert (rhs_dic(dic), r2);
+    }
+    dic_family_add_irred(list, dic);
 }
 
 /* extract dichotomoy constraints from an STG */
@@ -114,8 +114,8 @@ int heuristic;
     input_label = stg_edge_input_string(edge);
     to_state = stg_edge_to_state(edge);
     from_state = stg_edge_from_state(edge);
-    if (!st_lookup(input_label_table, input_label, 
-		(char**) &next_state_table)) {
+    if (!st_lookup(input_label_table, input_label,
+        (char**) &next_state_table)) {
 
       dic_array = array_alloc(vertex_t *, 0);
       array_insert_last(vertex_t *, dic_array, from_state);
@@ -126,119 +126,119 @@ int heuristic;
       st_insert(input_label_table, input_label, (char*) next_state_table);
 
     } else {
-      if (! st_lookup(next_state_table, (char *) to_state, 
-		(char**) &dic_array)) {
+      if (! st_lookup(next_state_table, (char *) to_state,
+        (char**) &dic_array)) {
 
-		dic_array = array_alloc(vertex_t *, 0);
-		array_insert_last(vertex_t *, dic_array, from_state);
-		assert(! st_insert(next_state_table, (char *) to_state, (char *) dic_array));
+        dic_array = array_alloc(vertex_t *, 0);
+        array_insert_last(vertex_t *, dic_array, from_state);
+        assert(! st_insert(next_state_table, (char *) to_state, (char *) dic_array));
 
       } else {
-		array_insert_last(vertex_t *, dic_array, from_state);
+        array_insert_last(vertex_t *, dic_array, from_state);
       }
     }
   }
-  
+
   /* fill out the seed data structure; terminology from Unger's book */
   n = stg_get_num_states(stg);
   dic = dic_new(n);
   seed_list = dic_family_alloc(ALLOCSIZE, n);
-  st_foreach_item(input_label_table, sgen1, &input_label, 
-	(char**) &next_state_table) {
+  st_foreach_item(input_label_table, sgen1, &input_label,
+    (char**) &next_state_table) {
       if (g_debug > 1) {
-		  (void)fprintf(sisout, "input %s: ", input_label);
+          (void)fprintf(sisout, "input %s: ", input_label);
       }
       if (st_count (next_state_table) < 2) {
-		  if (g_debug > 1) {
-			(void)fprintf(sisout, "skipped (only one entry)\n");
-		  }
-		  continue;
+          if (g_debug > 1) {
+            (void)fprintf(sisout, "skipped (only one entry)\n");
+          }
+          continue;
       }
-      st_foreach_item(next_state_table, sgen2, (char**) &s_j, 
-		(char **) &dic_array) {
-		if (g_debug > 1) {
-			(void)fprintf(sisout, "[%s] ", stg_get_state_name(s_j));
-		}
-		for (x = array_n(dic_array) - 1; x >= 0; x--) {
-		  s_i = array_fetch(vertex_t *, dic_array, x);
-		  if (g_debug > 1) {
-			  (void)fprintf(sisout, "%s ", stg_get_state_name(s_i));
-		  }
-		}
-		st_lookup (index, (char *) s_j, (char **) &j);
-		sgen3 = *sgen2;
-		/* this ensures j != m */
-		while (st_gen (sgen2, (char **) &s_m, (char **) &dic_array1)) {
-			st_lookup (index, (char *) s_m, (char **) &m);
-			for (x = array_n(dic_array) - 1; x >= 0; x--) {
-				s_i = array_fetch(vertex_t *, dic_array, x);
-				st_lookup (index, (char *) s_i, (char **) &i);
-				for (y = array_n(dic_array1) - 1; y >= 0; y--) {
-				  s_k = array_fetch(vertex_t *, dic_array1, y);
-				  st_lookup (index, (char *) s_k, (char **) &k);
-				  /* now test i != j or k != m */
-				  if (i != j || k != m) {
-					/* [j, i; m] */
-					dic_add (j, i, m, -1, n, dic, seed_list);
+      st_foreach_item(next_state_table, sgen2, (char**) &s_j,
+        (char **) &dic_array) {
+        if (g_debug > 1) {
+            (void)fprintf(sisout, "[%s] ", stg_get_state_name(s_j));
+        }
+        for (x = array_n(dic_array) - 1; x >= 0; x--) {
+          s_i = array_fetch(vertex_t *, dic_array, x);
+          if (g_debug > 1) {
+              (void)fprintf(sisout, "%s ", stg_get_state_name(s_i));
+          }
+        }
+        st_lookup (index, (char *) s_j, (char **) &j);
+        sgen3 = *sgen2;
+        /* this ensures j != m */
+        while (st_gen (sgen2, (char **) &s_m, (char **) &dic_array1)) {
+            st_lookup (index, (char *) s_m, (char **) &m);
+            for (x = array_n(dic_array) - 1; x >= 0; x--) {
+                s_i = array_fetch(vertex_t *, dic_array, x);
+                st_lookup (index, (char *) s_i, (char **) &i);
+                for (y = array_n(dic_array1) - 1; y >= 0; y--) {
+                  s_k = array_fetch(vertex_t *, dic_array1, y);
+                  st_lookup (index, (char *) s_k, (char **) &k);
+                  /* now test i != j or k != m */
+                  if (i != j || k != m) {
+                    /* [j, i; m] */
+                    dic_add (j, i, m, -1, n, dic, seed_list);
 
-					/* [j, i; k] */
-					dic_add (j, i, -1, k, n, dic, seed_list);
+                    /* [j, i; k] */
+                    dic_add (j, i, -1, k, n, dic, seed_list);
 
-					/* [j; m, k] */
-					dic_add (j, -1, m, k, n, dic, seed_list);
+                    /* [j; m, k] */
+                    dic_add (j, -1, m, k, n, dic, seed_list);
 
-					/* [i; m, k] */
-					dic_add (-1, i, m, k, n, dic, seed_list);
+                    /* [i; m, k] */
+                    dic_add (-1, i, m, k, n, dic, seed_list);
 
-					/* [m, k; j] */
-					dic_add (m, k, j, -1, n, dic, seed_list);
+                    /* [m, k; j] */
+                    dic_add (m, k, j, -1, n, dic, seed_list);
 
-					/* [m, k; i] */
-					dic_add (m, k, -1, i, n, dic, seed_list);
+                    /* [m, k; i] */
+                    dic_add (m, k, -1, i, n, dic, seed_list);
 
-					/* [m; j, i] */
-					dic_add (m, -1, j, i, n, dic, seed_list);
+                    /* [m; j, i] */
+                    dic_add (m, -1, j, i, n, dic, seed_list);
 
-					/* [k; j, i] */
-					dic_add (-1, k, j, i, n, dic, seed_list);
-				  }
-				}
-			}
-		}
-		*sgen2 = sgen3;
-		array_free(dic_array);
-		if (g_debug > 1) {
-			(void)fprintf(sisout, ";");
-		}
+                    /* [k; j, i] */
+                    dic_add (-1, k, j, i, n, dic, seed_list);
+                  }
+                }
+            }
+        }
+        *sgen2 = sgen3;
+        array_free(dic_array);
+        if (g_debug > 1) {
+            (void)fprintf(sisout, ";");
+        }
       }
       if (g_debug > 1) {
-		  (void)fprintf(sisout, "\n");
+          (void)fprintf(sisout, "\n");
       }
       st_free_table(next_state_table);
   }
   dic_free(dic);
   st_free_table(input_label_table);
   if (g_debug > 2) {
-	(void)fprintf(sisout, "There are %d initial seeds\n", seed_list->dcount);
-	dic_family_print (seed_list);
+    (void)fprintf(sisout, "There are %d initial seeds\n", seed_list->dcount);
+    dic_family_print (seed_list);
   }
 
   /* now solve them */
   dic_list = reduce_seeds(gen_uniq(seed_list));
   if (g_debug > 2) {
-	(void)fprintf(sisout, "There are %d reduced seeds\n", dic_list->dcount);
-	dic_family_print (dic_list);
+    (void)fprintf(sisout, "There are %d reduced seeds\n", dic_list->dcount);
+    dic_family_print (dic_list);
   }
 
   prime_list = gen_eqn(dic_list, LIMIT);
   table = dic_to_sm(prime_list, dic_list);
   cover = sm_minimum_cover(table, NIL(int), heuristic, 0);
   if (g_debug > 2) {
-	print_min_cover(table, cover, prime_list);
+    print_min_cover(table, cover, prime_list);
   }
 
   encode_stg(stg, cover, table, prime_list);
- 
+
   (void) dic_family_free(seed_list);
   (void) dic_family_free(dic_list);
   (void) dic_family_free(prime_list);
@@ -264,7 +264,7 @@ dic_family_t *prime_list;
   int num_states = stg_get_num_states(stg);
 
   assert(prime_list->dset_elem == num_states);
-  
+
   state_bits =  0;
   sm_foreach_row_element(cover, elem) {
     state_bits ++;
@@ -275,7 +275,7 @@ dic_family_t *prime_list;
     codes[i] = ALLOC(char, state_bits+1);
     codes[i][state_bits] = '\0';
   }
-  
+
   j = 0;
   sm_foreach_row_element(cover, elem) {
     col = sm_get_col(table, elem->col_num);
@@ -285,11 +285,11 @@ dic_family_t *prime_list;
     }
     j++;
   }
-  
+
   i = 0;
   stg_foreach_state(stg, gen, state) {
-    if (g_debug) (void)fprintf(sisout, "state %s = %s\n", 
-			       stg_get_state_name(state), codes[i]);
+    if (g_debug) (void)fprintf(sisout, "state %s = %s\n",
+                   stg_get_state_name(state), codes[i]);
     stg_set_state_encoding(state, codes[i]);
     FREE(codes[i]);
     i++;
@@ -306,7 +306,7 @@ astg_graph *astg;
 {
   network_t *network;
   FILE *fp;
-  
+
   lsGen gen;
   vertex_t *start;
   edge_t *e;
@@ -359,21 +359,21 @@ astg_graph *astg;
     }
     astg_foreach_signal(astg, agen, signal) {
       if (astg_is_noninput(signal)) {
-	(void) fprintf(fp, " %s_out", astg_signal_name(signal));
+    (void) fprintf(fp, " %s_out", astg_signal_name(signal));
       }
     }
     (void) fprintf(fp, "\n");
   }
-  
+
   stg_foreach_transition(stg, gen, e) {
     if (state_bits == 0) {
-      (void) fprintf(fp, "%s %s\n", stg_edge_input_string(e), 
-		     stg_edge_output_string(e));
+      (void) fprintf(fp, "%s %s\n", stg_edge_input_string(e),
+             stg_edge_output_string(e));
     } else {
       (void) fprintf(fp, "%s %s %s %s\n", stg_edge_input_string(e),
-		     stg_get_state_encoding(stg_edge_from_state(e)),
-		     stg_get_state_encoding(stg_edge_to_state(e)),
-		     stg_edge_output_string(e));
+             stg_get_state_encoding(stg_edge_from_state(e)),
+             stg_get_state_encoding(stg_edge_to_state(e)),
+             stg_edge_output_string(e));
     }
   }
   (void) fprintf(fp, ".e\n");

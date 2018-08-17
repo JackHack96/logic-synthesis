@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/linsolv/spOutput.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:05 $
- *
- */
+
 /*
  *  MATRIX OUTPUT MODULE
  *
@@ -45,9 +37,9 @@
 
 #ifndef lint
 static char copyright[] =
-    "Sparse1.3: Copyright (c) 1985,86,87,88 by Kenneth S. Kundert";
-static char RCSid[] =
-    "$Header: /users/pchong/CVS/sis/sis/linsolv/spOutput.c,v 1.1.1.1 2004/02/07 10:15:05 pchong Exp $";
+                    "Sparse1.3: Copyright (c) 1985,86,87,88 by Kenneth S. Kundert";
+static char RCSid[]     =
+                    "$Header: /users/pchong/CVS/sis/sis/linsolv/spOutput.c,v 1.1.1.1 2004/02/07 10:15:05 pchong Exp $";
 #endif
 
 
@@ -66,16 +58,14 @@ static char RCSid[] =
  */
 
 #define spINSIDE_SPARSE
+
 #include "spConfig.h"
 #include "spMatrix.h"
 #include "spDefs.h"
 
 
-
-
-
 #if DOCUMENTATION
-
+
 /*
  *  PRINT MATRIX
  *

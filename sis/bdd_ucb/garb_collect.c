@@ -1,13 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/garb_collect.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:02 $
- *
- */
-#include <stdio.h>	/* for BDD_DEBUG_LIFESPAN */
+
+#include <stdio.h>    /* for BDD_DEBUG_LIFESPAN */
 
 #include "util.h"
 #include "array.h"
@@ -16,74 +8,32 @@
 #include "bdd.h"
 #include "bdd_int.h"
 
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/garb_collect.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:02 $
- * $Log: garb_collect.c,v $
- * Revision 1.1.1.1  2004/02/07 10:15:02  pchong
- * imported
- *
- * Revision 1.4  1993/05/04  15:30:57  sis
- * BDD package updates.  Tom Shiple 5/4/93.
- *
- * Revision 1.3  1993/05/03  20:34:08  shiple
- * Fixed bug in scan_newhalf, which caused some entries not to be scanned
- * over during the second call to scan_newhalf.
- *
- * Revision 1.2  1992/09/19  03:13:57  shiple
- * Version 2.4
- * Prefaced compile time debug switches with BDD_. Added typecast to void to some function calls.
- * Removed some dead code.  In relocate, changed location of declaration of reg_old.
- * Fixed bugs in scan_hashcache and scan_constcache.  Before, node pointers
- * were not being regularized before they were checked for BROKEN_HEART, causing some good entries
- * to be killed.  In scan_adhoccache, fixed core leak if item wasn't copied over.  Also, now
- * scan adhoc_cache after garbage collection, rather than at beginning.  Changed ITE and ITE_const
- * caches to be arrays of pointers.  Remember value of manager->heap.cache.*.on for garbage collection.
- * Moved static function declarations to top of file.  In scan_hashcache and scan_constcache, first
- * check if there are no entries in the cache; st check if there are no entries in the cache.
- *
- * Revision 1.1  1992/07/29  00:27:03  shiple
- * Initial revision
- *
- * Revision 1.2  1992/05/06  18:51:03  sis
- * SIS release 1.1
- *
- * Revision 1.1  92/01/08  17:34:38  sis
- * Initial revision
- * 
- * Revision 1.2  91/05/10  22:14:13  shiple
- * Fixed a bug in bdd_garbage_collect. New buckets for the hashtable
- * were being needlessly created on each gc, and old buckets were not
- * being freed.  Now, we just reuse old buckets.
- * 
- * Revision 1.1  91/03/27  14:35:41  shiple
- * Initial revision
- * 
- *
- */
 
 static void flip_spaces();
+
 static void scan_manager();
+
 static void scan_newhalf();
+
 static void scan_cache();
+
 static bdd_node *relocate();
+
 static void scan_adhoccache();
+
 static void scan_hashcache();
+
 static void scan_constcache();
 
 void
 bdd_set_gc_mode(bdd, no_gc)
-bdd_manager *bdd;
-boolean no_gc;		/* this is inverted for historical reasons */
+        bdd_manager *bdd;
+        boolean no_gc;        /* this is inverted for historical reasons */
 {
-	bdd->heap.gc.on = ! no_gc;
+    bdd->heap.gc.on = !no_gc;
 
 #if defined(BDD_DEBUG) /* { */
-	fprintf(stderr, "set_gc_mode: garbage-collection is now %s\n", bdd->heap.gc.on ? "on": "off");
+    fprintf(stderr, "set_gc_mode: garbage-collection is now %s\n", bdd->heap.gc.on ? "on": "off");
 #endif /* } */
 }
 
@@ -102,128 +52,128 @@ static void discover_terminations();
  */
 void
 bdd_garbage_collect(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
-	static boolean busyp = FALSE;
-	int i;
-        long time;
-        boolean itetable_on, consttable_on, adhoc_on;
-        unsigned int prev_nodes_used;
+    static boolean busyp = FALSE;
+    int            i;
+    long           time;
+    boolean        itetable_on, consttable_on, adhoc_on;
+    unsigned int   prev_nodes_used;
 
-	if ( ! manager->heap.gc.on ) {
+    if (!manager->heap.gc.on) {
 #if defined(BDD_DEBUG_GC) /* { */
-	    printf("garbage_collect: the garbage-collector is not enabled (skipping)\n");
+        printf("garbage_collect: the garbage-collector is not enabled (skipping)\n");
 #endif /* } */
-	    return;
-	}
+        return;
+    }
 
-        /* 
-         * Mark the amount of time spent garbage collecting.
-         */
-        time = util_cpu_time();
+    /*
+     * Mark the amount of time spent garbage collecting.
+     */
+    time = util_cpu_time();
 
-        /*
-         * Note the number of nodes currently in use.
-         */
-        prev_nodes_used = manager->heap.stats.nodes.used;
+    /*
+     * Note the number of nodes currently in use.
+     */
+    prev_nodes_used = manager->heap.stats.nodes.used;
 
-        /* 
-         * Defensive programming.
-         */
-	if (busyp) {
-	    fail("bdd_garbage_collect: the garbage-collector is already running");
-        }
+    /*
+     * Defensive programming.
+     */
+    if (busyp) {
+        fail("bdd_garbage_collect: the garbage-collector is already running");
+    }
 
-        /* 
-         * Not handling this case now.
-         */
-	if (manager->heap.gc.status.open_generators > 0) {
-	    fail("bdd_garbage_collect: there are open generators during the garbage collection");
-        }
+    /*
+     * Not handling this case now.
+     */
+    if (manager->heap.gc.status.open_generators > 0) {
+        fail("bdd_garbage_collect: there are open generators during the garbage collection");
+    }
 
 #if defined(BDD_DEBUG_GC) /* { */
-	(void) printf("before garbage collection #%d ...\n", manager->heap.stats.gc.times+1);
-	(void) bdd_assert_heap_correct(manager);
+    (void) printf("before garbage collection #%d ...\n", manager->heap.stats.gc.times+1);
+    (void) bdd_assert_heap_correct(manager);
 #endif /* } */
 
-	busyp = TRUE;
+    busyp = TRUE;
 
-	/*
-	 * Defensive progamming.  Turn off caching while garbage collection; prevents
+    /*
+     * Defensive progamming.  Turn off caching while garbage collection; prevents
          * any attempt to insert or lookup in the caches.  Remember the current values.
-	 */
-        itetable_on = manager->heap.cache.itetable.on;
-        consttable_on = manager->heap.cache.consttable.on;
-        adhoc_on = manager->heap.cache.adhoc.on;
-	manager->heap.cache.itetable.on = FALSE;
-	manager->heap.cache.consttable.on = FALSE;
-	manager->heap.cache.adhoc.on = FALSE;
+     */
+    itetable_on   = manager->heap.cache.itetable.on;
+    consttable_on = manager->heap.cache.consttable.on;
+    adhoc_on      = manager->heap.cache.adhoc.on;
+    manager->heap.cache.itetable.on   = FALSE;
+    manager->heap.cache.consttable.on = FALSE;
+    manager->heap.cache.adhoc.on      = FALSE;
 
-        /*
-         * Flip sense of old space and new space.
-         */
-	(void) flip_spaces(manager);
+    /*
+     * Flip sense of old space and new space.
+     */
+    (void) flip_spaces(manager);
 
-        /*
-         * Relocate all bdd_nodes directly pointed to by root pointers, into new space.
-         */
-	(void) scan_manager(manager);
+    /*
+     * Relocate all bdd_nodes directly pointed to by root pointers, into new space.
+     */
+    (void) scan_manager(manager);
 
-	manager->heap.gc.during.start.block = manager->heap.half[manager->heap.gc.halfspace].inuse.top;
-	manager->heap.gc.during.start.index = 0;
+    manager->heap.gc.during.start.block = manager->heap.half[manager->heap.gc.halfspace].inuse.top;
+    manager->heap.gc.during.start.index = 0;
 
-	/*
-	 * Reset the hashtable.  The function scan_newhalf rehashes all the nodes into the table.
-	 * Note that since garbage collection possibly reduces the number of bdd_nodes, maybe the
-	 * size of this table should be reduced.
-	 */
-	manager->heap.hashtable.nkeys = 0;
-	for (i = 0; i < manager->heap.hashtable.nbuckets; i++) {
-	    manager->heap.hashtable.buckets[i] = NIL(bdd_node);
-	}
+    /*
+     * Reset the hashtable.  The function scan_newhalf rehashes all the nodes into the table.
+     * Note that since garbage collection possibly reduces the number of bdd_nodes, maybe the
+     * size of this table should be reduced.
+     */
+    manager->heap.hashtable.nkeys = 0;
+    for (i = 0; i < manager->heap.hashtable.nbuckets; i++) {
+        manager->heap.hashtable.buckets[i] = NIL(bdd_node);
+    }
 
-	(void) scan_newhalf(manager);
-	(void) scan_cache(manager);
+    (void) scan_newhalf(manager);
+    (void) scan_cache(manager);
 
-        /* 
-         * In the current implementation, scan_cache does not relocate any nodes.  Therefore, there
-         * are no new additional nodes in new space to scan.  Thus, the following call to scan_newhalf
-         * is superflous.
-         */
-	(void) scan_newhalf(manager);	      
+    /*
+     * In the current implementation, scan_cache does not relocate any nodes.  Therefore, there
+     * are no new additional nodes in new space to scan.  Thus, the following call to scan_newhalf
+     * is superflous.
+     */
+    (void) scan_newhalf(manager);
 
-	manager->heap.stats.gc.times++;
-	manager->heap.cache.itetable.on = itetable_on;
-	manager->heap.cache.consttable.on = consttable_on;
-	manager->heap.cache.adhoc.on = adhoc_on;
-        manager->heap.stats.gc.nodes_collected += (prev_nodes_used - manager->heap.stats.nodes.used);       
-	busyp = FALSE;
+    manager->heap.stats.gc.times++;
+    manager->heap.cache.itetable.on   = itetable_on;
+    manager->heap.cache.consttable.on = consttable_on;
+    manager->heap.cache.adhoc.on      = adhoc_on;
+    manager->heap.stats.gc.nodes_collected += (prev_nodes_used - manager->heap.stats.nodes.used);
+    busyp = FALSE;
 
 #if defined(BDD_DEBUG) /* { */
 #if defined(BDD_DEBUG_GC) || defined(BDD_DEBUG_GC_STATS) /* { */
-	(void) printf("... after garbage collection #%d\n", manager->heap.stats.gc.times);
-	(void) bdd_dump_manager_stats(manager);
+    (void) printf("... after garbage collection #%d\n", manager->heap.stats.gc.times);
+    (void) bdd_dump_manager_stats(manager);
 #if defined(BDD_DEBUG_GC) /* { */
-	(void) bdd_assert_heap_correct(manager);
+    (void) bdd_assert_heap_correct(manager);
 #endif /* } */
 #endif /* } */
 #if defined(BDD_DEBUG_AGE) || defined(BDD_DEBUG_LIFESPAN) /* { */
-	manager->debug.gc.age++;		/* one gc older now ... */
+    manager->debug.gc.age++;		/* one gc older now ... */
 #endif /* } */
 #if defined(BDD_DEBUG_LIFESPAN) /* { */
-	/*
-	 *    Process terminations and then log the fact that it
-	 *    is one age older now (for the newly created ones next time)
-	 */
-	(void) discover_terminations(manager);
-	(void) fprintf(manager->debug.lifespan.trace, "g %d\n", manager->debug.gc.age);
+    /*
+     *    Process terminations and then log the fact that it
+     *    is one age older now (for the newly created ones next time)
+     */
+    (void) discover_terminations(manager);
+    (void) fprintf(manager->debug.lifespan.trace, "g %d\n", manager->debug.gc.age);
 #endif /* } */
 #endif /* } */
 
-        /*
-         * Accumulate the CPU time.
-         */
-        manager->heap.stats.gc.runtime += util_cpu_time() - time;
+    /*
+     * Accumulate the CPU time.
+     */
+    manager->heap.stats.gc.runtime += util_cpu_time() - time;
 
 }
 
@@ -234,47 +184,47 @@ bdd_manager *manager;
  */
 static void
 flip_spaces(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
-	/*
-	 *    Flip the halfspace
-	 */
-	manager->heap.gc.halfspace = ! manager->heap.gc.halfspace;
+    /*
+     *    Flip the halfspace
+     */
+    manager->heap.gc.halfspace = !manager->heap.gc.halfspace;
 
-	/*
-	 *    NOTE: The whole point of having unique id's is that they are in
-	 *    fact unique over the life of the (conceptual) object.  So you can
-	 *    identify an object by its uniqueId at all times.   Note that with
-	 *    each (copying) garbage-collection the data is copied into a new
-	 *    bdd_node, BUT the object is not given a new uniqueId.  The uniqueId's
-	 *    thus are a denotation of the value in a node.  Thus, there is no need
+    /*
+     *    NOTE: The whole point of having unique id's is that they are in
+     *    fact unique over the life of the (conceptual) object.  So you can
+     *    identify an object by its uniqueId at all times.   Note that with
+     *    each (copying) garbage-collection the data is copied into a new
+     *    bdd_node, BUT the object is not given a new uniqueId.  The uniqueId's
+     *    thus are a denotation of the value in a node.  Thus, there is no need
          *    to reset manager->debug.gc.uniqueId at this point.
-	 */
+     */
 
-	/*
-	 *    Concatenate the free list onto the tail of the inuse list
-	 *    Then flip the sense of the inuse list and the free list
-	 *    thereby making everything on the free list.
-	 */
-	*manager->heap.half[manager->heap.gc.halfspace].inuse.tail =
-		manager->heap.half[manager->heap.gc.halfspace].free;
-	manager->heap.half[manager->heap.gc.halfspace].free =
-		manager->heap.half[manager->heap.gc.halfspace].inuse.top;
+    /*
+     *    Concatenate the free list onto the tail of the inuse list
+     *    Then flip the sense of the inuse list and the free list
+     *    thereby making everything on the free list.
+     */
+    *manager->heap.half[manager->heap.gc.halfspace].inuse.tail =
+            manager->heap.half[manager->heap.gc.halfspace].free;
+    manager->heap.half[manager->heap.gc.halfspace].free =
+            manager->heap.half[manager->heap.gc.halfspace].inuse.top;
 
-	manager->heap.half[manager->heap.gc.halfspace].inuse.top = NIL(bdd_nodeBlock);
-	manager->heap.half[manager->heap.gc.halfspace].inuse.tail = 
-		&manager->heap.half[manager->heap.gc.halfspace].inuse.top;
+    manager->heap.half[manager->heap.gc.halfspace].inuse.top = NIL(bdd_nodeBlock);
+    manager->heap.half[manager->heap.gc.halfspace].inuse.tail =
+            &manager->heap.half[manager->heap.gc.halfspace].inuse.top;
 
-	manager->heap.pointer.block = NIL(bdd_nodeBlock);
-	manager->heap.pointer.index = 0;
+    manager->heap.pointer.block = NIL(bdd_nodeBlock);
+    manager->heap.pointer.index = 0;
 
-	manager->heap.stats.nodes.used = 0;
-	manager->heap.stats.nodes.unused = manager->heap.stats.nodes.total;
+    manager->heap.stats.nodes.used   = 0;
+    manager->heap.stats.nodes.unused = manager->heap.stats.nodes.total;
 
-	/*
-	 *    The hashtable and caches are not touched until
-	 *    AFTER all of the garbage-collection is done.
-	 */
+    /*
+     *    The hashtable and caches are not touched until
+     *    AFTER all of the garbage-collection is done.
+     */
 }
 
 
@@ -301,62 +251,62 @@ bdd_manager *manager;
  */
 static void
 scan_manager(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
-	int i;
-	bdd_safeframe *sf;
-	bdd_safenode *sn;
-	bdd_bddBlock *b;
+    int           i;
+    bdd_safeframe *sf;
+    bdd_safenode  *sn;
+    bdd_bddBlock  *b;
 
-	/*
-	 *    The one one
-	 */
-	manager->bdd.one = relocate(manager, manager->bdd.one);
+    /*
+     *    The one one
+     */
+    manager->bdd.one = relocate(manager, manager->bdd.one);
 
-	/*
-	 *    DO NOT use the hash table as a set of root pointers.  Think about it.
-	 *    You would be using the data structure which contains ALL cells in the
-	 *    heap as the set of root pointers into the heap.   There would be no
-	 *    garbage generated at all.
-	 *
-	 *    The hash table therefore is NOT a root pointer
-	 *
-	 *    Hash Table
-	 */
+    /*
+     *    DO NOT use the hash table as a set of root pointers.  Think about it.
+     *    You would be using the data structure which contains ALL cells in the
+     *    heap as the set of root pointers into the heap.   There would be no
+     *    garbage generated at all.
+     *
+     *    The hash table therefore is NOT a root pointer
+     *
+     *    Hash Table
+     */
 
-	/*
-	 *    External references
-	 */
-	for (b=manager->heap.external_refs.map; b != NIL(bdd_bddBlock); b=b->next) {
-	    for (i=0; i<sizeof_el (b->subheap); i++) {
-		if ( ! b->subheap[i].free )
-		    b->subheap[i].node = relocate(manager, b->subheap[i].node);
-	    }
-	}
+    /*
+     *    External references
+     */
+    for (b = manager->heap.external_refs.map; b != NIL(bdd_bddBlock); b = b->next) {
+        for (i = 0; i < sizeof_el (b->subheap); i++) {
+            if (!b->subheap[i].free)
+                b->subheap[i].node = relocate(manager, b->subheap[i].node);
+        }
+    }
 
-	/*
-	 *    Internal references
-	 */
-	for (sf=manager->heap.internal_refs.frames; sf != NIL(bdd_safeframe); sf=sf->prev) {
-	    for (sn=sf->nodes; sn != NIL(bdd_safenode); sn=sn->next) {
-		/* get them both without worry (one or the other will be nil */
-		if (sn->arg != NIL(bdd_node *))
-		    *sn->arg = relocate(manager, *sn->arg);
-		sn->node = relocate(manager, sn->node);
-	    }
-	}
+    /*
+     *    Internal references
+     */
+    for (sf = manager->heap.internal_refs.frames; sf != NIL(bdd_safeframe); sf = sf->prev) {
+        for (sn = sf->nodes; sn != NIL(bdd_safenode); sn = sn->next) {
+            /* get them both without worry (one or the other will be nil */
+            if (sn->arg != NIL(bdd_node *))
+                *sn->arg = relocate(manager, *sn->arg);
+            sn->node = relocate(manager, sn->node);
+        }
+    }
 
-	/* 
-	 *    DO NOT use the ITE, ITE_const, or adhoc caches as a root pointers right now.
-	 *    Wait until after the scan of the newhalf and then
-	 *    search for forwarded pointers in the cache.  Wherever
-	 *    there are such, then keep those nodes; others are
-	 *    nilled out because the objects referenced are dead.
-	 *
-	 *    See scan_cache() below and how it is used on conjunction
-	 *    with a second pass of scan_newhalf above.
-	 *
-	 */
+    /*
+     *    DO NOT use the ITE, ITE_const, or adhoc caches as a root pointers right now.
+     *    Wait until after the scan of the newhalf and then
+     *    search for forwarded pointers in the cache.  Wherever
+     *    there are such, then keep those nodes; others are
+     *    nilled out because the objects referenced are dead.
+     *
+     *    See scan_cache() below and how it is used on conjunction
+     *    with a second pass of scan_newhalf above.
+     *
+     */
 }
 
 /*
@@ -382,58 +332,58 @@ bdd_manager *manager;
  */
 static void
 scan_newhalf(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
-	bdd_nodeBlock *block;
-	bdd_node *node;
-	boolean pastp;
-	int i, limit, pos;
+    bdd_nodeBlock *block;
+    bdd_node      *node;
+    boolean       pastp;
+    int           i, limit, pos;
 
-	BDD_ASSERT(manager->heap.gc.during.start.block != NIL(bdd_nodeBlock));
+    BDD_ASSERT(manager->heap.gc.during.start.block != NIL(bdd_nodeBlock));
 
-	/*
-	 *    The newhalf scan
-	 */
-	pastp = FALSE;		/* get inside the loop on the 1st go-around */ 
+    /*
+     *    The newhalf scan
+     */
+    pastp = FALSE;        /* get inside the loop on the 1st go-around */
 
-	for (block=manager->heap.gc.during.start.block; ! pastp; block=block->next) {
-	    pastp = block == manager->heap.pointer.block ? TRUE: FALSE;
-	    limit = pastp ? manager->heap.pointer.index: sizeof_el (block->subheap);
+    for (block = manager->heap.gc.during.start.block; !pastp; block = block->next) {
+        pastp = block == manager->heap.pointer.block ? TRUE : FALSE;
+        limit = pastp ? manager->heap.pointer.index : sizeof_el (block->subheap);
 
-	    for (i=manager->heap.gc.during.start.index; i<limit; i++) {
-		node = &block->subheap[i];
+        for (i = manager->heap.gc.during.start.index; i < limit; i++) {
+            node = &block->subheap[i];
 
 #if defined(BDD_DEBUG_GC) /* { */
-		BDD_ASSERT(node->halfspace == manager->heap.gc.halfspace);
+            BDD_ASSERT(node->halfspace == manager->heap.gc.halfspace);
 #endif /* } */
 
-		/*
-		 *    Relocate T and E
-		 */
-		node->T = relocate(manager, node->T);
-		node->E = relocate(manager, node->E);
+            /*
+             *    Relocate T and E
+             */
+            node->T = relocate(manager, node->T);
+            node->E = relocate(manager, node->E);
 
-		/*
-		 *    Relink the node (which is now completely defined)
-		 *    into the hashtable; this gets all nodes in the newspace
-		 */
-		pos = bdd_node_hash(manager, node);
-		node->next = manager->heap.hashtable.buckets[pos];
-		manager->heap.hashtable.buckets[pos] = node;
-		manager->heap.hashtable.nkeys++;
+            /*
+             *    Relink the node (which is now completely defined)
+             *    into the hashtable; this gets all nodes in the newspace
+             */
+            pos = bdd_node_hash(manager, node);
+            node->next = manager->heap.hashtable.buckets[pos];
+            manager->heap.hashtable.buckets[pos] = node;
+            manager->heap.hashtable.nkeys++;
 
-		/*
-		 *    We must evaluate this again because 
-		 *    relocate() changed pointer.{block,index}
-		 */
-		pastp = block == manager->heap.pointer.block ? TRUE: FALSE;
-		limit = pastp ? manager->heap.pointer.index: sizeof_el (block->subheap);
-	    }
-	    manager->heap.gc.during.start.index = 0;
-	}
+            /*
+             *    We must evaluate this again because
+             *    relocate() changed pointer.{block,index}
+             */
+            pastp = block == manager->heap.pointer.block ? TRUE : FALSE;
+            limit = pastp ? manager->heap.pointer.index : sizeof_el (block->subheap);
+        }
+        manager->heap.gc.during.start.index = 0;
+    }
 
-	manager->heap.gc.during.start.block = manager->heap.pointer.block;
-	manager->heap.gc.during.start.index = manager->heap.pointer.index;
+    manager->heap.gc.during.start.block = manager->heap.pointer.block;
+    manager->heap.gc.during.start.index = manager->heap.pointer.index;
 }
 
 /*
@@ -451,25 +401,25 @@ bdd_manager *manager;
  */
 static void
 scan_cache(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
-	/*
-	 * Scan all the caches.
-	 */
-	(void) scan_hashcache(manager);
-	(void) scan_constcache(manager);
-	(void) scan_adhoccache(manager);  
+    /*
+     * Scan all the caches.
+     */
+    (void) scan_hashcache(manager);
+    (void) scan_constcache(manager);
+    (void) scan_adhoccache(manager);
 }
 
 static void
 scan_hashcache(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
-    boolean unused;
-    int i, pos;
+    boolean             unused;
+    int                 i, pos;
     bdd_hashcache_entry tmp;
     bdd_hashcache_entry *e, *old_e, **old_buckets;
-    bdd_node *reg_old_f, *reg_old_g, *reg_old_h, *reg_old_data;
+    bdd_node            *reg_old_f, *reg_old_g, *reg_old_h, *reg_old_data;
 
     /*
      * If there are no entries in the cache, then there is nothing to scan.
@@ -479,119 +429,119 @@ bdd_manager *manager;
     }
 
     if (manager->heap.cache.itetable.invalidate_on_gc) {
-	/*
-	 *    If just invalidating, then invalidate (only)
-	 */
+        /*
+         *    If just invalidating, then invalidate (only)
+         */
 #if defined(BDD_DEBUG_GC) /* { */
-	(void) printf("... invalidating itetable cache\n");
+        (void) printf("... invalidating itetable cache\n");
 #endif /* } */
 
-	for (i = 0; i < manager->heap.cache.itetable.nbuckets; i++) {
-	    e = manager->heap.cache.itetable.buckets[i];	
-	    if (e != NIL(bdd_hashcache_entry)) {
-		FREE(e);
-		manager->heap.cache.itetable.buckets[i] = NIL(bdd_hashcache_entry);
-	    }
-	}
+        for (i = 0; i < manager->heap.cache.itetable.nbuckets; i++) {
+            e = manager->heap.cache.itetable.buckets[i];
+            if (e != NIL(bdd_hashcache_entry)) {
+                FREE(e);
+                manager->heap.cache.itetable.buckets[i] = NIL(bdd_hashcache_entry);
+            }
+        }
     } else {
-	/*
-	 *    Otherwise the cache must be updated through a rehashing
-	 *    because all of the keys in the itetable have been changed.
-	 */
+        /*
+         *    Otherwise the cache must be updated through a rehashing
+         *    because all of the keys in the itetable have been changed.
+         */
 
-	/*
-	 *    Save the old one
-	 */
-	old_buckets = manager->heap.cache.itetable.buckets;
+        /*
+         *    Save the old one
+         */
+        old_buckets = manager->heap.cache.itetable.buckets;
 
-	/*
-	 *    Make a new clean one so we can rehash into it
-	 */
-	manager->heap.cache.itetable.buckets = ALLOC(bdd_hashcache_entry *, manager->heap.cache.itetable.nbuckets);
-	if (manager->heap.cache.itetable.buckets == NIL(bdd_hashcache_entry *))
-	    (void) bdd_memfail(manager, "scan_hashcache");
-	for (i = 0; i < manager->heap.cache.itetable.nbuckets; i++) {
-	    manager->heap.cache.itetable.buckets[i] = NIL(bdd_hashcache_entry);
-	}
+        /*
+         *    Make a new clean one so we can rehash into it
+         */
+        manager->heap.cache.itetable.buckets = ALLOC(bdd_hashcache_entry * , manager->heap.cache.itetable.nbuckets);
+        if (manager->heap.cache.itetable.buckets == NIL(bdd_hashcache_entry *))
+            (void) bdd_memfail(manager, "scan_hashcache");
+        for (i = 0; i < manager->heap.cache.itetable.nbuckets; i++) {
+            manager->heap.cache.itetable.buckets[i] = NIL(bdd_hashcache_entry);
+        }
 
-	/*
-	 *    ... then try to keep as many of the old cache entries as possible
-	 */
-	manager->heap.cache.itetable.nentries = 0;
-	for (i = 0; i < manager->heap.cache.itetable.nbuckets; i++) {
-	    old_e = old_buckets[i];	/* to make it textually easier to read */
-	    if (old_e != NIL(bdd_hashcache_entry)) {
+        /*
+         *    ... then try to keep as many of the old cache entries as possible
+         */
+        manager->heap.cache.itetable.nentries = 0;
+        for (i = 0; i < manager->heap.cache.itetable.nbuckets; i++) {
+            old_e = old_buckets[i];    /* to make it textually easier to read */
+            if (old_e != NIL(bdd_hashcache_entry)) {
 
-		/*
-		 *    If ALL of the four pointers were forwarded, then we will keep this entry.
-		 *    (Note: An alternate policy would be to keep the entry if ANY of the four pointers
-		 *    were forwarded.  In this case, non-forwarded pointers would be relocated,
-		 *    thus necessitating an additional call to scan_newhalf after the call to scan_cache.)
-		 *
-		 *    We must regularize the node pointers before we check for BROKEN_HEART.
-		 */
-		reg_old_f = BDD_REGULAR(old_e->ITE.f);
-		reg_old_g = BDD_REGULAR(old_e->ITE.g);
-		reg_old_h = BDD_REGULAR(old_e->ITE.h);
-		reg_old_data = BDD_REGULAR(old_e->data);
+                /*
+                 *    If ALL of the four pointers were forwarded, then we will keep this entry.
+                 *    (Note: An alternate policy would be to keep the entry if ANY of the four pointers
+                 *    were forwarded.  In this case, non-forwarded pointers would be relocated,
+                 *    thus necessitating an additional call to scan_newhalf after the call to scan_cache.)
+                 *
+                 *    We must regularize the node pointers before we check for BROKEN_HEART.
+                 */
+                reg_old_f    = BDD_REGULAR(old_e->ITE.f);
+                reg_old_g    = BDD_REGULAR(old_e->ITE.g);
+                reg_old_h    = BDD_REGULAR(old_e->ITE.h);
+                reg_old_data = BDD_REGULAR(old_e->data);
 
-		if (reg_old_data != NIL(bdd_node) &&
-			(BDD_BROKEN_HEART(reg_old_f) && BDD_BROKEN_HEART(reg_old_g) &&
-			 BDD_BROKEN_HEART(reg_old_h) && BDD_BROKEN_HEART(reg_old_data))) {
-		    /*
-		     * Since broken heart is set on all 4 nodes, relocate will just
-		     * use the forward pointer, and set the proper phase of the pointer.
-		     */
-		    tmp.ITE.f = relocate(manager, old_e->ITE.f);
-		    tmp.ITE.g = relocate(manager, old_e->ITE.g);
-		    tmp.ITE.h = relocate(manager, old_e->ITE.h);
-		    tmp.data =  relocate(manager, old_e->data);
+                if (reg_old_data != NIL(bdd_node) &&
+                    (BDD_BROKEN_HEART(reg_old_f) && BDD_BROKEN_HEART(reg_old_g) &&
+                     BDD_BROKEN_HEART(reg_old_h) && BDD_BROKEN_HEART(reg_old_data))) {
+                    /*
+                     * Since broken heart is set on all 4 nodes, relocate will just
+                     * use the forward pointer, and set the proper phase of the pointer.
+                     */
+                    tmp.ITE.f = relocate(manager, old_e->ITE.f);
+                    tmp.ITE.g = relocate(manager, old_e->ITE.g);
+                    tmp.ITE.h = relocate(manager, old_e->ITE.h);
+                    tmp.data  = relocate(manager, old_e->data);
 
-		    /*
-		     *    Canonicalize the ITE with the same algorithm that was used
-		     *    to canonicalize the ITE inputs when the cache was created.
-		     */
-		    (void) bdd_ite_canonicalize_ite_inputs(manager, &tmp.ITE.f, &tmp.ITE.g, &tmp.ITE.h, &unused);
+                    /*
+                     *    Canonicalize the ITE with the same algorithm that was used
+                     *    to canonicalize the ITE inputs when the cache was created.
+                     */
+                    (void) bdd_ite_canonicalize_ite_inputs(manager, &tmp.ITE.f, &tmp.ITE.g, &tmp.ITE.h, &unused);
 
-		    /*
-		     * Get the hash position for the entry in the new cache.  If the position is already
-		     * occupied, then old_e will not be rehashed; it's lost;  If the position is not
-		     * occupied, then we can simply reuse the memory of the old entry.  We cannot use
-                     * bdd_hashcache_insert because it doesn't work when the cache is turned off.
-		     */
-		    pos = bdd_ITE_hash(manager, tmp.ITE.f, tmp.ITE.g, tmp.ITE.h);
-		    if (manager->heap.cache.itetable.buckets[pos] != NIL(bdd_hashcache_entry)) {
-			FREE(old_e);
-		    } else {
-			*old_e = tmp;
-			manager->heap.cache.itetable.buckets[pos] = old_e;
-			manager->heap.cache.itetable.nentries++;
-		    }
-		} else {
-		    /*
-		     * old_e points to some stale data, and thus cannot be kept.  Free memory.
-		     */
-		    FREE(old_e);
-		}
-	    } /* close: if (old_e != NIL(bdd_hashcache_entry)) { */
-	} /* close: for (i = 0; i < manager->heap.cache.itetable.nbuckets; i++) { */
+                    /*
+                     * Get the hash position for the entry in the new cache.  If the position is already
+                     * occupied, then old_e will not be rehashed; it's lost;  If the position is not
+                     * occupied, then we can simply reuse the memory of the old entry.  We cannot use
+                             * bdd_hashcache_insert because it doesn't work when the cache is turned off.
+                     */
+                    pos = bdd_ITE_hash(manager, tmp.ITE.f, tmp.ITE.g, tmp.ITE.h);
+                    if (manager->heap.cache.itetable.buckets[pos] != NIL(bdd_hashcache_entry)) {
+                        FREE(old_e);
+                    } else {
+                        *old_e = tmp;
+                        manager->heap.cache.itetable.buckets[pos] = old_e;
+                        manager->heap.cache.itetable.nentries++;
+                    }
+                } else {
+                    /*
+                     * old_e points to some stale data, and thus cannot be kept.  Free memory.
+                     */
+                    FREE(old_e);
+                }
+            } /* close: if (old_e != NIL(bdd_hashcache_entry)) { */
+        } /* close: for (i = 0; i < manager->heap.cache.itetable.nbuckets; i++) { */
 
-	/*
-	 * We are done rehashing. Get rid of the old_buckets.
-	 */
-	FREE(old_buckets);
+        /*
+         * We are done rehashing. Get rid of the old_buckets.
+         */
+        FREE(old_buckets);
     }
 }
 
 static void
 scan_constcache(manager)
-bdd_manager *manager;
+        bdd_manager *manager;
 {
-    boolean unused;
-    int i, pos;
+    boolean              unused;
+    int                  i, pos;
     bdd_constcache_entry tmp;
     bdd_constcache_entry *e, *old_e, **old_buckets;
-    bdd_node *reg_old_f, *reg_old_g, *reg_old_h;
+    bdd_node             *reg_old_f, *reg_old_g, *reg_old_h;
 
     /*
      * If there are no entries in the cache, then there is nothing to scan.
@@ -601,163 +551,164 @@ bdd_manager *manager;
     }
 
     if (manager->heap.cache.consttable.invalidate_on_gc) {
-	/*
-	 *    If just invalidating, then invalidate (only)
-	 */
+        /*
+         *    If just invalidating, then invalidate (only)
+         */
 #if defined(BDD_DEBUG_GC) /* { */
-	(void) printf("... invalidating consttable cache\n");
+        (void) printf("... invalidating consttable cache\n");
 #endif /* } */
 
-	for (i = 0; i < manager->heap.cache.consttable.nbuckets; i++) {
-	    e = manager->heap.cache.consttable.buckets[i];	
-	    if (e != NIL(bdd_constcache_entry)) {
-		FREE(e);
-		manager->heap.cache.consttable.buckets[i] = NIL(bdd_constcache_entry);
-	    }
-	}
-    } else {
-	/*
-	 *    Otherwise the cache must be updated through a rehashing
-	 *    because all of the keys in the consttable have been changed.
-	 */
-
-	/*
-	 *    Save the old one
-	 */
-	old_buckets = manager->heap.cache.consttable.buckets;
-
-	/*
-	 *    Make a new clean one so we can rehash into it
-	 */
-	manager->heap.cache.consttable.buckets = ALLOC(bdd_constcache_entry *, manager->heap.cache.consttable.nbuckets);
-	if (manager->heap.cache.consttable.buckets == NIL(bdd_constcache_entry *)) {
-	    (void) bdd_memfail(manager, "scan_constcache");
+        for (i = 0; i < manager->heap.cache.consttable.nbuckets; i++) {
+            e = manager->heap.cache.consttable.buckets[i];
+            if (e != NIL(bdd_constcache_entry)) {
+                FREE(e);
+                manager->heap.cache.consttable.buckets[i] = NIL(bdd_constcache_entry);
+            }
         }
-	for (i = 0; i < manager->heap.cache.consttable.nbuckets; i++) {
-	    manager->heap.cache.consttable.buckets[i] = NIL(bdd_constcache_entry);
-	}
+    } else {
+        /*
+         *    Otherwise the cache must be updated through a rehashing
+         *    because all of the keys in the consttable have been changed.
+         */
 
-	/*
-	 *    ... then try to keep as many of the old cache entries as possible
-	 */
+        /*
+         *    Save the old one
+         */
+        old_buckets = manager->heap.cache.consttable.buckets;
+
+        /*
+         *    Make a new clean one so we can rehash into it
+         */
+        manager->heap.cache.consttable.buckets = ALLOC(bdd_constcache_entry * ,
+                                                       manager->heap.cache.consttable.nbuckets);
+        if (manager->heap.cache.consttable.buckets == NIL(bdd_constcache_entry *)) {
+            (void) bdd_memfail(manager, "scan_constcache");
+        }
+        for (i = 0; i < manager->heap.cache.consttable.nbuckets; i++) {
+            manager->heap.cache.consttable.buckets[i] = NIL(bdd_constcache_entry);
+        }
+
+        /*
+         *    ... then try to keep as many of the old cache entries as possible
+         */
         manager->heap.cache.consttable.nentries = 0;
-	for (i = 0; i < manager->heap.cache.consttable.nbuckets; i++) {
-	    old_e = old_buckets[i];	/* to make it textually easier to read */
+        for (i = 0; i < manager->heap.cache.consttable.nbuckets; i++) {
+            old_e = old_buckets[i];    /* to make it textually easier to read */
             if (old_e != NIL(bdd_constcache_entry)) {
 
-		/*
-		 *    If ALL of the three pointers were forwarded, then we will keep this entry.
-		 *    (Note: An alternate policy would be to keep the entry if ANY of the three pointers
-		 *    were forwarded.  In this case, non-forwarded pointers would be relocated,
-		 *    thus necessitating an additional call to scan_newhalf after the call to scan_cache.)
-		 *
-		 *    We must regularize the node pointers before we check for BROKEN_HEART.
-		 */
-		reg_old_f = BDD_REGULAR(old_e->ITE.f);
-		reg_old_g = BDD_REGULAR(old_e->ITE.g);
-		reg_old_h = BDD_REGULAR(old_e->ITE.h);
+                /*
+                 *    If ALL of the three pointers were forwarded, then we will keep this entry.
+                 *    (Note: An alternate policy would be to keep the entry if ANY of the three pointers
+                 *    were forwarded.  In this case, non-forwarded pointers would be relocated,
+                 *    thus necessitating an additional call to scan_newhalf after the call to scan_cache.)
+                 *
+                 *    We must regularize the node pointers before we check for BROKEN_HEART.
+                 */
+                reg_old_f = BDD_REGULAR(old_e->ITE.f);
+                reg_old_g = BDD_REGULAR(old_e->ITE.g);
+                reg_old_h = BDD_REGULAR(old_e->ITE.h);
 
-		if (old_e->data != bdd_status_unknown &&
-			(BDD_BROKEN_HEART(reg_old_f) && BDD_BROKEN_HEART(reg_old_g) && BDD_BROKEN_HEART(reg_old_h) )) {
-		    /*
-		     * Since broken heart is set on all 3 nodes, relocate will just
-		     * use the forward pointer, and set the proper phase of the pointer.
-		     */
-		    tmp.ITE.f = relocate(manager, old_e->ITE.f);
-		    tmp.ITE.g = relocate(manager, old_e->ITE.g);
-		    tmp.ITE.h = relocate(manager, old_e->ITE.h);
-		    tmp.data = old_e->data;
+                if (old_e->data != bdd_status_unknown &&
+                    (BDD_BROKEN_HEART(reg_old_f) && BDD_BROKEN_HEART(reg_old_g) && BDD_BROKEN_HEART(reg_old_h))) {
+                    /*
+                     * Since broken heart is set on all 3 nodes, relocate will just
+                     * use the forward pointer, and set the proper phase of the pointer.
+                     */
+                    tmp.ITE.f = relocate(manager, old_e->ITE.f);
+                    tmp.ITE.g = relocate(manager, old_e->ITE.g);
+                    tmp.ITE.h = relocate(manager, old_e->ITE.h);
+                    tmp.data  = old_e->data;
 
-		    /*
-		     *    Canonicalize the ITE with the same algorithm that was used
-		     *    to canonicalize the ITE inputs when the cache was created.
-		     */
-		    (void) bdd_ite_canonicalize_ite_inputs(manager, &tmp.ITE.f, &tmp.ITE.g, &tmp.ITE.h, &unused);
+                    /*
+                     *    Canonicalize the ITE with the same algorithm that was used
+                     *    to canonicalize the ITE inputs when the cache was created.
+                     */
+                    (void) bdd_ite_canonicalize_ite_inputs(manager, &tmp.ITE.f, &tmp.ITE.g, &tmp.ITE.h, &unused);
 
-		    /*
-		     * Get the hash position for the entry in the new cache.  If the position is already
-		     * occupied, then old_e will not be rehashed; it's lost;  If the position is not
-		     * occupied, then we can simply reuse the memory of the old entry.
-		     */
-		    pos = bdd_const_hash(manager, tmp.ITE.f, tmp.ITE.g, tmp.ITE.h);
-		    if (manager->heap.cache.consttable.buckets[pos] != NIL(bdd_constcache_entry)) {
-			FREE(old_e);
-		    } else {
-			*old_e = tmp;
-			manager->heap.cache.consttable.buckets[pos] = old_e;
-			manager->heap.cache.consttable.nentries++;
-		    }
-		} else {
-		    /*
-		     * Entry cannot be kept.  Free memory.
-		     */
-		    FREE(old_e);
-		}
-	    } /* close: if (old_e != NIL(bdd_constcache_entry)) { */
-	} /* close: for (i = 0; i < manager->heap.cache.consttable.nbuckets; i++) { */
+                    /*
+                     * Get the hash position for the entry in the new cache.  If the position is already
+                     * occupied, then old_e will not be rehashed; it's lost;  If the position is not
+                     * occupied, then we can simply reuse the memory of the old entry.
+                     */
+                    pos = bdd_const_hash(manager, tmp.ITE.f, tmp.ITE.g, tmp.ITE.h);
+                    if (manager->heap.cache.consttable.buckets[pos] != NIL(bdd_constcache_entry)) {
+                        FREE(old_e);
+                    } else {
+                        *old_e = tmp;
+                        manager->heap.cache.consttable.buckets[pos] = old_e;
+                        manager->heap.cache.consttable.nentries++;
+                    }
+                } else {
+                    /*
+                     * Entry cannot be kept.  Free memory.
+                     */
+                    FREE(old_e);
+                }
+            } /* close: if (old_e != NIL(bdd_constcache_entry)) { */
+        } /* close: for (i = 0; i < manager->heap.cache.consttable.nbuckets; i++) { */
 
-	/*
-	 * We are done rehashing. Get rid of the old_buckets.
-	 */
-	FREE(old_buckets);
+        /*
+         * We are done rehashing. Get rid of the old_buckets.
+         */
+        FREE(old_buckets);
     }
 }
 
 static void
 scan_adhoccache(manager)
-bdd_manager *manager;		/* adhoc.table is not NIL */
+        bdd_manager *manager;        /* adhoc.table is not NIL */
 {
-	st_table *old;
-	st_generator *gen;
-	bdd_adhoccache_key *k;
-	bdd_node *v;
-        bdd_node *reg_old_f, *reg_old_g, *reg_old_v;
+    st_table           *old;
+    st_generator       *gen;
+    bdd_adhoccache_key *k;
+    bdd_node           *v;
+    bdd_node           *reg_old_f, *reg_old_g, *reg_old_v;
 
 
-	if (manager->heap.cache.adhoc.table == NIL(st_table))
-	    return;	/* nothing to do */
+    if (manager->heap.cache.adhoc.table == NIL(st_table))
+        return;    /* nothing to do */
 
-	/*
-	 *    Save the current table (for later traversal) and get a new adhoc
-	 *    cache.  Then stick all the entries in the old adhoc cache in to
-	 *    the new adhoc cache.  Destroy the old table (but not its keys
-	 *    (which are now still in use).
-	 */
-	old = manager->heap.cache.adhoc.table;
-	manager->heap.cache.adhoc.table = NIL(st_table);
+    /*
+     *    Save the current table (for later traversal) and get a new adhoc
+     *    cache.  Then stick all the entries in the old adhoc cache in to
+     *    the new adhoc cache.  Destroy the old table (but not its keys
+     *    (which are now still in use).
+     */
+    old = manager->heap.cache.adhoc.table;
+    manager->heap.cache.adhoc.table = NIL(st_table);
 
-	(void) bdd_adhoccache_init(manager);	/* get a new one */
+    (void) bdd_adhoccache_init(manager);    /* get a new one */
 
-	gen = st_init_gen(old);
+    gen = st_init_gen(old);
 
-	while (st_gen(gen, (refany*) &k, (refany*) &v)) {
+    while (st_gen(gen, (refany*) &k, (refany*) &v)) {
+        /*
+         * We must regularize the node pointers before we check for BROKEN_HEART.
+         */
+        reg_old_f = BDD_REGULAR(k->f);
+        reg_old_g = BDD_REGULAR(k->g);
+        reg_old_v = BDD_REGULAR(v);
+
+        if (BDD_BROKEN_HEART(reg_old_f) && BDD_BROKEN_HEART(reg_old_g) &&
+            (reg_old_v == NIL(bdd_node) || BDD_BROKEN_HEART(reg_old_v))) {
             /*
-             * We must regularize the node pointers before we check for BROKEN_HEART.
+             *    Policy: if ALL of the entries in this cache have been
+             *    forwarded, then keep the cache entry in whole.
              */
-            reg_old_f = BDD_REGULAR(k->f);
-            reg_old_g = BDD_REGULAR(k->g);
-            reg_old_v = BDD_REGULAR(v);
+            k->f = relocate(manager, k->f);
+            k->g = relocate(manager, k->g);
+            v = relocate(manager, v);
+            (void) st_insert(manager->heap.cache.adhoc.table, (refany) k, (refany) v);
+        } else {
+            /*
+             *    Else, simply don't copy the cache entry over to the new table.
+             */
+            FREE(k);
+        }
+    }
 
-	    if (BDD_BROKEN_HEART(reg_old_f) && BDD_BROKEN_HEART(reg_old_g) &&
-		    (reg_old_v == NIL(bdd_node) || BDD_BROKEN_HEART(reg_old_v))) {
-		/*
-		 *    Policy: if ALL of the entries in this cache have been
-		 *    forwarded, then keep the cache entry in whole.
-		 */
-                k->f = relocate(manager, k->f);
-                k->g = relocate(manager, k->g);
-                v = relocate(manager, v);
-	        (void) st_insert(manager->heap.cache.adhoc.table, (refany) k, (refany) v);
-	    } else {
-		/*
-		 *    Else, simply don't copy the cache entry over to the new table.
-		 */
-                FREE(k);
-	    }
-	}
-
-	(void) st_free_gen(gen);
-	(void) st_free_table(old);	/* but DON'T free its keys or values */
+    (void) st_free_gen(gen);
+    (void) st_free_table(old);    /* but DON'T free its keys or values */
 }
 
 /*
@@ -774,46 +725,46 @@ bdd_manager *manager;		/* adhoc.table is not NIL */
  */
 static bdd_node *
 relocate(manager, old)
-bdd_manager *manager;
-bdd_node *old;		/* may be NIL(bdd_node), a regular or complemented pointer */
+        bdd_manager *manager;
+        bdd_node *old;        /* may be NIL(bdd_node), a regular or complemented pointer */
 {
-	bdd_node *new, *reg_old;
-	boolean complemented;
+    bdd_node *new, *reg_old;
+    boolean  complemented;
 
-	if (old == NIL(bdd_node)) {
-	    /*
-	     *    This isn't really an object, so it must be special-cased
-	     */
-	    new = NIL(bdd_node);
-	    complemented = FALSE;
-	} else {
-	    /*
-	     *    The broken hearts must deal with regular pointers
-	     */
-	    reg_old = BDD_REGULAR(old);
-	    complemented = BDD_IS_COMPLEMENT(old);
+    if (old == NIL(bdd_node)) {
+        /*
+         *    This isn't really an object, so it must be special-cased
+         */
+        new          = NIL(bdd_node);
+        complemented = FALSE;
+    } else {
+        /*
+         *    The broken hearts must deal with regular pointers
+         */
+        reg_old      = BDD_REGULAR(old);
+        complemented = BDD_IS_COMPLEMENT(old);
 
-	    if (BDD_BROKEN_HEART(reg_old)) {
-		/*
-		 *    A forwarded object; take the forwarded value
-		 */
-		new = BDD_FORWARD_POINTER(reg_old);
-	    } else {
-		/*
-		 *    Must copy over to the new space with the (re)allocate function
-		 *    So, use a special find_or_add operation that always copies.
-		 */
-		new = bdd_new_node(manager, reg_old->id, reg_old->T, reg_old->E, reg_old);
-		BDD_SET_FORWARD_POINTER(reg_old, new);
-	    }
-	}
+        if (BDD_BROKEN_HEART(reg_old)) {
+            /*
+             *    A forwarded object; take the forwarded value
+             */
+            new = BDD_FORWARD_POINTER(reg_old);
+        } else {
+            /*
+             *    Must copy over to the new space with the (re)allocate function
+             *    So, use a special find_or_add operation that always copies.
+             */
+            new = bdd_new_node(manager, reg_old->id, reg_old->T, reg_old->E, reg_old);
+            BDD_SET_FORWARD_POINTER(reg_old, new);
+        }
+    }
 
-	BDD_ASSERT_NOT_BROKEN_HEART(new);
-	BDD_ASSERT_REGNODE(new);
+    BDD_ASSERT_NOT_BROKEN_HEART(new);
+    BDD_ASSERT_REGNODE(new);
 
-	new = ! complemented ? new: BDD_NOT(new);
+    new = !complemented ? new : BDD_NOT(new);
 
-	return (new);
+    return (new);
 }
 
 #if defined(BDD_DEBUG_LIFESPAN) /* { */
@@ -826,24 +777,24 @@ static void
 discover_terminations(manager)
 bdd_manager *manager;
 {
-	bdd_nodeBlock *block;
-	bdd_node *node;
-	int old_halfspace, i;
+    bdd_nodeBlock *block;
+    bdd_node *node;
+    int old_halfspace, i;
 
-	old_halfspace = ! manager->heap.gc.halfspace;
+    old_halfspace = ! manager->heap.gc.halfspace;
 
-	for (block=manager->heap.half[old_halfspace].inuse.top;
-		block != NIL(bdd_nodeBlock); block=block->next) {
-	    for (i=0; i<block->used; i++) {
-		node = &block->subheap[i];
+    for (block=manager->heap.half[old_halfspace].inuse.top;
+        block != NIL(bdd_nodeBlock); block=block->next) {
+        for (i=0; i<block->used; i++) {
+        node = &block->subheap[i];
 
-		/*
-		 *    If its not a broken heart, then it died (end of story).
-		 */
-		if ( ! BDD_BROKEN_HEART(node) ) {
-		    fprintf(manager->debug.lifespan.trace, "d %d %d\n", node->uniqueId, node->age);
-		}
-	    }
-	}
+        /*
+         *    If its not a broken heart, then it died (end of story).
+         */
+        if ( ! BDD_BROKEN_HEART(node) ) {
+            fprintf(manager->debug.lifespan.trace, "d %d %d\n", node->uniqueId, node->age);
+        }
+        }
+    }
 }
 #endif /* } */

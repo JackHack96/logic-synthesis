@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/factor/factor.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:23 $
- *
- */
+
 /*
  *  factor: factoring routine
  *  routines provided:
@@ -22,10 +14,10 @@
  */
 void
 factor(f)
-node_t *f;
+        node_t *f;
 {
     if (f->factored == NIL(char)) {
-	factor_quick(f);
+        factor_quick(f);
     }
 }
 
@@ -34,7 +26,7 @@ node_t *f;
  */
 void
 factor_quick(f)
-node_t *f;
+        node_t *f;
 {
     node_t *np;
 
@@ -52,7 +44,7 @@ node_t *f;
  */
 void
 factor_good(f)
-node_t *f;
+        node_t *f;
 {
     node_t *np;
 

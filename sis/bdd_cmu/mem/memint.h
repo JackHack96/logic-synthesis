@@ -43,7 +43,9 @@ extern char *realloc();
 #endif
 #else
 #if defined(__STDC__)
+
 extern char *sbrk(int);
+
 #define SBRK(size) ((pointer)sbrk((int)(size)))
 #else
 extern char *sbrk();
@@ -55,6 +57,7 @@ extern char *sbrk();
 /* bcopy or memcpy. */
 
 #if defined(__STDC__)
+
 extern void *memcpy(); /* TRS, 6/17/94: removed arg types to suppress warning on mips/gcc */
 /* extern void *memcpy(void *, const void *, unsigned long); */
 extern void *memset();
@@ -70,30 +73,28 @@ extern void bzero();
 
 
 #if defined(__STDC__)
-#define ARGS(args) args
+#define args args
 #else
-#define ARGS(args) ()
+#define args) (
 #endif
 
 
 /* >>> System independent stuff here. */
 
-struct segment_
-{
-  pointer base_address;
-  SIZE_T limit;
+struct segment_ {
+    pointer base_address;
+    SIZE_T  limit;
 };
 
 typedef struct segment_ *segment;
 
 
-struct block_
-{
-  int used;
-  int size_index;
-  struct block_ *next;
-  struct block_ *prev;
-  segment seg;
+struct block_ {
+    int           used;
+    int           size_index;
+    struct block_ *next;
+    struct block_ *prev;
+    segment       seg;
 };
 
 typedef struct block_ *block;
@@ -108,7 +109,7 @@ typedef struct block_ *block;
 #define NICE_BLOCK_SIZE ((SIZE_T)4096-ROUNDUP(sizeof(struct block_)))
 
 
-extern void mem_fatal ARGS((char *));
+extern void mem_fatal(char *);
 
 
 #undef ARGS

@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/doc/SPEC,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:20 $
- *
- */
+
 ********************* state assignment program format *************
 
 Format for State Assignment Programs to follow for incorporation in SIS:

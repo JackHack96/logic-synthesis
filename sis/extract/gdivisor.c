@@ -1,27 +1,19 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/extract/gdivisor.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:22 $
- *
- */
+
 #include "sis.h"
 #include "extract_int.h"
 
 
 node_t *
 ex_find_divisor(node, level, method)
-node_t *node;
-int level;
-int method;
+        node_t *node;
+        int level;
+        int method;
 {
     sm_matrix *node_func, *kernel_sm;
-    sm_row *co_kernel;
-    node_t *divisor;
-    rect_t *rect;
-    int rownum;
+    sm_row    *co_kernel;
+    node_t    *divisor;
+    rect_t    *rect;
+    int       rownum;
 
     /* setup */
     ex_setup_globals_single(node);
@@ -35,30 +27,30 @@ int method;
 
     /* check if the function is kernel-free */
     if (kernel_cube_matrix->nrows == 0) {
-	/* shouldn't ever happen ? */
-	divisor = NIL(node_t);
-	goto cleanup;
+        /* shouldn't ever happen ? */
+        divisor = NIL(node_t);
+        goto cleanup;
     } else if (kernel_cube_matrix->nrows == 1) {
-	rownum = kernel_cube_matrix->first_row->row_num;
-	co_kernel = array_fetch(sm_row *, co_kernel_table, rownum);
-	if (co_kernel->length == 0) {
-	    divisor = NIL(node_t);
-	    goto cleanup;
-	}
+        rownum    = kernel_cube_matrix->first_row->row_num;
+        co_kernel = array_fetch(sm_row * , co_kernel_table, rownum);
+        if (co_kernel->length == 0) {
+            divisor = NIL(node_t);
+            goto cleanup;
+        }
     }
 
-    rect = choose_subkernel(kernel_cube_matrix, 
-		    global_row_cost, global_col_cost, method);
+    rect    = choose_subkernel(kernel_cube_matrix,
+                               global_row_cost, global_col_cost, method);
     divisor = 0;
     if (rect->cols->length > 0 && rect->rows->length > 0) {
-	kernel_sm = ex_rect_to_kernel(rect);
-	divisor = ex_sm_to_node(kernel_sm);
-	sm_free(kernel_sm);
+        kernel_sm = ex_rect_to_kernel(rect);
+        divisor   = ex_sm_to_node(kernel_sm);
+        sm_free(kernel_sm);
     }
     rect_free(rect);
 
     /* cleanup */
-cleanup:
+    cleanup:
     kernel_extract_free();
     ex_free_globals(0);
 

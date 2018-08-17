@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/power/power_pipe.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:06 $
- *
- */
+
 /*---------------------------------------------------------------------------
 |      This file contains routines that evaluate the power dissipation
 |  in various types of static pipelined circuits.
@@ -59,34 +51,34 @@ double *total_power;
     /* Now the probability calculation for the circuit */
     poArray = array_alloc(node_t *, 0);
     foreach_primary_output(symbolic, gen, po){
-	array_insert_last(node_t *, poArray, po);
+    array_insert_last(node_t *, poArray, po);
     }
     piOrder = order_nodes(poArray, /* PI's only */ 1);
     if(piOrder == NIL(array_t))
-	piOrder = array_alloc(node_t *, 0);
+    piOrder = array_alloc(node_t *, 0);
     array_free(poArray);
 
     manager = ntbdd_start_manager(3 * network_num_pi(symbolic));
 
     PIInfo = ALLOC(power_pi_t, network_num_pi(symbolic));
     for(i = 0; i < array_n(piOrder); i++){
-	pi = array_fetch(node_t *, piOrder, i);
-	st_insert(leaves, (char *) pi, (char *) i);
-	node = pi->copy;                   /* Node in the original network */
-	assert(st_lookup(info_table, (char *) node, (char **) &node_info));
-	PIInfo[i].probOne = node_info->prob_one;
+    pi = array_fetch(node_t *, piOrder, i);
+    st_insert(leaves, (char *) pi, (char *) i);
+    node = pi->copy;                   /* Node in the original network */
+    assert(st_lookup(info_table, (char *) node, (char **) &node_info));
+    PIInfo[i].probOne = node_info->prob_one;
     }
     array_free(piOrder);
 
     *total_power = 0;
     foreach_primary_output(symbolic, gen, po){
-	node = po->fanin[0];          /* The actual node we are looking at */
-	bdd = ntbdd_node_to_bdd(node, manager, leaves);
-	prob_node_one = power_calc_func_prob(bdd, PIInfo);
+    node = po->fanin[0];          /* The actual node we are looking at */
+    bdd = ntbdd_node_to_bdd(node, manager, leaves);
+    prob_node_one = power_calc_func_prob(bdd, PIInfo);
         node = node->copy;            /* Link to the original network */
         assert(st_lookup(power_info_table, (char*) node, (char**) &power_info));
-	*total_power += power_info->cap_factor * prob_node_one * CAPACITANCE;
-	power_info->switching_prob += prob_node_one;
+    *total_power += power_info->cap_factor * prob_node_one * CAPACITANCE;
+    power_info->switching_prob += prob_node_one;
         if(power_verbose > 50)
             fprintf(sisout, "Node %s Probability %f\n",
                     node_name(node), prob_node_one);
@@ -147,7 +139,7 @@ network_t *symbolic;
     }
     array_free(latchArray);
 
-    /* Doesn't do any good, network_connect will crash before this test! 
+    /* Doesn't do any good, network_connect will crash before this test!
     if(!network_is_acyclic(zero_delay_net)){
         fprintf(siserr, "Network is not acyclic! Quit!\n");
         return 1;
@@ -165,12 +157,12 @@ network_t *symbolic;
     /* Delete all the PI's that don't go anywhere */
     nodeArray = array_alloc(node_t *, 0);
     foreach_primary_input(symbolic, gen, node){
-	if(node_num_fanout(node) == 0)
-	    array_insert_last(node_t *, nodeArray, node);
+    if(node_num_fanout(node) == 0)
+        array_insert_last(node_t *, nodeArray, node);
     }
     for(i = 0; i < array_n(nodeArray); i++){
-	node = array_fetch(node_t *, nodeArray, i);
-	network_delete_node(symbolic, node);
+    node = array_fetch(node_t *, nodeArray, i);
+    network_delete_node(symbolic, node);
     }
     array_free(nodeArray);
 
@@ -201,38 +193,38 @@ char *instant;
     nodeArray = network_dfs(zero_delay_net);
     for(i = 0; i < array_n(nodeArray); i++){
 
-	node = array_fetch(node_t *, nodeArray, i);
+    node = array_fetch(node_t *, nodeArray, i);
 
-	new_node = node_dup(node);
-	st_insert(correspondance, (char *) node, (char *) new_node);
-	network_add_node(symbolic, new_node);
+    new_node = node_dup(node);
+    st_insert(correspondance, (char *) node, (char *) new_node);
+    network_add_node(symbolic, new_node);
 
-	/* There is no guarantee that the names in each net are unique.
-	   Add the prefix n0_ or nT_ to each name in the zero_delay_net */
-	sprintf(buffer, "n%c_%s", instant[0] == '0' ? '0' : 'T', node->name);
-	network_change_node_name(symbolic, new_node, util_strsav(buffer));
+    /* There is no guarantee that the names in each net are unique.
+       Add the prefix n0_ or nT_ to each name in the zero_delay_net */
+    sprintf(buffer, "n%c_%s", instant[0] == '0' ? '0' : 'T', node->name);
+    network_change_node_name(symbolic, new_node, util_strsav(buffer));
 
-	if(node_function(node) == NODE_PI){
-	    array_insert_last(node_t *, inArray, new_node);
-	    continue;
-	}
+    if(node_function(node) == NODE_PI){
+        array_insert_last(node_t *, inArray, new_node);
+        continue;
+    }
 
-	if(node_function(node) == NODE_PO){
-	    array_insert_last(node_t *, outArray, new_node);
+    if(node_function(node) == NODE_PO){
+        array_insert_last(node_t *, outArray, new_node);
 
-	    /* Patch the fanin right */
-	    fanin = node->fanin[0];
-	    assert(st_lookup(correspondance, (char *) fanin, (char **) &node));
-	    node_patch_fanin(new_node, fanin, node);
-	    continue;
-	}
+        /* Patch the fanin right */
+        fanin = node->fanin[0];
+        assert(st_lookup(correspondance, (char *) fanin, (char **) &node));
+        node_patch_fanin(new_node, fanin, node);
+        continue;
+    }
 
-	/* Came here => internal node */
-	/*Patch its fanins */
-	foreach_fanin(new_node, j, fanin){
-	    assert(st_lookup(correspondance, (char *) fanin, (char **) &node));
-	    node_patch_fanin(new_node, fanin, node);
-	}
+    /* Came here => internal node */
+    /*Patch its fanins */
+    foreach_fanin(new_node, j, fanin){
+        assert(st_lookup(correspondance, (char *) fanin, (char **) &node));
+        node_patch_fanin(new_node, fanin, node);
+    }
     }
     array_free(nodeArray);
     st_free_table(correspondance);
@@ -242,32 +234,32 @@ char *instant;
 
     /* Substitute PIs of zero_delay_net by the PIs of symbolic network */
     for(i = 0; i < array_n(inArray); i++){
-	new_node = array_fetch(node_t *, inArray, i);
+    new_node = array_fetch(node_t *, inArray, i);
 
-	sprintf(buffer, "%s_%s", &(new_node->name[3]), instant);
-	node = network_find_node(symbolic, buffer);
+    sprintf(buffer, "%s_%s", &(new_node->name[3]), instant);
+    node = network_find_node(symbolic, buffer);
 
-	foreach_fanout(new_node, gen, fanout){
-	    node_patch_fanin(fanout, new_node, node);
-	}
-	network_delete_node(symbolic, new_node);
+    foreach_fanout(new_node, gen, fanout){
+        node_patch_fanin(fanout, new_node, node);
+    }
+    network_delete_node(symbolic, new_node);
     }
     array_free(inArray);
 
     /* Connect the POs of zero_delay_net to the respective PIs of symbolic
        network */
     for(i = 0; i < array_n(outArray); i++){
-	new_node = array_fetch(node_t *, outArray, i);
+    new_node = array_fetch(node_t *, outArray, i);
 
-	sprintf(buffer, "%s_%s", &(new_node->name[3]), instant);
-	node = network_find_node(symbolic, buffer);
-	fanin = new_node->fanin[0];
+    sprintf(buffer, "%s_%s", &(new_node->name[3]), instant);
+    node = network_find_node(symbolic, buffer);
+    fanin = new_node->fanin[0];
 
-	foreach_fanout(node, gen, fanout){
-	    node_patch_fanin(fanout, node, fanin);
-	}
-	network_delete_node(symbolic, new_node);
-	network_delete_node(symbolic, node);
+    foreach_fanout(node, gen, fanout){
+        node_patch_fanin(fanout, node, fanin);
+    }
+    network_delete_node(symbolic, new_node);
+    network_delete_node(symbolic, node);
     }
     array_free(outArray);
 

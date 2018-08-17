@@ -1,13 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/print_stats.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:02 $
- *
- */
-#include <stdio.h>	/* for BDD_DEBUG_LIFESPAN */
+
+#include <stdio.h>    /* for BDD_DEBUG_LIFESPAN */
 
 #include "util.h"
 #include "array.h"
@@ -16,42 +8,6 @@
 #include "bdd.h"
 #include "bdd_int.h"
 
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/bdd_ucb/print_stats.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:15:02 $
- * $Log: print_stats.c,v $
- * Revision 1.1.1.1  2004/02/07 10:15:02  pchong
- * imported
- *
- * Revision 1.3  1992/09/21  23:30:31  sis
- * Updates from Tom Shiple - this is BDD package release 2.4.
- *
- * Revision 1.3  1992/09/21  23:30:31  sis
- * Updates from Tom Shiple - this is BDD package release 2.4.
- *
- * Revision 1.2  1992/09/19  03:22:22  shiple
- * Version 2.4
- * Prefaced compile time debug switches with BDD_.  Added bdd_get_percentage function.
- * Incorporate memory stats.  Totally revamped printing of statistics.  Added all the new fields in stats.
- *
- * Revision 1.1  1992/07/29  00:27:11  shiple
- * Initial revision
- *
- * Revision 1.2  1992/05/06  18:51:03  sis
- * SIS release 1.1
- *
- * Revision 1.1  92/01/08  17:34:41  sis
- * Initial revision
- * 
- * Revision 1.1  91/04/11  20:59:14  shiple
- * Initial revision
- * 
- *
- */
 
 /*
  * Calculate the numerator as a percentage of the denominator.  Assumes inputs are ints. 
@@ -59,13 +15,13 @@
  */
 float
 bdd_get_percentage(numerator, denominator)
-int numerator;
-int denominator;
+        int numerator;
+        int denominator;
 {
     if (denominator == 0) {
         return 0.0;
     } else {
-        return (((float)numerator/denominator)*100);
+        return (((float) numerator / denominator) * 100);
     }
 }
 
@@ -76,8 +32,8 @@ int denominator;
  */
 void
 bdd_print_stats(stats, file)
-bdd_stats stats;
-FILE *file;		/* probably misout */
+        bdd_stats stats;
+        FILE *file;        /* probably misout */
 {
 
     int total_hashtable_queries;
@@ -88,10 +44,10 @@ FILE *file;		/* probably misout */
     /* 
      * Make intermediate calculations.
      */
-    total_hashtable_queries = stats.cache.hashtable.hits + stats.cache.hashtable.misses;    
-    total_itetable_lookups = stats.cache.itetable.hits + stats.cache.itetable.misses;
+    total_hashtable_queries  = stats.cache.hashtable.hits + stats.cache.hashtable.misses;
+    total_itetable_lookups   = stats.cache.itetable.hits + stats.cache.itetable.misses;
     total_consttable_lookups = stats.cache.consttable.hits + stats.cache.consttable.misses;
-    total_adhoc_lookups = stats.cache.adhoc.hits + stats.cache.adhoc.misses;
+    total_adhoc_lookups      = stats.cache.adhoc.hits + stats.cache.adhoc.misses;
 
     /* 
      * Print out the stats.
@@ -139,64 +95,64 @@ Memory Usage (bytes):\n\
   adhoc cache:     %9d\n\
   total:           %9d\n\
 ",
-    stats.blocks.total,
+            stats.blocks.total,
 
-    stats.nodes.used,
-    stats.nodes.unused,
-    stats.nodes.total,
-    stats.nodes.peak,
+            stats.nodes.used,
+            stats.nodes.unused,
+            stats.nodes.total,
+            stats.nodes.peak,
 
-    stats.extptrs.used,
-    stats.extptrs.unused,
-    stats.extptrs.total,
+            stats.extptrs.used,
+            stats.extptrs.unused,
+            stats.extptrs.total,
 
-    stats.cache.hashtable.hits, 
-    bdd_get_percentage(stats.cache.hashtable.hits, total_hashtable_queries),
-    stats.cache.hashtable.misses,
-    bdd_get_percentage(stats.cache.hashtable.misses, total_hashtable_queries),
-    total_hashtable_queries,
+            stats.cache.hashtable.hits,
+            bdd_get_percentage(stats.cache.hashtable.hits, total_hashtable_queries),
+            stats.cache.hashtable.misses,
+            bdd_get_percentage(stats.cache.hashtable.misses, total_hashtable_queries),
+            total_hashtable_queries,
 
-    stats.ITE_ops.calls,
-    stats.ITE_constant_ops.calls,
-    stats.adhoc_ops.calls,
+            stats.ITE_ops.calls,
+            stats.ITE_constant_ops.calls,
+            stats.adhoc_ops.calls,
 
-    bdd_get_percentage(stats.ITE_ops.returns.trivial, stats.ITE_ops.calls),
-    bdd_get_percentage(stats.ITE_constant_ops.returns.trivial, stats.ITE_constant_ops.calls),
-    bdd_get_percentage(stats.adhoc_ops.returns.trivial, stats.adhoc_ops.calls),
+            bdd_get_percentage(stats.ITE_ops.returns.trivial, stats.ITE_ops.calls),
+            bdd_get_percentage(stats.ITE_constant_ops.returns.trivial, stats.ITE_constant_ops.calls),
+            bdd_get_percentage(stats.adhoc_ops.returns.trivial, stats.adhoc_ops.calls),
 
-    bdd_get_percentage(stats.ITE_ops.returns.cached, stats.ITE_ops.calls),
-    bdd_get_percentage(stats.ITE_constant_ops.returns.cached, stats.ITE_constant_ops.calls),
-    bdd_get_percentage(stats.adhoc_ops.returns.cached, stats.adhoc_ops.calls),
+            bdd_get_percentage(stats.ITE_ops.returns.cached, stats.ITE_ops.calls),
+            bdd_get_percentage(stats.ITE_constant_ops.returns.cached, stats.ITE_constant_ops.calls),
+            bdd_get_percentage(stats.adhoc_ops.returns.cached, stats.adhoc_ops.calls),
 
-    bdd_get_percentage(stats.ITE_ops.returns.full, stats.ITE_ops.calls),
-    bdd_get_percentage(stats.ITE_constant_ops.returns.full, stats.ITE_constant_ops.calls),
-    bdd_get_percentage(stats.adhoc_ops.returns.full, stats.adhoc_ops.calls),
+            bdd_get_percentage(stats.ITE_ops.returns.full, stats.ITE_ops.calls),
+            bdd_get_percentage(stats.ITE_constant_ops.returns.full, stats.ITE_constant_ops.calls),
+            bdd_get_percentage(stats.adhoc_ops.returns.full, stats.adhoc_ops.calls),
 
-    total_itetable_lookups,
-    total_consttable_lookups,
-    total_adhoc_lookups,
+            total_itetable_lookups,
+            total_consttable_lookups,
+            total_adhoc_lookups,
 
-    bdd_get_percentage(stats.cache.itetable.misses, total_itetable_lookups),
-    bdd_get_percentage(stats.cache.consttable.misses, total_consttable_lookups),
-    bdd_get_percentage(stats.cache.adhoc.misses, total_adhoc_lookups),
+            bdd_get_percentage(stats.cache.itetable.misses, total_itetable_lookups),
+            bdd_get_percentage(stats.cache.consttable.misses, total_consttable_lookups),
+            bdd_get_percentage(stats.cache.adhoc.misses, total_adhoc_lookups),
 
-    stats.cache.itetable.inserts,
-    stats.cache.consttable.inserts,
+            stats.cache.itetable.inserts,
+            stats.cache.consttable.inserts,
 
-    bdd_get_percentage(stats.cache.itetable.collisions, stats.cache.itetable.inserts),
-    bdd_get_percentage(stats.cache.consttable.collisions, stats.cache.consttable.inserts),
+            bdd_get_percentage(stats.cache.itetable.collisions, stats.cache.itetable.inserts),
+            bdd_get_percentage(stats.cache.consttable.collisions, stats.cache.consttable.inserts),
 
-    stats.gc.times,
-    stats.gc.nodes_collected,
-    ((double) stats.gc.runtime / 1000),
+            stats.gc.times,
+            stats.gc.nodes_collected,
+            ((double) stats.gc.runtime / 1000),
 
-    stats.memory.manager,
-    stats.memory.nodes,
-    stats.memory.hashtable,
-    stats.memory.ext_ptrs,
-    stats.memory.ITE_cache,
-    stats.memory.ITE_const_cache,
-    stats.memory.adhoc_cache,
-    stats.memory.total); 
+            stats.memory.manager,
+            stats.memory.nodes,
+            stats.memory.hashtable,
+            stats.memory.ext_ptrs,
+            stats.memory.ITE_cache,
+            stats.memory.ITE_const_cache,
+            stats.memory.adhoc_cache,
+            stats.memory.total);
 }
 

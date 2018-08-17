@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/atpg/sat.h,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:17 $
- *
- */
+
 #ifndef SATISFY_H
 #define SATISFY_H
 
@@ -23,28 +15,28 @@
     sm_insert(s->matrix, s->nclause, (v3)); \
     s->nclause ++;
 
-typedef struct {	
-    int cl_order;	/* Subformula clause ordering */
-    int	var_order;	/* Variable ordering for branching */
-    int	bktrack_lim;	/* Limit on backtracks for this phase */
-    int	n_static_pass;	/* Number of static GI passes to make */
-    bool add_nli;	/* Add nonlocal implications? */
-    bool add_unique;	/* Assign values found by contradition?	*/
+typedef struct {
+    int  cl_order;    /* Subformula clause ordering */
+    int  var_order;    /* Variable ordering for branching */
+    int  bktrack_lim;    /* Limit on backtracks for this phase */
+    int  n_static_pass;    /* Number of static GI passes to make */
+    bool add_nli;    /* Add nonlocal implications? */
+    bool add_unique;    /* Assign values found by contradition?	*/
 } sat_strategy_t;
 
 typedef struct {
-    sm_matrix *matrix;
-    array_t *one_clauses;
-    array_t *imply;
-    array_t *stk_var;
-    array_t *stk_inc;
-    array_t *stk_cla;
+    sm_matrix      *matrix;
+    array_t        *one_clauses;
+    array_t        *imply;
+    array_t        *stk_var;
+    array_t        *stk_inc;
+    array_t        *stk_cla;
     sat_strategy_t *strategy;
-    int nclause;
-    int lit_index;
-    int bktrack;
-    int n_impl;
-    bool gaveup;
+    int            nclause;
+    int            lit_index;
+    int            bktrack;
+    int            n_impl;
+    bool           gaveup;
 } sat_t;
 
 typedef enum sat_result {
@@ -55,17 +47,24 @@ typedef enum sat_result {
 
 /* interface data structure */
 typedef struct {
-    int sat_id;
+    int  sat_id;
     char *info;
 } sat_input_t;
 
 extern sat_t *sat_new();
+
 extern void sat_reset();
+
 extern void sat_delete();
+
 extern int sat_new_variable();
+
 extern bool sat_add_implication();
+
 extern sat_result_t sat_solve();
+
 extern int sat_get_value();
+
 #endif /* SATISFY_H */
 
 

@@ -1,15 +1,5 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/utility/tmpfile.c,v $
- * $Author: pchong $
- * $Revision: 1.1.1.1 $
- * $Date: 2004/02/07 10:14:13 $
- *
- */
-
-/* LINTLIBRARY */
-#include "copyright.h"
+#include <zconf.h>
+#include "../port/copyright.h"
 #include "../port/port.h"
 #include "../utility/utility.h"
 
@@ -24,18 +14,16 @@
 
 extern char *mktemp();
 
-FILE *
-util_tmpfile()
-{
+FILE *util_tmpfile() {
     FILE *fp;
     char *filename, *junk;
 
-    junk = util_strsav("/usr/tmp/tempXXXXXX");
+    junk     = util_strsav("/usr/tmp/tempXXXXXX");
     filename = mktemp(junk);
-    if ((fp = fopen(filename, "w+")) == NULL) {
-	(void) fprintf(stderr, "Could not open the temporary file (%s)\n", filename);
-	FREE(junk);
-	return NULL;
+    if ((fp  = fopen(filename, "w+")) == NULL) {
+        (void) fprintf(stderr, "Could not open the temporary file (%s)\n", filename);
+        FREE(junk);
+        return NULL;
     }
     (void) unlink(filename);
     FREE(junk);
@@ -44,9 +32,7 @@ util_tmpfile()
 
 #else
 
-FILE *
-util_tmpfile()
-{
+FILE *util_tmpfile(){
     return fopen("utiltmp", "w+");
 }
 

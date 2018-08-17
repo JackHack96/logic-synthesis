@@ -1,12 +1,4 @@
-/*
- * Revision Control Information
- *
- * $Source: /users/pchong/CVS/sis/sis/genlib/readlib.y,v $
- * $Author: pchong $
- * $Revision: 1.6 $
- * $Date: 2004/03/14 17:14:13 $
- *
- */
+
 %{
 /* file @(#)readlib.y	1.2                      */
 /* last modified on 6/13/91 at 17:46:40   */

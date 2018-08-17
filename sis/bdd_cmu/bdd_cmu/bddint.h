@@ -33,9 +33,9 @@
 
 
 #if defined(__STDC__)
-#define ARGS(args) args
+#define args args
 #else
-#define ARGS(args) ()
+#define args) (
 #endif
 
 
@@ -84,21 +84,20 @@ typedef unsigned short bdd_index_type;
 /* Types of various BDD node fields */
 
 typedef unsigned short bdd_indexindex_type;
-typedef unsigned char bdd_refcount_type;
-typedef unsigned char bdd_mark_type;
+typedef unsigned char  bdd_refcount_type;
+typedef unsigned char  bdd_mark_type;
 
 
 /* A BDD node */
 
-struct bdd_
-{
-  bdd_indexindex_type indexindex;
-				/* Index into indexes table */
-  bdd_refcount_type refs;	/* External reference count */
-  bdd_mark_type mark;		/* Mark and temporary ref count */
-  INT_PTR data[2];		/* Then and else pointers, or data */
-				/* values for terminals */
-  struct bdd_ *next;
+struct bdd_ {
+    bdd_indexindex_type indexindex;
+    /* Index into indexes table */
+    bdd_refcount_type   refs;    /* External reference count */
+    bdd_mark_type       mark;        /* Mark and temporary ref count */
+    INT_PTR             data[2];        /* Then and else pointers, or data */
+    /* values for terminals */
+    struct bdd_         *next;
 };
 
 
@@ -193,13 +192,13 @@ do\
     {\
       top_indexindex=BDD_INDEXINDEX(f);\
       if ((bddm)->indexes[top_indexindex] > BDD_INDEX(bddm, h))\
-	top_indexindex=BDD_INDEXINDEX(h);\
+    top_indexindex=BDD_INDEXINDEX(h);\
     }\
   else\
     {\
       top_indexindex=BDD_INDEXINDEX(g);\
       if ((bddm)->indexes[top_indexindex] > BDD_INDEX(bddm, h))\
-	top_indexindex=BDD_INDEXINDEX(h);\
+    top_indexindex=BDD_INDEXINDEX(h);\
     }\
 while (0)
 
@@ -260,8 +259,8 @@ do\
   {\
     if (BDD_REFS(f) >= BDD_MAX_REFS-1)\
       {\
-	BDD_REFS(f)=BDD_MAX_REFS;\
-	BDD_TEMP_REFS(f)=0;\
+    BDD_REFS(f)=BDD_MAX_REFS;\
+    BDD_TEMP_REFS(f)=0;\
       }\
    else\
      BDD_REFS(f)++;\
@@ -281,12 +280,12 @@ do\
   {\
     if (BDD_REFS(f) < BDD_MAX_REFS)\
       {\
-	BDD_TEMP_REFS(f)++;\
-	if (BDD_TEMP_REFS(f) == BDD_MAX_TEMP_REFS)\
-	  {\
-	    BDD_REFS(f)=BDD_MAX_REFS;\
-	    BDD_TEMP_REFS(f)=0;\
-	  }\
+    BDD_TEMP_REFS(f)++;\
+    if (BDD_TEMP_REFS(f) == BDD_MAX_TEMP_REFS)\
+      {\
+        BDD_REFS(f)=BDD_MAX_REFS;\
+        BDD_TEMP_REFS(f)=0;\
+      }\
       }\
   }\
 while (0)
@@ -316,9 +315,8 @@ return (bdd_make_external(thing))
 
 /* Cache entries */
 
-struct cache_entry_
-{
-  INT_PTR slot[4];
+struct cache_entry_ {
+    INT_PTR slot[4];
 };
 
 typedef struct cache_entry_ *cache_entry;
@@ -363,21 +361,19 @@ typedef struct cache_entry_ *cache_entry;
 
 /* Variable associations */
 
-struct var_assoc_
-{
-  bdd *assoc;			/* Array with associated BDDs */
-  long last;			/* Indexindex for lowest variable */
+struct var_assoc_ {
+    bdd  *assoc;            /* Array with associated BDDs */
+    long last;            /* Indexindex for lowest variable */
 };
 
 typedef struct var_assoc_ *var_assoc;
 
 
-struct assoc_list_
-{
-  struct var_assoc_ va;		/* The association */
-  int id;			/* Identifier for this association */
-  int refs;			/* Number of outstanding references */
-  struct assoc_list_ *next;	/* The next association */
+struct assoc_list_ {
+    struct var_assoc_  va;        /* The association */
+    int                id;            /* Identifier for this association */
+    int                refs;            /* Number of outstanding references */
+    struct assoc_list_ *next;    /* The next association */
 };
 
 typedef struct assoc_list_ *assoc_list;
@@ -385,21 +381,19 @@ typedef struct assoc_list_ *assoc_list;
 
 /* Variable blocks */
 
-struct block_
-{
-  long num_children;
-  struct block_ **children;
-  int reorderable;
-  long first_index;
-  long last_index;
+struct block_ {
+    long          num_children;
+    struct block_ **children;
+    int           reorderable;
+    long          first_index;
+    long          last_index;
 };
 
 
 /* A cache bin; the cache is two-way associative. */
 
-struct cache_bin_
-{
-  cache_entry entry[2];		/* LRU has index 1 */
+struct cache_bin_ {
+    cache_entry entry[2];        /* LRU has index 1 */
 };
 
 typedef struct cache_bin_ cache_bin;
@@ -407,29 +401,33 @@ typedef struct cache_bin_ cache_bin;
 
 /* The cache */
 
-struct cache_
-{
-  cache_bin *table;		/* The cache itself */
-  int size_index;		/* Index giving number of cache lines */
-  long size;			/* Number of cache lines */
-  int cache_level;		/* Bin to start search in cache */
-				/* Cache control functions: */
-  long (*rehash_fn[8]) ARGS((cmu_bdd_manager, cache_entry));
-				/* Rehashes a cache entry */
-  int (*gc_fn[8]) ARGS((cmu_bdd_manager, cache_entry));
-				/* Checks to see if an entry needs flushing */
-  void (*purge_fn[8]) ARGS((cmu_bdd_manager, cache_entry));
-				/* Called when purging an entry */
-  void (*return_fn[8]) ARGS((cmu_bdd_manager, cache_entry));
-				/* Called before returning from cache hit */
-  int (*flush_fn[8]) ARGS((cmu_bdd_manager, cache_entry, pointer));
-				/* Called when freeing variable association */
-  int cache_ratio;		/* Cache to unique table size ratio */
-  long entries;			/* Number of cache entries */
-  long lookups;			/* Number of cache lookups */
-  long hits;			/* Number of cache hits */
-  long inserts;			/* Number of cache inserts */
-  long collisions;		/* Number of cache collisions */
+struct cache_ {
+    cache_bin *table;        /* The cache itself */
+    int       size_index;        /* Index giving number of cache lines */
+    long      size;            /* Number of cache lines */
+    int       cache_level;        /* Bin to start search in cache */
+    /* Cache control functions: */
+    long (*rehash_fn[8])(cmu_bdd_manager, cache_entry);
+
+    /* Rehashes a cache entry */
+    int (*gc_fn[8])(cmu_bdd_manager, cache_entry);
+
+    /* Checks to see if an entry needs flushing */
+    void (*purge_fn[8])(cmu_bdd_manager, cache_entry);
+
+    /* Called when purging an entry */
+    void (*return_fn[8])(cmu_bdd_manager, cache_entry);
+
+    /* Called before returning from cache hit */
+    int (*flush_fn[8])(cmu_bdd_manager, cache_entry, pointer);
+
+    /* Called when freeing variable association */
+    int  cache_ratio;        /* Cache to unique table size ratio */
+    long entries;            /* Number of cache entries */
+    long lookups;            /* Number of cache lookups */
+    long hits;            /* Number of cache hits */
+    long inserts;            /* Number of cache inserts */
+    long collisions;        /* Number of cache collisions */
 };
 
 typedef struct cache_ cache;
@@ -437,12 +435,11 @@ typedef struct cache_ cache;
 
 /* One part of the node table */
 
-struct var_table_
-{
-  bdd *table;			/* Pointers to the start of each bucket */
-  int size_index;		/* Index giving number of buckets */
-  long size;			/* Number of buckets */
-  long entries;			/* Number of BDD nodes in table */
+struct var_table_ {
+    bdd  *table;            /* Pointers to the start of each bucket */
+    int  size_index;        /* Index giving number of buckets */
+    long size;            /* Number of buckets */
+    long entries;            /* Number of BDD nodes in table */
 };
 
 typedef struct var_table_ *var_table;
@@ -450,18 +447,18 @@ typedef struct var_table_ *var_table;
 
 /* The BDD node table */
 
-struct unique_
-{
-  var_table *tables;		/* Individual variable tables */
-  void (*free_terminal_fn) ARGS((cmu_bdd_manager, INT_PTR, INT_PTR, pointer));
-				/* Called when freeing MTBDD terminals */
-  pointer free_terminal_env;	/* Environment for free terminal function */
-  long entries;			/* Total number of BDD nodes */
-  long gc_limit;		/* Try garbage collection at this point */
-  long node_limit;		/* Maximum number of BDD nodes allowed */
-  long gcs;			/* Number of garbage collections */
-  long freed;			/* Number of nodes freed */
-  long finds;			/* Number of find operations */
+struct unique_ {
+    var_table *tables;        /* Individual variable tables */
+    void (*free_terminal_fn)(cmu_bdd_manager, INT_PTR, INT_PTR, pointer);
+
+    /* Called when freeing MTBDD terminals */
+    pointer free_terminal_env;    /* Environment for free terminal function */
+    long    entries;            /* Total number of BDD nodes */
+    long    gc_limit;        /* Try garbage collection at this point */
+    long    node_limit;        /* Maximum number of BDD nodes allowed */
+    long    gcs;            /* Number of garbage collections */
+    long    freed;            /* Number of nodes freed */
+    long    finds;            /* Number of find operations */
 };
 
 typedef struct unique_ unique;
@@ -478,55 +475,58 @@ typedef struct unique_ unique;
 /* Wrapper for jmp_buf since we may need to copy it sometimes and */
 /* we can't easily do it if it happens to be an array. */
 
-struct jump_buf_
-{
-  jmp_buf context;
+struct jump_buf_ {
+    jmp_buf context;
 };
 
-typedef struct jump_buf_ jump_buf;
+typedef struct jump_buf_                                                                   jump_buf;
 
 
 /* A BDD manager */
 
-struct bdd_manager_
-{
-  unique unique_table;		/* BDD node table */
-  cache op_cache;		/* System result cache */
-  int check;			/* Number of find calls 'til size checks */
-  bdd one;			/* BDD for one */
-  bdd zero;			/* BDD for zero */
-  int overflow;			/* Nonzero if node limit exceeded */
-  void (*overflow_fn) ARGS((cmu_bdd_manager, pointer));
-				/* Function to call on overflow */
-  pointer overflow_env;		/* Environment for overflow function */
-  void (*transform_fn) ARGS((cmu_bdd_manager, INT_PTR, INT_PTR, INT_PTR *, INT_PTR *, pointer));
-				/* Function to transform terminal values */
-  pointer transform_env;	/* Environment for transform_fn */
-  int (*canonical_fn) ARGS((cmu_bdd_manager, INT_PTR, INT_PTR, pointer));
-				/* Function to check if a terminal value is */
-				/* canonical */
-  block super_block;		/* Top-level variable block */
-  void (*reorder_fn) ARGS((cmu_bdd_manager));
-				/* Function to call to reorder variables */
-  pointer reorder_data;		/* For saving information btwn reorderings */
-  int allow_reordering;		/* Nonzero if reordering allowed */
-  long nodes_at_start;		/* Nodes at start of operation */
-  long vars;			/* Number of variables */
-  long maxvars;			/* Maximum number of variables w/o resize */
-  bdd *variables;		/* Array of variables, by indexindex */
-  bdd_index_type *indexes;	/* indexindex -> index table */
-  bdd_indexindex_type *indexindexes;
-				/* index -> indexindex table */
-  int curr_assoc_id;		/* Current variable association number */
-  var_assoc curr_assoc;		/* Current variable association */
-  assoc_list assocs;		/* Variable associations */
-  struct var_assoc_ temp_assoc;	/* Temporary variable association */
-  rec_mgr rms[REC_MGRS];	/* Record managers */
-  long temp_op;			/* Current temporary operation number */
-  jump_buf abort;		/* Jump for out-of-memory cleanup */
-  void (*bag_it_fn) ARGS((cmu_bdd_manager, pointer));
-				/* Non-null if going to abort at next find */
-  pointer bag_it_env; char *hooks;		/* Environment for bag it function */
+struct bdd_manager_ {
+    unique unique_table;        /* BDD node table */
+    cache  op_cache;        /* System result cache */
+    int    check;            /* Number of find calls 'til size checks */
+    bdd    one;            /* BDD for one */
+    bdd    zero;            /* BDD for zero */
+    int    overflow;            /* Nonzero if node limit exceeded */
+    void (*overflow_fn)(cmu_bdd_manager, pointer);
+
+    /* Function to call on overflow */
+    pointer overflow_env;        /* Environment for overflow function */
+    void (*transform_fn)(cmu_bdd_manager, INT_PTR, INT_PTR, INT_PTR *, INT_PTR *, pointer);
+
+    /* Function to transform terminal values */
+    pointer transform_env;    /* Environment for transform_fn */
+    int (*canonical_fn)(cmu_bdd_manager, INT_PTR, INT_PTR, pointer);
+    /* Function to check if a terminal value is */
+    /* canonical */
+    block super_block;        /* Top-level variable block */
+    void (*reorder_fn)(cmu_bdd_manager);
+
+    /* Function to call to reorder variables */
+    pointer             reorder_data;        /* For saving information btwn reorderings */
+    int                 allow_reordering;        /* Nonzero if reordering allowed */
+    long                nodes_at_start;        /* Nodes at start of operation */
+    long                vars;            /* Number of variables */
+    long                maxvars;            /* Maximum number of variables w/o resize */
+    bdd                 *variables;        /* Array of variables, by indexindex */
+    bdd_index_type      *indexes;    /* indexindex -> index table */
+    bdd_indexindex_type *indexindexes;
+    /* index -> indexindex table */
+    int                 curr_assoc_id;        /* Current variable association number */
+    var_assoc           curr_assoc;        /* Current variable association */
+    assoc_list          assocs;        /* Variable associations */
+    struct var_assoc_   temp_assoc;    /* Temporary variable association */
+    rec_mgr             rms[REC_MGRS];    /* Record managers */
+    long                temp_op;            /* Current temporary operation number */
+    jump_buf            abort;        /* Jump for out-of-memory cleanup */
+    void (*bag_it_fn)(cmu_bdd_manager, pointer);
+
+    /* Non-null if going to abort at next find */
+    pointer bag_it_env;
+    char    *hooks;        /* Environment for bag it function */
 };
 
 
@@ -545,10 +545,10 @@ do\
     (bddm)->nodes_at_start=(bddm)->unique_table.entries;\
     while ((retcode=(setjmp((bddm)->abort.context))))\
       {\
-	bdd_cleanup(bddm, retcode);\
-	if (retcode == BDD_ABORTED || retcode == BDD_OVERFLOWED)\
-	  return ((bdd)0);\
-	(bddm)->nodes_at_start=(bddm)->unique_table.entries;\
+    bdd_cleanup(bddm, retcode);\
+    if (retcode == BDD_ABORTED || retcode == BDD_OVERFLOWED)\
+      return ((bdd)0);\
+    (bddm)->nodes_at_start=(bddm)->unique_table.entries;\
       }\
   }\
 while (0)
@@ -562,9 +562,9 @@ do\
     (bddm)->nodes_at_start=(bddm)->unique_table.entries;\
     while ((retcode=(setjmp((bddm)->abort.context))))\
       {\
-	bdd_cleanup(bddm, retcode);\
-	cleanupcode\
-	(bddm)->nodes_at_start=(bddm)->unique_table.entries;\
+    bdd_cleanup(bddm, retcode);\
+    cleanupcode\
+    (bddm)->nodes_at_start=(bddm)->unique_table.entries;\
       }\
   }\
 while (0)
@@ -603,50 +603,95 @@ while (0)
 
 /* Internal BDD routines */
 
-extern int bdd_check_arguments ARGS((int, ...));
-extern void bdd_check_array ARGS((bdd *));
-extern bdd bdd_make_external ARGS((bdd));
-extern int cmu_bdd_type_aux ARGS((cmu_bdd_manager, bdd));
-extern void bdd_rehash_var_table ARGS((var_table, int));
-extern bdd bdd_find_aux ARGS((cmu_bdd_manager, bdd_indexindex_type, INT_PTR, INT_PTR));
-extern bdd cmu_bdd_ite_step ARGS((cmu_bdd_manager, bdd, bdd, bdd));
-extern bdd cmu_bdd_exists_temp ARGS((cmu_bdd_manager, bdd, long));
-extern bdd cmu_bdd_compose_temp ARGS((cmu_bdd_manager, bdd, bdd, bdd));
-extern bdd cmu_bdd_substitute_step ARGS((cmu_bdd_manager, bdd, long, bdd (*) ARGS((cmu_bdd_manager, bdd, bdd, bdd)), var_assoc));
-extern bdd cmu_bdd_swap_vars_temp ARGS((cmu_bdd_manager, bdd, bdd, bdd));
-extern int cmu_bdd_compare_temp ARGS((cmu_bdd_manager, bdd, bdd, bdd));
-extern double cmu_bdd_satisfying_fraction_step ARGS((cmu_bdd_manager, bdd));
-extern void bdd_mark_shared_nodes ARGS((cmu_bdd_manager, bdd));
-extern void bdd_number_shared_nodes ARGS((cmu_bdd_manager, bdd, hash_table, long *));
-extern char *bdd_terminal_id ARGS((cmu_bdd_manager, bdd, char *(*) ARGS((cmu_bdd_manager, INT_PTR, INT_PTR, pointer)), pointer));
-extern char *bdd_var_name ARGS((cmu_bdd_manager, bdd, char *(*) ARGS((cmu_bdd_manager, bdd, pointer)), pointer));
-extern long bdd_find_block ARGS((block, long));
-extern void bdd_block_delta ARGS((block, long));
-extern void cmu_bdd_reorder_aux ARGS((cmu_bdd_manager));
-extern void cmu_mtbdd_terminal_value_aux ARGS((cmu_bdd_manager, bdd, INT_PTR *, INT_PTR *));
+extern int bdd_check_arguments(int, ...);
+
+extern void bdd_check_array(bdd *);
+
+extern bdd bdd_make_external(bdd);
+
+extern int cmu_bdd_type_aux(cmu_bdd_manager, bdd);
+
+extern void bdd_rehash_var_table(var_table, int);
+
+extern bdd bdd_find_aux(cmu_bdd_manager, bdd_indexindex_type, INT_PTR, INT_PTR);
+
+extern bdd cmu_bdd_ite_step(cmu_bdd_manager, bdd, bdd, bdd);
+
+extern bdd cmu_bdd_exists_temp(cmu_bdd_manager, bdd, long);
+
+extern bdd cmu_bdd_compose_temp(cmu_bdd_manager, bdd, bdd, bdd);
+
+extern bdd                                                                                 cmu_bdd_substitute_step(
+        cmu_bdd_manager, bdd, long, bdd (*)(cmu_bdd_manager, bdd, bdd, bdd)),              var_assoc;
+
+extern bdd cmu_bdd_swap_vars_temp(cmu_bdd_manager, bdd, bdd, bdd);
+
+extern int cmu_bdd_compare_temp(cmu_bdd_manager, bdd, bdd, bdd);
+
+extern double cmu_bdd_satisfying_fraction_step(cmu_bdd_manager, bdd);
+
+extern void bdd_mark_shared_nodes(cmu_bdd_manager, bdd);
+
+extern void bdd_number_shared_nodes(cmu_bdd_manager, bdd, hash_table, long *);
+
+extern char *bdd_terminal_id(cmu_bdd_manager, bdd, char *(*)(cmu_bdd_manager, INT_PTR, INT_PTR, pointer)
+
+),
+pointer;
+
+extern char *bdd_var_name(cmu_bdd_manager, bdd, char *(*)(cmu_bdd_manager, bdd, pointer)
+
+),
+pointer;
+
+extern long bdd_find_block(block, long);
+
+extern void bdd_block_delta(block, long);
+
+extern void cmu_bdd_reorder_aux(cmu_bdd_manager);
+
+extern void cmu_mtbdd_terminal_value_aux(cmu_bdd_manager, bdd, INT_PTR *, INT_PTR *);
 
 
 /* System cache routines */
 
-extern void bdd_insert_in_cache31 ARGS((cmu_bdd_manager, int, INT_PTR, INT_PTR, INT_PTR, INT_PTR));
-extern int bdd_lookup_in_cache31 ARGS((cmu_bdd_manager, int, INT_PTR, INT_PTR, INT_PTR, INT_PTR *));
-extern void bdd_insert_in_cache22 ARGS((cmu_bdd_manager, int, INT_PTR, INT_PTR, INT_PTR, INT_PTR));
-extern int bdd_lookup_in_cache22 ARGS((cmu_bdd_manager, int, INT_PTR, INT_PTR, INT_PTR *, INT_PTR *));
-extern void bdd_insert_in_cache13 ARGS((cmu_bdd_manager, int, INT_PTR, INT_PTR, INT_PTR, INT_PTR));
-extern int bdd_lookup_in_cache13 ARGS((cmu_bdd_manager, int, INT_PTR, INT_PTR *, INT_PTR *, INT_PTR *));
-extern void bdd_flush_cache ARGS((cmu_bdd_manager, int (*) ARGS((cmu_bdd_manager, cache_entry, pointer)), pointer));
-extern void bdd_purge_cache ARGS((cmu_bdd_manager));
-extern void bdd_flush_all ARGS((cmu_bdd_manager));
-extern int bdd_cache_functions ARGS((cmu_bdd_manager,
-				     int,
-				     int (*) ARGS((cmu_bdd_manager, cache_entry)),
-				     void (*) ARGS((cmu_bdd_manager, cache_entry)),
-				     void (*) ARGS((cmu_bdd_manager,cache_entry)),
-				     int (*) ARGS((cmu_bdd_manager, cache_entry, pointer))));
-extern void cmu_bdd_free_cache_tag ARGS((cmu_bdd_manager, int));
-extern void bdd_rehash_cache ARGS((cmu_bdd_manager, int));
-extern void cmu_bdd_init_cache ARGS((cmu_bdd_manager));
-extern void cmu_bdd_free_cache ARGS((cmu_bdd_manager));
+extern void bdd_insert_in_cache31(cmu_bdd_manager, int, INT_PTR, INT_PTR, INT_PTR, INT_PTR);
+
+extern int bdd_lookup_in_cache31(cmu_bdd_manager, int, INT_PTR, INT_PTR, INT_PTR, INT_PTR *);
+
+extern void bdd_insert_in_cache22(cmu_bdd_manager, int, INT_PTR, INT_PTR, INT_PTR, INT_PTR);
+
+extern int bdd_lookup_in_cache22(cmu_bdd_manager, int, INT_PTR, INT_PTR, INT_PTR *, INT_PTR *);
+
+extern void bdd_insert_in_cache13(cmu_bdd_manager, int, INT_PTR, INT_PTR, INT_PTR, INT_PTR);
+
+extern int bdd_lookup_in_cache13(cmu_bdd_manager, int, INT_PTR, INT_PTR *, INT_PTR *, INT_PTR *);
+
+extern void bdd_flush_cache(cmu_bdd_manager, int (*)(cmu_bdd_manager, cache_entry, pointer)
+
+),
+pointer;
+
+extern void bdd_purge_cache(cmu_bdd_manager);
+
+extern void bdd_flush_all(cmu_bdd_manager);
+
+extern int bdd_cache_functions((cmu_bdd_manager,
+                                int,
+                                int (*)(cmu_bdd_manager, cache_entry),
+                                void (*)(cmu_bdd_manager, cache_entry),
+                                void (*)(cmu_bdd_manager, cache_entry),
+                                int (*)(cmu_bdd_manager, cache_entry, pointer)
+
+));
+
+extern void cmu_bdd_free_cache_tag(cmu_bdd_manager, int);
+
+extern void bdd_rehash_cache(cmu_bdd_manager, int);
+
+extern void cmu_bdd_init_cache(cmu_bdd_manager);
+
+extern void cmu_bdd_free_cache(cmu_bdd_manager);
 
 #define bdd_insert_in_cache2(bddm, op, f, g, result)\
 bdd_insert_in_cache31((bddm), CACHE_TYPE_TWO, (INT_PTR)(op), (INT_PTR)(f), (INT_PTR)(g), (INT_PTR)(result))
@@ -681,51 +726,61 @@ bdd_lookup_in_cache22((bddm), CACHE_TYPE_ONEDATA, (INT_PTR)(op), (INT_PTR)(f), (
 
 /* Unique table routines */
 
-extern void bdd_clear_temps ARGS((cmu_bdd_manager));
-extern void bdd_sweep_var_table ARGS((cmu_bdd_manager, long, int));
-extern void bdd_sweep ARGS((cmu_bdd_manager));
-extern void bdd_cleanup ARGS((cmu_bdd_manager, int));
-extern bdd bdd_find ARGS((cmu_bdd_manager, bdd_indexindex_type, bdd, bdd));
-extern bdd bdd_find_terminal ARGS((cmu_bdd_manager, INT_PTR, INT_PTR));
-extern var_table bdd_new_var_table ARGS((cmu_bdd_manager));
-extern void cmu_bdd_init_unique ARGS((cmu_bdd_manager));
-extern void cmu_bdd_free_unique ARGS((cmu_bdd_manager));
+extern void bdd_clear_temps(cmu_bdd_manager);
+
+extern void bdd_sweep_var_table(cmu_bdd_manager, long, int);
+
+extern void bdd_sweep(cmu_bdd_manager);
+
+extern void bdd_cleanup(cmu_bdd_manager, int);
+
+extern bdd bdd_find(cmu_bdd_manager, bdd_indexindex_type, bdd, bdd);
+
+extern bdd bdd_find_terminal(cmu_bdd_manager, INT_PTR, INT_PTR);
+
+extern var_table bdd_new_var_table(cmu_bdd_manager);
+
+extern void cmu_bdd_init_unique(cmu_bdd_manager);
+
+extern void cmu_bdd_free_unique(cmu_bdd_manager);
 
 
 /* Error routines */
 
-extern void cmu_bdd_fatal ARGS((char *));
-extern void cmu_bdd_warning ARGS((char *));
+extern void cmu_bdd_fatal(char *);
+
+extern void cmu_bdd_warning(char *);
 
 
 /* >>> Hash table declarations */
 
-struct hash_rec_
-{
-  bdd key;
-  struct hash_rec_ *next;
+struct hash_rec_ {
+    bdd              key;
+    struct hash_rec_ *next;
 };
 
 typedef struct hash_rec_ *hash_rec;
 
 
-struct hash_table_
-{
-  hash_rec *table;
-  int size_index;
-  long size;
-  long entries;
-  int item_size;
-  cmu_bdd_manager bddm;
+struct hash_table_ {
+    hash_rec        *table;
+    int             size_index;
+    long            size;
+    long            entries;
+    int             item_size;
+    cmu_bdd_manager bddm;
 };
 
 
 /* Hash table routines */
 
-extern void bdd_insert_in_hash_table ARGS((hash_table, bdd, pointer));
-extern pointer bdd_lookup_in_hash_table ARGS((hash_table, bdd));
-extern hash_table bdd_new_hash_table ARGS((cmu_bdd_manager, int));
-extern void cmu_bdd_free_hash_table ARGS((hash_table));
+extern void bdd_insert_in_hash_table(hash_table, bdd, pointer);
+
+extern pointer bdd_lookup_in_hash_table(hash_table, bdd);
+
+extern hash_table bdd_new_hash_table(cmu_bdd_manager, int);
+
+extern void cmu_bdd_free_hash_table(hash_table);
 
 
 #undef ARGS
