@@ -1,4 +1,3 @@
-#include <zconf.h>
 #include "../port/copyright.h"
 #include "../port/port.h"
 #include "../utility/utility.h"

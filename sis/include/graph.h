@@ -1,3 +1,5 @@
+#ifndef GRAPH_H
+#define GRAPH_H
 
 typedef char *gGeneric;
 
@@ -74,3 +76,5 @@ extern array_t *g_dfs(graph_t *);
 extern int g_is_acyclic(graph_t *);
 
 extern array_t *g_graph_sort(graph_t *, int (*)());
+
+#endif

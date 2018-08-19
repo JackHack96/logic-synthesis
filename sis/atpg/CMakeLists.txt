@@ -1,3 +1,4 @@
+set(CMAKE_C_FLAGS -DSIS)
 add_library(atpg STATIC
         atpg_clauses.c
         atpg_comb.c

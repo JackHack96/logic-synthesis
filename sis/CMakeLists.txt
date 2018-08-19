@@ -50,6 +50,7 @@ add_subdirectory(test)
 add_subdirectory(timing)
 add_subdirectory(util)
 add_subdirectory(var_set)
+add_subdirectory(include/latch)
 
 add_executable(sis main/sis.c)
 target_link_libraries(sis

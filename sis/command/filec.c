@@ -1,17 +1,29 @@
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+#include <dirent.h>
+
+#define NAMLEN(dirent) strlen((dirent)->d_name)
+
+#if defined(_POSIX_VERSION) || defined(__CYGWIN__)
+#define USE_TERMIO
+#else
+#undef USE_TERMIO
+#endif
 
 #include <sys/types.h>      /* Part of util.h if PORT_H is not defined */
 /* Still needs to be included for sun4 compile */
 #include "sis.h"
 
 #if defined(USE_TERMIO)
+
 #include <termio.h>
+
 #else
-
 #include <sgtty.h>
-
 #endif
 
-#include "../include/com_int.h"
+#include "com_int.h"
 
 #define ESC    '\033'
 
@@ -31,20 +43,19 @@ static char *seperator = " \t\n;";
 
 #if defined(hpux) || defined(SYSTYPE_BSD43) || defined(SYSTYPE_SYSV)
 char *
-fgets_filec(buf, size, stream, prompt)
-char *buf;
-int size;
-FILE *stream;
-char *prompt;
-{
-    if (prompt != NIL(char)){
-        (void) print_prompt(prompt);
-        (void) fflush(stdout);
+    fgets_filec(buf, size, stream, prompt)
+    char *buf;
+    int size;
+    FILE *stream;
+    char *prompt;
+    {
+        if (prompt != NIL(char)){
+            (void) print_prompt(prompt);
+            (void) fflush(stdout);
+        }
+
+        return (fgets(buf, size, stream));
     }
-
-    return (fgets(buf, size, stream));
-}
-
 #else
 
 /*
@@ -52,7 +63,6 @@ char *prompt;
  * is used to distinguish words from each other in file completion and history
  * substitution. The recommeded seperator string is " \t\n;".
  */
-
 static int cmp();
 
 static int match();
@@ -82,26 +92,26 @@ fgets_filec(buf, size, stream, prompt)
         char *prompt;
 {
     int n_read, i, len, maxlen, col, sno, modname;
-#if defined(USE_TERMIO)
+    #if defined(USE_TERMIO)
     struct termios tchars, oldtchars;
-#else
+    #else
     struct tchars tchars, oldtchars;
-#endif
+    #endif
     DIR           *dir;
     struct dirent *dp;
-#if !defined(_IBMR2)
+    #if !defined(_IBMR2)
     int omask;
-#ifndef __STDC__
+        #ifndef __STDC__
     struct sgttyb tty, oldtty;	/* To mask interuupts */
-#endif
-#endif
+        #endif
+    #endif
     char    *last_word, *file, *path, *name, *line;
     char    last_char, found[MAXNAMLEN];
     array_t *names;
-#if !defined(__STDC__)
+    #if !defined(__STDC__)
     int pending = LPENDIN;
-#endif
-    if (prompt != NIL(char)){
+    #endif
+    if (prompt != NIL(char)) {
         (void) print_prompt(prompt);
         (void) fflush(stdout);
     }
@@ -121,28 +131,28 @@ fgets_filec(buf, size, stream, prompt)
         return line;
     }
     /* Allow hitting ESCAPE to break a read() */
-#if defined(USE_TERMIO)
-    tcgetattr (sno, &tchars);
+    #if defined(USE_TERMIO)
+    tcgetattr(sno, &tchars);
     oldtchars = tchars;
     tchars.c_cc[VEOL] = ESC;
     tcsetattr(sno, TCSANOW, &tchars);
-#else
+    #else
     (void) ioctl(sno, TIOCGETC, (char *) &tchars);
-    oldtchars = tchars;
-    tchars.t_brkc = ESC;
-    (void) ioctl(sno, TIOCSETC, (char *) &tchars);
-#endif
+            oldtchars = tchars;
+            tchars.t_brkc = ESC;
+            (void) ioctl(sno, TIOCSETC, (char *) &tchars);
+    #endif
 
     while ((n_read = read(sno, buf, size)) > 0) {
         buf[n_read] = '\0';
         last_word = &buf[n_read - 1];
         last_char = *last_word;
         if (last_char == '\n' || n_read == size) {
-#if defined(USE_TERMIO)
+            #if defined(USE_TERMIO)
             tcsetattr(sno, TCSANOW, &oldtchars);
-#else
+            #else
             (void) ioctl(sno, TIOCSETC, (char *) &oldtchars);
-#endif
+            #endif
             *last_word = '\0';
             return (buf);
         }
@@ -150,8 +160,7 @@ fgets_filec(buf, size, stream, prompt)
             *last_word-- = '\0';
             (void) fprintf(stdout, "\b\b  \b\b");
         } else {
-            names = array_alloc(
-            char *, 10);
+            names = array_alloc(char *, 10);
             (void) fputc('\n', stdout);
         }
         for (; last_word >= buf; --last_word) {
@@ -165,8 +174,7 @@ fgets_filec(buf, size, stream, prompt)
             file    = last_word;
             modname = 0;
             path    = ".";
-        }
-        else {
+        } else {
             *file++ = '\0';
             modname = 1;
             path    = (*last_word == '~') ? util_tilde_expand(last_word) :
@@ -189,8 +197,7 @@ fgets_filec(buf, size, stream, prompt)
                         if (maxlen < NAMLEN(dp)) {
                             maxlen = NAMLEN(dp);
                         }
-                        array_insert_last(
-                        char *, names, util_strsav(dp->d_name));
+                        array_insert_last(char *, names, util_strsav(dp->d_name));
                     }
                 }
             }
@@ -207,8 +214,7 @@ fgets_filec(buf, size, stream, prompt)
                 col = maxlen;
                 array_sort(names, cmp);
                 for (i = 0; i < array_n(names); i++) {
-                    name = array_fetch(
-                    char *, names, i);
+                    name = array_fetch(char *, names, i);
                     (void) fprintf(stdout, "%-*s", maxlen, name);
                     FREE(name);
                     col += maxlen;
@@ -231,40 +237,39 @@ fgets_filec(buf, size, stream, prompt)
             *--file = '/';
         }
 
-#if !defined(_IBMR2) && !defined(__STDC__)
+        #if !defined(_IBMR2) && !defined(__STDC__)
         /* mask interrupts temporarily */
-    omask = sigblock(sigmask(SIGINT));
-    (void) ioctl(STDOUT, TIOCGETP, (char *)&tty);
-    oldtty = tty;
-    tty.sg_flags &= ~(ECHO|CRMOD);
-    (void) ioctl(STDOUT, TIOCSETN, (char *)&tty);
-#endif
+            omask = sigblock(sigmask(SIGINT));
+            (void) ioctl(STDOUT, TIOCGETP, (char *)&tty);
+            oldtty = tty;
+            tty.sg_flags &= ~(ECHO|CRMOD);
+            (void) ioctl(STDOUT, TIOCSETN, (char *)&tty);
+        #endif
 
         /* reprint prompt */
         (void) write(STDOUT, "\r", 1);
         print_prompt(prompt);
 
         /* shove chars from buf back into the input queue */
-#if !defined(__CYGWIN__)
+        #if !defined(__CYGWIN__)
         for (i = 0; buf[i]; i++) {
             (void) ioctl(STDOUT, TIOCSTI, &buf[i]);
         }
-#endif
-#if !defined(_IBMR2) && !defined(__STDC__)
+        #endif
+        #if !defined(_IBMR2) && !defined(__STDC__)
         /* restore interrupts */
-    (void) ioctl(STDOUT, TIOCSETN, (char *)&oldtty);
-    (void) sigsetmask(omask);
-    (void) ioctl(STDOUT, TIOCLBIS, (char *) &pending);
-#endif
+            (void) ioctl(STDOUT, TIOCSETN, (char *)&oldtty);
+            (void) sigsetmask(omask);
+            (void) ioctl(STDOUT, TIOCLBIS, (char *) &pending);
+        #endif
     }
     /* restore read() behavior */
-#if defined(USE_TERMIO)
+    #if defined(USE_TERMIO)
     tcsetattr(sno, TCSANOW, &oldtchars);
-#else
+    #else
     (void) ioctl(sno, TIOCSETC, (char *) &oldtchars);
-#endif
-    return (NIL(
-    char));
+    #endif
+    return (NIL(char));
 }
 
 static int
@@ -363,8 +368,7 @@ hist_subst(line, changed)
         return (line);
     }
     n    = array_n(command_hist);
-    last = (n > 0) ? array_fetch(
-    char *, command_hist, n - 1) : "";
+    last = (n > 0) ? array_fetch(char *, command_hist, n - 1) : "";
 
     b = buf;
     if (*line == SUBST) {
@@ -379,8 +383,7 @@ hist_subst(line, changed)
             *--new = SUBST;
             bad_modify:
             (void) fprintf(stderr, "Modifier failed\n");
-            return (NIL(
-            char));
+            return (NIL(char));
         }
         while (last != start) {
             *b++ = *last++;
@@ -393,7 +396,7 @@ hist_subst(line, changed)
         return (buf);
     }
 
-    if ((value = com_get_flag("history_char")) != NIL(char)){
+    if ((value = com_get_flag("history_char")) != NIL(char)) {
         sis_hist_char = *value;
     }
 
@@ -428,8 +431,7 @@ hist_subst(line, changed)
                 new = getarg(last, num);
                 if (new == NIL(char)) {
                     (void) fprintf(stderr, "Bad %c arg selector\n", sis_hist_char);
-                    return (NIL(
-                    char));
+                    return (NIL(char));
                 }
                 b = do_subst(b, new);
             } else if (*l == '-') {
@@ -439,8 +441,7 @@ hist_subst(line, changed)
                 if (num > n || num == 0) {
                     return (bad_event(n - num + 1));
                 }
-                b = do_subst(b, array_fetch(
-                char *, command_hist, n - num));
+                b = do_subst(b, array_fetch(char *, command_hist, n - num));
             } else {
                 /* replace !n in line with n'th command */
                 if (isdigit(*l)) {
@@ -448,8 +449,7 @@ hist_subst(line, changed)
                     if (num > n || num == 0) {
                         return (bad_event(num));
                     }
-                    b = do_subst(b, array_fetch(
-                    char *, command_hist, num - 1));
+                    b = do_subst(b, array_fetch(char *, command_hist, num - 1));
                 } else {    /* replace !boo w/ last cmd beginning w/ boo */
                     start = l;
                     while (*l && strchr(seperator, *l) == NIL(char)) {
@@ -459,8 +459,7 @@ hist_subst(line, changed)
                     *l = '\0';
                     len    = strlen(start);
                     for (i = n - 1; i >= 0; i--) {
-                        old = array_fetch(
-                        char *, command_hist, i);
+                        old = array_fetch(char *, command_hist, i);
                         if (strncmp(old, start, len) == 0) {
                             b = do_subst(b, old);
                             break;
@@ -469,8 +468,7 @@ hist_subst(line, changed)
                     if (i < 0) {
                         (void) fprintf(stderr, "Event not found: %s\n", start);
                         *l = c;
-                        return (NIL(
-                        char));
+                        return (NIL(char));
                     }
                     *l--   = c;
 
@@ -538,8 +536,7 @@ getarg(line, num)
         if (num == -1) {
             return (b);
         }
-        return (NIL(
-        char));
+        return (NIL(char));
     }
     if (num < 0) {
         return (b);
@@ -557,8 +554,7 @@ bad_event(n)
         int n;
 {
     (void) fprintf(stderr, "Event %d not found\n", n);
-    return (NIL(
-    char));
+    return (NIL(char));
 }
 
 static char *
@@ -590,6 +586,3 @@ print_prompt(prompt)
         prompt++;
     }
 }
-    
-
-

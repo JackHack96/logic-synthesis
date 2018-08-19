@@ -1,10 +1,10 @@
-
-
 /* this file provides the basic functions of the sequential BDD package */
 
+#include "network.h"
+#include "latch.h"
 #include "sis.h"
-#include "../include/prl_seqbdd.h"
-#include "../include/prl_util.h"
+#include "prl_seqbdd.h"
+#include "prl_util.h"
 
 static void ExtractBddVars(seq_info_t *, network_t *, array_t *, array_t *);
 

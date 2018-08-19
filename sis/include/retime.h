@@ -121,10 +121,8 @@ extern int retime_is_network_retimable(network_t *);
 extern re_graph *retime_network_to_graph(network_t *, int, int);
 
 extern int retime_graph
-        ((network_t *, re_graph *, double, double, double, double, double *,
-          int, int, int, int *)
-
-);
+        (network_t *, re_graph *, double, double, double, double, double *,
+          int, int, int, int *);
 
 extern int retime_graph_interface
         (re_graph *, double, double, double, double, double *);

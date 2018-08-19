@@ -1,3 +1,4 @@
+set(CMAKE_C_FLAGS -DSIS)
 add_library(network STATIC
         acyclic.c
         append.c

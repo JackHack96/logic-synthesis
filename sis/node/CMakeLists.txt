@@ -17,5 +17,4 @@ add_library(node STATIC
         print.c
         sethack.c
         substitute.c
-        ../include/node_int.h
         )

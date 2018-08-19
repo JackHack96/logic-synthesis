@@ -18,8 +18,7 @@ command_alias_help(command)
 }
 
 /* ARGSUSED */
-com_help(network, argc, argv
-)
+com_help(network, argc, argv)
 network_t **network;
 int       argc;
 char      **argv;
@@ -35,7 +34,7 @@ FILE          *gfp;
 
 util_getopt_reset();
 
-              all   = 0;
+all = 0;
 while ((
 c = util_getopt(argc, argv, "ag:")
 ) != EOF) {
@@ -71,11 +70,12 @@ com_graphics_close (gfp);
 } else if (argc - util_optind == 0) {
 i = 0;
 avl_foreach_item(command_table, gen, AVL_FORWARD,
-&key,
+                 &key,
 
-NIL(char *)
+                 NIL(
+                         char *)
 
-) {
+                ) {
 if ((key[0] == '_') == all) {
 (void)
 fprintf(sisout,

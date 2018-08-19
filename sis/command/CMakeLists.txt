@@ -1,9 +1,8 @@
-
+set(CMAKE_C_FLAGS -DSIS)
 add_library(command STATIC
         addcom.c
         alias.c
         cmd_set.c
-        ../include/com_int.h
         command.c
         commisc.c
         filec.c

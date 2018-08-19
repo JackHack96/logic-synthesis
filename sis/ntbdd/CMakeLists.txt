@@ -1,4 +1,4 @@
-add_library(libntbdd STATIC
+add_library(ntbdd STATIC
         bdd_at_node.c
         bdd_to_ntwk.c
         com_ntbdd.c
@@ -6,5 +6,4 @@ add_library(libntbdd STATIC
 
         node_to_bdd.c
         verify_ntwk.c
-        ../include/ntbdd_int.h
         )

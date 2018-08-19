@@ -4,6 +4,7 @@
 #define PRL_SEQBDD_H
 
 #include "var_set.h"
+#include "seqbdd.h"
 
 /* referenced via a pointer only */
 

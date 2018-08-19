@@ -209,9 +209,7 @@ void astg_sel_vertex(astg_vertex *, astg_bool);
 
 void astg_sel_edge(astg_edge *, astg_bool);
 
-astg_bool astg_is_trigger
-ARGS        ((astg_signal
-*, astg_signal *));
+astg_bool astg_is_trigger(astg_signal *, astg_signal *);
 
 astg_bool astg_is_input(astg_signal *);
 
@@ -219,9 +217,7 @@ astg_bool astg_is_dummy(astg_signal *);
 
 astg_bool astg_is_noninput(astg_signal *);
 
-astg_signal *astg_find_named_signal
-ARGS ((astg_graph
-*, char *));
+astg_signal *astg_find_named_signal(astg_graph *, char *);
 
 astg_signal *astg_find_signal(astg_graph *, char *, astg_signal_enum, astg_bool);
 
@@ -285,8 +281,7 @@ void astg_delete_marking(astg_marking *);
 
 astg_scode astg_get_enabled(astg_marking *);
 
-void astg_print_marking
-ARGS ((int, astg_graph *, astg_marking *));
+void astg_print_marking(int, astg_graph *, astg_marking *);
 
 astg_bool astg_is_marked_graph(astg_graph *);
 
@@ -312,20 +307,29 @@ void astg_usage(char **, char *);
 
 #ifdef SIS_H    /* Declarations depending on <sis.h>.	*/
 
-astg_graph	*astg_current (network_t *);
-void		 astg_set_current (network_t **, astg_graph *, astg_bool);
+astg_graph *astg_current(network_t *);
 
-node_t		*astg_guard_node (astg_graph *, astg_edge *);
-astg_retval	 astg_set_marking_by_name (astg_graph *, st_table *);
+void astg_set_current(network_t **, astg_graph *, astg_bool);
 
-int		 astg_simple_cycles (astg_graph *, astg_vertex *, int (*)(astg_graph *, void *), void *, astg_bool);
-array_t		*astg_top_sort (astg_graph *, astg_bool);
-int		 astg_connected_comp (astg_graph *, int (*)(array_t *, int, void *), void *, astg_bool);
-int		 astg_strong_comp (astg_graph *, int (*)(array_t *, int, void *), void *, astg_bool);
-int		 astg_has_cycles (astg_graph *);
-void		 astg_shortest_path (astg_graph *, astg_vertex *);
-network_t	*astg_to_network (astg_graph*, latch_synch_t);
-node_t		*astg_find_pi_or_po (network_t *, char *, astg_io_enum);
+node_t *astg_guard_node(astg_graph *, astg_edge *);
+
+astg_retval astg_set_marking_by_name(astg_graph *, st_table *);
+
+int astg_simple_cycles(astg_graph *, astg_vertex *, int (*)(astg_graph *, void *), void *, astg_bool);
+
+array_t *astg_top_sort(astg_graph *, astg_bool);
+
+int astg_connected_comp(astg_graph *, int (*)(array_t *, int, void *), void *, astg_bool);
+
+int astg_strong_comp(astg_graph *, int (*)(array_t *, int, void *), void *, astg_bool);
+
+int astg_has_cycles(astg_graph *);
+
+void astg_shortest_path(astg_graph *, astg_vertex *);
+
+network_t *astg_to_network(astg_graph *, latch_synch_t);
+
+node_t *astg_find_pi_or_po(network_t *, char *, astg_io_enum);
 
 #endif /* SIS_H */
 
