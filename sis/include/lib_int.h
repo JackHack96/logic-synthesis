@@ -14,7 +14,7 @@
  *
  * Revision 1.1  92/01/08  17:40:43  sis
  * Initial revision
- * 
+ *
  */
 
 extern library_t *lib_current_library;

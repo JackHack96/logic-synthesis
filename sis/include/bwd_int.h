@@ -3,21 +3,21 @@
 #define BWD_INT_H
 
 #define BWD_SLOT undef1
-#define BWD(node) ((bwd_node_t *) (node)->BWD_SLOT)
+#define BWD(node) ((bwd_node_t *)(node)->BWD_SLOT)
 struct bwd_node_struct {
-    double arrival;
-    int    flags;
+  double arrival;
+  int flags;
 };
 typedef struct bwd_node_struct bwd_node_t;
 
-/* structure to store minimum delays between transitions. 
- * One structure for each pair * of signals (s1,s2). 
+/* structure to store minimum delays between transitions.
+ * One structure for each pair * of signals (s1,s2).
  * delay.rise.rise is the delay between s1+ and s2+, and so on.
  */
 struct min_del_struct {
-    delay_time_t rise, fall;
+  delay_time_t rise, fall;
 };
-typedef struct min_del_struct  min_del_t;
+typedef struct min_del_struct min_del_t;
 
 /* Structure to store potential hazards: the symbol table is indexed by the
  * name of the signal currently checked for hazard. Each record in the dynamic
@@ -27,38 +27,38 @@ typedef struct min_del_struct  min_del_t;
  */
 
 struct hazard_struct {
-    char *s1, *s2;            /* names of involved signals */
-    char dir1, dir2, on, off_eq;    /* transition type and off_cb1 == off_cb2 */
-    pset on_cb1, off_cb1, on_cb2, off_cb2; /* involved cubes */
+  char *s1, *s2;               /* names of involved signals */
+  char dir1, dir2, on, off_eq; /* transition type and off_cb1 == off_cb2 */
+  pset on_cb1, off_cb1, on_cb2, off_cb2; /* involved cubes */
 };
-typedef struct hazard_struct   hazard_t;
+typedef struct hazard_struct hazard_t;
 
 /* structure to store equivalent states for state encoding (EXPERIMENTAL)
  */
 struct equiv_struct {
-    array_t     *index_state;    /* maps index -> name */
-    st_table    *state_index;    /* maps name -> index */
-    pset_family classes;    /* each set is a class, with the above indices */
+  array_t *index_state;  /* maps index -> name */
+  st_table *state_index; /* maps name -> index */
+  pset_family classes;   /* each set is a class, with the above indices */
 };
-typedef struct equiv_struct    equiv_t;
+typedef struct equiv_struct equiv_t;
 
 struct bwd_struct {
-    st_table *hazard_list;
-    st_table *slowed_amounts;
-    long     change_count;
-    array_t  *pi_names;        /* order of PI's for cubes in hazard_list */
+  st_table *hazard_list;
+  st_table *slowed_amounts;
+  long change_count;
+  array_t *pi_names; /* order of PI's for cubes in hazard_list */
 };
-typedef struct bwd_struct      bwd_t;
+typedef struct bwd_struct bwd_t;
 
-#define BWD_GET(stg) ((bwd_t*)astg_get_slot((stg),ASTG_BWD_SLOT))
-#define BWD_SET(stg, value) (astg_set_slot((stg),ASTG_BWD_SLOT,(value)))
+#define BWD_GET(stg) ((bwd_t *)astg_get_slot((stg), ASTG_BWD_SLOT))
+#define BWD_SET(stg, value) (astg_set_slot((stg), ASTG_BWD_SLOT, (value)))
 
 astg_scode dummy_mask;
 
 int enc_summary;
 
 /* defined in bwd_util.c */
-extern graph_t  *global_orig_stg;
+extern graph_t *global_orig_stg;
 extern st_table *global_orig_stg_names;
 extern st_table *global_edge_trans;
 extern st_table *global_state_marking;
@@ -135,7 +135,6 @@ extern astg_scode bwd_astg_state_bit();
 extern astg_graph *bwd_stg_to_astg();
 
 extern void bwd_write_sg();
-
 
 /* bwd_lp.c */
 extern void bwd_lp_slow();

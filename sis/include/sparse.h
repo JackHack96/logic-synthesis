@@ -2,8 +2,6 @@
 #ifndef SPARSE_H
 #define SPARSE_H
 
-
-
 /* hack to fix conflict with libX11.a */
 #define sm_alloc sm_allocate
 #define sm_free sm_free_space
@@ -13,98 +11,91 @@
  */
 
 typedef struct sm_element_struct sm_element;
-typedef struct sm_row_struct     sm_row;
-typedef struct sm_col_struct     sm_col;
-typedef struct sm_matrix_struct  sm_matrix;
-
+typedef struct sm_row_struct sm_row;
+typedef struct sm_col_struct sm_col;
+typedef struct sm_matrix_struct sm_matrix;
 
 /*
  *  sparse matrix element
  */
 struct sm_element_struct {
-    int        row_num;        /* row number of this element */
-    int        col_num;        /* column number of this element */
-    sm_element *next_row;    /* next row in this column */
-    sm_element *prev_row;    /* previous row in this column */
-    sm_element *next_col;    /* next column in this row */
-    sm_element *prev_col;    /* previous column in this row */
-    char       *user_word;        /* user-defined word */
+  int row_num;          /* row number of this element */
+  int col_num;          /* column number of this element */
+  sm_element *next_row; /* next row in this column */
+  sm_element *prev_row; /* previous row in this column */
+  sm_element *next_col; /* next column in this row */
+  sm_element *prev_col; /* previous column in this row */
+  char *user_word;      /* user-defined word */
 };
-
 
 /*
  *  row header
  */
 struct sm_row_struct {
-    int        row_num;        /* the row number */
-    int        length;            /* number of elements in this row */
-    int        flag;            /* user-defined word */
-    sm_element *first_col;    /* first element in this row */
-    sm_element *last_col;    /* last element in this row */
-    sm_row     *next_row;        /* next row (in sm_matrix linked list) */
-    sm_row     *prev_row;        /* previous row (in sm_matrix linked list) */
-    char       *user_word;        /* user-defined word */
+  int row_num;           /* the row number */
+  int length;            /* number of elements in this row */
+  int flag;              /* user-defined word */
+  sm_element *first_col; /* first element in this row */
+  sm_element *last_col;  /* last element in this row */
+  sm_row *next_row;      /* next row (in sm_matrix linked list) */
+  sm_row *prev_row;      /* previous row (in sm_matrix linked list) */
+  char *user_word;       /* user-defined word */
 };
-
 
 /*
  *  column header
  */
 struct sm_col_struct {
-    int        col_num;        /* the column number */
-    int        length;            /* number of elements in this column */
-    int        flag;            /* user-defined word */
-    sm_element *first_row;    /* first element in this column */
-    sm_element *last_row;    /* last element in this column */
-    sm_col     *next_col;        /* next column (in sm_matrix linked list) */
-    sm_col     *prev_col;        /* prev column (in sm_matrix linked list) */
-    char       *user_word;        /* user-defined word */
+  int col_num;           /* the column number */
+  int length;            /* number of elements in this column */
+  int flag;              /* user-defined word */
+  sm_element *first_row; /* first element in this column */
+  sm_element *last_row;  /* last element in this column */
+  sm_col *next_col;      /* next column (in sm_matrix linked list) */
+  sm_col *prev_col;      /* prev column (in sm_matrix linked list) */
+  char *user_word;       /* user-defined word */
 };
-
 
 /*
  *  A sparse matrix
  */
 struct sm_matrix_struct {
-    sm_row **rows;        /* pointer to row headers (by row #) */
-    int    rows_size;        /* alloc'ed size of above array */
-    sm_col **cols;        /* pointer to column headers (by col #) */
-    int    cols_size;        /* alloc'ed size of above array */
-    sm_row *first_row;        /* first row (linked list of all rows) */
-    sm_row *last_row;        /* last row (linked list of all rows) */
-    int    nrows;            /* number of rows */
-    sm_col *first_col;        /* first column (linked list of columns) */
-    sm_col *last_col;        /* last column (linked list of columns) */
-    int    ncols;            /* number of columns */
-    char   *user_word;        /* user-defined word */
+  sm_row **rows;     /* pointer to row headers (by row #) */
+  int rows_size;     /* alloc'ed size of above array */
+  sm_col **cols;     /* pointer to column headers (by col #) */
+  int cols_size;     /* alloc'ed size of above array */
+  sm_row *first_row; /* first row (linked list of all rows) */
+  sm_row *last_row;  /* last row (linked list of all rows) */
+  int nrows;         /* number of rows */
+  sm_col *first_col; /* first column (linked list of columns) */
+  sm_col *last_col;  /* last column (linked list of columns) */
+  int ncols;         /* number of columns */
+  char *user_word;   /* user-defined word */
 };
 
+#define sm_get_col(A, colnum)                                                  \
+  (((colnum) >= 0 && (colnum) < (A)->cols_size) ? (A)->cols[colnum]            \
+                                                : (sm_col *)0)
 
-#define sm_get_col(A, colnum)    \
-    (((colnum) >= 0 && (colnum) < (A)->cols_size) ? \
-    (A)->cols[colnum] : (sm_col *) 0)
+#define sm_get_row(A, rownum)                                                  \
+  (((rownum) >= 0 && (rownum) < (A)->rows_size) ? (A)->rows[rownum]            \
+                                                : (sm_row *)0)
 
-#define sm_get_row(A, rownum)    \
-    (((rownum) >= 0 && (rownum) < (A)->rows_size) ? \
-    (A)->rows[rownum] : (sm_row *) 0)
+#define sm_foreach_row(A, prow)                                                \
+  for (prow = A->first_row; prow != 0; prow = prow->next_row)
 
-#define sm_foreach_row(A, prow)    \
-    for(prow = A->first_row; prow != 0; prow = prow->next_row)
+#define sm_foreach_col(A, pcol)                                                \
+  for (pcol = A->first_col; pcol != 0; pcol = pcol->next_col)
 
-#define sm_foreach_col(A, pcol)    \
-    for(pcol = A->first_col; pcol != 0; pcol = pcol->next_col)
+#define sm_foreach_row_element(prow, p)                                        \
+  for (p = (prow == 0) ? 0 : prow->first_col; p != 0; p = p->next_col)
 
-#define sm_foreach_row_element(prow, p)    \
-    for(p = (prow == 0) ? 0 : prow->first_col; p != 0; p = p->next_col)
+#define sm_foreach_col_element(pcol, p)                                        \
+  for (p = (pcol == 0) ? 0 : pcol->first_row; p != 0; p = p->next_row)
 
-#define sm_foreach_col_element(pcol, p) \
-    for(p = (pcol == 0) ? 0 : pcol->first_row; p != 0; p = p->next_row)
+#define sm_put(x, val) (x->user_word = (char *)val)
 
-#define sm_put(x, val) \
-    (x->user_word = (char *) val)
-
-#define sm_get(type, x) \
-    ((type) (x->user_word))
+#define sm_get(type, x) ((type)(x->user_word))
 
 extern sm_matrix *sm_allocate(void);
 

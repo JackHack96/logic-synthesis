@@ -19,11 +19,11 @@ that this value will be properly interpreted as, for example,  (double)
 #define ARRAY_H
 
 typedef struct array_t {
-    char *space;
-    int  num;           // number of array elements
-    int  n_size;        // size of 'data' array (in objects)
-    int  obj_size;      // size of each array object.
-    int  index;         // combined index and locking flag.
+  char *space;
+  int num;      // number of array elements
+  int n_size;   // size of 'data' array (in objects)
+  int obj_size; // size of each array object.
+  int index;    // combined index and locking flag.
 } array_t;
 
 extern array_t *array_do_alloc(int size, int number);
@@ -84,11 +84,9 @@ extern void array_sort(array_t *, int (*)());
  */
 extern void array_uniq(array_t *, int (*)(), void (*)());
 
-extern int array_abort(array_t *,
-                       int);
+extern int array_abort(array_t *, int);
 
-extern int array_resize(array_t *,
-                        int);
+extern int array_resize(array_t *, int);
 
 extern char *array_do_data(array_t *);
 
@@ -101,8 +99,7 @@ extern unsigned int array_global_index;
  * hold `number' objects.  Typical use sets `number' to 0, and
  * allows the array to grow dynamically.
  */
-#define array_alloc(type, number)        \
-    array_do_alloc(sizeof(type), number)
+#define array_alloc(type, number) array_do_alloc(sizeof(type), number)
 
 /**
  * Insert a new element into an array at the given position.  The
@@ -111,21 +108,20 @@ extern unsigned int array_global_index;
  * same as the type used when the array was allocated.  It is also
  * a serious error for 'position' to be less than zero.
  */
-#define array_insert(type, a, i, datum)        \
-    (  -(a)->index != sizeof(type) ? array_abort((a),4) : 0,\
-    (a)->index = (i),\
-    (a)->index < 0 ? array_abort((a),0) : 0,\
-    (a)->index >= (a)->n_size ? array_resize(a, (a)->index + 1) : 0,\
-    *((type *) ((a)->space + (a)->index * (a)->obj_size)) = datum,\
-    (a)->index >= (a)->num ? (a)->num = (a)->index + 1 : 0,\
-    (a)->index = -(int)sizeof(type)    )
+#define array_insert(type, a, i, datum)                                        \
+  (-(a)->index != sizeof(type) ? array_abort((a), 4) : 0, (a)->index = (i),    \
+   (a)->index < 0 ? array_abort((a), 0) : 0,                                   \
+   (a)->index >= (a)->n_size ? array_resize(a, (a)->index + 1) : 0,            \
+   *((type *)((a)->space + (a)->index * (a)->obj_size)) = datum,               \
+   (a)->index >= (a)->num ? (a)->num = (a)->index + 1 : 0,                     \
+   (a)->index = -(int)sizeof(type))
 
 /**
  * Insert a new element at the end of the array.  Equivalent to:
  * array_insert(type, array, array_n(array), object).
  */
-#define array_insert_last(type, array, datum)    \
-    array_insert(type, array, (array)->num, datum)
+#define array_insert_last(type, array, datum)                                  \
+  array_insert(type, array, (array)->num, datum)
 
 /**
  * Fetch an element from an array.  A runtime error occurs on an
@@ -133,16 +129,15 @@ extern unsigned int array_global_index;
  * no type-checking that the value at the given position is
  * actually of the type used when dereferencing the array.
  */
-#define array_fetch(type, a, i)            \
-    (array_global_index = (i),                \
-      (array_global_index >= (a)->num) ? array_abort(a,1) : 0,\
-      *((type *) ((a)->space + array_global_index * (a)->obj_size)))
+#define array_fetch(type, a, i)                                                \
+  (array_global_index = (i),                                                   \
+   (array_global_index >= (a)->num) ? array_abort(a, 1) : 0,                   \
+   *((type *)((a)->space + array_global_index * (a)->obj_size)))
 
-
-#define array_fetch_p(type, a, i)                       \
-    (array_global_index = (i),                             \
-      (array_global_index >= (a)->num) ? array_abort((a),1) : 0,\
-      ((type *) ((a)->space + array_global_index * (a)->obj_size)))
+#define array_fetch_p(type, a, i)                                              \
+  (array_global_index = (i),                                                   \
+   (array_global_index >= (a)->num) ? array_abort((a), 1) : 0,                 \
+   ((type *)((a)->space + array_global_index * (a)->obj_size)))
 
 /**
  * Fetch the last element from an array.  A runtime error occurs
@@ -151,15 +146,14 @@ extern unsigned int array_global_index;
  * when dereferencing the array.  Equivalent to:
  * 	array_fetch(type, array, array_n(array))
  */
-#define array_fetch_last(type, array)        \
-    array_fetch(type, array, ((array)->num)-1)
+#define array_fetch_last(type, array)                                          \
+  array_fetch(type, array, ((array)->num) - 1)
 
 /**
  * Returns the number of elements stored in the array.  If this is
  * `n', then the last element of the array is at position `n' - 1.
  */
-#define array_n(array)                \
-    (array)->num
+#define array_n(array) (array)->num
 
 /**
  * Returns a normal `C' array from an array_t structure.  This is
@@ -168,7 +162,6 @@ extern unsigned int array_global_index;
  * returned, and it is the users responsibility to free it.  array_n()
  * can be used to get the number of elements in the array.
  */
-#define array_data(type, array)            \
-    (type *) array_do_data(array)
+#define array_data(type, array) (type *)array_do_data(array)
 
 #endif

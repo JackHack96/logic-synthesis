@@ -31,8 +31,8 @@ add_library(speed STATIC
         weight.c
         weight_util.c
 
-        ../include/buffer_int.h
-        ../include/gbx_int.h
-        ../include/new_speed_models.h
-        ../include/speed_int.h
+
+
+
+
         )

@@ -1,54 +1,54 @@
-
+set(CMAKE_C_FLAGS -DSIS)
 add_library(map STATIC
         addinv.c
         bin_delay.c
-        ../include/bin_delay_static.h
-        ../include/bin_int.h
+
+
         bottom_up.c
         chkform.c
         cluster.c
-        ../include/cluster.h
-        ../include/cluster_static.h
+
+
         com_map.c
-        ../include/fanout_alg.h
-        ../include/fanout_alg_macro.h
+
+
         fanout_delay.c
-        ../include/fanout_delay.h
-        ../include/fanout_delay_static.h
+
+
         fanout_dump.c
         fanout_est.c
-        ../include/fanout_est_static.h
-        ../include/fanout_int.h
+
+
         fanout_log.c
         fanout_opt.c
-        ../include/fanout_opt_static.h
+
         fanout_tree.c
-        ../include/fanout_tree_static.h
+
         fanout_util.c
         gate_link.c
-        ../include/gate_link.h
+
         hackit.c
-        ../include/lib_int.h
+
         library.c
         libutil.c
         lt_trees.c
-        ../include/map_defs.h
+
         map_delay.c
-        ../include/map_delay.h
-        ../include/map_int.h
+
+
         map_interface.c
-        ../include/map_interface_static.h
-        ../include/map_macros.h
+
+
         maputil.c
         match.c
         mix_lt_trees.c
         multi_array.c
-        ../include/multi_array.h
+
         noalg.c
         prim.c
         pwl.c
-        ../include/pwl.h
-        ../include/pwl_static.h
+
+
         replace.c
         top_down.c
         tree.c

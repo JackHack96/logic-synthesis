@@ -5,5 +5,5 @@ add_library(phase STATIC
         phase.c
         phase_lib.c
 
-        ../include/phase_int.h
+
         )

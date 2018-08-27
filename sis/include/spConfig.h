@@ -17,7 +17,6 @@
  *  both upper and lower case.
  */
 
-
 /*
  *  Revision and copyright information.
  *
@@ -37,10 +36,8 @@
  *  $Revision: 1.1.1.1 $
  */
 
-
 #ifndef spCONFIG_DEFS
 #define spCONFIG_DEFS
-
 
 #ifdef spINSIDE_SPARSE
 /*
@@ -249,27 +246,27 @@
  */
 
 /* Begin options. */
-#define  REAL                           YES
-#define  EXPANDABLE                     NO
-#define  TRANSLATE                      NO
-#define  INITIALIZE                     NO
-#define  DIAGONAL_PIVOTING              NO
-#define  ARRAY_OFFSET                   NO
-#define  MODIFIED_MARKOWITZ             NO        /* Not used: no DIAG_PIVOT */
-#define  DELETE                         NO
-#define  STRIP                          NO
-#define  MODIFIED_NODAL                 NO
-#define  QUAD_ELEMENT                   NO
-#define  TRANSPOSE                      NO
-#define  SCALING                        NO
-#define  DOCUMENTATION                  NO
-#define  MULTIPLICATION                 NO
-#define  DETERMINANT                    NO
-#define  STABILITY                      NO
-#define  CONDITION                      NO
-#define  PSEUDOCONDITION                NO
-#define  FORTRAN                        NO
-#define  DEBUG                          No
+#define REAL YES
+#define EXPANDABLE NO
+#define TRANSLATE NO
+#define INITIALIZE NO
+#define DIAGONAL_PIVOTING NO
+#define ARRAY_OFFSET NO
+#define MODIFIED_MARKOWITZ NO /* Not used: no DIAG_PIVOT */
+#define DELETE NO
+#define STRIP NO
+#define MODIFIED_NODAL NO
+#define QUAD_ELEMENT NO
+#define TRANSPOSE NO
+#define SCALING NO
+#define DOCUMENTATION NO
+#define MULTIPLICATION NO
+#define DETERMINANT NO
+#define STABILITY NO
+#define CONDITION NO
+#define PSEUDOCONDITION NO
+#define FORTRAN NO
+#define DEBUG No
 
 /*
  *  The following options affect Sparse exports and so are exported as a
@@ -278,16 +275,10 @@
  *  with user code, so use 0 for NO and 1 for YES.
  */
 #endif /* spINSIDE_SPARSE */
-#define  spCOMPLEX                      0
-#define  spSEPARATED_COMPLEX_VECTORS    0      /* Not used! */
-#define  spCOMPATIBILITY                0
+#define spCOMPLEX 0
+#define spSEPARATED_COMPLEX_VECTORS 0 /* Not used! */
+#define spCOMPATIBILITY 0
 #ifdef spINSIDE_SPARSE
-
-
-
-
-
-
 
 /*
  *  MATRIX CONSTANTS
@@ -379,22 +370,17 @@
  */
 
 /* Begin constants. */
-#define  DEFAULT_THRESHOLD              1.0e-3
-#define  DIAG_PIVOTING_AS_DEFAULT       YES
-#define  SPACE_FOR_ELEMENTS             6
-#define  SPACE_FOR_FILL_INS             4
-#define  ELEMENTS_PER_ALLOCATION        31
-#define  MINIMUM_ALLOCATED_SIZE         6
-#define  EXPANSION_FACTOR               1.5
-#define  MAX_MARKOWITZ_TIES             100       /* Not used: no DIAG_PIVOT */
-#define  TIES_MULTIPLIER                5         /* Not used: no DIAG_PIVOT */
-#define  DEFAULT_PARTITION              spAUTO_PARTITION
+#define DEFAULT_THRESHOLD 1.0e-3
+#define DIAG_PIVOTING_AS_DEFAULT YES
+#define SPACE_FOR_ELEMENTS 6
+#define SPACE_FOR_FILL_INS 4
+#define ELEMENTS_PER_ALLOCATION 31
+#define MINIMUM_ALLOCATED_SIZE 6
+#define EXPANSION_FACTOR 1.5
+#define MAX_MARKOWITZ_TIES 100 /* Not used: no DIAG_PIVOT */
+#define TIES_MULTIPLIER 5      /* Not used: no DIAG_PIVOT */
+#define DEFAULT_PARTITION spAUTO_PARTITION
 
-
-
-
-
-
 /*
  *  PRINTER WIDTH
  *
@@ -407,13 +393,8 @@
  */
 
 /*  Begin printer constants. */
-#define  PRINTER_WIDTH  80
+#define PRINTER_WIDTH 80
 
-
-
-
-
-
 /*
  *  MACHINE CONSTANTS
  *
@@ -427,80 +408,75 @@
  * This code is currently deleted because most ANSI standard C compilers
  * do not provide the standard header files yet.
  */
-#   include <limits.h>
-#   include <float.h>
-#   define  MACHINE_RESOLUTION      DBL_EPSILON
-#   define  LARGEST_REAL            DBL_MAX
-#   define  SMALLEST_REAL           DBL_MIN
-#   define  LARGEST_SHORT_INTEGER   SHRT_MAX
-#   define  LARGEST_LONG_INTEGER    LONG_MAX
+#include <float.h>
+#include <limits.h>
+#define MACHINE_RESOLUTION DBL_EPSILON
+#define LARGEST_REAL DBL_MAX
+#define SMALLEST_REAL DBL_MIN
+#define LARGEST_SHORT_INTEGER SHRT_MAX
+#define LARGEST_LONG_INTEGER LONG_MAX
 #else /* NOT defined(__STDC__) */
 
 /* VAX machine constants */
 #ifdef vax
-#   define  MACHINE_RESOLUTION      6.93889e-18
-#   define  LARGEST_REAL            1.70141e+38
-#   define  SMALLEST_REAL           2.938743e-39
-#   define  LARGEST_SHORT_INTEGER   32766
-#   define  LARGEST_LONG_INTEGER    2147483646
+#define MACHINE_RESOLUTION 6.93889e-18
+#define LARGEST_REAL 1.70141e+38
+#define SMALLEST_REAL 2.938743e-39
+#define LARGEST_SHORT_INTEGER 32766
+#define LARGEST_LONG_INTEGER 2147483646
 #endif
 
 /* hp9000 machine constants */
 #ifdef hpux
 /* These values are correct for hp9000/300.  Should be correct for others. */
-#   define  MACHINE_RESOLUTION      8.9e-15
-#   define  LARGEST_REAL            1.79769313486231e+308
-#   define  SMALLEST_REAL           2.22507385850721e-308
-#   define  LARGEST_SHORT_INTEGER   32766
-#   define  LARGEST_LONG_INTEGER    2147483646
+#define MACHINE_RESOLUTION 8.9e-15
+#define LARGEST_REAL 1.79769313486231e+308
+#define SMALLEST_REAL 2.22507385850721e-308
+#define LARGEST_SHORT_INTEGER 32766
+#define LARGEST_LONG_INTEGER 2147483646
 #endif
 
 /* Sun machine constants */
 #ifdef sun
 /* These values are rumored to be the correct values. */
-#   define  MACHINE_RESOLUTION      8.9e-15
-#   define  LARGEST_REAL            1.79769313486231e+308
-#   define  SMALLEST_REAL           2.22507385850721e-308
-#   define  LARGEST_SHORT_INTEGER   32767
-#   define  LARGEST_LONG_INTEGER    2147483647
+#define MACHINE_RESOLUTION 8.9e-15
+#define LARGEST_REAL 1.79769313486231e+308
+#define SMALLEST_REAL 2.22507385850721e-308
+#define LARGEST_SHORT_INTEGER 32767
+#define LARGEST_LONG_INTEGER 2147483647
 #endif
 
 /* DECstation machine constants */
 #ifdef mips
 /* These values are rumored to be the correct values. */
-#   define  MACHINE_RESOLUTION      2.3e-16
-#   define  LARGEST_REAL            1.79769313486231e+308
-#   define  SMALLEST_REAL           2.22507385850721e-308
-#   define  LARGEST_SHORT_INTEGER   32767
-#   define  LARGEST_LONG_INTEGER    2147483647
+#define MACHINE_RESOLUTION 2.3e-16
+#define LARGEST_REAL 1.79769313486231e+308
+#define SMALLEST_REAL 2.22507385850721e-308
+#define LARGEST_SHORT_INTEGER 32767
+#define LARGEST_LONG_INTEGER 2147483647
 #endif
 
 /* Alpha machine constants */
 #ifdef __alpha
 /* These values are rumored to be the correct values. */
-#   define  MACHINE_RESOLUTION      2.3e-16
-#   define  LARGEST_REAL            1.79769313486231e+308
-#   define  SMALLEST_REAL           2.22507385850721e-308
-#   define  LARGEST_SHORT_INTEGER   32767
-#   define  LARGEST_LONG_INTEGER    9223372036854775807
+#define MACHINE_RESOLUTION 2.3e-16
+#define LARGEST_REAL 1.79769313486231e+308
+#define SMALLEST_REAL 2.22507385850721e-308
+#define LARGEST_SHORT_INTEGER 32767
+#define LARGEST_LONG_INTEGER 9223372036854775807
 #endif
 
 /* IBM6000 machine constants */
 #ifdef _IBMR2
 /* These values are rumored to be the correct values. */
-#   define  MACHINE_RESOLUTION      2.3e-16
-#   define  LARGEST_REAL            1.79769313486231e+308
-#   define  SMALLEST_REAL           2.22507385850721e-308
-#   define  LARGEST_SHORT_INTEGER   32767
-#   define  LARGEST_LONG_INTEGER    2147483647
+#define MACHINE_RESOLUTION 2.3e-16
+#define LARGEST_REAL 1.79769313486231e+308
+#define SMALLEST_REAL 2.22507385850721e-308
+#define LARGEST_SHORT_INTEGER 32767
+#define LARGEST_LONG_INTEGER 2147483647
 #endif
 #endif /* NOT defined(__STDC__) */
 
-
-
-
-
-
 /*
  *  ANNOTATION
  *
@@ -511,11 +487,11 @@
  */
 
 /* Begin annotation definitions. */
-#define  ANNOTATE               NONE
+#define ANNOTATE NONE
 
-#define  NONE                   0
-#define  ON_STRANGE_BEHAVIOR    1
-#define  FULL                   2
+#define NONE 0
+#define ON_STRANGE_BEHAVIOR 1
+#define FULL 2
 
 #endif /* spINSIDE_SPARSE */
 #endif /* spCONFIG_DEFS */

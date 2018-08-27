@@ -14,18 +14,18 @@
  *
  * Revision 1.1  92/01/08  17:40:46  sis
  * Initial revision
- * 
+ *
  * Revision 1.1  91/07/02  11:13:59  touati
  * Initial revision
- * 
+ *
  */
 
 #ifndef MAP_DEFS_H
 #define MAP_DEFS_H
 
-#define FP_EQUAL(a, b)    (ABS((a)-(b)) < .0001)
+#define FP_EQUAL(a, b) (ABS((a) - (b)) < .0001)
 #define LARGE 0x7fffffff
 
-typedef int  (*IntFunc)();
+typedef int (*IntFunc)();
 
 #endif /* MAP_DEFS_H */

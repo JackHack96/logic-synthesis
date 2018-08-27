@@ -24,7 +24,7 @@ extern network_t *astg_min();
 /* si_3sim.c */
 #define SIM3_SLOT undef1
 #define GETVAL(n) ((int)((n)->SIM3_SLOT))
-#define SETVAL(n, v) ((n)->SIM3_SLOT = (char*) (v))
+#define SETVAL(n, v) ((n)->SIM3_SLOT = (char *)(v))
 #define EMPTY -1
 
 extern void ter_simulate();

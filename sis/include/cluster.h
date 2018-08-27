@@ -1,7 +1,7 @@
 
 /* file cluster.h release 1.2 */
 /* last modified: 7/2/91 at 19:44:29 */
-/* 
+/*
  * $Log: cluster.h,v $
  * Revision 1.1.1.1  2004/02/07 10:14:24  pchong
  * imported
@@ -32,37 +32,37 @@
  *
  * Revision 1.1  92/01/08  17:40:33  sis
  * Initial revision
- * 
+ *
  * Revision 1.1  91/07/02  10:49:47  touati
  * Initial revision
- * 
+ *
  */
 
 #ifndef CLUSTER_H
 #define CLUSTER_H
 
 typedef enum {
-    DEPTH_CONSTRAINT,
-    SIZE_CONSTRAINT,
-    SIZE_AS_DEPTH_CONSTRAINT,
-    CLUSTER_STATISTICS,
-    BEST_RATIO_CONSTRAINT,
-    FANIN_CONSTRAINT
+  DEPTH_CONSTRAINT,
+  SIZE_CONSTRAINT,
+  SIZE_AS_DEPTH_CONSTRAINT,
+  CLUSTER_STATISTICS,
+  BEST_RATIO_CONSTRAINT,
+  FANIN_CONSTRAINT
 } clust_type_t;
 
 typedef struct {
-    clust_type_t type;
-    int          cluster_size;
-    int          depth;
-    int          relabel;
-    int          verbose;
-    double       dup_ratio;
+  clust_type_t type;
+  int cluster_size;
+  int depth;
+  int relabel;
+  int verbose;
+  double dup_ratio;
 } clust_options_t;
 
 /* redundant - use ARGS defined in ansi.h
-#ifdef __STDC__ 
+#ifdef __STDC__
 #define __args(x)	(x)
-#else 
+#else
 #define __args(x)	()
 #endif
 */

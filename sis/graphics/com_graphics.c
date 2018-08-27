@@ -9,8 +9,6 @@
 
 #include "sis.h"
 
-void init_graphics(void) {
-}
+void init_graphics(void) {}
 
-void end_graphics(void) {
-}
+void end_graphics(void) {}

@@ -19,11 +19,11 @@
 /*
  * global variables
  */
-FILE   *Fin;
-FILE   *Fout;
-FILE   *Ferr;
-int    RangeSmall;
-int    Verbose;
+FILE *Fin;
+FILE *Fout;
+FILE *Ferr;
+int RangeSmall;
+int Verbose;
 double OldCost;
 double NewCost;
 double StatesBegin;

@@ -9,9 +9,9 @@ extern void write_pla(FILE *, network_t *);
 extern void write_eqn(FILE *, network_t *, int);
 
 #ifdef SIS
-extern int write_kiss (FILE *, graph_t *);
-extern int read_kiss (FILE *, graph_t **);
-extern network_t *read_slif (FILE *);
+extern int write_kiss(FILE *, graph_t *);
+extern int read_kiss(FILE *, graph_t **);
+extern network_t *read_slif(FILE *);
 #endif /* SIS */
 
 extern int read_blif(FILE *, network_t **);

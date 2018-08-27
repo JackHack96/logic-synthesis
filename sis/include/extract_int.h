@@ -4,11 +4,10 @@
  */
 typedef struct rect_struct rect_t;
 struct rect_struct {
-    sm_col *rows;
-    sm_row *cols;
-    int    value;
+  sm_col *rows;
+  sm_row *cols;
+  int value;
 };
-
 
 /*
  *  each element of the sparse matrix contains a 'value' and identifies
@@ -16,13 +15,12 @@ struct rect_struct {
  */
 typedef struct value_cell_struct value_cell_t;
 struct value_cell_struct {
-    int value;            /* # literals in this cube */
-    int sis_index;        /* which sis function */
-    int cube_number;        /* which cube of that function */
-    int ref_count;        /* number of times referenced */
+  int value;       /* # literals in this cube */
+  int sis_index;   /* which sis function */
+  int cube_number; /* which cube of that function */
+  int ref_count;   /* number of times referenced */
 };
-#define VALUE(p)        ((value_cell_t *) (p)->user_word)->value
-
+#define VALUE(p) ((value_cell_t *)(p)->user_word)->value
 
 /*
  *  a quick way to associate cubes (i.e., sm_row *) to small integers
@@ -30,10 +28,9 @@ struct value_cell_struct {
  */
 typedef struct cubeindex_struct cubeindex_t;
 struct cubeindex_struct {
-    st_table *cube_to_integer;
-    array_t  *integer_to_cube;
+  st_table *cube_to_integer;
+  array_t *integer_to_cube;
 };
-
 
 /* greedyrow.c, greedycol.c, pingpong.c */
 extern rect_t *greedy_row();
@@ -64,10 +61,10 @@ extern sm_matrix *ex_rect_to_kernel();
 
 extern sm_matrix *ex_rect_to_cokernel();
 
-extern sm_matrix *kernel_cube_matrix;        /* hack */
-extern array_t   *co_kernel_table;        /* hack */
-extern array_t   *global_row_cost;        /* hack */
-extern array_t   *global_col_cost;        /* hack */
+extern sm_matrix *kernel_cube_matrix; /* hack */
+extern array_t *co_kernel_table;      /* hack */
+extern array_t *global_row_cost;      /* hack */
+extern array_t *global_col_cost;      /* hack */
 
 /* best_subk.c */
 extern rect_t *choose_subkernel();
@@ -125,7 +122,7 @@ extern int ping_pong_debug;
 extern int cube_extract_debug;
 extern int kernel_extract_debug;
 
-extern network_t   *global_network;
+extern network_t *global_network;
 extern nodeindex_t *global_node_index;
-extern array_t     *global_old_fct;
-extern int         use_complement;
+extern array_t *global_old_fct;
+extern int use_complement;

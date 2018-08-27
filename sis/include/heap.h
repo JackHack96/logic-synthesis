@@ -6,16 +6,16 @@
 /*  Entry in the heap */
 typedef struct heap_entry_struct heap_entry_t;
 struct heap_entry_struct {
-    int  key;      /* Comparison key */
-    char *item;   /* Item pointer */
+  int key;    /* Comparison key */
+  char *item; /* Item pointer */
 };
 
 /*  Heap structure */
 typedef struct heap_struct heap_t;
 struct heap_struct {
-    int          heapnum;           /* Currently the number of objects in the heap. */
-    int          heapsize;          /* Currently allowed size of the heap */
-    heap_entry_t **tree;   /* Heap tree structure */
+  int heapnum;         /* Currently the number of objects in the heap. */
+  int heapsize;        /* Currently allowed size of the heap */
+  heap_entry_t **tree; /* Heap tree structure */
 };
 
 /* heap.c */

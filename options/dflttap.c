@@ -13,10 +13,7 @@
 #ifndef lint
 
 /*ARGSUSED*/
-char *tapRootDirectory(new)
-        char *new;
-{
-    return (NIL(char));
-}
+char *tapRootDirectory(new) char *new;
+{ return (NIL(char)); }
 
 #endif /*lint*/

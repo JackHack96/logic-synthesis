@@ -13,5 +13,5 @@ add_library(simplify STATIC
         simp_sm.c
         simp_util.c
 
-        ../include/simp_int.h
+
         )

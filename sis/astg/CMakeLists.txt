@@ -1,12 +1,13 @@
+set(CMAKE_C_FLAGS -DSIS)
 add_library(astg STATIC
         astg_blif.c
         astg_cmds.c
         astg_contract.c
-        ../include/astg_core.h
+
         astg_core1.c
         astg_core2.c
         astg_flow.c
-        ../include/astg_int.h
+
         astg_irred.c
         astg_lkgraph.c
         astg_marking.c
@@ -16,7 +17,7 @@ add_library(astg STATIC
         bwd_code.c
         bwd_com.c
         bwd_hazard.c
-        ../include/bwd_int.h
+
         bwd_io.c
         bwd_lp.c
         bwd_min_delay.c
@@ -24,9 +25,9 @@ add_library(astg STATIC
         bwd_stg_to_f.c
         bwd_util.c
         com_astg.c
-        ../include/min_delay_int.h
+
         si_com.c
         si_encode.c
-        ../include/si_int.h
+
         si_min.c
         )

@@ -7,8 +7,6 @@
 
 #ifndef lint
 
-optionStruct optionList[] = {
-        {0, 0, 0}
-};
+optionStruct optionList[] = {{0, 0, 0}};
 
 #endif /*lint*/

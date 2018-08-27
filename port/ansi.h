@@ -21,15 +21,15 @@
 
 /* Function prototypes */
 #if defined(__STDC__) || defined(__cplusplus)
-#define args    args
+#define args args
 #else
 #define args)	(
 #endif
 
 #if defined(__cplusplus)
-#define NULLARGS	(void)
+#define NULLARGS (void)
 #else
-#define NULLARGS    ()
+#define NULLARGS ()
 #endif
 
 #ifdef __cplusplus

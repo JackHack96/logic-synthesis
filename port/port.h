@@ -9,13 +9,13 @@
 #ifdef _IBMR2
 #define _BSD
 #ifndef _POSIX_SOURCE
-#define _POSIX_SOURCE		/* Argh!  IBM strikes again */
+#define _POSIX_SOURCE /* Argh!  IBM strikes again */
 #endif
 #ifndef _ALL_SOURCE
-#define _ALL_SOURCE		/* Argh!  IBM strikes again */
+#define _ALL_SOURCE /* Argh!  IBM strikes again */
 #endif
 #ifndef _ANSI_C_SOURCE
-#define _ANSI_C_SOURCE		/* Argh!  IBM strikes again */
+#define _ANSI_C_SOURCE /* Argh!  IBM strikes again */
 #endif
 #endif
 
@@ -34,10 +34,9 @@ typedef short int16;
 #else
 /* Ansi-C promises that these definitions should always work */
 typedef long int32;
-typedef int  int16;
+typedef int int16;
 #endif /* vax */
 #endif /* MACHDEP_INCLUDED */
-
 
 /*
  *   Do not do anything if already somebody else is doing it.
@@ -46,20 +45,19 @@ typedef int  int16;
  */
 #if !defined(__STDC__) && !defined(_std_h)
 
-
 #ifndef __DATE__
 #ifdef CUR_DATE
-#define __DATE__	CUR_DATE
+#define __DATE__ CUR_DATE
 #else
-#define __DATE__	"unknown-date"
+#define __DATE__ "unknown-date"
 #endif /* CUR_DATE */
 #endif /* __DATE__ */
 
 #ifndef __TIME__
 #ifdef CUR_TIME
-#define __TIME__	CUR_TIME
+#define __TIME__ CUR_TIME
 #else
-#define __TIME__	"unknown-time"
+#define __TIME__ "unknown-time"
 #endif /* CUR_TIME */
 #endif /* __TIME__ */
 #endif /* __STDC__ */
@@ -68,8 +66,8 @@ typedef int  int16;
 #define PORTAR
 #endif
 
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 #include <sys/types.h>
 
 #undef HUGE
@@ -77,17 +75,17 @@ typedef int  int16;
 #include <math.h>
 #include <signal.h>
 
-#if defined(ultrix)  /* { */
+#if defined(ultrix)   /* { */
 #if defined(_SIZE_T_) /* { */
 #define ultrix4
-#else		     /* } else { */
+#else                /* } else { */
 #if defined(SIGLOST) /* { */
 #define ultrix3
-#else                /* } else { */
+#else /* } else { */
 #define ultrix2
-#endif               /* } */
-#endif               /* } */
-#endif               /* } */
+#endif /* } */
+#endif /* } */
+#endif /* } */
 
 #if defined(ultrix3) && defined(mips)
 extern double rint();
@@ -104,16 +102,17 @@ extern double trunc();
 #define LACK_SYS5
 #endif
 
-#if defined(ultrix3) || defined(sunos4) || defined(_IBMR2) || defined(ultrix4) || defined(__osf__)
-#define SIGNAL_FN	void
+#if defined(ultrix3) || defined(sunos4) || defined(_IBMR2) ||                  \
+    defined(ultrix4) || defined(__osf__)
+#define SIGNAL_FN void
 #else
 /* sequent, ultrix2, 4.3BSD (vax, hp), sunos3 */
-#define SIGNAL_FN    int
+#define SIGNAL_FN int
 #endif
 
-
 /* Some systems have 'fixed' certain functions which used to be int */
-#if defined(ultrix) || defined(SABER) || defined(__hpux) || defined(aiws) || defined(apollo) || defined(AIX) || defined(__STDC__)
+#if defined(ultrix) || defined(SABER) || defined(__hpux) || defined(aiws) ||   \
+    defined(apollo) || defined(AIX) || defined(__STDC__)
 #define VOID_HACK void
 #else
 #define VOID_HACK int
@@ -129,27 +128,26 @@ extern double trunc();
  */
 
 #ifndef CHARBITS
-#	define    UNSCHAR(c)    ((unsigned char)(c))
+#define UNSCHAR(c) ((unsigned char)(c))
 #else
-#	define	UNSCHAR(c)	((c)&CHARBITS)
+#define UNSCHAR(c) ((c)&CHARBITS)
 #endif
 
 #define SIZET int
 
 #ifdef __STDC__
 #define CONST const
-#define VOIDSTAR   void *
+#define VOIDSTAR void *
 #else
 #define CONST
-#define VOIDSTAR   char *
+#define VOIDSTAR char *
 #endif /* __STDC__ */
-
 
 /* Some machines fail to define some functions in stdio.h */
 #if !defined(__STDC__) && !defined(sprite)
 extern FILE *popen(), *tmpfile();
 extern int pclose();
-#ifndef clearerr		/* is a macro on many machines, but not all */
+#ifndef clearerr /* is a macro on many machines, but not all */
 extern VOID_HACK clearerr();
 #endif /* clearerr */
 #ifndef _IBMR2
@@ -161,29 +159,28 @@ extern VOID_HACK rewind();
 #endif /* _IBMR2 */
 #endif /* __STDC__ */
 
-
 /* most machines don't give us a header file for these */
 #if defined(__STDC__) || defined(sprite) || defined(__osf__) || defined(__hpux)
 
 #include <stdlib.h>
 
 #if defined(__hpux)
-#include <errno.h>	/* For perror() defininition */
-#endif /* __hpux */
+#include <errno.h> /* For perror() defininition */
+#endif             /* __hpux */
 #else
 #ifdef _IBMR2
 extern int abort(), exit();
 extern void free(), perror();
 #else
 extern VOID_HACK abort(), free(), exit(), perror();
-#endif 
+#endif
 extern char *getenv();
 #ifdef ultrix4
 extern void *malloc(), *realloc(), *calloc();
 #else
 extern char *malloc(), *realloc(), *calloc();
 #endif
-#if defined(aiws) 
+#if defined(aiws)
 extern int sprintf();
 #else
 #ifndef _IBMR2
@@ -197,7 +194,6 @@ extern long atol();
 extern int sscanf();
 #endif
 #endif /* __STDC__ */
-
 
 /* some call it strings.h, some call it string.h; others, also have memory.h */
 #if defined(__STDC__) || defined(sprite)
@@ -218,15 +214,15 @@ extern int memcmp(), strcmp();
 #endif /* __STDC__ */
 
 #ifdef lint
-#undef putc			/* correct lint '_flsbuf' bug */
-#endif /* lint */
+#undef putc /* correct lint '_flsbuf' bug */
+#endif      /* lint */
 
 /* a few extras */
 #if !defined(_std_h)
 #if defined(__hpux)
 #define random() lrand48()
 #define srandom(a) srand48(a)
-#define bzero(a,b) memset(a, 0, b)
+#define bzero(a, b) memset(a, 0, b)
 #else
 #if !defined(__osf__) && !defined(__CYGWIN__)
 
@@ -246,16 +242,18 @@ extern long random();
 
 #else
 #ifndef NDEBUG
-#define assert(ex) {\
-    if (! (ex)) {\
-    (void) fprintf(stderr, "Assertion failed: file %s, line %d\n",\
-        __FILE__, __LINE__);\
-    (void) fflush(stdout);\
-    abort();\
-    }\
-}
+#define assert(ex)                                                             \
+  {                                                                            \
+    if (!(ex)) {                                                               \
+      (void)fprintf(stderr, "Assertion failed: file %s, line %d\n", __FILE__,  \
+                    __LINE__);                                                 \
+      (void)fflush(stdout);                                                    \
+      abort();                                                                 \
+    }                                                                          \
+  }
 #else
-#define assert(ex) {;}
+#define assert(ex)                                                             \
+  { ; }
 #endif
 #endif
 #endif
@@ -268,27 +266,24 @@ extern long random();
 #else
 #ifndef _IBMR2
 #ifndef __osf__
-#define USHRT_MAX	(~ (unsigned short int) 0)
-#define UINT_MAX	(~ (unsigned int) 0)
-#define ULONG_MAX	(~ (unsigned long int) 0)
-#define SHRT_MAX	((short int) (USHRT_MAX >> 1))
-#define INT_MAX		((int) (UINT_MAX >> 1))
-#define LONG_MAX	((long int) (ULONG_MAX >> 1))
+#define USHRT_MAX (~(unsigned short int)0)
+#define UINT_MAX (~(unsigned int)0)
+#define ULONG_MAX (~(unsigned long int)0)
+#define SHRT_MAX ((short int)(USHRT_MAX >> 1))
+#define INT_MAX ((int)(UINT_MAX >> 1))
+#define LONG_MAX ((long int)(ULONG_MAX >> 1))
 #endif
 #endif
 #endif
 
 /*
-*
-*/
-
-
+ *
+ */
 
 #ifdef sequent
-#define SIG_FLAGS(s)    (s).sv_onstack
+#define SIG_FLAGS(s) (s).sv_onstack
 #else
-#define SIG_FLAGS(s)    (s).sv_flags
+#define SIG_FLAGS(s) (s).sv_flags
 #endif
 
 #endif /* PORT_H */
-

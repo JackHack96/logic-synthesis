@@ -17,66 +17,64 @@
 #define RIGHT 1
 #define NONUNATE 0
 #define UNATE 1
-#define cdist0bv(p, q, var) \
-((GETINPUT(p, var)) & (GETINPUT(q, var)))
+#define cdist0bv(p, q, var) ((GETINPUT(p, var)) & (GETINPUT(q, var)))
 #define ROS_ZEROS 20
 #define ROS_MEM_SIZE 1000000
 
 /* Node to store intermediate nodes of unate tree */
 typedef struct nc_node_struct {
-    struct nc_node_struct *child[2];
-    pset                  part_cube[2];
-    pset                  *cubelist;
-    pset                  cof;
-    int                   var;
+  struct nc_node_struct *child[2];
+  pset part_cube[2];
+  pset *cubelist;
+  pset cof;
+  int var;
 } nc_node_t, *pnc_node;
 
 /* ros_holder to hold ROS */
 typedef struct ros_holder_struct {
-    pset_family ros;
-    pcube       ros_cube;
-    int         count;
+  pset_family ros;
+  pcube ros_cube;
+  int count;
 } ros_holder_t, *pros_holder;
 
-
 /* Global variables used by routines in ros */
-extern pcube *nc_tmp_cube;    /* Temporary cubes to be used in this file */
+extern pcube *nc_tmp_cube; /* Temporary cubes to be used in this file */
 
-extern pcover Tree_cover;    /* F union D used to generate the unate tree */
+extern pcover Tree_cover; /* F union D used to generate the unate tree */
 
-extern int      Max_level;        /* Controls the depth of the part of unate
-			           tree that is stored */
-extern int      N_level;            /* Some processing to reduce the size of
-				  cofactors is done every N_level levels */
-extern pnc_node root;        /* Root node of the unate tree */
+extern int Max_level; /* Controls the depth of the part of unate
+                       tree that is stored */
+extern int N_level;   /* Some processing to reduce the size of
+                    cofactors is done every N_level levels */
+extern pnc_node root; /* Root node of the unate tree */
 
-extern int Num_act_vars;       /* Number of active variables in the cube being 
-			          expanded */
+extern int Num_act_vars; /* Number of active variables in the cube being
+                            expanded */
 
-extern pcover ROS;        /* Reduced off set */
+extern pcover ROS; /* Reduced off set */
 
-extern int ROS_count;        /* Number of ROS generated */
+extern int ROS_count; /* Number of ROS generated */
 
-extern long ROS_time;        /* Total time for generating ROSs */
+extern long ROS_time; /* Total time for generating ROSs */
 
-extern pcube ROS_cube;        /* Cube for which ROS was computed */
+extern pcube ROS_cube; /* Cube for which ROS was computed */
 
-extern int Max_ROS_size;    /* Maximum size of off set during the entire
-				   run */
-extern int ROS_zeros;        /* Upper bound on the number of zeros in
-				   ROS cube */
-extern int ROS_max_store;    /* Number of ROS stored at any time */
+extern int Max_ROS_size;  /* Maximum size of off set during the entire
+                                 run */
+extern int ROS_zeros;     /* Upper bound on the number of zeros in
+                                ROS cube */
+extern int ROS_max_store; /* Number of ROS stored at any time */
 
-extern int ROS_max_size_store;    /* Upped limit on the size of ROS that can
-                                   be stored for future use */
-extern int N_ROS;        /* Keeps track of number of ROS stored so far */
+extern int ROS_max_size_store; /* Upped limit on the size of ROS that can
+                                be stored for future use */
+extern int N_ROS;              /* Keeps track of number of ROS stored so far */
 
-extern pros_holder ROS_array;    /* ROS_array that stores ROS */
+extern pros_holder ROS_array; /* ROS_array that stores ROS */
 
-extern int OC_count;        /* Number of overexpanded cubes generated */
+extern int OC_count; /* Number of overexpanded cubes generated */
 
-extern long OC_time;        /* Total time for generating overexpanded
-				   cubes */
+extern long OC_time; /* Total time for generating overexpanded
+                            cubes */
 
 /* Functions used in ros */
 

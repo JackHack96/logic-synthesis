@@ -7,7 +7,6 @@ add_subdirectory(astg)
 add_subdirectory(atpg)
 add_subdirectory(avl)
 add_subdirectory(bdd_cmu)
-add_subdirectory(bdd_ucb)
 add_subdirectory(clock)
 add_subdirectory(command)
 add_subdirectory(decomp)
@@ -50,16 +49,19 @@ add_subdirectory(test)
 add_subdirectory(timing)
 add_subdirectory(util)
 add_subdirectory(var_set)
-add_subdirectory(include/latch)
+add_subdirectory(latch)
 
-add_executable(sis main/sis.c)
+add_executable(sis
+        main/sis.c
+        main/sis_glbs.c
+        main/sis_init.c
+        main/version.c)
 target_link_libraries(sis
         array
         astg
         atpg
         avl
         bdd_cmu
-        bdd_ucb
         clock
         command
         decomp
@@ -98,7 +100,8 @@ target_link_libraries(sis
         speed
         st
         stg
-        test
+        test_sis
         timing
         util
-        var_set)
+        var_set
+        latch)

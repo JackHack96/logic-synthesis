@@ -3,6 +3,6 @@ add_library(minimize STATIC
         minimize.c
         ros.c
 
-        ../include/min_int.h
-        ../include/ros.h
+
+
         )

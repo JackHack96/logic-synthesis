@@ -8,9 +8,7 @@
  * These are the test used in the tokenizer, please refer
  * to the graph included in the documentation
  */
-enum TOKEN_STATES {
-    tZERO, tTOKEN, tREM1, tREM2, tSTRING, tEOF
-};
+enum TOKEN_STATES { tZERO, tTOKEN, tREM1, tREM2, tSTRING, tEOF };
 
 /*
  * Following are the structures containing all the info extracted from
@@ -18,65 +16,66 @@ enum TOKEN_STATES {
  */
 
 struct PortName {
-    char            name[MAXNAMELEN];
-    int             notused;  // this flag is used to check if a formal terminal has been already connected
-    struct PortName *next;
+  char name[MAXNAMELEN];
+  int notused; // this flag is used to check if a formal terminal has been
+               // already connected
+  struct PortName *next;
 };
 
 struct Ports {
-    char name[MAXNAMELEN];
+  char name[MAXNAMELEN];
 };
 
 struct Cell {
-    char             name[MAXNAMELEN];
-    int              npins;
-    char             type;
-    struct SIGstruct *io;
-    struct Ports     *formals;
-    struct Cell      *next;
+  char name[MAXNAMELEN];
+  int npins;
+  char type;
+  struct SIGstruct *io;
+  struct Ports *formals;
+  struct Cell *next;
 };
 
 struct LibCell {
-    char           name[MAXNAMELEN];
-    int            npins;
-    char           clk[MAXNAMELEN];
-    struct Ports   *formals;
-    struct LibCell *next;
+  char name[MAXNAMELEN];
+  int npins;
+  char clk[MAXNAMELEN];
+  struct Ports *formals;
+  struct LibCell *next;
 };
 
 struct Instance {
-    char            name[MAXNAMELEN];
-    struct Cell     *what;
-    struct Ports    *actuals;
-    struct Instance *next;
+  char name[MAXNAMELEN];
+  struct Cell *what;
+  struct Ports *actuals;
+  struct Instance *next;
 };
 
 struct BITstruct {
-    char             name[MAXNAMELEN + 10];
-    char             dir;
-    struct BITstruct *next;
+  char name[MAXNAMELEN + 10];
+  char dir;
+  struct BITstruct *next;
 };
 
 struct SIGstruct {
-    char             name[MAXNAMELEN];
-    char             dir;
-    int              start;
-    int              end;
-    struct SIGstruct *next;
+  char name[MAXNAMELEN];
+  char dir;
+  int start;
+  int end;
+  struct SIGstruct *next;
 };
 
 struct TERMstruct {
-    char name[MAXNAMELEN];
-    int  start;
-    int  end;
+  char name[MAXNAMELEN];
+  int start;
+  int end;
 };
 
 struct ENTITYstruct {
-    char             name[MAXNAMELEN];
-    struct Cell      *Components;
-    struct Cell      *EntityPort;
-    struct SIGstruct *Internals;
-    struct Instance  *Net;
+  char name[MAXNAMELEN];
+  struct Cell *Components;
+  struct Cell *EntityPort;
+  struct SIGstruct *Internals;
+  struct Instance *Net;
 };
 
 /**
@@ -121,7 +120,8 @@ void releaseSIG(struct SIGstruct *ptr);
 
 void addBIT(struct BITstruct **BITptr, char *name, char dir);
 
-void addSIG(struct SIGstruct **SIGptr, char *name, char dir, int start, int end);
+void addSIG(struct SIGstruct **SIGptr, char *name, char dir, int start,
+            int end);
 
 /**
  * Puts a message on stderr, write the current line
@@ -195,7 +195,8 @@ struct LibCell *scan_library(char *LibName);
  */
 struct LibCell *what_lib_gate(char *name, struct LibCell *LIBRARY);
 
-struct Cell *new_cell(char *name, struct SIGstruct *Bports, struct BITstruct *Fports, struct LibCell *Genlib);
+struct Cell *new_cell(char *name, struct SIGstruct *Bports,
+                      struct BITstruct *Fports, struct LibCell *Genlib);
 
 /**
  * Returns a pointer to an element of the list of gates
@@ -231,13 +232,15 @@ void get_component(struct Cell **cell);
  */
 void get_signal(struct SIGstruct **Internals);
 
-void fill_term(struct TERMstruct *TERM, struct ENTITYstruct *Entity, int which, struct Cell *WhatCell);
+void fill_term(struct TERMstruct *TERM, struct ENTITYstruct *Entity, int which,
+               struct Cell *WhatCell);
 
 /**
  * Gets a name of an actual terminal, that can be a single
  * token or 3 tokens long (if it's an element of a vector)
  */
-void get_name(struct TERMstruct *TERM, struct ENTITYstruct *Entity, int which, struct Cell *WhatCell);
+void get_name(struct TERMstruct *TERM, struct ENTITYstruct *Entity, int which,
+              struct Cell *WhatCell);
 
 void change_internal(struct SIGstruct *Intern, char *name);
 
@@ -263,4 +266,4 @@ void print_sls(struct ENTITYstruct *Entity);
  */
 void parse_file();
 
-#endif //SIS_VST2BLIF_H
+#endif // SIS_VST2BLIF_H

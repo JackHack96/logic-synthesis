@@ -1,7 +1,7 @@
 
 /* file @(#)pwl.h	1.7 */
 /* last modified on 7/25/91 at 11:45:54 */
-/* 
+/*
  * $Log: pwl.h,v $
  * Revision 1.1.1.1  2004/02/07 10:14:26  pchong
  * imported
@@ -14,10 +14,10 @@
  *
  * Revision 1.1  92/01/08  17:40:53  sis
  * Initial revision
- * 
+ *
  * Revision 1.1  91/07/02  11:18:35  touati
  * Initial revision
- * 
+ *
  */
 #ifndef PWL_H
 #define PWL_H
@@ -27,15 +27,15 @@
 /* implements piece-wise linear scalar valued functions */
 
 typedef struct {
-    double x;
-    double y;
-    double slope;
-    char   *data;
+  double x;
+  double y;
+  double slope;
+  char *data;
 } pwl_point_t;
 
 typedef struct {
-    int         n_points;
-    pwl_point_t *points;
+  int n_points;
+  pwl_point_t *points;
 } pwl_t;
 
 #ifndef INFINITY
@@ -54,7 +54,8 @@ extern pwl_t *pwl_create_linear_max(/* int n_points; pwl_point_t *points; */);
 
 extern pwl_t *pwl_dup(/*  pwl_t *f; */);
 
-/* sort the points if necessary; should be made same interface as create_linear_max */
+/* sort the points if necessary; should be made same interface as
+ * create_linear_max */
 extern pwl_t *pwl_create(/*  array_t *points; */);
 
 /* does not sort */
@@ -75,8 +76,8 @@ extern char *pwl_point_data(/* pwl_point_t *point */);
 extern pwl_t *pwl_create_empty(/* */);
 
 typedef struct {
-    pwl_t *rise;
-    pwl_t *fall;
+  pwl_t *rise;
+  pwl_t *fall;
 } delay_pwl_t;
 
 #endif /* PWL_H */

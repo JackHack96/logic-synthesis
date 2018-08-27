@@ -3,69 +3,61 @@
 
 #include "reductio.h"
 
-
-main(argc, argv
-)
-int  argc;
+main(argc, argv) int argc;
 char **argv;
 
 {
-/*         INCOMPLETELY SPECIFIED
-     FINITE STATE MACHINES DECOMPOSITION
+  /*         INCOMPLETELY SPECIFIED
+       FINITE STATE MACHINES DECOMPOSITION
 
-              Tiziano Villa
-       CSELT Labs - Torino (Italy)
+                Tiziano Villa
+         CSELT Labs - Torino (Italy)
 
-       VERSION 1.0
-                                             */
+         VERSION 1.0
+                                               */
 
-procargs (argc, argv
-);
+  procargs(argc, argv);
 
-yyparse();
+  yyparse();
 
-if (errorcount) exit (1);
+  if (errorcount)
+    exit(1);
 
-label();
+  label();
 
-if (isymb  && !osymb)
+  if (isymb && !osymb)
 
-obincompa();
+    obincompa();
 
-if (isymb  &&  osymb)
+  if (isymb && osymb)
 
-incompat();
+    incompat();
 
-if (!isymb && !osymb)
+  if (!isymb && !osymb)
 
-iobincomp();
+    iobincomp();
 
-if (!isymb &&  osymb)
+  if (!isymb && osymb)
 
-ibincompa();
+    ibincompa();
 
-if (!
-strcmp (coloring_algo,
-"fast")) {
-fast_coloring();
+  if (!strcmp(coloring_algo, "fast")) {
+    fast_coloring();
+  } else {
+    espresso_coloring();
+  }
+
+  mxcomptbl();
+
+  solution();
+
+  if (do_print_classes) {
+    print_classes();
+  }
+
+  reduced();
+
+  makeout();
+
+  exit(0);
 }
-else {
-espresso_coloring();
-}
-
-mxcomptbl();
-
-solution();
-
-if (do_print_classes) {
-print_classes();
-}
-
-reduced();
-
-makeout();
-
-exit (0);
-}
-
-

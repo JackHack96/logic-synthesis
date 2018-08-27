@@ -14,5 +14,5 @@ add_library(power STATIC
         power_sim.c
         power_util.c
 
-        ../include/power_int.h
+
         )

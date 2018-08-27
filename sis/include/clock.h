@@ -3,7 +3,7 @@
 #define CLOCK_H
 
 /*
- * Data structures 
+ * Data structures
  */
 
 #define CLOCK_SLOT clock
@@ -15,67 +15,65 @@
 #define CLOCK_NOT_SET -1.0
 
 typedef enum clock_setting_enum clock_setting_t;
-enum clock_setting_enum {
-    SPECIFICATION = 0,
-    WORKING       = 1
-};
+enum clock_setting_enum { SPECIFICATION = 0, WORKING = 1 };
 
 typedef enum clock_param_enum clock_param_t;
 enum clock_param_enum {
-    CLOCK_NOMINAL_POSITION, CLOCK_ABSOLUTE_VALUE,
-    CLOCK_LOWER_RANGE, CLOCK_UPPER_RANGE
+  CLOCK_NOMINAL_POSITION,
+  CLOCK_ABSOLUTE_VALUE,
+  CLOCK_LOWER_RANGE,
+  CLOCK_UPPER_RANGE
 };
 
 /*
- * Structure to store the parameters of an edge 
+ * Structure to store the parameters of an edge
  */
 typedef struct clock_val clock_val_t;
 struct clock_val {
-    double nominal;        /* Nominal value (fraction of cycle-time) */
-    double lower_range;        /* Absolute deviation on lower side */
-    double upper_range;         /* Absolute deviation on upped side */
+  double nominal;     /* Nominal value (fraction of cycle-time) */
+  double lower_range; /* Absolute deviation on lower side */
+  double upper_range; /* Absolute deviation on upped side */
 };
 
-/* 
- * Structure to report dependencies of the clock edges 
+/*
+ * Structure to report dependencies of the clock edges
  */
-typedef struct clock_edge   clock_edge_t;
+typedef struct clock_edge clock_edge_t;
 typedef struct clock_struct sis_clock_t;
 
 struct clock_edge {
-    sis_clock_t *clock;
-    int         transition;        /* RISE_TRANSITION or FALL_TRANSITION */
+  sis_clock_t *clock;
+  int transition; /* RISE_TRANSITION or FALL_TRANSITION */
 };
 
 /*
- * A clock structure 
+ * A clock structure
  */
 struct clock_struct {
-    char         *name;            /* Name of clock signal */
-    lsHandle     net_handle;    /* Handle inside network clock_defn */
-    network_t    *network;        /* Pointer to the network */
-    lsList       dependency[2][2];    /* Dependeny lists of the two edges */
-    clock_edge_t edges[2];    /* Clock edges -- for dependency code */
-    clock_val_t  value[2][2];    /* Clock values ----- [i][j] */
-    /* i = RISE_TRANSITION or FALL_TRANSITION */
-    /* j = SPECIFICATION or WORKING */
+  char *name;              /* Name of clock signal */
+  lsHandle net_handle;     /* Handle inside network clock_defn */
+  network_t *network;      /* Pointer to the network */
+  lsList dependency[2][2]; /* Dependeny lists of the two edges */
+  clock_edge_t edges[2];   /* Clock edges -- for dependency code */
+  clock_val_t value[2][2]; /* Clock values ----- [i][j] */
+                           /* i = RISE_TRANSITION or FALL_TRANSITION */
+                           /* j = SPECIFICATION or WORKING */
 };
-
 
 typedef struct network_clock_struct network_clock_t;
 struct network_clock_struct {
-    clock_setting_t flag;    /* SPECIFICATION or WORKING */
-    double          cycle_time[2];    /* Stores the cycle time */
-    lsList          clock_defn;       /* Linked list of "sis_clock_t" structures */
+  clock_setting_t flag; /* SPECIFICATION or WORKING */
+  double cycle_time[2]; /* Stores the cycle time */
+  lsList clock_defn;    /* Linked list of "sis_clock_t" structures */
 };
 
 /*
- * Macro to go through all the clocks 
+ * Macro to go through all the clocks
  */
-#define foreach_clock(network, gen, clock)                       \
-    for(gen = lsStart(CLOCK(network)->clock_defn);               \
-        (lsNext(gen, (lsGeneric *) &clock, LS_NH) == LS_OK)      \
-            || ((void) lsFinish(gen), 0); )
+#define foreach_clock(network, gen, clock)                                     \
+  for (gen = lsStart(CLOCK(network)->clock_defn);                              \
+       (lsNext(gen, (lsGeneric *)&clock, LS_NH) == LS_OK) ||                   \
+       ((void)lsFinish(gen), 0);)
 
 /*
  * List of exported routines

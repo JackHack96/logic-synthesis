@@ -4,8 +4,8 @@
 typedef struct stack STACK;
 
 struct stack {
-    int status;
-    int **ptr;
+  int status;
+  int **ptr;
 };
 
 #define STACKLIMIT 1000
@@ -13,4 +13,4 @@ struct stack {
 
 STACK *pop();
 
-extern STACK         *xstack;
+extern STACK *xstack;

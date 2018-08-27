@@ -14,34 +14,34 @@
 
 /* This can be typedef'ed to void if supported */
 typedef struct ls_dummy_defn {
-    int dummy;            /* Not used */
+  int dummy; /* Not used */
 } ls_dummy;
 
-typedef ls_dummy *lsList;    /* List handle           */
+typedef ls_dummy *lsList;   /* List handle           */
 typedef ls_dummy *lsGen;    /* List generator handle */
-typedef ls_dummy *lsHandle;    /* Handle to an item     */
-typedef int      lsStatus;        /* Return codes          */
-typedef char     *lsGeneric;    /* Generic pointer       */
+typedef ls_dummy *lsHandle; /* Handle to an item     */
+typedef int lsStatus;       /* Return codes          */
+typedef char *lsGeneric;    /* Generic pointer       */
 
-#define    LS_NIL        0    /* Nil for lsList       */
+#define LS_NIL 0 /* Nil for lsList       */
 
-#define LS_BADSTATE    -3    /* Bad generator state   */
-#define LS_BADPARAM    -2    /* Bad parameter value   */
-#define LS_NOMORE    -1    /* No more items         */
+#define LS_BADSTATE -3 /* Bad generator state   */
+#define LS_BADPARAM -2 /* Bad parameter value   */
+#define LS_NOMORE -1   /* No more items         */
 
-#define    LS_OK        0
+#define LS_OK 0
 
-#define LS_BEFORE    1    /* Set spot before object */
-#define LS_AFTER    2    /* Set spot after object  */
-#define LS_STOP        3    /* Stop generating items  */
-#define LS_DELETE    4    /* Delete generated item  */
+#define LS_BEFORE 1 /* Set spot before object */
+#define LS_AFTER 2  /* Set spot after object  */
+#define LS_STOP 3   /* Stop generating items  */
+#define LS_DELETE 4 /* Delete generated item  */
 
 /*
  * For all those routines that take a handle,  this macro can be
  * used when no handle is required.
  */
 
-#define LS_NH        (lsHandle *) 0
+#define LS_NH (lsHandle *)0
 
 typedef lsGeneric (*LS_PFLSG)();
 

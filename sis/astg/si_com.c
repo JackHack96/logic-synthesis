@@ -1,19 +1,17 @@
 
 #ifdef SIS
-#include "sis.h"
-#include "astg_int.h"
 #include "astg_core.h"
-#include "si_int.h"
+#include "astg_int.h"
 #include "bwd_int.h"
+#include "si_int.h"
+#include "sis.h"
 
 static char file[] = "/tmp/SISXXXXXX";
 
 /* Given a state graph derived from the STG, synthesize a logic
  * which is hazard-free under the unbounded gate delay model.
  */
-int
-com_astg_syn(network, argc, argv)
-network_t **network;
+int com_astg_syn(network, argc, argv) network_t **network;
 int argc;
 char **argv;
 {
@@ -60,19 +58,18 @@ char **argv;
   *network = new_net;
   return 0;
 
- usage:
+usage:
   (void)fprintf(siserr, "usage: astg_syn [-m] [-r] [-v debug_level] [-x] \n");
   (void)fprintf(siserr, "       -m   : don't remove MIC/MOC-related hazards\n");
   (void)fprintf(siserr, "       -r   : don't add redundancy (run espresso)\n");
   (void)fprintf(siserr, "       -v debug_level : print debug info\n");
-  (void)fprintf(siserr, "       -x   : skip token flow and synthesize direclty\n");
+  (void)fprintf(siserr,
+                "       -x   : skip token flow and synthesize direclty\n");
   return 1;
 }
 
 /* Print simple statistics of the given STG */
-int
-com_astg_print_stat(network, argc, argv)
-network_t **network;
+int com_astg_print_stat(network, argc, argv) network_t **network;
 int argc;
 char **argv;
 {
@@ -81,13 +78,15 @@ char **argv;
   astg_state *state_p;
 
   stg = astg_current(*network);
-  if (stg == NIL(astg_graph)) return 1;
-  
+  if (stg == NIL(astg_graph))
+    return 1;
+
   (void)fprintf(sisout, "File Name = %s\n", stg->filename);
-  (void)fprintf(sisout, "Total Number of Signals = %d (I = %d/O = %d)\n", 
-        stg->n_sig, stg->n_sig - stg->n_out, stg->n_out);
+  (void)fprintf(sisout, "Total Number of Signals = %d (I = %d/O = %d)\n",
+                stg->n_sig, stg->n_sig - stg->n_out, stg->n_out);
   if (astg_initial_state(stg, &initial) != ASTG_OK) {
-    (void)fprintf(sisout, "Initial State = ?? (can't find live, safe initial marking\n");
+    (void)fprintf(
+        sisout, "Initial State = ?? (can't find live, safe initial marking\n");
     (void)fprintf(sisout, "Total Number of States = ??\n");
     return 1;
   }
@@ -98,7 +97,8 @@ char **argv;
   print_state(stg, initial);
   print_enabled(stg, initial, enabled);
   if (astg_token_flow(stg, /* silent */ ASTG_FALSE) == ASTG_OK) {
-    (void)fprintf(sisout, "Total Number of States = %d\n", astg_state_count(stg));
+    (void)fprintf(sisout, "Total Number of States = %d\n",
+                  astg_state_count(stg));
   } else {
     (void)fprintf(sisout, "Total Number of States = ?? (csc violation)\n");
     return 1;
@@ -107,9 +107,7 @@ char **argv;
 }
 
 /* Print the state graph */
-int
-com_astg_print_sg(network, argc, argv)
-network_t **network;
+int com_astg_print_sg(network, argc, argv) network_t **network;
 int argc;
 char **argv;
 {
@@ -118,12 +116,10 @@ char **argv;
 }
 
 /* global initialization routine */
-void
-si_cmds()
-{
+void si_cmds() {
   /* speed-independent commands */
-  com_add_command ("astg_syn", com_astg_syn, 1);
-  com_add_command ("astg_print_sg", com_astg_print_sg, 0);
-  com_add_command ("astg_print_stat", com_astg_print_stat, 0);
+  com_add_command("astg_syn", com_astg_syn, 1);
+  com_add_command("astg_print_sg", com_astg_print_sg, 0);
+  com_add_command("astg_print_stat", com_astg_print_stat, 0);
 }
 #endif /* SIS */

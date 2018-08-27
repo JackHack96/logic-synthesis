@@ -1,9 +1,10 @@
 
 /*#define isdigit(ch) ((ch >= '0') && (ch <= '9'))
-#define isalpha(ch) (((ch >= 'a') && (ch <= 'z')) || ((ch >= 'A') && (ch <= 'Z')))*/
+#define isalpha(ch) (((ch >= 'a') && (ch <= 'z')) || ((ch >= 'A') && (ch <=
+'Z')))*/
 
-#define MAXNODE    220
-#define MAXDIM     8+1
+#define MAXNODE 220
+#define MAXDIM 8 + 1
 #define MAXPOW2DIM 256
 
 #define Z_X '?'
@@ -13,19 +14,19 @@
 #define FAIL '\0'
 
 typedef struct g_type {
-    int           num;
-    int           name;
-    struct g_type *next;
+  int num;
+  int name;
+  struct g_type *next;
 } t_graph, *pgraph;
 
 typedef struct dag_t {
-    int depth;
-    int incard;
-    int outcard;
-    int out_done;
+  int depth;
+  int incard;
+  int outcard;
+  int out_done;
 } t_dag;
 
 typedef struct sol_type {
-    int  dim;
-    char node[MAXNODE][MAXDIM];
+  int dim;
+  char node[MAXNODE][MAXDIM];
 } t_solution;

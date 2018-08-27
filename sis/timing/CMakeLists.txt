@@ -8,5 +8,5 @@ add_library(timing STATIC
         timing_seq.c
         timing_util.c
         timing_verify.c
-        ../include/timing_int.h
+
         )

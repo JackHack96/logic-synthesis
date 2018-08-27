@@ -1,9 +1,9 @@
 
 #ifdef SIS
-#include "sis.h"
-#include "astg_int.h"
 #include "astg_core.h"
+#include "astg_int.h"
 #include "si_int.h"
+#include "sis.h"
 
 static void astg_do_min();
 static st_table *link_state_minterm();
@@ -27,31 +27,31 @@ static void add_latch();
 
 static array_t *real_pi_names, *real_po_names;
 
-#define STG_INLABEL(i)  (array_fetch(char *, real_pi_names, (i)))
+#define STG_INLABEL(i) (array_fetch(char *, real_pi_names, (i)))
 #define STG_OUTLABEL(i) (array_fetch(char *, real_po_names, (i)))
 
 typedef struct state_rec {
   astg_scode state;
   astg_scode enabled; /* set of enabled transitions */
-  int num_fanouts; /* number of next states */
-  int index; /* index in state_array */
+  int num_fanouts;    /* number of next states */
+  int index;          /* index in state_array */
 } state_rec;
 
-network_t *
-astg_min(network)
-network_t *network;
+network_t *astg_min(network) network_t *network;
 {
   network_t *new_net;
   pPLA PLA;
 
   PLA = network_to_pla(network);
-  if (PLA == 0) return 0;
+  if (PLA == 0)
+    return 0;
   network_sweep(network);
   alloc_pipo_names(network, PLA);
 
-  if (PLA->R != 0) sf_free(PLA->R);
+  if (PLA->R != 0)
+    sf_free(PLA->R);
   if (PLA->D != 0) {
-    PLA->R = complement(cube2list(PLA->F,PLA->D));
+    PLA->R = complement(cube2list(PLA->F, PLA->D));
   } else {
     PLA->D = new_cover(0);
     PLA->R = complement(cube1list(PLA->F));
@@ -79,9 +79,7 @@ network_t *network;
   return new_net;
 }
 
-static void
-alloc_pipo_names(network, PLA)
-network_t *network;
+static void alloc_pipo_names(network, PLA) network_t *network;
 pPLA PLA;
 {
   node_t *node, *fake_pi, *real_po;
@@ -89,16 +87,18 @@ pPLA PLA;
 
   if (g_debug) {
     (void)fprintf(sisout, "PLA Input Names = ");
-    for (i = 0; i < NUMINPUTS; i++) (void)fprintf(sisout, "%s ", INLABEL(i));
+    for (i = 0; i < NUMINPUTS; i++)
+      (void)fprintf(sisout, "%s ", INLABEL(i));
     (void)fprintf(sisout, "\nPLA Output Names = ");
-    for (i = 0; i < NUMOUTPUTS; i++) (void)fprintf(sisout, "%s ", OUTLABEL(i));
+    for (i = 0; i < NUMOUTPUTS; i++)
+      (void)fprintf(sisout, "%s ", OUTLABEL(i));
     (void)fprintf(sisout, "\n");
   }
 
   real_pi_names = array_alloc(char *, NUMINPUTS);
   for (i = NUMINPUTS - 1; i >= 0; i--) {
     node = network_find_node(network, INLABEL(i));
-    assert (node != NIL(node_t));
+    assert(node != NIL(node_t));
     if (network_is_real_pi(network, node)) {
       array_insert(char *, real_pi_names, i, node->name);
     } else {
@@ -116,7 +116,7 @@ pPLA PLA;
       array_insert(char *, real_po_names, i, node->name);
     } else {
       fake_pi = network_latch_end(node);
-      assert (fake_pi != NIL(node_t));
+      assert(fake_pi != NIL(node_t));
       real_po = find_real_po(fake_pi);
       assert(real_po != NIL(node_t));
       array_insert(char *, real_po_names, i, real_po->name);
@@ -128,24 +128,21 @@ pPLA PLA;
 
   if (g_debug) {
     (void)fprintf(sisout, "PLA Input Names = ");
-    for (i = 0; i < NUMINPUTS; i++) (void)fprintf(sisout, "%s ", INLABEL(i));
+    for (i = 0; i < NUMINPUTS; i++)
+      (void)fprintf(sisout, "%s ", INLABEL(i));
     (void)fprintf(sisout, "\nPLA Output Names = ");
-    for (i = 0; i < NUMOUTPUTS; i++) (void)fprintf(sisout, "%s ", OUTLABEL(i));
+    for (i = 0; i < NUMOUTPUTS; i++)
+      (void)fprintf(sisout, "%s ", OUTLABEL(i));
     (void)fprintf(sisout, "\n");
   }
 }
 
-static void
-free_pipo_names()
-{
+static void free_pipo_names() {
   array_free(real_pi_names);
   array_free(real_po_names);
 }
 
-
-static void
-add_latch(old, new)
-network_t *old, *new;
+static void add_latch(old, new) network_t *old, *new;
 {
   lsGen gen;
   latch_t *latch_old, *latch_new;
@@ -166,19 +163,20 @@ network_t *old, *new;
     if (node_num_fanout(out_new) == 1) {
       node = node_get_fanout(out_new, 0);
       if (node_type(node) == INTERNAL) {
-    node2 = node_get_fanout(node, 0);
-    assert(node_num_fanout(node) == 1 && node_type(node2) == PRIMARY_OUTPUT);
-    network_delete_node(new, node2);
+        node2 = node_get_fanout(node, 0);
+        assert(node_num_fanout(node) == 1 &&
+               node_type(node2) == PRIMARY_OUTPUT);
+        network_delete_node(new, node2);
       } else {
-    assert(node_type(node) == PRIMARY_OUTPUT);
+        assert(node_type(node) == PRIMARY_OUTPUT);
       }
       network_delete_node(new, node);
       network_delete_node(new, out_new);
     } else {
       network_create_latch(new, &latch_new, in_new, out_new);
       if (!network_is_real_po(new, in_new)) {
-    /* hack to preserve the fake PO name - is this needed? */
-    network_swap_names(new, in_new, node_get_fanin(in_new, 0));
+        /* hack to preserve the fake PO name - is this needed? */
+        network_swap_names(new, in_new, node_get_fanin(in_new, 0));
       }
       latch_set_initial_value(latch_new, latch_get_initial_value(latch_old));
       latch_set_current_value(latch_new, latch_get_current_value(latch_old));
@@ -187,10 +185,7 @@ network_t *old, *new;
   }
 }
 
-
-static void
-astg_do_min(PLA, stg)
-pPLA PLA;
+static void astg_do_min(PLA, stg) pPLA PLA;
 astg_graph *stg;
 {
   pcover C, Fnew;
@@ -200,7 +195,8 @@ astg_graph *stg;
 
   /* sanity check */
   C = cv_intersect(PLA->F, PLA->R);
-  if (C->count) fail("on-set and off-set are not disjoint\n");
+  if (C->count)
+    fail("on-set and off-set are not disjoint\n");
   sf_free(C);
 
   /* associate each state with a minterm in the PLA */
@@ -217,7 +213,7 @@ astg_graph *stg;
   /* code borrowed from cvrm.c in epsresso */
   /* loop for each output function */
   Fnew = new_cover(0);
-  for(i = 0; i < cube.part_size[cube.output]; i++) {
+  for (i = 0; i < cube.part_size[cube.output]; i++) {
 
     /* cofactor on the output part */
     PLA1 = new_PLA();
@@ -249,9 +245,7 @@ astg_graph *stg;
   st_free_table(state_minterms);
 }
 
-static st_table *
-link_state_minterm(PLA, stg)
-pPLA PLA;
+static st_table *link_state_minterm(PLA, stg) pPLA PLA;
 astg_graph *stg;
 {
   st_table *table;
@@ -260,25 +254,25 @@ astg_graph *stg;
   astg_scode state;
   pcube c;
 
-/*  assert(astg_state_count(stg) == (PLA->F->count + PLA->R->count)); */
+  /*  assert(astg_state_count(stg) == (PLA->F->count + PLA->R->count)); */
 
   table = st_init_table(st_numcmp, st_numhash);
   astg_foreach_state(stg, gen, state_p) {
     state = astg_state_code(state_p);
     c = find_minterm(PLA, stg, state);
-    if (c != (pcube) 0) {
-      assert(!st_insert(table, (char*) state, (char*) c));
+    if (c != (pcube)0) {
+      assert(!st_insert(table, (char *)state, (char *)c));
     }
   }
   if (g_debug > 1) {
     astg_foreach_state(stg, gen, state_p) {
       state = astg_state_code(state_p);
       print_state(stg, state);
-      if (st_lookup(table, (char*) state, (char**) &c)) {
-    fprint_cube(c, PLA);
-    (void)fprintf(sisout, "\n");
+      if (st_lookup(table, (char *)state, (char **)&c)) {
+        fprint_cube(c, PLA);
+        (void)fprintf(sisout, "\n");
       } else {
-    (void)fprintf(sisout, " offset minterm\n");
+        (void)fprintf(sisout, " offset minterm\n");
       }
     }
   }
@@ -286,9 +280,7 @@ astg_graph *stg;
 }
 
 /* find a minterm in the PLA->F corresponding to the state 'state' */
-static pcube
-find_minterm(PLA, stg, state)
-pPLA PLA;
+static pcube find_minterm(PLA, stg, state) pPLA PLA;
 astg_graph *stg;
 astg_scode state;
 {
@@ -303,40 +295,42 @@ astg_scode state;
     for (i = NUMINPUTS - 1; i >= 0; i--) {
       s = astg_find_named_signal(stg, STG_INLABEL(i));
       assert(s != NIL(astg_signal));
-      val = (s->state_bit & state)?1:0;
-      switch(GETINPUT(p, i)) {
+      val = (s->state_bit & state) ? 1 : 0;
+      switch (GETINPUT(p, i)) {
       case ZERO:
-    if (val) match = 0;
-    break;
+        if (val)
+          match = 0;
+        break;
       case ONE:
-    if (!val) match = 0;
-    break;
+        if (!val)
+          match = 0;
+        break;
       default:
-    match = 0;
-/*
-    fail("PLA should contain only minterms");
-*/
-    break;
+        match = 0;
+        /*
+            fail("PLA should contain only minterms");
+        */
+        break;
       }
-      if (!match) break;
+      if (!match)
+        break;
     }
     if (match) {
       if (c == NULL) {
-    c = set_save(p);
+        c = set_save(p);
       } else {
-    for (i = cube.first_part[cube.output];
-         i < cube.first_part[cube.output] + NUMOUTPUTS; i++) {
-      if (is_in_set(p, i)) set_insert(c, i);
-    }
+        for (i = cube.first_part[cube.output];
+             i < cube.first_part[cube.output] + NUMOUTPUTS; i++) {
+          if (is_in_set(p, i))
+            set_insert(c, i);
+        }
       }
     }
   }
   return c;
 }
 
-static void
-do_consensus(PLA, stg, state_minterms)
-pPLA PLA;
+static void do_consensus(PLA, stg, state_minterms) pPLA PLA;
 astg_graph *stg;
 st_table *state_minterms;
 {
@@ -352,39 +346,37 @@ st_table *state_minterms;
     enabled = astg_state_enabled(state_p);
 
     /* if this state belongs to any output onset, do the following */
-    if (st_lookup(state_minterms, (char*) state, (char**) &c1)) {
+    if (st_lookup(state_minterms, (char *)state, (char **)&c1)) {
 
       /* for each next state */
       astg_foreach_signal(stg, sgen, s) {
-    if (s->state_bit & enabled) {
-      next_state = state ^ s->state_bit;
-      if (st_lookup(state_minterms, (char*)next_state, (char**) &c2)) {
+        if (s->state_bit & enabled) {
+          next_state = state ^ s->state_bit;
+          if (st_lookup(state_minterms, (char *)next_state, (char **)&c2)) {
 
-        /* distance of 1 between 2 state minterms means that there is at least one
-         *  output which should stay at 1 during the state change
-         */
-        if (cdist(c1, c2) == 1) {
-          c = new_cube();
-          consensus(c, c1, c2);
-          PLA->F= sf_addset(PLA->F, c);
-          if (g_debug > 1) {
-        (void)fprintf(sisout, "#### Adding a cube ");
-        print_state(stg, state);
-        print_state(stg, next_state);
-        fprint_cube(c, PLA);
-        (void)fprintf(sisout, "\n");
+            /* distance of 1 between 2 state minterms means that there is at
+             * least one output which should stay at 1 during the state change
+             */
+            if (cdist(c1, c2) == 1) {
+              c = new_cube();
+              consensus(c, c1, c2);
+              PLA->F = sf_addset(PLA->F, c);
+              if (g_debug > 1) {
+                (void)fprintf(sisout, "#### Adding a cube ");
+                print_state(stg, state);
+                print_state(stg, next_state);
+                fprint_cube(c, PLA);
+                (void)fprintf(sisout, "\n");
+              }
+            }
           }
         }
-      }
-    }
       } /* end of for each next state */
     }
   }
 }
 
-static void
-astg_do_reduce(PLA, stg)
-pPLA PLA;
+static void astg_do_reduce(PLA, stg) pPLA PLA;
 astg_graph *stg;
 {
   array_t *state_array;
@@ -393,7 +385,8 @@ astg_graph *stg;
   pcube c;
   pcover F;
 
-  if (stg == 0) return;
+  if (stg == 0)
+    return;
 
   /* sort states in decreasing order of number of fanout edges */
   state_array = sort_states(stg);
@@ -403,10 +396,10 @@ astg_graph *stg;
     reducing = 0;
     for (i = 0; i < array_n(state_array); i++) {
       state_info = array_fetch(state_rec *, state_array, i);
-      foreachi_set (F, index, c) {
-    if (remove_glitch(index, c, state_info, state_array, stg, F, PLA)) {
-      reducing = 1;
-    }
+      foreachi_set(F, index, c) {
+        if (remove_glitch(index, c, state_info, state_array, stg, F, PLA)) {
+          reducing = 1;
+        }
       }
     }
   } while (reducing);
@@ -421,9 +414,8 @@ astg_graph *stg;
 }
 
 /* try to remove a glitch by introducing a constant 0 literal */
-static int
-remove_glitch(index, c, state_info, state_array, stg, F, PLA)
-int index; /* cube index */
+static int remove_glitch(index, c, state_info, state_array, stg, F,
+                         PLA) int index; /* cube index */
 pcube c;
 state_rec *state_info;
 array_t *state_array;
@@ -432,14 +424,13 @@ pcover F;
 pPLA PLA;
 {
   if (possible_glitch(c, state_info, stg, F, PLA)) {
-    if (perform_reduction(index, c, state_info, state_array, stg, F, PLA)) return 1;
+    if (perform_reduction(index, c, state_info, state_array, stg, F, PLA))
+      return 1;
   }
   return 0;
 }
 
-static int
-possible_glitch(c, state_info, stg, F, PLA)
-pcube c;
+static int possible_glitch(c, state_info, stg, F, PLA) pcube c;
 state_rec *state_info;
 astg_graph *stg;
 pcover F;
@@ -455,20 +446,27 @@ pPLA PLA;
   for (i = NUMINPUTS - 1; i >= 0; i--) {
     signal = astg_find_named_signal(stg, STG_INLABEL(i));
     assert(signal != NIL(astg_signal));
-    if (GETINPUT(c, i) == TWO) continue;
-    init_val = (signal->state_bit & state_info->state)?1:0;
-    changing = (signal->state_bit & state_info->enabled)?1:0;
+    if (GETINPUT(c, i) == TWO)
+      continue;
+    init_val = (signal->state_bit & state_info->state) ? 1 : 0;
+    changing = (signal->state_bit & state_info->enabled) ? 1 : 0;
     if (GETINPUT(c, i) == ZERO) {
-      if (!changing && init_val == 1) return 0;
+      if (!changing && init_val == 1)
+        return 0;
       if (changing) {
-    if (init_val) rising++;
-    else falling++;
+        if (init_val)
+          rising++;
+        else
+          falling++;
       }
     } else {
-      if (!changing && init_val == 0) return 0;
+      if (!changing && init_val == 0)
+        return 0;
       if (changing) {
-    if (init_val) falling++;
-    else rising++;
+        if (init_val)
+          falling++;
+        else
+          rising++;
       }
     }
   }
@@ -487,9 +485,7 @@ pPLA PLA;
 
 /* check for the presence of constant 1 cube during the concurrent firing
  * of all the enabled transitions */
-static int
-constant_one(c, state_info, stg, F, PLA)
-pcube c;
+static int constant_one(c, state_info, stg, F, PLA) pcube c;
 state_rec *state_info;
 astg_graph *stg;
 pcover F;
@@ -517,26 +513,34 @@ pPLA PLA;
     assert(s != NIL(astg_signal));
     if (s->state_bit & state_info->state) {
       PUTINPUT(c1, i, ONE);
-      if (s->state_bit & state_info->enabled) PUTINPUT(c2, i, ZERO);
-      else PUTINPUT(c2, i, ONE);
+      if (s->state_bit & state_info->enabled)
+        PUTINPUT(c2, i, ZERO);
+      else
+        PUTINPUT(c2, i, ONE);
     } else {
       PUTINPUT(c1, i, ZERO);
-      if (s->state_bit & state_info->enabled) PUTINPUT(c2, i, ONE);
-      else PUTINPUT(c2, i, ZERO);
+      if (s->state_bit & state_info->enabled)
+        PUTINPUT(c2, i, ONE);
+      else
+        PUTINPUT(c2, i, ZERO);
     }
   }
-  for (i = 0 ; i < NUMOUTPUTS; i++) {
+  for (i = 0; i < NUMOUTPUTS; i++) {
     set_insert(c1, cube.first_part[cube.output] + i);
     set_insert(c2, cube.first_part[cube.output] + i);
   }
-  if (g_debug) {(void)fprintf(sisout,"\t..> checking for constant 1 : c1 = (%s), c2 = (%s)\n",
-                  pc1(c1), pc2(c2));}
+  if (g_debug) {
+    (void)fprintf(sisout,
+                  "\t..> checking for constant 1 : c1 = (%s), c2 = (%s)\n",
+                  pc1(c1), pc2(c2));
+  }
   foreach_set(F, last, p) {
-    (void) set_and(p1, p, c1);
-    (void) set_and(p2, p, c2);
+    (void)set_and(p1, p, c1);
+    (void)set_and(p2, p, c2);
     for (i = NUMOUTPUTS - 1; i >= 0; i--) {
       if (GETOUTPUT(c, i) && GETOUTPUT(p1, i) && GETOUTPUT(p2, i)) {
-    if (!cube_empty(p1) && !cube_empty(p2)) const1[i]++;
+        if (!cube_empty(p1) && !cube_empty(p2))
+          const1[i]++;
       }
     }
   }
@@ -551,16 +555,17 @@ pPLA PLA;
   free_cube(p1);
   free_cube(p2);
   if (constant_1) {
-    if (g_debug) (void)fprintf(sisout,"\t..> detected a constant 1 cube\n");
+    if (g_debug)
+      (void)fprintf(sisout, "\t..> detected a constant 1 cube\n");
     return 1;
   }
-  if (g_debug) (void)fprintf(sisout,"\t..< no constant 1 cube\n");
+  if (g_debug)
+    (void)fprintf(sisout, "\t..< no constant 1 cube\n");
   return 0;
 }
 
-static int
-perform_reduction(index, c, state_info, state_array, stg, F, PLA)
-int index; /* cube index */
+static int perform_reduction(index, c, state_info, state_array, stg, F,
+                             PLA) int index; /* cube index */
 pcube c;
 state_rec *state_info;
 array_t *state_array;
@@ -585,7 +590,7 @@ pPLA PLA;
     signal = astg_find_named_signal(stg, STG_INLABEL(i));
     assert(signal != NIL(astg_signal));
     cost[i] = 0;
-    if (signal->state_bit & state_info->enabled || GETINPUT(c,i) != TWO) {
+    if (signal->state_bit & state_info->enabled || GETINPUT(c, i) != TWO) {
       cost[i] = INFINITY;
       continue;
     }
@@ -593,16 +598,19 @@ pPLA PLA;
     if (signal->state_bit & state_info->state) {
       /* need to preserve the positive unateness of output */
       if (signal->sig_type != ASTG_INPUT_SIG) {
-    PUTINPUT(c, i, ZERO);
+        PUTINPUT(c, i, ZERO);
       } else {
-    if (g_debug) (void)fprintf(sisout,"\t..>< invalid reduction because of neg output %s\n", signal->name);
-    cost[i] = INFINITY;
-    continue;
+        if (g_debug)
+          (void)fprintf(sisout,
+                        "\t..>< invalid reduction because of neg output %s\n",
+                        signal->name);
+        cost[i] = INFINITY;
+        continue;
       }
     } else {
       PUTINPUT(c, i, ONE);
     }
-    if (g_debug){
+    if (g_debug) {
       (void)fprintf(sisout, "\t..> trying reduced cube = ");
       fprint_cube(c, PLA);
       (void)fprintf(sisout, "\n");
@@ -619,29 +627,34 @@ pPLA PLA;
 
       /* check if this reduction doesn't undo the previous add_redundant step */
       if (logic_hazard(F, PLA, signal, stg)) {
-    cost[i] = INFINITY;
+        cost[i] = INFINITY;
       } else {
-    /* check how many additional conflicts this reduction can cause */
-    for (j = array_n(state_array) - 1 ; j >= 0; j--) {
-      s = array_fetch(state_rec *, state_array, j);
-      if (j == state_info->index) continue;
-      if (possible_glitch(c, s, stg, F, PLA)) {
-        if (j < state_info->index) {
-          /* we processed this state already--can't go back */
-          cost[i] = INFINITY;
-          break;
-        } else {
-          cost[i]++;
+        /* check how many additional conflicts this reduction can cause */
+        for (j = array_n(state_array) - 1; j >= 0; j--) {
+          s = array_fetch(state_rec *, state_array, j);
+          if (j == state_info->index)
+            continue;
+          if (possible_glitch(c, s, stg, F, PLA)) {
+            if (j < state_info->index) {
+              /* we processed this state already--can't go back */
+              cost[i] = INFINITY;
+              break;
+            } else {
+              cost[i]++;
+            }
+          }
         }
-      }
-    }
-    if (g_debug)(void)fprintf(sisout, "\t..< reduction is valid (%d additional glitches)\n", cost[i]);
+        if (g_debug)
+          (void)fprintf(sisout,
+                        "\t..< reduction is valid (%d additional glitches)\n",
+                        cost[i]);
       }
     } else {
-      if (g_debug){
-    (void)fprintf(sisout,"\t..< invalid reduction because this cube is no longer covered : ");
-    fprint_cube(c1, PLA);
-    (void)fprintf(sisout, "\n");
+      if (g_debug) {
+        (void)fprintf(sisout, "\t..< invalid reduction because this cube is no "
+                              "longer covered : ");
+        fprint_cube(c1, PLA);
+        (void)fprintf(sisout, "\n");
       }
       cost[i] = INFINITY;
     }
@@ -663,9 +676,9 @@ pPLA PLA;
   free_cubelist(FD);
 
   if (best_literal == -1) {
-    (void)fprintf(sisout,"warning: no valid reduction found for cube :");
+    (void)fprintf(sisout, "warning: no valid reduction found for cube :");
     fprint_cube(c, PLA);
-    (void)fprintf(sisout,"\n\t");
+    (void)fprintf(sisout, "\n\t");
     print_state(stg, state_info->state);
     print_enabled(stg, state_info->state, state_info->enabled);
     return 0;
@@ -680,9 +693,7 @@ pPLA PLA;
   return 1;
 }
 
-static array_t *
-sort_states(stg)
-astg_graph *stg;
+static array_t *sort_states(stg) astg_graph *stg;
 {
   array_t *state_array;
   astg_generator gen, _gen;
@@ -703,13 +714,14 @@ astg_graph *stg;
     fc_places = array_alloc(astg_place *, 0);
     astg_foreach_place(stg, gen, p) {
       i = 0;
-      astg_foreach_output_trans(p, _gen, t) {
-    i++;
-      }
-      if (i > 1) array_insert_last(astg_place *, fc_places, p);
+      astg_foreach_output_trans(p, _gen, t) { i++; }
+      if (i > 1)
+        array_insert_last(astg_place *, fc_places, p);
     }
   }
-  if (g_debug) (void)fprintf(sisout, "## %d free-choice places found\n", (fc_places!=0)?array_n(fc_places):0);
+  if (g_debug)
+    (void)fprintf(sisout, "## %d free-choice places found\n",
+                  (fc_places != 0) ? array_n(fc_places) : 0);
 
   state_array = array_alloc(state_rec *, 0);
 
@@ -718,16 +730,17 @@ astg_graph *stg;
     enabled = astg_state_enabled(state_p);
     num_fanouts = 0;
     astg_foreach_signal(stg, _gen, signal) {
-      if (enabled & signal->state_bit) num_fanouts++;
+      if (enabled & signal->state_bit)
+        num_fanouts++;
     }
     if (num_fanouts > 1) {
       /*  check if this marking involves a free-choice place */
-      if ( !fc_marking(state_p, fc_places)) {
-    s = ALLOC(state_rec, 1);
-    s->state = state;
-    s->enabled = enabled;
-    s->num_fanouts = num_fanouts;
-    array_insert_last(state_rec *, state_array, s);
+      if (!fc_marking(state_p, fc_places)) {
+        s = ALLOC(state_rec, 1);
+        s->state = state;
+        s->enabled = enabled;
+        s->num_fanouts = num_fanouts;
+        array_insert_last(state_rec *, state_array, s);
       }
     }
   }
@@ -747,30 +760,29 @@ astg_graph *stg;
     }
   }
 
-  if (fc_places != NIL(array_t)) array_free(fc_places);
+  if (fc_places != NIL(array_t))
+    array_free(fc_places);
   return state_array;
 }
 
 /* place states with high fanouts near the beginning */
-static int
-compare_fanouts(s1, s2)
-char *s1, *s2;
+static int compare_fanouts(s1, s2) char *s1, *s2;
 {
   int diff;
-  state_rec *r1 = *(state_rec **) s1;
-  state_rec *r2 = *(state_rec **) s2;
+  state_rec *r1 = *(state_rec **)s1;
+  state_rec *r2 = *(state_rec **)s2;
 
   assert(r1 != 0 && r2 != 0);
   diff = r1->num_fanouts - r2->num_fanouts;
-  if (diff > 0) return -1;
-  if (diff < 0) return 1;
+  if (diff > 0)
+    return -1;
+  if (diff < 0)
+    return 1;
   return 0;
 }
 
 /* check if this state marking involves any of the free-choice places */
-static int
-fc_marking(state_p, fc_places)
-astg_state *state_p;
+static int fc_marking(state_p, fc_places) astg_state *state_p;
 array_t *fc_places;
 {
   astg_generator gen;
@@ -778,11 +790,13 @@ array_t *fc_places;
   int i;
   astg_place *p;
 
-  if (fc_places == NIL(array_t)) return 0;
+  if (fc_places == NIL(array_t))
+    return 0;
   astg_foreach_marking(state_p, gen, marking) {
     for (i = array_n(fc_places) - 1; i >= 0; i--) {
       p = array_fetch(astg_place *, fc_places, i);
-      if (astg_get_marked(marking, p)) return 1;
+      if (astg_get_marked(marking, p))
+        return 1;
     }
   }
   return 0;
@@ -791,9 +805,7 @@ array_t *fc_places;
 /* check if there is a logic hazard in cover F due to the firing of
  * this signal 'signal'
  */
-static int
-logic_hazard(F, PLA, signal, stg)
-pcover F;
+static int logic_hazard(F, PLA, signal, stg) pcover F;
 pPLA PLA;
 astg_signal *signal;
 astg_graph *stg;
@@ -822,62 +834,76 @@ astg_graph *stg;
 
     if (signal->state_bit & enabled) {
       if (g_debug) {
-    (void)fprintf(sisout,"\t....>> checking for logic hazard : ");
-    print_state(stg, state);
-    (void)fprintf(sisout,"\t");
-    print_enabled(stg, state, enabled);
+        (void)fprintf(sisout, "\t....>> checking for logic hazard : ");
+        print_state(stg, state);
+        (void)fprintf(sisout, "\t");
+        print_enabled(stg, state, enabled);
       }
       for (i = NUMINPUTS - 1; i >= 0; i--) {
-    s = astg_find_named_signal(stg, STG_INLABEL(i));
-    assert(s != NIL(astg_signal));
-    if (s->state_bit & state) {
-      PUTINPUT(c1, i, ONE);
-      if (s != signal) PUTINPUT(c2, i, ONE);
-      else PUTINPUT(c2, i, ZERO);
-    } else {
-      PUTINPUT(c1, i, ZERO);
-      if (s != signal) PUTINPUT(c2, i, ZERO);
-      else PUTINPUT(c2, i, ONE);
-    }
+        s = astg_find_named_signal(stg, STG_INLABEL(i));
+        assert(s != NIL(astg_signal));
+        if (s->state_bit & state) {
+          PUTINPUT(c1, i, ONE);
+          if (s != signal)
+            PUTINPUT(c2, i, ONE);
+          else
+            PUTINPUT(c2, i, ZERO);
+        } else {
+          PUTINPUT(c1, i, ZERO);
+          if (s != signal)
+            PUTINPUT(c2, i, ZERO);
+          else
+            PUTINPUT(c2, i, ONE);
+        }
       }
-      for (i = 0 ; i < NUMOUTPUTS; i++) {
-    set_insert(c1, cube.first_part[cube.output] + i);
-    set_insert(c2, cube.first_part[cube.output] + i);
+      for (i = 0; i < NUMOUTPUTS; i++) {
+        set_insert(c1, cube.first_part[cube.output] + i);
+        set_insert(c2, cube.first_part[cube.output] + i);
       }
-      if (g_debug) {(void)fprintf(sisout,"\t....>> c1 = (%s), c2 = (%s) [changing signal = %s]\n",
-                  pc1(c1), pc2(c2), signal->name);}
+      if (g_debug) {
+        (void)fprintf(sisout,
+                      "\t....>> c1 = (%s), c2 = (%s) [changing signal = %s]\n",
+                      pc1(c1), pc2(c2), signal->name);
+      }
       for (i = NUMOUTPUTS - 1; i >= 0; i--) {
-    rising[i] = falling[i] = const1[i] = 0;
+        rising[i] = falling[i] = const1[i] = 0;
       }
       foreach_set(F, last, p) {
-    (void) set_and(p1, p, c1);
-    (void) set_and(p2, p, c2);
-    for (i = NUMOUTPUTS - 1; i >= 0; i--) {
-      if (GETOUTPUT(p1, i) && GETOUTPUT(p2, i)) {
-        p1_zero = cube_empty(p1);
-        p2_zero = cube_empty(p2);
-        if (p1_zero && !p2_zero) rising[i]++;
-        if (!p1_zero && p2_zero) falling[i]++;
-        if (!p1_zero && !p2_zero) const1[i]++;
-      }
-    }
+        (void)set_and(p1, p, c1);
+        (void)set_and(p2, p, c2);
+        for (i = NUMOUTPUTS - 1; i >= 0; i--) {
+          if (GETOUTPUT(p1, i) && GETOUTPUT(p2, i)) {
+            p1_zero = cube_empty(p1);
+            p2_zero = cube_empty(p2);
+            if (p1_zero && !p2_zero)
+              rising[i]++;
+            if (!p1_zero && p2_zero)
+              falling[i]++;
+            if (!p1_zero && !p2_zero)
+              const1[i]++;
+          }
+        }
       }
       for (i = NUMOUTPUTS - 1; i >= 0; i--) {
-    if (rising[i] && falling[i] && !const1[i]) {
-      if (g_debug) (void)fprintf(sisout,"\t....<< found logic hazard in %s (r=%d,f=%d,1=%d)\n",
-                     STG_OUTLABEL(i), rising[i], falling[i], const1[i]);
-      hazard = 1;
-      break;
-    }
+        if (rising[i] && falling[i] && !const1[i]) {
+          if (g_debug)
+            (void)fprintf(
+                sisout, "\t....<< found logic hazard in %s (r=%d,f=%d,1=%d)\n",
+                STG_OUTLABEL(i), rising[i], falling[i], const1[i]);
+          hazard = 1;
+          break;
+        }
       }
       if (hazard) {
-    goto hazard_end;
+        goto hazard_end;
       }
-      if (g_debug) (void)fprintf(sisout,"\t....<< no logic hazard in %s\n", STG_OUTLABEL(i));
+      if (g_debug)
+        (void)fprintf(sisout, "\t....<< no logic hazard in %s\n",
+                      STG_OUTLABEL(i));
     }
   }
 
- hazard_end:
+hazard_end:
   FREE(rising);
   FREE(falling);
   FREE(const1);
@@ -885,31 +911,29 @@ astg_graph *stg;
   free_cube(c2);
   free_cube(p1);
   free_cube(p2);
-  if (hazard) return 1;
+  if (hazard)
+    return 1;
   return 0;
 }
 
 /* should be in espresso.h ? */
-static int
-cube_empty(c)
-pcube c;
+static int cube_empty(c) pcube c;
 {
   register int i;
-  
+
   for (i = NUMINPUTS - 1; i >= 0; i--) {
-    if (GETINPUT(c, i) == 0) return 1;
+    if (GETINPUT(c, i) == 0)
+      return 1;
   }
   return 0;
 }
 
 /* find a PO fanned out by this node */
-static node_t *
-find_real_po(node)
-node_t *node;
+static node_t *find_real_po(node) node_t *node;
 {
   lsGen gen;
-  node_t *fanout, *real_po; 
-  
+  node_t *fanout, *real_po;
+
   real_po = NIL(node_t);
   foreach_fanout(node, gen, fanout) {
     if (node_type(fanout) == PRIMARY_OUTPUT) {
@@ -922,9 +946,7 @@ node_t *node;
 
 /* --- debug routines --- */
 /* print present state */
-void
-print_state(stg, state)
-astg_graph *stg;
+void print_state(stg, state) astg_graph *stg;
 astg_scode state;
 {
   astg_signal *s;
@@ -932,40 +954,38 @@ astg_scode state;
 
   (void)fprintf(sisout, "state %d : (", state);
   astg_foreach_signal(stg, agen, s) {
-    (void)fprintf(sisout,"%s=%d ", s->name, (s->state_bit & state)?1:0);
+    (void)fprintf(sisout, "%s=%d ", s->name, (s->state_bit & state) ? 1 : 0);
   }
   (void)fprintf(sisout, ")\n");
 }
 
 /* print the set of enabled transitions in the present state */
-void
-print_enabled(stg, state, enabled)
-astg_graph *stg;
+void print_enabled(stg, state, enabled) astg_graph *stg;
 astg_scode state;
 astg_scode enabled;
-{  
+{
   astg_signal *s;
   astg_generator agen;
 
   (void)fprintf(sisout, "\tenabled transitions : [");
   astg_foreach_signal(stg, agen, s) {
     if (s->state_bit & enabled) {
-      (void)fprintf(sisout,"%s%s ", s->name, (s->state_bit & state)?"-":"+");
+      (void)fprintf(sisout, "%s%s ", s->name,
+                    (s->state_bit & state) ? "-" : "+");
     }
   }
   (void)fprintf(sisout, "]\n");
 }
 
-void
-print_state_graph(stg)
-astg_graph *stg;
+void print_state_graph(stg) astg_graph *stg;
 {
   astg_scode state, enabled;
   astg_generator gen;
   astg_state *state_p;
 
-  if (stg == NIL(astg_graph)) return;
-  if (astg_token_flow (stg, /* print error messages */ ASTG_TRUE) == ASTG_OK) {
+  if (stg == NIL(astg_graph))
+    return;
+  if (astg_token_flow(stg, /* print error messages */ ASTG_TRUE) == ASTG_OK) {
     (void)fprintf(sisout, "STATE GRAPH\n");
     astg_foreach_state(stg, gen, state_p) {
       state = astg_state_code(state_p);
@@ -977,29 +997,31 @@ astg_graph *stg;
   }
 }
 
-static void
-fprint_cube(c, PLA)
-pcube c;
+static void fprint_cube(c, PLA) pcube c;
 pPLA PLA;
 {
   int i;
-  
+
   for (i = NUMINPUTS - 1; i >= 0; i--) {
-    switch(GETINPUT(c,i)) {
-    case TWO: break;
-    case ONE: (void)fprintf(sisout,"%s ",STG_INLABEL(i));
+    switch (GETINPUT(c, i)) {
+    case TWO:
       break;
-    case ZERO: (void)fprintf(sisout,"!%s ", STG_INLABEL(i));
+    case ONE:
+      (void)fprintf(sisout, "%s ", STG_INLABEL(i));
       break;
-    case 0: (void)fprintf(sisout, "?%s ", STG_INLABEL(i));
+    case ZERO:
+      (void)fprintf(sisout, "!%s ", STG_INLABEL(i));
+      break;
+    case 0:
+      (void)fprintf(sisout, "?%s ", STG_INLABEL(i));
       break;
     default:
       break;
     }
   }
-  (void)fprintf(sisout,"|| ");
+  (void)fprintf(sisout, "|| ");
   for (i = NUMOUTPUTS - 1; i >= 0; i--) {
-    if (GETOUTPUT(c,i)) {
+    if (GETOUTPUT(c, i)) {
       (void)fprintf(sisout, "%s ", STG_OUTLABEL(i));
     }
   }

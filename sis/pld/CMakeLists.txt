@@ -63,7 +63,7 @@ add_library(pld STATIC
         xln_part_dec.c
         xln_ufind.c
 
-        ../include/act_bool.h
-        ../include/ite_int.h
-        ../include/pld_int.h
+
+
+
         )

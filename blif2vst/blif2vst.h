@@ -9,57 +9,56 @@
  * the library (all the pins, the inputs, the outputs and, if needed, the clock)
  */
 struct ports {
-    char name[MAX_NAME_LENGTH];
+  char name[MAX_NAME_LENGTH];
 };
 
 struct cell {
-    char         name[MAX_NAME_LENGTH];
-    int          npins;
-    char         used;
-    struct ports *formals;
-    struct cell  *next;
+  char name[MAX_NAME_LENGTH];
+  int npins;
+  char used;
+  struct ports *formals;
+  struct cell *next;
 };
 
 struct instance {
-    struct cell     *what;
-    struct ports    *actuals;
-    struct instance *next;
+  struct cell *what;
+  struct ports *actuals;
+  struct instance *next;
 };
-
 
 /* list of formal names, is used in get_port when multiple   *
  * definition are given, as    a,b,c : IN BIT;              */
 struct TMPstruct {
-    char             name[MAX_NAME_LENGTH];
-    int              num;
-    struct TMPstruct *next;
+  char name[MAX_NAME_LENGTH];
+  int num;
+  struct TMPstruct *next;
 };
 
 struct BITstruct {
-    char             name[MAX_NAME_LENGTH + 10];
-    struct BITstruct *next;
+  char name[MAX_NAME_LENGTH + 10];
+  struct BITstruct *next;
 };
 
 struct VECTstruct {
-    char              name[MAX_NAME_LENGTH];
-    int               start;
-    int               end;
-    char              dir;
-    struct VECTstruct *next;
+  char name[MAX_NAME_LENGTH];
+  int start;
+  int end;
+  char dir;
+  struct VECTstruct *next;
 };
 
 struct TYPEterms {
-    struct BITstruct  *BITs;
-    struct VECTstruct *VECTs;
+  struct BITstruct *BITs;
+  struct VECTstruct *VECTs;
 };
 
 struct MODELstruct {
-    char               name[MAX_NAME_LENGTH];
-    struct TYPEterms   *Inputs;
-    struct TYPEterms   *Outputs;
-    struct TYPEterms   *Internals;
-    struct instance    *Net;
-    struct MODELstruct *next;
+  char name[MAX_NAME_LENGTH];
+  struct TYPEterms *Inputs;
+  struct TYPEterms *Outputs;
+  struct TYPEterms *Internals;
+  struct instance *Net;
+  struct MODELstruct *next;
 };
 
 #if defined(linux)
@@ -184,4 +183,4 @@ void print_vst(struct MODELstruct *model);
 
 void parse_file();
 
-#endif //SIS_BLIF2VST_H
+#endif // SIS_BLIF2VST_H

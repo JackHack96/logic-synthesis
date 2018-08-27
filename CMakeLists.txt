@@ -15,3 +15,4 @@ add_subdirectory(sis)
 add_subdirectory(sred)
 add_subdirectory(stamina)
 add_subdirectory(utility)
+

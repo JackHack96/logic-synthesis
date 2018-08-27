@@ -6,7 +6,8 @@
 
 extern void delay_map_compute_required_times();
 
-extern void delay_gate_arrival_times();    /* similar to delay_gate_simulate but faster for several loads */
+extern void delay_gate_arrival_times(); /* similar to delay_gate_simulate but
+                                           faster for several loads */
 extern void delay_compute_pin_delays();
 
 extern void map_alloc_delay_info(/* network, bin_global_t *options */);
@@ -27,9 +28,10 @@ extern void pipo_set_default_po_required(/* delay_time_t value */);
 
 extern double map_compute_wire_load(/* int n_fanouts */);
 
-extern double map_compute_fanout_load_correction(/* int n_fanouts, bin_global_t *options */);
+extern double map_compute_fanout_load_correction(
+    /* int n_fanouts, bin_global_t *options */);
 
 /* should be put in delay/delay.h */
 extern pin_phase_t delay_get_polarity(/* char *pin_delay */);
 
-#endif 
+#endif

@@ -3,7 +3,6 @@ add_library(factor STATIC
         com_ft.c
         elim.c
         factor.c
-        ../include/factor_int.h
         ft_print.c
         ft_util.c
         ft_value.c

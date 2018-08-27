@@ -9,103 +9,102 @@
 #ifndef ASTG_INT_H
 #define ASTG_INT_H
 
-#include "sis.h"
 #include "astg.h"
+#include "sis.h"
 
 extern int astg_debug_flag;
 
 typedef unsigned astg_bool;
-#define ASTG_FALSE    0
-#define ASTG_TRUE    1
+#define ASTG_FALSE 0
+#define ASTG_TRUE 1
 
-#define ASTG_NO_CALLBACK    NULL
-#define ASTG_NO_DATA        NULL
-#define ASTG_ALL        ASTG_FALSE
-#define ASTG_SUBSET        ASTG_TRUE
-#define ASTG_ALL_CYCLES        NIL(astg_vertex)
-
+#define ASTG_NO_CALLBACK NULL
+#define ASTG_NO_DATA NULL
+#define ASTG_ALL ASTG_FALSE
+#define ASTG_SUBSET ASTG_TRUE
+#define ASTG_ALL_CYCLES NIL(astg_vertex)
 
 typedef enum astg_retval {
-    ASTG_OK,            /* No error, success.			*/
-    ASTG_NOT_SAFE,        /* STG is not safe.			*/
-    ASTG_NOT_LIVE,        /* STG is not live.			*/
-    ASTG_NOT_IRRED,        /* Has redundant constraints.		*/
-    ASTG_NOT_USC,        /* Not unique state coding.		*/
-    ASTG_NOT_CSC,        /* Not complete state coding.		*/
-    ASTG_NOT_CSA,        /* Not consistent state assignment.	*/
-    ASTG_NO_MARKING,        /* No initial marking found.		*/
-    ASTG_BAD_SIGNAME,        /* Invalid signal name.			*/
-    ASTG_GOT_MARKING,        /* For finding partial traces.		*/
-    ASTG_NOT_COVER,        /* Components don't cover STG.		*/
-    ASTG_BAD_OPTION,        /* No such option for command.		*/
-    ASTG_ERROR            /* Generic error.			*/
-}                astg_retval;
+  ASTG_OK,          /* No error, success.			*/
+  ASTG_NOT_SAFE,    /* STG is not safe.			*/
+  ASTG_NOT_LIVE,    /* STG is not live.			*/
+  ASTG_NOT_IRRED,   /* Has redundant constraints.		*/
+  ASTG_NOT_USC,     /* Not unique state coding.		*/
+  ASTG_NOT_CSC,     /* Not complete state coding.		*/
+  ASTG_NOT_CSA,     /* Not consistent state assignment.	*/
+  ASTG_NO_MARKING,  /* No initial marking found.		*/
+  ASTG_BAD_SIGNAME, /* Invalid signal name.			*/
+  ASTG_GOT_MARKING, /* For finding partial traces.		*/
+  ASTG_NOT_COVER,   /* Components don't cover STG.		*/
+  ASTG_BAD_OPTION,  /* No such option for command.		*/
+  ASTG_ERROR        /* Generic error.			*/
+} astg_retval;
 
 typedef enum astg_signal_enum {
-    ASTG_ANY_SIG,        /* Only for calls to astg_find_signal.	*/
-    ASTG_INPUT_SIG,        /* Rest of these are real signal types.	*/
-    ASTG_OUTPUT_SIG,
-    ASTG_INTERNAL_SIG,
-    ASTG_DUMMY_SIG
-}                astg_signal_enum;
+  ASTG_ANY_SIG,   /* Only for calls to astg_find_signal.	*/
+  ASTG_INPUT_SIG, /* Rest of these are real signal types.	*/
+  ASTG_OUTPUT_SIG,
+  ASTG_INTERNAL_SIG,
+  ASTG_DUMMY_SIG
+} astg_signal_enum;
 
 typedef enum astg_vertex_enum {
-    ASTG_VERTEX,
-    ASTG_PLACE,
-    ASTG_TRANS
-}                astg_vertex_enum;
+  ASTG_VERTEX,
+  ASTG_PLACE,
+  ASTG_TRANS
+} astg_vertex_enum;
 
 typedef enum astg_trans_enum {
-    ASTG_ALL_X,
-    ASTG_POS_X,
-    ASTG_NEG_X,
-    ASTG_TOGGLE_X,
-    ASTG_HATCH_X,
-    ASTG_DUMMY_X
-}                astg_trans_enum;
+  ASTG_ALL_X,
+  ASTG_POS_X,
+  ASTG_NEG_X,
+  ASTG_TOGGLE_X,
+  ASTG_HATCH_X,
+  ASTG_DUMMY_X
+} astg_trans_enum;
 
 typedef enum astg_daemon_enum {
-    ASTG_DAEMON_ALLOC,
-    ASTG_DAEMON_DUP,
-    ASTG_DAEMON_INVALID,
-    ASTG_DAEMON_FREE
-}                astg_daemon_enum;
+  ASTG_DAEMON_ALLOC,
+  ASTG_DAEMON_DUP,
+  ASTG_DAEMON_INVALID,
+  ASTG_DAEMON_FREE
+} astg_daemon_enum;
 
 typedef enum astg_slot_enum {
-    ASTG_BWD_SLOT,
-    ASTG_UNDEF1_SLOT,
-    ASTG_N_SLOTS
-}                astg_slot_enum;
+  ASTG_BWD_SLOT,
+  ASTG_UNDEF1_SLOT,
+  ASTG_N_SLOTS
+} astg_slot_enum;
 
 typedef enum astg_io_enum {
-    ASTG_REAL_PI,
-    ASTG_REAL_PO,
-    ASTG_FAKE_PI,
-    ASTG_FAKE_PO
-}                astg_io_enum;
+  ASTG_REAL_PI,
+  ASTG_REAL_PO,
+  ASTG_FAKE_PI,
+  ASTG_FAKE_PO
+} astg_io_enum;
 
 /* Basic types: only declare pointers to these. */
 
-typedef struct astg_graph   astg_graph;
-typedef struct astg_signal  astg_signal;
-typedef struct astg_vertex  astg_vertex;
-typedef struct astg_vertex  astg_place;
-typedef struct astg_vertex  astg_trans;
-typedef struct astg_edge    astg_edge;
-typedef struct astg_state   astg_state;
+typedef struct astg_graph astg_graph;
+typedef struct astg_signal astg_signal;
+typedef struct astg_vertex astg_vertex;
+typedef struct astg_vertex astg_place;
+typedef struct astg_vertex astg_trans;
+typedef struct astg_edge astg_edge;
+typedef struct astg_state astg_state;
 typedef struct astg_marking astg_marking;
-typedef unsigned long       astg_scode;
+typedef unsigned long astg_scode;
 
 typedef struct astg_generator {
-    astg_bool   first_time;
-    astg_edge   *ge;
-    astg_vertex *gv;
-    astg_trans  *gt;
-    void        *state_gen;
-    int         marking_n;
-    int         gen_index;
-    astg_signal *sig_p;
-}                           astg_generator;
+  astg_bool first_time;
+  astg_edge *ge;
+  astg_vertex *gv;
+  astg_trans *gt;
+  void *state_gen;
+  int marking_n;
+  int gen_index;
+  astg_signal *sig_p;
+} astg_generator;
 
 typedef void (*astg_daemon)(astg_graph *, astg_graph *);
 
@@ -153,7 +152,8 @@ char *astg_trans_name(astg_trans *);
 
 char *astg_trans_alpha_name(astg_trans *);
 
-astg_trans *astg_find_trans(astg_graph *, char *, astg_trans_enum, int, astg_bool);
+astg_trans *astg_find_trans(astg_graph *, char *, astg_trans_enum, int,
+                            astg_bool);
 
 astg_trans *astg_noninput_trigger(astg_trans *);
 
@@ -219,7 +219,8 @@ astg_bool astg_is_noninput(astg_signal *);
 
 astg_signal *astg_find_named_signal(astg_graph *, char *);
 
-astg_signal *astg_find_signal(astg_graph *, char *, astg_signal_enum, astg_bool);
+astg_signal *astg_find_signal(astg_graph *, char *, astg_signal_enum,
+                              astg_bool);
 
 char *astg_signal_name(astg_signal *);
 
@@ -305,7 +306,7 @@ char *astg_pi_name(char *);
 
 void astg_usage(char **, char *);
 
-#ifdef SIS_H    /* Declarations depending on <sis.h>.	*/
+#ifdef SIS_H /* Declarations depending on <sis.h>.	*/
 
 astg_graph *astg_current(network_t *);
 
@@ -315,13 +316,16 @@ node_t *astg_guard_node(astg_graph *, astg_edge *);
 
 astg_retval astg_set_marking_by_name(astg_graph *, st_table *);
 
-int astg_simple_cycles(astg_graph *, astg_vertex *, int (*)(astg_graph *, void *), void *, astg_bool);
+int astg_simple_cycles(astg_graph *, astg_vertex *,
+                       int (*)(astg_graph *, void *), void *, astg_bool);
 
 array_t *astg_top_sort(astg_graph *, astg_bool);
 
-int astg_connected_comp(astg_graph *, int (*)(array_t *, int, void *), void *, astg_bool);
+int astg_connected_comp(astg_graph *, int (*)(array_t *, int, void *), void *,
+                        astg_bool);
 
-int astg_strong_comp(astg_graph *, int (*)(array_t *, int, void *), void *, astg_bool);
+int astg_strong_comp(astg_graph *, int (*)(array_t *, int, void *), void *,
+                     astg_bool);
 
 int astg_has_cycles(astg_graph *);
 
@@ -335,7 +339,8 @@ node_t *astg_find_pi_or_po(network_t *, char *, astg_io_enum);
 
 /* Not for direct use: see iterators below. 	*/
 
-astg_bool astg_vertex_iter(astg_graph *, astg_generator *, astg_vertex_enum, astg_vertex **);
+astg_bool astg_vertex_iter(astg_graph *, astg_generator *, astg_vertex_enum,
+                           astg_vertex **);
 
 astg_bool astg_edge_iter(astg_graph *, astg_generator *, astg_edge **);
 
@@ -351,14 +356,14 @@ astg_bool astg_out_vertex_iter(astg_vertex *, astg_generator *, astg_vertex **);
 
 astg_bool astg_sig_iter(astg_graph *, astg_generator *, astg_signal **);
 
-astg_bool astg_sig_x_iter(astg_signal *, astg_generator *, astg_trans_enum, astg_trans **);
+astg_bool astg_sig_x_iter(astg_signal *, astg_generator *, astg_trans_enum,
+                          astg_trans **);
 
 astg_bool astg_state_iter(astg_graph *, astg_generator *, astg_state **);
 
 astg_bool astg_marking_iter(astg_state *, astg_generator *, astg_marking **);
 
 astg_bool astg_spline_iter(astg_edge *, astg_generator *, float *, float *);
-
 
 /*  DOCUMENT Public use iterators.
     Iterators:
@@ -378,27 +383,46 @@ astg_bool astg_spline_iter(astg_edge *, astg_generator *, float *, float *);
     astg_foreach_signal (stg,gen,sig_p)
     astg_foreach_pos_trans (sig_p,gen,t)
     astg_foreach_neg_trans (sig_p,gen,t)
-     */
+      */
 
-#define astg_iter(g, f)    for (g.first_time=ASTG_TRUE;f;g.first_time=ASTG_FALSE)
+#define astg_iter(g, f)                                                        \
+  for (g.first_time = ASTG_TRUE; f; g.first_time = ASTG_FALSE)
 
-#define astg_foreach_vertex(stg, gen, v)        astg_iter (gen, astg_vertex_iter(stg,&gen,ASTG_VERTEX,&v))
-#define astg_foreach_place(stg, gen, p)        astg_iter (gen, astg_vertex_iter(stg,&gen,ASTG_TRANS,&p))
-#define astg_foreach_trans(stg, gen, t)        astg_iter (gen, astg_vertex_iter(stg,&gen,ASTG_PLACE,&t))
-#define astg_foreach_edge(stg, gen, e)        astg_iter (gen, astg_edge_iter(stg,&gen,&e))
-#define astg_foreach_path_vertex(stg, gen, v)    astg_iter (gen, astg_path_iter(stg,&gen,&v))
-#define astg_foreach_out_edge(v, gen, e)        astg_iter (gen, astg_out_edge_iter(v,&gen,&e))
-#define astg_foreach_in_edge(v, gen, e)        astg_iter (gen, astg_in_edge_iter(v,&gen,&e))
-#define astg_foreach_output_place(t, gen, p)    astg_iter (gen, astg_out_vertex_iter(t,&gen,&p))
-#define astg_foreach_input_place(t, gen, p)    astg_iter (gen, astg_in_vertex_iter(t,&gen,&p))
-#define astg_foreach_output_trans(p, gen, t)    astg_iter (gen, astg_out_vertex_iter(p,&gen,&t))
-#define astg_foreach_input_trans(p, gen, t)    astg_iter (gen, astg_in_vertex_iter(p,&gen,&t))
-#define astg_foreach_signal(stg, gen, sig)    astg_iter (gen, astg_sig_iter(stg,&gen,&sig))
-#define astg_foreach_sig_trans(sig, gen, t)    astg_iter (gen, astg_sig_x_iter(sig,&gen,ASTG_ALL_X,&t))
-#define astg_foreach_pos_trans(sig, gen, t)    astg_iter (gen, astg_sig_x_iter(sig,&gen,ASTG_POS_X,&t))
-#define astg_foreach_neg_trans(sig, gen, t)    astg_iter (gen, astg_sig_x_iter(sig,&gen,ASTG_NEG_X,&t))
-#define astg_foreach_state(sig, gen, state)    astg_iter (gen, astg_state_iter(stg,&gen,&state))
-#define astg_foreach_marking(state, gen, m)    astg_iter (gen, astg_marking_iter(state,&gen,&m))
-#define astg_foreach_spline_point(e, gen, x, y)    astg_iter (gen, astg_spline_iter(e,&gen,&x,&y))
+#define astg_foreach_vertex(stg, gen, v)                                       \
+  astg_iter(gen, astg_vertex_iter(stg, &gen, ASTG_VERTEX, &v))
+#define astg_foreach_place(stg, gen, p)                                        \
+  astg_iter(gen, astg_vertex_iter(stg, &gen, ASTG_TRANS, &p))
+#define astg_foreach_trans(stg, gen, t)                                        \
+  astg_iter(gen, astg_vertex_iter(stg, &gen, ASTG_PLACE, &t))
+#define astg_foreach_edge(stg, gen, e)                                         \
+  astg_iter(gen, astg_edge_iter(stg, &gen, &e))
+#define astg_foreach_path_vertex(stg, gen, v)                                  \
+  astg_iter(gen, astg_path_iter(stg, &gen, &v))
+#define astg_foreach_out_edge(v, gen, e)                                       \
+  astg_iter(gen, astg_out_edge_iter(v, &gen, &e))
+#define astg_foreach_in_edge(v, gen, e)                                        \
+  astg_iter(gen, astg_in_edge_iter(v, &gen, &e))
+#define astg_foreach_output_place(t, gen, p)                                   \
+  astg_iter(gen, astg_out_vertex_iter(t, &gen, &p))
+#define astg_foreach_input_place(t, gen, p)                                    \
+  astg_iter(gen, astg_in_vertex_iter(t, &gen, &p))
+#define astg_foreach_output_trans(p, gen, t)                                   \
+  astg_iter(gen, astg_out_vertex_iter(p, &gen, &t))
+#define astg_foreach_input_trans(p, gen, t)                                    \
+  astg_iter(gen, astg_in_vertex_iter(p, &gen, &t))
+#define astg_foreach_signal(stg, gen, sig)                                     \
+  astg_iter(gen, astg_sig_iter(stg, &gen, &sig))
+#define astg_foreach_sig_trans(sig, gen, t)                                    \
+  astg_iter(gen, astg_sig_x_iter(sig, &gen, ASTG_ALL_X, &t))
+#define astg_foreach_pos_trans(sig, gen, t)                                    \
+  astg_iter(gen, astg_sig_x_iter(sig, &gen, ASTG_POS_X, &t))
+#define astg_foreach_neg_trans(sig, gen, t)                                    \
+  astg_iter(gen, astg_sig_x_iter(sig, &gen, ASTG_NEG_X, &t))
+#define astg_foreach_state(sig, gen, state)                                    \
+  astg_iter(gen, astg_state_iter(stg, &gen, &state))
+#define astg_foreach_marking(state, gen, m)                                    \
+  astg_iter(gen, astg_marking_iter(state, &gen, &m))
+#define astg_foreach_spline_point(e, gen, x, y)                                \
+  astg_iter(gen, astg_spline_iter(e, &gen, &x, &y))
 
 #endif /* ASTG_INT_H */

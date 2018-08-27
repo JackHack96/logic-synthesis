@@ -6,11 +6,12 @@
 
 typedef struct gate_link_struct gate_link_t;
 struct gate_link_struct {
-    node_t       *node;            /* root of the gate */
-    int          pin;            /* pin number */
-    double       load;            /* load on this pin */
-    double       slack;            /* used by bin_delay.c for approx. slack computations; should disappear */
-    delay_time_t required;    /* required time for this signal at this input pin */
+  node_t *node; /* root of the gate */
+  int pin;      /* pin number */
+  double load;  /* load on this pin */
+  double slack; /* used by bin_delay.c for approx. slack computations; should
+                   disappear */
+  delay_time_t required; /* required time for this signal at this input pin */
 };
 
 extern void gate_link_init(/* node_t *node */);

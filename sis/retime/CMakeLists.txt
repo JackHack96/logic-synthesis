@@ -16,5 +16,5 @@ add_library(retime STATIC
         re_simplx.c
         re_util.c
         retime_util.c
-        ../include/retime_int.h
+
         )

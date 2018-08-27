@@ -15,7 +15,7 @@ typedef int util_ptrint;
    because the OctTools contain libmm.a.  Otherwise, USE_MM is not defined,
    since the mm package is not distributed with SIS, only with Oct. */
 
-/* #define USE_MM */        /* choose libmm.a as the memory allocator */
+/* #define USE_MM */ /* choose libmm.a as the memory allocator */
 
 /**
  * Returns 0 properly casted into a pointer to an object of type
@@ -24,7 +24,7 @@ typedef int util_ptrint;
  * some prefer the style of always casting their 0 pointers using
  * this macro.
  */
-#define NIL(type)        ((type *) 0)
+#define NIL(type) ((type *)0)
 
 #ifdef USE_MM
 /*
@@ -33,13 +33,11 @@ typedef int util_ptrint;
  *	- catches out of memory (and calls MMout_of_memory())
  *	- catch free(0) and realloc(0, size) in the macros
  */
-#define ALLOC(type, num)	\
-    ((type *) malloc(sizeof(type) * (num)))
-#define REALLOC(type, obj, num)	\
-    (obj) ? ((type *) realloc((char *) obj, sizeof(type) * (num))) : \
-        ((type *) malloc(sizeof(type) * (num)))
-#define FREE(obj)		\
-    ((obj) ? (free((char *) (obj)), (obj) = 0) : 0)
+#define ALLOC(type, num) ((type *)malloc(sizeof(type) * (num)))
+#define REALLOC(type, obj, num)                                                \
+  (obj) ? ((type *)realloc((char *)obj, sizeof(type) * (num)))                 \
+        : ((type *)malloc(sizeof(type) * (num)))
+#define FREE(obj) ((obj) ? (free((char *)(obj)), (obj) = 0) : 0)
 #else
 /*
  *  enforce strict semantics on the memory allocator
@@ -51,8 +49,7 @@ typedef int util_ptrint;
  * arguments appropriately, and ALLOC() will never return NIL(char),
  * choosing instead to terminate the program.
  */
-#define ALLOC(type, num)    \
-    ((type *) MMalloc((long) sizeof(type) * (long) (num)))
+#define ALLOC(type, num) ((type *)MMalloc((long)sizeof(type) * (long)(num)))
 
 /**
  * Re-allocate 'obj' to hold 'number' objects of type 'type'.
@@ -62,8 +59,8 @@ typedef int util_ptrint;
  * terminate the program.  It also guarantees that REALLOC(type, 0, n)
  * is the same as ALLOC(type, n).
  */
-#define REALLOC(type, obj, num)    \
-    ((type *) MMrealloc((char *) (obj), (long) sizeof(type) * (long) (num)))
+#define REALLOC(type, obj, num)                                                \
+  ((type *)MMrealloc((char *)(obj), (long)sizeof(type) * (long)(num)))
 
 /**
  * Free object 'obj'.  This macro should be used rather than
@@ -71,26 +68,27 @@ typedef int util_ptrint;
  * appropriately.  It also guarantees that FREE(0) will work
  * properly.
  */
-#define FREE(obj)        \
-    ((obj) ? (free((void *) (obj)), (obj) = 0) : 0)
+#define FREE(obj) ((obj) ? (free((void *)(obj)), (obj) = 0) : 0)
 #endif
 
 /* Ultrix (and SABER) have 'fixed' certain functions which used to be int */
-#if defined(ultrix) || defined(SABER) || defined(aiws) || defined(__hpux) || defined(__STDC__) || defined(apollo)
+#if defined(ultrix) || defined(SABER) || defined(aiws) || defined(__hpux) ||   \
+    defined(__STDC__) || defined(apollo)
 #define VOID_HACK void
 #else
 #define VOID_HACK int
 #endif
 
 /* No machines seem to have much of a problem with these */
-#include <stdio.h>
 #include <ctype.h>
+#include <stdio.h>
 
 /* Some machines fail to define some functions in stdio.h */
-#if !defined(__STDC__) && !defined(sprite) && !defined(_IBMR2) && !defined(__osf__)
+#if !defined(__STDC__) && !defined(sprite) && !defined(_IBMR2) &&              \
+    !defined(__osf__)
 extern FILE *popen(), *tmpfile();
 extern int pclose();
-#ifndef clearerr		/* is a macro on many machines, but not all */
+#ifndef clearerr /* is a macro on many machines, but not all */
 extern VOID_HACK clearerr();
 #endif
 #ifndef rewind
@@ -100,8 +98,8 @@ extern VOID_HACK rewind();
 
 #ifndef PORT_H
 
-#include <sys/types.h>
 #include <signal.h>
+#include <sys/types.h>
 
 #if defined(ultrix)
 #if defined(_SIZE_T_)
@@ -117,13 +115,14 @@ extern VOID_HACK rewind();
 #endif
 
 /* most machines don't give us a header file for these */
-#if defined(__STDC__) || defined(sprite) || defined(_IBMR2) || defined(__osf__) || defined(sunos4) || defined(__hpux)
+#if defined(__STDC__) || defined(sprite) || defined(_IBMR2) ||                 \
+    defined(__osf__) || defined(sunos4) || defined(__hpux)
 
 #include <stdlib.h>
 
 #if defined(__hpux)
-#include <errno.h>    /* For perror() defininition */
-#endif /* __hpux */
+#include <errno.h> /* For perror() defininition */
+#endif             /* __hpux */
 #else
 extern VOID_HACK abort(), free(), exit(), perror();
 extern char *getenv();
@@ -132,7 +131,7 @@ extern void *malloc(), *realloc(), *calloc();
 #else
 extern char *malloc(), *realloc(), *calloc();
 #endif
-#if defined(aiws) 
+#if defined(aiws)
 extern int sprintf();
 #else
 #ifndef _IBMR2
@@ -145,10 +144,10 @@ extern double atof();
 
 #ifndef PORT_H
 #if defined(ultrix3) || defined(sunos4) || defined(_IBMR2) || defined(__STDC__)
-#define SIGNAL_FN       void
+#define SIGNAL_FN void
 #else
 /* sequent, ultrix2, 4.3BSD (vax, hp), sunos3 */
-#define SIGNAL_FN       int
+#define SIGNAL_FN int
 #endif
 #endif
 
@@ -162,8 +161,8 @@ extern double atof();
 #include <strings.h>
 #else
 #if defined(_IBMR2) || defined(__osf__)
-#include<string.h>
-#include<strings.h>
+#include <string.h>
+#include <strings.h>
 #else
 /* ANSI C string.h -- 1/11/88 Draft Standard */
 /* ugly, awful hack */
@@ -182,7 +181,7 @@ extern int memcmp(), strcmp();
 #if defined(__hpux)
 #define random() lrand48()
 #define srandom(a) srand48(a)
-#define bzero(a,b) memset(a, 0, b)
+#define bzero(a, b) memset(a, 0, b)
 #else
 #if !defined(__osf__) && !defined(linux) && !defined(__CYGWIN__)
 /* these are defined as macros in stdlib.h */
@@ -197,35 +196,34 @@ extern long random();
 
 #else
 #ifndef NDEBUG
-#define assert(ex) {\
-    if (! (ex)) {\
-    (void) fprintf(stderr,\
-        "Assertion failed: file %s, line %d\n\"%s\"\n",\
-        __FILE__, __LINE__, "ex");\
-    (void) fflush(stdout);\
-    abort();\
-    }\
-}
+#define assert(ex)                                                             \
+  {                                                                            \
+    if (!(ex)) {                                                               \
+      (void)fprintf(stderr, "Assertion failed: file %s, line %d\n\"%s\"\n",    \
+                    __FILE__, __LINE__, "ex");                                 \
+      (void)fflush(stdout);                                                    \
+      abort();                                                                 \
+    }                                                                          \
+  }
 #else
 #define assert(ex) ;
 #endif
 #endif
 
-
-#define fail(why) {\
-    (void) fprintf(stderr, "Fatal error: file %s, line %d\n%s\n",\
-    __FILE__, __LINE__, why);\
-    (void) fflush(stdout);\
-    abort();\
-}
-
+#define fail(why)                                                              \
+  {                                                                            \
+    (void)fprintf(stderr, "Fatal error: file %s, line %d\n%s\n", __FILE__,     \
+                  __LINE__, why);                                              \
+    (void)fflush(stdout);                                                      \
+    abort();                                                                   \
+  }
 
 #ifdef lint
-#undef putc			/* correct lint '_flsbuf' bug */
-#undef ALLOC			/* allow for lint -h flag */
+#undef putc  /* correct lint '_flsbuf' bug */
+#undef ALLOC /* allow for lint -h flag */
 #undef REALLOC
-#define ALLOC(type, num)	(((type *) 0) + (num))
-#define REALLOC(type, obj, num)	((obj) + (num))
+#define ALLOC(type, num) (((type *)0) + (num))
+#define REALLOC(type, obj, num) ((obj) + (num))
 #endif
 
 #if !defined(MAXPATHLEN)
@@ -234,15 +232,14 @@ extern long random();
 
 /* These arguably do NOT belong in util.h */
 #ifndef ABS
-#define ABS(a)            ((a) < 0 ? -(a) : (a))
+#define ABS(a) ((a) < 0 ? -(a) : (a))
 #endif
 #ifndef MAX
-#define MAX(a, b)        ((a) > (b) ? (a) : (b))
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
 #endif
 #ifndef MIN
-#define MIN(a, b)        ((a) < (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
-
 
 #ifndef USE_MM
 
@@ -313,7 +310,8 @@ extern char *util_file_search(char *file, char *path, char *mode);
  * watch out for dead-locks.
  * @return Returns 1 for success, 0 if any failure occured forking the child.
  */
-extern int util_pipefork(char **argv, FILE **toCommand, FILE **fromCommand, int *pid);
+extern int util_pipefork(char **argv, FILE **toCommand, FILE **fromCommand,
+                         int *pid);
 
 /**
  * Converts a time into a (static) printable string.  Intended to
@@ -367,11 +365,11 @@ extern char *util_tempnam(char *dir, char *pfx);
  */
 extern FILE *util_tmpfile();
 
-#define ptime()         util_cpu_time()
-#define print_time(t)   util_print_time(t)
+#define ptime() util_cpu_time()
+#define print_time(t) util_print_time(t)
 
 /* util_getopt() global variables (ack !) */
-extern int  util_optind;
+extern int util_optind;
 extern char *util_optarg;
 
 /* for CUDD package */
@@ -380,7 +378,7 @@ extern long getSoftDataLimit(void);
 #include <math.h>
 
 #ifndef HUGE
-#define HUGE  8.9884656743115790e+307
+#define HUGE 8.9884656743115790e+307
 #endif
 #ifndef HUGE_VAL
 #define HUGE_VAL HUGE

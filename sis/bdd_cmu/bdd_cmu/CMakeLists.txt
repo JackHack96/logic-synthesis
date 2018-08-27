@@ -9,7 +9,6 @@ add_library(bdd_cmu STATIC
         bddcproject.c
         bdddump.c
         bddhash.c
-        ../../include/bddint.h
         bddmisc.c
         bddprimes.c
         bddprint.c
@@ -23,7 +22,6 @@ add_library(bdd_cmu STATIC
         bddsupport.c
         bddswap.c
         bddunique.c
-        ../../include/bdduser.h
         bddwarn.c
         mtbdd.c
         )

@@ -8,5 +8,5 @@ add_library(stg STATIC
         stg.c
         stg_sc_sim.c
         stg_util.c
-        ../include/stg_int.h
+
         )

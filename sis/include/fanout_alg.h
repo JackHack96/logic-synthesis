@@ -17,7 +17,7 @@
  *
  * Revision 1.1  92/01/08  17:40:34  sis
  * Initial revision
- * 
+ *
  */
 #ifndef FANOUT_ALG_H
 #define FANOUT_ALG_H

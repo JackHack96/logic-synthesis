@@ -1,17 +1,17 @@
 #ifndef VAR_SET_H /* { */
 #define VAR_SET_H
 
-
 #define VAR_SET_BYTE_SIZE 8
-#define VAR_SET_WORD_SIZE ((sizeof(unsigned int))*(VAR_SET_BYTE_SIZE))
+#define VAR_SET_WORD_SIZE ((sizeof(unsigned int)) * (VAR_SET_BYTE_SIZE))
 #define VAR_SET_ALL_ZEROS 0
-#define VAR_SET_ALL_ONES  ((unsigned int) ~0)
+#define VAR_SET_ALL_ONES ((unsigned int)~0)
 #define VAR_SET_EXTRACT_BIT(word, pos) (((word) & (1 << (pos))) != 0)
 
+#include <stdio.h>
 typedef struct var_set_struct {
-    int          n_elts;
-    int          n_words;
-    unsigned int *data;
+  int n_elts;
+  int n_words;
+  unsigned int *data;
 } var_set_t;
 
 extern var_set_t *var_set_new(int);

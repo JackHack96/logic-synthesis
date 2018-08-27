@@ -1,7 +1,7 @@
 
-#define SIM_SLOT            simulation
-#define GET_VALUE(node)            ((int) node->SIM_SLOT)
-#define SET_VALUE(node, value)        (node->SIM_SLOT = (char *) value)
+#define SIM_SLOT simulation
+#define GET_VALUE(node) ((int)node->SIM_SLOT)
+#define SET_VALUE(node, value) (node->SIM_SLOT = (char *)value)
 
 extern void simulate_node();
 

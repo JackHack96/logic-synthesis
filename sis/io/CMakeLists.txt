@@ -1,8 +1,6 @@
-
+set(CMAKE_C_FLAGS -DSIS)
 add_library(io STATIC
         com_io.c
-        eqnlex.l
-        ../include/io_int.h
         plot_blif.c
         read_blif.c
         read_eqn.y
@@ -18,3 +16,5 @@ add_library(io STATIC
         write_slif.c
         write_util.c
         )
+
+#TODO: aggiungere regole yacc e lex

@@ -1,22 +1,22 @@
 
 #ifdef SIS
 /* Routines that insert inverter pairs where a potential hazard can actually
- * occur. 
+ * occur.
  * The static symbol table slowed_amounts keeps an information on how much
  * each signal is slowed.
  */
-#include "sis.h"
-#include "astg_int.h"
 #include "astg_core.h"
+#include "astg_int.h"
 #include "bwd_int.h"
+#include "sis.h"
 #include <math.h>
 
-#define XOR(a,b)    (((a)&&!(b))||(!(a)&&(b)))
+#define XOR(a, b) (((a) && !(b)) || (!(a) && (b)))
 /* tests on floating point equality */
 #define EPS 1.e-24
-#define EQ(a,b) (fabs((a)-(b)) < EPS)
+#define EQ(a, b) (fabs((a) - (b)) < EPS)
 
-static delay_time_t delay_simulate ();
+static delay_time_t delay_simulate();
 
 /* Write back into the external delay table the MINIMUM delays PI->PO as updated
  * after the synthesis/hazard removal procedure.
@@ -25,13 +25,12 @@ static delay_time_t delay_simulate ();
  * The table is organized as a double-level symbol table, indexed by signal
  * names in the STG form (i.e. the true PO form)
  * The first level is indexed by the name of the signal from which the delay
- * is requested. Each entry at the first level is a symbol table indexed by 
+ * is requested. Each entry at the first level is a symbol table indexed by
  * the name of the signal to which the delay is requested. Each entry at the
  * second level is a delay record.
  */
-void
-bwd_external_delay_update (network, external_del, min_delay_factor, silent)
-network_t * network;
+void bwd_external_delay_update(network, external_del, min_delay_factor,
+                               silent) network_t *network;
 st_table *external_del;
 double min_delay_factor;
 int silent;
@@ -47,30 +46,29 @@ int silent;
     return;
   }
   updated = 0;
-  foreach_primary_input (network, pigen, pi) {
-    foreach_primary_output (network, pogen, po) {
+  foreach_primary_input(network, pigen, pi) {
+    foreach_primary_output(network, pogen, po) {
       if (network_is_real_po(network, po)) {
-    /* skip real PO's connected directly to the PI */
-        node = node_get_fanin (po, 0);
-        if (node_type (node) == PRIMARY_INPUT) {
-            continue;
+        /* skip real PO's connected directly to the PI */
+        node = node_get_fanin(po, 0);
+        if (node_type(node) == PRIMARY_INPUT) {
+          continue;
         }
       }
-      delay = delay_simulate (network, pi, po, /* is_max */ 0,
-                  min_delay_factor);
+      delay = delay_simulate(network, pi, po, /* is_max */ 0, min_delay_factor);
       /* INFINITY needs not to be stored */
       if ((delay.rise > (INFINITY / 100.0)) &&
-            (delay.fall > (INFINITY / 100.0))) {
-            continue;
+          (delay.fall > (INFINITY / 100.0))) {
+        continue;
       }
       new_delay.rise = delay;
       new_delay.fall = delay;
 
       /* DO NOT update only if already present AND smaller */
-      if ((found = st_lookup (external_del, bwd_po_name (node_long_name (pi)),
-             (char **) &to_table)) &&
-          (found = st_lookup (to_table, bwd_po_name (node_long_name (po)),
-             (char **) &old_delay)) &&
+      if ((found = st_lookup(external_del, bwd_po_name(node_long_name(pi)),
+                             (char **)&to_table)) &&
+          (found = st_lookup(to_table, bwd_po_name(node_long_name(po)),
+                             (char **)&old_delay)) &&
           (old_delay->rise.rise < new_delay.rise.rise ||
            EQ(old_delay->rise.rise, new_delay.rise.rise)) &&
           (old_delay->rise.fall < new_delay.rise.fall ||
@@ -85,44 +83,39 @@ int silent;
       updated = 1;
       if (astg_debug_flag > 1) {
         if (found) {
-            fprintf (sisout,
-     "Updating the delay %s -> %s ++ %f->%f +- %f->%f -+ %f->%f -- %f->%f\n",
-             node_long_name (pi), node_long_name (po),
-             old_delay->rise.rise, new_delay.rise.rise,
-             old_delay->rise.fall, new_delay.rise.fall,
-             old_delay->fall.rise, new_delay.fall.rise,
-             old_delay->fall.fall, new_delay.fall.fall);
-        }
-        else {
-            fprintf (sisout,
-             "Inserting the delay %s -> %s %f %f %f %f\n",
-             node_long_name (pi), node_long_name (po),
-             new_delay.rise.rise,
-             new_delay.rise.fall,
-             new_delay.fall.rise,
-             new_delay.fall.fall);
+          fprintf(sisout,
+                  "Updating the delay %s -> %s ++ %f->%f +- %f->%f -+ %f->%f "
+                  "-- %f->%f\n",
+                  node_long_name(pi), node_long_name(po), old_delay->rise.rise,
+                  new_delay.rise.rise, old_delay->rise.fall,
+                  new_delay.rise.fall, old_delay->fall.rise,
+                  new_delay.fall.rise, old_delay->fall.fall,
+                  new_delay.fall.fall);
+        } else {
+          fprintf(sisout, "Inserting the delay %s -> %s %f %f %f %f\n",
+                  node_long_name(pi), node_long_name(po), new_delay.rise.rise,
+                  new_delay.rise.fall, new_delay.fall.rise,
+                  new_delay.fall.fall);
         }
       }
 
-      if (! st_lookup (external_del, bwd_po_name (node_long_name (pi)),
-        (char **) &to_table)) {
-            to_table = st_init_table (strcmp, st_strhash);
-            st_insert (external_del,
-                util_strsav (bwd_po_name (node_long_name (pi))),
-               (char *) to_table);
+      if (!st_lookup(external_del, bwd_po_name(node_long_name(pi)),
+                     (char **)&to_table)) {
+        to_table = st_init_table(strcmp, st_strhash);
+        st_insert(external_del, util_strsav(bwd_po_name(node_long_name(pi))),
+                  (char *)to_table);
       }
-      if (! st_lookup (to_table, bwd_po_name (node_long_name (po)), (char **)
-               &old_delay)) {
-            old_delay = ALLOC (min_del_t, 1);
-            st_insert (to_table,
-                util_strsav (bwd_po_name (node_long_name (po))),
-                (char *) old_delay);
+      if (!st_lookup(to_table, bwd_po_name(node_long_name(po)),
+                     (char **)&old_delay)) {
+        old_delay = ALLOC(min_del_t, 1);
+        st_insert(to_table, util_strsav(bwd_po_name(node_long_name(po))),
+                  (char *)old_delay);
       }
       *old_delay = new_delay;
     }
   }
-  if (! silent && updated) {
-    fprintf (siserr, "Warning: the delay table has been updated\n");
+  if (!silent && updated) {
+    fprintf(siserr, "Warning: the delay table has been updated\n");
   }
 }
 
@@ -134,9 +127,8 @@ int silent;
  * We return the maximum or minimum arrival time at "to" (depending on
  * "is_max").
  */
-static delay_time_t
-delay_simulate (network, from, to, is_max, min_delay_factor)
-network_t *network;
+static delay_time_t delay_simulate(network, from, to, is_max,
+                                   min_delay_factor) network_t *network;
 node_t *from, *to;
 int is_max;
 double min_delay_factor;
@@ -145,49 +137,45 @@ double min_delay_factor;
   node_t *pi, *node;
   delay_time_t delay1;
 
-  foreach_primary_input (network, gen, pi) {
+  foreach_primary_input(network, gen, pi) {
     if (is_max) {
-      delay_set_parameter (pi, DELAY_ARRIVAL_RISE, (double) -INFINITY);
-      delay_set_parameter (pi, DELAY_ARRIVAL_FALL, (double) -INFINITY);
-    }
-    else {
-      delay_set_parameter (pi, DELAY_ARRIVAL_RISE, (double) INFINITY);
-      delay_set_parameter (pi, DELAY_ARRIVAL_FALL, (double) INFINITY);
+      delay_set_parameter(pi, DELAY_ARRIVAL_RISE, (double)-INFINITY);
+      delay_set_parameter(pi, DELAY_ARRIVAL_FALL, (double)-INFINITY);
+    } else {
+      delay_set_parameter(pi, DELAY_ARRIVAL_RISE, (double)INFINITY);
+      delay_set_parameter(pi, DELAY_ARRIVAL_FALL, (double)INFINITY);
     }
   }
-  delay1.rise = (double) -INFINITY;
-  delay1.fall = (double) -INFINITY;
+  delay1.rise = (double)-INFINITY;
+  delay1.fall = (double)-INFINITY;
 
-  delay_set_parameter (from, DELAY_ARRIVAL_RISE, (double) 0);
-  delay_set_parameter (from, DELAY_ARRIVAL_FALL, (double) 0);
-  delay_set_parameter (to, DELAY_OUTPUT_LOAD, (double) 1.0);
+  delay_set_parameter(from, DELAY_ARRIVAL_RISE, (double)0);
+  delay_set_parameter(from, DELAY_ARRIVAL_FALL, (double)0);
+  delay_set_parameter(to, DELAY_OUTPUT_LOAD, (double)1.0);
 
   if (is_max) {
-    assert (delay_trace (network, DELAY_MODEL_LIBRARY));
-  }
-  else {
-    assert (bwd_min_delay_trace (network, DELAY_MODEL_LIBRARY));
+    assert(delay_trace(network, DELAY_MODEL_LIBRARY));
+  } else {
+    assert(bwd_min_delay_trace(network, DELAY_MODEL_LIBRARY));
   }
 
   if (astg_debug_flag > 3) {
-    foreach_node (network, gen, node) {
-      delay1 = delay_arrival_time (node);
-      fprintf (sisout, "%s arrival %s: %2.2f %2.2f\n",
-           is_max ? "max" : "min",
-           node_long_name (node), delay1.rise, delay1.fall);
+    foreach_node(network, gen, node) {
+      delay1 = delay_arrival_time(node);
+      fprintf(sisout, "%s arrival %s: %2.2f %2.2f\n", is_max ? "max" : "min",
+              node_long_name(node), delay1.rise, delay1.fall);
     }
   }
 
-  delay1 = delay_arrival_time (to);
-  if (! is_max) {
+  delay1 = delay_arrival_time(to);
+  if (!is_max) {
     /* we should really support min-max delays ... */
     delay1.rise *= min_delay_factor;
     delay1.fall *= min_delay_factor;
   }
   if (astg_debug_flag > 2) {
-    fprintf (sisout, "%s delay %s->%s: %2.2f %2.2f\n",
-         is_max ? "max" : "min",
-         node_long_name (from), node_long_name(to), delay1.rise, delay1.fall);
+    fprintf(sisout, "%s delay %s->%s: %2.2f %2.2f\n", is_max ? "max" : "min",
+            node_long_name(from), node_long_name(to), delay1.rise, delay1.fall);
   }
   return delay1;
 }
@@ -208,9 +196,8 @@ double min_delay_factor;
  * 4) the Floyd-Warshall all pair shortest path algorithm (if "shortest_path"
  *    is true).
  */
-static void
-fill_d3s (network, d3s, nd3s, pio, external_del, shortest_path, default_del, min_delay_factor)
-network_t *network;
+static void fill_d3s(network, d3s, nd3s, pio, external_del, shortest_path,
+                     default_del, min_delay_factor) network_t *network;
 double **d3s;
 int nd3s;
 st_table *pio, *external_del;
@@ -235,20 +222,19 @@ double default_del, min_delay_factor;
   }
 
   /* first try to get delays for signals we are synthesizing */
-  foreach_primary_input (network, gen, pi) {
-    assert (st_lookup_int (pio, bwd_po_name (node_long_name (pi)), &from));
-    foreach_primary_output (network, gen1, po) {
+  foreach_primary_input(network, gen, pi) {
+    assert(st_lookup_int(pio, bwd_po_name(node_long_name(pi)), &from));
+    foreach_primary_output(network, gen1, po) {
       if (network_is_real_po(network, po)) {
-    /* skip real PO's connected directly to the PI */
-        node = node_get_fanin (po, 0);
-        if (node_type (node) == PRIMARY_INPUT) {
-            continue;
+        /* skip real PO's connected directly to the PI */
+        node = node_get_fanin(po, 0);
+        if (node_type(node) == PRIMARY_INPUT) {
+          continue;
         }
       }
-      assert (st_lookup_int (pio, bwd_po_name (node_long_name (po)), &to));
-      delay = delay_simulate (network, pi, po, /* is_max */ 0,
-                  min_delay_factor);
-      d3s[from][to] = MIN (delay.rise, delay.fall);
+      assert(st_lookup_int(pio, bwd_po_name(node_long_name(po)), &to));
+      delay = delay_simulate(network, pi, po, /* is_max */ 0, min_delay_factor);
+      d3s[from][to] = MIN(delay.rise, delay.fall);
       if (d3s[from][to] < 0) {
         /* this means no path inside our network between "from" and "to" */
         d3s[from][to] = INFINITY;
@@ -259,27 +245,25 @@ double default_del, min_delay_factor;
   if (external_del != NIL(st_table)) {
     /* print out debugging information */
     if (astg_debug_flag > 2) {
-      fprintf (sisout, "before external delay:\n");
-      foreach_primary_input (network, gen, pi) {
-        assert (st_lookup_int (pio, bwd_po_name (node_long_name (pi)), &from));
-        foreach_primary_input (network, gen1, pi1) {
-          assert (st_lookup_int (pio, bwd_po_name (node_long_name (pi1)), &to));
-          fprintf (sisout, "d3: %s->%s : %2.2f\n",
-               node_long_name (pi), node_long_name (pi1),
-               d3s[from][to]);
+      fprintf(sisout, "before external delay:\n");
+      foreach_primary_input(network, gen, pi) {
+        assert(st_lookup_int(pio, bwd_po_name(node_long_name(pi)), &from));
+        foreach_primary_input(network, gen1, pi1) {
+          assert(st_lookup_int(pio, bwd_po_name(node_long_name(pi1)), &to));
+          fprintf(sisout, "d3: %s->%s : %2.2f\n", node_long_name(pi),
+                  node_long_name(pi1), d3s[from][to]);
         }
       }
     }
 
     /* now get as much information as possible from the external delay table */
-    st_foreach_item (external_del, pigen, (char **) &from_name,
-             (char **) &to_table) {
-      assert (st_lookup_int (pio, from_name, &from));
-      st_foreach_item (to_table, pogen, (char **) &to_name,
-               (char **) &delay_p) {
-        assert (st_lookup_int (pio, to_name, &to));
-        new_del = MIN (MIN (delay_p->rise.rise, delay_p->rise.fall),
-            MIN (delay_p->fall.rise, delay_p->fall.fall));
+    st_foreach_item(external_del, pigen, (char **)&from_name,
+                    (char **)&to_table) {
+      assert(st_lookup_int(pio, from_name, &from));
+      st_foreach_item(to_table, pogen, (char **)&to_name, (char **)&delay_p) {
+        assert(st_lookup_int(pio, to_name, &to));
+        new_del = MIN(MIN(delay_p->rise.rise, delay_p->rise.fall),
+                      MIN(delay_p->fall.rise, delay_p->fall.fall));
         if (d3s[from][to] > new_del) {
           d3s[from][to] = new_del;
         }
@@ -290,14 +274,13 @@ double default_del, min_delay_factor;
   if (shortest_path) {
     /* print out debugging information */
     if (astg_debug_flag > 2) {
-      fprintf (sisout, "before shortest path:\n");
-      foreach_primary_input (network, gen, pi) {
-        assert (st_lookup_int (pio, bwd_po_name (node_long_name (pi)), &from));
-        foreach_primary_input (network, gen1, pi1) {
-          assert (st_lookup_int (pio, bwd_po_name (node_long_name (pi1)), &to));
-          fprintf (sisout, "d3: %s->%s : %2.2f\n",
-               node_long_name (pi), node_long_name (pi1),
-               d3s[from][to]);
+      fprintf(sisout, "before shortest path:\n");
+      foreach_primary_input(network, gen, pi) {
+        assert(st_lookup_int(pio, bwd_po_name(node_long_name(pi)), &from));
+        foreach_primary_input(network, gen1, pi1) {
+          assert(st_lookup_int(pio, bwd_po_name(node_long_name(pi1)), &to));
+          fprintf(sisout, "d3: %s->%s : %2.2f\n", node_long_name(pi),
+                  node_long_name(pi1), d3s[from][to]);
         }
       }
     }
@@ -305,10 +288,8 @@ double default_del, min_delay_factor;
     for (iter = 0; iter < nd3s; iter++) {
       for (from = 0; from < nd3s; from++) {
         for (to = 0; to < nd3s; to++) {
-          if (d3s[from][to] >
-              (d3s[from][iter] + d3s[iter][to])) {
-            d3s[from][to] =
-              d3s[from][iter] + d3s[iter][to];
+          if (d3s[from][to] > (d3s[from][iter] + d3s[iter][to])) {
+            d3s[from][to] = d3s[from][iter] + d3s[iter][to];
           }
         }
       }
@@ -317,14 +298,13 @@ double default_del, min_delay_factor;
 
   /* print out debugging information */
   if (astg_debug_flag > 2) {
-    fprintf (sisout, "before default delay:\n");
-    foreach_primary_input (network, gen, pi) {
-      assert (st_lookup_int (pio, bwd_po_name (node_long_name (pi)), &from));
-      foreach_primary_input (network, gen1, pi1) {
-        assert (st_lookup_int (pio, bwd_po_name (node_long_name (pi1)), &to));
-        fprintf (sisout, "d3: %s->%s : %2.2f\n",
-             node_long_name (pi), node_long_name (pi1),
-             d3s[from][to]);
+    fprintf(sisout, "before default delay:\n");
+    foreach_primary_input(network, gen, pi) {
+      assert(st_lookup_int(pio, bwd_po_name(node_long_name(pi)), &from));
+      foreach_primary_input(network, gen1, pi1) {
+        assert(st_lookup_int(pio, bwd_po_name(node_long_name(pi1)), &to));
+        fprintf(sisout, "d3: %s->%s : %2.2f\n", node_long_name(pi),
+                node_long_name(pi1), d3s[from][to]);
       }
     }
   }
@@ -341,14 +321,13 @@ double default_del, min_delay_factor;
 
   /* print out debugging information */
   if (astg_debug_flag > 2) {
-    fprintf (sisout, "final d3 table:\n");
-    foreach_primary_input (network, gen, pi) {
-      assert (st_lookup_int (pio, bwd_po_name (node_long_name (pi)), &from));
-      foreach_primary_input (network, gen1, pi1) {
-        assert (st_lookup_int (pio, bwd_po_name (node_long_name (pi1)), &to));
-        fprintf (sisout, "d3: %s->%s : %2.2f\n",
-             node_long_name (pi), node_long_name (pi1),
-             d3s[from][to]);
+    fprintf(sisout, "final d3 table:\n");
+    foreach_primary_input(network, gen, pi) {
+      assert(st_lookup_int(pio, bwd_po_name(node_long_name(pi)), &from));
+      foreach_primary_input(network, gen1, pi1) {
+        assert(st_lookup_int(pio, bwd_po_name(node_long_name(pi1)), &to));
+        fprintf(sisout, "d3: %s->%s : %2.2f\n", node_long_name(pi),
+                node_long_name(pi1), d3s[from][to]);
       }
     }
   }
@@ -374,9 +353,9 @@ double default_del, min_delay_factor;
  * If do_slow is 0, then only the external delays are updated as appropriate.
  */
 
-void
-bwd_slow_down (network, hazard_list, slowed_amounts, external_del, tol, default_del, min_delay_factor, shortest_path, iterate, do_slow)
-network_t *network;
+void bwd_slow_down(network, hazard_list, slowed_amounts, external_del, tol,
+                   default_del, min_delay_factor, shortest_path, iterate,
+                   do_slow) network_t *network;
 st_table *hazard_list, *slowed_amounts, *external_del;
 double tol, default_del, min_delay_factor;
 int shortest_path, iterate, do_slow;
@@ -402,62 +381,61 @@ int shortest_path, iterate, do_slow;
   zero = 0;
 
   /* initialize the PI/PO name -> index table and the d3 matrix */
-  pio = st_init_table (strcmp, st_strhash);
+  pio = st_init_table(strcmp, st_strhash);
   nd3s = 0;
-  foreach_primary_input (network, gen, pi) {
-    st_insert (pio, util_strsav (bwd_po_name (node_long_name (pi))),
-        (char *) nd3s++);
+  foreach_primary_input(network, gen, pi) {
+    st_insert(pio, util_strsav(bwd_po_name(node_long_name(pi))),
+              (char *)nd3s++);
   }
-  foreach_primary_output (network, gen, po) {
-    if (! st_is_member (pio, bwd_po_name (node_long_name (po)))) {
-        st_insert (pio, util_strsav (bwd_po_name (node_long_name (po))),
-            (char *) nd3s++);
+  foreach_primary_output(network, gen, po) {
+    if (!st_is_member(pio, bwd_po_name(node_long_name(po)))) {
+      st_insert(pio, util_strsav(bwd_po_name(node_long_name(po))),
+                (char *)nd3s++);
     }
   }
   if (external_del != NIL(st_table)) {
-    st_foreach_item (external_del, pigen, (char **) &from_name,
-             (char **) &to_table) {
-      if (! st_lookup (pio, from_name, NIL (char *))) {
-        st_insert (pio, util_strsav (from_name), (char *) nd3s++);
+    st_foreach_item(external_del, pigen, (char **)&from_name,
+                    (char **)&to_table) {
+      if (!st_lookup(pio, from_name, NIL(char *))) {
+        st_insert(pio, util_strsav(from_name), (char *)nd3s++);
       }
-      st_foreach_item (to_table, pogen, (char **) &to_name,
-               (char **) &delay_p) {
-        if (! st_lookup (pio, to_name, NIL (char *))) {
-          st_insert (pio, util_strsav (to_name), (char *) nd3s++);
+      st_foreach_item(to_table, pogen, (char **)&to_name, (char **)&delay_p) {
+        if (!st_lookup(pio, to_name, NIL(char *))) {
+          st_insert(pio, util_strsav(to_name), (char *)nd3s++);
         }
       }
     }
   }
 
-  d3s = ALLOC (double *, nd3s);
+  d3s = ALLOC(double *, nd3s);
   for (i = 0; i < nd3s; i++) {
-    d3s[i] = ALLOC (double, nd3s);
+    d3s[i] = ALLOC(double, nd3s);
   }
 
-  fill_d3s (network, d3s, nd3s, pio, external_del, shortest_path,
-        default_del, min_delay_factor);
+  fill_d3s(network, d3s, nd3s, pio, external_del, shortest_path, default_del,
+           min_delay_factor);
 
   if (do_slow) {
-  /* now slow down each PO in the network */
-  foreach_primary_output (network, gen, po) {
-    if (network_is_real_po(network, po)) {
-    /* skip real PO's connected directly to the PI */
-        node = node_get_fanin (po, 0);
-        if (node_type (node) == PRIMARY_INPUT) {
-            continue;
+    /* now slow down each PO in the network */
+    foreach_primary_output(network, gen, po) {
+      if (network_is_real_po(network, po)) {
+        /* skip real PO's connected directly to the PI */
+        node = node_get_fanin(po, 0);
+        if (node_type(node) == PRIMARY_INPUT) {
+          continue;
         }
-    }
-    buf = bwd_po_name (node_long_name (po));
-    assert (st_lookup (hazard_list, buf, (char **) &old_hazards));
-    /* avoid uninteresting ones (here we are less strict than when we
-     * store them, since we do not care about rising or falling delays...)
-     */
-    hazards = array_alloc (hazard_t, 0);
-    if (astg_debug_flag > 0) {
-        fprintf (sisout, "Hazards checked for %s:\n", buf);
-    }
-    for (i = 0; i < array_n (old_hazards); i++) {
-        hazard = array_fetch (hazard_t, old_hazards, i);
+      }
+      buf = bwd_po_name(node_long_name(po));
+      assert(st_lookup(hazard_list, buf, (char **)&old_hazards));
+      /* avoid uninteresting ones (here we are less strict than when we
+       * store them, since we do not care about rising or falling delays...)
+       */
+      hazards = array_alloc(hazard_t, 0);
+      if (astg_debug_flag > 0) {
+        fprintf(sisout, "Hazards checked for %s:\n", buf);
+      }
+      for (i = 0; i < array_n(old_hazards); i++) {
+        hazard = array_fetch(hazard_t, old_hazards, i);
 #if 0
         /* use them all, for error reporting */
         for (j = 0; j < array_n (hazards); j++) {
@@ -469,159 +447,156 @@ int shortest_path, iterate, do_slow;
         }
         if (j >= array_n (hazards)) {
 #endif
-            array_insert_last (hazard_t, hazards, hazard);
-            if (astg_debug_flag > 0) {
-                fprintf (sisout, "  %s %s\n", hazard.s2, hazard.s1);
-            }
+        array_insert_last(hazard_t, hazards, hazard);
+        if (astg_debug_flag > 0) {
+          fprintf(sisout, "  %s %s\n", hazard.s2, hazard.s1);
+        }
 #if 0
         }
 #endif
-    }
-
-    /* loop until we do not have hazards at this PO */
-    do {
-      /* max_diff contains the amount to slow down pi1_sav, that is the
-       * pi1 which has the currently highest d2 - (d3 + d1)
-       */
-      max_diff = -INFINITY;
-      pi1_sav = NIL(node_t);
-      pi2_sav = NIL(node_t);
-      failed = 0;
-
-      for (i = 0; i < array_n (hazards); i++) {
-        /* now check each potential hazard in turn */
-        hazard = array_fetch (hazard_t, hazards, i);
-
-        /* we must subtract the slowing time of pi1 because we
-         * should be measuring d1 AFTER the added delay
-         */
-        pi1 = network_find_node (network, hazard.s1);
-        if (! st_lookup (slowed_amounts, bwd_po_name (node_long_name (pi1)),
-            (char **) &slowed)) {
-          slowed = & zero;
-        }
-        delay1 = delay_simulate (network, pi1, po, /* is_max */ 0,
-                     min_delay_factor);
-        d1 = MIN (delay1.rise, delay1.fall) - (*slowed);
-        if (d1 < 0) {
-          d1 = 0;
-        }
-        if (astg_debug_flag > 1) {
-          fprintf (sisout, "d1: %s->%s : %2.2f\n",
-               node_long_name (pi1), node_long_name (po), d1);
-        }
-
-        /* we must subtract the slowing time of pi2 because we
-         * should be measuring d2 AFTER the added delay
-         */
-        pi2 = network_find_node (network, hazard.s2);
-        if (! st_lookup (slowed_amounts, bwd_po_name (node_long_name (pi2)),
-            (char **) &slowed)) {
-          slowed = & zero;
-        }
-        delay2 = delay_simulate (network, pi2, po, /* is_max */ 1,
-                     min_delay_factor);
-        d2 = MAX (delay2.rise, delay2.fall) - (*slowed);
-        if (d2 < 0) {
-          d2 = 0;
-        }
-        if (astg_debug_flag > 1) {
-          fprintf (sisout, "d2: %s->%s : %2.2f\n",
-               node_long_name (pi2), node_long_name (po), d2);
-        }
-
-        /* we must add the slowing time of pi1 because we
-         * should be measuring d3 AFTER the added delay
-         */
-        if (! st_lookup (slowed_amounts, bwd_po_name (node_long_name (pi1)),
-            (char **) &slowed)) {
-          slowed = & zero;
-        }
-        assert (st_lookup_int (pio, bwd_po_name (node_long_name (pi2)), &from));
-        assert (st_lookup_int (pio, bwd_po_name (node_long_name (pi1)), &to));
-        d3 = d3s[from][to] + (*slowed);
-        if (d3 < 0) {
-          d3 = 0;
-        }
-        if (astg_debug_flag > 1) {
-          fprintf (sisout, "d3: %s->%s : %2.2f\n",
-               node_long_name (pi2), node_long_name (pi1), d3);
-        }
-
-        if (pi1_sav == NIL(node_t) || (d2 - (d1 + d3)) > max_diff) {
-              pi1_sav = pi1;
-              pi2_sav = pi2;
-              dir1 = hazard.dir1;
-              dir2 = hazard.dir2;
-              max_diff = d2 - (d1 + d3);
-              if (astg_debug_flag > 0) {
-                fprintf (sisout, "d2 > d1 + d3 by %2.2f\n", max_diff);
-              }
-        }
       }
 
-      /* now check if we have a hazard to remove */
-      if (max_diff + tol > 0) {
-        failed = 1;
-        fprintf (sisout,
-            "Hazard %s%c -> %s%c -> %s by %2.2f (slowing %s)\n",
-             node_long_name (pi2_sav), dir2, node_long_name (pi1_sav),
-             dir1, node_long_name (po), (max_diff + tol),
-             node_long_name (pi1_sav));
-        curr_slow = 0;
+      /* loop until we do not have hazards at this PO */
+      do {
+        /* max_diff contains the amount to slow down pi1_sav, that is the
+         * pi1 which has the currently highest d2 - (d3 + d1)
+         */
+        max_diff = -INFINITY;
+        pi1_sav = NIL(node_t);
+        pi2_sav = NIL(node_t);
+        failed = 0;
 
-        do {
-            inv1 = node_literal (pi1_sav, 0);
-            network_add_node (network, inv1);
-            inv2 = node_literal (inv1, 0);
-            network_add_node (network, inv2);
+        for (i = 0; i < array_n(hazards); i++) {
+          /* now check each potential hazard in turn */
+          hazard = array_fetch(hazard_t, hazards, i);
 
-            buf = lib_gate_pin_name (inv, 0, 1);
-            assert (buf != NIL(char));
-            assert (lib_set_gate (inv1, inv, &buf, &pi1_sav, 1));
-            assert (lib_set_gate (inv2, inv, &buf, &inv1, 1));
+          /* we must subtract the slowing time of pi1 because we
+           * should be measuring d1 AFTER the added delay
+           */
+          pi1 = network_find_node(network, hazard.s1);
+          if (!st_lookup(slowed_amounts, bwd_po_name(node_long_name(pi1)),
+                         (char **)&slowed)) {
+            slowed = &zero;
+          }
+          delay1 = delay_simulate(network, pi1, po, /* is_max */ 0,
+                                  min_delay_factor);
+          d1 = MIN(delay1.rise, delay1.fall) - (*slowed);
+          if (d1 < 0) {
+            d1 = 0;
+          }
+          if (astg_debug_flag > 1) {
+            fprintf(sisout, "d1: %s->%s : %2.2f\n", node_long_name(pi1),
+                    node_long_name(po), d1);
+          }
 
-            foreach_fanout (pi1_sav, gen1, fanout) {
+          /* we must subtract the slowing time of pi2 because we
+           * should be measuring d2 AFTER the added delay
+           */
+          pi2 = network_find_node(network, hazard.s2);
+          if (!st_lookup(slowed_amounts, bwd_po_name(node_long_name(pi2)),
+                         (char **)&slowed)) {
+            slowed = &zero;
+          }
+          delay2 = delay_simulate(network, pi2, po, /* is_max */ 1,
+                                  min_delay_factor);
+          d2 = MAX(delay2.rise, delay2.fall) - (*slowed);
+          if (d2 < 0) {
+            d2 = 0;
+          }
+          if (astg_debug_flag > 1) {
+            fprintf(sisout, "d2: %s->%s : %2.2f\n", node_long_name(pi2),
+                    node_long_name(po), d2);
+          }
+
+          /* we must add the slowing time of pi1 because we
+           * should be measuring d3 AFTER the added delay
+           */
+          if (!st_lookup(slowed_amounts, bwd_po_name(node_long_name(pi1)),
+                         (char **)&slowed)) {
+            slowed = &zero;
+          }
+          assert(st_lookup_int(pio, bwd_po_name(node_long_name(pi2)), &from));
+          assert(st_lookup_int(pio, bwd_po_name(node_long_name(pi1)), &to));
+          d3 = d3s[from][to] + (*slowed);
+          if (d3 < 0) {
+            d3 = 0;
+          }
+          if (astg_debug_flag > 1) {
+            fprintf(sisout, "d3: %s->%s : %2.2f\n", node_long_name(pi2),
+                    node_long_name(pi1), d3);
+          }
+
+          if (pi1_sav == NIL(node_t) || (d2 - (d1 + d3)) > max_diff) {
+            pi1_sav = pi1;
+            pi2_sav = pi2;
+            dir1 = hazard.dir1;
+            dir2 = hazard.dir2;
+            max_diff = d2 - (d1 + d3);
+            if (astg_debug_flag > 0) {
+              fprintf(sisout, "d2 > d1 + d3 by %2.2f\n", max_diff);
+            }
+          }
+        }
+
+        /* now check if we have a hazard to remove */
+        if (max_diff + tol > 0) {
+          failed = 1;
+          fprintf(sisout, "Hazard %s%c -> %s%c -> %s by %2.2f (slowing %s)\n",
+                  node_long_name(pi2_sav), dir2, node_long_name(pi1_sav), dir1,
+                  node_long_name(po), (max_diff + tol),
+                  node_long_name(pi1_sav));
+          curr_slow = 0;
+
+          do {
+            inv1 = node_literal(pi1_sav, 0);
+            network_add_node(network, inv1);
+            inv2 = node_literal(inv1, 0);
+            network_add_node(network, inv2);
+
+            buf = lib_gate_pin_name(inv, 0, 1);
+            assert(buf != NIL(char));
+            assert(lib_set_gate(inv1, inv, &buf, &pi1_sav, 1));
+            assert(lib_set_gate(inv2, inv, &buf, &inv1, 1));
+
+            foreach_fanout(pi1_sav, gen1, fanout) {
               if (fanout != inv1) {
-                assert (node_patch_fanin (fanout, pi1_sav, inv2));
+                assert(node_patch_fanin(fanout, pi1_sav, inv2));
               }
             }
-            slowed_delay = delay_simulate (network, pi1_sav, inv2,
-                               /* is_max */ 0, min_delay_factor);
-            if (! st_lookup (slowed_amounts,
-                bwd_po_name (node_long_name(pi1_sav)), (char **) &slowed)) {
-              slowed = ALLOC (double, 1);
+            slowed_delay = delay_simulate(network, pi1_sav, inv2,
+                                          /* is_max */ 0, min_delay_factor);
+            if (!st_lookup(slowed_amounts, bwd_po_name(node_long_name(pi1_sav)),
+                           (char **)&slowed)) {
+              slowed = ALLOC(double, 1);
               *slowed = 0;
-              st_insert (slowed_amounts,
-                     util_strsav (bwd_po_name (node_long_name(pi1_sav))),
-                     (char *) slowed);
+              st_insert(slowed_amounts,
+                        util_strsav(bwd_po_name(node_long_name(pi1_sav))),
+                        (char *)slowed);
             }
-            *slowed += MIN (slowed_delay.rise, slowed_delay.fall);
-            curr_slow += MIN (slowed_delay.rise, slowed_delay.fall);
-        } while (! iterate && curr_slow < max_diff + tol);
-      }
-    } while (failed);
+            *slowed += MIN(slowed_delay.rise, slowed_delay.fall);
+            curr_slow += MIN(slowed_delay.rise, slowed_delay.fall);
+          } while (!iterate && curr_slow < max_diff + tol);
+        }
+      } while (failed);
 
-    array_free (hazards);
-  }
+      array_free(hazards);
+    }
   }
 
   /* now save the new delay information (if required) and wrap up */
-  bwd_external_delay_update (network, external_del, min_delay_factor,
-      /*silent*/ 0);
+  bwd_external_delay_update(network, external_del, min_delay_factor,
+                            /*silent*/ 0);
 
   for (i = 0; i < nd3s; i++) {
-    FREE (d3s[i]);
+    FREE(d3s[i]);
   }
-  FREE (d3s);
-  st_foreach_item (pio, pigen, &buf, NIL(char *)) {
-    FREE (buf);
-  }
-  st_free_table (pio);
+  FREE(d3s);
+  st_foreach_item(pio, pigen, &buf, NIL(char *)) { FREE(buf); }
+  st_free_table(pio);
 
-  foreach_primary_input (network, gen, pi) {
-    delay_set_parameter (pi, DELAY_ARRIVAL_RISE, (double) 0);
-    delay_set_parameter (pi, DELAY_ARRIVAL_FALL, (double) 0);
+  foreach_primary_input(network, gen, pi) {
+    delay_set_parameter(pi, DELAY_ARRIVAL_RISE, (double)0);
+    delay_set_parameter(pi, DELAY_ARRIVAL_FALL, (double)0);
   }
 }
 #endif /* SIS */

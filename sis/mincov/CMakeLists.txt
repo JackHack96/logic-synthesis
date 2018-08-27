@@ -9,5 +9,5 @@ add_library(mincov STATIC
         mincov.c
         part.c
         solution.c
-        ../include/mincov_int.h
+
         )

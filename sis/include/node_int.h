@@ -6,12 +6,12 @@
 typedef struct daemon_struct daemon_t;
 
 struct daemon_struct {
-    void (*func)();
+  void (*func)();
 
-    daemon_t *next;
+  daemon_t *next;
 };
 
-#define node_has_function(f)        (f->F != 0)
+#define node_has_function(f) (f->F != 0)
 
 extern void network_rehash_names();
 

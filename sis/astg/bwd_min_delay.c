@@ -11,15 +11,15 @@
  * function, if desired, or to provide parameters to the default delay model.
  *
  * The delay package that comes with mis/sis computes MAXIMUM delays: this is a
- * copy that computes MINIMUM delays. Eventually we should use simulation to 
+ * copy that computes MINIMUM delays. Eventually we should use simulation to
  * compute both.
  */
-#include <setjmp.h>
-#include <math.h>
-#include "sis.h"
 #include "min_delay_int.h"
+#include "sis.h"
+#include <math.h>
+#include <setjmp.h>
 
-node_t * min_delay_latest_output();
+node_t *min_delay_latest_output();
 static jmp_buf delay_botch;
 
 static void set_arrival_time();
@@ -38,18 +38,15 @@ static delay_time_t po_required_time();
 
 #define node_type(n) ((n)->type)
 
-static delay_time_t time_not_given = {
-    DELAY_VALUE_NOT_GIVEN, DELAY_VALUE_NOT_GIVEN
-};
+static delay_time_t time_not_given = {DELAY_VALUE_NOT_GIVEN,
+                                      DELAY_VALUE_NOT_GIVEN};
 
 static double delay_value_not_given = DELAY_VALUE_NOT_GIVEN;
 
 #undef DELAY_VALUE_NOT_GIVEN
 #define DELAY_VALUE_NOT_GIVEN delay_value_not_given
 
-int 
-bwd_min_delay_trace(network, model)
-network_t *network;
+int bwd_min_delay_trace(network, model) network_t *network;
 delay_model_t model;
 {
   int i;
@@ -69,9 +66,7 @@ delay_model_t model;
   }
 
   /* compute the load on each driver */
-  foreach_node (network, gen, node) {
-    set_fanout_load(node, model);
-  }
+  foreach_node(network, gen, node) { set_fanout_load(node, model); }
 
   /* Compute arrival times */
   nodevec = network_dfs(network);
@@ -82,7 +77,7 @@ delay_model_t model;
   array_free(nodevec);
 
   /* Find latest output */
-  (void) min_delay_latest_output(network, &latest);
+  (void)min_delay_latest_output(network, &latest);
 
   /* compute required times */
   nodevec = network_dfs_from_input(network);
@@ -93,7 +88,7 @@ delay_model_t model;
   array_free(nodevec);
 
   /* finally, compute the slacks */
-  foreach_node (network, gen, node) {
+  foreach_node(network, gen, node) {
     delay = DELAY(node);
     delay->slack.rise = delay->required.rise - delay->arrival.rise;
     delay->slack.fall = delay->required.fall - delay->arrival.fall;
@@ -102,20 +97,16 @@ delay_model_t model;
   return 1;
 }
 
-#define ARRIVAL(time, new_time) 	_arrival(&(time), (new_time))
+#define ARRIVAL(time, new_time) _arrival(&(time), (new_time))
 
-static void
-_arrival(time, new_time)
-double *time, new_time;
+static void _arrival(time, new_time) double *time, new_time;
 {
   if (new_time < *time) {
     *time = new_time;
   }
 }
 
-static void
-set_arrival_time(node, model)
-register node_t *node;
+static void set_arrival_time(node, model) register node_t *node;
 delay_model_t model;
 {
   register int i;
@@ -136,8 +127,7 @@ delay_model_t model;
     node_delay->arrival.rise += delay.rise;
     node_delay->arrival.fall += delay.fall;
     return;
-  }
-  else if (node_type(node) == PRIMARY_OUTPUT) {
+  } else if (node_type(node) == PRIMARY_OUTPUT) {
     fanin = node_get_fanin(node, 0);
     node_delay->arrival.rise = DELAY(fanin)->arrival.rise;
     node_delay->arrival.fall = DELAY(fanin)->arrival.fall;
@@ -148,7 +138,7 @@ delay_model_t model;
   node_arrival->rise = INFINITY;
   node_arrival->fall = INFINITY;
 
-  foreach_fanin (node, i, fanin) {
+  foreach_fanin(node, i, fanin) {
     pin_delay = get_pin_delay(node, i, model);
     delay = compute_delay(node, pin_delay, model);
 
@@ -170,9 +160,7 @@ delay_model_t model;
 
 /* Compute the arrival time for a primary input. */
 
-static delay_time_t
-pi_arrival_time(node)
-node_t *node;
+static delay_time_t pi_arrival_time(node) node_t *node;
 {
   delay_time_t delay;
   delay_pin_t *pin_delay;
@@ -180,37 +168,29 @@ node_t *node;
   pin_delay = DELAY(node)->pin_delay;
   delay = DEF_DELAY(node_network(node))->default_arrival;
 
-  if (pin_delay != 0 &&
-      pin_delay->user_time.rise != DELAY_VALUE_NOT_GIVEN &&
+  if (pin_delay != 0 && pin_delay->user_time.rise != DELAY_VALUE_NOT_GIVEN &&
       pin_delay->user_time.fall != DELAY_VALUE_NOT_GIVEN) {
-    return(pin_delay->user_time);
-  }
-  else if (delay.rise != DELAY_VALUE_NOT_GIVEN     &&
-       delay.fall != DELAY_VALUE_NOT_GIVEN) {
-    return(delay);
-  }
-  else {
+    return (pin_delay->user_time);
+  } else if (delay.rise != DELAY_VALUE_NOT_GIVEN &&
+             delay.fall != DELAY_VALUE_NOT_GIVEN) {
+    return (delay);
+  } else {
     delay.rise = 0;
     delay.fall = 0;
-    return(delay);
+    return (delay);
   }
 }
 
+#define REQUIRED(time, new_time) _required(&(time), (new_time))
 
-#define REQUIRED(time, new_time)	_required(&(time), (new_time))
-
-static void
-_required(time, new_time)
-double *time, new_time;
+static void _required(time, new_time) double *time, new_time;
 {
   if (new_time < *time) {
     *time = new_time;
   }
 }
 
-static void
-set_required_time(node, latest, model)
-node_t *node;
+static void set_required_time(node, latest, model) node_t *node;
 double latest;
 delay_model_t model;
 {
@@ -259,9 +239,7 @@ delay_model_t model;
 
 /* Compute the required time at a primary output */
 
-static delay_time_t
-po_required_time(node,  latest)
-node_t *node;
+static delay_time_t po_required_time(node, latest) node_t *node;
 double latest;
 {
   delay_time_t delay;
@@ -270,26 +248,21 @@ double latest;
   pin_delay = DELAY(node)->pin_delay;
   delay = DEF_DELAY(node_network(node))->default_required;
 
-  if (pin_delay != NIL(delay_pin_t) 				   &&
+  if (pin_delay != NIL(delay_pin_t) &&
       pin_delay->user_time.rise != DELAY_VALUE_NOT_GIVEN &&
       pin_delay->user_time.fall != DELAY_VALUE_NOT_GIVEN) {
-    return(pin_delay->user_time);
-  }
-  else if (delay.rise != DELAY_VALUE_NOT_GIVEN     &&
-       delay.fall != DELAY_VALUE_NOT_GIVEN) {
-    return(delay);
-  }
-  else {
+    return (pin_delay->user_time);
+  } else if (delay.rise != DELAY_VALUE_NOT_GIVEN &&
+             delay.fall != DELAY_VALUE_NOT_GIVEN) {
+    return (delay);
+  } else {
     delay.rise = latest;
     delay.fall = latest;
-    return(delay);
+    return (delay);
   }
 }
 
-
-static void
-set_fanout_load(node, model)
-node_t *node;
+static void set_fanout_load(node, model) node_t *node;
 delay_model_t model;
 {
   int pin;
@@ -299,8 +272,9 @@ delay_model_t model;
 
   /* Sum the output capacitance (load of each pin we fanout to) */
 
-  DELAY(node)->load = compute_wire_load(node_network(node), node_num_fanout(node));
-  foreach_fanout_pin (node, gen, fanout, pin) {
+  DELAY(node)->load =
+      compute_wire_load(node_network(node), node_num_fanout(node));
+  foreach_fanout_pin(node, gen, fanout, pin) {
     pin_delay = get_pin_delay(fanout, pin, model);
     DELAY(node)->load += pin_delay->load;
   }
@@ -315,9 +289,7 @@ delay_model_t model;
  * we need and free the rest.  If we have just the right number (I suspect,
  * the usual case), then do nothing.
  */
-static void
-allocate_pin_params(node)
-node_t *node;
+static void allocate_pin_params(node) node_t *node;
 {
   int nparams, n_old_params, i;
   delay_pin_t **old_pins, **new_pins;
@@ -334,25 +306,23 @@ node_t *node;
       new_pins[i] = ALLOC(delay_pin_t, 1);
     }
     delay->pin_params = new_pins;
-  }
-  else if (nparams != n_old_params) {
+  } else if (nparams != n_old_params) {
     old_pins = delay->pin_params;
     new_pins = ALLOC(delay_pin_t *, nparams);
 
     if (n_old_params < nparams) {
       for (i = 0; i < n_old_params; i++) {
-    new_pins[i] = old_pins[i];
+        new_pins[i] = old_pins[i];
       }
       for (i = n_old_params; i < nparams; i++) {
-    new_pins[i] = ALLOC(delay_pin_t, 1);
+        new_pins[i] = ALLOC(delay_pin_t, 1);
       }
-    }
-    else {
+    } else {
       for (i = 0; i < n_old_params; i++) {
-    new_pins[i] = old_pins[i];
+        new_pins[i] = old_pins[i];
       }
       for (i = nparams; i < n_old_params; ++i) {
-    FREE(old_pins[i]);
+        FREE(old_pins[i]);
       }
     }
     FREE(old_pins);
@@ -367,9 +337,7 @@ node_t *node;
  * mapped network. Put on request of the speedup package where a node may
  * be replaced by its decomposition
  */
-network_t *
-min_delay_generate_decomposition(node, mode)
-node_t *node;
+network_t *min_delay_generate_decomposition(node, mode) node_t *node;
 double mode;
 {
   network_t *network;
@@ -408,7 +376,7 @@ double mode;
     user_time->fall = INFINITY;
   }
 
-  foreach_primary_input(network, gen, this_node){
+  foreach_primary_input(network, gen, this_node) {
     name = node_name(this_node);
     found = 0;
 
@@ -418,8 +386,8 @@ double mode;
      */
     foreach_fanin(node, i, fanin) {
       if (strcmp(name, node_name(fanin)) == 0) {
-    found = 1;
-    break;
+        found = 1;
+        break;
       }
     }
     if (found == 0) {
@@ -437,11 +405,9 @@ double mode;
 
     if (node_function(q) == NODE_0) {
       pin->phase = PHASE_NONINVERTING;
-    }
-    else if (node_function(p) == NODE_0) {
+    } else if (node_function(p) == NODE_0) {
       pin->phase = PHASE_INVERTING;
-    }
-    else {
+    } else {
       pin->phase = PHASE_NEITHER;
     }
 
@@ -458,7 +424,7 @@ double mode;
      * output is driving a load of 0.  The drive parameter, similarly, is
      * equal to the drive parameter of the node driving the output.
      */
-    (void) bwd_min_delay_trace(network, DELAY_MODEL_LIBRARY);
+    (void)bwd_min_delay_trace(network, DELAY_MODEL_LIBRARY);
 
     foreach_primary_output(network, gen1, out_node) { /* only one */
       pin->block = delay_arrival_time(out_node);
@@ -472,18 +438,16 @@ double mode;
        */
       pin1 = get_pin_delay(out_node, 0, DELAY_MODEL_LIBRARY);
       pin->drive = pin1->drive;
-
     }
 
     /* Compute the load.  This is a little tricky, so watch the comment */
 
-    pin -> load = DELAY(this_node) -> load;
+    pin->load = DELAY(this_node)->load;
 
     /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
        Naive and WRONG.  The load on this_node (a PI) is merely the
        load on the buffer it drives.  What we want is the load driven by
        that buffer.  The following code gets it: */
-
 
     /*
       foreach_fanout_pin(this_node, gen1, p, i) {
@@ -491,18 +455,16 @@ double mode;
       }
       */
 
-
 #ifdef DEBUG
     printf("Pin parameters for node %s, pin %s\n", node_name(node),
-       node_name(fanin));
-    printf("pin %d br %f bf %f dr %f df %f phase %s load %f alt_load %f\n",
-       i, pin -> block.rise, pin -> block.fall,
-       pin -> drive.rise, pin -> drive.fall,
-       (pin -> phase == PHASE_INVERTING?"neg":
-        (pin -> phase == PHASE_NONINVERTING?"pos":"both")),
-       pin -> load, DELAY(this_node) -> load);
+           node_name(fanin));
+    printf("pin %d br %f bf %f dr %f df %f phase %s load %f alt_load %f\n", i,
+           pin->block.rise, pin->block.fall, pin->drive.rise, pin->drive.fall,
+           (pin->phase == PHASE_INVERTING
+                ? "neg"
+                : (pin->phase == PHASE_NONINVERTING ? "pos" : "both")),
+           pin->load, DELAY(this_node)->load);
 #endif
-
 
     /* reset this node's user time given to be INFINITY for next
        iteration */
@@ -511,19 +473,17 @@ double mode;
     user_time->rise = INFINITY;
     user_time->fall = INFINITY;
   }
-  return(network);
+  return (network);
 }
 
 /* Model dependent code */
-static delay_time_t
-compute_delay(node, pin_delay, model)
-node_t *node;
+static delay_time_t compute_delay(node, pin_delay, model) node_t *node;
 delay_pin_t *pin_delay;
 delay_model_t model;
 {
   delay_time_t delay;
 
-  switch(model) {
+  switch (model) {
   case DELAY_MODEL_UNIT:
   case DELAY_MODEL_UNIT_FANOUT:
   case DELAY_MODEL_LIBRARY:
@@ -542,9 +502,7 @@ delay_model_t model;
   return delay;
 }
 
-static void
-delay_error(string)
-char *string;
+static void delay_error(string) char *string;
 {
   if (string != NIL(char)) {
     error_append(string);
@@ -552,19 +510,16 @@ char *string;
   longjmp(delay_botch, 1);
 }
 
-#define DELAY_NODE_CHECK(network, node, fname) \
-    network = network_of_node(node);\
-    if(!network_has_been_traced(network)) {\
-    fail("fname called before trace done\n");\
-    } else if (network_has_been_modified(network)) {\
-    (void)fprintf(siserr,\
-        "Warning: network modified between delay_trace and fname\n");\
-    }
-    
+#define DELAY_NODE_CHECK(network, node, fname)                                 \
+  network = network_of_node(node);                                             \
+  if (!network_has_been_traced(network)) {                                     \
+    fail("fname called before trace done\n");                                  \
+  } else if (network_has_been_modified(network)) {                             \
+    (void)fprintf(                                                             \
+        siserr, "Warning: network modified between delay_trace and fname\n");  \
+  }
 
-node_t *
-min_delay_latest_output(network, latest_p)
-network_t *network;
+node_t *min_delay_latest_output(network, latest_p) network_t *network;
 double *latest_p;
 {
   node_t *po, *last_output;
@@ -572,15 +527,15 @@ double *latest_p;
   double latest;
   delay_time_t arrival;
 
-  /*  Goes in when I get the name of the fns from RR 
+  /*  Goes in when I get the name of the fns from RR
       DELAY_NODE_CHECK(network, node, min_delay_latest_output);
       */
-     
+
   /* Find latest output */
   latest = INFINITY;
   last_output = 0;
 
-  foreach_primary_output (network, gen, po) {
+  foreach_primary_output(network, gen, po) {
     arrival = DELAY(po)->arrival;
     if (arrival.rise > latest) {
       latest = arrival.rise;
@@ -593,16 +548,13 @@ double *latest_p;
   }
 
   *latest_p = latest;
-  return(last_output);
+  return (last_output);
 }
 
-
-static void
-delay_force_pininfo(node)
-node_t *node;
+static void delay_force_pininfo(node) node_t *node;
 {
   delay_pin_t *pin_delay;
-    
+
   assert(node != NIL(node_t));
   if (DELAY(node) == NIL(delay_node_t)) {
     delay_alloc(node);
@@ -618,10 +570,8 @@ node_t *node;
     pin_delay->user_time = time_not_given;
   }
 }
-    
-static network_t *
-map_node_to_network(node, mode)
-node_t *node;
+
+static network_t *map_node_to_network(node, mode) node_t *node;
 double mode;
 {
   network_t *net1, *net2;
@@ -629,14 +579,15 @@ double mode;
 
   if ((library = lib_get_library()) == NIL(library_t)) {
     delay_error("Mapped Delay model: no current library\n");
-    return(NIL(network_t)); /* Not reached -- in to keep lint happy */
+    return (NIL(network_t)); /* Not reached -- in to keep lint happy */
   } else {
     net1 = network_create_from_node(node);
-    net2 = map_network(net1, library, mode, 1, 0); /* user spec mode & inverters */
+    net2 =
+        map_network(net1, library, mode, 1, 0); /* user spec mode & inverters */
     network_free(net1);
     return net2;
   }
 }
 
-#undef  node_type
+#undef node_type
 #endif /* SIS */

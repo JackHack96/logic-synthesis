@@ -1,15 +1,12 @@
 #ifndef NTBDD_H /* { */
 #define NTBDD_H
 
-
 /*
  * Verification methods
  */
-typedef enum {
-    ONE_AT_A_TIME, ALL_TOGETHER
-} ntbdd_verify_method_t;
+typedef enum { ONE_AT_A_TIME, ALL_TOGETHER } ntbdd_verify_method_t;
 
-/* 
+/*
  * Utilities
  */
 extern bdd_t *ntbdd_at_node(node_t *);
@@ -30,6 +27,7 @@ extern void ntbdd_set_at_node(node_t *, bdd_t *);
 
 extern bdd_manager *ntbdd_start_manager(int);
 
-extern int ntbdd_verify_network(network_t *, network_t *, order_method_t, ntbdd_verify_method_t);
+extern int ntbdd_verify_network(network_t *, network_t *, order_method_t,
+                                ntbdd_verify_method_t);
 
 #endif /* } */

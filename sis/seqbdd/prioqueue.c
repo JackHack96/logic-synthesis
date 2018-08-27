@@ -28,11 +28,12 @@
  * The ordering is user-specified, thru a callback boolean function, QueueCmp.
  *
  * Creates a queue and returns a pointer to it.
- * Should give the max_size and a comparison function 
+ * Should give the max_size and a comparison function
  * standard UNIX comparision function (e.g. as in qsort).
  * It returns an integer that is negative if V1 < V2,
  * positive if V1 > V2, and 0 iff V1 == V2 in the ordering.
- * The print_fn is used to print entries. NIL is OK there (nothing will be printed)
+ * The print_fn is used to print entries. NIL is OK there (nothing will be
+ *printed)
  *
  *
  *	queue_t	*init_queue(max_size, cmp, print_fn)
@@ -74,14 +75,14 @@
  *
  * adjusts the ordering of an object already in the queue.
  * expects the priority of the object not to have decreased.
- * 
+ *
  *	void	adj_up_queue(queue, ptr)
  *	queue_t *queue;
  *	char *ptr;
  *
  * adjusts the ordering of an object already in the queue.
  * expects the priority of the object not to have increased.
- * 
+ *
  *	void	adj_up_queue(queue, ptr)
  *	queue_t *queue;
  *	char *ptr;
@@ -93,8 +94,8 @@
  *
  */
 #ifdef SIS
-#include "sis.h"
 #include "prioqueue.h"
+#include "sis.h"
 
 static void SiftUp();
 static void SiftDown();
@@ -104,8 +105,7 @@ static void SiftDown();
  * because Heap accesses start at 1.
  */
 
-queue_t	*init_queue(max_size, cmp_fn, print_fn)
-int max_size;
+queue_t *init_queue(max_size, cmp_fn, print_fn) int max_size;
 IntFn cmp_fn;
 VoidFn print_fn;
 {
@@ -125,10 +125,9 @@ VoidFn print_fn;
   return result;
 }
 
- /* have to restore the Queue pointer to the ALLOC'ed address */
+/* have to restore the Queue pointer to the ALLOC'ed address */
 
-void free_queue(queue)
-queue_t *queue;
+void free_queue(queue) queue_t *queue;
 {
   st_free_table(queue->table);
   queue->Queue++;
@@ -140,17 +139,17 @@ queue_t *queue;
  * Standard heap sifting routines.
  */
 
-static void SiftUp(queue, SiftIndx )
-queue_t *queue;
+static void SiftUp(queue, SiftIndx) queue_t *queue;
 int SiftIndx;
 {
   queue_entry_t *entry;
   int NextIndx;
 
   entry = queue->Queue[SiftIndx];
-  while( SiftIndx > 1 ) {
+  while (SiftIndx > 1) {
     NextIndx = SiftIndx / 2;
-    if((*(queue->QueueCmp))(entry->VPtr , queue->Queue[NextIndx]->VPtr) >= 0 ) break;
+    if ((*(queue->QueueCmp))(entry->VPtr, queue->Queue[NextIndx]->VPtr) >= 0)
+      break;
     queue->Queue[SiftIndx] = queue->Queue[NextIndx];
     queue->Queue[SiftIndx]->QPosn = SiftIndx;
     SiftIndx = NextIndx;
@@ -159,20 +158,21 @@ int SiftIndx;
   queue->Queue[SiftIndx]->QPosn = SiftIndx;
 }
 
-static void SiftDown(queue, SiftIndx)
-queue_t *queue;
+static void SiftDown(queue, SiftIndx) queue_t *queue;
 int SiftIndx;
 {
   queue_entry_t *entry;
   int NextIndx;
 
   entry = queue->Queue[SiftIndx];
-  while(( NextIndx = SiftIndx * 2 ) <= queue->NumInQueue ) {
-    if(NextIndx < queue->NumInQueue && 
-       (*(queue->QueueCmp))(queue->Queue[NextIndx+1]->VPtr, queue->Queue[NextIndx]->VPtr) < 0) {
+  while ((NextIndx = SiftIndx * 2) <= queue->NumInQueue) {
+    if (NextIndx < queue->NumInQueue &&
+        (*(queue->QueueCmp))(queue->Queue[NextIndx + 1]->VPtr,
+                             queue->Queue[NextIndx]->VPtr) < 0) {
       NextIndx++;
     }
-    if((*(queue->QueueCmp))(entry->VPtr, queue->Queue[NextIndx]->VPtr) <= 0) break;
+    if ((*(queue->QueueCmp))(entry->VPtr, queue->Queue[NextIndx]->VPtr) <= 0)
+      break;
     queue->Queue[SiftIndx] = queue->Queue[NextIndx];
     queue->Queue[SiftIndx]->QPosn = SiftIndx;
     SiftIndx = NextIndx;
@@ -181,9 +181,7 @@ int SiftIndx;
   queue->Queue[SiftIndx]->QPosn = SiftIndx;
 }
 
-
-void put_queue(queue, VPtr)
-queue_t *queue;
+void put_queue(queue, VPtr) queue_t *queue;
 char *VPtr;
 {
   queue_entry_t *new_entry;
@@ -194,19 +192,19 @@ char *VPtr;
   queue->Queue[queue->NumInQueue] = new_entry;
   new_entry->VPtr = VPtr;
   new_entry->QPosn = queue->NumInQueue;
-  st_insert(queue->table, VPtr, (char *) new_entry);
+  st_insert(queue->table, VPtr, (char *)new_entry);
   SiftUp(queue, queue->NumInQueue);
 }
 
-char *get_queue(queue)
-queue_t *queue;
+char *get_queue(queue) queue_t *queue;
 {
   char *VPtr;
   queue_entry_t *entry;
 
-  if (queue->NumInQueue == 0) return NIL(char);
+  if (queue->NumInQueue == 0)
+    return NIL(char);
   VPtr = queue->Queue[1]->VPtr;
-  (void) st_delete(queue->table, (char **) &VPtr, (char **) &entry);
+  (void)st_delete(queue->table, (char **)&VPtr, (char **)&entry);
   assert(entry == queue->Queue[1]);
   FREE(entry);
   queue->Queue[1] = queue->Queue[queue->NumInQueue];
@@ -218,49 +216,43 @@ queue_t *queue;
   return VPtr;
 }
 
-char *top_queue(queue)
-queue_t *queue;
+char *top_queue(queue) queue_t *queue;
 {
-  if (queue->NumInQueue == 0) return NIL(char);
+  if (queue->NumInQueue == 0)
+    return NIL(char);
   return queue->Queue[1]->VPtr;
 }
 
-void adj_queue(queue, VPtr)
-queue_t *queue;
+void adj_queue(queue, VPtr) queue_t *queue;
 char *VPtr;
 {
   queue_entry_t *entry;
 
-  assert(st_lookup(queue->table, VPtr, (char **) &entry));
+  assert(st_lookup(queue->table, VPtr, (char **)&entry));
   SiftUp(queue, entry->QPosn);
   SiftDown(queue, entry->QPosn);
 }
 
-void adj_up_queue(queue, VPtr)
-queue_t *queue;
+void adj_up_queue(queue, VPtr) queue_t *queue;
 char *VPtr;
 {
   queue_entry_t *entry;
 
-  assert(st_lookup(queue->table, VPtr, (char **) &entry));
+  assert(st_lookup(queue->table, VPtr, (char **)&entry));
   SiftUp(queue, entry->QPosn);
 }
 
-void adj_down_queue(queue, VPtr)
-queue_t *queue;
+void adj_down_queue(queue, VPtr) queue_t *queue;
 char *VPtr;
 {
   queue_entry_t *entry;
 
-  assert(st_lookup(queue->table, VPtr, (char **) &entry));
+  assert(st_lookup(queue->table, VPtr, (char **)&entry));
   SiftDown(queue, entry->QPosn);
 }
 
-int queue_size(queue)
-queue_t *queue;
-{
-  return queue->NumInQueue;
-}
+int queue_size(queue) queue_t *queue;
+{ return queue->NumInQueue; }
 
 /* ------------------------------------------------------------------------- */
 
@@ -272,15 +264,14 @@ queue_t *queue;
  * Display the queue.
  */
 
-void print_queue(queue)
-queue_t *queue;
+void print_queue(queue) queue_t *queue;
 {
-  int	Indx , Stop;
+  int Indx, Stop;
 
   fprintf(misout, "priority queue\n\t");
   Stop = 2;
-  for( Indx = 1 ; Indx <= queue->NumInQueue ; ++ Indx ) {
-    if( Indx == Stop ) {
+  for (Indx = 1; Indx <= queue->NumInQueue; ++Indx) {
+    if (Indx == Stop) {
       fprintf(misout, "\n\t");
       Stop *= 2;
     }
@@ -294,10 +285,9 @@ queue_t *queue;
  * Check queue for consistency. Returns 0 if everything is OK.
  */
 
-int CheckQueue(queue)
-queue_t *queue;
+int CheckQueue(queue) queue_t *queue;
 {
-  int	Indx;
+  int Indx;
   int CheckFailed;
   st_generator *gen;
   char *VPtr;
@@ -309,9 +299,10 @@ queue_t *queue;
    * Check that Queue positions are correct
    */
 
-  for( Indx = 1 ; Indx <= queue->NumInQueue ; ++ Indx ) {
-    if( Indx != queue->Queue[Indx]->QPosn ) {
-      fprintf(miserr, "\nQueue Position, Computed=%d, Stored=%d.", Indx , queue->Queue[Indx]->QPosn);
+  for (Indx = 1; Indx <= queue->NumInQueue; ++Indx) {
+    if (Indx != queue->Queue[Indx]->QPosn) {
+      fprintf(miserr, "\nQueue Position, Computed=%d, Stored=%d.", Indx,
+              queue->Queue[Indx]->QPosn);
       CheckFailed = 1;
     }
   }
@@ -320,39 +311,43 @@ queue_t *queue;
    * Check that the ordering relations are correct
    */
 
-  for( Indx = 2 ; Indx <= queue->NumInQueue ; ++ Indx ) {
-    if((*(queue->QueueCmp))(queue->Queue[Indx/2]->VPtr, queue->Queue[Indx]->VPtr) > 0) {
-      (void) fprintf(misout, "\nQueue Ordering Mixup:" );
-      (void) fprintf(misout, "\n\tPosn %3d, Entry ", Indx/2);
-      (*(queue->print_entry))(queue->Queue[Indx/2]->VPtr);
-      (void) fprintf(misout, "\n\tPosn %3d, Entry ", Indx);
+  for (Indx = 2; Indx <= queue->NumInQueue; ++Indx) {
+    if ((*(queue->QueueCmp))(queue->Queue[Indx / 2]->VPtr,
+                             queue->Queue[Indx]->VPtr) > 0) {
+      (void)fprintf(misout, "\nQueue Ordering Mixup:");
+      (void)fprintf(misout, "\n\tPosn %3d, Entry ", Indx / 2);
+      (*(queue->print_entry))(queue->Queue[Indx / 2]->VPtr);
+      (void)fprintf(misout, "\n\tPosn %3d, Entry ", Indx);
       (*(queue->print_entry))(queue->Queue[Indx]->VPtr);
-      (void) fprintf(misout, "\n");
+      (void)fprintf(misout, "\n");
       CheckFailed = 1;
     }
   }
 
- /* check that the entries have all the right index */
+  /* check that the entries have all the right index */
   if (st_count(queue->table) != queue->NumInQueue) {
-    (void) fprintf(misout, "\nQueue Accounting Mixup: queue->%d, table->%d\n", queue->NumInQueue, st_count(queue->table));
+    (void)fprintf(misout, "\nQueue Accounting Mixup: queue->%d, table->%d\n",
+                  queue->NumInQueue, st_count(queue->table));
     CheckFailed = 1;
   }
-  st_foreach_item(queue->table, gen, &VPtr, (char **) &entry) {
+  st_foreach_item(queue->table, gen, &VPtr, (char **)&entry) {
     if (entry->VPtr != VPtr) {
-      (void) fprintf(misout, "\nEntry Mixup: entry->0x%x, ptr->0x%x\n", entry->VPtr, VPtr);
+      (void)fprintf(misout, "\nEntry Mixup: entry->0x%x, ptr->0x%x\n",
+                    entry->VPtr, VPtr);
       CheckFailed = 1;
     }
     if (entry->QPosn < 1 || entry->QPosn > queue->NumInQueue) {
-      (void) fprintf(misout, "\nEntry Mixup: out of range: 1 <= %d <= %d\n", entry->QPosn, queue->NumInQueue);
+      (void)fprintf(misout, "\nEntry Mixup: out of range: 1 <= %d <= %d\n",
+                    entry->QPosn, queue->NumInQueue);
       CheckFailed = 1;
     }
     if (queue->Queue[entry->QPosn] != entry) {
-      (void) fprintf(misout, "\nEntry Mixup: entry->0x%x, actual->0x%x\n", entry, queue->Queue[entry->QPosn]);
+      (void)fprintf(misout, "\nEntry Mixup: entry->0x%x, actual->0x%x\n", entry,
+                    queue->Queue[entry->QPosn]);
       CheckFailed = 1;
     }
   }
 
-  return(! CheckFailed);
+  return (!CheckFailed);
 }
 #endif /* SIS */
-

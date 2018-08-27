@@ -10,7 +10,7 @@ add_library(seqbdd STATIC
         network_info.c
         ordering.c
         prioqueue.c
-        ../include/prioqueue.h
+
 
         prl_dep.c
         prl_equiv.c
@@ -19,10 +19,10 @@ add_library(seqbdd STATIC
         prl_product.c
 
         prl_remlatch.c
-        ../include/prl_seqbdd.h
+
         prl_seqinfo.c
         prl_util.c
-        ../include/prl_util.h
+
 
         product.c
         seqbdd_cycle.c

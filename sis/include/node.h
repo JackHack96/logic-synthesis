@@ -2,129 +2,127 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include "list.h"
-#include "espresso.h"
-
 /* ... belongs in network.h, but node and network reference each other ... */
 typedef struct network_struct network_t;
-typedef struct node_struct    node_t;
-
+typedef struct node_struct node_t;
 
 typedef enum node_function_enum node_function_t;
 enum node_function_enum {
-    NODE_PI, NODE_PO, NODE_0, NODE_1, NODE_BUF, NODE_INV,
-    NODE_AND, NODE_OR, NODE_COMPLEX, NODE_UNDEFINED
+  NODE_PI,
+  NODE_PO,
+  NODE_0,
+  NODE_1,
+  NODE_BUF,
+  NODE_INV,
+  NODE_AND,
+  NODE_OR,
+  NODE_COMPLEX,
+  NODE_UNDEFINED
 };
-
 
 typedef enum name_mode_enum name_mode_t;
-enum name_mode_enum {
-    LONG_NAME_MODE, SHORT_NAME_MODE
-};
-
+enum name_mode_enum { LONG_NAME_MODE, SHORT_NAME_MODE };
 
 typedef enum node_type_enum node_type_t;
-enum node_type_enum {
-    PRIMARY_INPUT, PRIMARY_OUTPUT, INTERNAL, UNASSIGNED
-};
-
+enum node_type_enum { PRIMARY_INPUT, PRIMARY_OUTPUT, INTERNAL, UNASSIGNED };
 
 typedef enum node_daemon_type_enum {
-    DAEMON_ALLOC = 0, DAEMON_FREE = 1, DAEMON_INVALID = 2, DAEMON_DUP = 3
-}                           node_daemon_type_t;
-
+  DAEMON_ALLOC = 0,
+  DAEMON_FREE = 1,
+  DAEMON_INVALID = 2,
+  DAEMON_DUP = 3
+} node_daemon_type_t;
 
 typedef enum input_phase_enum input_phase_t;
-enum input_phase_enum {
-    POS_UNATE, NEG_UNATE, BINATE, PHASE_UNKNOWN
-};
-
+enum input_phase_enum { POS_UNATE, NEG_UNATE, BINATE, PHASE_UNKNOWN };
 
 typedef struct fanout_struct fanout_t;
 struct fanout_struct {
-    node_t *fanout;
-    int    pin;
+  node_t *fanout;
+  int pin;
 };
-
 
 typedef enum node_sim_enum node_sim_type_t;
 enum node_sim_enum {
-    NODE_SIM_SCC, NODE_SIM_SIMPCOMP, NODE_SIM_ESPRESSO,
-    NODE_SIM_EXACT, NODE_SIM_EXACT_LITS, NODE_SIM_DCSIMP,
-    NODE_SIM_NOCOMP, NODE_SIM_SNOCOMP
+  NODE_SIM_SCC,
+  NODE_SIM_SIMPCOMP,
+  NODE_SIM_ESPRESSO,
+  NODE_SIM_EXACT,
+  NODE_SIM_EXACT_LITS,
+  NODE_SIM_DCSIMP,
+  NODE_SIM_NOCOMP,
+  NODE_SIM_SNOCOMP
 };
 
-
 struct node_struct {
-    char        *name;            /* name of the output signal */
-    char        *short_name;        /* short name for interactive use */
-    node_type_t type;        /* type of the node */
+  char *name;       /* name of the output signal */
+  char *short_name; /* short name for interactive use */
+  node_type_t type; /* type of the node */
 
-    int sis_id;            /* unique id (used to sort fanin) */
+  int sis_id; /* unique id (used to sort fanin) */
 
-    unsigned fanin_changed:1;    /* flag to catch fanin generation errors */
-    unsigned fanout_changed:1;    /* flag to catch fanout generation errors */
-    unsigned is_dup_free:1;    /* node has no aliasing of its fanin */
-    unsigned is_min_base:1;    /* node is minimum base */
-    unsigned is_scc_minimal:1;    /* node is scc-minimal */
+  unsigned fanin_changed : 1;  /* flag to catch fanin generation errors */
+  unsigned fanout_changed : 1; /* flag to catch fanout generation errors */
+  unsigned is_dup_free : 1;    /* node has no aliasing of its fanin */
+  unsigned is_min_base : 1;    /* node is minimum base */
+  unsigned is_scc_minimal : 1; /* node is scc-minimal */
 
-    int    nin;            /* number of inputs */
-    node_t **fanin;
+  int nin; /* number of inputs */
+  node_t **fanin;
 
-    lsList   fanout;        /* list of 'fanout_t' structures */
-    lsHandle *fanin_fanout;    /* handles of our fanin's fanout_t structure */
+  lsList fanout;          /* list of 'fanout_t' structures */
+  lsHandle *fanin_fanout; /* handles of our fanin's fanout_t structure */
 
-    pset_family F;        /* on-set */
-    pset_family D;        /* dc-set -- currently unused */
-    pset_family R;        /* off-set */
+  pset_family F; /* on-set */
+  pset_family D; /* dc-set -- currently unused */
+  pset_family R; /* off-set */
 
-    node_t *copy;        /* used by network_dup(), network_append() */
+  node_t *copy; /* used by network_dup(), network_append() */
 
-    network_t *network;        /* network this node belongs to */
-    lsHandle  net_handle;    /* handle inside of network nodelist */
+  network_t *network;  /* network this node belongs to */
+  lsHandle net_handle; /* handle inside of network nodelist */
 
-    char *simulation;        /* reserved for simulation package */
-    char *factored;        /* reserved for factoring package */
-    char *delay;        /* reserved for delay package */
-    char *map;            /* reserved for mapping package */
-    char *simplify;        /* reserved for simplify package */
-    char *bdd;            /* reserved for bdd package */
-    char *pld;            /* reserved for pld package */
-    char *ite;            /* reserved for pld package */
-    char *buf;            /* reserved for buffer package */
-    char *cspf;            /* reserved for cspf (simplify) package */
-    char *bin;            /* reserved for binning (mapping) package */
-    char *atpg;            /* reserved for atpg package */
-    char *undef1;        /* undefined 1 */
+  char *simulation; /* reserved for simulation package */
+  char *factored;   /* reserved for factoring package */
+  char *delay;      /* reserved for delay package */
+  char *map;        /* reserved for mapping package */
+  char *simplify;   /* reserved for simplify package */
+  char *bdd;        /* reserved for bdd package */
+  char *pld;        /* reserved for pld package */
+  char *ite;        /* reserved for pld package */
+  char *buf;        /* reserved for buffer package */
+  char *cspf;       /* reserved for cspf (simplify) package */
+  char *bin;        /* reserved for binning (mapping) package */
+  char *atpg;       /* reserved for atpg package */
+  char *undef1;     /* undefined 1 */
 };
 
 typedef pset node_cube_t;
-typedef int  node_literal_t;
+typedef int node_literal_t;
 
-#define foreach_fanin(node, i, p)                    \
-    for(i = 0, node->fanin_changed = 0;                    \
-    node->fanin_changed ? node_error(4) :                \
-        i < (node)->nin && (p = node->fanin[i]); i++)
+#define foreach_fanin(node, i, p)                                              \
+  for (i = 0, node->fanin_changed = 0;                                         \
+       node->fanin_changed ? node_error(4)                                     \
+                           : i < (node)->nin && (p = node->fanin[i]);          \
+       i++)
 
-#define foreach_fanout(node, gen, p)                    \
-    for(node->fanout_changed = 0, gen = node_fanout_init_gen(node);    \
-    node->fanout_changed ? (node_t *) node_error(5) :        \
-        (p = node_fanout_gen(gen, NIL(int))); )
+#define foreach_fanout(node, gen, p)                                           \
+  for (node->fanout_changed = 0, gen = node_fanout_init_gen(node);             \
+       node->fanout_changed ? (node_t *)node_error(5)                          \
+                            : (p = node_fanout_gen(gen, NIL(int)));)
 
-#define foreach_fanout_pin(node, gen, p, pin)                \
-    for(node->fanout_changed = 0, gen = node_fanout_init_gen(node);    \
-    node->fanout_changed ? (node_t *) node_error(5) :        \
-        (p = node_fanout_gen(gen, &pin)); )
+#define foreach_fanout_pin(node, gen, p, pin)                                  \
+  for (node->fanout_changed = 0, gen = node_fanout_init_gen(node);             \
+       node->fanout_changed ? (node_t *)node_error(5)                          \
+                            : (p = node_fanout_gen(gen, &pin));)
 
-#define node_get_cube(f_, i_)                        \
-    ((f_)->F ?                                \
-    ((i_) >= 0 && (i_) < (f_)->F->count ? GETSET((f_)->F, (i_)) :    \
-        (node_cube_t) node_error(0))                \
-        : (node_cube_t) node_error(1))
+#define node_get_cube(f_, i_)                                                  \
+  ((f_)->F ? ((i_) >= 0 && (i_) < (f_)->F->count ? GETSET((f_)->F, (i_))       \
+                                                 : (node_cube_t)node_error(0)) \
+           : (node_cube_t)node_error(1))
 
-#define node_get_literal(c_, j_)                    \
-    ((c_) ? GETINPUT((c_), (j_)) : (node_literal_t) node_error(2))
-
+#define node_get_literal(c_, j_)                                               \
+  ((c_) ? GETINPUT((c_), (j_)) : (node_literal_t)node_error(2))
 
 extern name_mode_t name_mode;
 
@@ -198,7 +196,8 @@ extern int node_substitute(node_t *, node_t *, int);
 
 extern int node_collapse(node_t *, node_t *);
 
-extern void node_algebraic_cofactor(node_t *, node_t *, node_t **, node_t **, node_t **);
+extern void node_algebraic_cofactor(node_t *, node_t *, node_t **, node_t **,
+                                    node_t **);
 
 extern int node_invert(node_t *);
 
@@ -218,7 +217,8 @@ extern void node_lib_process(network_t *);
 
 extern void node_minimum_base(node_t *);
 
-extern void node_replace_internal(node_t *, node_t **, int, struct set_family *);
+extern void node_replace_internal(node_t *, node_t **, int,
+                                  struct set_family *);
 
 extern int node_patch_fanin(node_t *, node_t *, node_t *);
 

@@ -15,12 +15,12 @@
 #define SA_SMALL_RANGE 3
 #define SA_DEFAULT_PARAMETER -1.0
 
-#define SA_ASSERT(fct)\
-    if ((fct) != SA_OK) {\
-        fprintf(stderr, "SA Assertion failed: file %s, line %d\n",\
-        __FILE__, __LINE__);\
-        exit(-1);\
-    }
+#define SA_ASSERT(fct)                                                         \
+  if ((fct) != SA_OK) {                                                        \
+    fprintf(stderr, "SA Assertion failed: file %s, line %d\n", __FILE__,       \
+            __LINE__);                                                         \
+    exit(-1);                                                                  \
+  }
 
 void combinatorial_optimize();
 
