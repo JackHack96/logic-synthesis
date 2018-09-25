@@ -1,5 +1,34 @@
 project(sred)
 
+include_directories(../espresso/inc)
+include_directories(../utility)
+
+find_package(BISON REQUIRED)
+find_package(FLEX REQUIRED)
+
+set(BISON_OUTPUT ${CMAKE_SOURCE_DIR}/sred/gram.c)
+if (BISON_FOUND)
+    add_custom_command(
+            OUTPUT ${BISON_OUTPUT}
+            COMMAND ${BISON_EXECUTABLE}
+            --output=${BISON_OUTPUT}
+            -d
+            ${CMAKE_SOURCE_DIR}/sred/gram.y
+            COMMENT "Generating gram.c"
+    )
+endif ()
+
+set(FLEX_OUTPUT ${CMAKE_SOURCE_DIR}/sred/lex.c)
+if (FLEX_FOUND)
+    add_custom_command(
+            OUTPUT ${FLEX_OUTPUT}
+            COMMAND ${FLEX_EXECUTABLE}
+            --outfile=${FLEX_OUTPUT}
+            ${CMAKE_SOURCE_DIR}/sred/lex.c
+            COMMENT "Generating lex.c"
+    )
+endif ()
+
 add_executable(sred
         action.c
         boolcmp.c
@@ -17,12 +46,10 @@ add_executable(sred
         exist.c
         existdf.c
         generate.c
-        gram.y
         ibincompa.c
         incompat.c
         iobincomp.c
         label.c
-        lex.l
         main.c
         makeout.c
         misc.c
@@ -38,10 +65,11 @@ add_executable(sred
         qspart.c
         qspivot.c
         reduced.c
-        reductio.h
         solution.c
         strbar.c
         strcom.c
+        ${BISON_OUTPUT}
+        ${FLEX_OUTPUT}
         )
-
-target_link_libraries(sred utility)
+add_dependencies(sred sis)
+target_link_libraries(sred utility m)

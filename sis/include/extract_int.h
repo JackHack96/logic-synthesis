@@ -1,4 +1,13 @@
 
+#ifndef EXTRACT_INT_H
+#define EXTRACT_INT_H
+
+#include "sparse.h"
+#include "st.h"
+#include "array.h"
+#include "node.h"
+#include "nodeindex.h"
+
 /*
  *  a rectangle is a collection of rows, columns and has a value
  */
@@ -126,3 +135,5 @@ extern network_t *global_network;
 extern nodeindex_t *global_node_index;
 extern array_t *global_old_fct;
 extern int use_complement;
+
+#endif

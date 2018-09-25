@@ -1,5 +1,5 @@
-#ifndef ST_INCLUDED
-#define ST_INCLUDED
+#ifndef ST_H
+#define ST_H
 
 typedef struct st_table_entry st_table_entry;
 struct st_table_entry {
@@ -99,4 +99,4 @@ extern void st_free_gen(st_generator *);
   for (gen = st_init_gen(table);                                               \
        st_gen_int(gen, key, value) || (st_free_gen(gen), 0);)
 
-#endif /* ST_INCLUDED */
+#endif /* ST_H */

@@ -1,4 +1,5 @@
-
+#ifndef FANOUT_ALG_MACRO_H
+#define FANOUT_ALG_MACRO_H
 /* file @(#)fanout_alg_macro.h	1.3 */
 /* last modified on 6/28/91 at 17:21:06 */
 
@@ -39,3 +40,5 @@ extern void mixed_lt_trees_set_max_y_index();
 extern void top_down_set_mode();
 
 extern void top_down_set_debug();
+
+#endif

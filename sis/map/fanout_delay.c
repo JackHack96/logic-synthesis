@@ -33,6 +33,7 @@
 #include "fanout_int.h"
 #include "map_int.h"
 #include "sis.h"
+#include "bin_int.h"
 #include <math.h>
 
 typedef enum buffer_type_enum buffer_type_t;

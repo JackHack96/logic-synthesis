@@ -1,6 +1,6 @@
 
-#include "espresso/inc/espresso.h"
-#include "sis/util/util.h"
+#include "espresso.h"
+#include "util.h"
 #include <stdio.h>
 
 #ifdef define_extern

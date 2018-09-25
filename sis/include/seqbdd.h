@@ -2,8 +2,13 @@
 /* file %M% release %I% */
 /* last modified: %G% at %U% */
 
-#ifndef VERIF_INT_H
-#define VERIF_INT_H
+#ifndef SEQBDD_H
+#define SEQBDD_H
+
+#include "node.h"
+#include "array.h"
+#include "st.h"
+#include "bdd.h"
 
 typedef enum { CONSISTENCY_METHOD, BULL_METHOD, PRODUCT_METHOD } range_method_t;
 
@@ -251,4 +256,8 @@ extern int breadth_first_stg_traversal(/* network_t **network, network_t
 /* from product.c */
 extern bdd_t *bdd_incr_and_smooth();
 
-#endif /* VERIF_INT_H */
+int init_seqbdd();
+
+int end_seqbdd();
+
+#endif /* SEQBDD_H */

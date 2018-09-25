@@ -1,7 +1,7 @@
 /* BDD package internal definitions */
 
-#if !defined(_BDDINTH)
-#define _BDDINTH
+#ifndef BDDINT_H
+#define BDDINT_H
 
 #include <setjmp.h>
 
@@ -721,4 +721,4 @@ extern void cmu_bdd_free_hash_table(hash_table);
 
 #undef ARGS
 
-#endif
+#endif //BDDINT_H

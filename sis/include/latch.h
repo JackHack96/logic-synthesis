@@ -1,7 +1,12 @@
 #ifndef LATCH_H
 #define LATCH_H
 
+#include "node.h"
+
 typedef enum latch_synch_enum latch_synch_t;
+#ifdef COMBINATIONAL
+    #undef COMBINATIONAL
+#endif
 enum latch_synch_enum {
   ACTIVE_HIGH,
   ACTIVE_LOW,
@@ -65,5 +70,9 @@ extern void network_delete_latch(network_t *, latch_t *);
 extern void network_delete_latch_gen(network_t *, lsGen);
 
 extern int latch_equal(latch_t *, latch_t *);
+
+int init_latch();
+
+int end_latch();
 
 #endif

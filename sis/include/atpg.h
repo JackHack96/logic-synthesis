@@ -1,4 +1,14 @@
+#ifndef ATPG_H
+#define ATPG_H
+
 #include "sat.h"
+#include "node.h"
+#include "array.h"
+#include "espresso.h"
+#include "bdd.h"
+#include "list.h"
+#include "st.h"
+#include "seqbdd.h"
 
 typedef enum stuck_value_enum stuck_value_t;
 enum stuck_value_enum { S_A_0, S_A_1 };
@@ -367,3 +377,9 @@ typedef struct {
 
 #define GET_ATPG_ID(node) ((int)node->simulation)
 #define SET_ATPG_ID(node, id) node->simulation = (char *)id
+
+int init_atpg();
+
+int end_atpg();
+
+#endif // ATPG_H

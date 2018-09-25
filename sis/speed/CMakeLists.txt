@@ -1,4 +1,4 @@
-
+set(CMAKE_C_FLAGS -DSIS)
 
 add_library(speed STATIC
         absorb.c

@@ -1,35 +1,41 @@
+#ifndef SIMP_INT_H
+#define SIMP_INT_H
+
+#include "simplify.h"
+#include "array.h"
+#include "bdd.h"
 
 typedef struct sim_flag_struct {
-  sim_method_t method;
-  sim_accept_t accept;
-  sim_dctype_t dctype;
+    sim_method_t method;
+    sim_accept_t accept;
+    sim_dctype_t dctype;
 } sim_flag_t;
 
 #define SIM_SLOT simplify
 #define SIM_FLAG(node) ((sim_flag_t *)((node)->SIM_SLOT))
 
 typedef struct cspf_struct {
-  node_t *node;
-  int level;
-  int order;
-  array_t *list;
-  bdd_t *bdd;
-  var_set_t *set;
+    node_t    *node;
+    int       level;
+    int       order;
+    array_t   *list;
+    bdd_t     *bdd;
+    var_set_t *set;
 } cspf_type_t;
 
 typedef struct odc_struct {
-  bdd_t *f;
-  bdd_t *var;
-  array_t *vodc;
-  int order;
-  int level;
-  int value;
-  int po;
+    bdd_t   *f;
+    bdd_t   *var;
+    array_t *vodc;
+    int     order;
+    int     level;
+    int     value;
+    int     po;
 } odc_type_t;
 
 typedef struct double_node_struct {
-  node_t *pos;
-  node_t *neg;
+    node_t *pos;
+    node_t *neg;
 } double_node_t;
 
 #define OBS cspf
@@ -44,8 +50,8 @@ typedef struct double_node_struct {
 #define sm_ncols(M) M->ncols
 
 /* simp_dc.c */
-extern int simp_fanin_level;
-extern int simp_fanin_fanout_level;
+extern int  simp_fanin_level;
+extern int  simp_fanin_fanout_level;
 extern bool simp_debug;
 extern bool simp_trace;
 extern bool hsimp_debug;
@@ -150,3 +156,5 @@ extern void simplify_cspf_node();
 
 /* com_simp.c */
 extern st_table *find_node_level();
+
+#endif

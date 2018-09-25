@@ -3,7 +3,7 @@
  *  hash.h --- The hash header file.                        *
  ************************************************************/
 
-#include "sis/util/util.h"
+#include "util.h"
 
 #define HASHSIZE 1000 /* It is not used */
 

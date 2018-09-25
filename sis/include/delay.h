@@ -2,6 +2,11 @@
 #ifndef DELAY_H
 #define DELAY_H
 
+#include "network.h"
+#include "node.h"
+#include "clock.h"
+#include <stdio.h>
+
 typedef struct time_struct {
   double rise;
   double fall;
@@ -162,5 +167,9 @@ extern void delay_network_dup(network_t *, network_t *);
 
 /* For the speed package */
 extern network_t *tdc_factor_network(network_t *);
+
+int init_delay();
+
+int end_delay();
 
 #endif

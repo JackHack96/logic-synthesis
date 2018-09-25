@@ -22,3 +22,9 @@ add_executable(stamina
         struct.h
         user.h
         )
+add_dependencies(stamina sis)
+target_link_libraries(stamina
+        hash
+        mincov
+        sparse
+        util)

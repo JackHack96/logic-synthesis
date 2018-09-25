@@ -988,6 +988,13 @@ int n;
   return buffer;
 }
 
+node_t *astg_guard_node(astg_graph *stg, astg_edge *e){
+    char guard_name[100];
+
+    astg_make_guard_name(e, guard_name, sizeof(guard_name));
+    return network_find_node(stg->guards, guard_name);
+}
+
 astg_bool astg_set_guard(se, guard_str, source) astg_edge *se;
 char *guard_str;
 io_t *source;
@@ -1040,15 +1047,6 @@ io_t *source;
   }
 
   return ok;
-}
-
-node_t *astg_guard_node(stg, e) astg_graph *stg;
-astg_edge *e;
-{
-  char guard_name[100];
-
-  astg_make_guard_name(e, guard_name, sizeof(guard_name));
-  return network_find_node(stg->guards, guard_name);
 }
 
 extern astg_edge *astg_find_edge(v1, v2, create) astg_vertex *v1, *v2;

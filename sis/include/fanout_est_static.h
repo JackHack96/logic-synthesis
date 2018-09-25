@@ -1,6 +1,10 @@
-
+#ifndef FANOUT_EST_STATIC_H
+#define FANOUT_EST_STATIC_H
 /* file @(#)fanout_est_static.h	1.2 */
 /* last modified on 5/1/91 at 15:50:34 */
+
+#include "node.h"
+
 static double fanout_est_select_non_inverter();
 
 static int fanout_est_get_fanout_index();
@@ -22,3 +26,5 @@ static void fanout_est_extend_fanout_leaf();
 static void fanout_est_extract_remaining_fanout_leaves();
 
 static void fanout_est_get_est_fanout_leaves();
+
+#endif

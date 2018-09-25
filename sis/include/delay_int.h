@@ -1,5 +1,8 @@
+#ifndef DELAY_INT_H
+#define DELAY_INT_H
 
 #include "delay.h"
+#include "array.h"
 
 #define DELAY_SLOT delay
 #define DELAY(node) ((delay_node_t *)node->DELAY_SLOT)
@@ -58,3 +61,5 @@ extern void delay_invalid();
 extern void compute_tdc_parms();
 
 extern void delay_print_wire_loads();
+
+#endif //DELAY_INT_H

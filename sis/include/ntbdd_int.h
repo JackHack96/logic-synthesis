@@ -1,13 +1,16 @@
 #ifndef NTBDD_INT_H /* { */
 #define NTBDD_INT_H
 
+
+#include "network.h"
+
 /*
  * Stuff hooked on the bdd manager so that everything is
  * freed at the appropriate point.
  */
 typedef struct {
-  network_t *last_network;
-  st_table *network_table;
+    network_t *last_network;
+    st_table  *network_table;
 } ntbdd_t;
 
 /*
@@ -28,6 +31,8 @@ extern void bdd_free_demon(/* node_t *node; */);
  * means just in terms of the node's immediate fanin; GLOBAL
  * means in terms of the nodes in the leaves table.
  */
-typedef enum { LOCAL, GLOBAL } ntbdd_type_t;
+typedef enum {
+    LOCAL, GLOBAL
+} ntbdd_type_t;
 
 #endif /* } */

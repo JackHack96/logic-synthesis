@@ -3,13 +3,8 @@
 #include "sis.h"
 #include "io_int.h"
 #include <setjmp.h>
-#include "config.h"
 
-#if YYTEXT_POINTER
 extern char *yytext;
-#else
-extern char yytext[];
-#endif
 
 static network_t *global_network;
 static lsList po_list;

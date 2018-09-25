@@ -4,6 +4,8 @@
 #ifndef MAP_DELAY_H
 #define MAP_DELAY_H
 
+#include "delay.h"
+
 extern void delay_map_compute_required_times();
 
 extern void delay_gate_arrival_times(); /* similar to delay_gate_simulate but

@@ -1,7 +1,7 @@
 /* Memory management internal definitions */
 
-#if !defined(_MEMINTH)
-#define _MEMINTH
+#ifndef MEMINT_H
+#define MEMINT_H
 
 /* All user-visible stuff */
 
@@ -81,18 +81,18 @@ extern void bzero();
 /* >>> System independent stuff here. */
 
 struct segment_ {
-  pointer base_address;
-  SIZE_T limit;
+    pointer base_address;
+    SIZE_T  limit;
 };
 
 typedef struct segment_ *segment;
 
 struct block_ {
-  int used;
-  int size_index;
-  struct block_ *next;
-  struct block_ *prev;
-  segment seg;
+    int           used;
+    int           size_index;
+    struct block_ *next;
+    struct block_ *prev;
+    segment       seg;
 };
 
 typedef struct block_ *block;

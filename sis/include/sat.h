@@ -1,6 +1,10 @@
 #ifndef SATISFY_H
 #define SATISFY_H
 
+#include "array.h"
+#include "sparse.h"
+#include "node.h"
+
 #define sat_neg(i) ((i % 2) ? i - 1 : i + 1)
 #define sat_begin_clause(s) s->nclause++
 #define sat_add_literal(s, v) sm_insert(s->matrix, s->nclause - 1, (v))

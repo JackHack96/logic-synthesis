@@ -213,7 +213,7 @@ BOOLEAN DiagPivoting;
   /* Begin `spOrderAndFactor'. */
   ASSERT(IS_VALID(Matrix) AND NOT Matrix->Factored);
 
-  Matrix->Error = spOKAY;
+  Matrix->Error = SPMATRIX_H;
   Size = Matrix->Size;
   if (RelThreshold <= 0.0)
     RelThreshold = Matrix->RelThreshold;
@@ -427,7 +427,7 @@ int spFactor(eMatrix)
   }
 
   Matrix->Factored = YES;
-  return (Matrix->Error = spOKAY);
+  return (Matrix->Error = SPMATRIX_H);
 #endif /* REAL */
 }
 
@@ -544,7 +544,7 @@ static int FactorComplexMatrix(Matrix)
   }
 
   Matrix->Factored = YES;
-  return (Matrix->Error = spOKAY);
+  return (Matrix->Error = SPMATRIX_H);
 }
 #endif /* spCOMPLEX */
 

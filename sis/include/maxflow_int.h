@@ -1,3 +1,5 @@
+#ifndef MAXFLOW_INT_H
+#define MAXFLOW_INT_H
 
 /*
  * functions that will be used internal to the package
@@ -21,3 +23,5 @@ extern void get_cutset();
  * miscellaneous marcos
  */
 #define MF_ALLOC(num, type) ((type *)MF_calloc((int)(num), sizeof(type)))
+
+#endif

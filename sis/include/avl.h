@@ -1,6 +1,6 @@
 
-#ifndef AVL_INCLUDED
-#define AVL_INCLUDED
+#ifndef AVL_H
+#define AVL_H
 
 typedef struct avl_node_struct avl_node;
 struct avl_node_struct {
@@ -65,4 +65,4 @@ extern avl_generator *avl_init_gen(avl_tree *, int);
   for (gen = avl_init_gen(table, dir);                                         \
        avl_gen(gen, key_p, value_p) || (avl_free_gen(gen), 0);)
 
-#endif
+#endif // AVL_H

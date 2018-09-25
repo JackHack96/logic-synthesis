@@ -1,3 +1,6 @@
+#ifndef ATPG_INT_H
+#define ATPG_INT_H
+
 #include "atpg.h"
 
 #define ALL_ZERO 0
@@ -12,3 +15,5 @@
   for (gen = lsStart(faults);                                                  \
        (lsNext(gen, (lsGeneric *)&f, LS_NH) == LS_OK) ||                       \
        ((void)lsFinish(gen), 0);)
+
+#endif // ATPG_INT_H

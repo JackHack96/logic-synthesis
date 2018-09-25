@@ -1,16 +1,18 @@
+#ifndef STG_INT_H
+#define STG_INT_H
 
 #define MAX_ELENGTH 36
 
 /* We are keeping the definitions of the clocks local to the stg package */
 typedef struct stg_clock_structure {
-  char *name;
-  double cycle_time;   /* Cycle time */
-  double nominal_rise; /* Nominal position */
-  double nominal_fall;
-  double min_rise; /* max negative skew */
-  double min_fall;
-  double max_rise; /* max positive skew */
-  double max_fall;
+    char   *name;
+    double cycle_time;   /* Cycle time */
+    double nominal_rise; /* Nominal position */
+    double nominal_fall;
+    double min_rise; /* max negative skew */
+    double min_fall;
+    double max_rise; /* max positive skew */
+    double max_fall;
 } stg_clock_t;
 
 #define stg_get_clock_data(stg)                                                \
@@ -19,12 +21,12 @@ typedef struct stg_clock_structure {
   (void)g_set_g_slot_static((stg), CLOCK_DATA, (gGeneric)i)
 
 typedef struct node_data {
-  node_t *node;
-  struct node_data *next, *wnext;
-  long cube;
-  char value[MAX_ELENGTH];
-  char jflag[MAX_ELENGTH];
-  int level;
+    node_t           *node;
+    struct node_data *next, *wnext;
+    long             cube;
+    char             value[MAX_ELENGTH];
+    char             jflag[MAX_ELENGTH];
+    int              level;
 } ndata;
 
 /*
@@ -58,17 +60,17 @@ extern void setnptr();
 */
 
 extern network_t *copy;
-extern ndata **stg_pstate, **stg_nstate, **real_po;
-extern int *stg_estate;
-extern int nlatch, npi, npo;
-extern int stg_longs_per_state, stg_bits_per_long;
-extern int total_no_of_states;
-extern long total_no_of_edges;
-extern unsigned *unfinish_head, *hashed_state;
-extern st_table *slist;
-extern st_table *state_table;
-extern int n_varying_nodes;
-extern ndata **varying_node;
+extern ndata     **stg_pstate, **stg_nstate, **real_po;
+extern int       *stg_estate;
+extern int       nlatch, npi, npo;
+extern int       stg_longs_per_state, stg_bits_per_long;
+extern int       total_no_of_states;
+extern long      total_no_of_edges;
+extern unsigned  *unfinish_head, *hashed_state;
+extern st_table  *slist;
+extern st_table  *state_table;
+extern int       n_varying_nodes;
+extern ndata     **varying_node;
 
 #define SCHEDULED 1
 #define ALL_ASSIGNED 2
@@ -92,3 +94,5 @@ extern void stg_copy_names();
 extern void stg_copy_clock_data();
 
 extern void stg_set_network_pipo_names();
+
+#endif

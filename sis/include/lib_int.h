@@ -1,6 +1,10 @@
-
+#ifndef LIB_INT_H
+#define LIB_INT_H
 /* file @(#)lib_int.h	1.4 */
 /* last modified on 7/2/91 at 19:44:31 */
+#include "library.h"
+#include "array.h"
+
 /*
  * $Log: lib_int.h,v $
  * Revision 1.1.1.1  2004/02/07 10:14:25  pchong
@@ -36,3 +40,5 @@ extern lib_gate_t *lib_get_default_inverter();
 extern array_t *lib_get_prims_from_class(/* lib_class_t *class */);
 
 extern void lib_dump_gate();
+
+#endif

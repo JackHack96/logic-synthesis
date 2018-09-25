@@ -124,7 +124,7 @@ void spClear(eMatrix)
   Matrix->TrashCan.Imag = 0.0;
 #endif
 
-  Matrix->Error = spOKAY;
+  Matrix->Error = SPMATRIX_H;
   Matrix->Factored = NO;
   Matrix->SingularCol = 0;
   Matrix->SingularRow = 0;
@@ -459,7 +459,7 @@ struct spTemplate *Template;
   if (Node1 == 0)
     SWAP(RealNumber *, Template->Element1, Template->Element2);
 
-  return spOKAY;
+  return SPMATRIX_H;
 }
 #endif /* QUAD_ELEMENT */
 
@@ -535,7 +535,7 @@ struct spTemplate *Template;
   if (Template->Element1 == &((MatrixPtr)Matrix)->TrashCan.Real)
     SWAP(RealNumber *, Template->Element1, Template->Element2);
 
-  return spOKAY;
+  return SPMATRIX_H;
 }
 #endif /* QUAD_ELEMENT */
 
@@ -597,7 +597,7 @@ struct spTemplate *Template;
     return spNO_MEMORY;
 
   spADD_REAL_QUAD(*Template, 1.0);
-  return spOKAY;
+  return SPMATRIX_H;
 }
 #endif /* QUAD_ELEMENT */
 
@@ -1042,7 +1042,7 @@ int (*pInit)();
   Matrix->TrashCan.Imag = 0.0;
 #endif
 
-  Matrix->Error = spOKAY;
+  Matrix->Error = SPMATRIX_H;
   Matrix->Factored = NO;
   Matrix->SingularCol = 0;
   Matrix->SingularRow = 0;

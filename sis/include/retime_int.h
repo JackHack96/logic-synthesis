@@ -1,3 +1,5 @@
+#ifndef RETIME_INT_H
+#define RETIME_INT_H
 
 #include "retime.h"
 
@@ -8,14 +10,14 @@
 
 typedef struct class_data re_class_t;
 struct class_data {
-  array_t *gates; /* Array of type (lib_gate_t *) */
-  array_t *delay; /* Array of type double		*/
+    array_t *gates; /* Array of type (lib_gate_t *) */
+    array_t *delay; /* Array of type double		*/
 };
 
 typedef struct wd_struct wd_t;
 struct wd_struct {
-  int w;
-  int d;
+    int w;
+    int d;
 };
 
 /* Global variables */
@@ -71,3 +73,5 @@ extern re_edge *re_graph_add_edge();
 
 #define POS_LARGE 10000
 #define NEG_LARGE -10000
+
+#endif

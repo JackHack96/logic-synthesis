@@ -1,5 +1,8 @@
+#ifndef MIN_DELAY_INT_H
+#define MIN_DELAY_INT_H
 
 #include "delay.h"
+#include "array.h"
 
 #define DELAY_SLOT delay
 #define DELAY(node) ((delay_node_t *)node->DELAY_SLOT)
@@ -17,32 +20,32 @@
  */
 
 typedef struct delay_node_struct {
-  delay_time_t arrival;
-  delay_time_t required;
-  delay_time_t slack;
-  unsigned pin_params_valid;
-  int num_pin_params;
-  delay_pin_t **pin_params;
-  delay_pin_t *pin_delay;
-  double load;
+    delay_time_t arrival;
+    delay_time_t required;
+    delay_time_t slack;
+    unsigned     pin_params_valid;
+    int          num_pin_params;
+    delay_pin_t  **pin_params;
+    delay_pin_t  *pin_delay;
+    double       load;
 #ifdef SIS
-  char *synch_clock_name;  /* clock_name w.r.t. arr & req times spec. */
-  int synch_clock_edge;    /* RISE_TRANSITION or FALL_TRANSITION */
-  int synch_relative_flag; /* BEFORE_CLOCK_EDGE or AFTER_CLOCK_EDGE */
+    char *synch_clock_name;  /* clock_name w.r.t. arr & req times spec. */
+    int  synch_clock_edge;    /* RISE_TRANSITION or FALL_TRANSITION */
+    int  synch_relative_flag; /* BEFORE_CLOCK_EDGE or AFTER_CLOCK_EDGE */
 #endif                     /* SIS */
 } delay_node_t;
 
 typedef struct delay_wire_load_struct {
-  double slope;
-  int num_pins_set;
-  array_t *pins;
+    double  slope;
+    int     num_pins_set;
+    array_t *pins;
 } delay_wire_load_table_t;
 
 typedef struct delay_network_struct {
-  delay_time_t default_arrival;
-  delay_time_t default_required;
-  delay_wire_load_table_t wire_load_table;
-  delay_pin_t pipo_model;
+    delay_time_t            default_arrival;
+    delay_time_t            default_required;
+    delay_wire_load_table_t wire_load_table;
+    delay_pin_t             pipo_model;
 } delay_network_t;
 
 /* used in com_delay.c */
@@ -55,3 +58,5 @@ extern void delay_alloc();
 extern void delay_invalid();
 
 extern void delay_print_wire_loads();
+
+#endif

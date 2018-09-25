@@ -9,3 +9,5 @@ add_library(decomp STATIC
         disj.c
         partition.c
         )
+add_dependencies(decomp command)
+target_link_libraries(decomp command)

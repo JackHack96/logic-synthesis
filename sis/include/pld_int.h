@@ -1,5 +1,8 @@
+#ifndef PLD_INT_H
+#define PLD_INT_H
 
 #include "pld.h"
+#include "maxflow.h"
 /* definitions for actel */
 #define LOW 0
 #define HIGH 1
@@ -47,118 +50,118 @@
 #define ACT_MAP_NAME actel_map
 /*    DAG vertex	*/
 typedef struct act_vertex_defn {
-  struct act_vertex_defn *low, *high;
-  int index;
-  int value;
-  int id;
-  int mark;
-  int index_size;
-  node_t *node;
-  char *name;
-  int multiple_fo;
-  int cost;
-  int pattern_num; /* for the pattern_matched at a node */
-  int mapped;
-  struct act_vertex_defn *parent; /* delete later*/
-  char *fn_type;                  /* delete later */
-  int my_type;                    /* ORDERED or UNORDERED */
-  double arrival_time;
-  int multiple_fo_for_mapping; /* for mapping */
+    struct act_vertex_defn *low, *high;
+    int                    index;
+    int                    value;
+    int                    id;
+    int                    mark;
+    int                    index_size;
+    node_t                 *node;
+    char                   *name;
+    int                    multiple_fo;
+    int                    cost;
+    int                    pattern_num; /* for the pattern_matched at a node */
+    int                    mapped;
+    struct act_vertex_defn *parent; /* delete later*/
+    char                   *fn_type;                  /* delete later */
+    int                    my_type;                    /* ORDERED or UNORDERED */
+    double                 arrival_time;
+    int                    multiple_fo_for_mapping; /* for mapping */
 } ACT_VERTEX, *ACT_VERTEX_PTR;
 
 #define act_t ACT_VERTEX
 
 typedef struct cost_struct_defn {
-  int cost;             /* number of basic blocks used to realize the node */
-  char *fn_type;        /* a "hacked" field to get bdnet file right */
-  ACT_VERTEX_PTR act;   /* stores the bdd (act) for the function at the node */
-  node_t *node;         /* pointer to the node of the network */
-  double arrival_time;  /* arrival_time at the output of the node */
-  double required_time; /* required_time at the output of the node */
-  double slack;         /* slack = required_time - arrival_time */
-  int is_critical;      /* is the slack <= some threshold */
-  double area_weight;   /* penalty if node is collapsed */
-  double cost_and_arrival_time;
+    int            cost;             /* number of basic blocks used to realize the node */
+    char           *fn_type;        /* a "hacked" field to get bdnet file right */
+    ACT_VERTEX_PTR act;   /* stores the bdd (act) for the function at the node */
+    node_t         *node;         /* pointer to the node of the network */
+    double         arrival_time;  /* arrival_time at the output of the node */
+    double         required_time; /* required_time at the output of the node */
+    double         slack;         /* slack = required_time - arrival_time */
+    int            is_critical;      /* is the slack <= some threshold */
+    double         area_weight;   /* penalty if node is collapsed */
+    double         cost_and_arrival_time;
 } COST_STRUCT;
 
 /*	ACT with root, name, and order_list	*/
 typedef struct act_defn {
-  ACT_VERTEX_PTR root;
-  array_t *node_list;
-  node_t *node;
-  char *node_name;
+    ACT_VERTEX_PTR root;
+    array_t        *node_list;
+    node_t         *node;
+    char           *node_name;
 } ACT, *ACT_PTR;
 
 /*	ACT and order style	*/
 typedef struct act_entry_defn {
-  ACT_PTR act;
-  int order_style;
+    ACT_PTR act;
+    int     order_style;
 } ACT_ENTRY, *ACT_ENTRY_PTR;
 
 /*	local and global ACTs	*/
 typedef struct act_slot_defn {
-  /*		COST_STRUCT *cost_node;*/ /* added Aug 9 for delay */
-  ACT_ENTRY_PTR act_num[2];
+    /*		COST_STRUCT *cost_node;*/ /* added Aug 9 for delay */
+    ACT_ENTRY_PTR act_num[2];
 } act_type_t;
 
 /*	used in act2ntwk and reduce	*/
 typedef struct key_defn {
-  int low, high;
-  int low_sign, high_sign;
+    int low, high;
+    int low_sign, high_sign;
 } KEY;
 
 typedef struct queue_node_defn {
-  KEY key;
-  ACT_VERTEX_PTR v;
+    KEY            key;
+    ACT_VERTEX_PTR v;
 } Q_NODE, *Q_NODE_PTR;
 
 /* init_param structure to put all the options */
 typedef struct act_init_param_defn {
-  int HEURISTIC_NUM;   /* which act to construct */
-  int NUM_ITER;        /* number of iterations in iter. improvement */
-  int FANIN_COLLAPSE;  /* upper limit on fanins of a node to collapse */
-  float GAIN_FACTOR;   /* go from one iteration to other only if gain increases
+    int   HEURISTIC_NUM;   /* which act to construct */
+    int   NUM_ITER;        /* number of iterations in iter. improvement */
+    int   FANIN_COLLAPSE;  /* upper limit on fanins of a node to collapse */
+    float GAIN_FACTOR;   /* go from one iteration to other only if gain increases
                                  by this ratio */
-  int DECOMP_FANIN;    /* lower limit on fanins of node to decompose */
-  int DISJOINT_DECOMP; /* do disjoint decomposition before mapping */
-  int QUICK_PHASE;     /* do phase-assignment */
-  int LAST_GASP;       /* make network out of node and do iterations on it */
-  int BREAK;           /* make the final network in terms of basic blocks */
-  char delayfile[500]; /* name of the file with delay numbers for basic block
+    int   DECOMP_FANIN;    /* lower limit on fanins of node to decompose */
+    int   DISJOINT_DECOMP; /* do disjoint decomposition before mapping */
+    int   QUICK_PHASE;     /* do phase-assignment */
+    int   LAST_GASP;       /* make network out of node and do iterations on it */
+    int   BREAK;           /* make the final network in terms of basic blocks */
+    char  delayfile[500]; /* name of the file with delay numbers for basic block
                             as a function of number of fanouts */
-  float mode;          /* 0 for area and 1 for delay mode, in between, a
+    float mode;          /* 0 for area and 1 for delay mode, in between, a
                                  weighted sum */
-  /* the following used in ite routines */
-  int COLLAPSE_FANINS_OF_FANOUT; /* u.l. on fanins of a fanout node after
+    /* the following used in ite routines */
+    int   COLLAPSE_FANINS_OF_FANOUT; /* u.l. on fanins of a fanout node after
                                     collapse */
-  int map_alg;   /* 1 if just algebraic matching used in act_bool.c */
-  int lit_bound; /* decompose the node if it has more than these literals */
-  int ITE_FANIN_LIMIT_FOR_BDD; /* construct an robdd (along with ite) if the
+    int   map_alg;   /* 1 if just algebraic matching used in act_bool.c */
+    int   lit_bound; /* decompose the node if it has more than these literals */
+    int   ITE_FANIN_LIMIT_FOR_BDD; /* construct an robdd (along with ite) if the
                                   node has at most these many fanins */
-  int COST_LIMIT; /* collapse a node into its fanout only if the cost of the
+    int   COST_LIMIT; /* collapse a node into its fanout only if the cost of the
                      node is at most this much */
-  int COLLAPSE_UPDATE; /* if set to EXPENSIVE, when a node is accepted for
+    int   COLLAPSE_UPDATE; /* if set to EXPENSIVE, when a node is accepted for
                           collapse, include the fanins of the node, and the
                           fanins of the fanouts for the potential candidates for
                           collapse along with the fanouts of the node, else
                           (INEXPENSIVE) just include the fanouts of the node */
-  int COLLAPSE_METHOD; /* if OLD, then accept a collapse only if the sum of the
+    int   COLLAPSE_METHOD; /* if OLD, then accept a collapse only if the sum of the
                           costs of the new fanouts is less than the cost of the
                           node plus the sum of the old costs of the fanouts. If
                           NEW, if the cost of a single fanout goes down, the
                           collapse is accepted. Node remains in the network
                             unless the criterion in the OLD is satisfied too */
-  int DECOMP_METHOD; /* if USE_GOOD_DECOMP, then use good decomp, get a network,
+    int   DECOMP_METHOD; /* if USE_GOOD_DECOMP, then use good decomp, get a network,
                         map each node of the network independently and then
                         enter iterative improvement. If USE_FACTOR, then an ite
                         is constructed for the factored form of the node. This
                         factored form is arrived at by
                           decomp -g and tech_decomp -a 2 -o 2. */
-  int ALTERNATE_REP; /* used right now only with ite_map - if 1, use robdd and
+    int   ALTERNATE_REP; /* used right now only with ite_map - if 1, use robdd and
                         see if the cost improves. */
-  int MAP_METHOD; /* if NEW, use the new mapping ite method (Dec. 92) else use
+    int   MAP_METHOD; /* if NEW, use the new mapping ite method (Dec. 92) else use
                        old method*/
-  int VAR_SELECTION_LIT; /* if 0, use the old method of selecting the selection
+    int   VAR_SELECTION_LIT; /* if 0, use the old method of selecting the selection
                             variable at each step of ITE construction. If -1,
                             then at each step, actual mapping of the algebraic
                             cofactors is done to get a better estimate of the
@@ -172,39 +175,39 @@ typedef struct act_init_param_defn {
 /* just to store the fanout and arrival time info before and after a
  * transformation */
 typedef struct temp_struct_defn {
-  double old_arrival_time;
-  int old_num_fanouts;
-  int new_num_fanouts;
-  node_t *node;
+    double old_arrival_time;
+    int    old_num_fanouts;
+    int    new_num_fanouts;
+    node_t *node;
 } TEMP_STRUCT;
 
 /* stores info about the node and its fanout that we have to collapse into.
    names are stored because on collapsing, fanout node is deleted and is
    replaced by a new node of the same name. */
 typedef struct collapsible_pair_defn {
-  char *nodename;
-  char *fanoutname;
-  double weight; /* reflects the total gain out of collapsing */
+    char   *nodename;
+    char   *fanoutname;
+    double weight; /* reflects the total gain out of collapsing */
 } COLLAPSIBLE_PAIR;
 
 /* for freeing collapsed node from the network and cost_table */
 typedef struct argument_defn {
-  st_table *cost_table;
-  network_t *network;
+    st_table  *cost_table;
+    network_t *network;
 } ARGUMENT;
 
 /* update the arrival time info for collapsing only in topol.
    order of fanins. This structure associates an index with a
    nodename and hence allows sorting.			   */
 typedef struct topol_defn {
-  char *nodename;
-  int index;
+    char *nodename;
+    int  index;
 } TOPOL_STRUCT;
 
 /* to associate a vertex of the bdd with the node */
 typedef struct vertex_node_defn {
-  ACT_VERTEX_PTR vertex;
-  node_t *node;
+    ACT_VERTEX_PTR vertex;
+    node_t         *node;
 } VERTEX_NODE;
 
 /*	global	*/
@@ -300,7 +303,7 @@ static ACT_VERTEX_PTR my_create_act_general();
 
 static int all_fanins_positive();
 
-extern int MARK_VALUE, MARK_COMPLEMENT_VALUE;
+extern int     MARK_VALUE, MARK_COMPLEMENT_VALUE;
 
 extern array_t *act_order_for_delay();
 
@@ -419,15 +422,15 @@ extern int WHICH_ACT; /* act_map.c */
 extern int print_network();
 
 extern FILE *BDNET_FILE;   /* com_pld.c */
-extern int ACT_DEBUG;      /*  com_pld.c */
-extern int ACT_STATISTICS; /*  com_pld.c */
+extern int  ACT_DEBUG;      /*  com_pld.c */
+extern int  ACT_STATISTICS; /*  com_pld.c */
 
-extern int MAXOPTIMAL;
+extern int        MAXOPTIMAL;
 extern array_t
-    *multiple_fo_array; /* holds the nodes that have multiple_fo in the act */
-extern int WHICH_ACT;
+                  *multiple_fo_array; /* holds the nodes that have multiple_fo in the act */
+extern int        WHICH_ACT;
 extern ACT_VERTEX *PRESENT_ACT; /* for temporary storage */
-extern int num_or_patterns;
+extern int        num_or_patterns;
 
 /* act_delay.c */
 extern array_t *act_order_for_delay();
@@ -448,7 +451,7 @@ extern array_t *act_order_for_delay();
 #define YES 1
 #define NO 0
 #define OK 1
-#define UNKNOWN -1
+//#define UNKNOWN (-1) //TODO: what's this?
 
 extern void ULM_decompose_func();
 
@@ -521,30 +524,30 @@ extern sm_row *sm_mat_bin_minimum_cover_greedy();
 
 /* xln_part.c */
 typedef struct a_node_struct {
-  float value;
-  char *name;
-  char *fanout;
-} a_node, *a_node_ptr;
+    float value;
+    char  *name;
+    char  *fanout;
+}                 a_node, *a_node_ptr;
 
 typedef struct a_divisor {
-  node_t *divisor;
-  int kernelsize;
-} divisor_t;
+    node_t *divisor;
+    int    kernelsize;
+}                 divisor_t;
 
 typedef struct a_kern_node {
-  node_t *node;
-  array_t *cost_array;
-  int size; /* added later */
-} kern_node;
+    node_t  *node;
+    array_t *cost_array;
+    int     size; /* added later */
+}                 kern_node;
 
 /* xln_k_decomp.c and xln_ufind.c*/
 
 typedef struct tree_node {
-  int index;
-  struct tree_node *parent;
-  int num_child;
-  int class_num;
-} tree_node;
+    int              index;
+    struct tree_node *parent;
+    int              num_child;
+    int              class_num;
+}                 tree_node;
 
 extern void binary(); /* (value, string) */               /* xln_aux.c */
 extern void reverse_string(); /* (answer, givenstring) */ /* xln_aux.c */
@@ -636,45 +639,46 @@ extern array_t *xln_infeasible_nodes();
 
 /* for storing the pairs of nodes and their affinity */
 typedef struct xln_affinity_struct_defn {
-  node_t *node1;   /* first node of the pair */
-  node_t *node2;   /* second node of the pair*/
-  array_t *common; /* array of common fanins of node1 & node2 */
-} AFFINITY_STRUCT;
+    node_t  *node1;   /* first node of the pair */
+    node_t  *node2;   /* second node of the pair*/
+    array_t *common; /* array of common fanins of node1 & node2 */
+}          AFFINITY_STRUCT;
 
 typedef struct xln_move_struct_defn {
-  int MOVE_FANINS;
-  int MAX_FANINS;
-  int bound_alphas; /* for delay: this controls the number of functions created
+    int MOVE_FANINS;
+    int MAX_FANINS;
+    int bound_alphas; /* for delay: this controls the number of functions created
                      */
-} XLN_MOVE_STRUCT;
+}          XLN_MOVE_STRUCT;
 
 typedef struct xln_init_param_defn {
-  int support;          /* for xilinx, support = 5 */
-  int MAX_FANIN;        /* for two-output blocks - condition for merging*/
-  int MAX_COMMON_FANIN; /* for two-output blocks - condition for merging*/
-  int MAX_UNION_FANIN;  /* for two-output blocks - condition for merging*/
-  int heuristic;
-  int common_lower_bound;       /* for dec_merge */
-  int cube_support_lower_bound; /* for dec_merge */
-  int lit_bound;
-  int cover_node_limit;   /* apply exact xl_cover if number of nodes in some
+    int             support;          /* for xilinx, support = 5 */
+    int             MAX_FANIN;        /* for two-output blocks - condition for merging*/
+    int             MAX_COMMON_FANIN; /* for two-output blocks - condition for merging*/
+    int             MAX_UNION_FANIN;  /* for two-output blocks - condition for merging*/
+    int             heuristic;
+    int             common_lower_bound;       /* for dec_merge */
+    int             cube_support_lower_bound; /* for dec_merge */
+    int             lit_bound;
+    int             cover_node_limit;   /* apply exact xl_cover if number of nodes in some
                  subnetwork (or network) is at most this */
-  int flag_decomp_good;   /* could be 0 (no decomp -g), 1 (decomp -g),  2
+    int             flag_decomp_good;   /* could be 0 (no decomp -g), 1 (decomp -g),  2
                  (pick the better of the previous two) */
-  int good_or_fast;       /* just apply cube-packing or all decomp techniques */
-  int absorb;             /* use Roth-Karp to move fanins */
-  int num_iter_partition; /* xl_reduce will call xl_partition these many times
+    int             good_or_fast;       /* just apply cube-packing or all decomp techniques */
+    int             absorb;             /* use Roth-Karp to move fanins */
+    int             num_iter_partition; /* xl_reduce will call xl_partition these many times
                            */
-  int num_iter_cover;     /* xl_reduce will call xl_cover these many times */
-  int DESPERATE;
-  int RECURSIVE;
-  int MAX_FANINS_K_DECOMP; /* node considered for Roth-Karp decomp if has at
+    int             num_iter_cover;     /* xl_reduce will call xl_cover these many times */
+    int             DESPERATE;
+    int             RECURSIVE;
+    int             MAX_FANINS_K_DECOMP; /* node considered for Roth-Karp decomp if has at
                   most these many fanins */
-  int COST_LIMIT;          /* nodes with at most this cost to be collapsed in
+    int             COST_LIMIT;          /* nodes with at most this cost to be collapsed in
                   partial_collapse routine */
-  XLN_MOVE_STRUCT xln_move_struct;
-  int collapse_input_limit; /* consider total collapse of the network if number
+    XLN_MOVE_STRUCT xln_move_struct;
+    int             collapse_input_limit; /* consider total collapse of the network if number
                    of PI's no more than this */
-  int traversal_method;     /* 1 then topological traversal, else levels sorted
+    int             traversal_method;     /* 1 then topological traversal, else levels sorted
                    wrt width */
-} xln_init_param_t;
+}          xln_init_param_t;
+#endif

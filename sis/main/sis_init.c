@@ -1,5 +1,11 @@
 
+#include <timing_int.h>
+#include <test_int.h>
+#include "power.h"
+#include "atpg.h"
+#include "sim_int.h"
 #include "command.h"
+#include "genlib.h"
 #include "sis.h"
 
 void init_sis(graphics_flag) int graphics_flag;

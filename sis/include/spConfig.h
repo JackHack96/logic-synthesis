@@ -36,8 +36,8 @@
  *  $Revision: 1.1.1.1 $
  */
 
-#ifndef spCONFIG_DEFS
-#define spCONFIG_DEFS
+#ifndef SPCONFIG_H
+#define SPCONFIG_H
 
 #ifdef spINSIDE_SPARSE
 /*
@@ -494,4 +494,4 @@
 #define FULL 2
 
 #endif /* spINSIDE_SPARSE */
-#endif /* spCONFIG_DEFS */
+#endif /* SPCONFIG_H */

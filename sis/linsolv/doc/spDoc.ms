@@ -1094,7 +1094,7 @@ order.
 .sp 2
 .Lb spClear
 Sets every element in the matrix to zero.  The \fISparse\fR error state
-is cleared to spOKAY in this routine.
+is cleared to SPMATRIX_H in this routine.
 .sp 0.3v
 \fBvoid\fI spClear( Matrix )\fR
 .XP
@@ -1350,7 +1350,7 @@ The matrix for which the error status is desired.
 .XP
 \(bu Possible errors:
 .nf
-spOKAY
+SPMATRIX_H
 spILL_CONDITIONED
 spZERO_PIVOT
 spSINGULAR
@@ -1908,7 +1908,7 @@ The user function (\fIpInit()\fR) is expected to return a nonzero integer
 if there is a fatal error and zero otherwise.  Upon encountering a nonzero
 return code, \fIspInitialize()\fR terminates and returns the error code.
 .LP
-The \fISparse\fR error state is cleared to spOKAY in this routine.
+The \fISparse\fR error state is cleared to SPMATRIX_H in this routine.
 .sp 0.3v
 .nf
 \fBint\fI spInitialize( Matrix, pInit )\fR
@@ -3417,7 +3417,7 @@ there corresponding macros are:
 .sp 0.25i
 .KS
 .LP
-spOKAY  \(em  0
+SPMATRIX_H  \(em  0
 .LP
 No error has occurred.
 .KE

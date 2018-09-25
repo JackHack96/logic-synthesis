@@ -2,6 +2,8 @@
 #ifndef SPARSE_H
 #define SPARSE_H
 
+#include <stdio.h>
+
 /* hack to fix conflict with libX11.a */
 #define sm_alloc sm_allocate
 #define sm_free sm_free_space

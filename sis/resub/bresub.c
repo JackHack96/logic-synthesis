@@ -1,6 +1,5 @@
 
 #include "resub.h"
-#include "resub_int.h"
 #include "sis.h"
 
 void resub_bool_node(f) node_t *f;

@@ -258,8 +258,7 @@ static int write_slif_ignore_node(node) node_t *node;
 #if 0
 
 char *
-replace_chars_in(node_name)
-char *node_name;
+replace_chars_in(char* node_name)
 {
    /* MisII allows some charcaters in its variable names
     * that are not allowed in SLIF.
@@ -308,10 +307,7 @@ char *node_name;
 }
 
 void
-io_write_slif_name(fp, node, short_flag)
-FILE *fp;
-node_t *node;
-int short_flag;
+io_write_slif_name(FILE* fp, node_t* node, int short_flag)
 {
     node_t *po;
 

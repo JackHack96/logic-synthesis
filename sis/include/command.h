@@ -2,6 +2,10 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
+#include "array.h"
+#include "network.h"
+#include <stdio.h>
+
 extern array_t *com_get_nodes(network_t *, int, char **);
 
 extern array_t *com_get_true_nodes(network_t *, int, char **);
@@ -25,5 +29,11 @@ extern FILE *com_graphics_open(char *, char *, char *);
 extern void com_graphics_close(FILE *);
 
 extern void com_graphics_exec(char *, char *, char *, char *);
+
+extern int init_command(int graphics_flag);
+
+int end_command(void);
+
+void com_graphics_help (void);
 
 #endif /* COMMAND_H */

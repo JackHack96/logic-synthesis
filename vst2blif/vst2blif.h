@@ -1,6 +1,8 @@
 #ifndef SIS_VST2BLIF_H
 #define SIS_VST2BLIF_H
 
+#include <stdio.h>
+
 #define MAXTOKENLEN 256
 #define MAXNAMELEN 32
 

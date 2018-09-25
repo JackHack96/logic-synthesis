@@ -7,6 +7,11 @@
 #include "gate_link.h"
 #include "map_defs.h"
 #include "multi_array.h"
+#include "array.h"
+#include "st.h"
+#include "node.h"
+#include "delay.h"
+#include "pwl.h"
 
 typedef multidim_t *(*MultidimFn)();
 

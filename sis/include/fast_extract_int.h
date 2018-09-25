@@ -1,4 +1,5 @@
-
+#ifndef FAST_EXTRACT_INT_H
+#define FAST_EXTRACT_INT_H
 /*
  *  Definitions local to package 'fast_extract' go here
  */
@@ -6,6 +7,10 @@
 /* SHORT and UNSIGNED are now defined in extract.h */
 
 /*  Define types of double cube divisors */
+
+#include "list.h"
+#include "extract.h"
+#include "heap.h"
 
 #define D112 0
 #define D222 1
@@ -171,3 +176,5 @@ extern sdivisor_t *extract_sdivisor();
 extern sdivisor_t *sdivsisor_alloc();
 
 extern void sdivisor_free();
+
+#endif

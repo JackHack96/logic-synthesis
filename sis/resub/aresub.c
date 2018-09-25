@@ -7,7 +7,6 @@
  */
 
 #include "resub.h"
-#include "resub_int.h"
 #include "sis.h"
 
 /*

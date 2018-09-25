@@ -1,5 +1,9 @@
+#ifndef GRAPH_STATIC_H
+#define GRAPH_STATIC_H
 
 /******************************* graph_static.h ************************/
+
+#include "graph.h"
 
 extern graph_t *g_alloc_static(int, int, int);
 
@@ -32,3 +36,5 @@ extern void g_set_e_slot_static(edge_t *, int, char *);
 extern char *g_get_e_slot_static(edge_t *, int);
 
 extern void g_copy_e_slots_static(edge_t *, edge_t *, char *(*)());
+
+#endif

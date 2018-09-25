@@ -12,19 +12,14 @@
 #include "sat.h"
 #include "spMatrix.h"
 #include "var_set.h"
-#ifdef SIS
 #include "graph.h"
 #include "graph_static.h"
-#endif /* SIS */
 
 #include "error.h"
 #include "node.h"
 #include "nodeindex.h"
-
-#ifdef SIS
 #include "stg.h"
 #include "astg.h"
-#endif /* SIS */
 #include "network.h"
 #include "command.h"
 #include "io.h"
@@ -38,11 +33,9 @@
 #include "graphics.h"
 
 #include "extract.h"
-#ifdef SIS
 #include "clock.h"
 #include "latch.h"
 #include "retime.h"
-#endif /* SIS */
 
 #include "delay.h"
 #include "library.h"
@@ -53,25 +46,27 @@
 #include "order.h"
 #include "ntbdd.h"
 
-#ifdef SIS
 #include "seqbdd.h"
-#endif /* SIS */
 
 #include "gcd.h"
 #include "maxflow.h"
 #include "speed.h"
 
-extern FILE *sisout;
-extern FILE *siserr;
-extern FILE *sishist;
+extern FILE    *sisout;
+extern FILE    *siserr;
+extern FILE    *sishist;
 extern array_t *command_hist;
-extern char *program_name;
+extern char    *program_name;
+
 extern char *sis_version();
+
 extern char *sis_library();
 
 #define misout sisout
 #define miserr siserr
 
-#define INFINITY	(1 << 30)
-
+#ifndef INFINITY
+#define INFINITY    (1 << 30)
 #endif
+
+#endif // SIS_H

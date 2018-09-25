@@ -1,13 +1,13 @@
 
 
 #include "global.h"
-#include "sis/util/util.h"
+#include "util.h"
 #include "struct.h"
 #include "user.h"
 /*
 #include "merge.h"
 */
-#include "espresso/inc/espresso.h"
+#include "espresso.h"
 #include "max.h"
 #include "stack.h"
 

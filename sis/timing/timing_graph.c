@@ -302,7 +302,7 @@ int tmg_update_K_edge(g) graph_t *g;
     return value: -
     calls: -
 */
-tmg_print_latch_graph(g) graph_t *g;
+void tmg_print_latch_graph(graph_t *g)
 {
   vertex_t *v, *f, *t;
   edge_t *e;

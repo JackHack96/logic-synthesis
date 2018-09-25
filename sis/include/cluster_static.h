@@ -1,6 +1,32 @@
 
 /* file @(#)cluster_static.h	1.5 */
 /* last modified on 7/22/91 at 12:36:23 */
+#ifndef CLUSTER_STATIC_H
+#define CLUSTER_STATIC_H
+
+#include "cluster.h"
+#include "st.h"
+#include "node.h"
+#include "array.h"
+
+typedef enum { NORMAL_NODE, ROOT_NODE } clust_node_type_t;
+
+typedef struct {
+    int number;
+    st_table *nodes; /* tells the nodes that it contains */
+    node_t *root;    /* the root of the cluster */
+    int label;       /* the label, common to the nodes of the cluster */
+} cluster_t;
+
+typedef struct {
+    int label;
+    int max_label; /* needed by relabelling algorithm */
+    int weight;
+    clust_node_type_t type;
+    array_t
+            *clusters; /* list of clusters to which this node belongs (cluster_t *) */
+} clust_node_t;
+
 static clust_node_t *clust_node_alloc();
 
 static cluster_t *cluster_alloc();
@@ -58,3 +84,5 @@ static void put_tfi_in_cluster_rec();
 static void reinit_cluster_info();
 
 static void relabel_nodes();
+
+#endif //CLUSTER_STATIC_H

@@ -34,7 +34,7 @@
  *  $Revision: 1.1.1.1 $
  */
 
-#ifndef spOKAY
+#ifndef SPMATRIX_H
 
 /*
  *  IMPORTS
@@ -55,7 +55,7 @@
  *  errors are greater than that for spFATAL.
  *
  *  >>> Error descriptions:
- *  spOKAY
+ *  SPMATRIX_H
  *      No error has occurred.
  *  spSMALL_PIVOT
  *      When reordering the matrix, no element was found which satisfies the
@@ -85,7 +85,7 @@
  */
 
 /* Begin error macros. */
-#define spOKAY 0
+#define SPMATRIX_H 0
 #define spSMALL_PIVOT 1
 #define spZERO_DIAG 2
 #define spSINGULAR 3
@@ -95,9 +95,9 @@
 #define spFATAL 2
 
 #if spCOMPATIBILITY
-#define NO_ERROR spOKAY
-#define UNDER_FLOW spOKAY
-#define OVER_FLOW spOKAY
+#define NO_ERROR SPMATRIX_H
+#define UNDER_FLOW SPMATRIX_H
+#define OVER_FLOW SPMATRIX_H
 #define ILL_CONDITIONED spSMALL_PIVOT
 #define SINGULAR spSINGULAR
 #define NO_MEMORY spNO_MEMORY
@@ -253,10 +253,10 @@
 
 /* Begin `spTemplate'. */
 struct spTemplate {
-  spREAL *Element1;
-  spREAL *Element2;
-  spREAL *Element3Negated;
-  spREAL *Element4Negated;
+    spREAL *Element1;
+    spREAL *Element2;
+    spREAL *Element3Negated;
+    spREAL *Element4Negated;
 };
 
 /*
@@ -446,4 +446,4 @@ extern void SolveTransposedMatrix();
 extern void ScaleMatrix();
 #endif /* spCOMPATIBILITY */
 
-#endif /* spOKAY */
+#endif /* SPMATRIX_H */

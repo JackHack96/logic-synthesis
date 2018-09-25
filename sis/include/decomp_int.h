@@ -1,3 +1,9 @@
+#ifndef DECOMP_INT_H
+#define DECOMP_INT_H
+
+#include "node.h"
+#include "array.h"
+#include "sparse.h"
 
 extern node_t *decomp_quick_kernel();
 
@@ -16,3 +22,5 @@ extern int dec_block_partition();
 extern sm_matrix *dec_node_to_sm();
 
 extern node_t *dec_sm_to_node();
+
+#endif

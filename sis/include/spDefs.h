@@ -1,4 +1,5 @@
-
+#ifndef SPDEFS_H
+#define SPDEFS_H
 /*
  *  DATA STRUCTURE AND MACRO DEFINITIONS for Sparse.
  *
@@ -34,6 +35,7 @@
  */
 
 #include <stdio.h>
+#include "spMatrix.h"
 
 /*
  *  If running lint, change some of the compiler options to get a more
@@ -114,7 +116,7 @@
 #define IS_SPARSE(matrix) ((matrix) != NULL && (matrix)->ID == SPARSE_ID)
 #define IS_VALID(matrix)                                                       \
   ((matrix) != NULL && (matrix)->ID == SPARSE_ID &&                            \
-   (matrix)->Error >= spOKAY && (matrix)->Error < spFATAL)
+   (matrix)->Error >= SPMATRIX_H && (matrix)->Error < spFATAL)
 #define IS_FACTORED(matrix) ((matrix)->Factored && !(matrix)->NeedsOrdering)
 
 /* Macro commands */
@@ -483,9 +485,9 @@ typedef spREAL RealNumber, *RealVector;
 /* Begin `ComplexNumber'. */
 
 typedef struct {
-  RealNumber Real;
-  RealNumber Imag;
-} ComplexNumber, *ComplexVector;
+    RealNumber Real;
+    RealNumber Imag;
+}              ComplexNumber, *ComplexVector;
 
 /*
  *  MATRIX ELEMENT DATA STRUCTURE
@@ -533,21 +535,21 @@ typedef struct {
 /* Begin `MatrixElement'. */
 
 struct MatrixElement {
-  RealNumber Real;
+    RealNumber Real;
 #if spCOMPLEX
-  RealNumber Imag;
+    RealNumber Imag;
 #endif
-  int Row;
-  int Col;
-  struct MatrixElement *NextInRow;
-  struct MatrixElement *NextInCol;
+    int                  Row;
+    int                  Col;
+    struct MatrixElement *NextInRow;
+    struct MatrixElement *NextInCol;
 #if INITIALIZE
-  char *pInitInfo;
+    char *pInitInfo;
 #endif
 };
 
 typedef struct MatrixElement *ElementPtr;
-typedef ElementPtr *ArrayOfElementPtrs;
+typedef ElementPtr           *ArrayOfElementPtrs;
 
 /*
  *  ALLOCATION DATA STRUCTURE
@@ -567,8 +569,8 @@ typedef ElementPtr *ArrayOfElementPtrs;
 
 /* Begin `AllocationRecord'. */
 struct AllocationRecord {
-  char *AllocatedPtr;
-  struct AllocationRecord *NextRecord;
+    char                    *AllocatedPtr;
+    struct AllocationRecord *NextRecord;
 };
 
 typedef struct AllocationRecord *AllocationListPtr;
@@ -594,9 +596,9 @@ typedef struct AllocationRecord *AllocationListPtr;
 
 /* Begin `FillinListNodeStruct'. */
 struct FillinListNodeStruct {
-  ElementPtr pFillinList;
-  int NumberOfFillinsInList;
-  struct FillinListNodeStruct *Next;
+    ElementPtr                  pFillinList;
+    int                         NumberOfFillinsInList;
+    struct FillinListNodeStruct *Next;
 };
 
 /*
@@ -789,55 +791,56 @@ struct FillinListNodeStruct {
 
 /* Begin `MatrixFrame'. */
 struct MatrixFrame {
-  RealNumber AbsThreshold;
-  int AllocatedSize;
-  int AllocatedExtSize;
-  BOOLEAN Complex;
-  int CurrentSize;
-  ArrayOfElementPtrs Diag;
-  BOOLEAN *DoCmplxDirect;
-  BOOLEAN *DoRealDirect;
-  int Elements;
-  int Error;
-  int ExtSize;
-  int *ExtToIntColMap;
-  int *ExtToIntRowMap;
-  BOOLEAN Factored;
-  int Fillins;
-  ArrayOfElementPtrs FirstInCol;
-  ArrayOfElementPtrs FirstInRow;
-  unsigned long ID;
-  RealVector Intermediate;
-  BOOLEAN InternalVectorsAllocated;
-  int *IntToExtColMap;
-  int *IntToExtRowMap;
-  int *MarkowitzRow;
-  int *MarkowitzCol;
-  long *MarkowitzProd;
-  int MaxRowCountInLowerTri;
-  BOOLEAN NeedsOrdering;
-  BOOLEAN NumberOfInterchangesIsOdd;
-  BOOLEAN Partitioned;
-  int PivotsOriginalCol;
-  int PivotsOriginalRow;
-  char PivotSelectionMethod;
-  BOOLEAN PreviousMatrixWasComplex;
-  RealNumber RelThreshold;
-  BOOLEAN Reordered;
-  BOOLEAN RowsLinked;
-  int SingularCol;
-  int SingularRow;
-  int Singletons;
-  int Size;
-  struct MatrixElement TrashCan;
+    RealNumber           AbsThreshold;
+    int                  AllocatedSize;
+    int                  AllocatedExtSize;
+    BOOLEAN Complex;
+    int                  CurrentSize;
+    ArrayOfElementPtrs   Diag;
+    BOOLEAN *DoCmplxDirect;
+    BOOLEAN *DoRealDirect;
+    int                  Elements;
+    int                  Error;
+    int                  ExtSize;
+    int                  *ExtToIntColMap;
+    int                  *ExtToIntRowMap;
+    BOOLEAN Factored;
+    int                  Fillins;
+    ArrayOfElementPtrs   FirstInCol;
+    ArrayOfElementPtrs   FirstInRow;
+    unsigned long        ID;
+    RealVector           Intermediate;
+    BOOLEAN InternalVectorsAllocated;
+    int                  *IntToExtColMap;
+    int                  *IntToExtRowMap;
+    int                  *MarkowitzRow;
+    int                  *MarkowitzCol;
+    long                 *MarkowitzProd;
+    int                  MaxRowCountInLowerTri;
+    BOOLEAN NeedsOrdering;
+    BOOLEAN NumberOfInterchangesIsOdd;
+    BOOLEAN Partitioned;
+    int                  PivotsOriginalCol;
+    int                  PivotsOriginalRow;
+    char                 PivotSelectionMethod;
+    BOOLEAN PreviousMatrixWasComplex;
+    RealNumber           RelThreshold;
+    BOOLEAN Reordered;
+    BOOLEAN RowsLinked;
+    int                  SingularCol;
+    int                  SingularRow;
+    int                  Singletons;
+    int                  Size;
+    struct MatrixElement TrashCan;
 
-  AllocationListPtr TopOfAllocationList;
-  int RecordsRemaining;
-  ElementPtr NextAvailElement;
-  int ElementsRemaining;
-  ElementPtr NextAvailFillin;
-  int FillinsRemaining;
-  struct FillinListNodeStruct *FirstFillinListNode;
-  struct FillinListNodeStruct *LastFillinListNode;
+    AllocationListPtr           TopOfAllocationList;
+    int                         RecordsRemaining;
+    ElementPtr                  NextAvailElement;
+    int                         ElementsRemaining;
+    ElementPtr                  NextAvailFillin;
+    int                         FillinsRemaining;
+    struct FillinListNodeStruct *FirstFillinListNode;
+    struct FillinListNodeStruct *LastFillinListNode;
 };
-typedef struct MatrixFrame *MatrixPtr;
+typedef struct MatrixFrame      *MatrixPtr;
+#endif

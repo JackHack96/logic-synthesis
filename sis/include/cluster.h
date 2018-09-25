@@ -41,6 +41,8 @@
 #ifndef CLUSTER_H
 #define CLUSTER_H
 
+#include "network.h"
+
 typedef enum {
   DEPTH_CONSTRAINT,
   SIZE_CONSTRAINT,

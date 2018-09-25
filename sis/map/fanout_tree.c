@@ -8,6 +8,7 @@
 #include "map_int.h"
 #include "map_macros.h"
 #include "sis.h"
+#include "bin_int.h"
 
 static n_gates_t n_gates;
 typedef enum fanout_tree_enum fanout_tree_t;
@@ -1663,8 +1664,6 @@ array_t *child_array;
 }
 
 /* INTERFACE to fanout_est.c */
-
-pchong
 
 /* the arrival time at a node includes the intrinsic delay but not the load
  * dependent delay */

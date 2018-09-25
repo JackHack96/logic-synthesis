@@ -1,5 +1,5 @@
 
-#include "espresso/inc/espresso.h"
+#include "espresso.h"
 
 /* sf_insert_set -- add a set in position "i" of a set family */
 pset_family sf_insert_set(A, i, s) pset_family A;

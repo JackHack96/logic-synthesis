@@ -1,4 +1,5 @@
-
+#ifndef ROS_H
+#define ROS_H
 /******************************************************************************
  * This module has been written by Abdul A. Malik                             *
  * Please forward all feedback, comments, bugs etc to:                        *
@@ -23,28 +24,28 @@
 
 /* Node to store intermediate nodes of unate tree */
 typedef struct nc_node_struct {
-  struct nc_node_struct *child[2];
-  pset part_cube[2];
-  pset *cubelist;
-  pset cof;
-  int var;
-} nc_node_t, *pnc_node;
+    struct nc_node_struct *child[2];
+    pset                  part_cube[2];
+    pset                  *cubelist;
+    pset                  cof;
+    int                   var;
+}            nc_node_t, *pnc_node;
 
 /* ros_holder to hold ROS */
 typedef struct ros_holder_struct {
-  pset_family ros;
-  pcube ros_cube;
-  int count;
-} ros_holder_t, *pros_holder;
+    pset_family ros;
+    pcube ros_cube;
+    int         count;
+}            ros_holder_t, *pros_holder;
 
 /* Global variables used by routines in ros */
 extern pcube *nc_tmp_cube; /* Temporary cubes to be used in this file */
 
 extern pcover Tree_cover; /* F union D used to generate the unate tree */
 
-extern int Max_level; /* Controls the depth of the part of unate
+extern int      Max_level; /* Controls the depth of the part of unate
                        tree that is stored */
-extern int N_level;   /* Some processing to reduce the size of
+extern int      N_level;   /* Some processing to reduce the size of
                     cofactors is done every N_level levels */
 extern pnc_node root; /* Root node of the unate tree */
 
@@ -143,3 +144,5 @@ extern long OC_time; /* Total time for generating overexpanded
 /* ros.c */ extern void nc_setup_tmp_cubes();
 
 /* ros.c */ extern void nc_free_tmp_cubes();
+
+#endif

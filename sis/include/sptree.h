@@ -1,4 +1,5 @@
-
+#ifndef SPTREE_H
+#define SPTREE_H
 /* file @(#)sptree.h	1.1                      */
 /* last modified on 5/29/91 at 12:35:35   */
 #define tree_node_type_t unsigned
@@ -10,16 +11,18 @@
 #define ONE_NODE (tree_node_type_t)5
 #define LEAF_NODE (tree_node_type_t)6
 
+#include "avl.h"
+
 typedef struct tree_node_struct tree_node_t;
 struct tree_node_struct {
-  int nsons;          /* number of sons (0 implies leaf) */
-  unsigned type : 3;  /* NAND/NOR or OR/AND (nonleaf only) */
-  unsigned phase : 1; /* 0==inverted, 1==normal (leaf and root only) */
-  unsigned s : 8;     /* series stacking level */
-  unsigned p : 8;     /* parallel stacking level */
-  unsigned level : 8; /* level of the gate */
-  tree_node_t **sons; /* array of child pointers (nonleaf only)*/
-  char *name;         /* name */
+    int         nsons;          /* number of sons (0 implies leaf) */
+    unsigned    type : 3;  /* NAND/NOR or OR/AND (nonleaf only) */
+    unsigned    phase : 1; /* 0==inverted, 1==normal (leaf and root only) */
+    unsigned    s : 8;     /* series stacking level */
+    unsigned    p : 8;     /* parallel stacking level */
+    unsigned    level : 8; /* level of the gate */
+    tree_node_t **sons; /* array of child pointers (nonleaf only)*/
+    char        *name;         /* name */
 };
 
 /* tree.c */
@@ -60,3 +63,4 @@ extern int gl_gen_complex_gates(), gl_generate_complex_gates();
 extern int genlib();
 
 extern char read_error_string[];
+#endif

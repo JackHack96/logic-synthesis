@@ -2,6 +2,11 @@
 #ifndef BWD_INT_H
 #define BWD_INT_H
 
+#include "delay.h"
+#include "array.h"
+#include "st.h"
+#include "astg_int.h"
+
 #define BWD_SLOT undef1
 #define BWD(node) ((bwd_node_t *)(node)->BWD_SLOT)
 struct bwd_node_struct {

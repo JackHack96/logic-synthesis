@@ -1,3 +1,8 @@
+#ifndef SI_INT_H
+#define SI_INT_H
+
+#include "node.h"
+
 /* global variables */
 int g_debug;
 int add_red;
@@ -64,3 +69,5 @@ extern void print_state();
 extern void print_enabled();
 
 extern void print_state_graph();
+
+#endif

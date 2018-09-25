@@ -1,10 +1,12 @@
 #ifndef SAT_INT_H
 #define SAT_INT_H
 
+#include "node.h"
+
 typedef struct {
-  int tos_var;
-  int tos_cla;
-  int tos_inc;
+    int tos_var;
+    int tos_cla;
+    int tos_inc;
 } stk_status_t;
 
 extern bool sat_add_implication();

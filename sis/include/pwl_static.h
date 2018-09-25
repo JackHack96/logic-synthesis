@@ -1,4 +1,5 @@
-
+#ifndef PWL_STATIC_H
+#define PWL_STATIC_H
 /* file @(#)pwl_static.h	1.2 */
 /* last modified on 5/1/91 at 15:51:51 */
 static double compute_intersect();
@@ -26,3 +27,5 @@ static void change_sign();
 static void first_point();
 
 static void pwl_point_print();
+
+#endif

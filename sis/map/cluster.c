@@ -58,24 +58,6 @@
 /* a cluster node is a ROOT_NODE iff it fan outs to a node with a larger label
  */
 
-typedef enum { NORMAL_NODE, ROOT_NODE } clust_node_type_t;
-
-typedef struct {
-  int number;
-  st_table *nodes; /* tells the nodes that it contains */
-  node_t *root;    /* the root of the cluster */
-  int label;       /* the label, common to the nodes of the cluster */
-} cluster_t;
-
-typedef struct {
-  int label;
-  int max_label; /* needed by relabelling algorithm */
-  int weight;
-  clust_node_type_t type;
-  array_t
-      *clusters; /* list of clusters to which this node belongs (cluster_t *) */
-} clust_node_t;
-
 #include "cluster_static.h"
 
 static clust_options_t global_settings;

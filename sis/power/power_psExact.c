@@ -125,7 +125,7 @@ st_table **stateIndex;
 
   matrixSize = i;
   matrix = spCreate(matrixSize, 0 /* Real */, &spError);
-  assert(spError == spOKAY);
+  assert(spError == SPMATRIX_H);
 
   row = 1;
   stg_foreach_state(stg, genState, state) {
@@ -176,11 +176,11 @@ st_table **stateIndex;
   spError = spOrderAndFactor(matrix, rhs, 0.01 /*pivot selection*/,
                              0.0 /*smaller than any element in the diagonal*/,
                              0 /*don't restrict to diagonal pivoting*/);
-  assert(spError == spOKAY);
+  assert(spError == SPMATRIX_H);
   /*
   spPrint(matrix, 0, 1, 1);
   printf("spCondition = %f\n", spCondition(matrix, spNorm(matrix), &spError));
-  assert(spError == spOKAY);
+  assert(spError == SPMATRIX_H);
   */
 
   solution = ALLOC(double, matrixSize);

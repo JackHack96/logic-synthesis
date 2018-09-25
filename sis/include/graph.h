@@ -1,6 +1,9 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#include "list.h"
+#include "array.h"
+
 typedef char *gGeneric;
 
 typedef struct graph_struct {
@@ -77,5 +80,9 @@ extern array_t *g_dfs(graph_t *);
 extern int g_is_acyclic(graph_t *);
 
 extern array_t *g_graph_sort(graph_t *, int (*)());
+
+int init_graph();
+
+int end_graph();
 
 #endif

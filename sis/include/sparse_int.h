@@ -1,3 +1,5 @@
+#ifndef SPARSE_INT_H
+#define SPARSE_INT_H
 
 #include "sparse.h"
 #include "util.h"
@@ -102,3 +104,5 @@ extern sm_col *sm_col_freelist;
 extern void sm_row_remove_element();
 
 extern void sm_col_remove_element();
+
+#endif

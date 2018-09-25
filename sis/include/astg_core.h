@@ -16,7 +16,7 @@
 #ifndef ASTG_CORE_H
 #define ASTG_CORE_H
 
-#include "astg.h"
+#include "astg_int.h"
 #include "sis.h"
 
 #define ASTG_NAME_LEN 128

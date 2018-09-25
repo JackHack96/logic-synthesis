@@ -9,19 +9,19 @@
  * package implemented in list.c.  This is stand alone package.
  */
 
-#ifndef LS_DEFINED
-#define LS_DEFINED
+#ifndef LIST_H
+#define LIST_H
 
 /* This can be typedef'ed to void if supported */
 typedef struct ls_dummy_defn {
-  int dummy; /* Not used */
+    int dummy; /* Not used */
 } ls_dummy;
 
 typedef ls_dummy *lsList;   /* List handle           */
 typedef ls_dummy *lsGen;    /* List generator handle */
 typedef ls_dummy *lsHandle; /* Handle to an item     */
-typedef int lsStatus;       /* Return codes          */
-typedef char *lsGeneric;    /* Generic pointer       */
+typedef int      lsStatus;       /* Return codes          */
+typedef char     *lsGeneric;    /* Generic pointer       */
 
 #define LS_NIL 0 /* Nil for lsList       */
 

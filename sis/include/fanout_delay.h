@@ -1,3 +1,5 @@
+#ifndef FANOUT_DELAY_H
+#define FANOUT_DELAY_H
 
 /* file @(#)fanout_delay.h	1.2 */
 /* last modified on 5/1/91 at 15:50:30 */
@@ -84,3 +86,5 @@ extern delay_pwl_t
 #define is_buffer(n_gates, gate) ((gate) >= 0 && (gate) < (n_gates).n_buffers)
 #define is_inverter(n_gates, gate)                                             \
   ((gate) >= (n_gates).n_pos_buffers && (gate) < (n_gates).n_buffers)
+
+#endif

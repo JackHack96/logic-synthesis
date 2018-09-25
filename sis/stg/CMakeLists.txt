@@ -1,4 +1,4 @@
-
+set(CMAKE_C_FLAGS -DSIS)
 
 add_library(stg STATIC
         com_stg.c
@@ -8,5 +8,4 @@ add_library(stg STATIC
         stg.c
         stg_sc_sim.c
         stg_util.c
-
         )

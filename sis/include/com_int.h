@@ -1,6 +1,11 @@
+#ifndef COM_INT_H
+#define COM_INT_H
 
 #include <setjmp.h>
 #include <signal.h>
+#include "network.h"
+#include "list.h"
+#include "avl.h"
 
 #define MAX_STR 1024
 
@@ -73,3 +78,5 @@ extern char *fgets_filec();
 extern char *hist_subst();
 
 extern void print_prompt();
+
+#endif //COM_INT_H

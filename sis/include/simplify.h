@@ -2,6 +2,8 @@
 #ifndef SIMPLIFY_H
 #define SIMPLIFY_H
 
+#include "node.h"
+
 typedef enum sim_method_enum sim_method_t;
 enum sim_method_enum {
   SIM_METHOD_SIMPCOMP,
@@ -61,5 +63,9 @@ extern node_t *cspf_dc();
 extern node_t *simp_obsdc_filter();
 
 extern node_t *simp_obssatdc_filter();
+
+int init_simplify();
+
+int end_simplify();
 
 #endif

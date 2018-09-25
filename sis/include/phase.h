@@ -2,6 +2,8 @@
 #ifndef PHASE_H
 #define PHASE_H
 
+#include "network.h"
+
 extern void add_inv_network(network_t *);
 
 extern int add_inv_node(network_t *, node_t *);
@@ -15,5 +17,9 @@ extern void phase_random_greedy(network_t *, int);
 extern void phase_trace_set(void);
 
 extern void phase_trace_unset(void);
+
+int init_phase();
+
+int end_phase();
 
 #endif

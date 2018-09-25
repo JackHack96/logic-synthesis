@@ -18,6 +18,7 @@
     (obj) = 0;                                                                 \
   }
 
+#include <stdio.h>
 #include "../port/ansi.h"
 
 extern long util_cpu_time NULLARGS;

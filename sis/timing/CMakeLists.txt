@@ -1,4 +1,4 @@
-
+set(CMAKE_C_FLAGS -DSIS)
 
 add_library(timing STATIC
         com_timing.c
@@ -8,5 +8,4 @@ add_library(timing STATIC
         timing_seq.c
         timing_util.c
         timing_verify.c
-
         )

@@ -10,7 +10,8 @@
 #define ASTG_INT_H
 
 #include "astg.h"
-#include "sis.h"
+#include "network.h"
+#include "latch.h"
 
 extern int astg_debug_flag;
 

@@ -1,3 +1,8 @@
+#ifndef STG_H
+#define STG_H
+
+#include "graph.h"
+#include "network.h"
 
 #define START 0
 #define CURRENT 1
@@ -115,3 +120,9 @@ extern void stg_set_state_encoding(vertex_t *, char *);
 extern graph_t *stg_extract(network_t *, int);
 
 extern network_t *stg_to_network(graph_t *, int);
+
+int init_stg();
+
+int end_stg();
+
+#endif

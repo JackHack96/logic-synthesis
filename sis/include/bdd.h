@@ -13,10 +13,13 @@
  * BDD package.
  */
 
-#ifndef bdd_h /* { */
-#define bdd_h
+#ifndef BDD_H /* { */
+#define BDD_H
 
 #include "var_set.h"
+#include "array.h"
+#include "st.h"
+#include "bdduser.h"
 
 #ifndef TRUE
 #define TRUE 1
@@ -321,6 +324,11 @@ typedef enum {
 
 extern void bdd_dynamic_reordering(bdd_manager *, bdd_reorder_type_t);
 extern void bdd_reorder(bdd_manager *);
+
+void bdd_check_array(bdd *fs);
+int bdd_check_arguments(int count, ...);
+void cmu_bdd_fatal(char *message);
+void cmu_bdd_warning(char *message);
 
 /*
  * Default settings.

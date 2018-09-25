@@ -1,6 +1,13 @@
 
 /* file @(#)bin_delay_static.h	1.3 */
 /* last modified on 5/2/91 at 17:24:39 */
+#ifndef BIN_DELAY_STATIC_H
+#define BIN_DELAY_STATIC_H
+
+#include "node.h"
+#include "pwl.h"
+#include "bin_int.h"
+
 static delay_bucket_t *compute_constant_gate_bucket();
 
 static delay_bucket_t *compute_wire_bucket();
@@ -44,3 +51,5 @@ static void preserve_best_area();
 static void print_po_estimated_arrival_times();
 
 static void select_best_gate();
+
+#endif // BIN_DELAY_STATIC

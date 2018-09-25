@@ -2,6 +2,9 @@
 #ifndef CLOCK_H
 #define CLOCK_H
 
+#include "network.h"
+#include "list.h"
+
 /*
  * Data structures
  */
@@ -123,5 +126,9 @@ extern clock_setting_t clock_get_current_setting(network_t *);
  * they are placed here to avoid creation of another file clock_int.h
  */
 extern int clock_get_current_setting_index(network_t *);
+
+int init_clock();
+
+int end_clock();
 
 #endif /* CLOCK_H */

@@ -1,3 +1,7 @@
+#ifndef ACT_BOOL_H
+#define ACT_BOOL_H
+
+#include "node.h"
 typedef struct act_match_defn {
   node_t *A0;
   node_t *A1;
@@ -21,3 +25,5 @@ typedef struct cofc_struct_defn {
 } COFC_STRUCT;
 
 extern ACT_MATCH *act_is_act_function();
+
+#endif

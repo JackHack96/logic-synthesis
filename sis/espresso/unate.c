@@ -9,7 +9,7 @@ static pset_family abs_covered();
 
 static pset_family abs_covered_many();
 
-static int abs_select_restricteded();
+static int abs_select_restricted();
 
 pcover map_cover_to_unate(T) pcube *T;
 {
@@ -175,7 +175,7 @@ pset_family unate_complement(A) pset_family A; /* disposes of A */
 
       /* else, recur as usual */
     } else {
-      max_i = abs_select_restricteded(A, restricted);
+      max_i = abs_select_restricted(A, restricted);
 
       /* Select those rows of A which are not covered by max_i,
        * recursively find all minimal covers of these rows, and
@@ -379,17 +379,17 @@ register pset pick_set;
 }
 
 /*
- *  abs_select_restricteded -- select the column of maximum column count which
+ *  abs_select_restricted -- select the column of maximum column count which
  *  also belongs to the set "restricted"; weight each column of a set as
  *  1 / (set_ord(p) - 1).
  */
-static int abs_select_restricteded(A, restricted) pset_family A;
+static int abs_select_restricted(A, restricted) pset_family A;
 pset restricted;
 {
   register int i, best_var, best_count, *count;
 
   /* Sum the elements in these columns */
-  count = sf_count_restricteded(A, restricted);
+  count = sf_count_restricted(A, restricted);
 
   /* Find which variable has maximum weight */
   best_var = -1;
@@ -403,7 +403,7 @@ pset restricted;
   FREE(count);
 
   if (best_var == -1)
-    fatal("abs_select_restricteded: should not have best_var == -1");
+    fatal("abs_select_restricted: should not have best_var == -1");
 
   return best_var;
 }

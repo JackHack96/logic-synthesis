@@ -1,7 +1,7 @@
 /* Memory management user-visible definitions */
 
-#if !defined(_MEMUSERH)
-#define _MEMUSERH
+#ifndef MEMUSER_H
+#define MEMUSER_H
 
 #include <stdio.h>
 

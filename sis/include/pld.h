@@ -1,3 +1,7 @@
+#ifndef PLD_H
+#define PLD_H
+
+#include "network.h"
 
 extern void merge_node();          /* xln_merge.c */
 extern void partition_network();   /* xln_map_par.c */
@@ -7,3 +11,7 @@ extern void karp_decomp_network(); /* xln_k_decomp.c */
 
 extern network_t *act_map_network(); /* act_map.c */
 extern void free_cost_table();       /* act_map.c */
+
+int init_pld();
+int end_pld();
+#endif

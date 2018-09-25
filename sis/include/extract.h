@@ -1,4 +1,11 @@
 
+#ifndef EXTRACT_H
+#define EXTRACT_H
+
+#include "node.h"
+#include "list.h"
+#include "sparse.h"
+
 extern void ex_kernel_gen();
 
 extern void ex_subkernel_gen();
@@ -6,6 +13,10 @@ extern void ex_subkernel_gen();
 extern node_t *ex_find_divisor();
 
 extern node_t *ex_find_divisor_quick();
+
+int init_extract();
+
+int end_extract();
 
 /* Some definitions for making the structures in fast_extract exportable */
 
@@ -28,3 +39,5 @@ struct double_cube_divisor_struct {
 };
 
 #define fx_get_div_handle(p) ((p)->handle)
+
+#endif //EXTRACT_H

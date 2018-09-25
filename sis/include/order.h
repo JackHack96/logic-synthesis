@@ -2,6 +2,9 @@
 #ifndef ORDER_H /* { */
 #define ORDER_H
 
+#include "array.h"
+#include "st.h"
+
 /*
  * Variable ordering methods
  */

@@ -1,10 +1,15 @@
 #ifndef NTBDD_H /* { */
 #define NTBDD_H
 
+#include "bdd.h"
+#include "network.h"
+
 /*
  * Verification methods
  */
-typedef enum { ONE_AT_A_TIME, ALL_TOGETHER } ntbdd_verify_method_t;
+typedef enum {
+    ONE_AT_A_TIME, ALL_TOGETHER
+} ntbdd_verify_method_t;
 
 /*
  * Utilities
@@ -29,5 +34,9 @@ extern bdd_manager *ntbdd_start_manager(int);
 
 extern int ntbdd_verify_network(network_t *, network_t *, order_method_t,
                                 ntbdd_verify_method_t);
+
+void init_ntbdd();
+
+void end_ntbdd();
 
 #endif /* } */

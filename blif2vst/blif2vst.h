@@ -1,6 +1,8 @@
 #ifndef SIS_BLIF2VST_H
 #define SIS_BLIF2VST_H
 
+#include <stdio.h>
+
 #define MAX_TOKEN_LENGTH 256
 #define MAX_NAME_LENGTH 32
 

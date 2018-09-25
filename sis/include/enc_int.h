@@ -1,3 +1,8 @@
+#ifndef ENC_INT_H
+#define ENC_INT_H
+
+#include "enc.h"
+
 #define SOP_ALLOC 100
 
 extern void input_cons();
@@ -31,3 +36,5 @@ extern bool dicp_implies();
 extern bool dicp_equal();
 
 extern void print_min_cover();
+
+#endif

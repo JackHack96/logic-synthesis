@@ -1,5 +1,8 @@
+#ifndef MIN_INT_H
+#define MIN_INT_H
 
 #include "ros.h"
+#include "espresso.h"
 
 /* Functions defined in  minimize.c */
 
@@ -50,3 +53,5 @@
 /* minimize.c */ extern void rem_unnec_r_cubes();
 
 /* dcsimp.c */ extern pcover dcsimp();
+
+#endif

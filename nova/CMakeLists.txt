@@ -1,12 +1,12 @@
 project(nova)
 add_executable(nova
         alloc.c
-        inc/analisi.h
+
         anneal_code.c
         auxil.c
         coloring.c
         comb_objects.c
-        inc/decls.h
+
         exact_backtrack.c
         exact_code.c
         exact_graph.c
@@ -26,16 +26,17 @@ add_executable(nova
         log_sel.c
         lower_bound.c
         nova.c
-        inc/nova.h
+
         nova_summ.c
-        inc/oldport.h
+
         options.c
         out_encoder.c
-        inc/out_encoder.h
+
         out_eval.c
         show.c
         symbolic_loop.c
         user_codes.c
         )
 include_directories(${CMAKE_SOURCE_DIR}/sis/espresso)
-target_link_libraries(nova utility m sis)
+add_dependencies(nova sis)
+target_link_libraries(nova utility m)

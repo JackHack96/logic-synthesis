@@ -18,7 +18,9 @@
 /*
  * constants
  */
-#define INFINITY 100000 /* constant for infinity */
+#include "util.h"
+
+//#define INFINITY 100000 /* constant for infinity */
 #define BUFSIZE 512     /* buffer size */
 #define INPUT 0         /* input weighting */
 #define OUTPUT 1        /* output weighting */

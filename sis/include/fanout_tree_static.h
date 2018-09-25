@@ -1,3 +1,5 @@
+#ifndef FANOUT_TREE_STATIC_H
+#define FANOUT_TREE_STATIC_H
 
 /* file @(#)fanout_tree_static.h	1.2 */
 /* last modified on 5/1/91 at 15:50:58 */
@@ -110,3 +112,6 @@ static void remove_unnecessary_buffers_rec();
 static void select_best_log_entry();
 
 static void update_children_entries();
+
+
+#endif

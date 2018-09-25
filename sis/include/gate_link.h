@@ -4,6 +4,9 @@
 #ifndef GATE_LINK_H
 #define GATE_LINK_H
 
+#include "node.h"
+#include "delay.h"
+
 typedef struct gate_link_struct gate_link_t;
 struct gate_link_struct {
   node_t *node; /* root of the gate */

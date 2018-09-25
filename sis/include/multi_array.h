@@ -6,15 +6,15 @@
 
 typedef struct multidim_struct multidim_t;
 struct multidim_struct {
-  int n_indices;
-  int *max_index;
-  int n_entries;
-  int type_size;
-  char *array;
+    int  n_indices;
+    int  *max_index;
+    int  n_entries;
+    int  type_size;
+    char *array;
 };
 
 extern multidim_t *
-    generic_multidim_alloc(/* int type_size, int n_indices, int *max_index */);
+generic_multidim_alloc(/* int type_size, int n_indices, int *max_index */);
 
 extern void multidim_free(/* multidim_t * array */);
 

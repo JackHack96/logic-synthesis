@@ -1,6 +1,5 @@
 
 #include "resub.h"
-#include "resub_int.h"
 #include "sis.h"
 
 static void resub_usage();

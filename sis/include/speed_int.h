@@ -1,41 +1,46 @@
+#ifndef SPEED_INT_H
+#define SPEED_INT_H
+
+#include "delay.h"
+#include "library.h"
 
 /*
  * Data structure holding the values that are used throught
  * this package
  */
 typedef struct speed_global_struct {
-  int area_reclaim;     /* Do resub when set */
-  int trace;            /* When set, show progress */
-  int debug;            /* Set the level of debugging */
-  int add_inv;          /* Ensure positive phase for all inputs */
-  int del_crit_cubes;   /* Delete the critical cubes from divisors */
-  int num_tries;        /* Number of alternatives during extraction */
-  double thresh;        /* Set the "epsilon" for criticality */
-  double crit_slack;    /* Sets the absolute slack that is critical */
-  double coeff;         /* Area/delay tradeoff coefficient */
-  int dist;             /* Distance to collapse */
-  int do_script;        /* Range over some distances */
-  int speed_repeat;     /* Loop at a particular distance */
-  int only_init_decomp; /* Only initial 2-ip decomp */
-  int interactive;      /* Whether interactive or batch */
+    int    area_reclaim;     /* Do resub when set */
+    int    trace;            /* When set, show progress */
+    int    debug;            /* Set the level of debugging */
+    int    add_inv;          /* Ensure positive phase for all inputs */
+    int    del_crit_cubes;   /* Delete the critical cubes from divisors */
+    int    num_tries;        /* Number of alternatives during extraction */
+    double thresh;        /* Set the "epsilon" for criticality */
+    double crit_slack;    /* Sets the absolute slack that is critical */
+    double coeff;         /* Area/delay tradeoff coefficient */
+    int    dist;             /* Distance to collapse */
+    int    do_script;        /* Range over some distances */
+    int    speed_repeat;     /* Loop at a particular distance */
+    int    only_init_decomp; /* Only initial 2-ip decomp */
+    int    interactive;      /* Whether interactive or batch */
 
-  delay_model_t model;        /* Delay model to use */
-  int library_accl;           /* FLAG: Use accelrator for the mapped model*/
-  double pin_cap;             /* Capacitance of the input pin */
-  delay_pin_t nand_pin_delay; /* Delay model for the 2-input primitives */
-  delay_pin_t inv_pin_delay;  /* Delay model for the invertor */
+    delay_model_t model;        /* Delay model to use */
+    int           library_accl;           /* FLAG: Use accelrator for the mapped model*/
+    double        pin_cap;             /* Capacitance of the input pin */
+    delay_pin_t   nand_pin_delay; /* Delay model for the 2-input primitives */
+    delay_pin_t   inv_pin_delay;  /* Delay model for the invertor */
 
-  int req_times_set;    /* Set if the req times are set at the PO's */
-  int region_flag;      /* NEW: Sets  strategy to select fanin-region */
-  int transform_flag;   /* How to choose best transform at  node  */
-  int max_recur;        /* NEW: Maximum number of recursion levels */
-  int timeout;          /* NEW: time limit for an optimization */
-  int new_mode;         /* NEW: set the expensive weight computation */
-  int red_removal;      /* NEW: run RR after  successful iteration */
-  int objective;        /* NEW: Selection strategy (either area or
+    int     req_times_set;    /* Set if the req times are set at the PO's */
+    int     region_flag;      /* NEW: Sets  strategy to select fanin-region */
+    int     transform_flag;   /* How to choose best transform at  node  */
+    int     max_recur;        /* NEW: Maximum number of recursion levels */
+    int     timeout;          /* NEW: time limit for an optimization */
+    int     new_mode;         /* NEW: set the expensive weight computation */
+    int     red_removal;      /* NEW: run RR after  successful iteration */
+    int     objective;        /* NEW: Selection strategy (either area or
                       the number of transforms as a criterion */
-  int max_num_cuts;     /* # of cutsets to attempt for each output */
-  array_t *local_trans; /* NEW: local transformations available */
+    int     max_num_cuts;     /* # of cutsets to attempt for each output */
+    array_t *local_trans; /* NEW: local transformations available */
 } speed_global_t;
 
 typedef void (*SP_void_fn)();
@@ -50,13 +55,13 @@ typedef delay_time_t (*SP_delay_fn)();
  * Data structure to support the different restructuring possibilities
  */
 typedef struct sp_local_trans_struct {
-  char *name;
-  SP_network_fn optimize_func;
-  SP_delay_fn arr_func;
-  int priority;
-  int on_flag; /* == 1 => transformation is enabled */
-  int type;    /* one of CLP, DUAL, FAN */
-} sp_xform_t;
+    char          *name;
+    SP_network_fn optimize_func;
+    SP_delay_fn   arr_func;
+    int           priority;
+    int           on_flag; /* == 1 => transformation is enabled */
+    int           type;    /* one of CLP, DUAL, FAN */
+}                    sp_xform_t;
 
 /*
  * For the nodes on the mincut --- this stores the relevant information
@@ -64,18 +69,18 @@ typedef struct sp_local_trans_struct {
  */
 typedef struct sp_collapse_struct sp_clp_t;
 struct sp_collapse_struct {
-  char *name;             /* name of the node --- for referencing */
-  node_t *node;           /* original node in the network */
-  network_t *net;         /* Copy of the collapsed network */
-  network_t *orig_config; /* Original configuration that was collapsed */
-  sp_xform_t *ti_model;   /* What optimization to do */
-  array_t *delta;         /* Improvement on side in/outputs desired */
-  delay_time_t old;       /* Original arr/req time of "node" */
-  int cfi;                /* critical-fanin (for buffering) */
-  speed_global_t *glb;    /* global partameters */
-  int can_adjust;         /* 1 if  inverter at the output can be removed */
-  st_table *adjust;       /* Table tracking the adjustments of PI delays */
-  st_table *equiv_table;  /* Table tracking corrspondence of nodes */
+    char           *name;             /* name of the node --- for referencing */
+    node_t         *node;           /* original node in the network */
+    network_t      *net;         /* Copy of the collapsed network */
+    network_t      *orig_config; /* Original configuration that was collapsed */
+    sp_xform_t     *ti_model;   /* What optimization to do */
+    array_t        *delta;         /* Improvement on side in/outputs desired */
+    delay_time_t   old;       /* Original arr/req time of "node" */
+    int            cfi;                /* critical-fanin (for buffering) */
+    speed_global_t *glb;    /* global partameters */
+    int            can_adjust;         /* 1 if  inverter at the output can be removed */
+    st_table       *adjust;       /* Table tracking the adjustments of PI delays */
+    st_table       *equiv_table;  /* Table tracking corrspondence of nodes */
 };
 
 /*
@@ -83,26 +88,26 @@ struct sp_collapse_struct {
  * data-structure stores the relevant information
  */
 typedef struct weight_clp_struct {
-  network_t *clp_netw;       /* Collapsed node --- distance "dist" */
-  network_t *dual_netw;      /* If there is a possibility of dual */
-  network_t *fanout_netw;    /* The fanout configuration */
-  network_t *best_netw;      /* The best config. at this node !!! */
-  delay_time_t arrival_time; /* Original arrival time at o/p of root */
-  delay_time_t slack;        /* Original slack */
-  int cfi;                   /* index of Critical fanin of root node */
-  double cfi_load;           /* Initial load of the critical input */
-  delay_time_t cfi_req;      /* Required time of critical input */
-  double load;               /* Original load that is driven */
-  double orig_area;          /* Area of the circuit being collapsed */
-  double dup_area;           /* Area duplication on collapsing */
-  double *improvement;       /* Reduction in delay due to technique "i" */
-  double crit_slack;         /* Threshold used during this computation  */
-  double *area_cost;         /* Area cost of the transformation */
-  int best_technique;        /* The technique to do the decomposition */
-  int can_invert;            /* == 1 if clp_netw function can be inverted */
-  double epsilon;            /* The epsilon improvement at this node */
-  int select_flag;           /* Set if the transformation helps */
-} sp_weight_t;
+    network_t    *clp_netw;       /* Collapsed node --- distance "dist" */
+    network_t    *dual_netw;      /* If there is a possibility of dual */
+    network_t    *fanout_netw;    /* The fanout configuration */
+    network_t    *best_netw;      /* The best config. at this node !!! */
+    delay_time_t arrival_time; /* Original arrival time at o/p of root */
+    delay_time_t slack;        /* Original slack */
+    int          cfi;                   /* index of Critical fanin of root node */
+    double       cfi_load;           /* Initial load of the critical input */
+    delay_time_t cfi_req;      /* Required time of critical input */
+    double       load;               /* Original load that is driven */
+    double       orig_area;          /* Area of the circuit being collapsed */
+    double       dup_area;           /* Area duplication on collapsing */
+    double       *improvement;       /* Reduction in delay due to technique "i" */
+    double       crit_slack;         /* Threshold used during this computation  */
+    double       *area_cost;         /* Area cost of the transformation */
+    int          best_technique;        /* The technique to do the decomposition */
+    int          can_invert;            /* == 1 if clp_netw function can be inverted */
+    double       epsilon;            /* The epsilon improvement at this node */
+    int          select_flag;           /* Set if the transformation helps */
+}                                 sp_weight_t;
 
 /*
  * Routines used inside the new_speed part of package
@@ -425,3 +430,4 @@ extern lib_gate_t *sp_lib_get_buffer();
 #define SP_COST(wght)                                                          \
   ((wght)->best_technique == -1 ? (POS_LARGE)                                  \
                                 : ((wght)->area_cost[(wght)->best_technique]))
+#endif

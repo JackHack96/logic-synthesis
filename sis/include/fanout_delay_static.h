@@ -1,6 +1,11 @@
+#ifndef FANOUT_DELAY_STATIC_H
+#define FANOUT_DELAY_STATIC_H
 
 /* file @(#)fanout_delay_static.h	1.2 */
 /* last modified on 5/1/91 at 15:50:32 */
+#include "delay.h"
+#include "pwl.h"
+
 static delay_pwl_t delay_get_delay_pwl_buffer();
 
 static delay_pwl_t delay_get_delay_pwl_internal_source();
@@ -44,3 +49,5 @@ static void delay_gate_free();
 static void delay_gate_initialize();
 
 static void fanout_delay_add_general_source();
+
+#endif

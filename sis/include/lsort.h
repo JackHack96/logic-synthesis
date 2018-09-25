@@ -50,6 +50,8 @@
  *  If DIRECT_COMPARE is used, then the 'FIELD' items are compared using
  *  a simple '>' (useful for scalars to save subroutine overhead)
  */
+#ifndef LSORT_H
+#define LSORT_H
 
 #ifndef NEXT
 #define NEXT next
@@ -67,73 +69,71 @@ DECL_SORT TYPE *SORT();
 
 #ifdef SORT1
 
-DECL_SORT1 TYPE *SORT1(list_in, compare) TYPE *list_in;
-int (*compare)();
+DECL_SORT1 TYPE *SORT1(list_in, compare)TYPE *list_in;
+                                        int (*compare)();
 {
-  register int cnt;
-  register TYPE *p;
+    register int  cnt;
+    register TYPE *p;
 
-  /* Find the length of the list */
-  for (p = list_in, cnt = 0; p != 0; p = p->NEXT, cnt++)
-    ;
-  return SORT(list_in, compare, cnt);
+    /* Find the length of the list */
+    for (p = list_in, cnt = 0; p != 0; p = p->NEXT, cnt++);
+    return SORT(list_in, compare, cnt);
 }
 
 #endif
 
-DECL_SORT TYPE *SORT(list_in, compare, cnt) TYPE *list_in;
-int (*compare)();
-int cnt;
+DECL_SORT TYPE *SORT(list_in, compare, cnt)TYPE *list_in;
+                                           int (*compare)();
+                                           int cnt;
 {
-  register TYPE *p, **plast, *list1, *list2;
-  register int i;
+    register TYPE *p, **plast, *list1, *list2;
+    register int  i;
 
-  if (cnt > 1) {
-    /* break the list in half */
-    for (p = list_in, i = cnt / 2 - 1; i > 0; p = p->NEXT, i--)
-      ;
-    list1 = list_in;
-    list2 = p->NEXT;
-    p->NEXT = 0;
+    if (cnt > 1) {
+        /* break the list in half */
+        for (p = list_in, i = cnt / 2 - 1; i > 0; p = p->NEXT, i--);
+        list1 = list_in;
+        list2 = p->NEXT;
+        p->NEXT = 0;
 
-    /* Recursively sort the sub-lists (unless only 1 element) */
-    if ((i = cnt / 2) > 1) {
-      list1 = SORT(list1, compare, i);
-    }
-    if ((i = cnt - i) > 1) {
-      list2 = SORT(list2, compare, i);
-    }
+        /* Recursively sort the sub-lists (unless only 1 element) */
+        if ((i = cnt / 2) > 1) {
+            list1 = SORT(list1, compare, i);
+        }
+        if ((i = cnt - i) > 1) {
+            list2 = SORT(list2, compare, i);
+        }
 
-    /* Merge the two sorted sub-lists */
-    plast = &list_in;
-    for (;;) {
+        /* Merge the two sorted sub-lists */
+        plast = &list_in;
+        for (;;) {
 #ifdef FIELD
 #ifdef DIRECT_COMPARE
-      if (list1->FIELD < list2->FIELD) {
+            if (list1->FIELD < list2->FIELD) {
 #else
-      if ((*compare)(list1->FIELD, list2->FIELD) <= 0) {
+            if ((*compare)(list1->FIELD, list2->FIELD) <= 0) {
 #endif
 #else
-      if ((*compare)(list1, list2) <= 0) {
+            if ((*compare)(list1, list2) <= 0) {
 #endif
-        *plast = list1;
-        plast = &(list1->NEXT);
-        if ((list1 = list1->NEXT) == 0) {
-          *plast = list2;
-          break;
+                *plast = list1;
+                plast      = &(list1->NEXT);
+                if ((list1 = list1->NEXT) == 0) {
+                    *plast = list2;
+                    break;
+                }
+            } else {
+                *plast = list2;
+                plast      = &(list2->NEXT);
+                if ((list2 = list2->NEXT) == 0) {
+                    *plast = list1;
+                    break;
+                }
+            }
         }
-      } else {
-        *plast = list2;
-        plast = &(list2->NEXT);
-        if ((list2 = list2->NEXT) == 0) {
-          *plast = list1;
-          break;
-        }
-      }
     }
-  }
 
-  return list_in;
+    return list_in;
 }
 
 #undef TYPE
@@ -144,3 +144,5 @@ int cnt;
 #undef FIELD
 #undef DIRECT_COMPARE
 #undef NEXT
+
+#endif

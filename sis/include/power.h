@@ -10,6 +10,8 @@
 #define POWER_H
 
 /* Some constant definitions */
+#include "st.h"
+
 #define POWER_ZERO_D 0
 #define POWER_UNIT_D 1
 #define POWER_GENERAL_D 2
@@ -54,5 +56,9 @@ extern char *power_dummy; /* For use in the following macros */
        : (fprintf(siserr, "Error in SWITCH_PROB, no power info for node %s\n", \
                   node->name),                                                 \
           abort(), 0 /* make compiler happy */))
+
+int init_power();
+
+int end_power();
 
 #endif

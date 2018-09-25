@@ -1,3 +1,10 @@
+#ifndef BUFFER_INT_H
+#define BUFFER_INT_H
+
+#include "library.h"
+#include "delay.h"
+#include "list.h"
+#include "st.h"
 
 /*
  * Data Structures internal to buffering package
@@ -168,3 +175,5 @@ extern double sp_get_pin_load();
 extern delay_time_t sp_get_input_drive();
 
 extern void buffer_delay_get_pi_drive();
+
+#endif //BUFFER_INT_H

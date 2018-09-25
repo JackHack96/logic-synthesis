@@ -1,4 +1,5 @@
-
+#ifndef POWER_INT_H
+#define POWER_INT_H
 /*---------------------------------------------------------------------------
 |   This is an internal header file for the power estimation package.
 |
@@ -8,6 +9,8 @@
 +--------------------------------------------------------------------------*/
 
 #include "power.h"
+#include "bdd.h"
+#include "network.h"
 
 #define sizeof_el(thing) (sizeof(thing) / sizeof(thing[0]))
 
@@ -22,19 +25,19 @@
 /* Register from pag 217 Weste-Eshragian */
 
 typedef struct {
-  int delay;       /* The delay of the gate */
-  double prob_one; /* Probability of gate being logical one */
+    int    delay;       /* The delay of the gate */
+    double prob_one; /* Probability of gate being logical one */
 } node_info_t;
 
 typedef struct { /* Used in power_sim.c */
-  array_t *before_switching;
-  array_t *after_switching;
-  array_t *switching_times;
+    array_t *before_switching;
+    array_t *after_switching;
+    array_t *switching_times;
 } delay_info_t;
 
 typedef struct { /* JCM: information for state probability */
-  double probOne;
-  int PSLineIndex;
+    double probOne;
+    int    PSLineIndex;
 } power_pi_t;
 
 #ifdef MAIN /* Global variables */
@@ -50,11 +53,11 @@ char *power_dummy;  /* Used in the SWITCH_PROB and CAP_FACTOR macros */
 
 st_table *power_get_node_info(); /* power_main.c */
 #else
-extern short power_verbose;
-extern int power_cap_in_latch;
-extern int power_cap_out_latch;
+extern short  power_verbose;
+extern int    power_cap_in_latch;
+extern int    power_cap_out_latch;
 extern double power_delta;
-extern int power_setSize;
+extern int    power_setSize;
 
 extern int power_command_line_interface(); /* power_main.c */
 extern st_table *power_get_node_info();    /* power_main.c */
@@ -95,4 +98,5 @@ extern bdd_node *cmu_bdd_one();
 
 extern long cmu_bdd_if_index();
 
+#endif
 #endif

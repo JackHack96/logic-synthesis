@@ -1,7 +1,7 @@
 /* BDD user-visible definitions */
 
-#if !defined(_BDDUSERH)
-#define _BDDUSERH
+#ifndef BDDUSER_H
+#define BDDUSER_H
 
 #include <memuser.h>
 #include <stdio.h>

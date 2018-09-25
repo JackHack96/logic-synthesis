@@ -127,7 +127,7 @@ BOOLEAN Complex;
 
   /* Begin `spCreate'. */
   /* Clear error flag. */
-  *pError = spOKAY;
+  *pError = SPMATRIX_H;
 
   /* Test for valid size. */
   if ((Size < 0) OR(Size == 0 AND NOT EXPANDABLE)) {

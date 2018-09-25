@@ -5,3 +5,5 @@ add_library(delay STATIC
         mapdelay.c
         tdc_delay.c
         )
+add_dependencies(delay clock)
+target_link_libraries(delay clock)
