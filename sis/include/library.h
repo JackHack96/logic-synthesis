@@ -88,15 +88,14 @@ extern int lib_gate_num_out(lib_gate_t *);
 #ifdef SIS
 /* sequential support */
 #define lib_gate_type(g)                                                       \
-  (((g) == NIL(lib_gate_t)) ? UNKNOWN : (enum latch_synch_enum)(g)->type)
+  (((g) == NIL(lib_gate_t)) ? UNKNOWN : (latch_synch_t)(g)->type)
 #define lib_gate_latch_pin(g) (((g) == NIL(lib_gate_t)) ? -1 : (g)->latch_pin)
 #define lib_gate_latch_time(g)                                                 \
   (((g) == NIL(lib_gate_t)) ? NIL(latch_time_t *) : (g)->latch_time_info)
 #define lib_gate_clock_delay(g)                                                \
   (((g) == NIL(lib_gate_t)) ? NIL(delay_pin_t) : (g)->clock_delay)
 
-extern lib_gate_t *lib_choose_smallest_latch(library_t *, char *,
-                                             enum latch_synch_enum);
+extern lib_gate_t *lib_choose_smallest_latch(library_t *library, char *string, latch_synch_t latch_type)
 
 #endif
 

@@ -62,9 +62,7 @@ static struct tdc_param_struct tdc_default_parameters = {
  *   options = 2 indicates that complexity and fanout are considers.
  */
 
-void compute_tdc_params(node, options)node_t *node;
-                                      int options;
-{
+void compute_tdc_params(node_t *node, int options) {
 
     int          i, j;
     double       fanout_delay, temp_delay;
@@ -135,15 +133,12 @@ void compute_tdc_params(node, options)node_t *node;
      * OK, all done! Free the BDDs, and all other structures!!
      */
     tdc_free_info(info);
-
-    return;
 }
 
 /*
  * Allocate and initialize the data structure for the tdc routines
  */
-static tdc_info_t *tdc_alloc_info(options)int options;
-{
+static tdc_info_t *tdc_alloc_info(int options) {
     tdc_info_t *info;
 
     info = ALLOC(tdc_info_t, 1);
@@ -156,8 +151,7 @@ static tdc_info_t *tdc_alloc_info(options)int options;
     return info;
 }
 
-static void tdc_free_info(info)tdc_info_t *info;
-{
+static void tdc_free_info(tdc_info_t *info) {
     pin_member_t *current_member, *new_member;
     pin_group_t  *current_group, *new_group;
 
@@ -180,8 +174,7 @@ static void tdc_free_info(info)tdc_info_t *info;
  * Interface routine: Allows the user to set different values for
  * the coefficients.
  */
-void delay_set_tdc_params(fname)char *fname;
-{
+void delay_set_tdc_params(char *fname) {
     FILE   *fp;
     int    i, found_params;
     double d0, d1, d2;
@@ -227,9 +220,7 @@ void delay_set_tdc_params(fname)char *fname;
  *  group.
  */
 
-static int count_bdd_fct_lines(my_bdd, source_group)bdd_t *my_bdd;
-                                                    pin_group_t *source_group;
-{
+static int count_bdd_fct_lines(bdd_t *my_bdd, pin_group_t *source_group) {
     bdd_t    *then_node;
     bdd_t    *my_bdd_top_node;
     st_table *visited;
@@ -275,13 +266,8 @@ static int count_bdd_fct_lines(my_bdd, source_group)bdd_t *my_bdd;
  *
  */
 
-static int do_count_bdd_fct_lines(my_bdd_node, first_src, last_src, first_dest,
-                                  last_dest, visited,
-                                  source_grp)bdd_t *my_bdd_node;
-                                             int first_src, last_src, first_dest, last_dest;
-                                             st_table *visited;
-                                             boolean source_grp;
-{
+static int do_count_bdd_fct_lines(bdd_t *my_bdd_node, int first_src, int last_src, int first_dest, int last_dest,
+                                  st_table *visited, boolean source_grp) {
     boolean  in_src;
     bdd_node *bdd_reg;
     bdd_t    *then_node, *else_node;
@@ -345,8 +331,7 @@ static int do_count_bdd_fct_lines(my_bdd_node, first_src, last_src, first_dest,
     return (return_count);
 }
 
-static double do_delay_to_output(current_group)pin_group_t *current_group;
-{
+static double do_delay_to_output(pin_group_t *current_group) {
     double temp_delay;
 
     if (current_group == NULL)
@@ -366,9 +351,7 @@ static double do_delay_to_output(current_group)pin_group_t *current_group;
      If new_pin is specified, it will be treated as the latest pin in the
      group.
 */
-static double tdc_get_slack(group, new_pin)pin_group_t *group;
-                                           pin_member_t *new_pin;
-{
+static double tdc_get_slack(pin_group_t *group, pin_member_t *new_pin) {
     int          i;
     double       slack;
     pin_member_t *last_node, *current_node;
@@ -491,8 +474,7 @@ static double tdc_group_delay(bdd_t *bdd, pin_group_t *group, int options) {
      This routine will calculate the delay of the MUX based on the number
      of input pins.
 */
-static double delay_eqn(count, complexity)int count, complexity;
-{
+static double delay_eqn(int count, int complexity) {
     double delay, t1, t2, t3;
 
     t1    = t2 = 0;
@@ -548,8 +530,6 @@ static void do_girdle(bdd_t *bdd, int first_src, int last_src, st_table *visited
     /* recurse on the children */
     do_girdle(then_node, first_src, last_src, visited, counter);
     do_girdle(else_node, first_src, last_src, visited, counter);
-
-    return;
 }
 
 /*
@@ -592,9 +572,7 @@ static int girdle(bdd_t *bdd, pin_group_t *group) {
  *   options = 2 indicates that complexity and fanout are considers.
  */
 
-static void tdc_sort_inputs(node, info)node_t *node;
-                                       tdc_info_t *info;
-{
+static void tdc_sort_inputs(node_t *node, tdc_info_t *info) {
     int          i, j, fanin_count, fct_count, fanout_count, group_count;
     double       new_group_slack, temp_delay;
     pin_member_t *sorted_list, *new_member, *current_member, *last_pin;
@@ -870,17 +848,13 @@ static void tdc_sort_inputs(node, info)node_t *node;
     info->sorted_list     = sorted_list;
     info->group_list_head = group_list_head;
     info->leaves          = leaves;
-
-    return;
 }
 
 /*
  * routine to convert bdd specified in info->my_bdd to a network of mux's
  * as defined by the equivelence groups.
  */
-static network_t *tdc_bdd_to_network(info, network)tdc_info_t *info;
-                                                   network_t *network;
-{
+static network_t *tdc_bdd_to_network(tdc_info_t *info, network_t *network) {
     int          i, j, node_id;
     char         *pi_name;
     lsGen        node_gen;
@@ -951,9 +925,7 @@ static network_t *tdc_bdd_to_network(info, network)tdc_info_t *info;
     BDD is reaced by an arc that comes from another group, an entry will
     be made in the hash table.
 */
-static st_table *tdc_bdd_node_list(info, my_bdd)tdc_info_t *info;
-                                                bdd_t *my_bdd;
-{
+static st_table *tdc_bdd_node_list(tdc_info_t *info, bdd_t *my_bdd) {
     int         i, num_vars;
     bdd_node    *bdd_reg;
     st_table    *new_table, *visited;
@@ -970,13 +942,8 @@ static st_table *tdc_bdd_node_list(info, my_bdd)tdc_info_t *info;
     return (new_table);
 }
 
-static void do_tdc_bdd_node_list(info, my_bdd, visited, new_table,
-                                 parent_id)tdc_info_t *info;
-                                           bdd_t *my_bdd;
-                                           st_table *visited;
-                                           st_table *new_table;
-                                           int parent_id;
-{
+static void
+do_tdc_bdd_node_list(tdc_info_t *info, bdd_t *my_bdd, st_table *visited, st_table *new_table, int parent_id) {
     int         dummy, bdd_node_id, parent_group_num, current_group_num, group_num;
     bdd_t       *then_bdd_node, *else_bdd_node;
     bdd_node    *bdd_reg;
@@ -1023,16 +990,13 @@ static void do_tdc_bdd_node_list(info, my_bdd, visited, new_table,
         do_tdc_bdd_node_list(info, then_bdd_node, visited, new_table, bdd_node_id);
         do_tdc_bdd_node_list(info, else_bdd_node, visited, new_table, bdd_node_id);
     }
-
-    return;
 }
 
 /*
  * NOTE: the routine assumes that "delay_set_tdc_params()" has been called
  * before this routine to properly set the coefficients for the delay equations
  */
-network_t *tdc_factor_network(network)network_t *network;
-{
+network_t *tdc_factor_network(network_t *network) {
     char         *name;
     lsGen        gen;
     tdc_info_t   *info;

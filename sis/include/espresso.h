@@ -652,7 +652,7 @@ typedef int (*ESP_PFI)();
 
 /* cubestr.c */ extern void setdown_cube();
 
-/* cvrin.c */ extern int PLA_labels(pPLA);
+/* cvrin.c */ extern void PLA_labels(pPLA);
 
 /* cvrin.c */ extern char *get_word(FILE *, char *);
 
@@ -674,7 +674,7 @@ typedef int (*ESP_PFI)();
 
 /* cvrin.c */ extern void skip_line(FILE *, FILE *, bool);
 
-/* cvrm.c */ extern int foreach_output_function(pPLA, ESP_PFI, ESP_PFI);
+/* cvrm.c */ extern void foreach_output_function(pPLA, ESP_PFI, ESP_PFI);
 
 /* cvrm.c */ extern int cubelist_partition(pcube *, pcube **, pcube **,
                                            unsigned int);
@@ -741,11 +741,11 @@ typedef int (*ESP_PFI)();
 
 /* cvrout.c */ extern int makeup_labels(pPLA);
 
-/* cvrout.c */ extern int kiss_output(FILE *, pPLA);
+/* cvrout.c */ extern void kiss_output(FILE *, pPLA);
 
-/* cvrout.c */ extern int kiss_print_cube(FILE *, pPLA, pcube, char *);
+/* cvrout.c */ extern void kiss_print_cube(FILE *, pPLA, pcube, char *);
 
-/* cvrout.c */ extern int output_symbolic_constraints(FILE *, pPLA, int);
+/* cvrout.c */ extern void output_symbolic_constraints(FILE *, pPLA, int);
 
 /* cvrout.c */ extern void cprint(pcover);
 
@@ -771,7 +771,7 @@ typedef int (*ESP_PFI)();
 
 /* cvrout.c */ extern void debug_print(pcube *, char *, int);
 
-/* equiv.c */ extern int find_equiv_outputs(pPLA);
+/* equiv.c */ extern void find_equiv_outputs(pPLA);
 
 /* equiv.c */ extern int check_equiv(pcover, pcover);
 
@@ -830,21 +830,21 @@ typedef int (*ESP_PFI)();
 /* hack.c */ extern int find_dc_inputs(pPLA, symbolic_list_t *, int, int,
                                        pcover *, pcover *);
 
-/* hack.c */ extern int find_inputs(pcover, pPLA, symbolic_list_t *, int, int,
-                                    pcover *, pcover *);
+/* hack.c */ extern void find_inputs(pcover, pPLA, symbolic_list_t *, int, int,
+                                     pcover *, pcover *);
 
-/* hack.c */ extern int form_bitvector(pset, int, int, symbolic_list_t *);
+/* hack.c */ extern void form_bitvector(pset, int, int, symbolic_list_t *);
 
-/* hack.c */ extern int map_dcset(pPLA);
+/* hack.c */ extern void map_dcset(pPLA);
 
-/* hack.c */ extern int map_output_symbolic(pPLA);
+/* hack.c */ extern void map_output_symbolic(pPLA);
 
-/* hack.c */ extern int map_symbolic(pPLA);
+/* hack.c */ extern void map_symbolic(pPLA);
 
 /* hack.c */ extern pcover map_symbolic_cover(pcover, symbolic_list_t *, int);
 
-/* hack.c */ extern int symbolic_hack_labels(pPLA, symbolic_t *, pset, int, int,
-                                             int);
+/* hack.c */ extern void symbolic_hack_labels(pPLA, symbolic_t *, pset, int, int,
+                                              int);
 
 /* irred.c */ extern bool cube_is_covered(pcube *, pcube);
 
@@ -867,7 +867,7 @@ typedef int (*ESP_PFI)();
 
 /* map.c */ extern void map(pcover);
 
-/* opo.c */ extern int output_phase_setup(pPLA, int);
+/* opo.c */ extern void output_phase_setup(pPLA, int);
 
 /* opo.c */ extern pPLA set_phase(pPLA);
 
@@ -889,7 +889,7 @@ typedef int (*ESP_PFI)();
 
 /* opo.c */ extern void repeated_phase_assignment(pPLA);
 
-/* pair.c */ extern int generate_all_pairs(ppair, int, pset, ESP_PFI);
+/* pair.c */ extern void generate_all_pairs(ppair, int, pset, ESP_PFI);
 
 /* pair.c */ extern int **find_pairing_cost(pPLA, int);
 
@@ -901,7 +901,7 @@ typedef int (*ESP_PFI)();
 
 /* pair.c */ extern int pair_free(ppair);
 
-/* pair.c */ extern int pair_all(pPLA, int);
+/* pair.c */ extern void pair_all(pPLA, int);
 
 /* pair.c */ extern pcover delvar(pcover, bool *);
 

@@ -5,41 +5,30 @@
 
 static void gl_permute_recur();
 
-gl_permute(array, n, fct, state) char **array;
-int n;
+gl_permute(char **array, int n, void (*fct)(), char *state) { gl_permute_recur(array, n, n, fct, state); }
 
-void (*fct)();
+static void gl_permute_recur(char **array, int m, int n, void (*fct)(), char *state) {
+    int  i;
+    char *t;
 
-char *state;
-{ gl_permute_recur(array, n, n, fct, state); }
+    if (m <= 1) {
+        (*fct)(array - n + 1, n, state);
+    } else {
+        for (i = 0; i < m; i++) {
+            /* Swap first element with ith element */
+            t = array[i];
+            array[i] = array[0];
+            array[0] = t;
 
-static void gl_permute_recur(array, m, n, fct, state) char **array;
-int m;
-int n;
-void (*fct)();
-char *state;
-{
-  int i;
-  char *t;
+            /* recur for last m-1 elements */
+            gl_permute_recur(array + 1, m - 1, n, fct, state);
 
-  if (m <= 1) {
-    (*fct)(array - n + 1, n, state);
-  } else {
-    for (i = 0; i < m; i++) {
-      /* Swap first element with ith element */
-      t = array[i];
-      array[i] = array[0];
-      array[0] = t;
-
-      /* recur for last m-1 elements */
-      gl_permute_recur(array + 1, m - 1, n, fct, state);
-
-      /* swap it back */
-      t = array[i];
-      array[i] = array[0];
-      array[0] = t;
+            /* swap it back */
+            t = array[i];
+            array[i] = array[0];
+            array[0] = t;
+        }
     }
-  }
 }
 
 #ifdef TEST

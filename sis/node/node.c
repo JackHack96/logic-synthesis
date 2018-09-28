@@ -1,4 +1,5 @@
 
+#include <stdint.h>
 #include "node_int.h"
 #include "sis.h"
 
@@ -624,7 +625,7 @@ void node_d1merge(f) node_t *f;
   node_minimum_base(f);
 }
 
-int node_error(code) int code;
+uintptr_t node_error(int code)
 {
   switch (code) {
   case 0:

@@ -309,13 +309,13 @@ void astg_usage(char **, char *);
 
 #ifdef SIS_H /* Declarations depending on <sis.h>.	*/
 
-astg_graph *astg_current(network_t *);
+extern astg_graph *astg_current(network_t *network);
 
 void astg_set_current(network_t **, astg_graph *, astg_bool);
 
 node_t *astg_guard_node(astg_graph *, astg_edge *);
 
-astg_retval astg_set_marking_by_name(astg_graph *, st_table *);
+astg_retval astg_set_marking_by_name(astg_graph *stg, st_table *sig_values) ;
 
 int astg_simple_cycles(astg_graph *, astg_vertex *,
                        int (*)(astg_graph *, void *), void *, astg_bool);

@@ -2,10 +2,7 @@
 #include "com_int.h"
 #include "sis.h"
 
-FILE *com_open_file(filename, mode, real_filename_p, silent) char *filename;
-char *mode;
-char **real_filename_p;
-int silent;
+FILE *com_open_file(char *filename, char *mode, char **real_filename_p, int silent)
 {
   char *real_filename, *path, *user_path;
   char *lib_name;

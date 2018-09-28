@@ -41,8 +41,7 @@ static astg_bool astg_uses_name(astg_graph *stg, char *name) {
     return ASTG_FALSE;
 }
 
-static char *astg_make_fake_name(astg_graph *stg, char *name, char *suffix)
-{
+static char *astg_make_fake_name(astg_graph *stg, char *name, char *suffix) {
     /*	Generate name+suffix[+digits] which is not a signal name. */
     int  real_len   = strlen(name) + strlen(suffix);
     char *buffer    = ALLOC(char, real_len + 10);
@@ -54,11 +53,7 @@ static char *astg_make_fake_name(astg_graph *stg, char *name, char *suffix)
     return buffer;
 }
 
-static void astg_print_inputs(fp, header, stg, fake_pis)FILE *fp;
-                                                        char *header;
-                                                        astg_graph *stg;
-                                                        char **fake_pis;
-{
+static void astg_print_inputs(FILE *fp, char *header, astg_graph *stg, char **fake_pis) {
     /*	Print a .names line with all inputs. */
     astg_generator gen;
     astg_signal    *sig_p;
@@ -73,9 +68,7 @@ static void astg_print_inputs(fp, header, stg, fake_pis)FILE *fp;
     }
 }
 
-static void astg_print_real_outputs(fp, stg)FILE *fp;
-                                            astg_graph *stg;
-{
+static void astg_print_real_outputs(FILE *fp, astg_graph *stg) {
     /*	Print a .outputs command for all the real outputs. */
     astg_generator gen;
     astg_signal    *sig_p;
@@ -87,11 +80,7 @@ static void astg_print_real_outputs(fp, stg)FILE *fp;
     fprintf(fp, "\n");
 }
 
-static void astg_print_cube(fp, stg, scode, fr)FILE *fp;
-                                               astg_graph *stg;
-                                               astg_scode scode;
-                                               int fr;
-{
+static void astg_print_cube(FILE *fp, astg_graph *stg, astg_scode scode, int fr) {
     /*	Print cube in signal order, followed by 1 or 0 based on fr flag. */
     astg_generator gen;
     astg_signal    *sig_p;
@@ -103,10 +92,7 @@ static void astg_print_cube(fp, stg, scode, fr)FILE *fp;
     fprintf(fp, " %d\n", fr);
 }
 
-extern void astg_to_blif(fp, stg, latch_type)FILE *fp;
-                                             astg_graph *stg;
-                                             char *latch_type;
-{
+extern void astg_to_blif(FILE *fp, astg_graph *stg, char *latch_type) {
     /*	Write a sequential BLIF description of the token flow state graph.
     The network can be read in using read_blif of the SIS io package.
     Primary input and output names are preserved.  In addition, for each
@@ -212,8 +198,7 @@ extern void astg_to_blif(fp, stg, latch_type)FILE *fp;
     }
 }
 
-static node_t *astg_trace_fake_pi(node)node_t *node;
-{
+static node_t *astg_trace_fake_pi(node_t *node) {
     node_t *fake_pi = node;
 
     if (fake_pi != NULL) {
@@ -231,10 +216,7 @@ static node_t *astg_trace_fake_pi(node)node_t *node;
     return fake_pi;
 }
 
-extern node_t *astg_find_pi_or_po(network, sig_name, type)network_t *network;
-                                                          char *sig_name;
-                                                          astg_io_enum type;
-{
+extern node_t *astg_find_pi_or_po(network_t *network, char *sig_name, astg_io_enum type) {
     /*	Find the primary input or output of the given type for a signal.  This
     assumes the network has a specific structure: any output which is used
     for feedback is connected to the fake PI for the SIS latch.  If no
@@ -272,4 +254,5 @@ extern node_t *astg_find_pi_or_po(network, sig_name, type)network_t *network;
 
     return node;
 }
+
 #endif /* SIS */

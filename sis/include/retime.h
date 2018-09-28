@@ -4,6 +4,7 @@
 
 #include "array.h"
 #include "node.h"
+#include "latch.h"
 
 /*
  * retime.h - retiming package header file
@@ -19,12 +20,12 @@ enum re_node_type {
 
 typedef struct re_graph re_graph;
 struct re_graph {
-    array_t               *nodes;               /* nodes in network (typed re_node *) */
-    array_t               *edges;               /* edges in network (typed re_edge *) */
-    array_t               *primary_inputs;      /* primary inputs (typed re_node *) */
-    array_t               *primary_outputs;     /* primary outputs (typed re_node *) */
-    enum latch_synch_enum s_type; /* Synchronization type of design */
-    char                  *control_name;           /* Name of the controlling signal */
+    array_t       *nodes;               /* nodes in network (typed re_node *) */
+    array_t       *edges;               /* edges in network (typed re_edge *) */
+    array_t       *primary_inputs;      /* primary inputs (typed re_node *) */
+    array_t       *primary_outputs;     /* primary outputs (typed re_node *) */
+    latch_synch_t s_type; /* Synchronization type of design */
+    char          *control_name;           /* Name of the controlling signal */
 };
 
 typedef struct re_node re_node;

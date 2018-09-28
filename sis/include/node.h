@@ -2,6 +2,7 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <stdint.h>
 #include "espresso.h"
 #include "list.h"
 
@@ -258,7 +259,7 @@ extern void fanin_remove_fanout(node_t *);
 extern void fanin_add_fanout(node_t *);
 
 /* exported for use in macros	*/
-extern int node_error(int);
+extern uintptr_t node_error(int);
 
 extern node_t *node_fanout_gen(lsList, int *);
 

@@ -4,7 +4,7 @@
 
 avl_tree *alias_table;
 
-static void print_alias(value)char *value;
+static void print_alias(char *value)
 {
     int           i;
     alias_descr_t *alias;

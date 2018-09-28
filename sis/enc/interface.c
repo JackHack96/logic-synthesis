@@ -4,9 +4,7 @@
 extern bool enc_debug;
 
 /* ARGSUSED */
-int com_enc_sat(cons, nsymb, codes) cons_t **cons;
-int nsymb;
-char ***codes;
+int com_enc_sat(cons_t **cons, int nsymb, char ***codes)
 {
   dic_family_t *seed_list, *dic_list, *prime_list, *uncover_list;
   dic_family_t *filter_list, *satisfy_list, *temp_list1;

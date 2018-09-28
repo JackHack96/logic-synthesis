@@ -9,16 +9,18 @@
 \* ---------------------------------------------------------------------------*/
 
 #ifdef SIS
+
 #include "astg_int.h"
 #include "bwd_int.h"
 #include "si_int.h"
 #include "sis.h"
 
 void init_astg() {
-  astg_basic_cmds(ASTG_TRUE);
-  si_cmds();
-  bwd_cmds();
+    astg_basic_cmds(ASTG_TRUE);
+    si_cmds();
+    bwd_cmds();
 }
 
 void end_astg() { astg_basic_cmds(ASTG_FALSE); }
+
 #endif /* SIS */

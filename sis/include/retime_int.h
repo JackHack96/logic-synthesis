@@ -34,7 +34,7 @@ extern void re_graph_add_node();
 
 extern void re_evaluate_delay();
 
-extern int re_simplx();
+extern int re_simplx(double **a, int m, int n, int m1, int m2, int m3, int *icase, int izrov[], int iposv[]);
 
 extern int retime_check_graph();
 

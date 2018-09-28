@@ -16,7 +16,6 @@ struct avl_tree_struct {
   avl_node *root;
 
   int (*compar)();
-
   int num_entries;
   int modified;
 };

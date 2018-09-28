@@ -95,12 +95,12 @@ typedef unsigned int flex_uint32_t;
 /* begin standard C++ headers. */
 
 /* TODO: this is always defined, so inline it */
-#define EQN_EQN_EQN_EQN_yyconst const
+#define EQN_EQN_yyconst const
 
 #if defined(__GNUC__) && __GNUC__ >= 3
-#define EQN_EQN_EQN_EQN_yynoreturn __attribute__((__noreturn__))
+#define EQN_EQN_yynoreturn __attribute__((__noreturn__))
 #else
-#define EQN_EQN_EQN_EQN_yynoreturn
+#define EQN_EQN_yynoreturn
 #endif
 
 /* Returned upon end-of-file. */
@@ -115,17 +115,17 @@ typedef unsigned int flex_uint32_t;
  * but we do it the disgusting crufty way forced on us by the ()-less
  * definition of BEGIN.
  */
-#define BEGIN (EQN_EQN_EQN_EQN_yy_start) = 1 + 2 *
+#define BEGIN (EQN_EQN_yy_start) = 1 + 2 *
 /* Translate the current start state into a value that can be later handed
  * to BEGIN to return to the state.  The YYSTATE alias is for lex
  * compatibility.
  */
-#define YY_START (((EQN_EQN_EQN_EQN_yy_start) - 1) / 2)
+#define YY_START (((EQN_EQN_yy_start) - 1) / 2)
 #define YYSTATE YY_START
 /* Action number for EOF rule of a given start state. */
 #define YY_STATE_EOF(state) (YY_END_OF_BUFFER + state + 1)
 /* Special action meaning "start processing a new file". */
-#define YY_NEW_FILE EQN_EQN_EQN_EQN_yyrestart( EQN_EQN_EQN_EQN_yyin  )
+#define YY_NEW_FILE EQN_EQN_yyrestart( EQN_EQN_yyin  )
 #define YY_END_OF_BUFFER_CHAR 0
 
 /* Size of default input buffer. */
@@ -143,21 +143,21 @@ typedef unsigned int flex_uint32_t;
 
 /* The state buf must be large enough to hold one state per character in the main buffer.
  */
-#define YY_STATE_BUF_SIZE   ((YY_BUF_SIZE + 2) * sizeof(EQN_EQN_EQN_EQN_yy_state_type))
+#define YY_STATE_BUF_SIZE   ((YY_BUF_SIZE + 2) * sizeof(EQN_EQN_yy_state_type))
 
 #ifndef YY_TYPEDEF_YY_BUFFER_STATE
 #define YY_TYPEDEF_YY_BUFFER_STATE
-typedef struct EQN_EQN_EQN_EQN_yy_buffer_state *YY_BUFFER_STATE;
+typedef struct EQN_EQN_yy_buffer_state *YY_BUFFER_STATE;
 #endif
 
 #ifndef YY_TYPEDEF_YY_SIZE_T
 #define YY_TYPEDEF_YY_SIZE_T
-typedef size_t EQN_EQN_EQN_EQN_yy_size_t;
+typedef size_t EQN_EQN_yy_size_t;
 #endif
 
-extern int EQN_EQN_EQN_EQN_yyleng;
+extern int EQN_EQN_yyleng;
 
-extern FILE *EQN_EQN_EQN_EQN_yyin, *EQN_EQN_EQN_EQN_yyout;
+extern FILE *EQN_EQN_yyin, *EQN_EQN_yyout;
 
 #define EOB_ACT_CONTINUE_SCAN 0
 #define EOB_ACT_END_OF_FILE 1
@@ -167,67 +167,67 @@ extern FILE *EQN_EQN_EQN_EQN_yyin, *EQN_EQN_EQN_EQN_yyout;
     #define YY_LINENO_REWIND_TO(ptr)
     
 /* Return all but the first "n" matched characters back to the input stream. */
-#define EQN_EQN_EQN_EQN_yyless(n) \
+#define EQN_EQN_yyless(n) \
 	do \
 		{ \
-		/* Undo effects of setting up EQN_EQN_EQN_EQN_yytext. */ \
-        int EQN_EQN_EQN_EQN_yyless_macro_arg = (n); \
-        YY_LESS_LINENO(EQN_EQN_EQN_EQN_yyless_macro_arg);\
-		*EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yy_hold_char); \
+		/* Undo effects of setting up EQN_EQN_yytext. */ \
+        int EQN_EQN_yyless_macro_arg = (n); \
+        YY_LESS_LINENO(EQN_EQN_yyless_macro_arg);\
+		*EQN_EQN_yy_cp = (EQN_EQN_yy_hold_char); \
 		YY_RESTORE_YY_MORE_OFFSET \
-		(EQN_EQN_EQN_EQN_yy_c_buf_p) = EQN_EQN_EQN_EQN_yy_cp = EQN_EQN_EQN_EQN_yy_bp + EQN_EQN_EQN_EQN_yyless_macro_arg - YY_MORE_ADJ; \
-		YY_DO_BEFORE_ACTION; /* set up EQN_EQN_EQN_EQN_yytext again */ \
+		(EQN_EQN_yy_c_buf_p) = EQN_EQN_yy_cp = EQN_EQN_yy_bp + EQN_EQN_yyless_macro_arg - YY_MORE_ADJ; \
+		YY_DO_BEFORE_ACTION; /* set up EQN_EQN_yytext again */ \
 		} \
 	while ( 0 )
-#define unput(c) EQN_EQN_EQN_EQN_yyunput( c, (EQN_EQN_EQN_EQN_yytext_ptr)  )
+#define unput(c) EQN_EQN_yyunput( c, (EQN_EQN_yytext_ptr)  )
 
 #ifndef YY_STRUCT_YY_BUFFER_STATE
 #define YY_STRUCT_YY_BUFFER_STATE
-struct EQN_EQN_EQN_EQN_yy_buffer_state
+struct EQN_EQN_yy_buffer_state
 	{
-	FILE *EQN_EQN_EQN_EQN_yy_input_file;
+	FILE *EQN_EQN_yy_input_file;
 
-	char *EQN_EQN_EQN_EQN_yy_ch_buf;		/* input buffer */
-	char *EQN_EQN_EQN_EQN_yy_buf_pos;		/* current position in input buffer */
+	char *EQN_EQN_yy_ch_buf;		/* input buffer */
+	char *EQN_EQN_yy_buf_pos;		/* current position in input buffer */
 
 	/* Size of input buffer in bytes, not including room for EOB
 	 * characters.
 	 */
-	int EQN_EQN_EQN_EQN_yy_buf_size;
+	int EQN_EQN_yy_buf_size;
 
-	/* Number of characters read into EQN_EQN_EQN_EQN_yy_ch_buf, not including EOB
+	/* Number of characters read into EQN_EQN_yy_ch_buf, not including EOB
 	 * characters.
 	 */
-	int EQN_EQN_EQN_EQN_yy_n_chars;
+	int EQN_EQN_yy_n_chars;
 
 	/* Whether we "own" the buffer - i.e., we know we created it,
 	 * and can realloc() it to grow it, and should free() it to
 	 * delete it.
 	 */
-	int EQN_EQN_EQN_EQN_yy_is_our_buffer;
+	int EQN_EQN_yy_is_our_buffer;
 
 	/* Whether this is an "interactive" input source; if so, and
 	 * if we're using stdio for input, then we want to use getc()
 	 * instead of fread(), to make sure we stop fetching input after
 	 * each newline.
 	 */
-	int EQN_EQN_EQN_EQN_yy_is_interactive;
+	int EQN_EQN_yy_is_interactive;
 
 	/* Whether we're considered to be at the beginning of a line.
 	 * If so, '^' rules will be active on the next match, otherwise
 	 * not.
 	 */
-	int EQN_EQN_EQN_EQN_yy_at_bol;
+	int EQN_EQN_yy_at_bol;
 
-    int EQN_EQN_EQN_EQN_yy_bs_lineno; /**< The line count. */
-    int EQN_EQN_EQN_EQN_yy_bs_column; /**< The column count. */
+    int EQN_EQN_yy_bs_lineno; /**< The line count. */
+    int EQN_EQN_yy_bs_column; /**< The column count. */
 
 	/* Whether to try to fill the input buffer when we reach the
 	 * end of it.
 	 */
-	int EQN_EQN_EQN_EQN_yy_fill_buffer;
+	int EQN_EQN_yy_fill_buffer;
 
-	int EQN_EQN_EQN_EQN_yy_buffer_status;
+	int EQN_EQN_yy_buffer_status;
 
 #define YY_BUFFER_NEW 0
 #define YY_BUFFER_NORMAL 1
@@ -238,8 +238,8 @@ struct EQN_EQN_EQN_EQN_yy_buffer_state
 	 * possible backing-up.
 	 *
 	 * When we actually see the EOF, we change the status to "new"
-	 * (via EQN_EQN_EQN_EQN_yyrestart()), so that the user can continue scanning by
-	 * just pointing EQN_EQN_EQN_EQN_yyin at a new input file.
+	 * (via EQN_EQN_yyrestart()), so that the user can continue scanning by
+	 * just pointing EQN_EQN_yyin at a new input file.
 	 */
 #define YY_BUFFER_EOF_PENDING 2
 
@@ -247,9 +247,9 @@ struct EQN_EQN_EQN_EQN_yy_buffer_state
 #endif /* !YY_STRUCT_YY_BUFFER_STATE */
 
 /* Stack of input buffers. */
-static size_t EQN_EQN_EQN_EQN_yy_buffer_stack_top = 0; /**< index of top of stack. */
-static size_t EQN_EQN_EQN_EQN_yy_buffer_stack_max = 0; /**< capacity of stack. */
-static YY_BUFFER_STATE * EQN_EQN_EQN_EQN_yy_buffer_stack = NULL; /**< Stack as an array. */
+static size_t EQN_EQN_yy_buffer_stack_top = 0; /**< index of top of stack. */
+static size_t EQN_EQN_yy_buffer_stack_max = 0; /**< capacity of stack. */
+static YY_BUFFER_STATE * EQN_EQN_yy_buffer_stack = NULL; /**< Stack as an array. */
 
 /* We provide macros for accessing buffer states in case in the
  * future we want to put the buffer states in a more general
@@ -257,118 +257,118 @@ static YY_BUFFER_STATE * EQN_EQN_EQN_EQN_yy_buffer_stack = NULL; /**< Stack as a
  *
  * Returns the top of the stack, or NULL.
  */
-#define YY_CURRENT_BUFFER ( (EQN_EQN_EQN_EQN_yy_buffer_stack) \
-                          ? (EQN_EQN_EQN_EQN_yy_buffer_stack)[(EQN_EQN_EQN_EQN_yy_buffer_stack_top)] \
+#define YY_CURRENT_BUFFER ( (EQN_EQN_yy_buffer_stack) \
+                          ? (EQN_EQN_yy_buffer_stack)[(EQN_EQN_yy_buffer_stack_top)] \
                           : NULL)
 /* Same as previous macro, but useful when we know that the buffer stack is not
  * NULL or when we need an lvalue. For internal use only.
  */
-#define YY_CURRENT_BUFFER_LVALUE (EQN_EQN_EQN_EQN_yy_buffer_stack)[(EQN_EQN_EQN_EQN_yy_buffer_stack_top)]
+#define YY_CURRENT_BUFFER_LVALUE (EQN_EQN_yy_buffer_stack)[(EQN_EQN_yy_buffer_stack_top)]
 
-/* EQN_EQN_EQN_EQN_yy_hold_char holds the character lost when EQN_EQN_EQN_EQN_yytext is formed. */
-static char EQN_EQN_EQN_EQN_yy_hold_char;
-static int EQN_EQN_EQN_EQN_yy_n_chars;		/* number of characters read into EQN_EQN_EQN_EQN_yy_ch_buf */
-int EQN_EQN_EQN_EQN_yyleng;
+/* EQN_EQN_yy_hold_char holds the character lost when EQN_EQN_yytext is formed. */
+static char EQN_EQN_yy_hold_char;
+static int EQN_EQN_yy_n_chars;		/* number of characters read into EQN_EQN_yy_ch_buf */
+int EQN_EQN_yyleng;
 
 /* Points to current character in buffer. */
-static char *EQN_EQN_EQN_EQN_yy_c_buf_p = NULL;
-static int EQN_EQN_EQN_EQN_yy_init = 0;		/* whether we need to initialize */
-static int EQN_EQN_EQN_EQN_yy_start = 0;	/* start state number */
+static char *EQN_EQN_yy_c_buf_p = NULL;
+static int EQN_EQN_yy_init = 0;		/* whether we need to initialize */
+static int EQN_EQN_yy_start = 0;	/* start state number */
 
-/* Flag which is used to allow EQN_EQN_EQN_EQN_yywrap()'s to do buffer switches
- * instead of setting up a fresh EQN_EQN_EQN_EQN_yyin.  A bit of a hack ...
+/* Flag which is used to allow EQN_EQN_yywrap()'s to do buffer switches
+ * instead of setting up a fresh EQN_EQN_yyin.  A bit of a hack ...
  */
-static int EQN_EQN_EQN_EQN_yy_did_buffer_switch_on_eof;
+static int EQN_EQN_yy_did_buffer_switch_on_eof;
 
-void EQN_EQN_EQN_EQN_yyrestart ( FILE *input_file  );
-void EQN_EQN_EQN_EQN_yy_switch_to_buffer ( YY_BUFFER_STATE new_buffer  );
-YY_BUFFER_STATE EQN_EQN_EQN_EQN_yy_create_buffer ( FILE *file, int size  );
-void EQN_EQN_EQN_EQN_yy_delete_buffer ( YY_BUFFER_STATE b  );
-void EQN_EQN_EQN_EQN_yy_flush_buffer ( YY_BUFFER_STATE b  );
-void EQN_EQN_EQN_EQN_yypush_buffer_state ( YY_BUFFER_STATE new_buffer  );
-void EQN_EQN_EQN_EQN_yypop_buffer_state ( void );
+void EQN_EQN_yyrestart ( FILE *input_file  );
+void EQN_EQN_yy_switch_to_buffer ( YY_BUFFER_STATE new_buffer  );
+YY_BUFFER_STATE EQN_EQN_yy_create_buffer ( FILE *file, int size  );
+void EQN_EQN_yy_delete_buffer ( YY_BUFFER_STATE b  );
+void EQN_EQN_yy_flush_buffer ( YY_BUFFER_STATE b  );
+void EQN_EQN_yypush_buffer_state ( YY_BUFFER_STATE new_buffer  );
+void EQN_EQN_yypop_buffer_state ( void );
 
-static void EQN_EQN_EQN_EQN_yyensure_buffer_stack ( void );
-static void EQN_EQN_EQN_EQN_yy_load_buffer_state ( void );
-static void EQN_EQN_EQN_EQN_yy_init_buffer ( YY_BUFFER_STATE b, FILE *file  );
-#define YY_FLUSH_BUFFER EQN_EQN_EQN_EQN_yy_flush_buffer( YY_CURRENT_BUFFER )
+static void EQN_EQN_yyensure_buffer_stack ( void );
+static void EQN_EQN_yy_load_buffer_state ( void );
+static void EQN_EQN_yy_init_buffer ( YY_BUFFER_STATE b, FILE *file  );
+#define YY_FLUSH_BUFFER EQN_EQN_yy_flush_buffer( YY_CURRENT_BUFFER )
 
-YY_BUFFER_STATE EQN_EQN_EQN_EQN_yy_scan_buffer ( char *base, EQN_EQN_EQN_EQN_yy_size_t size  );
-YY_BUFFER_STATE EQN_EQN_EQN_EQN_yy_scan_string ( const char *EQN_EQN_EQN_EQN_yy_str  );
-YY_BUFFER_STATE EQN_EQN_EQN_EQN_yy_scan_bytes ( const char *bytes, int len  );
+YY_BUFFER_STATE EQN_EQN_yy_scan_buffer ( char *base, EQN_EQN_yy_size_t size  );
+YY_BUFFER_STATE EQN_EQN_yy_scan_string ( const char *EQN_EQN_yy_str  );
+YY_BUFFER_STATE EQN_EQN_yy_scan_bytes ( const char *bytes, int len  );
 
-void *EQN_EQN_EQN_EQN_yyalloc ( EQN_EQN_EQN_EQN_yy_size_t  );
-void *EQN_EQN_EQN_EQN_yyrealloc ( void *, EQN_EQN_EQN_EQN_yy_size_t  );
-void EQN_EQN_EQN_EQN_yyfree ( void *  );
+void *EQN_EQN_yyalloc ( EQN_EQN_yy_size_t  );
+void *EQN_EQN_yyrealloc ( void *, EQN_EQN_yy_size_t  );
+void EQN_EQN_yyfree ( void *  );
 
-#define EQN_EQN_EQN_EQN_yy_new_buffer EQN_EQN_EQN_EQN_yy_create_buffer
-#define EQN_EQN_EQN_EQN_yy_set_interactive(is_interactive) \
+#define EQN_EQN_yy_new_buffer EQN_EQN_yy_create_buffer
+#define EQN_EQN_yy_set_interactive(is_interactive) \
 	{ \
 	if ( ! YY_CURRENT_BUFFER ){ \
-        EQN_EQN_EQN_EQN_yyensure_buffer_stack (); \
+        EQN_EQN_yyensure_buffer_stack (); \
 		YY_CURRENT_BUFFER_LVALUE =    \
-            EQN_EQN_EQN_EQN_yy_create_buffer( EQN_EQN_EQN_EQN_yyin, YY_BUF_SIZE ); \
+            EQN_EQN_yy_create_buffer( EQN_EQN_yyin, YY_BUF_SIZE ); \
 	} \
-	YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_is_interactive = is_interactive; \
+	YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_is_interactive = is_interactive; \
 	}
-#define EQN_EQN_EQN_EQN_yy_set_bol(at_bol) \
+#define EQN_EQN_yy_set_bol(at_bol) \
 	{ \
 	if ( ! YY_CURRENT_BUFFER ){\
-        EQN_EQN_EQN_EQN_yyensure_buffer_stack (); \
+        EQN_EQN_yyensure_buffer_stack (); \
 		YY_CURRENT_BUFFER_LVALUE =    \
-            EQN_EQN_EQN_EQN_yy_create_buffer( EQN_EQN_EQN_EQN_yyin, YY_BUF_SIZE ); \
+            EQN_EQN_yy_create_buffer( EQN_EQN_yyin, YY_BUF_SIZE ); \
 	} \
-	YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_at_bol = at_bol; \
+	YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_at_bol = at_bol; \
 	}
-#define YY_AT_BOL() (YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_at_bol)
+#define YY_AT_BOL() (YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_at_bol)
 
 /* Begin user sect3 */
 typedef flex_uint8_t YY_CHAR;
 
-FILE *EQN_EQN_EQN_EQN_yyin = NULL, *EQN_EQN_EQN_EQN_yyout = NULL;
+FILE *EQN_EQN_yyin = NULL, *EQN_EQN_yyout = NULL;
 
-typedef int EQN_EQN_EQN_EQN_yy_state_type;
+typedef int EQN_EQN_yy_state_type;
 
-extern int EQN_EQN_EQN_EQN_yylineno;
-int EQN_EQN_EQN_EQN_yylineno = 1;
+extern int EQN_EQN_yylineno;
+int EQN_EQN_yylineno = 1;
 
-extern char *EQN_EQN_EQN_EQN_yytext;
-#ifdef EQN_EQN_EQN_EQN_yytext_ptr
-#undef EQN_EQN_EQN_EQN_yytext_ptr
+extern char *EQN_EQN_yytext;
+#ifdef EQN_EQN_yytext_ptr
+#undef EQN_EQN_yytext_ptr
 #endif
-#define EQN_EQN_EQN_EQN_yytext_ptr EQN_EQN_EQN_EQN_yytext
+#define EQN_EQN_yytext_ptr EQN_EQN_yytext
 
-static EQN_EQN_EQN_EQN_yy_state_type EQN_EQN_EQN_EQN_yy_get_previous_state ( void );
-static EQN_EQN_EQN_EQN_yy_state_type EQN_EQN_EQN_EQN_yy_try_NUL_trans ( EQN_EQN_EQN_EQN_yy_state_type current_state  );
-static int EQN_EQN_EQN_EQN_yy_get_next_buffer ( void );
-static void EQN_EQN_EQN_EQN_yynoreturn EQN_EQN_EQN_EQN_yy_fatal_error ( const char* msg  );
+static EQN_EQN_yy_state_type EQN_EQN_yy_get_previous_state ( void );
+static EQN_EQN_yy_state_type EQN_EQN_yy_try_NUL_trans ( EQN_EQN_yy_state_type current_state  );
+static int EQN_EQN_yy_get_next_buffer ( void );
+static void EQN_EQN_yynoreturn EQN_EQN_yy_fatal_error ( const char* msg  );
 
 /* Done after the current pattern has been matched and before the
- * corresponding action - sets up EQN_EQN_EQN_EQN_yytext.
+ * corresponding action - sets up EQN_EQN_yytext.
  */
 #define YY_DO_BEFORE_ACTION \
-	(EQN_EQN_EQN_EQN_yytext_ptr) = EQN_EQN_EQN_EQN_yy_bp; \
-	EQN_EQN_EQN_EQN_yyleng = (int) (EQN_EQN_EQN_EQN_yy_cp - EQN_EQN_EQN_EQN_yy_bp); \
-	(EQN_EQN_EQN_EQN_yy_hold_char) = *EQN_EQN_EQN_EQN_yy_cp; \
-	*EQN_EQN_EQN_EQN_yy_cp = '\0'; \
-	(EQN_EQN_EQN_EQN_yy_c_buf_p) = EQN_EQN_EQN_EQN_yy_cp;
+	(EQN_EQN_yytext_ptr) = EQN_EQN_yy_bp; \
+	EQN_EQN_yyleng = (int) (EQN_EQN_yy_cp - EQN_EQN_yy_bp); \
+	(EQN_EQN_yy_hold_char) = *EQN_EQN_yy_cp; \
+	*EQN_EQN_yy_cp = '\0'; \
+	(EQN_EQN_yy_c_buf_p) = EQN_EQN_yy_cp;
 #define YY_NUM_RULES 19
 #define YY_END_OF_BUFFER 20
 /* This struct is not used in this scanner,
    but its presence is necessary. */
-struct EQN_EQN_EQN_EQN_yy_trans_info
+struct EQN_EQN_yy_trans_info
 	{
-	flex_int32_t EQN_EQN_EQN_EQN_yy_verify;
-	flex_int32_t EQN_EQN_EQN_EQN_yy_nxt;
+	flex_int32_t EQN_EQN_yy_verify;
+	flex_int32_t EQN_EQN_yy_nxt;
 	};
-static const flex_int16_t EQN_EQN_EQN_EQN_yy_accept[29] =
+static const flex_int16_t EQN_EQN_yy_accept[29] =
     {   0,
         1,    1,   20,   18,   16,   16,    7,   18,   17,    1,
        12,    8,    3,    4,   14,   15,    5,    6,   11,   13,
        16,   10,    0,   17,    1,    9,    2,    0
     } ;
 
-static const YY_CHAR EQN_EQN_EQN_EQN_yy_ec[256] =
+static const YY_CHAR EQN_EQN_yy_ec[256] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -400,27 +400,27 @@ static const YY_CHAR EQN_EQN_EQN_EQN_yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static const YY_CHAR EQN_EQN_EQN_EQN_yy_meta[18] =
+static const YY_CHAR EQN_EQN_yy_meta[18] =
     {   0,
         1,    1,    2,    1,    3,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1
     } ;
 
-static const flex_int16_t EQN_EQN_EQN_EQN_yy_base[31] =
+static const flex_int16_t EQN_EQN_yy_base[31] =
     {   0,
         0,    0,   33,   34,   16,   18,   17,    0,    0,   24,
        34,   34,   34,   34,   34,   34,   34,   15,   34,   34,
        20,   34,   24,    0,   20,   34,   34,   34,   23,   25
     } ;
 
-static const flex_int16_t EQN_EQN_EQN_EQN_yy_def[31] =
+static const flex_int16_t EQN_EQN_yy_def[31] =
     {   0,
        28,    1,   28,   28,   28,   28,   28,   29,   30,   28,
        28,   28,   28,   28,   28,   28,   28,   28,   28,   28,
        28,   28,   29,   30,   28,   28,   28,    0,   28,   28
     } ;
 
-static const flex_int16_t EQN_EQN_EQN_EQN_yy_nxt[52] =
+static const flex_int16_t EQN_EQN_yy_nxt[52] =
     {   0,
         4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
        14,   15,   16,   17,   18,   19,   20,   21,   21,   21,
@@ -430,7 +430,7 @@ static const flex_int16_t EQN_EQN_EQN_EQN_yy_nxt[52] =
        28
     } ;
 
-static const flex_int16_t EQN_EQN_EQN_EQN_yy_chk[52] =
+static const flex_int16_t EQN_EQN_yy_chk[52] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    5,    5,    6,
@@ -440,20 +440,20 @@ static const flex_int16_t EQN_EQN_EQN_EQN_yy_chk[52] =
        28
     } ;
 
-static EQN_EQN_EQN_EQN_yy_state_type EQN_EQN_EQN_EQN_yy_last_accepting_state;
-static char *EQN_EQN_EQN_EQN_yy_last_accepting_cpos;
+static EQN_EQN_yy_state_type EQN_EQN_yy_last_accepting_state;
+static char *EQN_EQN_yy_last_accepting_cpos;
 
-extern int EQN_EQN_EQN_EQN_yy_flex_debug;
-int EQN_EQN_EQN_EQN_yy_flex_debug = 0;
+extern int EQN_EQN_yy_flex_debug;
+int EQN_EQN_yy_flex_debug = 0;
 
 /* The intent behind this definition is that it'll catch
  * any uses of REJECT which flex missed.
  */
 #define REJECT reject_used_but_not_detected
-#define EQN_EQN_EQN_EQN_yymore() EQN_EQN_EQN_EQN_yymore_used_but_not_detected
+#define EQN_EQN_yymore() EQN_EQN_yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-char *EQN_EQN_EQN_EQN_yytext;
+char *EQN_EQN_yytext;
 #line 1 "/home/matteo/Dropbox/sis/sis/io/eqnlex.l"
 #line 2 "/home/matteo/Dropbox/sis/sis/io/eqnlex.l"
 #include "sis.h"
@@ -472,7 +472,7 @@ static int nbuffer;
 static char buffer[20];
 static int last_was_newline;
 
-extern int EQN_EQN_EQN_EQN_yyerror(char *);
+extern int EQN_EQN_yyerror(char *);
 #line 477 "/home/matteo/Dropbox/sis/sis/io/eqnlex.c"
 #line 478 "/home/matteo/Dropbox/sis/sis/io/eqnlex.c"
 
@@ -490,36 +490,36 @@ extern int EQN_EQN_EQN_EQN_yyerror(char *);
 #define YY_EXTRA_TYPE void *
 #endif
 
-static int EQN_EQN_EQN_EQN_yy_init_globals ( void );
+static int EQN_EQN_yy_init_globals ( void );
 
 /* Accessor methods to globals.
    These are made visible to non-reentrant scanners for convenience. */
 
-int EQN_EQN_EQN_EQN_yylex_destroy ( void );
+int EQN_EQN_yylex_destroy ( void );
 
-int EQN_EQN_EQN_EQN_yyget_debug ( void );
+int EQN_EQN_yyget_debug ( void );
 
-void EQN_EQN_EQN_EQN_yyset_debug ( int debug_flag  );
+void EQN_EQN_yyset_debug ( int debug_flag  );
 
-YY_EXTRA_TYPE EQN_EQN_EQN_EQN_yyget_extra ( void );
+YY_EXTRA_TYPE EQN_EQN_yyget_extra ( void );
 
-void EQN_EQN_EQN_EQN_yyset_extra ( YY_EXTRA_TYPE user_defined  );
+void EQN_EQN_yyset_extra ( YY_EXTRA_TYPE user_defined  );
 
-FILE *EQN_EQN_EQN_EQN_yyget_in ( void );
+FILE *EQN_EQN_yyget_in ( void );
 
-void EQN_EQN_EQN_EQN_yyset_in  ( FILE * _in_str  );
+void EQN_EQN_yyset_in  ( FILE * _in_str  );
 
-FILE *EQN_EQN_EQN_EQN_yyget_out ( void );
+FILE *EQN_EQN_yyget_out ( void );
 
-void EQN_EQN_EQN_EQN_yyset_out  ( FILE * _out_str  );
+void EQN_EQN_yyset_out  ( FILE * _out_str  );
 
-			int EQN_EQN_EQN_EQN_yyget_leng ( void );
+			int EQN_EQN_yyget_leng ( void );
 
-char *EQN_EQN_EQN_EQN_yyget_text ( void );
+char *EQN_EQN_yyget_text ( void );
 
-int EQN_EQN_EQN_EQN_yyget_lineno ( void );
+int EQN_EQN_yyget_lineno ( void );
 
-void EQN_EQN_EQN_EQN_yyset_lineno ( int _line_number  );
+void EQN_EQN_yyset_lineno ( int _line_number  );
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -527,29 +527,29 @@ void EQN_EQN_EQN_EQN_yyset_lineno ( int _line_number  );
 
 #ifndef YY_SKIP_YYWRAP
 #ifdef __cplusplus
-extern "C" int EQN_EQN_EQN_EQN_yywrap ( void );
+extern "C" int EQN_EQN_yywrap ( void );
 #else
-extern int EQN_EQN_EQN_EQN_yywrap ( void );
+extern int EQN_EQN_yywrap ( void );
 #endif
 #endif
 
 #ifndef YY_NO_UNPUT
     
-    static void EQN_EQN_EQN_EQN_yyunput ( int c, char *buf_ptr  );
+    static void EQN_EQN_yyunput ( int c, char *buf_ptr  );
     
 #endif
 
-#ifndef EQN_EQN_EQN_EQN_yytext_ptr
-static void EQN_EQN_EQN_EQN_yy_flex_strncpy ( char *, const char *, int );
+#ifndef EQN_EQN_yytext_ptr
+static void EQN_EQN_yy_flex_strncpy ( char *, const char *, int );
 #endif
 
 #ifdef YY_NEED_STRLEN
-static int EQN_EQN_EQN_EQN_yy_flex_strlen ( const char * );
+static int EQN_EQN_yy_flex_strlen ( const char * );
 #endif
 
 #ifndef YY_NO_INPUT
 #ifdef __cplusplus
-static int EQN_EQN_EQN_EQN_yyinput ( void );
+static int EQN_EQN_yyinput ( void );
 #else
 static int input ( void );
 #endif
@@ -571,7 +571,7 @@ static int input ( void );
 /* This used to be an fputs(), but since the string might contain NUL's,
  * we now use fwrite().
  */
-#define ECHO do { if (fwrite( EQN_EQN_EQN_EQN_yytext, (size_t) EQN_EQN_EQN_EQN_yyleng, 1, EQN_EQN_EQN_EQN_yyout )) {} } while (0)
+#define ECHO do { if (fwrite( EQN_EQN_yytext, (size_t) EQN_EQN_yyleng, 1, EQN_EQN_yyout )) {} } while (0)
 #endif
 
 /* Gets input and stuffs it into "buf".  number of characters read, or YY_NULL,
@@ -579,23 +579,23 @@ static int input ( void );
  */
 #ifndef YY_INPUT
 #define YY_INPUT(buf,result,max_size) \
-	if ( YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_is_interactive ) \
+	if ( YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_is_interactive ) \
 		{ \
 		int c = '*'; \
 		int n; \
 		for ( n = 0; n < max_size && \
-			     (c = getc( EQN_EQN_EQN_EQN_yyin )) != EOF && c != '\n'; ++n ) \
+			     (c = getc( EQN_EQN_yyin )) != EOF && c != '\n'; ++n ) \
 			buf[n] = (char) c; \
 		if ( c == '\n' ) \
 			buf[n++] = (char) c; \
-		if ( c == EOF && ferror( EQN_EQN_EQN_EQN_yyin ) ) \
+		if ( c == EOF && ferror( EQN_EQN_yyin ) ) \
 			YY_FATAL_ERROR( "input in flex scanner failed" ); \
 		result = n; \
 		} \
 	else \
 		{ \
 		errno=0; \
-		while ( (result = (int) fread(buf, 1, (EQN_EQN_EQN_EQN_yy_size_t) max_size, EQN_EQN_EQN_EQN_yyin)) == 0 && ferror(EQN_EQN_EQN_EQN_yyin)) \
+		while ( (result = (int) fread(buf, 1, (EQN_EQN_yy_size_t) max_size, EQN_EQN_yyin)) == 0 && ferror(EQN_EQN_yyin)) \
 			{ \
 			if( errno != EINTR) \
 				{ \
@@ -603,19 +603,19 @@ static int input ( void );
 				break; \
 				} \
 			errno=0; \
-			clearerr(EQN_EQN_EQN_EQN_yyin); \
+			clearerr(EQN_EQN_yyin); \
 			} \
 		}\
 \
 
 #endif
 
-/* No semi-colon after return; correct usage is to write "EQN_EQN_EQN_EQN_yyterminate();" -
+/* No semi-colon after return; correct usage is to write "EQN_EQN_yyterminate();" -
  * we don't want an extra ';' after the "return" because that will cause
  * some compilers to complain about unreachable statements.
  */
-#ifndef EQN_EQN_EQN_EQN_yyterminate
-#define EQN_EQN_EQN_EQN_yyterminate() return YY_NULL
+#ifndef EQN_EQN_yyterminate
+#define EQN_EQN_yyterminate() return YY_NULL
 #endif
 
 /* Number of entries by which start-condition stack grows. */
@@ -625,7 +625,7 @@ static int input ( void );
 
 /* Report a fatal error. */
 #ifndef YY_FATAL_ERROR
-#define YY_FATAL_ERROR(msg) EQN_EQN_EQN_EQN_yy_fatal_error( msg )
+#define YY_FATAL_ERROR(msg) EQN_EQN_yy_fatal_error( msg )
 #endif
 
 /* end tables serialization structures and prototypes */
@@ -636,12 +636,12 @@ static int input ( void );
 #ifndef YY_DECL
 #define YY_DECL_IS_OURS 1
 
-extern int EQN_EQN_EQN_EQN_yylex (void);
+extern int EQN_EQN_yylex (void);
 
-#define YY_DECL int EQN_EQN_EQN_EQN_yylex (void)
+#define YY_DECL int EQN_EQN_yylex (void)
 #endif /* !YY_DECL */
 
-/* Code executed at the beginning of each rule, after EQN_EQN_EQN_EQN_yytext and EQN_EQN_EQN_EQN_yyleng
+/* Code executed at the beginning of each rule, after EQN_EQN_yytext and EQN_EQN_yyleng
  * have been set up.
  */
 #ifndef YY_USER_ACTION
@@ -660,34 +660,34 @@ extern int EQN_EQN_EQN_EQN_yylex (void);
  */
 YY_DECL
 {
-	EQN_EQN_EQN_EQN_yy_state_type EQN_EQN_EQN_EQN_yy_current_state;
-	char *EQN_EQN_EQN_EQN_yy_cp, *EQN_EQN_EQN_EQN_yy_bp;
-	int EQN_EQN_EQN_EQN_yy_act;
+	EQN_EQN_yy_state_type EQN_EQN_yy_current_state;
+	char *EQN_EQN_yy_cp, *EQN_EQN_yy_bp;
+	int EQN_EQN_yy_act;
     
-	if ( !(EQN_EQN_EQN_EQN_yy_init) )
+	if ( !(EQN_EQN_yy_init) )
 		{
-		(EQN_EQN_EQN_EQN_yy_init) = 1;
+		(EQN_EQN_yy_init) = 1;
 
 #ifdef YY_USER_INIT
 		YY_USER_INIT;
 #endif
 
-		if ( ! (EQN_EQN_EQN_EQN_yy_start) )
-			(EQN_EQN_EQN_EQN_yy_start) = 1;	/* first start state */
+		if ( ! (EQN_EQN_yy_start) )
+			(EQN_EQN_yy_start) = 1;	/* first start state */
 
-		if ( ! EQN_EQN_EQN_EQN_yyin )
-			EQN_EQN_EQN_EQN_yyin = stdin;
+		if ( ! EQN_EQN_yyin )
+			EQN_EQN_yyin = stdin;
 
-		if ( ! EQN_EQN_EQN_EQN_yyout )
-			EQN_EQN_EQN_EQN_yyout = stdout;
+		if ( ! EQN_EQN_yyout )
+			EQN_EQN_yyout = stdout;
 
 		if ( ! YY_CURRENT_BUFFER ) {
-			EQN_EQN_EQN_EQN_yyensure_buffer_stack ();
+			EQN_EQN_yyensure_buffer_stack ();
 			YY_CURRENT_BUFFER_LVALUE =
-				EQN_EQN_EQN_EQN_yy_create_buffer( EQN_EQN_EQN_EQN_yyin, YY_BUF_SIZE );
+				EQN_EQN_yy_create_buffer( EQN_EQN_yyin, YY_BUF_SIZE );
 		}
 
-		EQN_EQN_EQN_EQN_yy_load_buffer_state(  );
+		EQN_EQN_yy_load_buffer_state(  );
 		}
 
 	{
@@ -698,74 +698,74 @@ YY_DECL
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
-		EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yy_c_buf_p);
+		EQN_EQN_yy_cp = (EQN_EQN_yy_c_buf_p);
 
-		/* Support of EQN_EQN_EQN_EQN_yytext. */
-		*EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yy_hold_char);
+		/* Support of EQN_EQN_yytext. */
+		*EQN_EQN_yy_cp = (EQN_EQN_yy_hold_char);
 
-		/* EQN_EQN_EQN_EQN_yy_bp points to the position in EQN_EQN_EQN_EQN_yy_ch_buf of the start of
+		/* EQN_EQN_yy_bp points to the position in EQN_EQN_yy_ch_buf of the start of
 		 * the current run.
 		 */
-		EQN_EQN_EQN_EQN_yy_bp = EQN_EQN_EQN_EQN_yy_cp;
+		EQN_EQN_yy_bp = EQN_EQN_yy_cp;
 
-		EQN_EQN_EQN_EQN_yy_current_state = (EQN_EQN_EQN_EQN_yy_start);
-EQN_EQN_EQN_EQN_yy_match:
+		EQN_EQN_yy_current_state = (EQN_EQN_yy_start);
+EQN_EQN_yy_match:
 		do
 			{
-			YY_CHAR EQN_EQN_EQN_EQN_yy_c = EQN_EQN_EQN_EQN_yy_ec[YY_SC_TO_UI(*EQN_EQN_EQN_EQN_yy_cp)] ;
-			if ( EQN_EQN_EQN_EQN_yy_accept[EQN_EQN_EQN_EQN_yy_current_state] )
+			YY_CHAR EQN_EQN_yy_c = EQN_EQN_yy_ec[YY_SC_TO_UI(*EQN_EQN_yy_cp)] ;
+			if ( EQN_EQN_yy_accept[EQN_EQN_yy_current_state] )
 				{
-				(EQN_EQN_EQN_EQN_yy_last_accepting_state) = EQN_EQN_EQN_EQN_yy_current_state;
-				(EQN_EQN_EQN_EQN_yy_last_accepting_cpos) = EQN_EQN_EQN_EQN_yy_cp;
+				(EQN_EQN_yy_last_accepting_state) = EQN_EQN_yy_current_state;
+				(EQN_EQN_yy_last_accepting_cpos) = EQN_EQN_yy_cp;
 				}
-			while ( EQN_EQN_EQN_EQN_yy_chk[EQN_EQN_EQN_EQN_yy_base[EQN_EQN_EQN_EQN_yy_current_state] + EQN_EQN_EQN_EQN_yy_c] != EQN_EQN_EQN_EQN_yy_current_state )
+			while ( EQN_EQN_yy_chk[EQN_EQN_yy_base[EQN_EQN_yy_current_state] + EQN_EQN_yy_c] != EQN_EQN_yy_current_state )
 				{
-				EQN_EQN_EQN_EQN_yy_current_state = (int) EQN_EQN_EQN_EQN_yy_def[EQN_EQN_EQN_EQN_yy_current_state];
-				if ( EQN_EQN_EQN_EQN_yy_current_state >= 29 )
-					EQN_EQN_EQN_EQN_yy_c = EQN_EQN_EQN_EQN_yy_meta[EQN_EQN_EQN_EQN_yy_c];
+				EQN_EQN_yy_current_state = (int) EQN_EQN_yy_def[EQN_EQN_yy_current_state];
+				if ( EQN_EQN_yy_current_state >= 29 )
+					EQN_EQN_yy_c = EQN_EQN_yy_meta[EQN_EQN_yy_c];
 				}
-			EQN_EQN_EQN_EQN_yy_current_state = EQN_EQN_EQN_EQN_yy_nxt[EQN_EQN_EQN_EQN_yy_base[EQN_EQN_EQN_EQN_yy_current_state] + EQN_EQN_EQN_EQN_yy_c];
-			++EQN_EQN_EQN_EQN_yy_cp;
+			EQN_EQN_yy_current_state = EQN_EQN_yy_nxt[EQN_EQN_yy_base[EQN_EQN_yy_current_state] + EQN_EQN_yy_c];
+			++EQN_EQN_yy_cp;
 			}
-		while ( EQN_EQN_EQN_EQN_yy_base[EQN_EQN_EQN_EQN_yy_current_state] != 34 );
+		while ( EQN_EQN_yy_base[EQN_EQN_yy_current_state] != 34 );
 
-EQN_EQN_EQN_EQN_yy_find_action:
-		EQN_EQN_EQN_EQN_yy_act = EQN_EQN_EQN_EQN_yy_accept[EQN_EQN_EQN_EQN_yy_current_state];
-		if ( EQN_EQN_EQN_EQN_yy_act == 0 )
+EQN_EQN_yy_find_action:
+		EQN_EQN_yy_act = EQN_EQN_yy_accept[EQN_EQN_yy_current_state];
+		if ( EQN_EQN_yy_act == 0 )
 			{ /* have to back up */
-			EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yy_last_accepting_cpos);
-			EQN_EQN_EQN_EQN_yy_current_state = (EQN_EQN_EQN_EQN_yy_last_accepting_state);
-			EQN_EQN_EQN_EQN_yy_act = EQN_EQN_EQN_EQN_yy_accept[EQN_EQN_EQN_EQN_yy_current_state];
+			EQN_EQN_yy_cp = (EQN_EQN_yy_last_accepting_cpos);
+			EQN_EQN_yy_current_state = (EQN_EQN_yy_last_accepting_state);
+			EQN_EQN_yy_act = EQN_EQN_yy_accept[EQN_EQN_yy_current_state];
 			}
 
 		YY_DO_BEFORE_ACTION;
 
 do_action:	/* This label is used only to access EOF actions. */
 
-		switch ( EQN_EQN_EQN_EQN_yy_act )
+		switch ( EQN_EQN_yy_act )
 	{ /* beginning of action switch */
 			case 0: /* must back up */
 			/* undo the effects of YY_DO_BEFORE_ACTION */
-			*EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yy_hold_char);
-			EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yy_last_accepting_cpos);
-			EQN_EQN_EQN_EQN_yy_current_state = (EQN_EQN_EQN_EQN_yy_last_accepting_state);
-			goto EQN_EQN_EQN_EQN_yy_find_action;
+			*EQN_EQN_yy_cp = (EQN_EQN_yy_hold_char);
+			EQN_EQN_yy_cp = (EQN_EQN_yy_last_accepting_cpos);
+			EQN_EQN_yy_current_state = (EQN_EQN_yy_last_accepting_state);
+			goto EQN_EQN_yy_find_action;
 
 case 1:
 YY_RULE_SETUP
 #line 28 "/home/matteo/Dropbox/sis/sis/io/eqnlex.l"
 { 
-			    if (strcmp(EQN_EQN_EQN_EQN_yytext, "0") == 0) {
+			    if (strcmp(EQN_EQN_yytext, "0") == 0) {
 				return CONST_ZERO;
-			    } else if(strcmp(EQN_EQN_EQN_EQN_yytext, "1") == 0) {
+			    } else if(strcmp(EQN_EQN_yytext, "1") == 0) {
 				return CONST_ONE;
-			    } else if (strcmp(EQN_EQN_EQN_EQN_yytext, "NAME") == 0) {
+			    } else if (strcmp(EQN_EQN_yytext, "NAME") == 0) {
 				return NAME;
-			    } else if (strcmp(EQN_EQN_EQN_EQN_yytext, "INORDER") == 0) {
+			    } else if (strcmp(EQN_EQN_yytext, "INORDER") == 0) {
 				return INORDER;
-			    } else if (strcmp(EQN_EQN_EQN_EQN_yytext, "OUTORDER") == 0) {
+			    } else if (strcmp(EQN_EQN_yytext, "OUTORDER") == 0) {
 				return OUTORDER;
-			    } else if (strcmp(EQN_EQN_EQN_EQN_yytext, "END") == 0) {
+			    } else if (strcmp(EQN_EQN_yytext, "END") == 0) {
 				return END;
 			    } else {
 				return IDENTIFIER; 
@@ -779,11 +779,11 @@ YY_RULE_SETUP
 { 
    			    int i;
 
-			    EQN_EQN_EQN_EQN_yytext[EQN_EQN_EQN_EQN_yyleng-1] = '\0';
-			    for(i = 0; i < EQN_EQN_EQN_EQN_yyleng; i++) {
-				EQN_EQN_EQN_EQN_yytext[i] = EQN_EQN_EQN_EQN_yytext[i+1];
+			    EQN_EQN_yytext[EQN_EQN_yyleng-1] = '\0';
+			    for(i = 0; i < EQN_EQN_yyleng; i++) {
+				EQN_EQN_yytext[i] = EQN_EQN_yytext[i+1];
 			    }
-			    EQN_EQN_EQN_EQN_yyleng -= 2;
+			    EQN_EQN_yyleng -= 2;
 			    return IDENTIFIER; 
 			}
 	YY_BREAK
@@ -866,7 +866,7 @@ YY_RULE_SETUP
 case 18:
 YY_RULE_SETUP
 #line 74 "/home/matteo/Dropbox/sis/sis/io/eqnlex.l"
-{ EQN_EQN_EQN_EQN_yyerror("bad character"); }
+{ EQN_EQN_yyerror("bad character"); }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
@@ -875,126 +875,126 @@ ECHO;
 	YY_BREAK
 #line 877 "/home/matteo/Dropbox/sis/sis/io/eqnlex.c"
 case YY_STATE_EOF(INITIAL):
-	EQN_EQN_EQN_EQN_yyterminate();
+	EQN_EQN_yyterminate();
 
 	case YY_END_OF_BUFFER:
 		{
 		/* Amount of text matched not including the EOB char. */
-		int EQN_EQN_EQN_EQN_yy_amount_of_matched_text = (int) (EQN_EQN_EQN_EQN_yy_cp - (EQN_EQN_EQN_EQN_yytext_ptr)) - 1;
+		int EQN_EQN_yy_amount_of_matched_text = (int) (EQN_EQN_yy_cp - (EQN_EQN_yytext_ptr)) - 1;
 
 		/* Undo the effects of YY_DO_BEFORE_ACTION. */
-		*EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yy_hold_char);
+		*EQN_EQN_yy_cp = (EQN_EQN_yy_hold_char);
 		YY_RESTORE_YY_MORE_OFFSET
 
-		if ( YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_buffer_status == YY_BUFFER_NEW )
+		if ( YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_buffer_status == YY_BUFFER_NEW )
 			{
 			/* We're scanning a new file or input source.  It's
 			 * possible that this happened because the user
-			 * just pointed EQN_EQN_EQN_EQN_yyin at a new source and called
-			 * EQN_EQN_EQN_EQN_yylex().  If so, then we have to assure
+			 * just pointed EQN_EQN_yyin at a new source and called
+			 * EQN_EQN_yylex().  If so, then we have to assure
 			 * consistency between YY_CURRENT_BUFFER and our
 			 * globals.  Here is the right place to do so, because
 			 * this is the first action (other than possibly a
 			 * back-up) that will match for the new input source.
 			 */
-			(EQN_EQN_EQN_EQN_yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_n_chars;
-			YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_input_file = EQN_EQN_EQN_EQN_yyin;
-			YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_buffer_status = YY_BUFFER_NORMAL;
+			(EQN_EQN_yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_n_chars;
+			YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_input_file = EQN_EQN_yyin;
+			YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_buffer_status = YY_BUFFER_NORMAL;
 			}
 
-		/* Note that here we test for EQN_EQN_EQN_EQN_yy_c_buf_p "<=" to the position
-		 * of the first EOB in the buffer, since EQN_EQN_EQN_EQN_yy_c_buf_p will
+		/* Note that here we test for EQN_EQN_yy_c_buf_p "<=" to the position
+		 * of the first EOB in the buffer, since EQN_EQN_yy_c_buf_p will
 		 * already have been incremented past the NUL character
 		 * (since all states make transitions on EOB to the
 		 * end-of-buffer state).  Contrast this with the test
 		 * in input().
 		 */
-		if ( (EQN_EQN_EQN_EQN_yy_c_buf_p) <= &YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf[(EQN_EQN_EQN_EQN_yy_n_chars)] )
+		if ( (EQN_EQN_yy_c_buf_p) <= &YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf[(EQN_EQN_yy_n_chars)] )
 			{ /* This was really a NUL. */
-			EQN_EQN_EQN_EQN_yy_state_type EQN_EQN_EQN_EQN_yy_next_state;
+			EQN_EQN_yy_state_type EQN_EQN_yy_next_state;
 
-			(EQN_EQN_EQN_EQN_yy_c_buf_p) = (EQN_EQN_EQN_EQN_yytext_ptr) + EQN_EQN_EQN_EQN_yy_amount_of_matched_text;
+			(EQN_EQN_yy_c_buf_p) = (EQN_EQN_yytext_ptr) + EQN_EQN_yy_amount_of_matched_text;
 
-			EQN_EQN_EQN_EQN_yy_current_state = EQN_EQN_EQN_EQN_yy_get_previous_state(  );
+			EQN_EQN_yy_current_state = EQN_EQN_yy_get_previous_state(  );
 
 			/* Okay, we're now positioned to make the NUL
 			 * transition.  We couldn't have
-			 * EQN_EQN_EQN_EQN_yy_get_previous_state() go ahead and do it
+			 * EQN_EQN_yy_get_previous_state() go ahead and do it
 			 * for us because it doesn't know how to deal
 			 * with the possibility of jamming (and we don't
 			 * want to build jamming into it because then it
 			 * will run more slowly).
 			 */
 
-			EQN_EQN_EQN_EQN_yy_next_state = EQN_EQN_EQN_EQN_yy_try_NUL_trans( EQN_EQN_EQN_EQN_yy_current_state );
+			EQN_EQN_yy_next_state = EQN_EQN_yy_try_NUL_trans( EQN_EQN_yy_current_state );
 
-			EQN_EQN_EQN_EQN_yy_bp = (EQN_EQN_EQN_EQN_yytext_ptr) + YY_MORE_ADJ;
+			EQN_EQN_yy_bp = (EQN_EQN_yytext_ptr) + YY_MORE_ADJ;
 
-			if ( EQN_EQN_EQN_EQN_yy_next_state )
+			if ( EQN_EQN_yy_next_state )
 				{
 				/* Consume the NUL. */
-				EQN_EQN_EQN_EQN_yy_cp = ++(EQN_EQN_EQN_EQN_yy_c_buf_p);
-				EQN_EQN_EQN_EQN_yy_current_state = EQN_EQN_EQN_EQN_yy_next_state;
-				goto EQN_EQN_EQN_EQN_yy_match;
+				EQN_EQN_yy_cp = ++(EQN_EQN_yy_c_buf_p);
+				EQN_EQN_yy_current_state = EQN_EQN_yy_next_state;
+				goto EQN_EQN_yy_match;
 				}
 
 			else
 				{
-				EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yy_c_buf_p);
-				goto EQN_EQN_EQN_EQN_yy_find_action;
+				EQN_EQN_yy_cp = (EQN_EQN_yy_c_buf_p);
+				goto EQN_EQN_yy_find_action;
 				}
 			}
 
-		else switch ( EQN_EQN_EQN_EQN_yy_get_next_buffer(  ) )
+		else switch ( EQN_EQN_yy_get_next_buffer(  ) )
 			{
 			case EOB_ACT_END_OF_FILE:
 				{
-				(EQN_EQN_EQN_EQN_yy_did_buffer_switch_on_eof) = 0;
+				(EQN_EQN_yy_did_buffer_switch_on_eof) = 0;
 
-				if ( EQN_EQN_EQN_EQN_yywrap(  ) )
+				if ( EQN_EQN_yywrap(  ) )
 					{
 					/* Note: because we've taken care in
-					 * EQN_EQN_EQN_EQN_yy_get_next_buffer() to have set up
-					 * EQN_EQN_EQN_EQN_yytext, we can now set up
-					 * EQN_EQN_EQN_EQN_yy_c_buf_p so that if some total
+					 * EQN_EQN_yy_get_next_buffer() to have set up
+					 * EQN_EQN_yytext, we can now set up
+					 * EQN_EQN_yy_c_buf_p so that if some total
 					 * hoser (like flex itself) wants to
 					 * call the scanner after we return the
 					 * YY_NULL, it'll still work - another
 					 * YY_NULL will get returned.
 					 */
-					(EQN_EQN_EQN_EQN_yy_c_buf_p) = (EQN_EQN_EQN_EQN_yytext_ptr) + YY_MORE_ADJ;
+					(EQN_EQN_yy_c_buf_p) = (EQN_EQN_yytext_ptr) + YY_MORE_ADJ;
 
-					EQN_EQN_EQN_EQN_yy_act = YY_STATE_EOF(YY_START);
+					EQN_EQN_yy_act = YY_STATE_EOF(YY_START);
 					goto do_action;
 					}
 
 				else
 					{
-					if ( ! (EQN_EQN_EQN_EQN_yy_did_buffer_switch_on_eof) )
+					if ( ! (EQN_EQN_yy_did_buffer_switch_on_eof) )
 						YY_NEW_FILE;
 					}
 				break;
 				}
 
 			case EOB_ACT_CONTINUE_SCAN:
-				(EQN_EQN_EQN_EQN_yy_c_buf_p) =
-					(EQN_EQN_EQN_EQN_yytext_ptr) + EQN_EQN_EQN_EQN_yy_amount_of_matched_text;
+				(EQN_EQN_yy_c_buf_p) =
+					(EQN_EQN_yytext_ptr) + EQN_EQN_yy_amount_of_matched_text;
 
-				EQN_EQN_EQN_EQN_yy_current_state = EQN_EQN_EQN_EQN_yy_get_previous_state(  );
+				EQN_EQN_yy_current_state = EQN_EQN_yy_get_previous_state(  );
 
-				EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yy_c_buf_p);
-				EQN_EQN_EQN_EQN_yy_bp = (EQN_EQN_EQN_EQN_yytext_ptr) + YY_MORE_ADJ;
-				goto EQN_EQN_EQN_EQN_yy_match;
+				EQN_EQN_yy_cp = (EQN_EQN_yy_c_buf_p);
+				EQN_EQN_yy_bp = (EQN_EQN_yytext_ptr) + YY_MORE_ADJ;
+				goto EQN_EQN_yy_match;
 
 			case EOB_ACT_LAST_MATCH:
-				(EQN_EQN_EQN_EQN_yy_c_buf_p) =
-				&YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf[(EQN_EQN_EQN_EQN_yy_n_chars)];
+				(EQN_EQN_yy_c_buf_p) =
+				&YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf[(EQN_EQN_yy_n_chars)];
 
-				EQN_EQN_EQN_EQN_yy_current_state = EQN_EQN_EQN_EQN_yy_get_previous_state(  );
+				EQN_EQN_yy_current_state = EQN_EQN_yy_get_previous_state(  );
 
-				EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yy_c_buf_p);
-				EQN_EQN_EQN_EQN_yy_bp = (EQN_EQN_EQN_EQN_yytext_ptr) + YY_MORE_ADJ;
-				goto EQN_EQN_EQN_EQN_yy_find_action;
+				EQN_EQN_yy_cp = (EQN_EQN_yy_c_buf_p);
+				EQN_EQN_yy_bp = (EQN_EQN_yytext_ptr) + YY_MORE_ADJ;
+				goto EQN_EQN_yy_find_action;
 			}
 		break;
 		}
@@ -1005,29 +1005,29 @@ case YY_STATE_EOF(INITIAL):
 	} /* end of action switch */
 		} /* end of scanning one token */
 	} /* end of user's declarations */
-} /* end of EQN_EQN_EQN_EQN_yylex */
+} /* end of EQN_EQN_yylex */
 
-/* EQN_EQN_EQN_EQN_yy_get_next_buffer - try to read in a new buffer
+/* EQN_EQN_yy_get_next_buffer - try to read in a new buffer
  *
  * Returns a code representing an action:
  *	EOB_ACT_LAST_MATCH -
  *	EOB_ACT_CONTINUE_SCAN - continue scanning from current position
  *	EOB_ACT_END_OF_FILE - end of file
  */
-static int EQN_EQN_EQN_EQN_yy_get_next_buffer (void)
+static int EQN_EQN_yy_get_next_buffer (void)
 {
-    	char *dest = YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf;
-	char *source = (EQN_EQN_EQN_EQN_yytext_ptr);
+    	char *dest = YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf;
+	char *source = (EQN_EQN_yytext_ptr);
 	int number_to_move, i;
 	int ret_val;
 
-	if ( (EQN_EQN_EQN_EQN_yy_c_buf_p) > &YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf[(EQN_EQN_EQN_EQN_yy_n_chars) + 1] )
+	if ( (EQN_EQN_yy_c_buf_p) > &YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf[(EQN_EQN_yy_n_chars) + 1] )
 		YY_FATAL_ERROR(
 		"fatal flex scanner internal error--end of buffer missed" );
 
-	if ( YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_fill_buffer == 0 )
+	if ( YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_fill_buffer == 0 )
 		{ /* Don't try to fill the buffer, so this is an EOF. */
-		if ( (EQN_EQN_EQN_EQN_yy_c_buf_p) - (EQN_EQN_EQN_EQN_yytext_ptr) - YY_MORE_ADJ == 1 )
+		if ( (EQN_EQN_yy_c_buf_p) - (EQN_EQN_yytext_ptr) - YY_MORE_ADJ == 1 )
 			{
 			/* We matched a single character, the EOB, so
 			 * treat this as a final EOF.
@@ -1047,21 +1047,21 @@ static int EQN_EQN_EQN_EQN_yy_get_next_buffer (void)
 	/* Try to read more data. */
 
 	/* First move last chars to start of buffer. */
-	number_to_move = (int) ((EQN_EQN_EQN_EQN_yy_c_buf_p) - (EQN_EQN_EQN_EQN_yytext_ptr) - 1);
+	number_to_move = (int) ((EQN_EQN_yy_c_buf_p) - (EQN_EQN_yytext_ptr) - 1);
 
 	for ( i = 0; i < number_to_move; ++i )
 		*(dest++) = *(source++);
 
-	if ( YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_buffer_status == YY_BUFFER_EOF_PENDING )
+	if ( YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_buffer_status == YY_BUFFER_EOF_PENDING )
 		/* don't do the read, it's not guaranteed to return an EOF,
 		 * just force an EOF
 		 */
-		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_n_chars = (EQN_EQN_EQN_EQN_yy_n_chars) = 0;
+		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_n_chars = (EQN_EQN_yy_n_chars) = 0;
 
 	else
 		{
 			int num_to_read =
-			YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_buf_size - number_to_move - 1;
+			YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_buf_size - number_to_move - 1;
 
 		while ( num_to_read <= 0 )
 			{ /* Not enough room in the buffer - grow it. */
@@ -1069,34 +1069,34 @@ static int EQN_EQN_EQN_EQN_yy_get_next_buffer (void)
 			/* just a shorter name for the current buffer */
 			YY_BUFFER_STATE b = YY_CURRENT_BUFFER_LVALUE;
 
-			int EQN_EQN_EQN_EQN_yy_c_buf_p_offset =
-				(int) ((EQN_EQN_EQN_EQN_yy_c_buf_p) - b->EQN_EQN_EQN_EQN_yy_ch_buf);
+			int EQN_EQN_yy_c_buf_p_offset =
+				(int) ((EQN_EQN_yy_c_buf_p) - b->EQN_EQN_yy_ch_buf);
 
-			if ( b->EQN_EQN_EQN_EQN_yy_is_our_buffer )
+			if ( b->EQN_EQN_yy_is_our_buffer )
 				{
-				int new_size = b->EQN_EQN_EQN_EQN_yy_buf_size * 2;
+				int new_size = b->EQN_EQN_yy_buf_size * 2;
 
 				if ( new_size <= 0 )
-					b->EQN_EQN_EQN_EQN_yy_buf_size += b->EQN_EQN_EQN_EQN_yy_buf_size / 8;
+					b->EQN_EQN_yy_buf_size += b->EQN_EQN_yy_buf_size / 8;
 				else
-					b->EQN_EQN_EQN_EQN_yy_buf_size *= 2;
+					b->EQN_EQN_yy_buf_size *= 2;
 
-				b->EQN_EQN_EQN_EQN_yy_ch_buf = (char *)
+				b->EQN_EQN_yy_ch_buf = (char *)
 					/* Include room in for 2 EOB chars. */
-					EQN_EQN_EQN_EQN_yyrealloc( (void *) b->EQN_EQN_EQN_EQN_yy_ch_buf,
-							 (EQN_EQN_EQN_EQN_yy_size_t) (b->EQN_EQN_EQN_EQN_yy_buf_size + 2)  );
+					EQN_EQN_yyrealloc( (void *) b->EQN_EQN_yy_ch_buf,
+							 (EQN_EQN_yy_size_t) (b->EQN_EQN_yy_buf_size + 2)  );
 				}
 			else
 				/* Can't grow it, we don't own it. */
-				b->EQN_EQN_EQN_EQN_yy_ch_buf = NULL;
+				b->EQN_EQN_yy_ch_buf = NULL;
 
-			if ( ! b->EQN_EQN_EQN_EQN_yy_ch_buf )
+			if ( ! b->EQN_EQN_yy_ch_buf )
 				YY_FATAL_ERROR(
 				"fatal error - scanner input buffer overflow" );
 
-			(EQN_EQN_EQN_EQN_yy_c_buf_p) = &b->EQN_EQN_EQN_EQN_yy_ch_buf[EQN_EQN_EQN_EQN_yy_c_buf_p_offset];
+			(EQN_EQN_yy_c_buf_p) = &b->EQN_EQN_yy_ch_buf[EQN_EQN_yy_c_buf_p_offset];
 
-			num_to_read = YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_buf_size -
+			num_to_read = YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_buf_size -
 						number_to_move - 1;
 
 			}
@@ -1105,24 +1105,24 @@ static int EQN_EQN_EQN_EQN_yy_get_next_buffer (void)
 			num_to_read = YY_READ_BUF_SIZE;
 
 		/* Read in more data. */
-		YY_INPUT( (&YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf[number_to_move]),
-			(EQN_EQN_EQN_EQN_yy_n_chars), num_to_read );
+		YY_INPUT( (&YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf[number_to_move]),
+			(EQN_EQN_yy_n_chars), num_to_read );
 
-		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_n_chars = (EQN_EQN_EQN_EQN_yy_n_chars);
+		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_n_chars = (EQN_EQN_yy_n_chars);
 		}
 
-	if ( (EQN_EQN_EQN_EQN_yy_n_chars) == 0 )
+	if ( (EQN_EQN_yy_n_chars) == 0 )
 		{
 		if ( number_to_move == YY_MORE_ADJ )
 			{
 			ret_val = EOB_ACT_END_OF_FILE;
-			EQN_EQN_EQN_EQN_yyrestart( EQN_EQN_EQN_EQN_yyin  );
+			EQN_EQN_yyrestart( EQN_EQN_yyin  );
 			}
 
 		else
 			{
 			ret_val = EOB_ACT_LAST_MATCH;
-			YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_buffer_status =
+			YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_buffer_status =
 				YY_BUFFER_EOF_PENDING;
 			}
 		}
@@ -1130,127 +1130,127 @@ static int EQN_EQN_EQN_EQN_yy_get_next_buffer (void)
 	else
 		ret_val = EOB_ACT_CONTINUE_SCAN;
 
-	if (((EQN_EQN_EQN_EQN_yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_buf_size) {
+	if (((EQN_EQN_yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_buf_size) {
 		/* Extend the array by 50%, plus the number we really need. */
-		int new_size = (EQN_EQN_EQN_EQN_yy_n_chars) + number_to_move + ((EQN_EQN_EQN_EQN_yy_n_chars) >> 1);
-		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf = (char *) EQN_EQN_EQN_EQN_yyrealloc(
-			(void *) YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf, (EQN_EQN_EQN_EQN_yy_size_t) new_size  );
-		if ( ! YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf )
-			YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_EQN_EQN_yy_get_next_buffer()" );
+		int new_size = (EQN_EQN_yy_n_chars) + number_to_move + ((EQN_EQN_yy_n_chars) >> 1);
+		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf = (char *) EQN_EQN_yyrealloc(
+			(void *) YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf, (EQN_EQN_yy_size_t) new_size  );
+		if ( ! YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf )
+			YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_yy_get_next_buffer()" );
 		/* "- 2" to take care of EOB's */
-		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_buf_size = (int) (new_size - 2);
+		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_buf_size = (int) (new_size - 2);
 	}
 
-	(EQN_EQN_EQN_EQN_yy_n_chars) += number_to_move;
-	YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf[(EQN_EQN_EQN_EQN_yy_n_chars)] = YY_END_OF_BUFFER_CHAR;
-	YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf[(EQN_EQN_EQN_EQN_yy_n_chars) + 1] = YY_END_OF_BUFFER_CHAR;
+	(EQN_EQN_yy_n_chars) += number_to_move;
+	YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf[(EQN_EQN_yy_n_chars)] = YY_END_OF_BUFFER_CHAR;
+	YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf[(EQN_EQN_yy_n_chars) + 1] = YY_END_OF_BUFFER_CHAR;
 
-	(EQN_EQN_EQN_EQN_yytext_ptr) = &YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf[0];
+	(EQN_EQN_yytext_ptr) = &YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf[0];
 
 	return ret_val;
 }
 
-/* EQN_EQN_EQN_EQN_yy_get_previous_state - get the state just before the EOB char was reached */
+/* EQN_EQN_yy_get_previous_state - get the state just before the EOB char was reached */
 
-    static EQN_EQN_EQN_EQN_yy_state_type EQN_EQN_EQN_EQN_yy_get_previous_state (void)
+    static EQN_EQN_yy_state_type EQN_EQN_yy_get_previous_state (void)
 {
-	EQN_EQN_EQN_EQN_yy_state_type EQN_EQN_EQN_EQN_yy_current_state;
-	char *EQN_EQN_EQN_EQN_yy_cp;
+	EQN_EQN_yy_state_type EQN_EQN_yy_current_state;
+	char *EQN_EQN_yy_cp;
     
-	EQN_EQN_EQN_EQN_yy_current_state = (EQN_EQN_EQN_EQN_yy_start);
+	EQN_EQN_yy_current_state = (EQN_EQN_yy_start);
 
-	for ( EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yytext_ptr) + YY_MORE_ADJ; EQN_EQN_EQN_EQN_yy_cp < (EQN_EQN_EQN_EQN_yy_c_buf_p); ++EQN_EQN_EQN_EQN_yy_cp )
+	for ( EQN_EQN_yy_cp = (EQN_EQN_yytext_ptr) + YY_MORE_ADJ; EQN_EQN_yy_cp < (EQN_EQN_yy_c_buf_p); ++EQN_EQN_yy_cp )
 		{
-		YY_CHAR EQN_EQN_EQN_EQN_yy_c = (*EQN_EQN_EQN_EQN_yy_cp ? EQN_EQN_EQN_EQN_yy_ec[YY_SC_TO_UI(*EQN_EQN_EQN_EQN_yy_cp)] : 1);
-		if ( EQN_EQN_EQN_EQN_yy_accept[EQN_EQN_EQN_EQN_yy_current_state] )
+		YY_CHAR EQN_EQN_yy_c = (*EQN_EQN_yy_cp ? EQN_EQN_yy_ec[YY_SC_TO_UI(*EQN_EQN_yy_cp)] : 1);
+		if ( EQN_EQN_yy_accept[EQN_EQN_yy_current_state] )
 			{
-			(EQN_EQN_EQN_EQN_yy_last_accepting_state) = EQN_EQN_EQN_EQN_yy_current_state;
-			(EQN_EQN_EQN_EQN_yy_last_accepting_cpos) = EQN_EQN_EQN_EQN_yy_cp;
+			(EQN_EQN_yy_last_accepting_state) = EQN_EQN_yy_current_state;
+			(EQN_EQN_yy_last_accepting_cpos) = EQN_EQN_yy_cp;
 			}
-		while ( EQN_EQN_EQN_EQN_yy_chk[EQN_EQN_EQN_EQN_yy_base[EQN_EQN_EQN_EQN_yy_current_state] + EQN_EQN_EQN_EQN_yy_c] != EQN_EQN_EQN_EQN_yy_current_state )
+		while ( EQN_EQN_yy_chk[EQN_EQN_yy_base[EQN_EQN_yy_current_state] + EQN_EQN_yy_c] != EQN_EQN_yy_current_state )
 			{
-			EQN_EQN_EQN_EQN_yy_current_state = (int) EQN_EQN_EQN_EQN_yy_def[EQN_EQN_EQN_EQN_yy_current_state];
-			if ( EQN_EQN_EQN_EQN_yy_current_state >= 29 )
-				EQN_EQN_EQN_EQN_yy_c = EQN_EQN_EQN_EQN_yy_meta[EQN_EQN_EQN_EQN_yy_c];
+			EQN_EQN_yy_current_state = (int) EQN_EQN_yy_def[EQN_EQN_yy_current_state];
+			if ( EQN_EQN_yy_current_state >= 29 )
+				EQN_EQN_yy_c = EQN_EQN_yy_meta[EQN_EQN_yy_c];
 			}
-		EQN_EQN_EQN_EQN_yy_current_state = EQN_EQN_EQN_EQN_yy_nxt[EQN_EQN_EQN_EQN_yy_base[EQN_EQN_EQN_EQN_yy_current_state] + EQN_EQN_EQN_EQN_yy_c];
+		EQN_EQN_yy_current_state = EQN_EQN_yy_nxt[EQN_EQN_yy_base[EQN_EQN_yy_current_state] + EQN_EQN_yy_c];
 		}
 
-	return EQN_EQN_EQN_EQN_yy_current_state;
+	return EQN_EQN_yy_current_state;
 }
 
-/* EQN_EQN_EQN_EQN_yy_try_NUL_trans - try to make a transition on the NUL character
+/* EQN_EQN_yy_try_NUL_trans - try to make a transition on the NUL character
  *
  * synopsis
- *	next_state = EQN_EQN_EQN_EQN_yy_try_NUL_trans( current_state );
+ *	next_state = EQN_EQN_yy_try_NUL_trans( current_state );
  */
-    static EQN_EQN_EQN_EQN_yy_state_type EQN_EQN_EQN_EQN_yy_try_NUL_trans  (EQN_EQN_EQN_EQN_yy_state_type EQN_EQN_EQN_EQN_yy_current_state )
+    static EQN_EQN_yy_state_type EQN_EQN_yy_try_NUL_trans  (EQN_EQN_yy_state_type EQN_EQN_yy_current_state )
 {
-	int EQN_EQN_EQN_EQN_yy_is_jam;
-    	char *EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yy_c_buf_p);
+	int EQN_EQN_yy_is_jam;
+    	char *EQN_EQN_yy_cp = (EQN_EQN_yy_c_buf_p);
 
-	YY_CHAR EQN_EQN_EQN_EQN_yy_c = 1;
-	if ( EQN_EQN_EQN_EQN_yy_accept[EQN_EQN_EQN_EQN_yy_current_state] )
+	YY_CHAR EQN_EQN_yy_c = 1;
+	if ( EQN_EQN_yy_accept[EQN_EQN_yy_current_state] )
 		{
-		(EQN_EQN_EQN_EQN_yy_last_accepting_state) = EQN_EQN_EQN_EQN_yy_current_state;
-		(EQN_EQN_EQN_EQN_yy_last_accepting_cpos) = EQN_EQN_EQN_EQN_yy_cp;
+		(EQN_EQN_yy_last_accepting_state) = EQN_EQN_yy_current_state;
+		(EQN_EQN_yy_last_accepting_cpos) = EQN_EQN_yy_cp;
 		}
-	while ( EQN_EQN_EQN_EQN_yy_chk[EQN_EQN_EQN_EQN_yy_base[EQN_EQN_EQN_EQN_yy_current_state] + EQN_EQN_EQN_EQN_yy_c] != EQN_EQN_EQN_EQN_yy_current_state )
+	while ( EQN_EQN_yy_chk[EQN_EQN_yy_base[EQN_EQN_yy_current_state] + EQN_EQN_yy_c] != EQN_EQN_yy_current_state )
 		{
-		EQN_EQN_EQN_EQN_yy_current_state = (int) EQN_EQN_EQN_EQN_yy_def[EQN_EQN_EQN_EQN_yy_current_state];
-		if ( EQN_EQN_EQN_EQN_yy_current_state >= 29 )
-			EQN_EQN_EQN_EQN_yy_c = EQN_EQN_EQN_EQN_yy_meta[EQN_EQN_EQN_EQN_yy_c];
+		EQN_EQN_yy_current_state = (int) EQN_EQN_yy_def[EQN_EQN_yy_current_state];
+		if ( EQN_EQN_yy_current_state >= 29 )
+			EQN_EQN_yy_c = EQN_EQN_yy_meta[EQN_EQN_yy_c];
 		}
-	EQN_EQN_EQN_EQN_yy_current_state = EQN_EQN_EQN_EQN_yy_nxt[EQN_EQN_EQN_EQN_yy_base[EQN_EQN_EQN_EQN_yy_current_state] + EQN_EQN_EQN_EQN_yy_c];
-	EQN_EQN_EQN_EQN_yy_is_jam = (EQN_EQN_EQN_EQN_yy_current_state == 28);
+	EQN_EQN_yy_current_state = EQN_EQN_yy_nxt[EQN_EQN_yy_base[EQN_EQN_yy_current_state] + EQN_EQN_yy_c];
+	EQN_EQN_yy_is_jam = (EQN_EQN_yy_current_state == 28);
 
-		return EQN_EQN_EQN_EQN_yy_is_jam ? 0 : EQN_EQN_EQN_EQN_yy_current_state;
+		return EQN_EQN_yy_is_jam ? 0 : EQN_EQN_yy_current_state;
 }
 
 #ifndef YY_NO_UNPUT
 
-    static void EQN_EQN_EQN_EQN_yyunput (int c, char * EQN_EQN_EQN_EQN_yy_bp )
+    static void EQN_EQN_yyunput (int c, char * EQN_EQN_yy_bp )
 {
-	char *EQN_EQN_EQN_EQN_yy_cp;
+	char *EQN_EQN_yy_cp;
     
-    EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yy_c_buf_p);
+    EQN_EQN_yy_cp = (EQN_EQN_yy_c_buf_p);
 
-	/* undo effects of setting up EQN_EQN_EQN_EQN_yytext */
-	*EQN_EQN_EQN_EQN_yy_cp = (EQN_EQN_EQN_EQN_yy_hold_char);
+	/* undo effects of setting up EQN_EQN_yytext */
+	*EQN_EQN_yy_cp = (EQN_EQN_yy_hold_char);
 
-	if ( EQN_EQN_EQN_EQN_yy_cp < YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf + 2 )
+	if ( EQN_EQN_yy_cp < YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf + 2 )
 		{ /* need to shift things up to make room */
 		/* +2 for EOB chars. */
-		int number_to_move = (EQN_EQN_EQN_EQN_yy_n_chars) + 2;
-		char *dest = &YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf[
-					YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_buf_size + 2];
+		int number_to_move = (EQN_EQN_yy_n_chars) + 2;
+		char *dest = &YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf[
+					YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_buf_size + 2];
 		char *source =
-				&YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf[number_to_move];
+				&YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf[number_to_move];
 
-		while ( source > YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf )
+		while ( source > YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf )
 			*--dest = *--source;
 
-		EQN_EQN_EQN_EQN_yy_cp += (int) (dest - source);
-		EQN_EQN_EQN_EQN_yy_bp += (int) (dest - source);
-		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_n_chars =
-			(EQN_EQN_EQN_EQN_yy_n_chars) = (int) YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_buf_size;
+		EQN_EQN_yy_cp += (int) (dest - source);
+		EQN_EQN_yy_bp += (int) (dest - source);
+		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_n_chars =
+			(EQN_EQN_yy_n_chars) = (int) YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_buf_size;
 
-		if ( EQN_EQN_EQN_EQN_yy_cp < YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf + 2 )
+		if ( EQN_EQN_yy_cp < YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf + 2 )
 			YY_FATAL_ERROR( "flex scanner push-back overflow" );
 		}
 
-	*--EQN_EQN_EQN_EQN_yy_cp = (char) c;
+	*--EQN_EQN_yy_cp = (char) c;
 
-	(EQN_EQN_EQN_EQN_yytext_ptr) = EQN_EQN_EQN_EQN_yy_bp;
-	(EQN_EQN_EQN_EQN_yy_hold_char) = *EQN_EQN_EQN_EQN_yy_cp;
-	(EQN_EQN_EQN_EQN_yy_c_buf_p) = EQN_EQN_EQN_EQN_yy_cp;
+	(EQN_EQN_yytext_ptr) = EQN_EQN_yy_bp;
+	(EQN_EQN_yy_hold_char) = *EQN_EQN_yy_cp;
+	(EQN_EQN_yy_c_buf_p) = EQN_EQN_yy_cp;
 }
 
 #endif
 
 #ifndef YY_NO_INPUT
 #ifdef __cplusplus
-    static int EQN_EQN_EQN_EQN_yyinput (void)
+    static int EQN_EQN_yyinput (void)
 #else
     static int input  (void)
 #endif
@@ -1258,27 +1258,27 @@ static int EQN_EQN_EQN_EQN_yy_get_next_buffer (void)
 {
 	int c;
     
-	*(EQN_EQN_EQN_EQN_yy_c_buf_p) = (EQN_EQN_EQN_EQN_yy_hold_char);
+	*(EQN_EQN_yy_c_buf_p) = (EQN_EQN_yy_hold_char);
 
-	if ( *(EQN_EQN_EQN_EQN_yy_c_buf_p) == YY_END_OF_BUFFER_CHAR )
+	if ( *(EQN_EQN_yy_c_buf_p) == YY_END_OF_BUFFER_CHAR )
 		{
-		/* EQN_EQN_EQN_EQN_yy_c_buf_p now points to the character we want to return.
+		/* EQN_EQN_yy_c_buf_p now points to the character we want to return.
 		 * If this occurs *before* the EOB characters, then it's a
 		 * valid NUL; if not, then we've hit the end of the buffer.
 		 */
-		if ( (EQN_EQN_EQN_EQN_yy_c_buf_p) < &YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_ch_buf[(EQN_EQN_EQN_EQN_yy_n_chars)] )
+		if ( (EQN_EQN_yy_c_buf_p) < &YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_ch_buf[(EQN_EQN_yy_n_chars)] )
 			/* This was really a NUL. */
-			*(EQN_EQN_EQN_EQN_yy_c_buf_p) = '\0';
+			*(EQN_EQN_yy_c_buf_p) = '\0';
 
 		else
 			{ /* need more input */
-			int offset = (int) ((EQN_EQN_EQN_EQN_yy_c_buf_p) - (EQN_EQN_EQN_EQN_yytext_ptr));
-			++(EQN_EQN_EQN_EQN_yy_c_buf_p);
+			int offset = (int) ((EQN_EQN_yy_c_buf_p) - (EQN_EQN_yytext_ptr));
+			++(EQN_EQN_yy_c_buf_p);
 
-			switch ( EQN_EQN_EQN_EQN_yy_get_next_buffer(  ) )
+			switch ( EQN_EQN_yy_get_next_buffer(  ) )
 				{
 				case EOB_ACT_LAST_MATCH:
-					/* This happens because EQN_EQN_EQN_EQN_yy_g_n_b()
+					/* This happens because EQN_EQN_yy_g_n_b()
 					 * sees that we've accumulated a
 					 * token and flags that we need to
 					 * try matching the token before
@@ -1289,34 +1289,34 @@ static int EQN_EQN_EQN_EQN_yy_get_next_buffer (void)
 					 */
 
 					/* Reset buffer status. */
-					EQN_EQN_EQN_EQN_yyrestart( EQN_EQN_EQN_EQN_yyin );
+					EQN_EQN_yyrestart( EQN_EQN_yyin );
 
 					/*FALLTHROUGH*/
 
 				case EOB_ACT_END_OF_FILE:
 					{
-					if ( EQN_EQN_EQN_EQN_yywrap(  ) )
+					if ( EQN_EQN_yywrap(  ) )
 						return 0;
 
-					if ( ! (EQN_EQN_EQN_EQN_yy_did_buffer_switch_on_eof) )
+					if ( ! (EQN_EQN_yy_did_buffer_switch_on_eof) )
 						YY_NEW_FILE;
 #ifdef __cplusplus
-					return EQN_EQN_EQN_EQN_yyinput();
+					return EQN_EQN_yyinput();
 #else
 					return input();
 #endif
 					}
 
 				case EOB_ACT_CONTINUE_SCAN:
-					(EQN_EQN_EQN_EQN_yy_c_buf_p) = (EQN_EQN_EQN_EQN_yytext_ptr) + offset;
+					(EQN_EQN_yy_c_buf_p) = (EQN_EQN_yytext_ptr) + offset;
 					break;
 				}
 			}
 		}
 
-	c = *(unsigned char *) (EQN_EQN_EQN_EQN_yy_c_buf_p);	/* cast for 8-bit char's */
-	*(EQN_EQN_EQN_EQN_yy_c_buf_p) = '\0';	/* preserve EQN_EQN_EQN_EQN_yytext */
-	(EQN_EQN_EQN_EQN_yy_hold_char) = *++(EQN_EQN_EQN_EQN_yy_c_buf_p);
+	c = *(unsigned char *) (EQN_EQN_yy_c_buf_p);	/* cast for 8-bit char's */
+	*(EQN_EQN_yy_c_buf_p) = '\0';	/* preserve EQN_EQN_yytext */
+	(EQN_EQN_yy_hold_char) = *++(EQN_EQN_yy_c_buf_p);
 
 	return c;
 }
@@ -1327,60 +1327,60 @@ static int EQN_EQN_EQN_EQN_yy_get_next_buffer (void)
  * 
  * @note This function does not reset the start condition to @c INITIAL .
  */
-    void EQN_EQN_EQN_EQN_yyrestart  (FILE * input_file )
+    void EQN_EQN_yyrestart  (FILE * input_file )
 {
     
 	if ( ! YY_CURRENT_BUFFER ){
-        EQN_EQN_EQN_EQN_yyensure_buffer_stack ();
+        EQN_EQN_yyensure_buffer_stack ();
 		YY_CURRENT_BUFFER_LVALUE =
-            EQN_EQN_EQN_EQN_yy_create_buffer( EQN_EQN_EQN_EQN_yyin, YY_BUF_SIZE );
+            EQN_EQN_yy_create_buffer( EQN_EQN_yyin, YY_BUF_SIZE );
 	}
 
-	EQN_EQN_EQN_EQN_yy_init_buffer( YY_CURRENT_BUFFER, input_file );
-	EQN_EQN_EQN_EQN_yy_load_buffer_state(  );
+	EQN_EQN_yy_init_buffer( YY_CURRENT_BUFFER, input_file );
+	EQN_EQN_yy_load_buffer_state(  );
 }
 
 /** Switch to a different input buffer.
  * @param new_buffer The new input buffer.
  * 
  */
-    void EQN_EQN_EQN_EQN_yy_switch_to_buffer  (YY_BUFFER_STATE  new_buffer )
+    void EQN_EQN_yy_switch_to_buffer  (YY_BUFFER_STATE  new_buffer )
 {
     
 	/* TODO. We should be able to replace this entire function body
 	 * with
-	 *		EQN_EQN_EQN_EQN_yypop_buffer_state();
-	 *		EQN_EQN_EQN_EQN_yypush_buffer_state(new_buffer);
+	 *		EQN_EQN_yypop_buffer_state();
+	 *		EQN_EQN_yypush_buffer_state(new_buffer);
      */
-	EQN_EQN_EQN_EQN_yyensure_buffer_stack ();
+	EQN_EQN_yyensure_buffer_stack ();
 	if ( YY_CURRENT_BUFFER == new_buffer )
 		return;
 
 	if ( YY_CURRENT_BUFFER )
 		{
 		/* Flush out information for old buffer. */
-		*(EQN_EQN_EQN_EQN_yy_c_buf_p) = (EQN_EQN_EQN_EQN_yy_hold_char);
-		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_buf_pos = (EQN_EQN_EQN_EQN_yy_c_buf_p);
-		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_n_chars = (EQN_EQN_EQN_EQN_yy_n_chars);
+		*(EQN_EQN_yy_c_buf_p) = (EQN_EQN_yy_hold_char);
+		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_buf_pos = (EQN_EQN_yy_c_buf_p);
+		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_n_chars = (EQN_EQN_yy_n_chars);
 		}
 
 	YY_CURRENT_BUFFER_LVALUE = new_buffer;
-	EQN_EQN_EQN_EQN_yy_load_buffer_state(  );
+	EQN_EQN_yy_load_buffer_state(  );
 
 	/* We don't actually know whether we did this switch during
-	 * EOF (EQN_EQN_EQN_EQN_yywrap()) processing, but the only time this flag
-	 * is looked at is after EQN_EQN_EQN_EQN_yywrap() is called, so it's safe
+	 * EOF (EQN_EQN_yywrap()) processing, but the only time this flag
+	 * is looked at is after EQN_EQN_yywrap() is called, so it's safe
 	 * to go ahead and always set it.
 	 */
-	(EQN_EQN_EQN_EQN_yy_did_buffer_switch_on_eof) = 1;
+	(EQN_EQN_yy_did_buffer_switch_on_eof) = 1;
 }
 
-static void EQN_EQN_EQN_EQN_yy_load_buffer_state  (void)
+static void EQN_EQN_yy_load_buffer_state  (void)
 {
-    	(EQN_EQN_EQN_EQN_yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_n_chars;
-	(EQN_EQN_EQN_EQN_yytext_ptr) = (EQN_EQN_EQN_EQN_yy_c_buf_p) = YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_buf_pos;
-	EQN_EQN_EQN_EQN_yyin = YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_input_file;
-	(EQN_EQN_EQN_EQN_yy_hold_char) = *(EQN_EQN_EQN_EQN_yy_c_buf_p);
+    	(EQN_EQN_yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_n_chars;
+	(EQN_EQN_yytext_ptr) = (EQN_EQN_yy_c_buf_p) = YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_buf_pos;
+	EQN_EQN_yyin = YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_input_file;
+	(EQN_EQN_yy_hold_char) = *(EQN_EQN_yy_c_buf_p);
 }
 
 /** Allocate and initialize an input buffer state.
@@ -1389,35 +1389,35 @@ static void EQN_EQN_EQN_EQN_yy_load_buffer_state  (void)
  * 
  * @return the allocated buffer state.
  */
-    YY_BUFFER_STATE EQN_EQN_EQN_EQN_yy_create_buffer  (FILE * file, int  size )
+    YY_BUFFER_STATE EQN_EQN_yy_create_buffer  (FILE * file, int  size )
 {
 	YY_BUFFER_STATE b;
     
-	b = (YY_BUFFER_STATE) EQN_EQN_EQN_EQN_yyalloc( sizeof( struct EQN_EQN_EQN_EQN_yy_buffer_state )  );
+	b = (YY_BUFFER_STATE) EQN_EQN_yyalloc( sizeof( struct EQN_EQN_yy_buffer_state )  );
 	if ( ! b )
-		YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_EQN_EQN_yy_create_buffer()" );
+		YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_yy_create_buffer()" );
 
-	b->EQN_EQN_EQN_EQN_yy_buf_size = size;
+	b->EQN_EQN_yy_buf_size = size;
 
-	/* EQN_EQN_EQN_EQN_yy_ch_buf has to be 2 characters longer than the size given because
+	/* EQN_EQN_yy_ch_buf has to be 2 characters longer than the size given because
 	 * we need to put in 2 end-of-buffer characters.
 	 */
-	b->EQN_EQN_EQN_EQN_yy_ch_buf = (char *) EQN_EQN_EQN_EQN_yyalloc( (EQN_EQN_EQN_EQN_yy_size_t) (b->EQN_EQN_EQN_EQN_yy_buf_size + 2)  );
-	if ( ! b->EQN_EQN_EQN_EQN_yy_ch_buf )
-		YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_EQN_EQN_yy_create_buffer()" );
+	b->EQN_EQN_yy_ch_buf = (char *) EQN_EQN_yyalloc( (EQN_EQN_yy_size_t) (b->EQN_EQN_yy_buf_size + 2)  );
+	if ( ! b->EQN_EQN_yy_ch_buf )
+		YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_yy_create_buffer()" );
 
-	b->EQN_EQN_EQN_EQN_yy_is_our_buffer = 1;
+	b->EQN_EQN_yy_is_our_buffer = 1;
 
-	EQN_EQN_EQN_EQN_yy_init_buffer( b, file );
+	EQN_EQN_yy_init_buffer( b, file );
 
 	return b;
 }
 
 /** Destroy the buffer.
- * @param b a buffer created with EQN_EQN_EQN_EQN_yy_create_buffer()
+ * @param b a buffer created with EQN_EQN_yy_create_buffer()
  * 
  */
-    void EQN_EQN_EQN_EQN_yy_delete_buffer (YY_BUFFER_STATE  b )
+    void EQN_EQN_yy_delete_buffer (YY_BUFFER_STATE  b )
 {
     
 	if ( ! b )
@@ -1426,36 +1426,36 @@ static void EQN_EQN_EQN_EQN_yy_load_buffer_state  (void)
 	if ( b == YY_CURRENT_BUFFER ) /* Not sure if we should pop here. */
 		YY_CURRENT_BUFFER_LVALUE = (YY_BUFFER_STATE) 0;
 
-	if ( b->EQN_EQN_EQN_EQN_yy_is_our_buffer )
-		EQN_EQN_EQN_EQN_yyfree( (void *) b->EQN_EQN_EQN_EQN_yy_ch_buf  );
+	if ( b->EQN_EQN_yy_is_our_buffer )
+		EQN_EQN_yyfree( (void *) b->EQN_EQN_yy_ch_buf  );
 
-	EQN_EQN_EQN_EQN_yyfree( (void *) b  );
+	EQN_EQN_yyfree( (void *) b  );
 }
 
 /* Initializes or reinitializes a buffer.
  * This function is sometimes called more than once on the same buffer,
- * such as during a EQN_EQN_EQN_EQN_yyrestart() or at EOF.
+ * such as during a EQN_EQN_yyrestart() or at EOF.
  */
-    static void EQN_EQN_EQN_EQN_yy_init_buffer  (YY_BUFFER_STATE  b, FILE * file )
+    static void EQN_EQN_yy_init_buffer  (YY_BUFFER_STATE  b, FILE * file )
 
 {
 	int oerrno = errno;
     
-	EQN_EQN_EQN_EQN_yy_flush_buffer( b );
+	EQN_EQN_yy_flush_buffer( b );
 
-	b->EQN_EQN_EQN_EQN_yy_input_file = file;
-	b->EQN_EQN_EQN_EQN_yy_fill_buffer = 1;
+	b->EQN_EQN_yy_input_file = file;
+	b->EQN_EQN_yy_fill_buffer = 1;
 
-    /* If b is the current buffer, then EQN_EQN_EQN_EQN_yy_init_buffer was _probably_
-     * called from EQN_EQN_EQN_EQN_yyrestart() or through EQN_EQN_EQN_EQN_yy_get_next_buffer.
+    /* If b is the current buffer, then EQN_EQN_yy_init_buffer was _probably_
+     * called from EQN_EQN_yyrestart() or through EQN_EQN_yy_get_next_buffer.
      * In that case, we don't want to reset the lineno or column.
      */
     if (b != YY_CURRENT_BUFFER){
-        b->EQN_EQN_EQN_EQN_yy_bs_lineno = 1;
-        b->EQN_EQN_EQN_EQN_yy_bs_column = 0;
+        b->EQN_EQN_yy_bs_lineno = 1;
+        b->EQN_EQN_yy_bs_column = 0;
     }
 
-        b->EQN_EQN_EQN_EQN_yy_is_interactive = file ? (isatty( fileno(file) ) > 0) : 0;
+        b->EQN_EQN_yy_is_interactive = file ? (isatty( fileno(file) ) > 0) : 0;
     
 	errno = oerrno;
 }
@@ -1464,27 +1464,27 @@ static void EQN_EQN_EQN_EQN_yy_load_buffer_state  (void)
  * @param b the buffer state to be flushed, usually @c YY_CURRENT_BUFFER.
  * 
  */
-    void EQN_EQN_EQN_EQN_yy_flush_buffer (YY_BUFFER_STATE  b )
+    void EQN_EQN_yy_flush_buffer (YY_BUFFER_STATE  b )
 {
     	if ( ! b )
 		return;
 
-	b->EQN_EQN_EQN_EQN_yy_n_chars = 0;
+	b->EQN_EQN_yy_n_chars = 0;
 
 	/* We always need two end-of-buffer characters.  The first causes
 	 * a transition to the end-of-buffer state.  The second causes
 	 * a jam in that state.
 	 */
-	b->EQN_EQN_EQN_EQN_yy_ch_buf[0] = YY_END_OF_BUFFER_CHAR;
-	b->EQN_EQN_EQN_EQN_yy_ch_buf[1] = YY_END_OF_BUFFER_CHAR;
+	b->EQN_EQN_yy_ch_buf[0] = YY_END_OF_BUFFER_CHAR;
+	b->EQN_EQN_yy_ch_buf[1] = YY_END_OF_BUFFER_CHAR;
 
-	b->EQN_EQN_EQN_EQN_yy_buf_pos = &b->EQN_EQN_EQN_EQN_yy_ch_buf[0];
+	b->EQN_EQN_yy_buf_pos = &b->EQN_EQN_yy_ch_buf[0];
 
-	b->EQN_EQN_EQN_EQN_yy_at_bol = 1;
-	b->EQN_EQN_EQN_EQN_yy_buffer_status = YY_BUFFER_NEW;
+	b->EQN_EQN_yy_at_bol = 1;
+	b->EQN_EQN_yy_buffer_status = YY_BUFFER_NEW;
 
 	if ( b == YY_CURRENT_BUFFER )
-		EQN_EQN_EQN_EQN_yy_load_buffer_state(  );
+		EQN_EQN_yy_load_buffer_state(  );
 }
 
 /** Pushes the new state onto the stack. The new state becomes
@@ -1493,95 +1493,95 @@ static void EQN_EQN_EQN_EQN_yy_load_buffer_state  (void)
  *  @param new_buffer The new state.
  *  
  */
-void EQN_EQN_EQN_EQN_yypush_buffer_state (YY_BUFFER_STATE new_buffer )
+void EQN_EQN_yypush_buffer_state (YY_BUFFER_STATE new_buffer )
 {
     	if (new_buffer == NULL)
 		return;
 
-	EQN_EQN_EQN_EQN_yyensure_buffer_stack();
+	EQN_EQN_yyensure_buffer_stack();
 
-	/* This block is copied from EQN_EQN_EQN_EQN_yy_switch_to_buffer. */
+	/* This block is copied from EQN_EQN_yy_switch_to_buffer. */
 	if ( YY_CURRENT_BUFFER )
 		{
 		/* Flush out information for old buffer. */
-		*(EQN_EQN_EQN_EQN_yy_c_buf_p) = (EQN_EQN_EQN_EQN_yy_hold_char);
-		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_buf_pos = (EQN_EQN_EQN_EQN_yy_c_buf_p);
-		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_EQN_EQN_yy_n_chars = (EQN_EQN_EQN_EQN_yy_n_chars);
+		*(EQN_EQN_yy_c_buf_p) = (EQN_EQN_yy_hold_char);
+		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_buf_pos = (EQN_EQN_yy_c_buf_p);
+		YY_CURRENT_BUFFER_LVALUE->EQN_EQN_yy_n_chars = (EQN_EQN_yy_n_chars);
 		}
 
 	/* Only push if top exists. Otherwise, replace top. */
 	if (YY_CURRENT_BUFFER)
-		(EQN_EQN_EQN_EQN_yy_buffer_stack_top)++;
+		(EQN_EQN_yy_buffer_stack_top)++;
 	YY_CURRENT_BUFFER_LVALUE = new_buffer;
 
-	/* copied from EQN_EQN_EQN_EQN_yy_switch_to_buffer. */
-	EQN_EQN_EQN_EQN_yy_load_buffer_state(  );
-	(EQN_EQN_EQN_EQN_yy_did_buffer_switch_on_eof) = 1;
+	/* copied from EQN_EQN_yy_switch_to_buffer. */
+	EQN_EQN_yy_load_buffer_state(  );
+	(EQN_EQN_yy_did_buffer_switch_on_eof) = 1;
 }
 
 /** Removes and deletes the top of the stack, if present.
  *  The next element becomes the new top.
  *  
  */
-void EQN_EQN_EQN_EQN_yypop_buffer_state (void)
+void EQN_EQN_yypop_buffer_state (void)
 {
     	if (!YY_CURRENT_BUFFER)
 		return;
 
-	EQN_EQN_EQN_EQN_yy_delete_buffer(YY_CURRENT_BUFFER );
+	EQN_EQN_yy_delete_buffer(YY_CURRENT_BUFFER );
 	YY_CURRENT_BUFFER_LVALUE = NULL;
-	if ((EQN_EQN_EQN_EQN_yy_buffer_stack_top) > 0)
-		--(EQN_EQN_EQN_EQN_yy_buffer_stack_top);
+	if ((EQN_EQN_yy_buffer_stack_top) > 0)
+		--(EQN_EQN_yy_buffer_stack_top);
 
 	if (YY_CURRENT_BUFFER) {
-		EQN_EQN_EQN_EQN_yy_load_buffer_state(  );
-		(EQN_EQN_EQN_EQN_yy_did_buffer_switch_on_eof) = 1;
+		EQN_EQN_yy_load_buffer_state(  );
+		(EQN_EQN_yy_did_buffer_switch_on_eof) = 1;
 	}
 }
 
 /* Allocates the stack if it does not exist.
  *  Guarantees space for at least one push.
  */
-static void EQN_EQN_EQN_EQN_yyensure_buffer_stack (void)
+static void EQN_EQN_yyensure_buffer_stack (void)
 {
-	EQN_EQN_EQN_EQN_yy_size_t num_to_alloc;
+	EQN_EQN_yy_size_t num_to_alloc;
     
-	if (!(EQN_EQN_EQN_EQN_yy_buffer_stack)) {
+	if (!(EQN_EQN_yy_buffer_stack)) {
 
 		/* First allocation is just for 2 elements, since we don't know if this
 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
 		 * immediate realloc on the next call.
          */
       num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
-		(EQN_EQN_EQN_EQN_yy_buffer_stack) = (struct EQN_EQN_EQN_EQN_yy_buffer_state**)EQN_EQN_EQN_EQN_yyalloc
-								(num_to_alloc * sizeof(struct EQN_EQN_EQN_EQN_yy_buffer_state*)
+		(EQN_EQN_yy_buffer_stack) = (struct EQN_EQN_yy_buffer_state**)EQN_EQN_yyalloc
+								(num_to_alloc * sizeof(struct EQN_EQN_yy_buffer_state*)
 								);
-		if ( ! (EQN_EQN_EQN_EQN_yy_buffer_stack) )
-			YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_EQN_EQN_yyensure_buffer_stack()" );
+		if ( ! (EQN_EQN_yy_buffer_stack) )
+			YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_yyensure_buffer_stack()" );
 
-		memset((EQN_EQN_EQN_EQN_yy_buffer_stack), 0, num_to_alloc * sizeof(struct EQN_EQN_EQN_EQN_yy_buffer_state*));
+		memset((EQN_EQN_yy_buffer_stack), 0, num_to_alloc * sizeof(struct EQN_EQN_yy_buffer_state*));
 
-		(EQN_EQN_EQN_EQN_yy_buffer_stack_max) = num_to_alloc;
-		(EQN_EQN_EQN_EQN_yy_buffer_stack_top) = 0;
+		(EQN_EQN_yy_buffer_stack_max) = num_to_alloc;
+		(EQN_EQN_yy_buffer_stack_top) = 0;
 		return;
 	}
 
-	if ((EQN_EQN_EQN_EQN_yy_buffer_stack_top) >= ((EQN_EQN_EQN_EQN_yy_buffer_stack_max)) - 1){
+	if ((EQN_EQN_yy_buffer_stack_top) >= ((EQN_EQN_yy_buffer_stack_max)) - 1){
 
 		/* Increase the buffer to prepare for a possible push. */
-		EQN_EQN_EQN_EQN_yy_size_t grow_size = 8 /* arbitrary grow size */;
+		EQN_EQN_yy_size_t grow_size = 8 /* arbitrary grow size */;
 
-		num_to_alloc = (EQN_EQN_EQN_EQN_yy_buffer_stack_max) + grow_size;
-		(EQN_EQN_EQN_EQN_yy_buffer_stack) = (struct EQN_EQN_EQN_EQN_yy_buffer_state**)EQN_EQN_EQN_EQN_yyrealloc
-								((EQN_EQN_EQN_EQN_yy_buffer_stack),
-								num_to_alloc * sizeof(struct EQN_EQN_EQN_EQN_yy_buffer_state*)
+		num_to_alloc = (EQN_EQN_yy_buffer_stack_max) + grow_size;
+		(EQN_EQN_yy_buffer_stack) = (struct EQN_EQN_yy_buffer_state**)EQN_EQN_yyrealloc
+								((EQN_EQN_yy_buffer_stack),
+								num_to_alloc * sizeof(struct EQN_EQN_yy_buffer_state*)
 								);
-		if ( ! (EQN_EQN_EQN_EQN_yy_buffer_stack) )
-			YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_EQN_EQN_yyensure_buffer_stack()" );
+		if ( ! (EQN_EQN_yy_buffer_stack) )
+			YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_yyensure_buffer_stack()" );
 
 		/* zero only the new slots.*/
-		memset((EQN_EQN_EQN_EQN_yy_buffer_stack) + (EQN_EQN_EQN_EQN_yy_buffer_stack_max), 0, grow_size * sizeof(struct EQN_EQN_EQN_EQN_yy_buffer_state*));
-		(EQN_EQN_EQN_EQN_yy_buffer_stack_max) = num_to_alloc;
+		memset((EQN_EQN_yy_buffer_stack) + (EQN_EQN_yy_buffer_stack_max), 0, grow_size * sizeof(struct EQN_EQN_yy_buffer_state*));
+		(EQN_EQN_yy_buffer_stack_max) = num_to_alloc;
 	}
 }
 
@@ -1591,7 +1591,7 @@ static void EQN_EQN_EQN_EQN_yyensure_buffer_stack (void)
  * 
  * @return the newly allocated buffer state object.
  */
-YY_BUFFER_STATE EQN_EQN_EQN_EQN_yy_scan_buffer  (char * base, EQN_EQN_EQN_EQN_yy_size_t  size )
+YY_BUFFER_STATE EQN_EQN_yy_scan_buffer  (char * base, EQN_EQN_yy_size_t  size )
 {
 	YY_BUFFER_STATE b;
     
@@ -1601,72 +1601,72 @@ YY_BUFFER_STATE EQN_EQN_EQN_EQN_yy_scan_buffer  (char * base, EQN_EQN_EQN_EQN_yy
 		/* They forgot to leave room for the EOB's. */
 		return NULL;
 
-	b = (YY_BUFFER_STATE) EQN_EQN_EQN_EQN_yyalloc( sizeof( struct EQN_EQN_EQN_EQN_yy_buffer_state )  );
+	b = (YY_BUFFER_STATE) EQN_EQN_yyalloc( sizeof( struct EQN_EQN_yy_buffer_state )  );
 	if ( ! b )
-		YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_EQN_EQN_yy_scan_buffer()" );
+		YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_yy_scan_buffer()" );
 
-	b->EQN_EQN_EQN_EQN_yy_buf_size = (int) (size - 2);	/* "- 2" to take care of EOB's */
-	b->EQN_EQN_EQN_EQN_yy_buf_pos = b->EQN_EQN_EQN_EQN_yy_ch_buf = base;
-	b->EQN_EQN_EQN_EQN_yy_is_our_buffer = 0;
-	b->EQN_EQN_EQN_EQN_yy_input_file = NULL;
-	b->EQN_EQN_EQN_EQN_yy_n_chars = b->EQN_EQN_EQN_EQN_yy_buf_size;
-	b->EQN_EQN_EQN_EQN_yy_is_interactive = 0;
-	b->EQN_EQN_EQN_EQN_yy_at_bol = 1;
-	b->EQN_EQN_EQN_EQN_yy_fill_buffer = 0;
-	b->EQN_EQN_EQN_EQN_yy_buffer_status = YY_BUFFER_NEW;
+	b->EQN_EQN_yy_buf_size = (int) (size - 2);	/* "- 2" to take care of EOB's */
+	b->EQN_EQN_yy_buf_pos = b->EQN_EQN_yy_ch_buf = base;
+	b->EQN_EQN_yy_is_our_buffer = 0;
+	b->EQN_EQN_yy_input_file = NULL;
+	b->EQN_EQN_yy_n_chars = b->EQN_EQN_yy_buf_size;
+	b->EQN_EQN_yy_is_interactive = 0;
+	b->EQN_EQN_yy_at_bol = 1;
+	b->EQN_EQN_yy_fill_buffer = 0;
+	b->EQN_EQN_yy_buffer_status = YY_BUFFER_NEW;
 
-	EQN_EQN_EQN_EQN_yy_switch_to_buffer( b  );
+	EQN_EQN_yy_switch_to_buffer( b  );
 
 	return b;
 }
 
-/** Setup the input buffer state to scan a string. The next call to EQN_EQN_EQN_EQN_yylex() will
+/** Setup the input buffer state to scan a string. The next call to EQN_EQN_yylex() will
  * scan from a @e copy of @a str.
- * @param EQN_EQN_EQN_EQN_yystr a NUL-terminated string to scan
+ * @param EQN_EQN_yystr a NUL-terminated string to scan
  * 
  * @return the newly allocated buffer state object.
  * @note If you want to scan bytes that may contain NUL values, then use
- *       EQN_EQN_EQN_EQN_yy_scan_bytes() instead.
+ *       EQN_EQN_yy_scan_bytes() instead.
  */
-YY_BUFFER_STATE EQN_EQN_EQN_EQN_yy_scan_string (const char * EQN_EQN_EQN_EQN_yystr )
+YY_BUFFER_STATE EQN_EQN_yy_scan_string (const char * EQN_EQN_yystr )
 {
     
-	return EQN_EQN_EQN_EQN_yy_scan_bytes( EQN_EQN_EQN_EQN_yystr, (int) strlen(EQN_EQN_EQN_EQN_yystr) );
+	return EQN_EQN_yy_scan_bytes( EQN_EQN_yystr, (int) strlen(EQN_EQN_yystr) );
 }
 
-/** Setup the input buffer state to scan the given bytes. The next call to EQN_EQN_EQN_EQN_yylex() will
+/** Setup the input buffer state to scan the given bytes. The next call to EQN_EQN_yylex() will
  * scan from a @e copy of @a bytes.
- * @param EQN_EQN_EQN_EQN_yybytes the byte buffer to scan
- * @param _EQN_EQN_EQN_EQN_yybytes_len the number of bytes in the buffer pointed to by @a bytes.
+ * @param EQN_EQN_yybytes the byte buffer to scan
+ * @param _EQN_EQN_yybytes_len the number of bytes in the buffer pointed to by @a bytes.
  * 
  * @return the newly allocated buffer state object.
  */
-YY_BUFFER_STATE EQN_EQN_EQN_EQN_yy_scan_bytes  (const char * EQN_EQN_EQN_EQN_yybytes, int  _EQN_EQN_EQN_EQN_yybytes_len )
+YY_BUFFER_STATE EQN_EQN_yy_scan_bytes  (const char * EQN_EQN_yybytes, int  _EQN_EQN_yybytes_len )
 {
 	YY_BUFFER_STATE b;
 	char *buf;
-	EQN_EQN_EQN_EQN_yy_size_t n;
+	EQN_EQN_yy_size_t n;
 	int i;
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
-	n = (EQN_EQN_EQN_EQN_yy_size_t) (_EQN_EQN_EQN_EQN_yybytes_len + 2);
-	buf = (char *) EQN_EQN_EQN_EQN_yyalloc( n  );
+	n = (EQN_EQN_yy_size_t) (_EQN_EQN_yybytes_len + 2);
+	buf = (char *) EQN_EQN_yyalloc( n  );
 	if ( ! buf )
-		YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_EQN_EQN_yy_scan_bytes()" );
+		YY_FATAL_ERROR( "out of dynamic memory in EQN_EQN_yy_scan_bytes()" );
 
-	for ( i = 0; i < _EQN_EQN_EQN_EQN_yybytes_len; ++i )
-		buf[i] = EQN_EQN_EQN_EQN_yybytes[i];
+	for ( i = 0; i < _EQN_EQN_yybytes_len; ++i )
+		buf[i] = EQN_EQN_yybytes[i];
 
-	buf[_EQN_EQN_EQN_EQN_yybytes_len] = buf[_EQN_EQN_EQN_EQN_yybytes_len+1] = YY_END_OF_BUFFER_CHAR;
+	buf[_EQN_EQN_yybytes_len] = buf[_EQN_EQN_yybytes_len+1] = YY_END_OF_BUFFER_CHAR;
 
-	b = EQN_EQN_EQN_EQN_yy_scan_buffer( buf, n );
+	b = EQN_EQN_yy_scan_buffer( buf, n );
 	if ( ! b )
-		YY_FATAL_ERROR( "bad buffer in EQN_EQN_EQN_EQN_yy_scan_bytes()" );
+		YY_FATAL_ERROR( "bad buffer in EQN_EQN_yy_scan_bytes()" );
 
 	/* It's okay to grow etc. this buffer, and we should throw it
 	 * away when we're done.
 	 */
-	b->EQN_EQN_EQN_EQN_yy_is_our_buffer = 1;
+	b->EQN_EQN_yy_is_our_buffer = 1;
 
 	return b;
 }
@@ -1675,26 +1675,26 @@ YY_BUFFER_STATE EQN_EQN_EQN_EQN_yy_scan_bytes  (const char * EQN_EQN_EQN_EQN_yyb
 #define YY_EXIT_FAILURE 2
 #endif
 
-static void EQN_EQN_EQN_EQN_yynoreturn EQN_EQN_EQN_EQN_yy_fatal_error (const char* msg )
+static void EQN_EQN_yynoreturn EQN_EQN_yy_fatal_error (const char* msg )
 {
 			fprintf( stderr, "%s\n", msg );
 	exit( YY_EXIT_FAILURE );
 }
 
-/* Redefine EQN_EQN_EQN_EQN_yyless() so it works in section 3 code. */
+/* Redefine EQN_EQN_yyless() so it works in section 3 code. */
 
-#undef EQN_EQN_EQN_EQN_yyless
-#define EQN_EQN_EQN_EQN_yyless(n) \
+#undef EQN_EQN_yyless
+#define EQN_EQN_yyless(n) \
 	do \
 		{ \
-		/* Undo effects of setting up EQN_EQN_EQN_EQN_yytext. */ \
-        int EQN_EQN_EQN_EQN_yyless_macro_arg = (n); \
-        YY_LESS_LINENO(EQN_EQN_EQN_EQN_yyless_macro_arg);\
-		EQN_EQN_EQN_EQN_yytext[EQN_EQN_EQN_EQN_yyleng] = (EQN_EQN_EQN_EQN_yy_hold_char); \
-		(EQN_EQN_EQN_EQN_yy_c_buf_p) = EQN_EQN_EQN_EQN_yytext + EQN_EQN_EQN_EQN_yyless_macro_arg; \
-		(EQN_EQN_EQN_EQN_yy_hold_char) = *(EQN_EQN_EQN_EQN_yy_c_buf_p); \
-		*(EQN_EQN_EQN_EQN_yy_c_buf_p) = '\0'; \
-		EQN_EQN_EQN_EQN_yyleng = EQN_EQN_EQN_EQN_yyless_macro_arg; \
+		/* Undo effects of setting up EQN_EQN_yytext. */ \
+        int EQN_EQN_yyless_macro_arg = (n); \
+        YY_LESS_LINENO(EQN_EQN_yyless_macro_arg);\
+		EQN_EQN_yytext[EQN_EQN_yyleng] = (EQN_EQN_yy_hold_char); \
+		(EQN_EQN_yy_c_buf_p) = EQN_EQN_yytext + EQN_EQN_yyless_macro_arg; \
+		(EQN_EQN_yy_hold_char) = *(EQN_EQN_yy_c_buf_p); \
+		*(EQN_EQN_yy_c_buf_p) = '\0'; \
+		EQN_EQN_yyleng = EQN_EQN_yyless_macro_arg; \
 		} \
 	while ( 0 )
 
@@ -1703,127 +1703,127 @@ static void EQN_EQN_EQN_EQN_yynoreturn EQN_EQN_EQN_EQN_yy_fatal_error (const cha
 /** Get the current line number.
  * 
  */
-int EQN_EQN_EQN_EQN_yyget_lineno  (void)
+int EQN_EQN_yyget_lineno  (void)
 {
     
-    return EQN_EQN_EQN_EQN_yylineno;
+    return EQN_EQN_yylineno;
 }
 
 /** Get the input stream.
  * 
  */
-FILE *EQN_EQN_EQN_EQN_yyget_in  (void)
+FILE *EQN_EQN_yyget_in  (void)
 {
-        return EQN_EQN_EQN_EQN_yyin;
+        return EQN_EQN_yyin;
 }
 
 /** Get the output stream.
  * 
  */
-FILE *EQN_EQN_EQN_EQN_yyget_out  (void)
+FILE *EQN_EQN_yyget_out  (void)
 {
-        return EQN_EQN_EQN_EQN_yyout;
+        return EQN_EQN_yyout;
 }
 
 /** Get the length of the current token.
  * 
  */
-int EQN_EQN_EQN_EQN_yyget_leng  (void)
+int EQN_EQN_yyget_leng  (void)
 {
-        return EQN_EQN_EQN_EQN_yyleng;
+        return EQN_EQN_yyleng;
 }
 
 /** Get the current token.
  * 
  */
 
-char *EQN_EQN_EQN_EQN_yyget_text  (void)
+char *EQN_EQN_yyget_text  (void)
 {
-        return EQN_EQN_EQN_EQN_yytext;
+        return EQN_EQN_yytext;
 }
 
 /** Set the current line number.
  * @param _line_number line number
  * 
  */
-void EQN_EQN_EQN_EQN_yyset_lineno (int  _line_number )
+void EQN_EQN_yyset_lineno (int  _line_number )
 {
     
-    EQN_EQN_EQN_EQN_yylineno = _line_number;
+    EQN_EQN_yylineno = _line_number;
 }
 
 /** Set the input stream. This does not discard the current
  * input buffer.
  * @param _in_str A readable stream.
  * 
- * @see EQN_EQN_EQN_EQN_yy_switch_to_buffer
+ * @see EQN_EQN_yy_switch_to_buffer
  */
-void EQN_EQN_EQN_EQN_yyset_in (FILE *  _in_str )
+void EQN_EQN_yyset_in (FILE *  _in_str )
 {
-        EQN_EQN_EQN_EQN_yyin = _in_str ;
+        EQN_EQN_yyin = _in_str ;
 }
 
-void EQN_EQN_EQN_EQN_yyset_out (FILE *  _out_str )
+void EQN_EQN_yyset_out (FILE *  _out_str )
 {
-        EQN_EQN_EQN_EQN_yyout = _out_str ;
+        EQN_EQN_yyout = _out_str ;
 }
 
-int EQN_EQN_EQN_EQN_yyget_debug  (void)
+int EQN_EQN_yyget_debug  (void)
 {
-        return EQN_EQN_EQN_EQN_yy_flex_debug;
+        return EQN_EQN_yy_flex_debug;
 }
 
-void EQN_EQN_EQN_EQN_yyset_debug (int  _bdebug )
+void EQN_EQN_yyset_debug (int  _bdebug )
 {
-        EQN_EQN_EQN_EQN_yy_flex_debug = _bdebug ;
+        EQN_EQN_yy_flex_debug = _bdebug ;
 }
 
-static int EQN_EQN_EQN_EQN_yy_init_globals (void)
+static int EQN_EQN_yy_init_globals (void)
 {
         /* Initialization is the same as for the non-reentrant scanner.
-     * This function is called from EQN_EQN_EQN_EQN_yylex_destroy(), so don't allocate here.
+     * This function is called from EQN_EQN_yylex_destroy(), so don't allocate here.
      */
 
-    (EQN_EQN_EQN_EQN_yy_buffer_stack) = NULL;
-    (EQN_EQN_EQN_EQN_yy_buffer_stack_top) = 0;
-    (EQN_EQN_EQN_EQN_yy_buffer_stack_max) = 0;
-    (EQN_EQN_EQN_EQN_yy_c_buf_p) = NULL;
-    (EQN_EQN_EQN_EQN_yy_init) = 0;
-    (EQN_EQN_EQN_EQN_yy_start) = 0;
+    (EQN_EQN_yy_buffer_stack) = NULL;
+    (EQN_EQN_yy_buffer_stack_top) = 0;
+    (EQN_EQN_yy_buffer_stack_max) = 0;
+    (EQN_EQN_yy_c_buf_p) = NULL;
+    (EQN_EQN_yy_init) = 0;
+    (EQN_EQN_yy_start) = 0;
 
 /* Defined in main.c */
 #ifdef YY_STDINIT
-    EQN_EQN_EQN_EQN_yyin = stdin;
-    EQN_EQN_EQN_EQN_yyout = stdout;
+    EQN_EQN_yyin = stdin;
+    EQN_EQN_yyout = stdout;
 #else
-    EQN_EQN_EQN_EQN_yyin = NULL;
-    EQN_EQN_EQN_EQN_yyout = NULL;
+    EQN_EQN_yyin = NULL;
+    EQN_EQN_yyout = NULL;
 #endif
 
     /* For future reference: Set errno on error, since we are called by
-     * EQN_EQN_EQN_EQN_yylex_init()
+     * EQN_EQN_yylex_init()
      */
     return 0;
 }
 
-/* EQN_EQN_EQN_EQN_yylex_destroy is for both reentrant and non-reentrant scanners. */
-int EQN_EQN_EQN_EQN_yylex_destroy  (void)
+/* EQN_EQN_yylex_destroy is for both reentrant and non-reentrant scanners. */
+int EQN_EQN_yylex_destroy  (void)
 {
     
     /* Pop the buffer stack, destroying each element. */
 	while(YY_CURRENT_BUFFER){
-		EQN_EQN_EQN_EQN_yy_delete_buffer( YY_CURRENT_BUFFER  );
+		EQN_EQN_yy_delete_buffer( YY_CURRENT_BUFFER  );
 		YY_CURRENT_BUFFER_LVALUE = NULL;
-		EQN_EQN_EQN_EQN_yypop_buffer_state();
+		EQN_EQN_yypop_buffer_state();
 	}
 
 	/* Destroy the stack itself. */
-	EQN_EQN_EQN_EQN_yyfree((EQN_EQN_EQN_EQN_yy_buffer_stack) );
-	(EQN_EQN_EQN_EQN_yy_buffer_stack) = NULL;
+	EQN_EQN_yyfree((EQN_EQN_yy_buffer_stack) );
+	(EQN_EQN_yy_buffer_stack) = NULL;
 
     /* Reset the globals. This is important in a non-reentrant scanner so the next time
-     * EQN_EQN_EQN_EQN_yylex() is called, initialization will occur. */
-    EQN_EQN_EQN_EQN_yy_init_globals( );
+     * EQN_EQN_yylex() is called, initialization will occur. */
+    EQN_EQN_yy_init_globals( );
 
     return 0;
 }
@@ -1832,8 +1832,8 @@ int EQN_EQN_EQN_EQN_yylex_destroy  (void)
  * Internal utility routines.
  */
 
-#ifndef EQN_EQN_EQN_EQN_yytext_ptr
-static void EQN_EQN_EQN_EQN_yy_flex_strncpy (char* s1, const char * s2, int n )
+#ifndef EQN_EQN_yytext_ptr
+static void EQN_EQN_yy_flex_strncpy (char* s1, const char * s2, int n )
 {
 		
 	int i;
@@ -1843,7 +1843,7 @@ static void EQN_EQN_EQN_EQN_yy_flex_strncpy (char* s1, const char * s2, int n )
 #endif
 
 #ifdef YY_NEED_STRLEN
-static int EQN_EQN_EQN_EQN_yy_flex_strlen (const char * s )
+static int EQN_EQN_yy_flex_strlen (const char * s )
 {
 	int n;
 	for ( n = 0; s[n]; ++n )
@@ -1853,12 +1853,12 @@ static int EQN_EQN_EQN_EQN_yy_flex_strlen (const char * s )
 }
 #endif
 
-void *EQN_EQN_EQN_EQN_yyalloc (EQN_EQN_EQN_EQN_yy_size_t  size )
+void *EQN_EQN_yyalloc (EQN_EQN_yy_size_t  size )
 {
 			return malloc(size);
 }
 
-void *EQN_EQN_EQN_EQN_yyrealloc  (void * ptr, EQN_EQN_EQN_EQN_yy_size_t  size )
+void *EQN_EQN_yyrealloc  (void * ptr, EQN_EQN_yy_size_t  size )
 {
 		
 	/* The cast to (char *) in the following accommodates both
@@ -1871,12 +1871,12 @@ void *EQN_EQN_EQN_EQN_yyrealloc  (void * ptr, EQN_EQN_EQN_EQN_yy_size_t  size )
 	return realloc(ptr, size);
 }
 
-void EQN_EQN_EQN_EQN_yyfree (void * ptr )
+void EQN_EQN_yyfree (void * ptr )
 {
-			free( (char *) ptr );	/* see EQN_EQN_EQN_EQN_yyrealloc() for (char *) cast */
+			free( (char *) ptr );	/* see EQN_EQN_yyrealloc() for (char *) cast */
 }
 
-#define YYTABLES_NAME "EQN_EQN_EQN_EQN_yytables"
+#define YYTABLES_NAME "EQN_EQN_yytables"
 
 #line 76 "/home/matteo/Dropbox/sis/sis/io/eqnlex.l"
 
@@ -1891,11 +1891,11 @@ input()
     if (nbuffer > 0) {
 	c = buffer[--nbuffer];
     } else if (file_mode) {
-	if (last_was_newline && EQN_EQN_EQN_EQN_yyin == stdin) {
+	if (last_was_newline && EQN_EQN_yyin == stdin) {
 	    prompt = com_get_flag("prompt2");
 	    if (prompt != NULL) fputs(prompt,stdout);
 	}
-	c = getc(EQN_EQN_EQN_EQN_yyin);
+	c = getc(EQN_EQN_yyin);
     } else {
 	c = *string;
 	if (c != 0) string++;
@@ -1940,7 +1940,7 @@ int eqn_input(char* buf, int max_size)
 	    eqn_inp_ptr += i;
 	}
     } else {
-	c = getc(EQN_EQN_EQN_EQN_yyin);
+	c = getc(EQN_EQN_yyin);
 	if (c == '\n')
 	    read_lineno++;
 	buf[0] = (c == EOF) ? (n = 0, YY_NULL) : (n = 1, c);
@@ -1958,9 +1958,9 @@ char *s;
     file_mode = 0;
     string = s;
 #if 1 /* #ifdef FLEX_SCANNER */
-    EQN_EQN_EQN_EQN_yy_switch_to_buffer(
-                 EQN_EQN_EQN_EQN_yy_create_buffer( EQN_EQN_EQN_EQN_yyin, YY_BUF_SIZE ) );
-    EQN_EQN_EQN_EQN_yyrestart(EQN_EQN_EQN_EQN_yyin); 
+    EQN_EQN_yy_switch_to_buffer(
+                 EQN_EQN_yy_create_buffer( EQN_EQN_yyin, YY_BUF_SIZE ) );
+    EQN_EQN_yyrestart(EQN_EQN_yyin); 
     eqn_inp_lim = string + strlen(string);
     eqn_inp_ptr = string;
 #endif
@@ -1971,11 +1971,11 @@ int
 equation_setup_file(fp)
 FILE *fp;
 {
-    EQN_EQN_EQN_EQN_yyin = fp;
+    EQN_EQN_yyin = fp;
 #if 1 /* #ifdef FLEX_SCANNER */
-    EQN_EQN_EQN_EQN_yy_switch_to_buffer(
-                 EQN_EQN_EQN_EQN_yy_create_buffer( EQN_EQN_EQN_EQN_yyin, YY_BUF_SIZE ) );
-    EQN_EQN_EQN_EQN_yyrestart(EQN_EQN_EQN_EQN_yyin); 
+    EQN_EQN_yy_switch_to_buffer(
+                 EQN_EQN_yy_create_buffer( EQN_EQN_yyin, YY_BUF_SIZE ) );
+    EQN_EQN_yyrestart(EQN_EQN_yyin); 
     BEGIN(INITIAL);
 #endif
     file_mode = 1;
@@ -1983,9 +1983,9 @@ FILE *fp;
     last_was_newline = 1;
 }
 
-#undef EQN_EQN_EQN_EQN_yywrap
+#undef EQN_EQN_yywrap
 int
-EQN_EQN_EQN_EQN_yywrap()
+EQN_EQN_yywrap()
 {
     return 1;
 }
