@@ -38,9 +38,7 @@ static int rk_read_line(char *str, FILE *fp) {
     return (!EOF);
 }
 
-int read_kiss(f, g)FILE *f;
-                   graph_t **g;
-{
+int read_kiss(FILE *f, graph_t **g) {
     int         c, index, num;
     int         status[4];
     char        buf[512], err[512];
@@ -223,4 +221,5 @@ int read_kiss(f, g)FILE *f;
     *g = NIL(graph_t);
     return 0;
 }
+
 #endif /* SIS */

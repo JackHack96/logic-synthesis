@@ -122,11 +122,7 @@ static char RCSid[] =
 
 /*VARARGS3*/
 
-void spSolve(eMatrix, RHS, Solution IMAG_VECTORS)
-
-    char *eMatrix;
-RealVector RHS, Solution IMAG_VECTORS;
-{
+void spSolve(char *eMatrix, RealVector RHS, RealVector Solution IMAG_VECTORS){
   MatrixPtr Matrix = (MatrixPtr)eMatrix;
   register ElementPtr pElement;
   register RealVector Intermediate;

@@ -2,9 +2,7 @@
 #include "io_int.h"
 #include "sis.h"
 
-static void write_cover(fp, p)FILE *fp;
-                              node_t *p;
-{
+static void write_cover(FILE *fp, node_t *p) {
     register pset last, ps;
     register int  c, i;
 
@@ -21,9 +19,7 @@ static void write_cover(fp, p)FILE *fp;
     }
 }
 
-int io_po_fanout_count(node, first)node_t *node;
-                                   node_t **first;
-{
+int io_po_fanout_count(node_t *node, node_t **first) {
     register int    po_cnt;
     register node_t *p;
     lsGen           gen;
@@ -41,9 +37,8 @@ int io_po_fanout_count(node, first)node_t *node;
 }
 
 #ifdef SIS
-int io_rpo_fanout_count(node, first)node_t *node;
-                                    node_t **first;
-{
+
+int io_rpo_fanout_count(node_t *node, node_t **first) {
     register int    rpo_cnt;
     register node_t *p;
     lsGen           gen;
@@ -62,9 +57,7 @@ int io_rpo_fanout_count(node, first)node_t *node;
     return rpo_cnt;
 }
 
-int io_lpo_fanout_count(node, first)node_t *node;
-                                    node_t **first;
-{
+int io_lpo_fanout_count(node_t *node, node_t **first) {
     register int    lpo_cnt;
     register node_t *p;
     lsGen           gen;
@@ -80,11 +73,10 @@ int io_lpo_fanout_count(node, first)node_t *node;
     }
     return lpo_cnt;
 }
+
 #endif /* SIS */
 
-char *io_name(node, short_flag)node_t *node;
-                               int short_flag;
-{
+char *io_name(node_t *node, int short_flag) {
     node_t *fo;
 #ifdef SIS
     node_type_t type;
@@ -122,13 +114,9 @@ char *io_name(node, short_flag)node_t *node;
     return (short_flag ? node->short_name : node->name);
 }
 
-char *io_node_name(node)node_t *node;
-{ return (io_name(node, 0)); }
+char *io_node_name(node_t *node) { return (io_name(node, 0)); }
 
-void io_write_name(fp, node, short_flag)FILE *fp;
-                                        node_t *node;
-                                        int short_flag;
-{ io_fputs_break(fp, io_name(node, short_flag)); }
+void io_write_name(FILE *fp, node_t *node, int short_flag) { io_fputs_break(fp, io_name(node, short_flag)); }
 
 /*
  * During file write, some nodes shouldn't be printed, because they are
@@ -140,8 +128,7 @@ void io_write_name(fp, node, short_flag)FILE *fp;
  *    b. fanin of node is internal and the fanin feeds > 1 real POs
  *    c. fanin of node is a real PI feeding > 1 real POs.
  */
-int io_node_should_be_printed(node)node_t *node;
-{
+int io_node_should_be_printed(node_t *node) {
     node_type_t type;
     node_t      *fanin;
 #ifdef SIS
@@ -195,11 +182,7 @@ int io_node_should_be_printed(node)node_t *node;
     return (1);
 }
 
-static void io_write_func(fp, n, short_flag, mapped)FILE *fp;
-                                                    node_t *n;
-                                                    int short_flag;
-                                                    int mapped;
-{
+static void io_write_func(FILE *fp, node_t *n, int short_flag, int mapped) {
     int        i;
     node_t     *fanin;
     lib_gate_t *gate;
@@ -261,15 +244,9 @@ static void io_write_func(fp, n, short_flag, mapped)FILE *fp;
     }
 }
 
-void io_write_node(fp, node, short_flag)FILE *fp;
-                                        node_t *node;
-                                        int short_flag;
-{ io_write_func(fp, node, short_flag, 0); }
+void io_write_node(FILE *fp, node_t *node, int short_flag) { io_write_func(fp, node, short_flag, 0); }
 
-void io_write_gate(fp, node, short_flag)FILE *fp;
-                                        node_t *node;
-                                        int short_flag;
-{ io_write_func(fp, node, short_flag, 1); }
+void io_write_gate(FILE *fp, node_t *node, int short_flag) { io_write_func(fp, node, short_flag, 1); }
 
 static int  colnum;
 static char *io_break_string = 0;
@@ -308,16 +285,12 @@ void io_fputs_break(register FILE *fp, register char *s) {
     }
 }
 
-void io_fputc_break(fp, c)FILE *fp;
-                          int c;
-{
+void io_fputc_break(FILE *fp, int c) {
     (void) putc(c, fp);
     colnum = (c == '\n') ? 0 : colnum + 1;
 }
 
-void io_fput_params(s, count)char *s;
-                             int count;
-{
+void io_fput_params(char *s, int count) {
     io_break_string = s;
     io_break_column = count;
     colnum          = 0;
@@ -333,11 +306,7 @@ static void write_synch_edge();
 
 #endif /* SIS */
 
-void write_blif_slif_delay(fp, network, slif, short_flag)FILE *fp;
-                                                         network_t *network;
-                                                         int slif;
-                                                         int short_flag;
-{
+void write_blif_slif_delay(FILE *fp, network_t *network, int slif, int short_flag) {
     delay_time_t delay;
     node_t       *pi, *po;
     lsGen        gen;
@@ -450,10 +419,7 @@ void write_blif_slif_delay(fp, network, slif, short_flag)FILE *fp;
 
 #ifdef SIS
 
-static void write_synch_edge(fp, pio, short_flag)FILE *fp;
-                                                 node_t *pio;
-                                                 int short_flag;
-{
+static void write_synch_edge(FILE *fp, node_t *pio, int short_flag) {
     clock_edge_t edge;
     int          flag;
     node_t       *node;
@@ -468,12 +434,10 @@ static void write_synch_edge(fp, pio, short_flag)FILE *fp;
                          io_name(node, short_flag));
     }
 }
+
 #endif /* SIS */
 
-static int get_default_delay_param(network, param, delay)network_t *network;
-                                                         delay_param_t param;
-                                                         delay_time_t *delay;
-{
+static int get_default_delay_param(network_t *network, delay_param_t param, delay_time_t *delay) {
     switch (param) {
         case DELAY_DEFAULT_ARRIVAL_RISE:
             delay->rise =
@@ -514,10 +478,7 @@ static int get_default_delay_param(network, param, delay)network_t *network;
     return (1);
 }
 
-static int get_delay_param(node, param, delay)node_t *node;
-                                              delay_param_t param;
-                                              delay_time_t *delay;
-{
+static int get_delay_param(node_t *node, delay_param_t param, delay_time_t *delay) {
     switch (param) {
         case DELAY_ARRIVAL_RISE:delay->rise = delay_get_parameter(node, DELAY_ARRIVAL_RISE);
             delay->fall                     = delay_get_parameter(node, DELAY_ARRIVAL_FALL);

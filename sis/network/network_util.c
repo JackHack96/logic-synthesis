@@ -16,14 +16,12 @@ static void reset_io();
 
 extern void network_rehash_names();
 
-static void cpexdc_alloc(node)node_t *node;
-{
+static void cpexdc_alloc(node_t *node) {
     node->OBS = (char *) ALLOC(cpexdc_type_t, 1);
     CPEXDC(node)->node = NIL(node_t);
 }
 
-static void cpexdc_free(node)node_t *node;
-{ FREE(node->OBS); }
+static void cpexdc_free(node_t *node) { FREE(node->OBS); }
 
 network_t *network_alloc() {
     network_t *net;
@@ -51,8 +49,7 @@ network_t *network_alloc() {
     return net;
 }
 
-void network_free(net)network_t *net;
-{
+void network_free(network_t *net) {
     if (net != NIL(network_t)) {
         FREE(net->net_name);
         st_free_table(net->name_table);
@@ -76,8 +73,7 @@ void network_free(net)network_t *net;
     }
 }
 
-network_t *network_dup(old)network_t *old;
-{
+network_t *network_dup(network_t *old) {
     network_t *new;
 
     if (old == NIL(network_t)) {
@@ -117,34 +113,15 @@ network_t *network_dup(old)network_t *old;
     return new;
 }
 
-network_num_pi(network)
-network_t *network;
-{ return
-lsLength(network
-->pi); }
+int network_num_pi(network_t *network) { return lsLength(network->pi); }
 
-network_num_po(network)
-network_t *network;
-{ return
-lsLength(network
-->po); }
+int network_num_po(network_t *network) { return lsLength(network->po); }
 
-network_num_internal(network)
-network_t *network;
-{
-return
-lsLength(network
-->nodes) -
-(
-lsLength(network
-->pi) +
-lsLength(network
-->po));
+int network_num_internal(network_t *network) {
+    return lsLength(network->nodes) - (lsLength(network->pi) + lsLength(network->po));
 }
 
-node_t *network_get_pi(network, index)network_t *network;
-                                      int index;
-{
+node_t *network_get_pi(network_t *network, int index) {
     int    i;
     lsGen  gen;
     node_t *node;
@@ -159,9 +136,7 @@ node_t *network_get_pi(network, index)network_t *network;
     return 0;
 }
 
-node_t *network_get_po(network, index)network_t *network;
-                                      int index;
-{
+node_t *network_get_po(network_t *network, int index) {
     int    i;
     lsGen  gen;
     node_t *node;
@@ -176,9 +151,7 @@ node_t *network_get_po(network, index)network_t *network;
     return 0;
 }
 
-void network_add_primary_input(network, node)network_t *network;
-                                             node_t *node;
-{
+void network_add_primary_input(network_t *network, node_t *node) {
     node->type = PRIMARY_INPUT;
     node->nin  = 0;
     FREE(node->fanin);
@@ -186,9 +159,7 @@ void network_add_primary_input(network, node)network_t *network;
     network_add_node(network, node);
 }
 
-node_t *network_add_primary_output(network, node)network_t *network;
-                                                 node_t *node;
-{
+node_t *network_add_primary_output(network_t *network, node_t *node) {
     node_t *output;
 
     output = node_alloc();
@@ -201,9 +172,7 @@ node_t *network_add_primary_output(network, node)network_t *network;
     return output;
 }
 
-void network_add_node(network, node)network_t *network;
-                                    node_t *node;
-{
+void network_add_node(network_t *network, node_t *node) {
     int       value;
     lsHandle  handle;
     network_t *dc_net;
@@ -261,9 +230,7 @@ void network_add_node(network, node)network_t *network;
     fanin_add_fanout(node);
 }
 
-void network_delete_node(network, node)network_t *network;
-                                       node_t *node;
-{
+void network_delete_node(network_t *network, node_t *node) {
     char  *data;
     lsGen gen;
 
@@ -277,9 +244,7 @@ void network_delete_node(network, node)network_t *network;
     LS_ASSERT(lsFinish(gen));
 }
 
-void network_delete_node_gen(network, gen)network_t *network;
-                                          lsGen gen;
-{
+void network_delete_node_gen(network_t *network, lsGen gen) {
     char   *key;
     node_t *node;
 
@@ -309,9 +274,7 @@ void network_delete_node_gen(network, gen)network_t *network;
     node_free(node);
 }
 
-node_t *network_find_node(network, name)network_t *network;
-                                        char *name;
-{
+node_t *network_find_node(network_t *network, char *name) {
     char *dummy;
 
     if (st_lookup(network->name_table, name, &dummy)) {
@@ -321,9 +284,7 @@ node_t *network_find_node(network, name)network_t *network;
     }
 }
 
-static int delete_from_list(list, node)lsList list;
-                                       node_t *node;
-{
+static int delete_from_list(lsList list, node_t *node) {
     lsGen  gen;
     node_t *data;
 
@@ -337,10 +298,7 @@ static int delete_from_list(list, node)lsList list;
     return 0;
 }
 
-void network_change_node_type(network, node, new_type)network_t *network;
-                                                      node_t *node;
-                                                      node_type_t new_type;
-{
+void network_change_node_type(network_t *network, node_t *node, node_type_t new_type) {
     if (node->type == PRIMARY_INPUT) {
         if (!delete_from_list(network->pi, node)) {
             fail("network_change_node_type: PI node not in PI list");
@@ -359,8 +317,7 @@ void network_change_node_type(network, node, new_type)network_t *network;
     }
 }
 
-char *network_name(network)network_t *network;
-{
+char *network_name(network_t *network) {
     if (network->net_name == NIL(char)) {
         return "unknown";
     } else {
@@ -368,15 +325,12 @@ char *network_name(network)network_t *network;
     }
 }
 
-void network_set_name(network, name)network_t *network;
-                                    char *name;
-{
+void network_set_name(network_t *network, char *name) {
     FREE(network->net_name);
     network->net_name = util_strsav(name);
 }
 
-static void reset_io(list)lsList list;
-{
+static void reset_io(lsList list) {
     lsGen  gen;
     node_t *node, *fanin;
     int    i;
@@ -387,8 +341,7 @@ static void reset_io(list)lsList list;
     }
 }
 
-static void copy_list(list, newlist)lsList list, newlist;
-{
+static void copy_list(lsList list, lsList newlist) {
     lsGen  gen;
     node_t *node;
 
@@ -397,9 +350,7 @@ static void copy_list(list, newlist)lsList list, newlist;
     }
 }
 
-static void duplicate_list(list, newlist, newnetwork)lsList list, newlist;
-                                                     network_t *newnetwork;
-{
+static void duplicate_list(lsList list, lsList newlist, network_t *newnetwork) {
     lsGen    gen;
     node_t   *node, *newnode;
     lsHandle handle;
@@ -415,9 +366,7 @@ static void duplicate_list(list, newlist, newnetwork)lsList list, newlist;
 
 #ifdef SIS
 
-void copy_latch_info(list, newlist, newtable)lsList list, newlist;
-                                             st_table *newtable;
-{
+void copy_latch_info(lsList list, lsList newlist, st_table *newtable) {
     lsGen   gen;
     latch_t *latch, *l;
     node_t  *input, *output;
@@ -444,10 +393,7 @@ void copy_latch_info(list, newlist, newtable)lsList list, newlist;
 
 #endif /* SIS */
 
-void network_change_node_name(network, node, new_name)network_t *network;
-                                                      node_t *node;
-                                                      char *new_name;
-{
+void network_change_node_name(network_t *network, node_t *node, char *new_name) {
     char *key;
 
     key = node->name;
@@ -463,10 +409,7 @@ void network_change_node_name(network, node, new_name)network_t *network;
     }
 }
 
-void network_change_node_short_name(network, node, new_name)network_t *network;
-                                                            node_t *node;
-                                                            char *new_name;
-{
+void network_change_node_short_name(network_t *network, node_t *node, char *new_name) {
     char *key;
 
     key = node->short_name;
@@ -481,10 +424,7 @@ void network_change_node_short_name(network, node, new_name)network_t *network;
     }
 }
 
-void network_swap_names(network, node1, node2)network_t *network;
-                                              node_t *node1;
-                                              node_t *node2;
-{
+void network_swap_names(network_t *network, node_t *node1, node_t *node2) {
     char *key;
 
     key = node1->name;
@@ -516,24 +456,20 @@ void network_swap_names(network, node1, node2)network_t *network;
             !st_insert(network->short_name_table, node2->short_name, (char *) node2));
 }
 
-lsList network_bdd_list(network)network_t *network;
-{ return (network->bdd_list); }
+lsList network_bdd_list(network_t *network) { return (network->bdd_list); }
 
-lsHandle network_add_bdd(network_t *network, bdd_manager *bdd)
-{
+lsHandle network_add_bdd(network_t *network, bdd_manager *bdd) {
     lsHandle h;
     (void) lsNewBegin(network->bdd_list, (lsGeneric) bdd, &h);
     return (h);
 }
 
-network_t *network_dc_network(network)network_t *network;
-{ return (network->dc_network); }
+network_t *network_dc_network(network_t *network) { return (network->dc_network); }
 
 /* connects primary inputs and primary outputs of the two network through
  * a hash table.
  */
-st_table *attach_dcnetwork_to_network(network)network_t *network;
-{
+st_table *attach_dcnetwork_to_network(network_t *network) {
     st_table  *node_exdc_table;
     node_t    *node, *nodedc;
     network_t *DC_network;
@@ -568,8 +504,7 @@ st_table *attach_dcnetwork_to_network(network)network_t *network;
     return node_exdc_table;
 }
 
-network_t *or_net_dcnet(network)network_t *network;
-{
+network_t *or_net_dcnet(network_t *network) {
     node_t    *node, *dcnode, *dcfanin;
     node_t    *n1, *n2, *n3, *n4;
     node_t    *tempnode;
@@ -666,11 +601,7 @@ network_t *or_net_dcnet(network)network_t *network;
  * to a primary ouput or primary input of the care network through a hash
  * table.
  */
-node_t *find_ex_dc(ponode, node_exdc_table)
-        node_t *ponode; /*primary output of the care network*/
-        st_table *node_exdc_table;
-
-{
+node_t *find_ex_dc(node_t *ponode, st_table *node_exdc_table) {
     node_t *dcnodep;
     node_t *n1, *n2, *n3, *n4;
     node_t *tempnode;

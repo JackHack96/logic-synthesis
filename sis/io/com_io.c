@@ -307,8 +307,7 @@ static int com_pds(network_t **network, int argc, char **argv) {
     return 1;
 }
 
-int write_palasm(FILE *fp, network_t *network, int short_name,
-                 int combinational_flag) {
+int write_palasm(FILE *fp, network_t *network, int short_name, int combinational_flag) {
     node_t *po, *pi, *node;
     lsGen  gen;
     int    i;

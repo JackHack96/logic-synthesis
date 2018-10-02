@@ -9,15 +9,11 @@ library_t *lib_current_library;
 
 library_t *lib_get_library() { return lib_current_library; }
 
-lsGen lib_gen_classes(library)library_t *library;
-{ return lsStart(library->classes); }
+lsGen lib_gen_classes(library_t *library) { return lsStart(library->classes); }
 
-lsGen lib_gen_gates(class)lib_class_t *class;
-{ return lsStart(class->gates); }
+lsGen lib_gen_gates(lib_class_t *class) { return lsStart(class->gates); }
 
-lib_gate_t *lib_get_gate(library, name)library_t *library;
-                                       char *name;
-{
+lib_gate_t *lib_get_gate(library_t *library, char *name) {
     lib_gate_t *gate;
     lsGen      gen;
 
@@ -31,9 +27,7 @@ lib_gate_t *lib_get_gate(library, name)library_t *library;
 }
 
 /* for backward compatibility */
-lib_class_t *lib_get_class(network, library)network_t *network;
-                                            library_t *library;
-{
+lib_class_t *lib_get_class(network_t *network, library_t *library) {
 #ifdef SIS
     return lib_get_class_by_type(network, library, COMBINATIONAL);
 #else
@@ -45,8 +39,7 @@ lib_class_t *lib_get_class(network, library)network_t *network;
  *  lib_class_t access functions
  */
 
-char *lib_class_name(class)lib_class_t *class;
-{
+char *lib_class_name(lib_class_t *class) {
     lib_gate_t *gate;
     char       *dummy;
 
@@ -59,27 +52,21 @@ char *lib_class_name(class)lib_class_t *class;
     return NIL(char);
 }
 
-lib_class_t *lib_class_dual(class)lib_class_t *class;
-{ return class->dual_class; }
+lib_class_t *lib_class_dual(lib_class_t *class) { return class->dual_class; }
 
-network_t *lib_class_network(class)lib_class_t *class;
-{ return class->network; }
+network_t *lib_class_network(lib_class_t *class) { return class->network; }
 
 /*
  *  lib_gate_t access functions
  */
 
-char *lib_gate_name(gate)lib_gate_t *gate;
-{
+char *lib_gate_name(lib_gate_t *gate) {
     if (gate == 0)
         return NIL(char);
     return gate->name;
 }
 
-char *lib_gate_pin_name(gate, pin, inflag)lib_gate_t *gate;
-                                          int pin;
-                                          int inflag;
-{
+char *lib_gate_pin_name(lib_gate_t *gate, int pin, int inflag) {
     node_t *p;
 
     if (gate == 0)
@@ -98,29 +85,25 @@ char *lib_gate_pin_name(gate, pin, inflag)lib_gate_t *gate;
     return p ? p->name : NIL(char);
 }
 
-double lib_gate_area(gate)lib_gate_t *gate;
-{
+double lib_gate_area(lib_gate_t *gate) {
     if (gate == 0)
         return 0.0;
     return gate->area;
 }
 
-lib_class_t *lib_gate_class(gate)lib_gate_t *gate;
-{
+lib_class_t *lib_gate_class(lib_gate_t *gate) {
     if (gate == 0)
         return NIL(lib_class_t);
     return gate->class_p;
 }
 
-int lib_gate_num_in(gate)lib_gate_t *gate;
-{
+int lib_gate_num_in(lib_gate_t *gate) {
     if (gate == 0)
         return -1;
     return network_num_pi(gate->network);
 }
 
-int lib_gate_num_out(gate)lib_gate_t *gate;
-{
+int lib_gate_num_out(lib_gate_t *gate) {
     if (gate == 0)
         return -1;
     return network_num_po(gate->network);
@@ -130,16 +113,13 @@ int lib_gate_num_out(gate)lib_gate_t *gate;
  *  misc functions
  */
 
-lib_gate_t *lib_gate_of(node)node_t *node;
-{
+lib_gate_t *lib_gate_of(node_t *node) {
     if (MAP(node) == 0)
         return NIL(lib_gate_t);
     return MAP(node)->gate;
 }
 
-char *lib_get_pin_delay(node, pin)node_t *node;
-                                  int pin;
-{
+char *lib_get_pin_delay(node_t *node, int pin) {
     if (MAP(node) == 0)
         return 0;
     if (MAP(node)->gate == 0)
@@ -148,8 +128,7 @@ char *lib_get_pin_delay(node, pin)node_t *node;
     return MAP(node)->gate->delay_info[pin];
 }
 
-int lib_network_is_mapped(network)network_t *network;
-{
+int lib_network_is_mapped(network_t *network) {
     network_type_t type;
 
     type = map_get_network_type(network);
@@ -160,30 +139,19 @@ int lib_network_is_mapped(network)network_t *network;
  *  backwards compatibility
  */
 
-char *lib_get_gate_name(node)node_t *node;
-{ return lib_gate_name(lib_gate_of(node)); }
+char *lib_get_gate_name(node_t *node) { return lib_gate_name(lib_gate_of(node)); }
 
-char *lib_get_pin_name(node, pin)node_t *node;
-                                 int pin;
-{ return lib_gate_pin_name(lib_gate_of(node), pin, /* inflag */ 1); }
+char *lib_get_pin_name(node_t *node, int pin) { return lib_gate_pin_name(lib_gate_of(node), pin, /* inflag */ 1); }
 
-char *lib_get_out_pin_name(node, pin)node_t *node;
-                                     int pin;
-{ return lib_gate_pin_name(lib_gate_of(node), pin, /* inflag */ 0); }
+char *lib_get_out_pin_name(node_t *node, int pin) { return lib_gate_pin_name(lib_gate_of(node), pin, /* inflag */ 0); }
 
-double lib_get_gate_area(node)node_t *node;
-{ return lib_gate_area(lib_gate_of(node)); }
+double lib_get_gate_area(node_t *node) { return lib_gate_area(lib_gate_of(node)); }
 
 /*
  *  set the gate of a node -- assumes single-output gate
  */
 
-int lib_set_gate(user_node, gate, formals, actuals, nin)node_t *user_node;
-                                                        lib_gate_t *gate;
-                                                        char **formals;
-                                                        node_t **actuals;
-                                                        int nin;
-{
+int lib_set_gate(node_t *user_node, lib_gate_t *gate, char **formals, node_t **actuals, int nin) {
     register int i, j;
     node_t       *node, *fanin, **new_fanin;
     node_t       *new_po;
@@ -286,8 +254,7 @@ int lib_set_gate(user_node, gate, formals, actuals, nin)node_t *user_node;
 #endif
 }
 
-void lib_free(library)library_t *library;
-{
+void lib_free(library_t *library) {
     lsGen       gen;
     lib_gate_t  *gate;
     lib_class_t *class;
@@ -330,10 +297,7 @@ void lib_free(library)library_t *library;
     FREE(library);
 }
 
-void lib_dump(fp, library, detail)FILE *fp;
-                                  library_t *library;
-                                  int detail;
-{
+void lib_dump(FILE *fp, library_t *library, int detail) {
     lsGen       gen;
     prim_t      *prim;
     lib_class_t *class;
@@ -346,9 +310,7 @@ void lib_dump(fp, library, detail)FILE *fp;
     }
 }
 
-void lib_dump_class(fp, class)FILE *fp;
-                              lib_class_t *class;
-{
+void lib_dump_class(FILE *fp, lib_class_t *class) {
     lsGen      gen, gen1;
     lib_gate_t *gate;
     node_t     *node;
@@ -375,18 +337,7 @@ void lib_dump_class(fp, class)FILE *fp;
 }
 
 /* sequential support */
-lib_class_t *
-#ifdef SIS
-lib_get_class_by_type(network, library, type)
-#else
-lib_get_class_by_type(network, library)
-#endif
-        network_t *network;
-        library_t *library;
-#ifdef SIS
-        latch_synch_t type;
-#endif
-{
+lib_class_t *lib_get_class_by_type(network_t *network, library_t *library, latch_synch_t type) {
     lsGen       gen;
     lib_class_t *class_p;
     lib_gate_t  *gate;
@@ -502,8 +453,7 @@ lib_gate_t *lib_choose_smallest_latch(library_t *library, char *string, latch_sy
 }
 
 /* print params assoc. with a gate */
-void lib_dump_gate(gate)lib_gate_t *gate;
-{
+void lib_dump_gate(lib_gate_t *gate) {
     int i;
 
     (void) fprintf(sisout, "%s : type=", gate->name);
@@ -542,4 +492,5 @@ void lib_dump_gate(gate)lib_gate_t *gate;
                        gate->clock_delay->load, gate->clock_delay->max_load);
     }
 }
+
 #endif /* SIS */

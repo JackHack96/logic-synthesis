@@ -36,8 +36,7 @@ void read_error(char *fmt, ...) {
     va_end(args);
 }
 
-void read_register_filename(fname)char *fname;
-{
+void read_register_filename(char *fname) {
     read_lineno = 1;
     if (read_filename != NIL(char)) {
         FREE(read_filename);
@@ -54,10 +53,7 @@ void read_register_filename(fname)char *fname;
  *
  * Flag == 1 essentially when the output of a call is named "name'"
  */
-node_t *read_slif_find_or_create_node(network, s, flag)network_t *network;
-                                                       char *s;
-                                                       int flag;
-{
+node_t *read_slif_find_or_create_node(network_t *network, char *s, int flag) {
     int    len;
     int    complement = FALSE;
     node_t *node, *pos_node, *temp_node;
@@ -103,9 +99,7 @@ node_t *read_slif_find_or_create_node(network, s, flag)network_t *network;
     return node;
 }
 
-node_t *read_find_or_create_node(network, s)network_t *network;
-                                            char *s;
-{
+node_t *read_find_or_create_node(network_t *network, char *s) {
     node_t *node;
 
     if ((node = network_find_node(network, s)) == 0) {
@@ -119,14 +113,13 @@ node_t *read_find_or_create_node(network, s)network_t *network;
 }
 
 #ifdef SIS
+
 /*
  * Go change the internal node name to make sure that the name cannot clash
  * with user names that might come later.  Does this by putting a " " as the
  * first character of the name.
  */
-void read_change_madeup_name(network, node)network_t *network;
-                                           node_t *node;
-{
+void read_change_madeup_name(network_t *network, node_t *node) {
     char buf[32];
     int  index;
 
@@ -135,12 +128,10 @@ void read_change_madeup_name(network, node)network_t *network;
         network_change_node_name(network, node, util_strsav(buf));
     }
 }
+
 #endif /* SIS */
 
-int read_check_io_list(network, po_list, print_warning)network_t *network;
-                                                       lsList po_list;
-                                                       int print_warning;
-{
+int read_check_io_list(network_t *network, lsList po_list, int print_warning) {
     int         relax_i, relax_o;
     node_t      *node;
     lsGen       gen;
@@ -194,9 +185,7 @@ int read_check_io_list(network, po_list, print_warning)network_t *network;
     return 1;
 }
 
-void read_hack_outputs(network, po_list)network_t *network;
-                                        lsList po_list;
-{
+void read_hack_outputs(network_t *network, lsList po_list) {
     lsGen  gen;
     node_t *po, *node;
     char   *name, *po_name;
@@ -229,8 +218,7 @@ void read_hack_outputs(network, po_list)network_t *network;
  * could be input to the exdc network. We want the buffer to provide proper
  * naming for the latch output (it could be feeding a true primary output)
  */
-void read_cleanup_buffers(network)network_t *network;
-{
+void read_cleanup_buffers(network_t *network) {
 
     int    i;
     lsGen  gen, gen1;
@@ -260,8 +248,8 @@ void read_cleanup_buffers(network)network_t *network;
 }
 
 #ifdef SIS
-void read_check_control_signals(network)network_t *network;
-{
+
+void read_check_control_signals(network_t *network) {
     lsGen           gen;
     latch_t         *latch;
     node_function_t func;
@@ -293,11 +281,10 @@ void read_check_control_signals(network)network_t *network;
     }
     st_free_table(table);
 }
+
 #endif /* SIS */
 
-static int is_in_list(list, node)lsList list;
-                                 node_t *node;
-{
+static int is_in_list(lsList list, node_t *node) {
     node_t *p;
     lsGen  gen;
 
@@ -318,11 +305,7 @@ void read_filename_to_netname(network_t *network, char *filename) {
     network_set_name(network, name);
 }
 
-static void compute_relax(network, po_list, prelax_i,
-                          prelax_o)network_t *network;
-                                   lsList po_list;
-                                   int *prelax_i, *prelax_o;
-{
+static void compute_relax(network_t *network, lsList po_list, int *prelax_i, int *prelax_o) {
     lsGen  gen;
     node_t *pi;
 
@@ -351,8 +334,7 @@ static void compute_relax(network, po_list, prelax_i,
  * Duplicates function of strtok, but returns pointer to rest of string
  * if `rest' is non-null.
  */
-char *gettoken(str, rest)char *str, **rest;
-{
+char *gettoken(char *str, char **rest) {
     static char *r = NIL(char);
 
     if (str == NIL(char)) {
@@ -405,11 +387,7 @@ static int read_delay_common();
  *               = 10		==> slif, .attribute
  *	         = 11		==> slif, .global_attribute
  */
-int read_delay(network, po_list, word, rest, slif_global)network_t *network;
-                                                         lsList po_list;
-                                                         char *word, *rest;
-                                                         int slif_global;
-{
+int read_delay(network_t *network, lsList po_list, char *word, char *rest, int slif_global) {
     double        br, bf, dr, df;
     double        area, load, max_load, phase;
     node_t        *node;
@@ -563,10 +541,9 @@ int read_delay(network, po_list, word, rest, slif_global)network_t *network;
     return (-1);
 }
 
-static void read_delay_set_parameters(node, br, bf, dr, df, load, max_load,
-                                      phase)node_t *node;
-                                            double br, bf, dr, df, load, max_load, phase;
-{
+static void
+read_delay_set_parameters(node_t *node, double br, double bf, double dr, double df, double load, double max_load,
+                          double phase) {
     delay_set_parameter(node, DELAY_BLOCK_RISE, br);
     delay_set_parameter(node, DELAY_BLOCK_FALL, bf);
     delay_set_parameter(node, DELAY_DRIVE_RISE, dr);
@@ -584,13 +561,8 @@ static void read_delay_set_parameters(node, br, bf, dr, df, load, max_load,
  * 1 no error
  */
 /*VARARGS7*/
-static int read_delay_common(node, network, word, rest, num, d1,
-                             d2)node_t *node;
-                                network_t *network;
-                                char *word, *rest;
-                                int num;
-                                delay_param_t d1, d2;
-{
+static int read_delay_common(node_t *node, network_t *network, char *word, char *rest, int num, delay_param_t d1,
+                             delay_param_t d2) {
     double v1, v2;
     char   befaft[MAX_WORD], edge[MAX_WORD];
     int    i;
@@ -659,10 +631,7 @@ static int read_delay_common(node, network, word, rest, num, d1,
     return (1);
 }
 
-static node_t *read_input_node(rest, network, errmsg)char **rest;
-                                                     network_t *network;
-                                                     char *errmsg;
-{
+static node_t *read_input_node(char **rest, network_t *network, char *errmsg) {
     node_t *node;
     char   *word;
 
@@ -678,10 +647,7 @@ static node_t *read_input_node(rest, network, errmsg)char **rest;
     return (node);
 }
 
-static node_t *read_output_node(rest, po_list, errmsg)char **rest;
-                                                      lsList po_list;
-                                                      char *errmsg;
-{
+static node_t *read_output_node(char **rest, lsList po_list, char *errmsg) {
     node_t *node;
     lsGen  gen;
     char   *word;
@@ -701,10 +667,10 @@ static node_t *read_output_node(rest, po_list, errmsg)char **rest;
 }
 
 #ifdef SIS
+
 /**********  read_delay_cleanup  ***********/
 
-void read_delay_cleanup(network)network_t *network;
-{
+void read_delay_cleanup(network_t *network) {
     lsGen  gen;
     node_t *node, *fanin;
 
@@ -725,10 +691,7 @@ void read_delay_cleanup(network)network_t *network;
     }
 }
 
-int read_search_file(filename, models, search_files, reader)char *filename;
-                                                            st_table *models, *search_files;
-                                                            int (*reader)();
-{
+int read_search_file(char *filename, st_table *models, st_table *search_files, int (*reader)()) {
     char      *name;
     FILE      *fp;
     int       line, status;
@@ -762,6 +725,7 @@ int read_search_file(filename, models, search_files, reader)char *filename;
     read_lineno   = line;
     return (status);
 }
+
 #endif /* SIS */
 
 /*
@@ -770,9 +734,7 @@ int read_search_file(filename, models, search_files, reader)char *filename;
  *
  * Also allocates a po_list, and a patch_list for the entry.
  */
-modelinfo *read_find_or_create_model(name, models)char *name;
-                                                  st_table *models;
-{
+modelinfo *read_find_or_create_model(char *name, st_table *models) {
     modelinfo *entry;
 
     if (st_lookup(models, name, (char **) &entry) == 1) {
@@ -791,13 +753,13 @@ modelinfo *read_find_or_create_model(name, models)char *name;
 }
 
 #ifdef SIS
+
 /*
  * The following routine returns 1 if the user only specified the
  * .inputs and .outputs hoping that those names would be stored with the STG
  * In this case all the PI nodes have no fanout --- that's what we  will check
  */
-static int read_special_case_for_stg(network)network_t *network;
-{
+static int read_special_case_for_stg(network_t *network) {
     lsGen  gen;
     node_t *node;
     foreach_node(network, gen, node) {
@@ -808,9 +770,8 @@ static int read_special_case_for_stg(network)network_t *network;
     }
     return TRUE;
 }
-static int read_set_latch_order(network, latch_order_list)network_t *network;
-                                                          lsList latch_order_list;
-{
+
+static int read_set_latch_order(network_t *network, lsList latch_order_list) {
     lsGen   gen;
     node_t  *p;
     latch_t *l;
@@ -898,6 +859,7 @@ static int read_set_latch_order(network, latch_order_list)network_t *network;
     }
     return (1);
 }
+
 #endif /* SIS */
 
 static enum st_retval read_patch_network();
@@ -912,8 +874,7 @@ typedef struct {
     enum patch_retval patch_return; /* data out */
 }    st_foreach_data;
 
-static void patch_free(patch)patchinfo *patch;
-{
+static void patch_free(patchinfo *patch) {
     int  i;
     char **formals = patch->formals;
 
@@ -929,10 +890,7 @@ static void patch_free(patch)patchinfo *patch;
     FREE(patch);
 }
 
-int read_blif_slif(fp, networkp, reader)FILE *fp;
-                                        network_t **networkp;
-                                        int (*reader)();
-{
+int read_blif_slif(FILE *fp, network_t **networkp, int (*reader)()) {
     st_table        *models       = st_init_table(strcmp, st_strhash);
     st_table        *search_files = st_init_table(strcmp, st_strhash);
     int             status;
@@ -1080,10 +1038,8 @@ int read_blif_slif(fp, networkp, reader)FILE *fp;
 }
 
 #ifdef SIS
-static node_t *find_or_create_mapped_node(net, map, node)network_t *net;
-                                                         st_table *map;
-                                                         node_t *node;
-{
+
+static node_t *find_or_create_mapped_node(network_t *net, st_table *map, node_t *node) {
     node_t *found;
     char   *name;
 
@@ -1100,9 +1056,7 @@ static node_t *find_or_create_mapped_node(net, map, node)network_t *net;
     return (found);
 }
 
-static int is_real_pio(net, node)network_t *net;
-                                 node_t *node;
-{
+static int is_real_pio(network_t *net, node_t *node) {
     if (network_is_real_pi(net, node) != 0) {
         return (1);
     }
@@ -1124,10 +1078,7 @@ static int is_real_pio(net, node)network_t *net;
  * `entry->network' is either inserted into the library or all the storage
  * associated with `entry->network' is freed depending on `entry->library'.
  */
-static enum st_retval read_patch_network(sname, entry, sfd)char *sname;
-                                                           modelinfo *entry;
-                                                           st_foreach_data *sfd;
-{
+static enum st_retval read_patch_network(char *sname, modelinfo *entry, st_foreach_data *sfd) {
     network_t  *snet;
     lsList     po_list;
     library_t  *library;
@@ -1415,7 +1366,7 @@ static enum st_retval read_patch_network(sname, entry, sfd)char *sname;
                     */
                     break;
                 case INTERNAL:bnode = find_or_create_mapped_node(bnet, nmap, snode);
-                    new_node        = node_dup(snode);
+                    new_node = node_dup(snode);
                     node_replace(bnode, new_node);
                     foreach_fanin(snode, n, sfanin) {
                         bfanin = find_or_create_mapped_node(bnet, nmap, sfanin);
@@ -1465,8 +1416,8 @@ static enum st_retval read_patch_network(sname, entry, sfd)char *sname;
 }
 
 #ifdef SIS
-static void node_map_copy(from, to)node_t *from, *to;
-{
+
+static void node_map_copy(node_t *from, node_t *to) {
     int        nin, i;
     node_t     *fanin;
     lib_gate_t *gate;
@@ -1489,11 +1440,10 @@ static void node_map_copy(from, to)node_t *from, *to;
         FREE(formals);
     }
 }
+
 #endif
 
-void dc_network_check(network, status)network_t *network;
-                                      int *status;
-{
+void dc_network_check(network_t *network, int *status) {
     network_t *dc_net;
     int       po_cnt;
     node_t    *node, *po, *pnode;

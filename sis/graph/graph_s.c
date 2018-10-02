@@ -7,8 +7,7 @@
 
 #define g_field(graph) ((g_field_t *)(graph)->user_data)
 
-graph_t *g_alloc_static(ng, nv, ne)int ng, nv, ne;
-{
+graph_t *g_alloc_static(int ng, int nv, int ne) {
     graph_t   *g;
     g_field_t *gf;;
 
@@ -23,11 +22,7 @@ graph_t *g_alloc_static(ng, nv, ne)int ng, nv, ne;
     return (g);
 }
 
-void g_free_static(g, f_free_g, f_free_v, f_free_e)graph_t *g;
-                                                   void (*f_free_g)();
-                                                   void (*f_free_v)();
-                                                   void (*f_free_e)();
-{
+void g_free_static(graph_t *g, void (*f_free_g)(), void (*f_free_v)(), void (*f_free_e)()) {
     vertex_t  *v;
     edge_t    *e;
     lsGen     gen;
@@ -65,8 +60,7 @@ void g_free_static(g, f_free_g, f_free_v, f_free_e)graph_t *g;
 
 static graph_t *theGraph;
 
-static gGeneric copy_v_slots(user_data)gGeneric user_data;
-{
+static gGeneric copy_v_slots(gGeneric user_data) {
     int      i;
     int      num_v_slots = g_field(theGraph)->num_v_slots;
     gGeneric *new        = ALLOC(gGeneric, num_v_slots);
@@ -77,8 +71,7 @@ static gGeneric copy_v_slots(user_data)gGeneric user_data;
     return ((gGeneric) new);
 }
 
-static gGeneric copy_e_slots(user_data)gGeneric user_data;
-{
+static gGeneric copy_e_slots(gGeneric user_data) {
     int      i;
     int      num_e_slots = g_field(theGraph)->num_e_slots;
     gGeneric *new        = ALLOC(gGeneric, num_e_slots);
@@ -89,11 +82,7 @@ static gGeneric copy_e_slots(user_data)gGeneric user_data;
     return ((gGeneric) new);
 }
 
-graph_t *g_dup_static(g, f_copy_g, f_copy_v, f_copy_e)graph_t *g;
-                                                      gGeneric (*f_copy_g)();
-                                                      gGeneric (*f_copy_v)();
-                                                      gGeneric (*f_copy_e)();
-{
+graph_t *g_dup_static(graph_t *g, gGeneric (*f_copy_g)(), gGeneric (*f_copy_v)(), gGeneric (*f_copy_e)()) {
     g_field_t *gf, *gf2;
     graph_t   *g2;
     gGeneric  *new;
@@ -130,10 +119,7 @@ graph_t *g_dup_static(g, f_copy_g, f_copy_v, f_copy_e)graph_t *g;
     return (g2);
 }
 
-void g_set_g_slot_static(g, i, val)graph_t *g;
-                                   int i;
-                                   gGeneric val;
-{
+void g_set_g_slot_static(graph_t *g, int i, gGeneric val) {
     if (g == NIL(graph_t)) {
         fail("g_set_g_slot_static: Null graph");
     }
@@ -141,18 +127,14 @@ void g_set_g_slot_static(g, i, val)graph_t *g;
     return;
 }
 
-gGeneric g_get_g_slot_static(g, i)graph_t *g;
-                                  int i;
-{
+gGeneric g_get_g_slot_static(graph_t *g, int i) {
     if (g == NIL(graph_t)) {
         fail("g_get_g_slot_static: Null graph");
     }
     return ((gGeneric *) g_field(g)->user_data)[i];
 }
 
-void g_copy_g_slots_static(g1, g2, f_copy_g)graph_t *g1, *g2;
-                                            gGeneric (*f_copy_g)();
-{
+void g_copy_g_slots_static(graph_t *g1, graph_t *g2, gGeneric (*f_copy_g)()) {
     g_field_t *gf1, *gf2;
     gGeneric  slots1, *slots2;
     int       n;
@@ -179,8 +161,7 @@ void g_copy_g_slots_static(g1, g2, f_copy_g)graph_t *g1, *g2;
     }
 }
 
-edge_t *g_add_edge_static(v1, v2)vertex_t *v1, *v2;
-{
+edge_t *g_add_edge_static(vertex_t *v1, vertex_t *v2) {
     edge_t    *e;
     g_field_t *gf;
 
@@ -193,9 +174,7 @@ edge_t *g_add_edge_static(v1, v2)vertex_t *v1, *v2;
     return (e);
 }
 
-void g_delete_edge_static(e, f_free_e)edge_t *e;
-                                      void (*f_free_e)();
-{
+void g_delete_edge_static(edge_t *e, void (*f_free_e)()) {
     if (e == NIL(edge_t)) {
         fail("g_delete_edge_static: Null edge");
     }
@@ -206,28 +185,21 @@ void g_delete_edge_static(e, f_free_e)edge_t *e;
     g_delete_edge(e, (void (*)()) NULL);
 }
 
-void g_set_e_slot_static(e, i, val)edge_t *e;
-                                   int i;
-                                   gGeneric val;
-{
+void g_set_e_slot_static(edge_t *e, int i, gGeneric val) {
     if (e == NIL(edge_t)) {
         fail("g_set_e_slot_static: Null edge");
     }
     ((gGeneric *) e->user_data)[i] = val;
 }
 
-gGeneric g_get_e_slot_static(e, i)edge_t *e;
-                                  int i;
-{
+gGeneric g_get_e_slot_static(edge_t *e, int i) {
     if (e == NIL(edge_t)) {
         fail("g_get_e_slot_static: Null edge");
     }
     return ((gGeneric *) e->user_data)[i];
 }
 
-void g_copy_e_slots_static(e1, e2, f_copy_e)edge_t *e1, *e2;
-                                            gGeneric (*f_copy_e)();
-{
+void g_copy_e_slots_static(edge_t *e1, edge_t *e2, gGeneric (*f_copy_e)()) {
     int      n;
     gGeneric slots1, *slots2;
 
@@ -264,10 +236,7 @@ vertex_t *g_add_vertex_static(graph_t *g) {
     return (v);
 }
 
-void g_delete_vertex_static(v, f_free_v, f_free_e)vertex_t *v;
-                                                  void (*f_free_v)();
-                                                  void (*f_free_e)();
-{
+void g_delete_vertex_static(vertex_t *v, void (*f_free_v)(), void (*f_free_e)()) {
     edge_t *e;
     lsGen  gen;
 
@@ -293,28 +262,21 @@ void g_delete_vertex_static(v, f_free_v, f_free_e)vertex_t *v;
     g_delete_vertex(v, (void (*)()) NULL, (void (*)()) NULL);
 }
 
-void g_set_v_slot_static(v, i, val)vertex_t *v;
-                                   int i;
-                                   gGeneric val;
-{
+void g_set_v_slot_static(vertex_t *v, int i, gGeneric val) {
     if (v == NIL(vertex_t)) {
         fail("g_set_v_slot_static: Null vertex");
     }
     ((gGeneric *) v->user_data)[i] = val;
 }
 
-gGeneric g_get_v_slot_static(v, i)vertex_t *v;
-                                  int i;
-{
+gGeneric g_get_v_slot_static(vertex_t *v, int i) {
     if (v == NIL(vertex_t)) {
         fail("g_get_v_slot_static: Null vertex");
     }
     return ((gGeneric *) v->user_data)[i];
 }
 
-void g_copy_v_slots_static(v1, v2, f_copy_v)vertex_t *v1, *v2;
-                                            gGeneric (*f_copy_v)();
-{
+void g_copy_v_slots_static(vertex_t *v1, vertex_t *v2, gGeneric (*f_copy_v)()) {
     int      n;
     gGeneric slots1, *slots2;
 
@@ -337,4 +299,5 @@ void g_copy_v_slots_static(v1, v2, f_copy_v)vertex_t *v1, *v2;
         v2->user_data = (*f_copy_v)(slots1);
     }
 }
+
 #endif /* SIS */

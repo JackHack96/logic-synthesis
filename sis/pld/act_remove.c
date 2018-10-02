@@ -13,10 +13,7 @@
 /*	free up ACTs
  */
 
-int p_actRemove(network, argc, argv) network_t **network;
-int argc;
-char **argv;
-
+int p_actRemove(network_t **network, int argc, char **argv)
 {
   int i, c, locality, input_size;
   array_t *node_vec;

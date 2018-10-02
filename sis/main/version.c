@@ -21,8 +21,7 @@
  * Returns the date in a brief format assuming its coming from
  * the program `date'.
  */
-static char *proc_date(datestr)char *datestr;
-{
+static char *proc_date(char *datestr) {
     static char result[25];
     char        day[10], month[10], zone[10], *at;
     int         date, hour, minute, second, year;
@@ -61,4 +60,4 @@ char *sis_version() {
  *  Returns the SIS library path (usually ~cad/lib/sis/lib) to the caller
  */
 
-char *sis_library() { return util_tilde_expand( LIBRARY); }
+char *sis_library() { return util_tilde_expand(LIBRARY); }
