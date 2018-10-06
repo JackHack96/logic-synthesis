@@ -7,12 +7,7 @@
  * Computes the required time at the "pin" input signal of node "fo".
  * This differs from the required time at the node generating the signal
  */
-void sp_buf_req_time(fo, buf_param, pin, reqp, loadp)node_t *fo;
-                                                     buf_global_t *buf_param;
-                                                     int pin;
-                                                     delay_time_t *reqp; /* RETURN: The required time at the signal */
-                                                     double *loadp;      /* RETURN: The input cap + wire load cap at input */
-{
+void sp_buf_req_time(node_t *fo, buf_global_t *buf_param, int pin, delay_time_t *reqp, double *loadp) {
     delay_model_t model = buf_param->model;
     delay_pin_t   *pin_delay;
 
@@ -30,9 +25,7 @@ void sp_buf_req_time(fo, buf_param, pin, reqp, loadp)node_t *fo;
  * get the input cap of the first pin for now -- Eventually it should
  * get the input cap of most critical input
  */
-double sp_get_pin_load(node, model)node_t *node;
-                                   delay_model_t model;
-{
+double sp_get_pin_load(node_t *node, delay_model_t model) {
     double      load;
     delay_pin_t *pin_delay;
 
@@ -53,10 +46,7 @@ double sp_get_pin_load(node, model)node_t *node;
  * should get the drive of most critical fanin.  Also returns the phase of
  * selected fanin -- INVERTING || NONINVERTING || NEITHER
  */
-delay_time_t sp_get_input_drive(nodep, model, phase)node_t *nodep;
-                                                    delay_model_t model;
-                                                    pin_phase_t *phase; /* RETURN: The phase of the selected fanin */
-{
+delay_time_t sp_get_input_drive(node_t *nodep, delay_model_t model, pin_phase_t *phase) {
     node_t       *node;
     delay_time_t drive;
     delay_pin_t  *pin_delay;
@@ -91,9 +81,7 @@ void sp_subtract_delay(pin_phase_t phase, delay_time_t block, delay_time_t drive
  * Utility routine that will subtract "t" from "req" depending on
  * "phase" -- Used to update required times : "req" is changed in place
  */
-void sp_compute(phase, req, t)pin_phase_t phase;
-                              delay_time_t *req, t;
-{
+void sp_compute(pin_phase_t phase, delay_time_t *req, delay_time_t t) {
     delay_time_t ip_req;
 
     ip_req.rise = ip_req.fall = INFINITY;
@@ -109,20 +97,15 @@ void sp_compute(phase, req, t)pin_phase_t phase;
 
     *req = ip_req;
 }
+
 /*
  * After a redistribution used to update required time data
  * k is the index of the partition and nodeL is the buffer
  * that was added during the redistribution. Since the required
  * times and caps are known for the fanouts we pass them too.
  */
-void sp_buf_compute_req_time(node, model, req_times, cap_K, k,
-                             nodeL)node_t *node,
-                                   *nodeL;
-                                   delay_model_t model;
-                                   delay_time_t *req_times;
-                                   double cap_K;
-                                   int k;
-{
+void sp_buf_compute_req_time(node_t *node, delay_model_t model, delay_time_t *req_times, double cap_K, int k,
+                             node_t *nodeL) {
     int          i, cfi;
     double       load;
     pin_phase_t  phase;
@@ -161,11 +144,7 @@ void sp_buf_compute_req_time(node, model, req_times, cap_K, k,
  * Set drive and load of Primary IP/OP respectively to be that of the
  * second (next to the smallest) inverter in the library
  */
-int buf_set_pipo_defaults(network, buf_param, load_table,
-                          drive_table)network_t *network;
-                                      buf_global_t *buf_param;
-                                      st_table **load_table, **drive_table;
-{
+int buf_set_pipo_defaults(network_t *network, buf_global_t *buf_param, st_table **load_table, st_table **drive_table) {
     lsGen        gen;
     node_t       *node;
     double       load;

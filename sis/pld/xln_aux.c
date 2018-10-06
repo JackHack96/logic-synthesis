@@ -13,7 +13,7 @@
 
 /* Return the ceiling of log2(n). Use the fact that the floor of the binary
 log of n is the highest-order bit of the integer representation */
-int intlog2(n) int n;
+int intlog2(int n)
 {
   int i, j, ans;
 
@@ -33,9 +33,7 @@ int intlog2(n) int n;
   return ans;
 }
 
-void xl_binary1(value, length, string) int value;
-int length;
-char *string;
+void xl_binary1(int value, int length, char *string)
 {
   int Position = 0;
   int remainder;
@@ -66,8 +64,7 @@ char *string;
    Given some subset of fanins of node in array Y, return an
    int array corresponding to the indices of the fanins.
 ---------------------------------------------------------------*/
-int *xln_array_to_indices(Y, node) array_t *Y;
-node_t *node;
+int *xln_array_to_indices(array_t *Y, node_t *node)
 {
   int *lambda_indices;
   int j, index;

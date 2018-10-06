@@ -2,9 +2,7 @@
 #include "pld_int.h"
 #include "sis.h"
 
-act_ite_mux_network(network, init_param, FAC_TO_SOP_RATIO) network_t *network;
-act_init_param_t *init_param;
-float FAC_TO_SOP_RATIO;
+void act_ite_mux_network(network_t *network, act_init_param_t *init_param, float FAC_TO_SOP_RATIO)
 {
   array_t *nodevec;
   int i, num_lit;
@@ -43,7 +41,7 @@ float FAC_TO_SOP_RATIO;
   and pattern_num = 0 (just a mux.). Set the multiple_fo vertex
   correctly because it will be needed while breaking the node.
 ------------------------------------------------------------------*/
-act_ite_initialize_ite_area_pattern0(ite) ite_vertex *ite;
+void act_ite_initialize_ite_area_pattern0(ite_vertex *ite)
 {
   st_table *table;
 
@@ -52,8 +50,7 @@ act_ite_initialize_ite_area_pattern0(ite) ite_vertex *ite;
   st_free_table(table);
 }
 
-act_ite_insert_table_area_pattern0(ite, table) ite_vertex *ite;
-st_table *table;
+void act_ite_insert_table_area_pattern0(ite_vertex *ite, st_table *table)
 {
   if (st_insert(table, (char *)ite, (char *)ite)) {
     (ite->multiple_fo)++;

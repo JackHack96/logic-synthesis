@@ -20,9 +20,7 @@
          constraint_graph_free()
 */
 
-double compute_optimal_clock(latch_graph, network) graph_t *latch_graph;
-network_t *network;
-{
+double compute_optimal_clock(graph_t *latch_graph, network_t *network) {
   graph_t *clock_graph;
   phase_t *phase;
   double clock, clock_lb;
@@ -102,8 +100,7 @@ network_t *network;
     calls:    guess_lower_bound(),
               all_negative_cycles()
 */
-double clock_lower_bound(g) graph_t *g;
-{
+double clock_lower_bound(graph_t *g) {
   double cur_clock, new_clock, clock_ub, clock_lb;
 
   clock_ub = 0;
@@ -145,9 +142,7 @@ double clock_lower_bound(g) graph_t *g;
 
     calls:
 */
-int all_negative_cycles(g, c) graph_t *g;
-double c;
-{
+int all_negative_cycles(graph_t *g, double c) {
   vertex_t *v, *u;
   edge_t *e;
   register elist_t *list;
@@ -215,8 +210,7 @@ double c;
     return value:  double
     calls: guess_clock_bound_recursive()
 */
-double guess_clock_bound(g) graph_t *g;
-{
+double guess_clock_bound(graph_t *g) {
   double bound1, bound2;
   lsGen gen;
   vertex_t *v, *host;
@@ -256,9 +250,7 @@ double guess_clock_bound(g) graph_t *g;
     return value: -
     calls:
 */
-guess_clock_bound_recursive(u, b1, b2) vertex_t *u;
-double *b1, *b2;
-{
+guess_clock_bound_recursive(vertex_t *u, double *b1, double *b2) {
   lsGen gen;
   edge_t *e;
   vertex_t *v;
@@ -313,9 +305,7 @@ double *b1, *b2;
 
 */
 
-graph_t *construct_clock_graph(lg, clock_lb) graph_t *lg;
-double clock_lb;
-{
+graph_t *construct_clock_graph(graph_t *lg, double clock_lb) {
   graph_t *cg;
   lsGen gen;
   vertex_t *u, *p1, *v;
@@ -414,13 +404,9 @@ double clock_lb;
     calls:
 */
 
-gen_constraints_from(lg, cg, latch_array, p1, clock_lb, red, black) graph_t *lg,
-    *cg;
-vertex_t *p1;
-array_t *latch_array;
-double clock_lb;
-array_t *red, *black;
-{
+void gen_constraints_from(graph_t *lg, graph_t *cg, array_t *latch_array,
+                          vertex_t *p1, double clock_lb, array_t *red,
+                          array_t *black) {
   edge_t **e_array;
   lsGen gen;
   edge_t *e;
@@ -566,8 +552,7 @@ array_t *red, *black;
     return value:  -
     calls:    g_get_edge()
 */
-add_short_path_constraints(cg, lg) graph_t *cg, *lg;
-{
+void add_short_path_constraints(graph_t *cg, graph_t *lg) {
   edge_t *cedge, *ledge;
   double **array;
   int i, j, from_id, to_id, dim, k;
@@ -629,10 +614,7 @@ add_short_path_constraints(cg, lg) graph_t *cg, *lg;
     calls:    is_feasible()
 */
 
-double solve_constraints(cg, v0, clock_lb) graph_t *cg;
-vertex_t *v0;
-double clock_lb;
-{
+double solve_constraints(graph_t *cg, vertex_t *v0, double clock_lb) {
   double cur_clock, clock_ub;
 
   clock_ub = INFTY;
@@ -667,10 +649,7 @@ double clock_lb;
     calls:       evaluate_right_hand_side(),
                  print_graph_solution()
 */
-int is_feasible(g, c, v0) graph_t *g;
-double c;
-vertex_t *v0;
-{
+int is_feasible(graph_t *g, double c, vertex_t *v0) {
   edge_t *e;
   vertex_t *u, *v;
   lsGen gen;
@@ -740,8 +719,7 @@ vertex_t *v0;
     return value: -
     calls:-
 */
-print_constraint_graph(g) graph_t *g;
-{
+void print_constraint_graph(graph_t *g) {
   edge_t *e;
   vertex_t *u, *v;
   char *dummy;
@@ -821,9 +799,7 @@ print_constraint_graph(g) graph_t *g;
     calls:
 */
 
-add_model_constraints(lg, cg, v0) graph_t *lg, *cg;
-register vertex_t *v0;
-{
+void add_model_constraints(graph_t *lg, graph_t *cg, register vertex_t *v0) {
   lsGen gen;
   vertex_t *v;
   edge_t *e, *edge_z2ek, *edge_ek2z;
@@ -905,9 +881,7 @@ register vertex_t *v0;
     return value:
     calls:
 */
-add_phase_separation_constraints(lg, cg, v0) graph_t *lg, *cg;
-vertex_t *v0;
-{
+void add_phase_separation_constraints(graph_t *lg, graph_t *cg, vertex_t *v0) {
   double min_sep, max_sep;
   int i;
   phase_t *phase;
@@ -976,9 +950,7 @@ vertex_t *v0;
     return value:
     calls:
 */
-evaluate_right_hand_side(g, c) graph_t *g;
-double c;
-{
+void evaluate_right_hand_side(graph_t *g, double c) {
   lsGen gen;
   edge_t *e;
   char *dummy;
@@ -1027,8 +999,7 @@ double c;
     return value:
     calls:
 */
-print_constraints(g) graph_t *g;
-{
+void print_constraints(graph_t *g) {
   lsGen gen;
   edge_t *e;
   vertex_t *u, *v;
@@ -1067,8 +1038,7 @@ print_constraints(g) graph_t *g;
   }
 }
 
-print_graph_solution(g) graph_t *g;
-{
+void print_graph_solution(graph_t *g) {
   lsGen gen;
   vertex_t *u;
 
@@ -1090,10 +1060,8 @@ print_graph_solution(g) graph_t *g;
     return value:
     calls:
 */
-circuit_clock_update(lg, cg, network, clock) graph_t *lg, *cg;
-network_t *network;
-double clock;
-{
+void circuit_clock_update(graph_t *lg, graph_t *cg, network_t *network,
+                          double clock) {
   lsGen gen;
   vertex_t *u;
   clock_edge_t transition;
@@ -1119,10 +1087,7 @@ double clock;
     return value: double
     calls:   exterior_path_search(), is_feasible()
 */
-double solve_gen_constraints(cg, v0, clock_lb) graph_t *cg;
-vertex_t *v0;
-double clock_lb;
-{
+double solve_gen_constraints(graph_t *cg, vertex_t *v0, double clock_lb) {
 
   double cur_clock, L, R;
 
@@ -1150,9 +1115,7 @@ double clock_lb;
     return value: int
     calls: init_matrix(), update_matrix(), free_matrix(), evaluate_matrix()
 */
-int exterior_path_search(cg, clock, L, R) graph_t *cg;
-double *clock, L, R;
-{
+int exterior_path_search(graph_t *cg, double *clock, double L, double R) {
   int num_v, flag;
   register int x, i, j, k;
   double val, c;
@@ -1235,9 +1198,7 @@ double *clock, L, R;
     return value: matrix_t *
     calls:
 */
-matrix_t *init_matrix(g, c) graph_t *g;
-double c;
-{
+matrix_t *init_matrix(graph_t *g, double c) {
   lsGen gen;
   vertex_t *v;
   matrix_t *m;
@@ -1292,10 +1253,7 @@ double c;
     return value:
     calls:
 */
-evaluate_matrix(g, m, c) graph_t *g;
-matrix_t *m;
-double c;
-{
+void evaluate_matrix(graph_t *g, matrix_t *m, double c) {
   lsGen gen;
   edge_t *e;
   char *dummy;
@@ -1375,8 +1333,7 @@ double c;
     calls:
 */
 
-int update_matrix(m) matrix_t *m;
-{
+int update_matrix(matrix_t *m) {
   int flag, num_v;
   register int i, j;
   double c;
@@ -1452,8 +1409,7 @@ int update_matrix(m) matrix_t *m;
     return value:
     calls:
 */
-free_matrix(m) matrix_t *m;
-{
+free_matrix(matrix_t *m) {
   int num_v, i;
 
   num_v = NUM_V(m);

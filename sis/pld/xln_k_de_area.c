@@ -18,8 +18,7 @@
   If the Roth-Karp decomposition fails (a disjoint decomp not possible),
   and DESPERATE is non-zero, then use xl_ao map to decompose the node.
 --------------------------------------------------------------------------*/
-xln_exhaustive_k_decomp_network(network, init_param) network_t *network;
-xln_init_param_t *init_param;
+void xln_exhaustive_k_decomp_network(network_t *network, xln_init_param_t *init_param)
 {
   array_t *nodevec;
   int i;
@@ -66,9 +65,7 @@ xln_init_param_t *init_param;
   wanted from the calling routine.
 -------------------------------------------------------------------*/
 
-network_t *xln_exhaustive_k_decomp_node(node, support, MAX_FANINS) node_t *node;
-int support;
-int MAX_FANINS;
+network_t *xln_exhaustive_k_decomp_node(node_t *node, int support, int MAX_FANINS)
 {
   int best_cost;
   int cost;

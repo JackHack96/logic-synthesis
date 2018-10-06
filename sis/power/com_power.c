@@ -22,66 +22,57 @@ static int free_power_info();
 static int print_power_info();
 
 static struct {
-  char *name;
+    char *name;
 
-  int (*function)();
+    int (*function)();
 
-  boolean changes_network;
+    boolean changes_network;
 } table[] = {
-    {"power_estimate", com_power_main, TRUE /* Adds prob info */},
-    {"power_free_info", free_power_info, TRUE /* Frees prob info */},
-    {"power_print", print_power_info, FALSE /* Doesn't change network */}};
+        {"power_estimate",  com_power_main,   TRUE /* Adds prob info */},
+        {"power_free_info", free_power_info,  TRUE /* Frees prob info */},
+        {"power_print",     print_power_info, FALSE /* Doesn't change network */}};
 
 int init_power() {
-  int i;
+    int i;
 
-  for (i = 0; i < sizeof_el(table); i++) {
-    com_add_command(table[i].name, table[i].function, table[i].changes_network);
-  }
+    for (i = 0; i < sizeof_el(table); i++) {
+        com_add_command(table[i].name, table[i].function, table[i].changes_network);
+    }
 }
 
 end_power() {}
 
 /* Main driver for deriving the power of a network */
-static int com_power_main(network, argc, argv) network_t **network;
-int argc;
-char **argv;
-{
-  int status;
+static int com_power_main(network_t **network, int argc, char **argv) {
+    int status;
 
-  status = power_command_line_interface(*network, argc, argv);
+    status = power_command_line_interface(*network, argc, argv);
 
-  return status;
+    return status;
 }
 
-static int free_power_info(network, argc, argv) network_t **network;
-int argc;
-char **argv;
-{
-  int status;
+static int free_power_info(network_t **network, int argc, char **argv) {
+    int status;
 
-  if (argc != 1) {
-    fprintf(siserr, "Too many arguments. Usage: power_free_info\n");
-    return 1;
-  }
+    if (argc != 1) {
+        fprintf(siserr, "Too many arguments. Usage: power_free_info\n");
+        return 1;
+    }
 
-  status = power_free_info();
+    status = power_free_info();
 
-  return status;
+    return status;
 }
 
-static int print_power_info(network, argc, argv) network_t **network;
-int argc;
-char **argv;
-{
-  int status;
+static int print_power_info(network_t **network, int argc, char **argv) {
+    int status;
 
-  if (argc != 1) {
-    fprintf(siserr, "Too many arguments. Usage: power_print\n");
-    return 1;
-  }
+    if (argc != 1) {
+        fprintf(siserr, "Too many arguments. Usage: power_print\n");
+        return 1;
+    }
 
-  status = power_print_info(*network);
+    status = power_print_info(*network);
 
-  return status;
+    return status;
 }

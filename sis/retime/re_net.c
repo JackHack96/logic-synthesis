@@ -45,9 +45,7 @@ enum st_retval re_table_to_array();
  *           some nodes are added to the network, Remember to delete these
  *           using the routine 	"re_delete_temp_nodes()" !!!!
  */
-re_graph *retime_network_to_graph(network, size, use_mapped) network_t *network;
-int use_mapped;
-int size;
+re_graph *retime_network_to_graph(network_t *network, int size, int use_mapped)
 {
   lsGen gen;
   re_graph *graph;
@@ -209,7 +207,7 @@ int size;
  */
 
 /* ARGSUSED */
-enum st_retval re_table_to_array(key, value, arg) char *key, *value, *arg;
+enum st_retval re_table_to_array(char *key, char *value, char *arg)
 {
   lsGen gen;
   node_t *node, *fo;
@@ -231,12 +229,7 @@ enum st_retval re_table_to_array(key, value, arg) char *key, *value, *arg;
  * This routine takes the nodes in "nodevec" and then will do a
  * breadth_first_traversal and add the nodes it encounters
  */
-static void retime_add_bfs_nodes(graph, nodevec, l_table, node_to_id_table,
-                                 d_latch) re_graph *graph;
-array_t *nodevec;
-st_table *l_table;
-st_table *node_to_id_table;
-lib_gate_t *d_latch;
+static void retime_add_bfs_nodes(re_graph *graph, array_t *nodevec, st_table *l_table, st_table *node_to_id_table, lib_gate_t *d_latch)
 {
 
   array_t *fan;
@@ -304,8 +297,7 @@ lib_gate_t *d_latch;
  * network may be true po or inputs to latches. Also insert the
  * initial values of the latches in the fanout structure.
  */
-static array_t *retime_gen_weights(node, d_latch) node_t *node;
-lib_gate_t *d_latch; /* If NIL(lib_gate_t) then unmapped netw */
+static array_t *retime_gen_weights(node_t *node, lib_gate_t *d_latch)
 {
   lsGen gen;
   char *dummy;
@@ -391,8 +383,7 @@ lib_gate_t *d_latch; /* If NIL(lib_gate_t) then unmapped netw */
 /* Utility routine
  * If node is the input of a latch, it will generate its o/p else NIL
  */
-node_t *retime_network_latch_end(node, d_latch) node_t *node;
-lib_gate_t *d_latch;
+node_t *retime_network_latch_end(node_t *node, lib_gate_t *d_latch)
 {
   node_t *po, *end;
 
@@ -409,8 +400,7 @@ lib_gate_t *d_latch;
 /*
  * Utility: Move the fanouts of "from" to be fanouts of the "to" node
  */
-static void re_patch_fanouts(from, to) node_t *from, *to;
-{
+static void re_patch_fanouts(node_t *from, node_t *to){
   int j = 0, n;
   lsGen gen;
   node_t **fo_array, *fanout;
@@ -428,7 +418,7 @@ static void re_patch_fanouts(from, to) node_t *from, *to;
  * retime graph can be generated from the network in case cycles with
  * only latches are encountered in the circuit...
  */
-void re_delete_temp_nodes(network) network_t *network;
+void re_delete_temp_nodes(network_t *network)
 {
   lsGen gen;
   node_t *node, *temp;
@@ -449,8 +439,7 @@ void re_delete_temp_nodes(network) network_t *network;
  * library and inset them. Furthermore for the original mapped latches
  * in the network, we need to ensure that the latches are captured correctly
  */
-network_t *retime_graph_to_network(graph, use_mapped) re_graph *graph;
-int use_mapped;
+network_t *retime_graph_to_network(re_graph *graph, int use_mapped)
 {
   char *name;
   int i, j, k;
@@ -755,7 +744,7 @@ int use_mapped;
  * latches should be present on the edge. Get the values
  * from the latches. Failing this assume don't care values.
  */
-static void retime_assure_init_values(edge) re_edge *edge;
+static void retime_assure_init_values(re_edge *edge)
 {
   int k;
 
@@ -782,9 +771,7 @@ static void retime_assure_init_values(edge) re_edge *edge;
  * nodes in the old network. The copy field of these nodes
  * has the info in the current network.
  */
-static void retime_add_latches(network, edge, d_latch) network_t *network;
-re_edge *edge;
-lib_gate_t *d_latch;
+static void retime_add_latches(network_t *network, re_edge *edge, lib_gate_t *d_latch)
 {
   latch_t *latch;
 
@@ -814,13 +801,7 @@ lib_gate_t *d_latch;
 /*
  * Add "weight" latches between "from" and the "index" fanin of "to"
  */
-static void retime_add_latches_to_network(network, from_node, to, index, weight,
-                                          d_latch, init_val) network_t *network;
-node_t *from_node, *to;
-int index, weight;
-lib_gate_t *d_latch;
-int *init_val; /* Hold the initial value to be inserted for latches */
-{
+static void retime_add_latches_to_network(network_t *network, node_t *from_node, node_t *to, int index, int weight, lib_gate_t *d_latch, int *init_val){
   int i, num_latches;
   latch_t *latch;
   node_t *l_in, *l_out, *from, *node;
@@ -884,12 +865,7 @@ int *init_val; /* Hold the initial value to be inserted for latches */
  * Check to see if we can share latches already present. Make sure
  * that the latches present have the same initial value as ours
  */
-static void retime_share_latches(node, req, d_latch, init_val, deficit)
-    node_t **node;  /* RETURN: The new starting point for adding latches */
-int req, *init_val; /* Number latches required and their initial values */
-lib_gate_t *d_latch;
-int *deficit; /* RETURN: Number of latches to be added */
-{
+static void retime_share_latches(node_t **node, int req, lib_gate_t *d_latch, int *init_val, int *deficit) {
   int i;
   node_t *np, *l_out, *l_in;
 
@@ -908,9 +884,7 @@ int *deficit; /* RETURN: Number of latches to be added */
 /*
  * Check if latch with the same initial value is present or not
  */
-static node_t *retime_get_latch_input(node, d_latch, value) node_t *node;
-lib_gate_t *d_latch;
-int value;
+static node_t *retime_get_latch_input(node_t *node, lib_gate_t *d_latch, int value)
 {
   lsGen gen;
   node_t *np, *l_out;
@@ -938,9 +912,7 @@ int value;
 /*
  * Set the gate implementation of node.. node is part of a network
  */
-static void retime_set_gate(node, graph, node_to_id_table) node_t *node;
-re_graph *graph;
-st_table *node_to_id_table;
+static void retime_set_gate(node_t *node, re_graph *graph, st_table *node_to_id_table)
 {
   re_edge *edge;
   re_node *re_no;
@@ -968,9 +940,7 @@ st_table *node_to_id_table;
   retime_lib_set_gate(node, gate, k);
 }
 
-retime_lib_set_gate(node, gate, index) node_t *node;
-lib_gate_t *gate;
-int index; /* index == -1 if there is no feedback pin on complex latch */
+void retime_lib_set_gate(node_t *node, lib_gate_t *gate, int index)
 {
   int i, n;
   char **formals;

@@ -18,20 +18,19 @@
  * The routine nrerror has been replaced by a sis interface
  */
 
-static int *ivector(nl, nh)int nl, nh;
+static int *ivector(int nl, int nh);
+
 {
-    int *v;
+int *v;
     v = ALLOC(int, nh - nl + 1);
-    return v - nl;
+return v -
+nl;
 }
 
 /* ARGSUSED */
-static void free_ivector(v, nl, nh)int *v, nl, nh;
-{ free((char *) (v + nl)); }
+static void free_ivector(int *v, int nl, int nh) { free((char *) (v + nl)); }
 
-static void simp1(a, mm, ll, nll, iabf, kp, bmax)double **a, *bmax;
-                                                 int mm, ll[], nll, iabf, *kp;
-{
+static void simp1(double **a, int mm, int ll[], int nll, int iabf, int *kp, double *bmax) {
     int    k;
     double test;
 
@@ -51,9 +50,7 @@ static void simp1(a, mm, ll, nll, iabf, kp, bmax)double **a, *bmax;
 
 #define EPS 1.0e-6
 
-static void simp2(a, n, l2, nl2, ip, kp, q1)int n, l2[], nl2, *ip, kp;
-                                            double **a, *q1;
-{
+static void simp2(double **a, int n, int l2[], int nl2, int *ip, int kp, double **q1) {
     int    k, ii, i;
     double qp, q0, q;
 
@@ -85,9 +82,7 @@ static void simp2(a, n, l2, nl2, ip, kp, q1)int n, l2[], nl2, *ip, kp;
     }
 }
 
-static void simp3(a, i1, k1, ip, kp)int i1, k1, ip, kp;
-                                    double **a;
-{
+static void simp3(double **a, int i1, int k1, int ip, int kp) {
     int    kk, ii;
     double piv;
 

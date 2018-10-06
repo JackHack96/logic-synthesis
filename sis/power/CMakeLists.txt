@@ -1,3 +1,4 @@
+set(CMAKE_C_FLAGS -DSIS)
 add_library(power STATIC
         com_power.c
         power_comb.c

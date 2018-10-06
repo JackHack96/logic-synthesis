@@ -9,8 +9,7 @@
   init_param->MAP_METHOD requires just decomp, then FANIN_COLLAPSE field
   is set to 0. Else it is left untouched.
 ---------------------------------------------------------------------------*/
-act_ite_map_node_with_iter_imp(node, init_param) node_t *node;
-act_init_param_t *init_param;
+void act_ite_map_node_with_iter_imp(node_t *node, act_init_param_t *init_param)
 {
   node_function_t node_fun;
   network_t *network1;
@@ -91,7 +90,7 @@ act_init_param_t *init_param;
   return ACT_ITE_SLOT(node)->cost;
 }
 
-int network_num_nonzero_cost_nodes(network) network_t *network;
+int network_num_nonzero_cost_nodes(network_t *network)
 {
   int count;
   node_t *node;

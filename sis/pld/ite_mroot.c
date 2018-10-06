@@ -12,8 +12,7 @@ extern ite_vertex *PRESENT_ITE;
  *   mapping is performed.
  */
 
-act_ite_create_and_map_mroot_network(network, init_param) network_t *network;
-act_init_param_t *init_param;
+void act_ite_create_and_map_mroot_network(network_t *network, act_init_param_t *init_param)
 {
   act_ite_create_mroot_ite_network(network, init_param);
   (void)act_ite_mroot_make_tree_and_map(network);
@@ -21,8 +20,7 @@ act_init_param_t *init_param;
   act_ite_mroot_traverse_and_free(network);
 }
 
-act_ite_create_mroot_ite_network(network, init_param) network_t *network;
-act_init_param_t *init_param;
+void act_ite_create_mroot_ite_network(network_t *network, act_init_param_t *init_param)
 {
 
   node_t *node;
@@ -42,7 +40,7 @@ act_init_param_t *init_param;
   array_free(nodevec);
 }
 
-act_ite_mroot_modify_fields_node(node) node_t *node;
+void act_ite_mroot_modify_fields_node(node_t *node)
 {
   ite_vertex *ite, *vertex;
   st_table *table, *table_free;
@@ -96,8 +94,7 @@ act_ite_mroot_modify_fields_node(node) node_t *node;
         3) Assuming that ite_1, ite_0 (may be multiple for one node)
         not being pointed at by any other node.
 --------------------------------------------------------------------*/
-act_ite_mroot_modify_fields_ite(ite, table, table_free) ite_vertex *ite;
-st_table *table, *table_free;
+void act_ite_mroot_modify_fields_ite(ite_vertex *ite, st_table *table, st_table *table_free)
 {
   ite_vertex *ite_if, *ite_then, *ite_else;
   node_t *fanin;
@@ -141,7 +138,7 @@ st_table *table, *table_free;
   }
 }
 
-int ite_is_buffer(ite) ite_vertex *ite;
+int ite_is_buffer(ite_vertex *ite)
 {
   return (ite->value == 3 && ite->IF->value == 2 && ite->IF->phase == 1 &&
           ite->THEN->value == 1 && ite->ELSE->value == 0);
@@ -150,11 +147,7 @@ int ite_is_buffer(ite) ite_vertex *ite;
 /*-----------------------------------------------------------------------
   Parent's "c" (could be 'I', 'T', 'E') child is a buffer.
 ------------------------------------------------------------------------*/
-act_ite_mroot_modify_part(parent, child, c, table,
-                          table_free) ite_vertex *parent,
-    *child;
-char c;
-st_table *table, *table_free;
+void act_ite_mroot_modify_part(ite_vertex *parent, ite_vertex *child, char c, st_table *table, st_table *table_free)
 {
   node_t *fanin;
 
@@ -184,8 +177,7 @@ st_table *table, *table_free;
   }
 }
 
-act_ite_create_mroot_ite_node(node, init_param) node_t *node;
-act_init_param_t *init_param;
+void act_ite_create_mroot_ite_node(node_t *node, act_init_param_t *init_param)
 {
 
   if (node->type == PRIMARY_INPUT || node->type == PRIMARY_OUTPUT)
@@ -203,7 +195,7 @@ act_init_param_t *init_param;
   Assumes that ite of the node has been created. Breaks the ite into
   trees and maps each tree using the pattern graphs.
 --------------------------------------------------------------------*/
-int act_ite_mroot_make_tree_and_map(network) network_t *network;
+int act_ite_mroot_make_tree_and_map(network_t *network)
 
 {
   int num_ite;
@@ -256,8 +248,7 @@ int act_ite_mroot_make_tree_and_map(network) network_t *network;
   return TOTAL_MUX_STRUCT;
 }
 
-act_ite_mroot_initialize_ite_area_network(
-    multiple_fo_array) array_t *multiple_fo_array;
+void act_ite_mroot_initialize_ite_area_network(array_t *multiple_fo_array)
 {
   int init_num, i;
   st_table *table;
@@ -287,10 +278,7 @@ act_ite_mroot_initialize_ite_area_network(
   st_free_table(table);
 }
 
-act_ite_mroot_initialize_area_ite(vertex, multiple_fo_array,
-                                  table) ite_vertex *vertex;
-array_t *multiple_fo_array;
-st_table *table;
+void act_ite_mroot_initialize_area_ite(ite_vertex *vertex, array_t *multiple_fo_array, st_table *table)
 {
   char *value;
 
@@ -318,7 +306,7 @@ st_table *table;
   act_ite_mroot_initialize_area_ite(vertex->ELSE, multiple_fo_array, table);
 }
 
-act_ite_mroot_traverse_and_free(network) network_t *network;
+void act_ite_mroot_traverse_and_free(network_t *network)
 {
   lsGen gen;
   node_t *po, *po_fanin;
@@ -344,8 +332,7 @@ act_ite_mroot_traverse_and_free(network) network_t *network;
   st_free_table(table);
 }
 
-ite_mroot_traverse_ite(vertex, table) ite_vertex *vertex;
-st_table *table;
+void ite_mroot_traverse_ite(ite_vertex *vertex, st_table *table)
 {
   if (vertex->value != 3)
     return;
