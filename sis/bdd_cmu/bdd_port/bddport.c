@@ -15,9 +15,9 @@
 #include "util.h" /* includes math.h */
 
 #include "bdd.h"     /* UCB interface to CMU */
-#include "bddint.h"  /* CMU internal routines; for use in bdd_get_node() */
-#include "bdduser.h" /* CMU exported routines */
-#include "memuser.h"
+#include "../bdd_cmu/bddint.h"  /* CMU internal routines; for use in bdd_get_node() */
+#include "../bdd_cmu/bdduser.h" /* CMU exported routines */
+#include "../mem/memuser.h"
 
 /*
  * Function to construct a bdd_t.

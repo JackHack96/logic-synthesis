@@ -14,35 +14,19 @@
 int maxflow_debug;
 
 /* ARGSUSED */
-enum st_retval speed_add_node_to_graph(char *node,
+enum st_retval speed_add_node_to_graph(char *node, char **cap, char *store) {
+    mfgptr graph;
+    char   name[MF_MAXSTR], dup_name[MF_MAXSTR];
 
-**cap,
-char *store
-)
-{
-mfgptr graph;
-char   name[MF_MAXSTR], dup_name[MF_MAXSTR];
+    graph = (mfgptr) store;
 
-graph = (mfgptr) store;
+    (void) sprintf(name, "%s", node_long_name((node_t *) node));
+    (void) sprintf(dup_name, "%s_dup", node_long_name((node_t *) node));
 
-(void)
-sprintf(name,
-"%s",
-node_long_name((node_t
-*)node));
-(void)
-sprintf(dup_name,
-"%s_dup",
-node_long_name((node_t
-*)node));
+    mf_read_node(graph, name, 0);
+    mf_read_node(graph, dup_name, 0);
 
-mf_read_node(graph, name,
-0);
-mf_read_node(graph, dup_name,
-0);
-
-return
-ST_CONTINUE;
+    return ST_CONTINUE;
 }
 
 array_t *cutset(network_t *network, st_table *node_table) {
@@ -51,7 +35,8 @@ array_t *cutset(network_t *network, st_table *node_table) {
     return cut;
 }
 
-array_t *cutset_interface(network_t *network, st_table *node_table, int edge_weight) {
+array_t *cutset_interface(network_t *network, st_table *node_table,
+                          int edge_weight) {
     st_table     *name_node_table;
     array_t      *array;
     mfgptr       graph;
@@ -76,14 +61,15 @@ array_t *cutset_interface(network_t *network, st_table *node_table, int edge_wei
     return array;
 }
 
-mf_graph_t *
-mf_create_flow_network(network_t *network, st_table *node_table, int edge_weight, st_table **p_name_node_table) {
+mf_graph_t *mf_create_flow_network(network_t *network, st_table *node_table,
+                                   int edge_weight,
+                                   st_table **p_name_node_table) {
     array_t *df_array;
     mfgptr  graph;
-    node_t * fi, *fo, *node;
-    lsGen gen;
-    char  *dummy, temp_name[MF_MAXSTR], name[MF_MAXSTR];
-    int   j, i, capacity, terminal_flag;
+    node_t  *fi, *fo, *node;
+    lsGen   gen;
+    char    *dummy, temp_name[MF_MAXSTR], name[MF_MAXSTR];
+    int     j, i, capacity, terminal_flag;
 
     graph = mf_alloc_graph();
     *p_name_node_table = st_init_table(strcmp, st_strhash);
@@ -149,9 +135,9 @@ mf_create_flow_network(network_t *network, st_table *node_table, int edge_weight
 }
 
 array_t *mf_build_node_cutset(mf_graph_t *graph, st_table *name_node_table) {
-    int  i;
-    char *dummy;
-    node_t * node;
+    int     i;
+    char    *dummy;
+    node_t  *node;
     array_t *array;
     mfcptr  mf_cutset;
 

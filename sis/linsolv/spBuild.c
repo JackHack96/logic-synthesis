@@ -190,10 +190,8 @@ RealNumber *spGetElement(char *eMatrix, int Row, int Col) {
       return NULL;
 #endif
 
-#if NOT
-    TRANSLATE
-#if NOT
-    EXPANDABLE
+#if NOT TRANSLATE
+#if NOT EXPANDABLE
         ASSERT(Row <= Matrix->Size
                        AND
                        Col <= Matrix->Size);

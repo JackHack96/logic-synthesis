@@ -26,29 +26,29 @@ typedef struct array_t {
   int index;    // combined index and locking flag.
 } array_t;
 
-extern array_t *array_do_alloc(int size, int number);
+array_t *array_do_alloc(int size, int number);
 
 /**
  * Create a duplicate copy of an array.
  */
-extern array_t *array_dup(array_t *);
+array_t *array_dup(array_t *old);
 
 /**
  * Returns a new array which consists of the elements from array1
  * followed by the elements of array2.
  */
-extern array_t *array_join(array_t *, array_t *);
+array_t *array_join(array_t *array1, array_t *array2);
 
 /**
  * Deallocate an array.  Freeing the individual elements of the
  * array is the responsibility of the user.
  */
-extern void array_free(array_t *);
+void array_free(array_t *array);
 
 /**
  * Appends the elements of array2 to the end of array1.
  */
-extern void array_append(array_t *, array_t *);
+void array_append(array_t *array1, array_t *array2);
 
 /**
  * Sort the elements of an array.  `compare' is defined as:
@@ -60,7 +60,7 @@ extern void array_append(array_t *, array_t *);
  * 	and should return -1 if obj1 < obj2, 0 if obj1 == obj2, or 1
  * 	if obj1 > obj2.
  */
-extern void array_sort(array_t *, int (*)());
+void array_sort(array_t *array, int (*compare)());
 
 /**
  * Compare adjacent elements of the array, and delete any duplicates.
@@ -82,13 +82,13 @@ extern void array_sort(array_t *, int (*)());
  *
  * and frees the given array element.
  */
-extern void array_uniq(array_t *, int (*)(), void (*)());
+void array_uniq(array_t *array, int (*compare)(), void (*free_func)());
 
-extern int array_abort(array_t *, int);
+int array_abort(array_t *a, int i);
 
-extern int array_resize(array_t *, int);
+int array_resize(array_t *array, int new_size);
 
-extern char *array_do_data(array_t *);
+char *array_do_data(array_t *array);
 
 extern unsigned int array_global_index;
 

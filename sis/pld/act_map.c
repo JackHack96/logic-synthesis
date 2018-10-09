@@ -107,8 +107,7 @@ are done, or no further improvement. then do a quick-phase to determine which
 nodes should be realized as complemented.
 ********************************************************************************************************************/
 
-static void iterative_improvement(network_t *network, st_table *cost_table,
-                                  act_init_param_t *init_param) {
+static void iterative_improvement(network_t *network, st_table *cost_table, act_init_param_t *init_param) {
     if (init_param->NUM_ITER > 0)
         improve_network(network, cost_table, init_param);
     if (init_param->QUICK_PHASE)
@@ -306,9 +305,7 @@ act (with min. number of vertices would be constructed. COMMENTS: If mode is
 AREA, cost_table is actually NIL. Not using it then.
 ****************************************************************************************/
 
-ACT_VERTEX_PTR
-my_create_act(node_t *node, float mode, st_table *cost_table,
-              network_t *network, array_t *delay_values) {
+ACT_VERTEX_PTR my_create_act(node_t *node, float mode, st_table *cost_table, network_t *network, array_t *delay_values) {
     array_t *OR_literal_order();
     array_t *single_cube_order();
     array_t        *nodevec;
@@ -326,7 +323,6 @@ my_create_act(node_t *node, float mode, st_table *cost_table,
     int            num_literals;
     int            num_fanins;
     array_t        *cube_order_list, *order_list_new;
-    extern ACT_VERTEX *p_act_construct();
 
     act_constructed = 0;
 

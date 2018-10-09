@@ -1,5 +1,3 @@
-{
-
 /*
  * The purpose of this package is the computation of node and network delays
  * in SIS.  Delays are returned as delay_time_t structures, which contain two
@@ -11,10 +9,6 @@
  * function, if desired, or to provide parameters to the default delay model.
  */
 #include "delay_int.h"
-
-void
-
-void
 
 #include "tdc_int.h"
 #include "sis.h"

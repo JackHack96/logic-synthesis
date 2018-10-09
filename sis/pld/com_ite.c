@@ -262,7 +262,7 @@ int com_act_ite_create_and_map_mroot_network(network_t **network, int argc, char
     (void) act_ite_create_and_map_mroot_network(*network, init_param);
     FREE(init_param);
     return 0;
-}node
+}
 
 int com_act_ite_mux_network(network_t **network, int argc, char **argv) {
     int              c;

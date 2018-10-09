@@ -19,7 +19,7 @@
 #include "var_set.h"
 #include "array.h"
 #include "st.h"
-#include "bdduser.h"
+#include "../bdd_cmu/bdd_cmu/bdduser.h"
 
 #ifndef TRUE
 #define TRUE 1

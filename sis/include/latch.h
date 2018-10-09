@@ -6,26 +6,24 @@
 #ifdef COMBINATIONAL
     #undef COMBINATIONAL
 #endif
-typedef enum {
-    ACTIVE_HIGH,
-    ACTIVE_LOW,
-    RISING_EDGE,
-    FALLING_EDGE,
-    COMBINATIONAL,
-    ASYNCH,
-    UNKNOWN
-} latch_synch_t;
 
-typedef struct {
-    node_t                 *latch_input;          /* must be a PRIMARY_OUTPUT */
-    node_t                 *latch_output;         /* must be a PRIMARY_INPUT */
-    int                    initial_value;            /* initial or reset state */
-    int                    current_value;            /* current state */
-    latch_synch_t          synch_type;     /* type of latch */
-    struct lib_gate_struct *gate; /* Reference to the library implementation */
-    node_t                 *control;              /* Pointer to the controlling gate */
-    char                   *undef1;                 /* undefined 1, for the programer's use */
-} latch_t;
+typedef enum latch_synch_enum latch_synch_t;
+enum latch_synch_enum {
+    ACTIVE_HIGH, ACTIVE_LOW, RISING_EDGE, FALLING_EDGE, COMBINATIONAL,
+    ASYNCH, UNKNOWN
+};
+
+typedef struct latch_struct latch_t;
+struct latch_struct {
+    node_t *latch_input;	/* must be a PRIMARY_OUTPUT */
+    node_t *latch_output;	/* must be a PRIMARY_INPUT */
+    int initial_value;		/* initial or reset state */
+    int current_value;		/* current state */
+    latch_synch_t synch_type;	/* type of latch */
+    struct lib_gate_struct *gate;		/* Reference to the library implementation */
+    node_t *control;		/* Pointer to the controlling gate */
+    char *undef1;		/* undefined 1, for the programer's use */
+};
 
 extern latch_t *latch_alloc(void);
 

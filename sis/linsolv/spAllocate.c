@@ -131,8 +131,7 @@ char *spCreate(int Size, BOOLEAN Complex, int *pError) {
     }
 
 /* Test for valid type. */
-#if NOT
-    spCOMPLEX
+#if NOT spCOMPLEX
         if (Complex) {
             *pError = spPANIC;
             return NULL;
@@ -407,8 +406,7 @@ ElementPtr spcGetFillin(MatrixPtr Matrix) {
 
     /* Begin `spcGetFillin'. */
 
-#if NOT STRIP OR
-    LINT
+#if NOT STRIP OR LINT
     if (Matrix->FillinsRemaining == 0)
         return spcGetElement(Matrix);
 #endif

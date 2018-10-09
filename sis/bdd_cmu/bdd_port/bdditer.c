@@ -4,8 +4,8 @@
 #include "util.h" /* includes math.h */
 
 #include "bdd.h" /* UCB interface to CMU */
-#include "bddint.h" /* CMU internal routines; for use in bdd_get_branches() and for BDD_POINTER */
-#include "bdduser.h" /* CMU exported routines */
+#include "../bdd_cmu/bddint.h" /* CMU internal routines; for use in bdd_get_branches() and for BDD_POINTER */
+#include "../bdd_cmu/bdduser.h" /* CMU exported routines */
 
 static void pop_cube_stack();
 

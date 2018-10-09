@@ -28,14 +28,12 @@ struct lib_class_struct {
     char        *name;              /* reserved for future use */
 };
 
-#ifdef SIS
 /* sequential support */
 typedef struct latch_time_struct latch_time_t;
 struct latch_time_struct {
     double setup;
     double hold;
 };
-#endif
 
 typedef struct lib_gate_struct lib_gate_t;
 struct lib_gate_struct {
@@ -46,14 +44,12 @@ struct lib_gate_struct {
     int         symmetric;        /* it is more or less symmetric WRT input pins */
     lib_class_t *class_p; /* pointer back to the class */
 
-#ifdef SIS
     /* sequential support */
     int          type;      /* type of gate -- lib_gate_type returns latch_synch_t */
     int          latch_pin; /* index for the latch output pin (-1 if none) */
     latch_time_t **latch_time_info; /* setup/hold times */
     delay_pin_t  *clock_delay;       /* delay from clock to output */
     char         *control_name;             /* name of the clock pin */
-#endif
 };
 
 /* normal library functions */
@@ -85,7 +81,6 @@ extern int lib_gate_num_in(lib_gate_t *);
 
 extern int lib_gate_num_out(lib_gate_t *);
 
-#ifdef SIS
 /* sequential support */
 #define lib_gate_type(g)                                                       \
   (((g) == NIL(lib_gate_t)) ? UNKNOWN : (latch_synch_t)(g)->type)
@@ -95,20 +90,10 @@ extern int lib_gate_num_out(lib_gate_t *);
 #define lib_gate_clock_delay(g)                                                \
   (((g) == NIL(lib_gate_t)) ? NIL(delay_pin_t) : (g)->clock_delay)
 
-extern lib_gate_t *lib_choose_smallest_latch(library_t *library, char *string, latch_synch_t latch_type)
-
-#endif
-
-#ifdef SIS
+extern lib_gate_t *lib_choose_smallest_latch(library_t *library, char *string, latch_synch_t latch_type);
 
 extern lib_class_t *lib_get_class_by_type(network_t *, library_t *,
                                           latch_synch_t);
-
-#else
-
-extern lib_class_t *lib_get_class_by_type(network_t *, library_t *);
-
-#endif
 
 /* for mapped nodes/networks */
 extern lib_gate_t *lib_gate_of(node_t *);

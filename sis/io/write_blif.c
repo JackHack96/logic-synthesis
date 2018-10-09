@@ -269,7 +269,7 @@ static void write_blif_delay(FILE *fp, network_t *network, int short_flag) {
 
 #ifdef SIS
 
-static void write_blif_latches(FILE *fp, network_t *network, int short_flag, netlist_flag) {
+static void write_blif_latches(FILE *fp, network_t *network, int short_flag, int netlist_flag) {
     lsGen   gen;
     latch_t *latch;
     node_t  *node, *control;

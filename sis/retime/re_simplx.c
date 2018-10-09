@@ -18,13 +18,10 @@
  * The routine nrerror has been replaced by a sis interface
  */
 
-static int *ivector(int nl, int nh);
-
-{
-int *v;
+static int *ivector(int nl, int nh) {
+    int *v;
     v = ALLOC(int, nh - nl + 1);
-return v -
-nl;
+    return v - nl;
 }
 
 /* ARGSUSED */
@@ -50,7 +47,7 @@ static void simp1(double **a, int mm, int ll[], int nll, int iabf, int *kp, doub
 
 #define EPS 1.0e-6
 
-static void simp2(double **a, int n, int l2[], int nl2, int *ip, int kp, double **q1) {
+static void simp2(double **a, int n, int l2[], int nl2, int *ip, int kp, double *q1) {
     int    k, ii, i;
     double qp, q0, q;
 

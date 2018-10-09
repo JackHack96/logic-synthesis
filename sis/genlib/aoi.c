@@ -117,7 +117,7 @@ int gl_gen_complex_gates(int level, int s, int p, tree_node_type_t root_type, tr
     return nforms;
 }
 
-int gl_generate_complex_gates(int level, s, p, tree_node_t ***forms) {
+int gl_generate_complex_gates(int level, int s, int p, tree_node_t ***forms) {
     int         num1, num2, i;
     tree_node_t **forms1, **forms2;
 

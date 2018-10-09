@@ -5,7 +5,7 @@
 
 #ifdef SIS
 
-#include <astg_int.h>
+#include "astg_int.h"
 
 #include "astg_core.h"
 #include "astg_int.h"

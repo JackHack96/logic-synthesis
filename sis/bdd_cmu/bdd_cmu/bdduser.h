@@ -3,7 +3,7 @@
 #ifndef BDDUSER_H
 #define BDDUSER_H
 
-#include <memuser.h>
+#include "../mem/memuser.h"
 #include <stdio.h>
 
 #if defined(__STDC__)

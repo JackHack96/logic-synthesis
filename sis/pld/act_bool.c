@@ -56,7 +56,7 @@ void act_bool_map_network(network_t *network, int map_alg, int act_is_or_used,
   returns the first match found in match. Else returns NIL. Assumes f is
   expressed in minimum base. Hardwired info about the block.
 ----------------------------------------------------------------------------*/
-ACT_MATCH *act_is_act_function(node_t *f, int map_alg, act_is_or_used) {
+ACT_MATCH *act_is_act_function(node_t *f, int map_alg, int act_is_or_used) {
     int         num_fanin;
     node_t      *fanin, *fanin_lit, *f_fanin_pos, *faninA, *faninB, *faninBc;
     node_t      *A0, *A1, *SA, *B0, *B1, *SB;

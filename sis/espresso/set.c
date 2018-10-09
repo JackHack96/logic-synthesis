@@ -179,8 +179,7 @@ bool setp_full(register pset a, register int size) {
 }
 
 /* setp_equal -- check if the set "a" equals set "b" */
-bool setp_equal(register pset a, register pset b);
-
+bool setp_equal(register pset a, register pset b)
 {
 register int i = LOOP(a);
 do

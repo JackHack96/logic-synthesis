@@ -223,7 +223,9 @@ extern void p_actDup();     /* act_init.c	*/
 extern int p_actRemove();   /* act_remove.c	*/
 extern void p_actDestroy(); /* act_remove.c	 */
 extern void p_dagDestroy(); /* act_remove.c	 */
-extern void p_actCreate4Set();
+extern void p_actCreate4Set(array_t *node_vec, array_t *node_list, int locality,
+                            int order_style, float mode, network_t *network,
+                            array_t *delay_values, st_table *cost_table);
 
 extern void p_addLists();
 
@@ -241,7 +243,7 @@ static improve_network();
 
 static act_quick_phase();
 
-static iterative_improvement();
+static void iterative_improvement(network_t *network, st_table *cost_table, act_init_param_t *init_param);
 
 extern node_t *act_mux_node();
 
@@ -297,7 +299,7 @@ extern enum st_retval free_table_entry_without_freeing_key();
 
 extern void free_cost_table_without_freeing_key();
 
-extern ACT_VERTEX_PTR my_create_act();
+ACT_VERTEX_PTR my_create_act(node_t *node, float mode, st_table *cost_table, network_t *network, array_t *delay_values);
 
 static ACT_VERTEX_PTR my_create_act_general();
 
@@ -365,7 +367,7 @@ extern COST_STRUCT *act_set_pi_arrival_time_node();
 
 extern void act_invalidate_cost_and_arrival_time();
 
-extern double act_cost_delay();
+extern double act_cost_delay(COST_STRUCT *cost_node, float mode);
 
 extern double act_delay_for_fanout();
 
@@ -377,9 +379,11 @@ extern double act_get_slack_node();
 
 extern void act_find_critical_nodes();
 
-extern array_t *act_compute_area_delay_weight_network_for_collapse();
+extern array_t *
+act_compute_area_delay_weight_network_for_collapse(network_t *network, st_table *cost_table, float mode);
 
-extern array_t *act_compute_area_delay_weight_node_for_collapse();
+extern array_t *
+act_compute_area_delay_weight_node_for_collapse(node_t *node, COST_STRUCT *cost_node, st_table *cost_table, float mode);
 
 extern double act_compute_area_weight_node_for_collapse();
 
@@ -681,4 +685,9 @@ typedef struct xln_init_param_defn {
     int             traversal_method;     /* 1 then topological traversal, else levels sorted
                    wrt width */
 }          xln_init_param_t;
+
+array_t *pld_shuffle(array_t *list);
+
+int my_node_equal(node_t *node1, node_t *node2);
+
 #endif

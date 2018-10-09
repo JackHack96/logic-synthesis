@@ -61,7 +61,7 @@ extern int st_find_or_add(st_table *, char *, char ***);
 
 extern int st_find(st_table *, char *, char ***);
 
-extern int st_add_direct(st_table *, char *, char *);
+void st_add_direct(st_table *table, char *key, char *value);
 
 extern int st_strhash(char *, int);
 

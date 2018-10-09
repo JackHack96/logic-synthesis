@@ -423,7 +423,7 @@ bull_cache_lookup(st_table *cache, array_t *bdd_list, array_t *pi_list, bdd_mana
 
 /* duplicate everything so that can free everything upon exit without trouble */
 /* I wish we had a C garbage collector!!! */
-static void bull_cache_insert(st_table *cache, array_t *bdd_list, bdd_t *range, pi_list) {
+static void bull_cache_insert(st_table *cache, array_t *bdd_list, bdd_t *range, array_t *pi_list) {
     bull_key_t   *key   = ALLOC(bull_key_t, 1);
     bull_value_t *value = ALLOC(bull_value_t, 1);
 

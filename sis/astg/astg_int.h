@@ -113,6 +113,8 @@ typedef void (*astg_daemon)(astg_graph *, astg_graph *);
 #define args args
 #endif
 
+int astg_write(astg_graph *stg, astg_bool hide_places, FILE *stream);
+
 astg_vertex_enum astg_v_type(astg_vertex *);
 
 char *astg_v_name(astg_vertex *);

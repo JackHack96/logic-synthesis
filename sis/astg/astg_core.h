@@ -355,6 +355,8 @@ static void io_unget(int, io_t *);
 
 int io_get(io_t *);
 
+int io_token(io_t *source);
+
 static int io_getc(io_t *);
 
 int io_error(io_t *, char *);

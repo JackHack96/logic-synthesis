@@ -8,7 +8,7 @@
 #include "bwd_int.h"
 #include "sis.h"
 #include <math.h>
-#include <retime_int.h>
+#include "../retime/retime_int.h"
 
 /* hacked from sim/interpret.c */
 #define SIM_SLOT simulation

@@ -315,7 +315,7 @@ void Prl_CleanupDcNetwork(network_t *network) {
  *----------------------------------------------------------------------
  */
 
-void Prl_ReportElapsedTime(prl_options_t *options, char *comment {
+void Prl_ReportElapsedTime(prl_options_t *options, char *comment) {
     int    last_time = options->last_time;
     int    new_time  = util_cpu_time();
     double elapsed;

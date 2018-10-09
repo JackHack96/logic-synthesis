@@ -13,7 +13,7 @@ static void order_table();
 
 static int extract_trailing_y();
 
-static void replace_character();
+static void replace_character(char *name, char old, char new);
 
 /* puts the order in the table: node (key) -> index (value) */
 

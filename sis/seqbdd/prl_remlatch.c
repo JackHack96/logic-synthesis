@@ -4,6 +4,7 @@
 
 #include "prl_util.h"
 #include "sis.h"
+#include "../io/io_int.h"
 
 static void PerformLocalRetiming(network_t *, int);
 
@@ -295,7 +296,7 @@ static void extract_var_info(extra_vars_t *extra_vars, bdd_t *var, bdd_t *set, v
  *----------------------------------------------------------------------
  */
 
-static void RemoveRedundantLatches(network_t *network, seq_info_t *seq_info, array_t *removed_varsmoved_vars,
+static void RemoveRedundantLatches(network_t *network, seq_info_t *seq_info, array_t *removed_vars,
                                    prl_options_t *options) {
     int        i;
     node_t     *pi;

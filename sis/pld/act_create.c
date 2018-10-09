@@ -12,35 +12,34 @@ typedef struct tree_entry_defn {
     ACT_VERTEX_PTR dag;
 }          tree_t;
 
-extern void p_applyCreate();
+void p_actCreate4Set(array_t *node_vec, array_t *node_list, int locality,
+                     int order_style, float mode, network_t *network,
+                     array_t *delay_values, st_table *cost_table);
 
-extern ACT_VERTEX_PTR p_actCreateStep();
+ACT_VERTEX_PTR p_actCreateStep(node_t *current_node, int level, array_t *node_list, int locality);
 
-extern ACT_VERTEX_PTR p_optimalDag();
+ACT_VERTEX_PTR p_optimalDag(node_t *current_node, array_t *node_list, float mode,
+                            network_t *network, array_t *delay_values, st_table *cost_table);
 
-extern array_t *pld_shuffle();
+void p_permute(node_t *current_node, array_t *list, int n, int *best_cost_ptr,
+               double *best_cost_and_delay_ptr, array_t **pbest_list,
+               float mode, network_t *network, array_t *delay_values, st_table *cost_table);
 
-extern void p_actCreate4Set();
+void p_applyCreate(node_t *node, array_t *order_list);
 
-extern void p_permute();
+void act_print_array(array_t *list);
 
-extern enum st_retval p_freeTree();
+ACT_VERTEX_PTR p_treeNodeDag(node_t *node, st_table *tree_table, array_t *order_list);
 
-extern ACT_VERTEX_PTR p_treeNodeDag();
-
-extern ACT_VERTEX_PTR p_terminalDag();
-
-extern array_t *p_alap_order_nodes();
-
-extern ACT_VERTEX_PTR actPartialReduce();
+ACT_VERTEX_PTR p_terminalDag(int value, int index_size);
 
 void p_actCreate4Set(array_t *node_vec, array_t *node_list, int locality,
                      int order_style, float mode, network_t *network,
                      array_t *delay_values, st_table *cost_table) {
-    node_t         *current_node;
-    int            i, j, num_fanin, input_size, com_local;
-    ACT_PTR        act;
-    ACT_VERTEX_PTR p_optimalDag(), p_actCreateStep(), actReduce();
+    node_t  *current_node;
+    int     i, j, num_fanin, input_size, com_local;
+    ACT_PTR act;
+    //ACT_VERTEX_PTR p_optimalDag(), p_actCreateStep(), actReduce();
 
     input_size = array_n(node_vec);
     if (node_list == NIL(array_t)) {
@@ -65,8 +64,7 @@ void p_actCreate4Set(array_t *node_vec, array_t *node_list, int locality,
 
                 switch (order_style) {
                     case OPTIMAL:
-                        act->root = p_optimalDag(current_node, node_list, mode, network,
-                                                 delay_values, cost_table);
+                        act->root = p_optimalDag(current_node, node_list, mode, network, delay_values, cost_table);
                         break;
                     case RANDOM:node_list = pld_shuffle(node_list);
                         act->root = p_actCreateStep(current_node, 0, node_list, 1);
@@ -90,9 +88,7 @@ void p_actCreate4Set(array_t *node_vec, array_t *node_list, int locality,
     }
 }
 
-ACT_VERTEX_PTR
-p_actCreateStep(node_t *current_node, int level, array_t *node_list,
-                int locality) {
+ACT_VERTEX_PTR p_actCreateStep(node_t *current_node, int level, array_t *node_list, int locality) {
     int             index_size;
     ACT_VERTEX_PTR  u;
     node_function_t func;
@@ -486,8 +482,7 @@ enum st_retval p_freeTree(char *key, char *value, char *arg) {
     return (ST_CONTINUE);
 }
 
-ACT_VERTEX_PTR p_treeNodeDag(node_t *node, st_table *tree_table,
-                             array_t *order_list) {
+ACT_VERTEX_PTR p_treeNodeDag(node_t *node, st_table *tree_table, array_t *order_list) {
     node_t         *fanin_node;
     tree_t         *tree_entry;
     ACT_VERTEX_PTR fanin_dag, temp_dag, current_dag, apply();

@@ -31,7 +31,7 @@
  * Initial revision
  *
  */
-#include <bin_int.h>
+#include "bin_int.h"
 #include "fanout_delay.h"
 #include "fanout_int.h"
 #include "lib_int.h"

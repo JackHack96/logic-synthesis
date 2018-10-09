@@ -5,7 +5,7 @@
 #define LIMIT 5000
 
 #include "sparse.h"
-#include "astg_int.h"
+#include "../astg/astg_int.h"
 
 /* each dichotomy is a contatenation of two sets - one for the lhs and
  *  one for the rhs */
