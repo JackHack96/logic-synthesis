@@ -1,0 +1,36 @@
+{
+    "title": "Simple Sidebar",
+    "name": "startbootstrap-simple-sidebar",
+    "version": "4.1.1",
+    "description": "A simple sidbar navigation HTMl template built with Bootstrap",
+    "keywords": [
+        "css",
+        "sass",
+        "html",
+        "responsive",
+        "theme",
+        "template"
+    ],
+    "homepage": "https://startbootstrap.com/template-overviews/simple-sidebar",
+    "bugs": {
+        "url": "https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/issues",
+        "email": "feedback@startbootstrap.com"
+    },
+    "license": "MIT",
+    "author": "Start Bootstrap",
+    "contributors": [
+        "David Miller (http://davidmiller.io/)"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/BlackrockDigital/startbootstrap-simple-sidebar.git"
+    },
+    "dependencies": {
+        "bootstrap": "4.1.1",
+        "jquery": "3.3.1"
+    },
+    "devDependencies": {
+        "browser-sync": "2.24.5",
+        "gulp": "^3.9.1"
+    }
+}
