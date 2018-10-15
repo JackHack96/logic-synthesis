@@ -19,66 +19,71 @@
 </head>
 
 <body>
-
-  <div id="wrapper" class="toggled">
-
-    <!-- Sidebar -->
-    <nav id="sidebar-wrapper">
-      <ul class="sidebar-nav">
-        <li>
-          <a href="index.html">Home</a>
-        </li>
-        <li>
-          <a href="sis.html">SIS</a>
-        </li>
-        <li>
-          <a href="balm.html">Balm-II</a>
-        </li>
-        <li>
-          <a href="mvsis.html">MVSIS</a>
-        </li>
-      </ul>
-    </nav>
-    <!-- /#sidebar-wrapper -->
-
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-      <div class="container-fluid">
-        <h1>UNIVR Logic Sythesis Software</h1>
-        <p>
-          Welcome to University of Verona's logic sythesis software web portal!<br />
-          Here you can find some historical logic sythesis software, like SIS, which is still used for educational
-          purposes at <a href="https://www.univr.it">University of Verona</a>.
-        </p>
-        <p>
-          The purpose of this site is to host binaries and documentation of old logic sythesis software, some for
-          historical reasons
-          and others for learning reasons.<br />
-          Being more accurate, SIS, despite being over 30 years old, is still used
-          in the course of Computer Architecture of the University of Verona, because of its simplicity and for the
-          closeness it has
-          with the things taught during the course. Here you'll find the original one (version 1.3) and the refactored
-          one (version 1.4).
-          The refactored one features a general refactoring especially in the command line interface.
-        </p>
-      </div>
+  <!-- Sidebar -->
+  <div class="sidenav">
+    <a href="index.html">Home</a>
+    <button class="dropdown-btn">SIS
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+      <a href="/sis.html#overview">Overview</a>
+      <a href="/sis.html#downloads">Downloads</a>
+      <a href="/sis.html#documentation">Documentation</a>
     </div>
-    <!-- /#page-content-wrapper -->
-
+    <button class="dropdown-btn">Balm-II
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+      <a href="/balm.html#overview">Overview</a>
+      <a href="/balm.html#downloads">Downloads</a>
+      <a href="/balm.html#documentation">Documentation</a>
+    </div>
+    <button class="dropdown-btn">MVSIS
+      <i class="fa fa-caret-down"></i>
+    </button>
+    <div class="dropdown-container">
+      <a href="/mvsis.html#overview">Overview</a>
+      <a href="/mvsis.html#downloads">Downloads</a>
+      <a href="/mvsis.html#documentation">Documentation</a>
+    </div>
   </div>
-  <!-- /#wrapper -->
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <div class="main">
+    <h1>UNIVR Logic Sythesis Software</h1>
+    <p style="text-align:justify">
+      Welcome to University of Verona's logic sythesis software web portal!<br />
+      Here you can find some historical logic sythesis software, like SIS, which is still used for educational
+      purposes at <a href="https://www.univr.it">University of Verona</a>.
+    </p>
+    <p style="text-align:justify">
+      The purpose of this site is to host binaries and documentation of old logic sythesis software, some for
+      historical reasons
+      and others for learning reasons.<br />
+      Being more accurate, SIS, despite being over 30 years old, is still used
+      in the course of Computer Architecture of the University of Verona, because of its simplicity and for the
+      closeness it has
+      with the things taught during the course. Here you'll find the original one (version 1.3) and the refactored
+      one (version 1.4).
+      The refactored one features a general refactoring especially in the command line interface.
+    </p>
+  </div>
 
-
-  <!-- Menu Toggle Script -->
   <script>
-    $("#menu-toggle").click(function (e) {
-      e.preventDefault();
-      $("#wrapper").toggleClass("toggled");
-    });
+    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+
+    for (i = 0; i < dropdown.length; i++) {
+      dropdown[i].addEventListener("click", function () {
+        this.classList.toggle("active");
+        var dropdownContent = this.nextElementSibling;
+        if (dropdownContent.style.display === "block") {
+          dropdownContent.style.display = "none";
+        } else {
+          dropdownContent.style.display = "block";
+        }
+      });
+    }
   </script>
 
 </body>
