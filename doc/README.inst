@@ -1,0 +1,33 @@
+This is the development version of SIS.
+
+Makefile is for making a SIS release.  It should be run after
+the most recent versions of all files have been checked in with
+a release name and checked out again (e.g. cd src/sis/atpg;
+ci -u -f -n'Rel_name' -m'Release 1.1 of SIS' RCS/*).  The release rule
+tars the source to a new place, removes all unnecessary stuff,
+tars a file and compresses it.
+[Note: when sis was put into RCS, 1/9/91, the directories espresso,
+jedi, and nova had an RCS directory put in, but no files were checked
+in to save space.  If and when these files are modified, do the
+following sequence inside each direcotry: ci *; rcs -U RCS/*; co RCS/*;
+Then edit, and run ci -u files.]
+[The directory ex has no RCS control.  All the libraries (sis_lib/*.genlib)
+and scripts have no RCS control, but this may change.  Man pages
+(sis_lib/help/*.1) have RCS control.]
+[xsis is mostly controlled by Paul Stephan.  When the rest of SIS
+was put into RCS, all the xsis files were checked in with the symbolic
+name Rel1_1]
+
+TODO is probably only a partial list of things that need to be done.
+
+ex has combinational and sequential benchmark circuits.
+
+include has the header files for all SIS packages.
+
+man has the sis.1 man page and the man pages for the programs
+distributed with sis.
+
+sis_lib has all the sis library stuff.
+
+src has the source for everything distributed with sis: nova, stamina, jedi,
+sis itself, etc.

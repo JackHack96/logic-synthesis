@@ -1,0 +1,9 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   write_pla [filename]
+ 
+     Write the current network to file filename in the Berkeley PLA Format.
+     No optimization is done on the PLA.
+ 
+                                                                            1

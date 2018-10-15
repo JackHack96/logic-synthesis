@@ -1,0 +1,21 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/write_astg.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:42 $
+.\"  *
+.\"
+.XX
+write_astg [-p] [<file-name>]
+.PP
+Write a text description of an ASTG to a file, or stdout if no filename
+is given.
+See read_astg for a description of the format.
+.PP
+The -p option forces implied places to be written explicitly in the
+description.
+Normally a place with exactly one fanin and one fanout transition
+is suppressed by specifying the fanout transition
+as adjacent to the fanin transition.

@@ -1,0 +1,5 @@
+source script.rugged
+read_library msu.genlib
+read_library -a msu_latch.genlib
+map
+phase -g

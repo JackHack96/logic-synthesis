@@ -1,0 +1,111 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/doc/README.INSTALL,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:13:56 $
+ *
+ */
+
+*** README file containing INSTALLATION NOTES ***
+
+*** SIS is free to the public via anonymous ftp, or on tape for a
+    small fee through the ILP office.  PLEASE DO NOT REDISTRIBUTE
+    SIS in any other manner. ***
+
+This file contains information about REQUIREMENTS, INSTALLING SIS,
+RUNNING SIS, GETTING HELP, and sending COMMENTS TO THE AUTHORS.
+
+Information about this release of SIS is contained in the file
+RELEASE-NOTES-1.2.
+
+REQUIREMENTS:
+
+To compile xsis, MIT X11R4 or X11R5 is needed.  xsis is based on the
+X Toolkit and Athena widget set.  If you don't have this, just comment
+out the xsis lines in the Makefile.  All other sis programs will work
+without it.
+
+INSTALLING SIS:
+
+SIS is distributed via a single file called sis-1.2.tar.Z.
+First uncompress it, then extract the files (the directory
+you do this in should have at least 22 MBytes):
+
+uncompress sis-1.2.tar.Z
+tar xf sis-1.2.tar
+
+You will now have a directory containing all the source code
+used in SIS.
+
+If you do not have the Berkeley OctTools, you will be able to
+run everything except the read_oct and write_oct commands in
+SIS.  If you do not have X11-R4, you will be able to run everything
+except the program xsis, which is a front-end graphical interface
+to sis.  To compile all programs, only the top level Makefile needs
+to be edited.
+
+If you have the Berkeley OctTools:
+
+Copy the file Makefile.oct to Makefile.  Edit the Makefile,
+changing the CAD variable to the directory where the OctTools
+are installed (the compiler will need CAD/include and CAD/lib).
+Set the MACHINE variable to be the machine on which you are compiling
+(e.g. mips, vax, rs6000, sun4), set SRCDIR variable to the current
+directory, and set the X11 variable to the directory where the X11-R4
+source is (the compiler will need X11/include, X11/include/Xaw, and
+X11/lib).  If you have any trouble compiling the octio package,
+try compiling SIS as though you didn't have the OctTools (see next
+section).
+
+If you do not have the Berkeley OctTools:
+
+Copy the file Makefile.nooct to Makefile.  Edit the Makefile,
+setting the variables MACHINE, SRCDIR, and X11 as above.
+
+Compiling jedi on the RS6000:
+
+To compile jedi on the RS6000, add -lbsd to the LDFLAGS variable
+in the Makefile for jedi (jedi/Makefile).
+
+Compilint xsis on SUN4:
+
+To compile xsis on sun4 machines, change the LIBS2 line in the
+Makefile to read:
+LIBS2   = -L$(X11)/lib -lXaw -Bstatic -lXmu -Bdynamic -lXt -lXext -lX11 -lm
+
+To compile all the tools, type "make -i" in the top level directory.
+
+This distribution contains sis, nova (state assignment), jedi
+(state assignment), stamina (state minimization, from June Rho
+at University of Colorado, Boulder), espresso, xsis (a front-end
+graphical interface to sis) and several stripped down packages
+from the OctTools (options, port, and utility) that are needed
+for some of the programs listed above.
+
+RUNNING SIS:
+
+To run sis, with the associated tools, add SIS/bin to your path,
+where SIS is the path to this directory.
+
+GETTING HELP:
+
+A paper describing the capabilities of sis with some examples of its
+use is contained in this directory in postscript format.  The file
+is SIS_paper.ps.
+
+The man page for SIS is in sis/sis_lib/help/sis.1.  Run-time help can
+be obtained by typing "help" while in sis, which will list all
+of the available commands.  Help for each command can be obtained
+by typing "help command_name" while in sis.
+
+Release notes for this version of SIS are contained in the file
+RELEASE-NOTES-1.2.
+
+COMMENTS TO THE AUTHORS:
+
+All bugs, feature suggestions, etc should be mailed to
+sis@eecs.Berkeley.EDU.
+
+1 July 1994  Ellen M. Sentovich

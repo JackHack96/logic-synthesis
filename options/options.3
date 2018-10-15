@@ -1,0 +1,239 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/options/options.3,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:10 $
+.\"  *
+.\"
+.TH OPTIONS 3OCTTOOLS "6 February 1989"
+.de Sm
+\s-2\\$1\s0\\$2
+..
+.SH NAME
+options \- option parsing and usage message package
+.SH SYNOPSIS
+.nf
+.PP
+.ft B
+#include <stdio.h>
+#include "options.h"
+.sp
+.PP
+.ft B
+/* defined in "options.h" */
+typedef struct {
+    char *optionLetters;
+    char *argName;
+    char *description;
+} optionStruct;
+.sp
+.PP
+.ft B
+int optGetOption(argc, argv)
+int argc;
+char *argv[];
+.PP
+.ft B
+void optUsage()
+.sp
+.PP
+.ft B
+optionStruct optionList[];
+int optind;
+char *optarg;
+char *optProgName;
+.SH DESCRIPTION
+.PP
+.I optGetOption
+parses option arguments in the same style as
+.IR getopt (3)
+(all options are single characters;
+option flags without arguments can be packed;
+if an option takes an value, the
+option letter and value may or may not be separated by a space;
+a dummy argument, ``--'' can be used to separate options and other arguments
+to resolve ambiguity).
+The difference is that
+.I optGetOption
+looks at the global variable
+.I optionList
+for a list of available options and whether they take values.
+Also, after the first call to
+.IR optGetOption ,
+the global variable
+.I optProgName
+is set to the name of the program (this can be used in error messages
+so the program user knows which program in a sequence or pipeline detected
+an error).
+As with
+.IR getopt ,
+.I optind
+is the index of the command-line argument following the current option
+or option/value pair (after all options have been parsed, it is the
+index of the first non-option argument), and
+.I optarg
+points to the value of an option that requires one.
+Normally, one uses
+.I optarg
+to access an option's argument, and
+.I optind
+only after all options have been processed.
+.PP
+.I optUsage
+formats and prints a usage message based on the information in
+.IR optionList ,
+then calls
+.IR exit .
+.PP
+.I optionList
+is an array of structures, each of which describes one or more related options.
+The last element of this array has a null pointer for the value of
+.BR optionLetters .
+For each group of options,
+.B optionLetters
+contains the option letter(s);
+.B argName
+is a descriptive name for the value taken by the option(s),
+or a null or empty string for flag options;
+and
+.B description
+is free-form text describing the option(s).
+If this description is long, it will be word-wrapped as appropriate.
+A newline character can be used to force a line break at some desired point.
+If a description is broken across lines by either of these methods, the
+continuation will be aligned under the beginning part of the description.
+Several special values are defined for the
+.B optionLetters
+field:
+.TS
+l lw(40n) .
+\s-1OPT_RARG\s0	T{
+\fBargName\fP is a required argument
+T}
+\s-1OPT_OARG\s0	T{
+\fBargName\fP is an optional argument
+T}
+\s-1OPT_DESC\s0	T{
+general description (\fBargName\fP is ignored)
+T}
+\s-1OPT_ELLIP\s0	T{
+put an ellipsis in summary line
+(\fBargName\fP and \fBdescription\fP are ignored)
+T}
+\s-1OPT_CONT\s0	T{
+continues the description from the previous entry (the only thing this does
+is let you avoid very long strings in your source code)
+T}
+.TE
+.SH EXAMPLES
+.PP
+The following program,
+.IR opttest,
+when incorrectly called with a
+.B -j
+option, prints
+.sp
+.nf
+opttest: unknown option -- j
+usage: opttest [-xy] [-b|-k frammitz_size] [-d debug_type] file_name ...
+                    [host:display]
+   -x:         flag option
+   -y:         another flag option
+   -b|-k:      frammitz size in 512-byte blocks (-b) or kilobytes (-k)
+   -d:         set debug mode: (debug_type: action)
+                   1:  flood the user with junk
+                   2:  flood the world with junk
+                   3:  flood the galaxy with junk
+   file_name:  file to be processed
+   [host:display]: the display to use for the gratuitous menus (defaults to
+               the value of the environment variable $DISPLAY)
+Accomplishes nothing useful at all with each file it processes
+.sp 2
+#include <stdio.h>
+#include "options.h"
+
+optionStruct optionList[] = {
+    { "x",	"",		"flag option"			},
+    { "y",	"",		"another flag option"		},
+    { "bk",	"frammitz_size",
+	"frammitz size in 512-byte blocks (-b) or kilobytes (-k)"	},
+    { "d",	"debug_type",	"set debug mode: (debug_type: action)"	},
+    { OPT_CONT,	0,		"\\n    1:  flood the user with junk"	},
+    { OPT_CONT,	0,		"\\n    2:  flood the world with junk"	},
+    { OPT_CONT,	0,		"\\n    3:  flood the galaxy with junk"	},
+    { OPT_RARG,	"file_name",	"file to be processed"		},
+    { OPT_ELLIP, 0,		0				},
+    { OPT_OARG,	"host:display",
+	"the display to use for the gratuitous menus "		},
+    { OPT_CONT,	0,		
+	"(defaults to the value of the environment variable $DISPLAY)"	},
+    { OPT_DESC,	0,
+	"Accomplishes nothing useful at all with each file it processes" },
+    { 0,	0,		0				}
+};
+
+main(argc, argv)
+int argc;
+char *argv[];
+{
+    int option;			/* option letter from optGetOption */
+    int xFlag = 0;		/* the x flag */
+    int yFlag = 0;		/* the y flag */
+    int framSize = 0;		/* the frammitz size */
+    int debugType = 0;		/* quantity of debuggin info */
+    char *display = "";		/* the X display */
+    char *strchr();
+
+    while ((option = optGetOption(argc, argv)) != EOF) {
+	switch (option) {
+	    case 'x':		/* set x mode */
+		xFlag = 1;
+		break;
+	    case 'y':		/* set y mode */
+		yFlag = 1;
+		break;
+	    case 'b':		/* frammitz size in blocks */
+		framSize = atoi(optarg) * 512;
+		break;
+	    case 'k':		/* frammitz size in K */
+		framSize = atoi(optarg) * 1024;
+		break;
+	    case 'd':		/* set debugging type */
+		debugType = atoi(optarg);
+		break;
+	    default:
+		optUsage();
+	}
+    }
+
+    if (strchr(argv[argc-1], ':')) {
+	display = argv[--argc];
+    }
+
+    if (optind >= argc) {
+	(void) fprintf(stderr, "%s: you must specify at least one file\n",
+			optProgName);
+	optUsage();
+    }
+
+    while (optind < argc) {
+	/* processFile(argv[optind]) */
+	optind++;
+    }
+
+    exit(0);
+}
+.SH "SEE ALSO"
+getopt(3)
+.SH AUTHOR
+Tom Laidig
+.SH DIAGNOSTICS
+.I optGetOption
+calls
+.I optUsage
+for an unrecognized option, and returns
+.SM EOF
+to indicate the end of options.
+.SH BUGS

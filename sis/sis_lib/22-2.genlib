@@ -1,0 +1,16 @@
+GATE zero	0	O=CONST0;
+GATE one	0	O=CONST1;
+GATE "!a" 2 O=!a;
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab)'" 3 O=!(a*b);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a(b+c))'" 4 O=!(a*(b+c));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "((a+b)(c+d))'" 5 O=!((a+b)*(c+d));
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+b)'" 3 O=!(a+b);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(a+bc)'" 4 O=!(a+b*c);
+PIN * INV 1 999 1.0 0.2 1.0 0.2
+GATE "(ab+cd)'" 5 O=!(a*b+c*d);
+PIN * INV 1 999 1.0 0.2 1.0 0.2

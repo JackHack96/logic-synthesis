@@ -1,0 +1,60 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/alias.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:35 $
+.\"  *
+.\"
+.XX
+alias [name [string]]
+.X1
+unalias name ...
+.PP
+The \fBalias\fR command, if given no arguments, will print the
+definition of all current aliases.  Given a single argument, it
+will print the definition of that alias (if any).  Given two
+arguments, the keyword \fBname\fP becomes an alias for
+the command string \fBstring\fP, replacing any other alias with the
+same name.
+The \fBunalias\fR command removes the definition of an alias.
+.PP
+It is possible to create aliases that take arguments by using the history
+substitution mechanism.  To protect the history substitution character `%'
+from immediate expansion, it must be preceded by a `\\' when entering the
+alias.  For example:
+.IP
+.nf
+sis> alias read read_\\%:1 \\%:2.\\%:1
+sis> alias write write_\\%:1 \\%:2.\\%:1
+sis> read blif lion
+sis> write eqn tiger
+.fi
+.PP
+will create the two aliases `read' and `write', execute "read_blif
+lion.blif", and then execute "write_eqn tiger.eqn".  And...
+.fi
+.IP
+.nf
+sis> alias echo2 "echo Hi ; echo \\%* !"
+sis> echo2 happy birthday
+.fi
+.PP
+would print:
+.IP
+.nf
+Hi
+happy birthday !
+.fi
+.PP
+\fBCAVEAT:\fR Currently there is no check to see if there is a circular
+dependency in the alias definition. e.g.
+.IP
+.nf
+sis> alias foo "print_stats -f; print_level -l; foo"
+.fi
+.PP
+creates an alias which refers to itself. Executing the command "foo" will
+result an infinite loop during which the commands "print_stats -f" and
+"print_level -l" will be executed. 

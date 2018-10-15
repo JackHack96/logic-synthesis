@@ -1,0 +1,26 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/stg_to_astg.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:45 $
+.\"  *
+.\"
+.XX
+stg_to_astg [-v debug_level] 
+.PP
+Transforms the current State Transition Graph (that must satisfy the
+Single Cube Restriction, see \fBastg_stg_scr\fR) into a Signal Transition
+Graph.
+.PP
+Can be used to transform a burst-mode
+Flow Table specification (written in .kiss format
+and read using \fBread_kiss\fR) of an asynchronous circuit into a Signal
+Transition Graph for subsequent encoding and synthesis (see
+\fBastg_state_min\fR, \fBastg_to_f\fR and \fBastg_syn\fR).
+.PP
+Burst mode means that the circuit specified by the Flow Table may change state
+only after all signals in a specified set (a "burst") have changed value. Many
+bursts can occur from a given state, but no burst can be a subset of another
+burst from the same state (or else meta-stability can occur).

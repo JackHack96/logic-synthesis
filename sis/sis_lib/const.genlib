@@ -1,0 +1,2 @@
+GATE zero	0	O=CONST0;
+GATE one	0	O=CONST1;

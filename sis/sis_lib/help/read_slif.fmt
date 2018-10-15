@@ -1,0 +1,11 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   read_slif filename
+ 
+     Read in a network from the file filename which is in _s_l_i_f format.  _S_L_I_F
+     is a hierarchical circuit description language and the root network, the
+     one returned to the caller, is defined to be the first network encoun-
+     tered in the file filename.
+ 
+                                                                            1

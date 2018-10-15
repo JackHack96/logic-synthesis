@@ -1,0 +1,14 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   write_astg [-p] [<file-name>]
+ 
+     Write a text description of an ASTG to a file, or stdout if no filename
+     is given.  See read_astg for a description of the format.
+ 
+     The -p option forces implied places to be written explicitly in the
+     description.  Normally a place with exactly one fanin and one fanout
+     transition is suppressed by specifying the fanout transition as adjacent
+     to the fanin transition.
+ 
+                                                                            1

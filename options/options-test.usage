@@ -1,0 +1,30 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/options/options-test.usage,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:10 $
+ *
+ */
+options-test: unknown option -- j
+usage: options-test [-=E on_error] [-=M mem_flags] [-xy] [-b|-k frammitz_size]
+                    [-d debug_type] file_name ... [host:display]
+   -=E:        cause fatal errors to core dump (on_error = "core") or exit
+               (on_error = "exit")
+   -=M:        adjust memory manager behavior:  mem_flags is comma-separated
+               list of
+                   [no]trace   turn tracing on/off
+                   [no]trash   do/don't trash freed memory
+                   pad=n       pad each block with `n' extra words
+   -x:         flag option
+   -y:         another flag option
+   -b|-k:      frammitz size in 512-byte blocks (-b) or kilobytes (-k)
+   -d:         set debug mode: (debug_type: action)
+                   1:  flood the user with junk
+                   2:  flood the world with junk
+                   3:  flood the galaxy with junk
+   file_name:  file to be processed
+   [host:display]: the display to use for the gratuitous menus (defaults to
+               the value of the environment variable $DISPLAY)
+Accomplishes nothing useful at all with each file it processes

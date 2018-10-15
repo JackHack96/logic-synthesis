@@ -1,0 +1,9 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_map_stats
+ 
+     Prints delay and area information of the network. The network should be
+     mapped.
+ 
+                                                                            1

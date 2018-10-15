@@ -1,0 +1,9 @@
+source script.rugged
+set OCT-CELL-VIEW physical
+set OCT-CELL-PATH /projects/octtools/octtools-5.1.devel/mips/tech/scmos/msu/stdcell2_2
+set OCT-TECHNOLOGY scmos
+set OCT-EDITSTYLE SYMBOLIC
+set OCT-VIEWTYPE SYMBOLIC
+read_library stdcell2_2.genlib
+map
+phase -g

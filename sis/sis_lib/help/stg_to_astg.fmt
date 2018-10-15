@@ -1,0 +1,21 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   stg_to_astg [-v debug_level]
+ 
+     Transforms the current State Transition Graph (that must satisfy the
+     Single Cube Restriction, see astg_stg_scr) into a Signal Transition
+     Graph.
+ 
+     Can be used to transform a burst-mode Flow Table specification (written
+     in .kiss format and read using read_kiss) of an asynchronous circuit
+     into a Signal Transition Graph for subsequent encoding and synthesis
+     (see astg_state_min, astg_to_f and astg_syn).
+ 
+     Burst mode means that the circuit specified by the Flow Table may change
+     state only after all signals in a specified set (a "burst") have changed
+     value. Many bursts can occur from a given state, but no burst can be a
+     subset of another burst from the same state (or else meta-stability can
+     occur).
+ 
+                                                                            1

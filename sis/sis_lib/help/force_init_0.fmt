@@ -1,0 +1,13 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   force_init_0
+ 
+     This command replaces all latches initialized to 1 by latches initial-
+     ized to 0. It inserts an inverter before and after the latch to maintain
+     circuit behavior.
+ 
+     This command is useful for certain types of FPGA architectures which do
+     not support the initialization of latches to 1.
+ 
+                                                                            1

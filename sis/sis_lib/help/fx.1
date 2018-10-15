@@ -1,0 +1,32 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/fx.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:36 $
+.\"  *
+.\"
+.XX
+fx [-o] [-b limit] [-l] [-z]
+.PP
+Greedy concurrent algorithm for finding the best double cube divisors and
+single cube divisors.
+Finds all the double cube and single cube divisors
+of the nodes in the network.
+It associates a cost function to each node,
+and extracts the node with the best cost function greedily.
+.PP						 
+The \fB-o\fP option only looks for  0-level two-cube divisors.
+.PP
+The \fB-b\fP option reads an upper bound for the number of divisors
+generated. The default value is 50000. This is because the 
+number of divisors in some cases can grow very large.
+.PP
+The \fB-l\fP option changes the level of each node in the network as allowed
+by the slack between the required time and arrival time at that node. 
+.PP
+The \fB-z\fP option uses zero-weight divisors (in addition to divisors with
+a larger weight).  This means that divisors that contribute zero gain to
+the overall decomposition are extracted.  This may result in an overall
+better decomposition, but take an exhorbitant amount of time.

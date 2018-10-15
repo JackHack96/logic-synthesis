@@ -1,0 +1,58 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   retime [-nfim] [-c #.#] [-t #.#] [-d #.#] [-a #.#] [-v #]
+ 
+     Applies the retiming transformation on the circuit in an effort to
+     reduce the cycle time. The retiming operation is supported only for sin-
+     gle phase, edge-triggered designs. Both mapped and unmapped networks can
+     be retimed.  The algorithm attempts to maintain the initial state infor-
+     mation.
+ 
+     The algorithm expects to work on mapped networks so that accurate delays
+     on the gates can be used.  However, an unmapped network can be retimed
+     by using the -n option.  In that case the delay through each node is
+     computed according to the _u_n_i_t-_f_a_n_o_u_t delay model.  _T_h_e _u_s_e_r _s_h_o_u_l_d _b_e
+     _a_w_a_r_e _o_f _t_h_e _f_a_c_t _t_h_a_t _w_h_e_n _r_e_t_i_m_i_n_g _c_i_r_c_u_i_t_s _c_o_n_t_a_i_n_i_n_g _c_o_m_p_l_e_x _r_e_g_i_s_-
+     _t_e_r_s (_J_K, _D-_f_l_i_p _f_l_o_p_s _w_i_t_h _e_n_a_b_l_e_s/_p_r_e_s_e_t_s), _t_h_e _c_o_m_p_l_e_x _r_e_g_i_s_t_e_r_s _m_a_y
+     _h_a_v_e _t_o _b_e _d_e_c_o_m_p_o_s_e_d _i_n_t_o _s_i_m_p_l_e_r _g_a_t_e_s.
+ 
+     By default the algorithm uses a relaxation based approach which is very
+     fast. An alternate formulation uses a mathematical programming formula-
+     tion and can be selected using the -f option.  After profiling on a
+     number of circuits only one will be retained.
+ 
+     The -m option can be used to minimize the number of registers under
+     cycle time constraints. If the cycle time is not specified using the -c
+     option then this command will try to minimize the cycle time. Thus to
+     obtain the absolute minimum number of registers for a circuit the user
+     should specify a very loose cycle time constraint (very large value for
+     the -c option).
+ 
+     The retiming algorithm will try to compute the new initial states of the
+     latches.  In case no feasible initial state exists the retiming is
+     aborted and the network is not modified. To suppress the initialization
+     routine use the -i option. In that case the initial values for all the
+     latches after retiming is set to value of 2 (DONT_CARE).
+ 
+     The desired clock period can be specified with the -c value option. When
+     this option is not used the algorithm first checks to see if there is a
+     cycle_time specification with the current network (the value depends on
+     the current setting of the clock_flag in the network) and tries to meet
+     this. If no cycle_time is specified with the design the retiming opera-
+     tion tries to minimize the cycle time. For this it uses a binary search
+     for testing feasible clock values. The tolerance of the binary search
+     can be specified with the -t value option (the default is 0.1).
+ 
+     Latches in the network can be assigned a propogation delay and an area.
+     These are helpful in the realistic modelling of the circuit delay and
+     area. Use the -d value option to specify the delay through a latch (to
+     approximate the setup and propogation delay of the latch) and the -a
+     value option to specify the area of a latch. In case of mapped networks,
+     these values are automatically determined from the library of gates.
+ 
+     The -v value selects the verbosity level. The range is 1-100 (100 will
+     literally swamp you with a lot of unneeded data). Use the value 1 to see
+     the progress of the algorithm.
+ 
+                                                                            1

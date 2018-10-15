@@ -1,0 +1,17 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_level [-l] [-c] [-m model] [-t value] [node-list]
+ 
+     Prints the nodes of the network according to their level. When called
+     with a node-list, only the nodes in the transitve fanin of the specified
+     nodes are printed.  The primary inputs are assigned level 0, and the
+     level of a node is the length of the longest path from it to a primary
+     input. The  -l options prints only the number of levels in the network.
+ 
+     If the -c option is specified, only critical nodes are printed according
+     to their level. The delay trace is done according to the -m model option
+     (default is the unit-fanout model) and all the nodes with a slack within
+     a -t value of the smallest slack are considered to be critical.
+ 
+                                                                            1

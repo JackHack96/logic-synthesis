@@ -1,0 +1,24 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   xl_part_coll [-n support] [-C cost_limit] [-c cover_node_limit]
+                [-l lit_bound] [-Aabm] [-g decomp_good]
+                [-M MAX_FANINS] [-v verbosity_level]
+ 
+     This is a partial collapse routine.  On an infeasible network, first
+     runs trivial partition routine. Then for each node, finds the cost of
+     the node using a routine similar to xl_imp.  Collapses each node into
+     fanouts and computes the cost of the fanouts likewise. If the new cost
+     of the fanouts is less, accepts the collapse. Deletes the collapsed node
+     from the network. It does this until no more collapses can be benefi-
+     cially carried out.  The nodes are visited topologically. The result is
+     a feasible network.
+ 
+     -C: tries only those nodes for collapsing whose cost is less than or
+     equal to cost_limit.  Our experience has been that it is beneficial to
+     collapse only feasible nodes. So the default is 1.
+ 
+     Other options are the same as in xl_imp except -c has default of 10 and
+     -A means move fanins around.
+ 
+                                                                            1

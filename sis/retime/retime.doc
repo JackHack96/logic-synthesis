@@ -1,0 +1,356 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/retime/retime.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:49 $
+ *
+ */
+int
+retime_is_network_retimable(network)
+network_t *network;
+	This routine performs some checks on the network and returns a value
+	of 1 if the network satisfies the constraints of a retimable circuit
+	(single-phase, edge-triggered circuit). The exported routines and
+	data-structured make strict assumptions about the network structure
+	(single-phase, edge-triggered) and so before calling the other routines
+	the user should call this routine and check the return value....
+
+re_graph *
+retime_network_to_graph(network, size, use_mapped)
+network *network;
+int size;
+int use_mapped;
+	Build the retiming graph from the network. The nodes of the 
+	retiming graph correspond to the nodes in the network and the
+	weights on the edges are the number of latches between the nodes.
+	The parameter "size" is provided for clustreing but this is not
+	yet used.  If the flag "use_mapped" is used the routine will
+	generate some additional information to allow it to reconstruct
+	the mapped network after retiming (see the routine
+	retime_graph_to_network() below)
+
+
+int
+retime_graph_interface(graph, area_r, delay_r, retime_tol, d_clk, new_c)
+re_graph *graph;
+double area_r, delay_r;
+double retime_tol, d_clk, *new_c;
+	Routine that encapsulates the retiming procedures for the user
+	that wants to use the retiming algorithm on a graph. This routine
+	is able to handle graphs with negative weights and uses the
+	Lieserson's MILP procedure for retiming. No initial states are
+	computed. This is due to the fact that negative edge weights are
+	allowed.
+
+
+int
+retime_graph(network, graph, area_r, delay_r, retime_tol,
+	d_clk, new_c, lp_flag, min_reg, should_init, can_init)
+network_t *network;	/* The network that corrsponds to this graph */
+re_graph *graph;	/* graph to be retimed */
+double area_r;		/* default area cost for a standard register */
+double delay_r;		/* default delay cost for a standard register */
+double retime_tol;	/* Tolerance for the binary search */
+double d_clk;		/* Desired clock cycle */
+double *new_c;		/* The clock cycle after retiming */
+int lp_flag;		/* == 1 => Use MILP otherwise Saxe's relaxation */
+int min_reg;		/* == 1 => minimize num registers, overrides lp_flag */
+int should_init;	/* == 1 => compute_initial_ state
+			   == 2 => compute initial states at all costs */
+int *can_int;		/* RETURN: == 1 => could do the initialization */
+
+	Retime the sequential network specified by `graph' . Returns a value
+	1 if latches were moved and 0 if there is no retiming possible.
+	In the retimed graph, the weight values of the edges w(e) will be
+	modified to reflect the retimed network.
+
+	If the "network" paprameter is not NIL(network_t) and the parameter
+	"should_init == 1" then the new initial states will be computed for
+	the retimed graph. If such a computation is feasible then the
+	flag "can_nit" is set to 1, otherwise it is set to 0. If the flag
+	"should_init" is set then the user must provide the network, nodes
+	for which correspond to the retime graph.
+	
+	The `area_r' parameter specifies the area of each register.
+	The `delay_r' parameter specifies the delay cost of each register.  
+	Delay cost for a register can be thought of as an estimate for its
+	setup and hold times.
+
+	The "retime_tol" is the tolerance for the binary search and the "d_clk"
+	specifies the cycle time that the user wants to achieve. The retuned
+	calue "new_c" refers to the best cycle-time that can be achieved.
+	This may or may not meet the user desired cycle-time "d_clk".
+
+	The user has the option of specifying one of three methods for
+	retiming. These are governed by the flags lp_flag and min_reg
+	min_reg	lp_flag		Algorithm used
+	--------------------------------------
+	1	anything	MInimize number of registers (uses Simplex)
+	0	1		UseLieserson's  MILP formulation
+	0	0		Use Saxe's relaxation algorithm
+
+
+network_t
+retime_graph_to_network(graph, use_mapped)
+re_graph *graph;
+int use_mapped;
+	This routine will generate a Boolean network from the specified
+	graph. The flag "use_mapped" when set to 1 will result in the
+	routine accessing the nodes in the original network so as to
+	preserve the mapping of the circuit.
+
+
+/* Memory management functions */
+
+re_graph *
+re_graph_alloc()
+	Allocate a new graph.  Initialize the array fields to zero
+	elements.
+
+void
+re_graph_free(graph)
+re_graph *graph;
+	Free a graph.
+
+re_graph *
+re_graph_dup(graph)
+re_graph *graph;
+	Make a duplicate copy of a graph.
+
+re_edge *
+re_create_edge(graph, source, sink, index, weight, breadth)
+re_graph *graph;
+re_node *source;
+re_node *sink;
+int index;
+int weight;
+double breadth;
+	Allocate a new edge.  The source and sink nodes are assumed
+	to have been created.  The new edge is created and inserted 
+	into the graph data structure, the list of fanins of the sink 
+	node, and the list of fanouts of the source node. THe connection
+	is mode to the "index" fanin of if the sink node. The id fields
+	of the edge structure are properly assigned.  The weight
+	field is assigned the value `weight'. The breadth of the edge is
+	the cost of putting a latch on it (may exceed 1 if it represents
+	a bus).
+
+
+/* Counting functions */
+
+int
+re_num_nodes(graph)
+re_graph *graph;
+	Return the number of nodes in the graph.
+
+int
+re_num_edges(graph)
+re_graph *graph;
+	Return the number of edges in the graph.
+
+int
+re_num_primary_inputs(graph)
+re_graph *graph;
+	Return the number of primary input nodes in the graph.
+
+int
+re_num_primary_outputs(graph)
+re_graph *graph;
+	Return the number of primary output nodes in the graph.
+
+int
+re_num_internals(graph)
+re_graph *graph;
+	Return the number of internal nodes in the graph.
+	Number of internal nodes is equal to the total number 
+	of nodes in the graph minus the primary input nodes
+	and the primary output nodes.
+
+int
+re_num_fanins(node)
+re_node *node;
+	Return the number of fanin edges to node.
+
+int
+re_num_fanouts(node)
+re_node *node;
+	Return the number of fanout edges from node.
+
+
+/* Random access functions */
+
+re_node *
+re_get_node(graph, index)
+re_graph *graph;
+int index;
+	Return the index'th node of the graph.  The nodes are numbered 
+	starting from 0.  Returns NIL(re_node) if index >= re_num_nodes(graph).
+	Access should be very quick.
+
+re_edge *
+re_get_edge(graph, index)
+re_graph *graph;
+int index;
+	Return the index'th edge of the graph.  The edges are numbered 
+	starting from 0.  Returns NIL(re_edge) if index >= re_num_edges(graph).
+	Access should be very quick.
+
+re_node *
+re_get_primary_input(graph, index)
+re_graph *graph;
+int index;
+	Return the index'th primary input of the graph.  The primary 
+	inputs are numbered starting from 0.  Returns NIL(re_node) 
+	if index >= re_num_primary_inputs(graph).
+	Access should be very quick.
+
+re_node *
+re_get_primary_output(graph, index)
+re_graph *graph;
+int index;
+	Return the index'th primary output of the graph.  The primary 
+	outputs are numbered starting from 0.  Returns NIL(re_node) 
+	if index >= re_num_primary_outputs(graph).
+
+re_edge *
+re_get_fanin(node, index)
+re_node *node;
+int index;
+	Return the index'th fanin edge of the node.  The fanin 
+	edges are numbered starting from 0.  Returns NIL(re_edge) 
+	if index >= re_num_fanins(node).
+
+re_edge *
+re_get_fanout(node, index)
+re_node *node;
+int index;
+	Return the index'th fanout edge of the node.  The fanout 
+	edges are numbered starting from 0.  Returns NIL(re_edge) 
+	if index >= re_num_fanouts(node).
+
+
+/* Generators */
+
+re_foreach_node(graph, index, node)
+re_graph *graph;
+int index;
+re_node *node;
+	Generate over all nodes in the graph (that is, including
+	primary inputs and primary outputs).
+
+re_foreach_edge(graph, index, edge)
+re_graph *graph;
+int index;
+re_edge *edge;
+	Generate over all edges in the graph.
+
+re_foreach_primary_input(graph, index, node)
+re_graph *graph;
+int index;
+re_node *node;
+	Generate over all primary inputs of a graph.
+
+re_foreach_primary_output(graph, index, node)
+re_graph *graph;
+int index;
+re_node *node;
+	Generate over all primary outputs of a graph.
+
+re_foreach_fanin(node, index, edge)
+re_node *node
+int index;
+re_edge *edge;
+	Generate over all the fanin edges to node.
+
+re_foreach_fanout(node, index, edge)
+re_node *node
+int index;
+re_edge *edge;
+	Generate over all the fanout edges from node.
+
+
+
+    The generators are macro's.  Typical usage is:
+
+		re_foreach_node(graph, index, node) {
+		    /* do something with node */
+		}
+
+    The generator is implemented using the array package.
+
+int
+re_ignore_edge(edge)
+re_edge *edge;
+    If the edge is marked as being deleted it is not removed from
+    the graph but just marked as deleted. This routine can be
+    used to query for such edges. During traversal these edges
+    should not be followed.
+
+int
+re_ignore_node(node)
+re_node *node;
+    If the node is marked as being deleted (of type RE_IGNORE)
+    this routine can be used to query for such nodes. During
+    traversal these nodes should not be visited since some fields
+    may be out of date.
+
+
+/* Exportable retiming functions */
+
+int
+re_min_fanin_weight(node)
+re_node *node;
+	Return the minimum weight from the fanin edges.
+
+int
+re_min_fanout_weight(node)
+re_node *node;
+	Return the minimum weight from the fanout edges.
+
+int
+re_max_fanin_weight(node)
+re_node *node;
+	Return the maximum weight from the fanin edges.
+
+int
+re_max_fanout_weight(node)
+re_node *node;
+	Return the maximum weight from the fanout edges.
+
+int
+re_sum_of_edge_weight(graph)
+re_graph *graph;
+	Return the sum of weights from the edges in the graph.
+
+int
+re_effective_sum_edge_weight(graph)
+re_graph *graph;
+	Return the effective sum of weights from the edges in the graph.
+	Effective meaning that only the `maximum' weight from the
+	fanout edges of the given node will be counted in the total
+	weight.  This is useful to model `register sharing'.
+
+double
+re_sum_node_area(graph)
+re_graph *graph;
+	Return the sum of area of the nodes.
+
+double
+re_total_area(graph, area_r)
+re_graph *graph;
+double area_r;
+	Return the sum of area including both area contributed by the 
+	nodes and area contributed by the registers.  This area calculation 
+	uses the register sharing model.  The parameter `area_r' specifies 
+	the area cost of a standard register.
+
+double
+re_cycle_delay(graph, delay_r)
+re_graph *graph;
+double delay_r;
+	Return the critical delay of the graph.  The parameter `delay_r' 
+	specifies the delay cost of a standard register.  Delay cost is 
+	usually an estimated sum of the setup and hold time.
+

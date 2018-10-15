@@ -1,0 +1,30 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   verify_fsm [-o depth] [-v n] [-m method] filename.blif
+ 
+     Verify the equivalence of two synchronous networks.  The current network
+     is compared with filename.blif.  The input and output variables from the
+     two networks are associated by their names.  It is assumed that all the
+     latches in both designs are clocked by a single, global clock.  The
+     verification is done by implicitly enumerating all the states in the
+     product machine, and checking that the outputs are equivalent for all
+     reachable state pairs starting from the initial state of the product
+     machine.
+ 
+     -o depth allows the specification of the depth of search for a good
+     variable ordering.  A larger value for depth will require more CPU time
+     but determine a better ordering.  The default value is 2.
+ 
+     -v allows specification of the verbosity level of the output.
+ 
+     The -m option specifies method for determining the reachable states.
+     consistency builds the entire transition relation and uses it to deter-
+     mine the reached states.  bull does output cofactoring to find the
+     reachable states.  The product method is similar to the consistency
+     method but input variables are smoothed as soon as possible as the
+     characteristic function is being built.  This makes the size of the
+     resulting BDD representing the characteristic function of the transition
+     relation smaller.  The default method is product.
+ 
+                                                                            1

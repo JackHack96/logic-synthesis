@@ -1,0 +1,11 @@
+#! /bin/awk -f
+
+NF == 0 {
+   blank++;
+}
+NF > 0 {
+    if (blank > 1) blank = 1;
+    for(i = 0; i < blank; i++) print " ";
+    blank = 0;
+    print $0;
+}

@@ -1,0 +1,29 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: 
+.\"  * $Author: 
+.\"  * $Revision: 
+.\"  * $Date: 
+.\"  *
+.\"
+.XX
+speedup_alg [-v] alg_list
+.PP
+Activates selectively one or more performance enhancing algorithms. For a
+list of local optimizations known to the system, use the \fB-v\fR option.
+The algorithms activated are the ones specified in the list.
+For mapped circuits the algorithms perform the optimization and remap
+the sub-network that was optimized. \fInoalg\fR performs no
+optimization, it only remaps the region. \fIfanout\fR builds a
+fanout-tree while \fIrepower\fR simply uses a gate of greater drive
+Of the others \fIdivisor\fR and \fI2c_kernel\fR
+perform restructuring by extracting kernels and 2-cube divisors. When
+applied to the complement of the function these are called
+\fIcomp_div\fR and \fIcomp_2c\fR respectively. Techniques based on the
+existing structure are \fIcofactor\fR which performs
+timing-driven-cofactoring and \fIbypass\fR applies the
+generalized-bypass transformation.
+.PP
+Performance optimization itself is performed using the \fBspeed_up\fR
+command without the \fB-f\fR option.

@@ -1,0 +1,9 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   write_kiss [filename]
+ 
+     The current state transition graph is saved in _k_i_s_s_2 format to the file
+     filename or printed to the screen if no filename is given.
+ 
+                                                                            1

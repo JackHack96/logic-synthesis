@@ -1,0 +1,108 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   map [-b #][-f #][-i][-m #][-n #][-r][-s][-p][-v #] [-A][-B #][-F][-G][-W]
+ 
+     Perform a technology mapping on the current network.  A library must be
+     read using the read_library command before mapping can be performed.
+     The result of the mapping may become invalidated if a command such as
+     plot or print_stats -f is executed which computes a factored form
+     representation of every node.
+ 
+     To produce a minimum area circuit with no consideration for load limits,
+     the recommended option is map -m 0.
+ 
+     To produce a minimum area circuit that respects load limits, the recom-
+     mended option is map -m 0 -AF.   Use _check_load_limit command to check
+     for load limit violations.
+ 
+     To produce a minimum delay circuit that respects load limits, the recom-
+     mended option is map -n 1 -AFG.  To specify required times in order to
+     allow the mapper to trade off delay and area, use the set_delay command.
+ 
+     Details about the meanings of the various options follow.
+ 
+     The -b n sets the number by which the load value should be multiplied in
+     case of a load limit violation during fanout optimization.
+ 
+     The -f n option controls the internal fanout handling. A value of '0'
+     disables it completely (i.e. the mapping is strictly tree-based). A
+     value of '1' enables an heuristics approximating the cost of the previ-
+     ous tree at fanout branches. A value of '2' enables the usage of cells
+     with internal fanout (such as EXOR and MULTIPLEXER). A value of '3'
+     (default) enables both.  None of these values is guaranteed to give the
+     best solution in all cases, but '3' usually does. A warning is issued if
+     the current value can give bad results with the current network (use
+     undo before mapping again).
+ 
+     The -i option disables the _i_n_v_e_r_t_e_r-_a_t-_b_r_a_n_c_h-_p_o_i_n_t heuristic.  It is
+     intended for experimentation with different mapping heuristics.
+ 
+     The -m option controls the cost function used for a simple version of
+     the tree covering algorithm.  A mode of '0' (the default) minimizes the
+     area of the resulting circuit.  A mode of '1' minimizes the delay of the
+     resulting circuit (without regard to the total area).  An intermediate
+     value uses as cost function a linear combination of the two, and can be
+     used to explore the area-delay tradeoff.  A value of '2' minimizes the
+     delay on an estimate of the critical path obtained from a trivial 2-
+     input NAND mapping, and the area elsewhere.
+ 
+     The -n option allows the access to a better tree covering algorithm.  It
+     can only be used in delay mode, i.e. with an argument of 1: -n 1.  This
+     algorithm gives better performance than -m 1 but is noticeably slower.
+     It uses a finer dynamic programming algorithm that takes output load
+     values into account, while -m 1 option supposes all loads to be the
+     same.  As a consequence, the -n 1 option performs better than -m 1 espe-
+     cially with rich libraries of gates. Both algorithms use heuristics to
+ 
+                                                                            1
+ 
+   SIS(1)                                                        July 1, 1994
+ 
+     guess the load value at multiple fanout points.  Both options should
+     always be used with fanout optimization turned on.
+ 
+     If -r is given (_r_a_w _m_o_d_e), the network must already be either 1- and 2-
+     input NAND gates, or 1- and 2-input NOR gates form, depending on whether
+     a NAND-library, or a NOR-library was specified when the library was ori-
+     ginally read (see read_library).  If -r is not given, appropriate com-
+     mands are inserted to transform the network into the correct format.
+ 
+     The -s option prints brief statistics on the mapping results.
+ 
+     The -p option forces the mapper to ignore the delay information provided
+     by the user at primary inputs and primary outputs (arrival times,
+     required times, loads, drive capability). It is intended for experimen-
+     tal use.  This option forces the arrival times and required times to be
+     all 0, the loads and drive capabilities to be all equal to the load and
+     drive capability of the second smallest inverter in the library.  If
+     there is only one inverter, the data are taken from that inverter.
+ 
+     The -v n options is for development use, and provides debugging informa-
+     tion of varying degrees of verbosity as the mapping proceeds.
+ 
+     The -A option recovers area after fanout optimization at little or no
+     delay cost by resizing buffers and inverters.
+ 
+     The -B n option controls the enforcement of load limits during fanout
+     optimization.   A value of 0 ignores the load limits.  A value of 1
+     takes load limits into account.   The default is set to 1.  This option
+     is effective only in conjunction with fanout optimization.  It is imple-
+     mented by artificially increasing the load at a gate output by a multi-
+     plicative factor whenever the load exceeds the limit specified in the
+     library. The default multiplicative factor is 1000. This value can be
+     changed with the -b n option. There is a priori no reason to change this
+     value.
+ 
+     The -F option performs fanout optimization.  This disables the internal
+     fanout handling (i.e. forces -f 0).  In order to recover area after
+     fanout optimization use the -A option. There are several fanout optimi-
+     zation algorithms implemented in SIS. For details, type help fanout_alg
+     and help fanout_params.
+ 
+     The -G option recovers area after fanout optimization at no cost in
+     delay by resizing all gates in the network.
+ 
+     The -W option suppresses the warning messages.
+ 
+   2

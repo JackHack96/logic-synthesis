@@ -1,0 +1,20 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/tech_decomp.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:41 $
+.\"  *
+.\"
+.XX
+tech_decomp [-a and-limit] [-o or-limit] 
+.PP
+Decompose all the nodes in the current network into AND gates
+or OR gates or both depending on whether \fB-a\fR,
+\fB-o\fR, or both flags are specified.
+The fanins of AND gates
+will be no more than \fBand-limit\fR and that of the OR gates
+will be no more than \fBor-limit\fR.  \fBand-limit\fR and
+\fBor-limit\fR, if specified, must be at least 2.
+The default option is \fB-a 2\fR.

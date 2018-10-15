@@ -1,0 +1,15 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_marking [-s] [<marking>]
+ 
+     Display or set the initial marking of the ASTG.  If no marking is given,
+     the current initial marking is displayed.  The default format for the
+     marking is the same as for the
+ 
+     The -s option uses a state code format for the marking.  This is a list
+     of signal name and value pairs.  For example, to set an initial state
+     with signal A at value 0 and B at value 1, use the command:
+     astg_marking -s A 0 B 1
+ 
+                                                                            1

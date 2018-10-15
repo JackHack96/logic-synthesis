@@ -1,0 +1,12 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_mgc [<component-index>]
+ 
+     Generate all the marked graph (MG) components of the ASTG.  If an
+     optional index is given, then also print the specified component number.
+ 
+     For example, if an ASTG has 3 MG components, then astg_mgc 2 will print
+     the vertices in the second component.
+ 
+                                                                            1

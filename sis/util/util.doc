@@ -1,0 +1,208 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/util/util.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:53 $
+ *
+ */
+Summary:
+	ALLOC()
+	REALLOC()
+	FREE()
+	NIL()
+	int util_pipefork()
+	char *util_tilde_expand()
+	char *util_file_search()
+	char *util_path_search()
+	long util_cpu_time()
+	char *util_print_time()
+	int util_save_image()
+	void util_print_cpu_stats()
+	char *util_strsav()
+	int util_getopt()
+	int util_getopt_reset()
+	util_tmpfile()
+
+
+type *
+ALLOC(type, number)
+typeof type;
+int number;
+	Allocates 'number' objects of type 'type'.  This macro should be
+	used rather than calling malloc() directly because it casts the
+	arguments appropriately, and ALLOC() will never return NIL(char),
+	choosing instead to terminate the program.
+
+
+void
+FREE(obj)
+	Free object 'obj'.  This macro should be used rather than
+	calling free() directly because it casts the argument
+	appropriately.  It also guarantees that FREE(0) will work
+	properly.
+
+
+type *
+REALLOC(type, obj, number)
+	Re-allocate 'obj' to hold 'number' objects of type 'type'.
+	This macro should be used rather than calling realloc()
+	directly because it casts the arguments appropriately, and
+	REALLOC() will never return NIL(char), instead choosing to
+	terminate the program.  It also guarantees that REALLOC(type, 0, n)
+	is the same as ALLOC(type, n).
+
+
+type *
+NIL(type)
+	Returns 0 properly casted into a pointer to an object of type
+	'type'.  Strictly speaking, this macro is only required when
+	a 0 pointer is passed as an argument to a function.  Still,
+	some prefer the style of always casting their 0 pointers using
+	this macro.
+
+
+int
+util_pipefork(argv, toCommand, fromCommand)
+char **argv;
+FILE **toCommand;
+FILE **fromCommand;
+	Fork (using execvp(3)) the program argv[0] with argv[1] ...
+	argv[n] as arguments.  (argv[n+1] is set to NIL(char) to
+	indicate the end of the list).  Set up two-way pipes between
+	the child process and the parent, returning file pointer
+	'toCommand' which can be used to write information to the
+	child, and the file pointer 'fromCommand' which can be used to
+	read information from the child.  As always with unix pipes,
+	watch out for dead-locks.  Returns 1 for success, 0 if any
+	failure occured forking the child.
+
+
+char *
+util_tilde_expand(filename)
+char *filename;
+	Returns a new string corresponding to 'tilde-expansion' of the
+	given filename (see csh(1), "filename substitution").  This
+	means recognizing ~user and ~/ constructs, and inserting the
+	appropriate user's home directory.  The returned string should
+	be free'd by the caller.
+
+
+char *
+util_file_search(file, path, mode)
+char *file;
+char *path;
+char *mode;
+	'path' is string of the form "dir1:dir2: ...".  Each of the
+	directories is searched (in order) for a file matching 'file'
+	in that directory.  'mode' checks that the file can be accessed
+	with read permission ("r"), write permission ("w"), or execute
+	permission ("x").  The expanded filename is returned, or
+	NIL(char) is returned if no file could be found.  The returned
+	string should be freed by the caller.  Tilde expansion is
+	performed on both 'file' and any directory in 'path'.
+
+
+char *
+util_path_search(program)
+char *program;
+	Simulate the execvp(3) semantics of searching the user's environment
+	variable PATH for an executable 'program'.  Returns the file name
+	of the first executable matching 'program' in getenv("PATH"), or
+	returns NIL(char) if none was found.  This routines uses 
+	util_file_search().
+
+
+long
+util_cpu_time()
+	Returns the processor time used since some constant reference
+	in milliseconds.
+
+
+char *
+util_print_time(time)
+long time;
+	Converts a time into a (static) printable string.  Intended to
+	allow different hosts to provide differing degrees of
+	significant digits in the result (e.g., IBM 3090 is printed to
+	the millisecond, and the IBM PC usually is printed to the
+	second).  Returns a string of the form "10.5 sec".
+
+
+int
+util_save_image(old_file, new_file)
+char *old_file;
+char *new_file;
+	Save the text and data segments of the current executable
+	(which is the file 'old_file') into the file 'new_file'.
+	Returns 1 for success, 0 for failure.  'old_file' is required
+	in order to preserve symbol table information for the new
+	executable.  'old_file' can be derived from argv[0] of the
+	current executable using util_path_search().  NOTE: no stack
+	information is preserved.  When the program restarts, it
+	re-enters main() with no valid stack.  This is currently highly
+	BSD-specific, but should run on most operating systems which are 
+	derived from Berkeley Unix 4.2.
+
+
+void
+util_restart(old_file, new_file, interval)
+char *old_file;
+char *new_file;
+int interval;
+	Set a checkpoint interval for the current program.  Every
+	'interval' seconds, the current program will be saved to the
+	file 'new_file'.  Also enables the signal SIGQUIT (usually ^\)
+	to force the program to checkpoint and terminate.  'old_file'
+	is the filename of the current executable; this allows for the
+	saving of the symbol table when the program is checkpointed.
+	'old_file' can be derived from argv[0] of the current
+	executable using util_path_search().  This saves all stack and
+	state information, guaranteeing complete restart when the new
+	executable is run.  util_restart() must be called as the first
+	statement in main (except, of course, for util_path_search()).
+	This is much more operating system and hardware dependent than
+	util_save_image(); currently it is implemented only for DEC VAX
+	under Ultrix and 4.3bsd, and Sun 3 under Sun OS.
+
+
+void
+util_print_cpu_stats(fp)
+FILE *fp;
+	Dump to the given file a summary of processor usage statistics.
+	For BSD machines, this includes a formatted dump of the
+	getrusage(2) structure.
+
+
+char *
+util_strsav(s)
+char *s;
+	Also known as strsav() for backwards compatability.
+	Returns a copy of the string 's'.  
+
+
+int
+util_getopt(argc, argv, string)
+int argc;
+char **argv;
+char *string;
+	Also known as getopt(3) for backwards compatability.
+	Parses options from an argc/argv command line pair.
+
+
+int
+util_getopt_reset()
+	Reset getopt argument parsing to start parsing a new argc/argv pair.
+	Not available from the standard getopt(3).
+
+
+FILE *
+util_tmpfile()
+	Returns a file pointer to a temporary file.  It uses util_tempnam()
+	to determine a unique filename.  If TMPDIR is defined in the
+	environment, it uses that directory.  Otherwise, it uses the
+	directory defined by the system as P_tmpdir.  If that is not
+	defined, it uses /tmp.  The file can be written to, and subsequently
+	read from by calling rewind before reading.  The file should be
+	closed using fclose when it is no longer needed.

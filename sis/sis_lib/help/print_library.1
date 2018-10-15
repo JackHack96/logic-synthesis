@@ -1,0 +1,33 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/print_library.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+print_library [-a][-f][-h][-l][-r] [function-string]
+.PP
+Print the contents of the current library.  If the optional string is
+given, only the combinational gates with the same logic function as the string
+will be printed.  \fIfunction-string\fP is in the format of
+read_eqn.  For example
+.in +1i
+.nf
+print_library "f=!(a*b);" 
+.in -1i
+.fi
+will print all combinational gates with a NAND2 logic function.
+.PP
+The \fB-a\fP option prints asynchronous type latches matching the 'function-string'.
+.PP
+The \fB-f\fP option prints falling edge triggered flip-flops matching the 'function-string'.
+.PP
+The \fB-h\fP option prints active high transparent latches matching the 'function-string'.
+.PP
+The \fB-l\fP option prints active low transparent latches matching the 'function-string'.
+.PP
+The \fB-r\fP option prints rising edge triggered flip-flops matching the 'function-string'.
+

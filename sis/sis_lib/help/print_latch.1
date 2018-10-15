@@ -1,0 +1,22 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/print_latch.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+print_latch [-s] [node-list]
+.PP
+With no arguments, \fBprint_latch\fR prints out information for
+all the latches in the network.
+The information printed for each latch is the latch input, latch output,
+initial value, current value, synchronization type, and controlling node.
+The latch values can be 0, 1, 2 (don't care), and 3 (undefined).
+
+If the \fB-s\fR option is specified, only the latch input, output, initial
+and current values are given.
+If a \fBnode-list\fR is given, only the latches associated with those
+nodes are printed (each node should be a latch input or output).

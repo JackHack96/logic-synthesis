@@ -1,0 +1,26 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/error/error.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:20 $
+ *
+ */
+void
+error_init()
+
+	Set the error string to empty.
+
+
+void
+error_append(s)
+char *s;
+
+	Append the string 's' to the error string.
+
+
+char *
+error_string()
+
+	Return the current error string.

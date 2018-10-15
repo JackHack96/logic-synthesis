@@ -1,0 +1,84 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   act_map  [-h heuristic_num] [-n num_iteration] [-f collapse_fanin]
+            [-g gain_factor] [-d decomp_fanin] [-r filename]
+            [-M  MAXOPTIMAL] [-qolDsv]
+ 
+     Routine to find an optimal mapping to the Actel architecture.  The input
+     is the Boolean network and the output is a netlist and the block count
+     (reference: An Architecture for Electrically Configurable Gate Arrays,
+     Gamal et. al., IEEE J. of Solid State Circuits, April 1989, pp. 394-
+     398).
+ 
+     act_map synthesizes the given circuit onto Actel architecture.  It uses
+     a tree-mapping approach to cover the subject graph with the pattern
+     graphs.  The pattern graphs are hard-wired into the code and so no
+     library is to be read in.  Subject graph and pattern-graphs are in terms
+     of 2-1 muxes. Subject graph is constructed for each intermediate node of
+     the network.  Either an OBDD (Ordered BDD) and/or a BDD is constructed
+     for each such node.  After the entire network is mapped, an
+     iterative_improvement phase may be entered.
+ 
+     Following options are supported:
+ 
+     -h heuristic_number specifies which one of the two subject_graphs would
+     be constructed.
+ 
+     heuristic num = 1 => OBDD
+ 
+     heuristic num = 2 => BDD (default)
+ 
+     heuristic num = 3 => program decides which one to construct.
+ 
+     heuristic num = 4 => both are constructed and the one with lower mapped
+     cost is selected. Gives the best result, but typically takes more time.
+ 
+     -M MAXOPTIMAL constructs an optimal OBDD for a node if number of fanins
+     is at most MAXOPTIMAL.
+ 
+     -n num_iteration specifies the maximum number of iterations to be per-
+     formed in the iterative_improvement phase. Each such iteration involves
+     a good_decomposition followed by a partial_collapse routine.
+     Partial_collapse tries to collapse each node into its fanouts. Default
+     is -n 0.
+ 
+     -f collapse_fanin considers only those nodes for partial_collapse which
+     have fanin no more than collapse_fanin.  (Default: -f 3).
+ 
+     -g gain_factor makes the program enter the next iteration only if gain
+     in the present iteration is at least (present_cost * gain_factor).
+     (Default: -g 0.01)
+ 
+     -d decomp_fanin considers only those nodes for good_decomposition which
+     have fanin greater than or equal to decomp_fanin. (Default -d 4).
+ 
+                                                                            1
+ 
+   SIS(1)                                                        July 1, 1994
+ 
+     -r filename is the final mapping option.  After mapping, a mapped net-
+     work would be created, in which each intermediate node corresponds to
+     one basic block of Actel architecture.  A file filename having the net-
+     list description in a BDNET-like format is also formed.  The pin names
+     of the basic block are the same as those given in a Figure in the paper
+     on Actel architecture (reference: An Architecture for Electrically Con-
+     figurable Gate Arrays, Gamal et al., IEEE J. Solid State Circuits, April
+     1989, pp. 394-398).
+ 
+     -q makes the program enter a quick_phase routine (after
+     iterative_improvement phase), which greedily finds out if it is benefi-
+     cial to implement the node in negative phase.
+ 
+     -D causes a disjoint decomposition routine to be invoked on the network
+     before mapping starts.
+ 
+     -o causes the OR gate in the basic block to be ignored. So mapping is
+     done onto a three-mux structure.
+ 
+     -v turns on the verbosity flag.  When used, information about the
+        algorithm is printed as it executes.
+ 
+     -s gives the statistics, regarding the block count of the circuit.
+ 
+   2

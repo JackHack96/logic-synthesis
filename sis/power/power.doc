@@ -1,0 +1,133 @@
+/*---------------------------------------------------------------------------
+|
+|    Documentation for global routines/structures.
+|
+| Jose' Monteiro, MIT, Mar/94            jcm@rle-vlsi.mit.edu
++--------------------------------------------------------------------------*/
+
+Description:
+	The power package for SIS.
+
+
+Summary:
+	power_estimate();
+        power_main_driver();
+        power_sample_estimate();
+        power_simulation_estimate();
+        power_free_info();
+        power_print();
+
+	SWITCH_PROB();
+	CAP_FACTOR();
+
+int
+power_estimate(network, type, delay, total_power)
+network_t *network;
+int type;             /* {COMBINATIONAL; SEQUENTIAL; PIPELINE; DYNAMIC} */
+int delay;            /* {0 - zerod delay; 1 - unit delay; 2 - general delay} */
+double *total_power;  /* Returned value */
+
+        Calls power_main_driver with default values:
+
+                psProbOption = APPROXIMATION_PS;
+                info_file = NIL(FILE);
+                sop_or_fact = FACTORED_FORM;
+                input_sizing = DEFAULT_MAX_INPUT_SIZING (4);
+
+                power_setSize = 1;
+                power_delta = DEFAULT_PS_MAX_ALLOWED_ERROR (0.01);
+                power_verbose = 0;
+                power_cap_in = CAP_IN_LATCH (4);
+                power_cap_out = CAP_OUT_LATCH (20);
+                
+
+int
+power_main_driver(network, type, delay, psProbOption, info_file,
+                  sop_or_fact, input_sizing, total_power)
+network_t *network;
+int type;             /* {COMBINATIONAL; SEQUENTIAL; PIPELINE; DYNAMIC} */
+int delay;            /* {0 - zerod delay; 1 - unit delay; 2 - general delay} */
+int psProbOption;     /* {APPROXIMATION_PS; EXACT_PS; UNIFORM_PS} */
+FILE *info_file;      /* File with primary input probabilities */
+int sop_or_fact;      /* {FACTORED_FORM; SUM_OF_PRODUCTS} */
+int input_sizing;     /* Maximum number of inputs of node for sizing */
+double *total_power;  /* Returned value */
+
+NOTE: Besides these arguments, the calling routine must set global variables:
+      power_setSize, power_delta, power_verbose, power_cap_[in/out].
+
+    Estimates the capacitive load and expected number of transitions of each
+    node in the network. These values are stored in a global table and can
+    be retrieved using the macros SWITCH_PROB and CAP_FACTOR. The estimated
+    total power dissipated by the network is returned in "total_power". This
+    value is computed by adding SWITCH_PROB * CAP_FACTOR * CAPACITANCE * 250.0
+    over all the nodes (250.0 = 0.5 * 5V^2 * 20MHz and CAPACITANCE = 0.01).
+    The routine returns 0 if all went well, 1 if something went wrong.
+
+
+int
+power_sample_estimate(network, type, delay, num_samples, total_power)
+network_t *network;
+int type;             /* {COMBINATIONAL; SEQUENTIAL; PIPELINE; DYNAMIC} */
+int delay;            /* {0 - zerod delay; 1 - unit delay; 2 - general delay} */
+int num_samples;      /* Number of sets of 32 input vectors to simulate */
+double *total_power;  /* Returned value */
+
+        Calls power_simulation_estimate with default values:
+
+                psProbOption = APPROXIMATION_PS;
+                info_file = NIL(FILE);
+                sop_or_fact = FACTORED_FORM;
+                input_sizing = DEFAULT_MAX_INPUT_SIZING (4);
+
+                power_setSize = 1;
+                power_delta = DEFAULT_PS_MAX_ALLOWED_ERROR (0.01);
+                power_verbose = 0;
+                power_cap_in = CAP_IN_LATCH (4);
+                power_cap_out = CAP_OUT_LATCH (20);
+
+int
+power_simulation_estimate(network, type, delay, psProbOption, num_samples,
+                          sample_gap, info_file, sop_or_fact, input_sizing,
+                          total_power)
+network_t *network;
+int type;             /* {COMBINATIONAL; SEQUENTIAL; PIPELINE; DYNAMIC} */
+int delay;            /* {0 - zerod delay; 1 - unit delay; 2 - general delay} */
+int psProbOption;     /* {APPROXIMATION_PS; EXACT_PS; UNIFORM_PS} */
+int num_samples;      /* Number of sets of 32 input vectors to simulate */
+int sample_gap;       /* Sample interval to print current power estimate */
+FILE *info_file;      /* File with primary input probabilities */
+int sop_or_fact;      /* {FACTORED_FORM; SUM_OF_PRODUCTS} */
+int input_sizing;     /* Maximum number of inputs of node for sizing */
+double *total_power;  /* Returned value */
+
+    Same as power_estimate, but uses logic simulation instead of calculating
+    signal probabilities through BDD's (can be less accurate and slower,
+    but can be used with larger circuits for which BDD's are too large).
+
+
+int
+power_free_info(network)
+network_t *network;
+
+        Frees power information stored in global table 'power_info_table'.
+        Always returns 0.
+
+int
+power_print(network)
+network_t *network;
+
+        Goes through all nodes of the network and prints their switching
+   probability and capacitance.
+
+
+double
+SWITCH_PROB(node)
+node_t *node;
+        Returns the expected number of transitions this node makes
+    per clock cycle.
+
+int
+CAP_FACTOR(node);
+node_t *node;
+        Returns the capacitive load the node is driving.

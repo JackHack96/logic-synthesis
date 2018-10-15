@@ -1,0 +1,45 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/astg_syn.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:35 $
+.\"  *
+.\"
+.XX
+astg_syn [-m] [-r] [-v debug_level] [-x]
+.PP
+Synthesize from the current signal transition graph a two-level implementation 
+which is hazard-free under the unbounded gate delay model (i.e., gates have
+unbounded delays, wires have zero delays).
+.PP
+The synthesis is performed in two steps.  The first step derives a
+state graph from the ASTG by performing a reachability analysis.  If no
+initial marking is given, then \fBastg_syn\fR will try to find a live,
+safe initial marking.  The second step uses the state graph generated
+in step one to perform hazard analysis and synthesis.  All static
+hazards and critical races are removed.  \fBastg_syn\fR tries to
+remove all dynamic hazards arising from multiple input or output
+changes.  When it cannot remove such hazards, it will print the terms
+which can potentially produce hazards and the conditions under which
+hazards can be produced.  From this user can remove the dynamic
+hazards by removing some concurrency.
+The resulting implementation may be neither prime nor irredundant.
+.PP
+The following options are not intended for general use.
+.PP
+The \fB-m\fR does not perform cube reduction and always returns a
+prime cover implementation free of static hazards.  As a consequence,
+dynamic hazards due to multiple input/output changes may not be
+removed.
+.PP
+The \fB-r\fR option runs ESPRESSO in single-output mode.   
+The implementation will be prime and irredundant, but may have static hazards
+and dynamic hazards.
+.PP
+The \fB-v\fR option specifies the debug level.
+.PP
+The \fB-x\fR assumes that a state graph has already been derived, and
+perform synthesis directly from the given state graph.   State graph can be
+derived by using \fB_astg_flow\fR.

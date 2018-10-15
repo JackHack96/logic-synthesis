@@ -1,0 +1,57 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   XILINX
+     Description
+ 
+     This is a package to optimize the Boolean network and map it onto the
+     Xilinx Programmable Gate Array architecture (reference: Xilinx, the Pro-
+     grammable Gate Array Data Book, Xilinx Corporation).  All the routines
+     except xl_merge can be used to map the design onto an architecture with
+     a CLB (Configurable Logic Block) realizing an arbitrary function of up
+     to n inputs,  where n >= 2.  The package contains the following commands
+     available to the user for experimentation.
+ 
+     Suggested script
+ 
+     time
+ 
+     sweep
+ 
+     simplify
+ 
+     sweep
+ 
+     simplify
+ 
+     xl_split -n  5
+ 
+     sweep
+ 
+     simplify
+ 
+     xl_split -n 5
+ 
+     sweep
+ 
+     xl_partition -n 5
+ 
+     sweep
+ 
+     simplify
+ 
+     xl_partition -n 5
+ 
+     sweep
+ 
+     xl_k_decomp -n 5
+ 
+     sweep
+ 
+     xl_cover -n 5 -h 3
+ 
+     xl_merge
+ 
+     time
+ 
+                                                                            1

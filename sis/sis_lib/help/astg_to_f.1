@@ -1,0 +1,72 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/astg_to_f.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:35 $
+.\"  *
+.\"
+.XX
+astg_to_f [-v debug_level] [-r] [-s signal_name] [-d]
+.PP
+Generate an initial two-level implementation of each output signal specified by
+the current Signal Transition Graph.
+.PP
+If the initial marking is not defined, then a valid marking is searched for.
+The list of potential hazards, used by \fBastg_slow\fR, is also produced.
+.PP
+One primary input is generated for each signal (both input and output)
+specified by the ASTG, with the same name as the signal (and "_" appended if the
+signal is an output).
+.PP
+One primary output is generated for each output signal 
+specified by the ASTG, with the same name as the signal.
+The primary output is driven directly by the primary input.
+.PP
+One asynchronous latch is generated for each output signal specified by the
+ASTG, connecting the combinational logic function implementing the signal (a
+"fake" primary output with the same name as the signal and "_next" appended) and
+the corresponding primary input.
+.PP
+If some signal is not used inside the combinational logic, then the
+corresponding primary input and latch is not created (unless the option
+\fB-r\fR is specified).
+.PP
+The \fB-s\fR option adds a set of fake primary outputs that ensure that the
+named signal is implemented as a Set-Reset flip-flop. If, in addition,
+the \fB-d\fR option is specified, the functions for the Set and Reset input are
+made disjoint. This may increase the implementation cost, but reduces its
+sensitivity to dynamic hazards.
+.PP
+An error message results if either no valid marking is found (in which case it
+might be advisable to define it in the ASTG specification file) or the ASTG does
+not have the Compatible State Coding property (i.e. if two markings with
+different sets of enabled output signals have the same binary label).
+See \fBastg_state_min\fR for a recommended action in the latter case.
+.PP
+A typical ASTG synthesis and optimization script should look like:
+.br
+astg_to_f
+.br
+
+.br
+gkx -ab
+.br
+resub -ad; sweep
+.br
+gcx -b
+.br
+resub -ad; sweep
+.br
+eliminate 0
+.br
+decomp -g *
+.br
+eliminate -1
+.br
+
+.br
+map
+.br
+astg_slow 

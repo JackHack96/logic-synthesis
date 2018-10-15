@@ -1,0 +1,24 @@
+# File created by vst2blif ver 1.0
+#        by Roberto Rambaldi 
+#   D.E.I.S. Universita' di Bologna
+.model hff
+
+.inputs d ck cln prn 
+.outputs q qn 
+
+.gate inv1x a=d O=dn 
+.gate nand2 a=ck b=d O=a 
+.gate nand2 a=ck b=dn O=an 
+.gate nand2 a=a b=prn O=bt 
+.gate nand2 a=an b=cln O=bnt 
+.gate nand2 a=b b=iqn O=iq 
+.gate nand2 a=bn b=iqd O=iqn 
+.gate inv1x a=iq O=qt 
+.gate inv1x a=qt O=q 
+.gate inv1x a=iqn O=qn 
+.gate inv1x a=bt O=b 
+.gate inv1x a=bnt O=bn 
+.mlatch dlatch D=iq Q=iqd c1 3
+.gate one O=c1 
+
+.end

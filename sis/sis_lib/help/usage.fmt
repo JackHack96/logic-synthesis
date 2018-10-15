@@ -1,0 +1,10 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   usage
+ 
+     Prints a formatted dump of processor-specific usage statistics.  For
+     Berkeley Unix, this includes all of the information in the _g_e_t_r_u_s_a_g_e()
+     structure.
+ 
+                                                                            1

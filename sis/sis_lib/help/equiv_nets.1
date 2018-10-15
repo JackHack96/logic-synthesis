@@ -1,0 +1,29 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/equiv_nets.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:44 $
+.\"  *
+.\"
+.XX
+equiv_nets [-v n]
+.PP
+This command simplifies the network using net equivalence.
+With \fBfull_simplify\fR, it is one of the two routines able to take
+advantage of network don't cares.  
+.PP
+\fBequiv_nets\fR groups all nets of the network by equivalence classes.
+Two nets are equivalent if and only if they always compute the same
+function with respect to the external care set. It only uses input
+don't cares, not observabiilty don't cares.
+.PP
+For each equivalence class, \fBequiv_nets\fR selects a lowest cost
+net, and moves the fanout of all the other nets of the equivalence
+class onto the lowest cost net.
+.PP
+Finally, it calls the command \fBsweep\fR.
+.PP
+\fB-v\fR allows the specification of the verbosity level of the output.
+The default value is 0.

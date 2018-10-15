@@ -1,0 +1,61 @@
+.XX
+short_tests [-fFhirtV] [-v verbosity_level] file
+.PP
+Perform test generation for sequential circuits with the goal of 
+producing small test sets. Random test generation is not used unless
+its use is specified by the user. Deterministic test generation is 
+accomplished by one of two methods. The first method is a three-step test
+generation algorithm consisting of combinational test generation (assuming 
+that latch outputs are controllable, and that latch inputs are observable),
+followed by state justification and propagation, when necessary. The 
+combinational test generation is accomplished using Boolean satisfiability.
+Justification and propagation are performed using implicit state transition 
+graph traversal techniques. If the three-step method does not generate a 
+test for a fault, then the product of the good and faulty circuit is built 
+and traversed, as in sequential circuit verification. If this traversal 
+proves the circuits equivalent, then the fault is redundant; otherwise any
+differentiating sequence is a test for the fault. Fault simulation is
+performed after each deterministic test generation. 
+.PP
+Fault collapsing is performed before test generation, across only simple 
+gates. Both fault equivalence and fault dominance are used to reduce the 
+fault list.
+.PP
+Deterministically-generated tests may start from the circuit reset state 
+or a state reached by the application of another test. In the latter case,
+the new test is appended onto the end of the old test. 
+.PP
+Reverse fault simulation is performed as a post-processing step to reduce
+test set size.
+.PP
+The \fB-f\fP option causes the test generator not to perform fault simulation 
+of deterministically-generated tests on untested faults. 
+.PP
+The \fB-F\fP option causes the test generator not to use reverse fault 
+simulation. 
+.PP
+The \fB-h\fP option restricts the boolean satisfiability algorithm to not use 
+non-local implications. Four greedy ordering heuristics are tried in this case 
+instead of the default of eight. Hard-to-test faults that can only be tested 
+with non-local implication information are aborted by this option.
+.PP
+The \fB-i\fP option causes the test generator not to append new tests onto
+the end of old tests. 
+.PP
+The \fB-r\fP option causes the test generator to perform random test pattern
+generation and random propagation.
+.PP
+The \fB-t\fP option first converts the network to arbitrary fanin AND and
+OR gates. The decomposed network is returned.
+.PP
+The \fB-v\fP allows the specification of the verbosity level of the output.
+.PP
+The \fB-V\fP causes the test generator to not use the three-step algorithm
+to generate tests. Instead, only good/faulty product machine verification
+is used to generate tests, thus guaranteeing that each individual test 
+generated is the shortest possible. 
+.PP
+If \fBfile\fP is specified, test patterns are written out to the given file.
+.PP
+Note: in order to use this command with sequential circuits, the circuit
+reset state must be specified in the circuit input file.

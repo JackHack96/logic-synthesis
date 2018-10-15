@@ -1,0 +1,26 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/write_slif.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:42 $
+.\"  *
+.\"
+.XX
+write_slif [-s] [-n] [-d] [filename]
+.PP
+Write the current network to the file \fBfilename\fP in the Stanford Logic
+Interchange Format (\fISLIF\fP).
+.PP
+The \fB-s\fP option uses the network short names rather than the network
+long names for the \fISLIF\fP file.  This can be used to encrypt the names of a
+net-list.
+.PP
+The \fB-n\fP option uses the net-list format of \fISLIF\fP when a node has a
+gate implementation in the library.
+.PP
+The \fB-d\fP option makes the \fISLIF\fR writer print out any delay information
+known about the current network.  This is not the default because a standard
+for printing delay information has not been established for the
+\fISLIF\fP format.

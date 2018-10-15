@@ -1,0 +1,37 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/stg_extract.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:41 $
+.\"  *
+.\"
+.XX
+stg_extract [-a] [-e] [-c]
+.PP
+Takes the current network and extracts the state transition graph from it.  
+.PP
+If the \fB-a\fP option is not specified, the values on the latches are taken
+to be the start state, and every state reachable from the
+start state is explored.  This is the normal method of execution.
+.PP
+If the \fB-a\fP option is specified, the state transition graph is extracted
+for all possible start states, provided the number of latches does not
+exceed 16.  This limitation cannot be overridden (there are too many
+states to store).
+.PP
+Extraction of the STG could take an enormous amount of time.
+If there are more than 16 latches in the network, \fBstg_extract\fR won't
+attempt to extract the STG.
+This can be overridden with the \fB-e\fP option.
+.PP
+At the end of \fBstg_extract\fR, a check is done to ensure that
+the behavior of the STG is consistent with that of the logic implementation.
+This is done with symbolic simulation using BDDs, and could be expensive.
+\fBstg_extract\fR will not do this check for networks with more than
+16 latches or more than 500 transitions unless the \fB-c\fR option is given.
+.PP
+Note: a \fBsweep\fI is done on the network before the STG is extracted.
+This removes latches that do not fanout, so the sweep makes the extraction
+more efficient.

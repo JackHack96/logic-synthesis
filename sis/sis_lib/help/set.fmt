@@ -1,0 +1,70 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   set [name] [value]
+   unset name ...
+ 
+     A variable environment is maintained by the command interpreter.  The
+     set command sets a variable to a particular value, and the unset command
+     removes the definition of a variable.  If set is given no arguments, it
+     prints the definition of all variables.
+ 
+     Different commands use environment information for different purposes.
+     The command interpreter makes use of the following:
+ 
+     autoexec
+             Defines a command string to be automatically executed after
+             every command processed by the command interpreter.  This is
+             useful for things like timing commands, or tracing the progress
+             of optimization.
+ 
+     sisout  Standard output (normally stdout) can be re-directed to a file
+             by setting the variable sisout.
+ 
+     siserr  Standard error (normally stderr) can be re-directed to a file by
+             setting the variable siserr.
+ 
+     history Each valid command entered at the prompt can be echoed to a file
+             by setting the variable history.
+ 
+     history_char
+             By default the character `%' is used to do the history substitu-
+             tion inside sis. This can be changed by setting the variable
+             history_char.
+ 
+     shell_char
+             By default the character `!' is used to do invoke shell commands
+             from inside sis.  This can be changed by setting the variable
+             shell_char.
+              _I_n _o_r_d_e_r _t_o _s_w_i_t_c_h _t_h_e _i_n_t_e_r_p_r_e_t_a_t_i_o_n _o_f _s_h_e_l_l__c_h_a_r _a_n_d
+             _h_i_s_t_o_r_y__c_h_a_r _i_t _i_s _n_e_c_c_e_s_s_a_r_y _t_o _f_i_r_s_t _s_e_t _h_i_s_t_o_r_y__c_h_a_r _a_n_d _t_h_e_n
+             _t_h_e _s_h_e_l_l__c_h_a_r. _A_l_t_e_r_n_a_t_e_l_y, _y_o_u _m_a_y _e_s_c_a_p_e _t_h_e _c_u_r_r_e_n_t _h_i_s_t_o_r_y
+             _c_h_a_r _b_y _p_r_e_c_e_e_d_i_n_g _i_t _w_i_t_h _a `' _w_h_i_l_e _s_e_t_t_i_n_g _t_h_e _s_h_e_l_l__c_h_a_r. _I_n
+             _a_d_d_i_t_i_o_n _n_o_n_e _o_f _t_h_e_m _c_a_n _b_e _s_e_t _t_o _a `#' _w_h_i_c_h _i_s _r_e_s_e_r_v_e_d _f_o_r
+             _c_o_m_m_e_n_t_s.
+ 
+     filec   Setting this variable enables the user to use "file-completion"
+             like in the C-shell. An ESC causes the current line to be
+             extended to its unique completion. A CTRL-d generates a list of
+             the possible extensions.
+ 
+     open_path
+             open_path (in analogy to the shell-variable PATH) is a list of
+             colon-separated strings giving directories to be searched when-
+             ever a file is opened for read.  Typically the current directory
+             (.) is first in this list.  The standard system library (typi-
+             cally $SIS/sis_lib) is always implicitly appended to the current
+ 
+                                                                            1
+ 
+   SIS(1)                                                        July 1, 1994
+ 
+             path.  This provides a convenient short-hand mechanism for
+             reaching standard library files.
+ 
+     prompt  defines the prompt string. If the prompt string contains a
+             `%'(or whatever the history_char has been set to using the set
+             command), the `%' will be replaced whenever the prompt is
+             printed by the current event number.
+ 
+   2

@@ -1,0 +1,56 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/history.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:43 $
+.\"  *
+.\"
+.XX
+history [-h] [num]
+.PP
+Lists previous commands and their event numbers.
+The \fB-h\fP option suppresses printing the event number.
+If \fBnum\fP is specified, lists the last \fBnum\fP events.  Lists the last
+30 events if \fBnum\fP is not specified.
+.PP
+History Substitution:
+.PP
+The history substitution mechanism is a simpler version of the csh history
+substitution mechanism.  It enables you to reuse words from previously typed
+commands.
+.PP
+The default history substitution character is the `%' (`!' is default for shell
+escapes, and `#' marks the beginning of a comment). This can be changed using
+the "set" command. In this description '%' is used as the history_char.
+The `%' can appear
+anywhere in a line.  A line containing a history substitution is echoed to
+the screen after the substitution takes place.  `%' can be preceded by a
+`\\' in order to escape the substitution, for example, to enter a `%' into
+an alias or to set the prompt.
+.PP
+Each valid line typed at the prompt is saved.  If the \fBhistory\fP variable
+is set (see help page for \fBset\fP), each line is also echoed to the history
+file.  You can use the "history" command to list the previously typed
+commands.
+.PP
+Substitutions: at any point in a line these history substitutions are
+available
+.ta .5i 1.5i
+.PP
+.nf
+	%:0	Initial word of last command.
+	%:n	n'th argument of last command.
+	%$	Last argument of last command.
+	%*	All but initial word of last command.
+
+	%%	Last command.
+	%stuf	Last command beginning with "stuf".
+	%n	Repeat the n'th command.
+	%-n	Repeat the n'th previous command.
+	^old^new	Replace "old" w/ "new" in previous command.
+
+	Trailing spaces are significant during substitution.
+	Initial spaces are not significant.
+.fi

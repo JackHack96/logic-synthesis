@@ -1,0 +1,22 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   speedup_alg [-v] alg_list
+ 
+     Activates selectively one or more performance enhancing algorithms. For
+     a list of local optimizations known to the system, use the -v option.
+     The algorithms activated are the ones specified in the list.  For mapped
+     circuits the algorithms perform the optimization and remap the sub-
+     network that was optimized. _n_o_a_l_g performs no optimization, it only
+     remaps the region. _f_a_n_o_u_t builds a fanout-tree while _r_e_p_o_w_e_r simply uses
+     a gate of greater drive Of the others _d_i_v_i_s_o_r and _2_c__k_e_r_n_e_l perform res-
+     tructuring by extracting kernels and 2-cube divisors. When applied to
+     the complement of the function these are called _c_o_m_p__d_i_v and _c_o_m_p__2_c
+     respectively. Techniques based on the existing structure are _c_o_f_a_c_t_o_r
+     which performs timing-driven-cofactoring and _b_y_p_a_s_s applies the
+     generalized-bypass transformation.
+ 
+     Performance optimization itself is performed using the speed_up command
+     without the -f option.
+ 
+                                                                            1

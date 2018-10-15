@@ -1,0 +1,34 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/gcx.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:36 $
+.\"  *
+.\"
+.XX
+gcx [-bcdf] [-t threshold]
+.PP
+Extract common cubes from a network, re-express the network
+in terms of these cubes, and in the process cut down on the
+number of literals needed in the network.
+.PP
+The \fB-b\fP option chooses the best cube at each step when examining
+possible cubes to be extracted; otherwise, the more efficient \fIping-pong\fP
+algorithm is used to find a good (but not necessarily the best) cube
+at each step.
+.PP
+The \fB-c\fP option uses the complement of each cube as well as the cube
+when dividing the new cube into the network.
+.PP
+The \fB-f\fP option uses the number
+of literals in the factored form for the
+network as a cost function for determining the best cube to be extracted.
+.PP
+The \fB-t\fP option sets a threshold such that only a cube with a value
+greater than the threshold will be extracted.  By default, the threshold is
+0, so that all possible cube divisors are extracted.
+.PP
+The \fB-d\fP option enables a debugging mode which traces the execution
+of gcx.

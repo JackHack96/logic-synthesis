@@ -1,0 +1,41 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sred/sred.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:11 $
+.\"  *
+.\"
+.TH SRED SRED.0 "5/20/90" "U.C. Berkeley " \
+"State REDuction"
+.SH NAME
+sred \- heuristic state minimization of incompletely specified finite state machine
+.SH SYNOPSIS
+.B sred
+[options] < inputfile [ > outputfile ]
+.SH DESCRIPTION
+\fBSRED\fP is a state minimization program. It provides very fast heuristic
+minimization of large incompletely specified finite state machines using
+coloring and iterative closure computations.
+Both input and output file format is KISS2. 
+
+.SH "OPTIONS"
+.nf
+-c: print out minimized state classes (used only for internal purposes
+	by the asynchronous state encoding algorithm)
+
+-a coloring_algorithm:    fast: a fast and greedy heuristics (recommended)
+						  espresso: a minimizer-based heuristic (can be very
+									slow)
+						  expand_and_cover: same as above
+						  espresso_exact: same as above
+
+-h: print out the command line options.
+.fi
+
+.SH REMARKS
+After minimization there may exist multiple reset states if there was a 
+reset state before minimization. Currently a reset state after minimization
+is selected randomly.
+

@@ -1,0 +1,9 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   time
+ 
+     Prints the processor time used since the last time command, and the
+     total processor time used since SIS was started.
+ 
+                                                                            1

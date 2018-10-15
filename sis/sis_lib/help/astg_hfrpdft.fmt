@@ -1,0 +1,14 @@
+ 
+   May 4, 1992                                                         SIS(1)
+ 
+   astg_hfrpdft [-v debug_level]
+ 
+     Make each node in the network hazard-free robustly path-delay fault
+     testable.  Test inputs may be added as a side effect of this command.
+ 
+     It should be called immediately after astg_to_f, on the initial two-
+     level cover (see astg_to_f for a recommended script file).  Remember
+     that hazard-free robust path-delay fault testability is maintained only
+     by _a_l_g_e_b_r_a_i_c optimization.
+ 
+                                                                            1

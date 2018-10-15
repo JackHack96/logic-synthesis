@@ -1,0 +1,176 @@
+SIS accepts networks with no real outputs and no real inputs -
+this shouldn't happen.
+
+read_kiss should allow and store multiple reset states.  if the reset
+state is omitted, how should this be interpreted?
+
+look over the sim package.  Lots of new changes were made in the new MIS.
+Does anything need to be changed for SIS?  Look especially at interpret.c.
+
+Add network acyclic commands.
+
+verify_fsm doesn't take into account the external don't care set.
+
+unresolved bug reports:
+
+****
+If your network has latches of type "UNKNOWN" with the control node set, 
+write_blif will write out a corrupted blif file.  The format for a latch is:
+
+.latch out in type control
+
+if type is unknown, you end up with
+
+.latch out in control
+
+and read_blif tries to interpret control as a type and fails....
+
+I think the solution should be:
+
+write_blif not work on networks with latches of unknown type
+(and with a set control node)
+
+or
+
+write_blif should write out the type as 'un' and read_blif should 
+understand this.
+****
+****
+Intel Wish List for SIS (from Tzvi)
+-----------------------
+
+SIS will be applied one level above combinational logic - logic
+plus registers.  May need different levels of abstraction:  one for
+timing analysis and one for optimization.
+
+1.  Transparent latches:  a) delay analysis (Rumin), b) retiming
+    (clock cycle determination is the only place Leiserson uses the
+     edge-triggered property)
+	Retiming for transparent latches can be done (possibly) by
+	specifying a clock cycle (50MHz, eg), moving latches, and
+ 	checking feasibility.
+
+2.  In SIS we also need a global clocking scheme and information about
+    when each latch is clocked (done).
+
+3.  Technology mapping (need a separate file for timing constraints).
+
+4.  Retiming and resynthesis - for area and performance.
+
+5.  FSM:  capability of zooming into an FSM and extracting a subcircuit
+    (Pranav - identify a subckt, be able to read it in and write it out)
+
+Also from Tzvi
+--------------
+
+1.  There is a problem with using kiss as an FSM input.  What if the
+    users wants to specify conditions under which to move to a next
+    state, and then say, otherwise (else), go to the reset state?  This
+    is currently not possible without enumerating the remaining possiblities.
+    Alberto suggested that PEG or MEG be used - this is a slightly higher
+    level language that takes care of this problem.
+
+2.  Tzvi wants the latches printed in the print command.  The latches
+    should be printed in some easily-readable way.
+
+In SIS should we be doing for general chip analysis or target a
+technology?  These capabilities are needed inside SIS and in the
+specification.
+
+Narendra is working on transparent latches: retiming and Rumin analysis.
+Sharad is working on retiming for minimum register count (done).
+
+From Boulder Workshop
+---------------------
+
+1.  (Fabio Somenzi) Can we retain and manipulate decomposed FSM
+    structures?
+
+2.  (Gary Hachtel)  After doing state minimization, can we verify that the
+    state-minimized machine is equivalent to the original machine?  Should
+    the state minimization program provide a map of states in the original
+    machine to states in the minimized machine?
+
+3.  (Wayne Wolfe)  Can we manipulate an STG's logic implementation in which
+    the states are symbolic?  (state = multi-valued variable instead of
+    encoding states) (MIS-MV? BLIF-MV? SIS-MV?)
+
+4.  (Gaetano Borriello) Wish List:
+    a. multiple clocks, each with their own cycle time
+       (not just a single multi-phase clocks)
+    b. "special elements"
+	generic delay elements (could be a buffer, could be for asynchronous
+                                design)
+	tristate latch
+	synchronizers, arbiters
+    c. multiple-output, multiple-input elements
+	arbiters
+	ECL gates
+	Q, Q bar in latches
+
+    (We eventually need a "black box" element that has several terminals.
+     What information does it provide to the system?  Delays from each input
+     pin to each output pin?  It could be implemented in a similar way to 
+     the latch - po's and pi's which separate it from the rest of the logic.
+     MIS won't touch it this way.)
+
+Bell Labs Wish List
+-------------------
+
+1.  Must have verification
+2.  Must handle different clocking schemes
+3.  Test vectors should be maintained/updated across operations 
+    (i.e. retiming)
+
+Richard Newton
+--------------
+
+1.  Need to rethink the REPRESENTATION used in SIS (may want hierarchy,
+    may want to leave parts of the design untouched - it all boils down
+    to a representation issue) (how do we connect several machines
+    together?)
+
+2.  Designer will ALWAYS want to interact - can never have a black box
+    synthesis/optimization tool.
+
+3.  Richard is willing to discuss and help with this.
+
+General
+-------
+
+1.  Do we need a method for representing a negative latch for r and r?
+    It seems like we should store this information somehow in our own
+    data structure.
+
+2.  Does retiming need exported routines?  For what purpose?
+
+3.  Don't cares - need to save and use don't care information when moving
+    from an stg to a network.
+
+4.  MIS "forces" outputs.  If there are no real po's then MIS forces the
+    latch inputs to be also real po's.  Is this correct?
+
+5.  Are we going to share latches as much as possible at the outputs?
+    Or at least provide routines for counting the minimum number of
+    latches?  What does the retimed network return?
+
+6.  Or we going to be able to mark "not to be touched" nodes and subcircuits?
+
+7.  Need a SIS policy, then design a library consistent with the policy.
+
+8.  Timing analysis tools should interact with synthesis tools, can't just
+    optimize for area and thing about timing afterwards.  To have
+    meaningful timing-driven synthesis need to consider timing at all
+    stages - e.g. during algebraic substitution
+
+9.  delete_latch needs to return a status if deleting the latch would 
+    create a cycle.
+
+10.  Latch package needs the following:  latch_min_count (returns the
+     minimum # of latches, sharing at the outputs), latch_min_convert
+     (converts the network to configuration with the minimum # of latches)
+     (the minimum configuration is not necessarily maintained, hence these
+     functions should be provided).
+
+11.  The hummingbird project should really be pushed.  The digital stuff
+     needs to be pushed along.

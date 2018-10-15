@@ -1,0 +1,24 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   resub [-a] [-b] [-d] [node-list]
+ 
+     Resubstitute each node in the node-list into all the nodes in the net-
+     work.  The resubstitution will try to use both the _p_o_s_i_t_i_v_e and _n_e_g_a_t_i_v_e
+     phase of the node.  If node-list is not specified, the resubstitution
+     will be done for every node in the network and this operation will keep
+     looping until no more changes of the network can be made.  Note the
+     difference between resub * and resub.  The former will apply the resub-
+     stitution to each node only once.
+ 
+     The -a (default) option uses algebraic division when substituting one
+     node into another.  The division is performed on both the divisor and
+     its complement.
+ 
+     The -b option uses Boolean division when substituting one node into
+     another.  NOTE: Boolean resubstitution has not yet been implemented.
+ 
+     The -d option directs resub not to use the complement of a given node in
+     algebraic resubstitutions.
+ 
+                                                                            1

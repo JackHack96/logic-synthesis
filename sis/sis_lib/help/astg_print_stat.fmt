@@ -1,0 +1,10 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_print_stat
+ 
+     Print the statistics of the current ASTG: name of the ASTG file, initial
+     marking, total number of states in the state graph and the total number
+     of I/O signals.
+ 
+                                                                            1

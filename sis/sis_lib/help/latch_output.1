@@ -1,0 +1,25 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/latch_output.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:44 $
+.\"  *
+.\"
+.XX
+latch_output [-v n] node-list
+.PP
+The nodes passed as argument should be external primary outputs.
+This command forces the listed external primary outputs to be fed by a
+latch. This is accomplished by moving latches forward by retiming.
+.PP
+The command fails if there is a combinational dependency between an
+external primary input and one of the specified primary outputs.
+.PP
+This function is useful to guarantee that certain outputs will not
+glitch. It is handy if that output is to control an external device
+such as the write enable signal of a memory chip.
+.PP
+\fB-v\fR allows the specification of the verbosity level of the output.
+The default value is 0.

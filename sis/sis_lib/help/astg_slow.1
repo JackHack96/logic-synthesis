@@ -1,0 +1,64 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/astg_slow.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:35 $
+.\"  *
+.\"
+.XX
+astg_slow [-v debug_level] [-t tolerance] [-s] [-u]
+[[-f|-F] external_delay_file] [-d default_external_delay] [-m min_delay_factor]
+.PP
+Remove hazards from the ASTG implementation, inserting delay buffers after some
+ASTG signals. Delays are inserted so that no gate within the circuit
+implementation can react as though the ASTG specified ordering of signals is
+reversed in time.
+.PP
+It must be invoked after technology mapping (see \fBastg_to_f\fR for a
+recommended script file).
+.PP
+The \fB-m\fR option specifies the amount by which all MINIMUM delays are
+MULTIPLIED (this until the delay computation will understand min/max delays).
+Of course 0.0 < min_delay_factor <= 1.0.  Default value: 1.0.
+.PP
+The \fB-t\fR option specifies the tolerance to be used during the hazard check
+procedure (the larger the specified value, the more conservative is the
+algorithm). Default value: 0.0.
+.PP
+The \fB-s\fR option specifies not to use the shortest-path algorithm when
+computing the delays in the network. This might result in being overly
+pessimistic (this option is only experimental).
+.PP
+The \fB-f\fR option specifies a file name to search for the minimum
+delays between output signals and input signals of the ASTG (i.e. for those
+signals that are not being synthesized). This can be useful if some information
+about these signals is known either from the specification or from the
+synthesis of another sub-component of the total asynchronous system. 
+.PP
+The file can also be
+updated with the minimum delays between each input signal and each output
+signal if the \fB-F\fR option is used in place of \fB-f\fR.
+This allows for separate synthesis of various sub-components of an
+asynchronous system. In this case iteration might be necessary to obtain
+optimal results, and a warning message is issued when the stored information
+is changed, and  a new iteration is required.
+.PP
+The \fB-u\fR option specifies not to remove hazards, but only to update the
+external elay file (if appropriate). This can be used to remove hazards from a
+set of Signal Transition Graphs that are synthesized separately (e.g. by
+contraction). In this case, a first round of synthesis can be performed
+on each Signal Transition Graph, followed by \fBastg_slow\fR 
+with the \fB-F\fR and the \fB-u\fR options, to store the information on the
+delay of the function implementing each signal. Then \fBastg_slow\fR can be
+iterated among the Signal Transition Graphs with the \fB-F\fR option only until
+convergence is obtained. The results should be comparable with synthesis and
+hazard removal from a single Signal Transition Graph, but can be considerably
+faster for large specifications.
+.PP
+The \fB-d\fR option specifies the default minimum delay between output signals
+and input signals of the ASTG (if no information can be obtained from the above
+described file). The default value is 0.0 (i.e. the environment responds
+instantaneously), but this can be overly pessimistic, and result in an
+unnecessary slow and large implementation.

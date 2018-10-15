@@ -1,0 +1,50 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   reduce_depth [-b] [-d #] [-g] [-r] [-s #] [-v #] [-R #.#] [-S #] [-f #]
+ 
+     This command is to be used to improve the speed of a network before
+     technology mapping.  It performs a partial collapse of the network by
+     first clustering nodes according to some criteria and collapsing each
+     cluster into a single node. The clusters are formed as follows:  a max-
+     imum cluster size is first computed, and the algorithm finds a cluster-
+     ing that respects this size limit and minimizes the number of levels in
+     the network after the collapsing of the clusters. The size limit is a
+     limit on the number of nodes covered by the cluster, and does not take
+     into account the complexity of the nodes. Therefore this command should
+     only be used on networks decomposed into simple gates.  The cluster size
+     limit can be provided in a variety of ways, depending on which option is
+     used.
+ 
+     The -b option performs the clustering under the duplication ratio con-
+     straint specified by -R option.
+ 
+     The -d # option specifies the desired depth of the network after clus-
+     tering. The depth counts the number of nodes. Since each node is
+     expressed as a sum-of-products, specifying depth of 1 corresponds to
+     collapsing the network to two levels of logic. The algorithm computes
+     the minimum cluster size limit that yields a depth of n.
+ 
+     The -g option prints out statistics based on cluster sizes.  No cluster-
+     ing is done.
+ 
+     The -r option specifies a modification of the clustering algorithm that
+     produces the same number of logic levels but with less duplication of
+     logic.
+ 
+     The -s # option specifies the desired cluster size limit.
+ 
+     The -v # option specifies a verbosity level. It is used mainly for
+     debugging.
+ 
+     The -R #.# option specifies the maximum duplication ratio.  The default
+     is 2.0.
+ 
+     The -S # option specifies the smallest cluster size limit that produces
+     the same depth as a cluster size limit of n.
+ 
+     The -f # option specifies a cluster size limit in terms of the number of
+     fanins of the cluster. Its intended use is for table-lookup FPGAs. It is
+     a poor man's version of FlowMap.
+ 
+                                                                            1

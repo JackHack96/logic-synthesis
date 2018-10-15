@@ -1,0 +1,103 @@
+*** RELEASE-NOTES-1.3 file containing Release Notes for SIS-1.3 ***
+
+*** SIS is free to the public via anonymous ftp, or on tape for a
+    small fee through the ILP office.  PLEASE DO NOT REDISTRIBUTE
+    SIS in any other manner. ***
+
+RELEASE NOTES FOR SIS 1.3
+-------------------------
+
+This file contains the following information:
+
+GENERAL DESCRIPTION OF SIS
+DESCRIPTION OF DOCUMENTATION
+SUMMARY OF NEW FEATURES FOR SIS 1.3
+RECOMMENDED USE OF SIS
+
+GENERAL DESCRIPTION OF SIS
+
+sis is an interactive program for the synthesis of both synchronous
+and asynchronous sequential circuits.  The input can be given in state
+table format or as logical equations (for synchronous circuits), or
+as a signal transition graph (for asynchronous circuits); a target
+technology library is given in genlib format.  The output is a netlist
+of gates in the target technology.
+
+The system includes various capabilities that are controlled interactively
+by the user.  These include state minimization, state assignment,
+optimization for area and delay using retiming, optimization using
+standard algebraic and Boolean combinational techniques from MISII,
+performance optimization using restructuring, and technology mapping
+for optimal area and delay.  Redundancy removal and 100% testability
+are provided for combinational and scan-path circuits.  Formal verification
+is available for both combinational and sequential circuits, even for
+circuits with different state encodings.
+
+This distribution contains sis, nova (state assignment), jedi (state
+assignment), stamina (state minimization, from June Rho at University of
+Colorado, Boulder), sred (state minimization), espresso, blif2vst (mapped
+BLIF to structural VHDL translator), vst2blif (structural VHDL to BLIF
+translator), xsis (a front-end graphical interface to sis) and several stripped
+down packages from the OctTools (options, port, and utility) that are needed
+for some of the programs listed above.
+
+xsis is a graphical interface to sis based on the Athena widget set.
+This program provides support for the new command in sis, plot_blif.
+(The command plot is no longer available.)  It is portable under the
+MIT distribution of X11R4 and works with sis versions 1.1 and later.
+
+To run xsis, first set up the environment variable SIS as instructed
+in the README file, then type "xsis".  xsis runs a copy of sis as a
+child process.  After reading in a network, the "plot_blif" command
+can be used to plot the network on the screen.  For more information,
+see the xsis man page, xsis/xsis.1.
+
+xsis is useful for learning to use sis because the user can plot the
+network on the screen to track the changes made to the network during
+synthesis, and xsis has a nice graphical help mechanism.
+Many circuit examples of all types (combinational, sequential, asynchronous,
+etc) can be found in the sis/ex directory.
+
+DOCUMENTATION
+
+A paper describing the capabilities of sis with some examples of its
+use is contained in this directory in postscript format.  The file
+is SIS_paper.ps.  The paper contains examples showing how to use sis,
+and is a good starting point for new users.  Note that it describes
+SIS release 1.1.  This file (RELEASE-NOTES-1.3) contains the updates
+for SIS-1.3.
+
+The man page for sis is in sis/sis_lib/help/sis.1.  Run-time help can
+be obtained by typing "help" while in sis, which will list all
+of the available commands.  Help for each command can be obtained
+by typing "help command_name" while in sis.
+
+A description of the BLIF format is in sis/doc/blif.tex, and
+a description of the specification that state assignment and
+state minimization programs should conform to is in sis/doc/SPEC.
+
+Each package has a package.doc file describing the exported
+functions for that package.
+
+This file provides an overview of sis-1.3.
+
+SUMMARY OF NEW FEATURES FOR SIS 1.3
+
+RECOMMENDED USE OF SIS
+
+Several script files are provided with the SIS distribution.
+script, script.boolean, and script.algebraic were provided with
+MIS, and do combinational optimization.  script.rugged calls more
+aggressive optimization routines (fx, full_simplify) to do combinational
+optimization.  It is the recommended script for optimization; EXCEPT
+note that many of the routines used in that script use BDDs, which
+can be very costly in terms of CPU time and memory for some circuits.
+script.delay is an entire script (optimization to mapped netlist)
+targeted for minimal delay of the final implementation.  It uses new
+routines for delay optimization such as reduce_depth (for speed up
+before mapping) and fanout optimization with area recovery (part of
+the map package).
+
+Ellen M. Sentovich
+UC Berkeley
+15 July 1994

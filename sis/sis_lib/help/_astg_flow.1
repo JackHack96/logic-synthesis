@@ -1,0 +1,41 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/_astg_flow.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:35 $
+.\"  *
+.\"
+.XX
+astg_flow [-x] [-l <latch-type>] [-o <out-file>]
+.PP
+Do exhaustive token flow on an ASTG, forming a state graph
+using the ASTG signals to define the state codes.
+A next-state logic function is extracted from the state
+graph in two-level form.
+Then the next state logic is converted into a network
+which can be manipulated using the standard \fISIS\fP
+network commands.
+.PP
+The generated network has PI and PO names which match the
+signal names specified in the ASTG.
+The network has one special structural requirement: for any
+signal which is used for feedback, the real PO is attached
+to the output of the feedback latch (i.e. connected to the
+fake PI for the latch).
+This is necessary for other ASTG commands to work properly.
+.PP
+The -l option specifies the type of latches to insert for
+feedback signals.
+The default is type "as" (asynchronous).
+.PP
+The -o option writes the BLIF description of the network
+to a file but does not change the current SIS network.
+.PP
+Normally astg_flow does a structural net check to make sure
+the marking is live-safe, using the one-token state machine
+condition proposed by T.A. Chu.
+This can be extremely time consuming, so the -x option
+bypasses this check and does the token flow using the
+existing initial marking.

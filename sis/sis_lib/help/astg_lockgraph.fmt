@@ -1,0 +1,21 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_lockgraph [-l]
+ 
+     Build the lock graph for the current ASTG.
+ 
+     With the -l option, edges are added to the ASTG to ensure that the lock
+     graph is connected, and thus that the ASTG has the Complete State Coding
+     property.
+ 
+     If an ASTG has the CSC property, the state of the circuit can be
+     represented completely by the collection of input, output and internal
+     signals specified in the ASTG.  This simplifies many synthesis algo-
+     rithms.
+ 
+     The algorithm works only for ASTGs that are marked graphs (no choice).
+     See astg_state_min for a set of commands that ensure Complete State Cod-
+     ing for more general ASTGs.
+ 
+                                                                            1

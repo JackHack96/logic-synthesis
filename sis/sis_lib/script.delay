@@ -1,0 +1,17 @@
+sweep
+decomp -q
+tech_decomp -o 2
+resub -a -d
+sweep
+reduce_depth -b -r
+red_removal 
+eliminate -l 100 -1
+simplify -l
+full_simplify -l
+sweep
+decomp -q
+fx -l 
+tech_decomp -o 2
+rlib lib2.genlib
+rlib -a lib2_latch.genlib
+map -s -n 1 -AFG -p

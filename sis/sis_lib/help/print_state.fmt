@@ -1,0 +1,12 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_state
+ 
+     Prints out the current state of the machine for both the STG and the
+     logic implementation.  For the logic implementation, the current state
+     is printed as a string of integers representing the values on the
+     latches: 0, 1, 2 (don't care), and 3 (undefined).  For the STG, the
+     current state is printed with its symbolic and encoded names.
+ 
+                                                                            1

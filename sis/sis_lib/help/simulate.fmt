@@ -1,0 +1,30 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   simulate in1 in2 in3 ...
+ 
+     For the current implementation of the network, given a value ('0' or
+     '1') for each of the primary inputs of the network, simulate prints the
+     value produced at each of the primary outputs.  The correspondence of
+     the input values and the primary inputs can be determined by the order
+     in which the primary inputs and outputs are printed using the write_eqn
+     command.
+ 
+     For example, for a three-input AND gate, the command
+ 
+          simulate 1 1 0
+ 
+     will produce a
+ 
+          0
+ 
+     NOTE:  For sequential circuits, this command essentially assumes that
+     all latches are clocked simultaneously by a single clock.  Simulation
+     will take the current values on the latches (which can be displayed by
+     using print_latch) and the user-supplied primary input values and simu-
+     late the network, placing the new latch values in the current state of
+     the latches.  The values of the outputs and the new state are printed.
+     If a more sophisticated simulation method is needed, timing simulation
+     should be used; this is not currently implemented in SIS.
+ 
+                                                                            1

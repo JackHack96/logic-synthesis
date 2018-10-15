@@ -1,0 +1,24 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sim_verify.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:38 $
+.\"  *
+.\"
+.XX
+sim_verify [-n # pats] filename.blif
+.PP
+Verify that two networks are equivalent using random-pattern
+simulation.  That is, generate a random input vector, simulate the
+logic network, and check that the outputs between the two networks
+agree.  The first network is the current network, and a second
+network is read from the file \fBfilename.blif\fR:
+it must be a \fIblif\fR format file.
+(This restriction will be fixed when the command interpreter is
+expanded to handle multiple networks.)
+.PP
+\fB-n\fP gives the number of random patterns to simulate.
+.PP
+NOTE: this command only works for combinational networks.

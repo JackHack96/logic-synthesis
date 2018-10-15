@@ -1,0 +1,10 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   fanout_param [-v] fanout_alg [property value]
+ 
+     Changes the default parameter values associated with specific fanout
+     algorithms. For a list of these parameters and their values, use the -v
+     option with a fanout algorithm.
+ 
+                                                                            1

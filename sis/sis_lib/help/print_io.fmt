@@ -1,0 +1,12 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_io [-d] [node-list]
+ 
+     Print both fanin and fanout list for each node in the node-list.
+     Absence of node-list implies all the nodes in the current network.
+ 
+     If the -d option is specified, the nodes in the external don't care net-
+     work are considered.
+ 
+                                                                            1

@@ -1,0 +1,23 @@
+.i 5
+.o 7
+.ilb c<0> ts<0> tl<0> presentState<1> presentState<0>
+.ob hl<1> hl<0> fl<1> fl<0> st<0> nextState<1> nextState<0>
+.symbolic presentState<1> presentState<0> ; ;
+.symbolic-output nextState<1> nextState<0> ; ;
+.p 15
+---10 1000000
+----1 0100000
+---01 0010000
+----0 0001000
+0--11 0000100
+--111 0000100
+1-100 0000100
+-1-10 0000100
+-1-01 0000100
+---10 0000010
+1-1-0 0000010
+1-01- 0000010
+---11 0000001
+-1-1- 0000001
+-0--1 0000001
+.e

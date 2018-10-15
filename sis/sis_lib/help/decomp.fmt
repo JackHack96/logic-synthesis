@@ -1,0 +1,36 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   decomp [-gqd] [node-list]
+ 
+     Decompose all the nodes in the node-list.  If the node-list is not
+     specified, all the nodes in the current network will be decomposed.
+     Decompostion will factor nodes and make the divisor a new node within
+     the network, re-expressing other nodes in terms of this newly introduced
+     node.  It is one of the transforms used to break down large functions
+     into smaller pieces, usually at the cost of introducing a few more
+     literals.
+ 
+     If the -q option (the default) is specified, the _q_u_i_c_k _d_e_c_o_m_p algorithm
+     is used which extracts out an _a_r_b_i_t_r_a_r_y kernel successively.  Because of
+     the fast algorithm for generating an arbitrary kernel, decomp -q is very
+     fast compared with the decomp -g.  In most cases, the result is very
+     close.  This command is recommended at the early phase of the optimiza-
+     tion.
+ 
+     If the -g option is specified, the _g_o_o_d _d_e_c_o_m_p algorithm is used which
+     successively extracts out the _b_e_s_t _k_e_r_n_e_l until the function is factor
+     free, and applies the same algorithm to all the kernels just extracted.
+     This operation will give the best _a_l_g_e_b_r_a_i_c decomposition for the nodes.
+     But, since it generates all the kernels at each step, it takes more CPU
+     time.  In general, decomp -q should be used in the early stage of the
+     optimization. Only at the end of the optimization, should decomp -g be
+     used.
+ 
+     If the -d option is specified, the disjoint decomposition is performed.
+     Currently, the disjoint decomposition is limited to the following simple
+     algorithm:  It partitions the cubes into sets of cubes having disjoint
+     variable support, creates one node for each partition, and a node (the
+     root of the decomposition) which is the OR of all the partitions.
+ 
+                                                                            1

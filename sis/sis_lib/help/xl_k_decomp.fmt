@@ -1,0 +1,20 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   xl_k_decomp [-n support] [-p node_name] [-v verbosity_level] [-f
+     MAX_FANINS_K_DECOMP] [-de]
+ 
+     Uses Karp_Roth disjoint decomposition to recursively decompose nodes of
+     the network having fanin greater than support to obtain nodes each hav-
+     ing fanin of at most support.  If -p node_name is specified, only the
+     node with the name node_name is decomposed.  Otherwise, all the nodes
+     that have fanin greater than support are decomposed.  If -d option is
+     specified, then if k_decomp fails to find a disjoint decomposition on a
+     node, the node is not decomposd by cube-packing. Option -e allows an
+     exhaustive search over all possible partitions to pick the best decompo-
+     sition of a node. Then the option -f MAX_FANINS_K_DECOMP sets the limit
+     on maximum number of fanins of a node for exhaustive decomposition. If
+     the number of fanins is higher, only the first input partition is con-
+     sidered.
+ 
+                                                                            1

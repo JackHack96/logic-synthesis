@@ -1,0 +1,35 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   read_pla [-a] [-s] [-c] filename
+ 
+     Read in an espresso-format PLA from the file filename (see espresso(5)
+     for more information).  The network name is derived from the filename
+     with any trailing extension removed.
+ 
+     Usual filename conventions apply: - (or no filename) stands for standard
+     input, and tilde-expansion is performed on the filename.
+ 
+     Normal operation is to replace the current network with a single-level
+     network of complex gates with the same logic functions as the PLA out-
+     puts.  This makes each PLA output a separate single-output function and
+     is a good starting point for the standard scripts.  If don't care condi-
+     tions exist, the external don't care network is also replaced with a
+     single-level network which implements the don't care conditions of the
+     PLA.  Otherwise, the external don't care network is set to NIL (nonex-
+     istent).
+ 
+     The -c option replaces the current network with a two-level network of
+     NOR-gates (and inverters) which implements the PLA.  This preserves the
+     multiple-output nature of the PLA.  The external don't care network is
+     manipulated exactly the same as above.  This used to be the default,
+     while the -s option replaced the network with a single-level network as
+     described above.  The -s option has been retained for compatibility.
+ 
+     The -a option specifies that the new network should be appended to the
+     current network.  Functions are associated between the two networks
+     using the long names of each network.  Name conflicts (two functions
+     attempt to define the same name) generate warning messages and are
+     resolved by renaming the signal from the new network.
+ 
+                                                                            1

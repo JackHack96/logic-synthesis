@@ -1,0 +1,13 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_contract [-f] <signal-name>
+ 
+     Generate the contracted net for the specified signal of the ASTG.
+ 
+     The -f option adds the restriction that the contracted net must also be
+     free-choice.  Chu has conjectured that this restriction may not be
+     necessary, so it is optional at this time until we have answered this
+     question.
+ 
+                                                                            1

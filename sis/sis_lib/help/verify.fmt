@@ -1,0 +1,17 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   verify [-m method] [-v] file1 [file2]
+ 
+     Verify the Boolean equivalence of two networks.  file1 is compared with
+     the current network when file2 is not specified, otherwise, file1 is
+     compared with file2.  The input and output variables from two networks
+     are associated by their names.
+ 
+     The -m option specifies the verification method.  If method is _c_l_p
+     (default), two networks are collapsed and compared as PLA's.  If method
+     is _b_d_d, the BDD's are constructed for both networks and compared.
+ 
+     The -v option engages the "verbose" mode of verify.
+ 
+                                                                            1

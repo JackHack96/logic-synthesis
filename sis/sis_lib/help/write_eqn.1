@@ -1,0 +1,26 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/write_eqn.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:42 $
+.\"  *
+.\"
+.XX
+write_eqn [-s] [filename]
+.PP
+The \fBwrite_eqn\fR command prints out the equations from the current
+network according to format specifications laid out in the
+documentation for \fBread_eqn\fR.
+Both primary inputs and outputs are indicated.
+.PP
+The \fB-s\fR option uses the network short names rather than the
+network long names for the output.
+.PP
+If \fBfilename\fR is not specified the equations will be written to
+standard out, otherwise they will be written into the given file and
+may be read by \fBread_blif\fR at a later time.
+.PP
+Note that since the eqn format uses the '(' and ')' characters
+for grouping, they cannot appear in any of the signal names.

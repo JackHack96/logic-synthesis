@@ -1,0 +1,42 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   set_delay  [-a|d|i|l|r f]  [-A f] [-D f] [-I f] [-L f] [-R f] [-S f] [-W
+     f][o1 o2 ... | i1 i2 ...]
+ 
+     Set various delay parameters for the inputs and outputs of a network.
+     These timing constraints are used by the print_delay command in addition
+     to commands like speed_up, buffer_opt, and map that perform delay optim-
+     izations. The values for these constraints are numbers and it is the
+     user's responsibility to ensure that these values are meaningful when a
+     particular delay model is used during the optimizations.  Capitalized
+     options set defaults, lower-case options set the parameters for the
+     nodes in nodelist, which is either a list of output nodes or a list of
+     input nodes.
+ 
+     The option -A sets the default arrival time for primary inputs to the
+     real value f.  The option -R sets the default required time for primary
+     outputs to f.  The -D option sets the default drive on a primary input
+     to f, and the -L option sets the default load on primary outputs to f.
+     The -I option specifies the default value for the maximum load that can
+     be present at a primary input. The -S option sets the wire load per
+     fanout to f.  The wire loads for a given number of fanouts can be speci-
+     fied with the -W option. With the _ith use of the -W option, the load for
+     a gate driving _i outputs is set to the value f.
+ 
+     The settings can be undone by using a negative number for the value.
+     This will result in the parameter to be "unspecified" and the individual
+     commands will use appropriate defaults if neccessary.
+ 
+     The -a, -r, -d, -i, and -l options can be used to specify the delay con-
+     straints on specific nodes (as opposed to the uppercase options which
+     specify a default value for ALL terminals). These terminal-specific
+     values will supersede the defaults specified with the uppercase options.
+     The -a (-r) option sets the arrival (required) time to f for the speci-
+     fied nodes if the node list given is a list of primary inputs (outputs).
+     The -d (-i) option sets the drive (maximum load limit) for each node in
+     the list to f; if there is a non-primary input in the list this is an
+     error.  The -l  option sets the load on each node in the list to f; if
+     there is a non-primary output in the list this is an error.
+ 
+                                                                            1

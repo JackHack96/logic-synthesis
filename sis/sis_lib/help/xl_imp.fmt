@@ -1,0 +1,47 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   xl_imp [-n support] [-c cover_node_limit] [-l lit_bound] [-Aabm]
+          [-g good_decomp] [-M MAX_FANINS]
+          [-v verbosity level]
+ 
+     Given an infeasible network, replaces each internal infeasible node by a
+     set of feasible nodes. These nodes are derived by trying different
+     decomposition strategies (like xl_ao, xl_split, cofactoring, decomp -d
+     and tech_decomp -a 2 -o 2), each followed by a partition/cover phase. In
+     the end, picks the best result (the one with minimum number of feasible
+     nodes). The result is a feasible network.
+ 
+     -n: support is the size of the TLU block (default = 5)
+ 
+     -A  do not move fanins around after decomp -g.
+ 
+     -a:  do not apply all decomposition methods. Only cube-packing on sum-
+     of-product (SOP), cube-packing on factored-form (if g flag != 0) and
+     cofactoring. If this option is not specified, also apply Roth-Karp,
+     tech_decomp, decomp -d, and xl_split.
+ 
+     -b:  for best results, use this option.  Effective on a node only if its
+     number of literals is greater than lit_bound. In that case, after the
+     good decomposition, recursively call the command for each of the nodes
+     in decomposition. Time consuming.
+ 
+     -c:  sets the limit for the cover algorithm used after each decomposi-
+     tion. If the number of feasible nodes for an infeasible node is no more
+     than cover_node_limit, then exact cover is used, else heuristic (-h 3)
+     option is used. (default = 25).
+ 
+     -g:  if 0 (default), do not use decomp -g for cube-packing, just SOP. If
+     1, use only decomp -g, not SOP. If 2, use both decomp -g and SOP for
+     cube-packing, and pick the best result.
+ 
+     -l:  if the infeasible node has greater than lit_bound literals, does a
+     good decomposition of the node (i.e. decomp -g) (default: 50)
+ 
+     -m:  While doing partition, move fanins around for a node with at most
+     MAX_FANINS (default 15).
+ 
+     -v: this sets the verbosity level (amount of information printed as the
+     algorithm proceeds) to verbosity_level.
+ 
+                                                                            1

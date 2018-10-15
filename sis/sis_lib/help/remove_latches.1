@@ -1,0 +1,34 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/remove_latches.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:44 $
+.\"  *
+.\"
+.XX
+remove_latches [-v n] [-f n] [-r] [-b]
+.PP
+This command removes redundant latches, using three different techniques.
+.PP
+First, it performs some local retiming, by moving forward latches
+across combinational logic if that decreases the latch count. This
+optimization can be disabled by specifying the option \fB-r\fR.
+.PP
+Second, it looks for boot latches, that is latches fed by a constant
+but initialized at the opposite value. If there are such latches, it
+looks for a state equivalent to the initial state in which the initial
+value of the latch is equal to the value of its constant input. When
+this optimization applies, the latch can be removed, and constant
+folding propagates the constant across the logic. This optimization
+can be disabled by specifying the option \fB-b\fR.
+.PP
+Third, it computes the set of reachable states, and checks whether
+some latches cannot be deduced combinationally from other latches.
+If that is the case, and if the fanin limit specified by the \fB-f\fR
+option is not exceeded, the latch is removed and replaced by
+combinational logic.
+.PP
+\fB-v\fR allows the specification of the verbosity level of the output.
+The default value is 0.

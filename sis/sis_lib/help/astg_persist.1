@@ -1,0 +1,23 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/astg_persist.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:35 $
+.\"  *
+.\"
+.XX
+astg_persist [-p]
+.PP
+Add constraints to make an ASTG persistent.
+With the -p option, non-persistent transitions are printed
+but the ASTG is not modified.
+.PP
+For small ASTGs with very high concurrency, enforcing the
+ASTG persistency property will partially and sometimes completely
+enforce the Complete State Coding property (CSC).
+If an ASTG has the CSC property, the state of the circuit can
+be represented completely by the collection of input, output
+and internal signals specified in the ASTG.
+This simplifies many synthesis algorithms.

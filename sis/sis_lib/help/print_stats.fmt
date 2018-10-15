@@ -1,0 +1,19 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_stats [-f] [-d]
+ 
+     Print the current network status, which includes the network name,
+     number of primary inputs (pi), number of primary outputs (po), number of
+     nodes (nodes), the number of latches (latches), the number of literals
+     in the sum-of-product form (lits(sop)), and the number of states in the
+     STG (#states(STG)).
+ 
+     If -f option is specified, the number of literals in the factored form
+     (lits(fac)) is computed.  This could be slow when the factored form for
+     some network takes too long to generate.
+ 
+     If -d option is specified, the statistics of the external don't care
+     network is printed.
+ 
+                                                                            1

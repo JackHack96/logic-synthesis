@@ -1,0 +1,14 @@
+.XX
+c_check -[nd] -[SH]#.#
+.PP
+Verifies that the given circuit satisfies the constraints for correct
+clocking. By default the circuit is assumed to be mapped to a library.
+Use the \fB-n\fR option to use the \fIunit-fanout\fR delay model. 
+.PP
+The user can give global set-up (and hold) times for all memory
+elements using the \fB-S\fR (\fB-H\fR) option. By default it computes
+the set-up and hold times from the library. \fIIf the optimal clocking
+scheme was found using the c_opt command\fR make sure you use the same
+delay model!
+.PP
+The \fB-d value\fR selects the debug level. The range is 1-5.

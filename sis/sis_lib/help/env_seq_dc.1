@@ -1,0 +1,32 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/env_seq_dc.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:43 $
+.\"  *
+.\"
+.XX
+env_seq_dc [-v n] filename.blif
+.PP
+This command extracts sequential don't cares based on unreachable
+states. It builds the product of the current network with the network
+passed as argument, computes the set of reachable states of the
+product, extracts from that the set of reachable states of the
+original network, and uses its complement to build a don't care
+network for the current network. Any previous don't care network is
+discarded. 
+.PP
+\fBfull_simplify\fR or \fBequiv_nets\fR should be run afterwards to
+exploit these don't cares.
+.PP
+External inputs of the current network are connected to matching
+external outputs of the network passed as argument and vice-versa.
+Nodes match if and only if they have the same name.
+.PP
+\fB-v\fR allows the specification of the verbosity level of the output.
+The default value is 0.
+.PP
+The method used to compute the set of reachable states is the
+\fBproduct\fR method. See \fBextract_seq_dc\fR for details.

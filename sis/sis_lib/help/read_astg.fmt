@@ -1,0 +1,55 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   read_astg [<file-name>]
+ 
+     Read a text description of an Asynchronous Signal Transition Graph
+     (ASTG).  The overall format follows the style of BLIF, and uses an adja-
+     cency list to describe the net interconnection structure.  If no
+     filename is specified, the description is read from stdin.
+ 
+     All names in the ASTG description must start with a letter, consist of
+     letters, digits and underscores, and are case-sensitive.  A signal tran-
+     sition is represented with a suffix: "+" means a low to high transition,
+     "-" means high to low, "~" means toggles (changes to the opposite value.
+ 
+      .model <model-name>
+     This gives an arbitrary name to the ASTG, and it must be the first line
+     of the model description.
+ 
+      .inputs <signal-list>
+     Specifies a list of names of ASTG input signals.  Signals from multiple
+     .inputs are concatenated.
+ 
+      .outputs <signal-list>
+     Specifies a list of names of ASTG output signals.  Signals from multiple
+     .inputs are concatenated.
+ 
+      .internal <signal-list>
+     Specifies a list of names of ASTG internal signals, i.e.  signals which
+     are only used to maintain state information.
+ 
+      .dummy <name-list>
+     Specifies a list of names which are accepted as dummy or null transi-
+     tions.  Null transitions are necessary to specify some behaviors using
+     the ASTG syntax.  By convention, the name "e" is used as a dummy signal
+     (to represent epsilon transitions).
+      .graph
+     Indicates the lines which follow describe the ASTG net structure using
+     an adjacency list format.  This must follow all signal declarations
+     (.inputs, etc.).  Net places are optional for simple constraints between
+     two transitions; in this case an intervening place is generated automat-
+     ically.  Multiple instances of a transition are distinguished by follow-
+     ing them with a slash and a copy number.  For example, a second instance
+     of transition "t+" can be specified by "t+/2".  Copy numbers do not have
+     to be consecutive.
+ 
+      .marking {<place-list>} An initial marking can optionally be specified
+     after the net structure has been given.  Implied places (see .graph)
+     between two transitions x* and y* can be specified using the syntax
+     <x*,y*>.
+      .end This required line indicates the end of the ASTG description.
+ 
+     Error messages are printed for any unrecognized input sequences.
+ 
+                                                                            1

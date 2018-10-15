@@ -1,0 +1,18 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   xl_absorb [-n support] [-f MAX_FANINS] [-v]
+ 
+     Given a possibly infeasible network, moves fanins of the nodes so as to
+     decrease their number of fanins. Some infeasible nodes may become feasi-
+     ble and decomposition may not be applied on them.
+ 
+     -n: support is the size of the TLU block (default = 5)
+ 
+     -f: Does not move fanins of a node if it has more than MAX_FANINS
+     (default 15).
+ 
+     -v: turns on the verbosity flag.  When used, information about the
+        algorithm is printed as it executes.
+ 
+                                                                            1

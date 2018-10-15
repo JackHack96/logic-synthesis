@@ -1,0 +1,13 @@
+sweep; eliminate -1
+simplify -m nocomp
+eliminate -1
+
+sweep; eliminate 5
+simplify -m nocomp
+resub -a
+
+fx
+resub -a; sweep
+
+eliminate -1; sweep
+full_simplify -m nocomp

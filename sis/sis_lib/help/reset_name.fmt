@@ -1,0 +1,10 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   reset_name [-ls]
+ 
+     Resets either the short names (starting again from the single letter a)
+     with the -l option, or the SIS-generated long-names (starting again from
+     [0]) with the -s option.
+ 
+                                                                            1

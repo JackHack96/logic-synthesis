@@ -1,0 +1,14 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   timeout [-t n] [-k]
+ 
+     Sends an interrupt to the SIS process. With no argument, this routine
+     inactivates any previous calls.
+ 
+     The -t n specifies the timeout limit, in seconds.
+ 
+     The -k option specifies that a kill signal is to be sent to SIS rather
+     than a interrupt signal.
+ 
+                                                                            1

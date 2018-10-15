@@ -1,0 +1,53 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/node/nodeindex.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:47 $
+ *
+ */
+Description
+    Builds and maintains an association table to map nodes into small
+    integers and back.  Guaranteed efficient.
+
+Summary:
+    nodeindex_alloc()
+    nodeindex_free(table)
+    nodeindex_insert(table, node) 
+    nodeindex_indexof(table, node) 
+    nodeindex_nodeof(table, index)
+
+
+
+nodeindex_t *
+nodeindex_alloc()
+	Allocate a node to integer association table.
+
+
+void
+nodeindex_free(table)
+nodeindex_t *table;
+	Free a node to integer association table.
+
+
+nodeindex_insert(table, node) 
+nodeindex_t *table;
+node_t *node;
+	If 'node' is not already in the table, give it the next available
+	index, and add it to the table.  Do nothing if 'node' is already
+	in the table.  Returns the index of node.  Should be renamed
+	'nodeindex_find_or_add' in analogy to st.
+
+
+nodeindex_indexof(table, node) 
+nodeindex_t *table;
+node_t *node;
+	Given a node, return its index.
+
+
+node_t *
+nodeindex_nodeof(table, index)
+nodeindex_t *table;
+int index;
+	Given the index of a node, return the node.

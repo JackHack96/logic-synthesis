@@ -1,0 +1,481 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/delay/delay.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:19 $
+ *
+ */
+typedef enum delay_model_enum delay_model_t;
+enum delay_model_enum {
+    DELAY_MODEL_UNIT, DELAY_MODEL_LIBRARY,  DELAY_MODEL_UNIT_FANOUT,
+    DELAY_MODEL_MAPPED, DELAY_MODEL_UNKNOWN, DELAY_MODEL_TDC
+};
+
+typedef struct time_struct delay_time_t;
+struct time_struct {
+    double rise;
+    double fall;
+};
+
+int
+delay_trace(network, model)
+network_t *network;
+delay_model_t model;
+	Performs a complete delay trace for a network, using the specified
+	model.
+
+	DELAY_MODEL_UNIT is a simple unit-delay model with 1.0 ns delay
+	for each node (independent of it size !).
+	Each primary input is assumed to arrive at time 0, and
+	each primary output is required at the time of the latest output.  
+	(**hack** this should be fixed by mapping user-specified required
+	arrival times into this unit system ...)
+
+	DELAY_MODEL_UNIT_FANOUT is a simple unit-delay model with 1.0
+	ns delay for each node (independent of size), plus a .2 ns
+	delay per fanout.  Each primary input is assumed to arrive at
+	time 0, and each primary output is required at the time of the
+	latest output.
+
+	DELAY_MODEL_LIBRARY assumes the network is mapped, and performs
+	a delay trace using the library model information.  The basic delay
+	model used by DELAY_MODEL_LIBRARY is a linear model; the delay across
+	a pin i is given by the equation
+
+		delay(i) = block(i) + drive(i) * load
+
+	Where load is the total capacitive load driven by this gate.  The
+	block and drive parameters may vary for rising or falling edges, and
+	are obtained from the technology mapping package. It is an error
+	to use DELAY_MODEL_LIBRARY if the network (or any portion of it) is
+	unmapped.
+
+	DELAY_MODEL_MAPPED is a superset of DELAY_MODEL_LIBRARY.  If the
+	network is entirely mapped, then DELAY_MODEL_MAPPED computes the
+	same result as DELAY_MODEL_LIBRARY.  If some node in the network is
+	not mapped, then DELAY_MODEL_MAPPED maps this node into a subnetwork
+	and then calls delay_trace recursively on this subnetwork to compute
+	the information in its delay_pin structure.
+
+	DELAY_MODEL_TDC is a model based on the Timing-Driven-Cofactoring
+	of the nodes in the network. Based on the arrival time information,
+	the node is decomposed into a cofactoring tree. The delay through 
+	this tree is used to compute the information in the delay_pin 
+	structure of the node. NOTE: the routine delay_set_tdc_params()
+	must be called before a delay_trace() is done using this model.
+
+	Returns 1 if successful, or 0 if an error occured.  error_string() 
+	can be used to get error information, if any.  Most probable cause 
+	for error return is attempt to use DELAY_MODEL_LIBRARY when the 
+	network is not mapped.
+
+				** CAVEAT **
+
+	delay_trace computes and stores a large amount of information at each
+	node, which information is used by the remainder of the package.
+	Changes to the network can invalidate this stored information.  No
+	check is ever made to ensure that the stored information is valid, so
+	users of this package should do a new delay_trace if it is suspected
+	that the network may have changed since the last delay_trace was done.
+	Eventually, an incremental timing simulation package should relax this
+	requirement.
+
+void
+delay_set_tdc_params(fname)
+char *fname;
+	Reads the coefficients for the TDC model (K_0, K_1, K_2) from the
+	file named "fname". In case the file cannot be read or propoerly
+	parsed the delfault values are used. Setting the fname to be
+	NIL(char) cause the defaults to be used. A line with tree numeric
+	values in the beginning is taken to represent the coefficients.
+
+delay_model_t
+delay_get_model_from_name(name)
+char *name;
+         Returns the delay model based on the command line argument for the
+	 delay model ("unit", "unit-fanout", "mapped", "library", "tdc").
+	 Returns DELAY_MODEL_UNKNOWN in case an unrecognized model is specified.
+
+delay_time_t
+delay_node_pin(node, pin_num, model)
+node_t *node;
+int pin_num;
+delay_model_t model;
+	After a delay_trace is done, computes the incremental delay across
+	pin pin_num of node under model.  The pin number is a synonym for
+	the fanin index (the pin number of fanin fanin of node node is the
+	number returned by node_get_fanin_index(node, fanin). The routine will
+	compute the load at the fanouts.
+
+delay_time_t
+delay_fanout_contribution(node, pin_num, fanout, model)
+node_t *node, *fanout;
+int pin_num;
+delay_model_t model;
+	Computes the total contribution of fanout to the delay across pin
+	pin_num of node node under model.  (In other words,
+	delay_fanout_contribution computes the difference between the reported
+	delay across pin pin_num and what such a delay would be if fanout and
+	its associated capactive load were removed from the network). fanout
+	must be a fanout of node, and a delay_trace under model must have been
+	done for the output from this routine to make any sense at all.
+
+delay_pin_t *
+get_pin_delay(node, pin, model)
+node_t *node;
+int pin;
+delay_model_t model;
+    This routine returns a structure containing the linear delay model for
+    the node from its "pin" input under the specified delay model. The
+    model can then be queried using the routines specified.
+
+    This routine was meant to be an internal routine of the delay package.
+    However, after many requests it is being exported.
+    IMPORTANT NOTE: The routine returns a static structure. This structure
+    will get overwritten by a calls to the functions delay_node_pin(),
+    delay_trace(). Hence to be safe, copy the data from the returned 
+    structure into variables as soon as you call the get_pin_delay routine.
+
+delay_time_t
+delay_arrival_time(node)
+node_t *node;
+	After a delay trace, this can be used to get the arrival time at
+	a node.
+
+
+delay_time_t
+delay_required_time(node)
+node_t *node;
+	After a delay trace, this can be used to get the required time at
+	a node.
+
+int
+delay_wire_required_time(node, fanin_index, model, req)
+node_t *node;
+int fanin_index;
+delay_model_t model;
+delay_time_t *req;
+        After a delay trace it can be used to get the required time at the
+        "fanin_index" input of node "node". This is useful to compute the
+        required times at wires (rather than at nodes). Returns 0 if there is
+	some error (fanin_index out of bound etc.)
+
+int
+delay_wire_slack_time(node, fanin_index, model, slack)
+node_t *node;
+int fanin_index;
+delay_model_t model;
+delay_time_t *rslack;
+        After a delay trace it can be used to get the slack time at the
+        "fanin_index" input of node "node". This is useful to compute the
+        slack times at wires (rather than at nodes). Returns 0 if there is
+	some error (fanin_index out of bound etc.)
+
+
+delay_time_t
+delay_slack_time(node)
+node_t *node;
+	After a delay trace, this can be used to get the slack time at a node.
+
+double
+delay_load(node)
+node_t *node;
+	After a delay trace, this can be used to get the load driven by node.
+
+
+int
+delay_required_time(node, fanin, model, req_p)
+node_t *node;
+delay_model_t model;
+delay_time_t *req_p;
+	After a delay trace, this can be used to get the required time at
+	wire that goes from the node "fanin" to the node "node". The required
+	time of the wire is returned by filling out the "req_p" structure.
+	In case of an error  the routine returns 0 and contents of "req_p"
+	are unchanged.
+
+double 
+compute_wire_load(network, n)
+network_t *network;
+int n;
+	Returns the contribution of the wiring load for n fanouts. The
+	wire load can be specified as discrete values (set_delay -W) or
+	as a linear load (set_delay -S).
+
+node_t *
+delay_latest_output(network, arrival_time)
+network_t *network;
+double *arrival_time;
+	After a delay trace, this can be used to find which output has the
+	latest arrival time (that is, the maximum of the arrival rising
+	and the arrival falling.)
+
+int
+delay_get_po_load(f, load)
+node_t *f;
+double *load;
+	If the user has specified a load at the primary output node f,
+	the routine will fill its value in the "load" field and return 1.
+	Returns 0 if no value is specified by the user.
+
+int
+delay_get_pi_drive(f, drive)
+node_t *f;
+delay_time_t *drive;
+	If the user has specified a drive at the primary input node f,
+	the routine will fill its value in the "drive" field and return 1.
+	Returns 0 if no primary input drive is specified by the user for f.
+
+int
+delay_get_pi_load_limit(f, max_load)
+node_t *f;
+double *max_load;
+	If the user has specified a maximum load that the primary input node f
+	can drive, the routine will fill its value in the "max_load" field and 
+	return 1.  Returns 0 if no primary maximuym_load constraint is 
+	specified for the primary input.
+
+int delay_get_pi_arrival_time(f, arrival)
+node_t *f;
+delay_time_t *arrival;
+	If the user has specified an arrival time at the primary input 
+	node f, the routine will fill its value in the "arrival" field
+	and return 1.  Returns 0 if no arrival time is specified for f.
+
+int
+delay_get_po_required_time(f, required)
+node_t *f;
+delay_time_t *required;
+	If the user has specified an arrival time at the primary output 
+	node f, the routine will fill its value in the "required" field
+	and return 1.  Returns 0 if no required time is specified for f.
+
+
+The following routines couple the delay package with the clock package...
+They allow the user to set and get constraints at PI/PO nodes such that
+thay are relative to clock edges. These are meant for interface with
+timing analysis tools.
+
+int
+delay_get_synch_edge(node, edgep, flag)
+node_t *node;
+clock_edge_t *edge_p;
+int *flag;
+    Routine to get the synchronization data regarding PO/PI nodes.
+    Returns 0 if not synchronized, 1 if it is.  "flag" returns whether the
+    delay-data refers to occurance before or after the clock pulse. The 
+    delay data can be obtained from the routines delay_get_pi_arrival_time()
+    and delay_get_po_required_time().... The interpretation of the before
+    and after constructs is left to the timing analysis package...
+
+int
+delay_set_synch_edge(node, edge, flag)
+node_t *node;
+clock_edge_t edge;
+int flag;		/* BEFORE_CLOCK_EDGE or AFTER_CLOCK_EDGE */
+
+    Routine to set the synchronization data regarding PO/PI nodes.
+    returns 0 if it cannot set the values (node is an internal node).
+    "flag" is one of BEFORE_CLOCK_EDGE or AFTER_CLOCK_EDGE and indicates
+    whether the delay-data refers to occurance before or after the clock
+    edge. The values of the arrival and required times can be set by the
+    routine delay_set_parameter() using the appropriate parameters.
+
+
+
+network_t *
+delay_generate_decomposition(node, mode)
+node_t *node;
+double mode;
+	This can be used to get a network that is equivalent to the node.
+	The parameter "mode" specifies whether the decomposition is for
+	minimum area (mode == 0) or for minimum delay (mode == 1). The
+	correspondence between the inputs of the node and the network is
+	by node_long_name(). For the node, the delay parameters are computed
+	and stored with the node itself. The mapping of the node is
+	carried out assuming the fanout load in the original network.
+
+void
+delay_compute_atime(node, model, load)
+node_t *node;
+delay_model_t model;
+double load;
+	Computes the output arrival time under the given model for the node
+	node whose output drives a capacitive load given by load, and stores
+	it to be retrieved by subsequent calls to delay_arrival_time.  The
+	arrival times of the fanins of node are presumed precomputed, either by
+ 	previous calls to delay_compute_atime or by a previous call to
+	delay_trace.
+
+	This routine is specifically designed for use by the performance design
+	package, and, though exported, is not designed for general use.
+	Package users should use  this routine with some caution.  Multiple
+	calls to this routine are emphatically not a euphemism for a single
+	call to delay_trace followed by calls to delay_arrival_time.  Further,
+	this routine invalidates all precomputed information for this node
+	computed by the last delay_trace; users are warned that delay
+	information on the network containing node, any of its fanins, or any
+	of its fanouts, should be treated as invalid following a call to
+	delay_compute_atime.
+
+
+int
+delay_incremental_trace(network)
+network_t *network;
+	Update the delay information if required  (the network has changed
+	since the last full delay_trace was done).  This routine has the same
+	effect as calling delay_trace *except* that it attempts to avoid
+	excessive computation; in general, this routine attempts to avoid
+	recomputing delay values that have not changed.
+	This routine should almost always be faster than doing another
+	delay_trace, and should be accurate.  An exception to this rule
+	is if a primary output has been added to the network since the last
+	delay_trace.  If this has occured, a new delay_trace should be
+	done. Returns 0 if an error is detected.  In addition to the
+	delay_trace errors this routine returns 0  if no full delay_trace
+	has been run.
+
+	THIS ROUTINE IS NOT YET IMPLEMENTED.
+
+
+
+
+The remaining routines are specifically  designed for use by the library and
+i/o packages, specifically to set and read appropriate parameters on the input
+and output nodes of a circuit.  Further, these routines do no
+error-checking to determine if the relevant node is in fact an input or
+output node (this information is not guaranteed stable when the i/o package is
+performing).  These routines should only be called by these packages or
+by users who thoroughly understand their variant of the linear delay model.
+
+
+delay_param_t {
+    DELAY_PHASE, 
+    DELAY_BLOCK_RISE, DELAY_BLOCK_FALL, 
+    DELAY_DRIVE_RISE, DELAY_DRIVE_FALL,
+    DELAY_INPUT_LOAD, DELAY_OUTPUT_LOAD, DELAY_MAX_INPUT_LOAD, 
+    DELAY_ARRIVAL_RISE, DELAY_ARRIVAL_FALL,
+    DELAY_REQUIRED_RISE, DELAY_REQUIRED_FALL,
+
+    DELAY_ADD_WIRE_LOAD, DELAY_WIRE_LOAD_SLOPE,
+    DELAY_DEFAULT_DRIVE_RISE, DELAY_DEFAULT_DRIVE_FALL,
+    DELAY_DEFAULT_OUTPUT_LOAD, DELAY_DEFAULT_MAX_INPUTLOAD,
+    DELAY_DEFAULT_ARRIVAL_RISE, DELAY_DEFAULT_ARRIVAL_FALL
+    DELAY_DEFAULT_REQUIRED_RISE, DELAY_DEFAULT_REQUIRED_FALL
+};
+
+
+#define DELAY_NOT_SET
+
+#define DELAY_PHASE_INVERTING
+#define DELAY_PHASE_NONINVERTING
+#define DELAY_PHASE_NEITHER
+
+
+void
+delay_set_parameter(node, key, value)
+node_t *node;
+delay_param_t key;
+double value;
+	Set parameter 'key' of 'node' to 'value'.  This is not for
+	general use, but rather is a routine expected for use only  by
+	the library and i/o package.  This replaces any previous valued
+	stored for that parameter on this node.  
+	
+	DELAY_NOT_SET can be used to force a value to its 'not given' state.  
+	
+	For DELAY_PHASE, the types DELAY_PHASE_INVERTING,
+	DELAY_PHASE_NONINVERTING, and DELAY_PHASE_NEITHER set the
+	approrpiate phase.
+
+	For DELAY_ADD_WIRE_LOAD, a value less than 0 clears the wire
+	load table; otherwise, the value is appended to the table.
+
+void
+delay_set_default_parameter(network, key, value)
+network_t *network;
+delay_param_t key;
+double value;
+	Similar to delay_set_parameter() but is used to store default delay
+	information associated with a network.
+	    The wire load table, the default arrival times, default required 
+	times, default input drive, and default output load are such global
+	parameters and are stored with a network (this is a departure from
+	mis2.1 where they were global variables that could be destroyed
+	when new networks were read in).
+
+
+double
+delay_get_parameter(node, key)
+node_t *node;
+delay_param_t key;
+	Get parameter 'key' of 'node'.  This is not for general use,
+	but rather is a routine used by the i/o package.  Returns
+	DELAY_NOT_SET if the value has not been set.  It is currently not
+	possible to get the values of the wire load table.
+
+double
+delay_get_default_parameter(network, key)
+network_t *network;
+delay_param_t key;
+	Get the default parameter 'key' of 'network'.  This is not for general
+	use, but rather is a routine used by the i/o package.  Returns
+	DELAY_NOT_SET if the value has not been set. It is currently not
+	possible to get the values of the wire load table although the
+	wire_load_slope can be retrieved.
+
+
+char **
+delay_giveaway_pin_info(network)
+network_t *network;
+	Package up the delay paramters for each primary input of the
+	network into a generic array.  This is passed back to the
+	library package, and stored with the gate description.  It is
+	returned, upon request, to the delay package to support the
+	DELAY_MODEL_LIBRARY delay model.
+
+double
+delay_get_load(pin_delay)
+char *pin_delay;
+	Extracts the load from the corresponding structure and returns it.
+	Intended for use by the mapping package.
+
+double
+delay_get_load_limit(pin_delay)
+char *pin_delay;
+	Extracts the maximum_load that can be driven from the corresponding 
+	structure and returns it.  Intended for use by the mapping package.
+
+delay_time_t
+delay_get_drive(pin_delay)
+char *pin_delay;
+	Extracts the drive from the corresponding structure and returns it.
+	Intended for use by the mapping package.
+
+delay_time_t
+delay_get_block(pin_delay)
+char *pin_delay;
+	Extracts the block delay (intrinsic) from the corresponding structure
+	and returns it.  Intended for use by the mapping package.
+
+delay_time_t
+delay_map_simulate(nfanins, fanin, model_params, load)
+int nfanins;
+delay_time_t **fanin;
+char **model_params;
+double load;
+	Computes an output arrival time for an implicit node whose fanins have
+	arrival times given by the array fanin and block and drive parameters
+	given by the array model_params, and whose output drives a capacitive
+	load given by load.  This routine is entirely independent of any
+	node or network, and of any precomputed values stored by delay_trace;
+	hence it can be called entirely independent of the caveat mentioned
+	above.
+
+	This routine is specifically designed for use by the technology mapper
+	and, though exported, is not designed for general use.  Package users
+	should use  this routine with some caution.  In particular, the third
+	parameter is a highly-formatted internal structure whose contents are
+	private to the delay package.

@@ -1,0 +1,10 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_altname node-list
+ 
+     Print the alternate name of all the nodes in the node-list.  If the
+     current name mode is _s_h_o_r_t (SIS internal name), the alternate name will
+     be the _l_o_n_g name (user-specified name) and vice-versa.
+ 
+                                                                            1

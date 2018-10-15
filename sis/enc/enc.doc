@@ -1,0 +1,13 @@
+Alex Saldanha's Exact Dichotomy Solver:
+
+(a,b | c,d)
+Input Format:
+input: 1100-
+
+-> program automatically generates seed dichotomies
+a | c, d
+b | c, d ...
+
+misII> _test -d (debug) -r (don't remove vars) -e (exact) input_file
+
+

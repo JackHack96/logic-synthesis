@@ -1,0 +1,18 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   read_kiss [filename]
+ 
+     Reads a _k_i_s_s_2 format file into a state transition graph.  The state
+     names may be symbolic or strings of "0" and "1".  Inputs and outputs
+     should be strings of "0", "1", and "-"; inputs should not be symbolic.
+     The _k_i_s_s_2 format is described in doc/blif.tex.  Note that there is no
+     mechanism for specifying the names of the I/O pins in _k_i_s_s_2.  Naming can
+     be done in SIS by specifying a _b_l_i_f file containing the ._i_n_p_u_t_s and
+     ._o_u_t_p_u_t_s lines (which give I/O names) followed by the embedded _k_i_s_s_2
+     file.  See also stg_to_network, read_kiss_net.
+ 
+     Note that _r_e_a_d__k_i_s_s followed by _w_r_i_t_e__k_i_s_s alters the ordering of the
+     product terms.  This could make a difference in the _n_o_v_a output.
+ 
+                                                                            1

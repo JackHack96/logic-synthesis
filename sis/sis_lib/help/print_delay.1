@@ -1,0 +1,52 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/print_delay.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:36 $
+.\"  *
+.\"
+.XX
+print_delay [-alrs] [-m model] [-p n] [-f file-name] [node-list]
+.PP
+Do a delay trace (static timing analysis)
+on the network depending on the specified \fBmodel\fR
+and print the delay data.
+Without any arguments the routine will
+use the \fIlibrary\fR model which assumes that the network is mapped and
+will print the arrival times, required times and the slack for all the
+nodes in the network.
+.PP
+Specifying an optional \fBnode-list\fR will print the delay data
+only for the specified nodes.
+.PP
+The user can selectively have portions of the delay data printed.
+The option \fB-a\fP will cause the arrival times to be printed. 
+The option \fB-r\fP will cause the required times to be printed. 
+The option \fB-s\fP will cause the slacks at nodes to be reported.
+The option \fB-l\fP will cause the load driven by the node to be printed.
+.PP
+The option \fB-p n\fP when specified with one of the options \fB-[alrs]\fP
+will print out the delay data so that the first \fBn\fP nodes with the
+most critical values are printed. The critical portion of the delay data
+is determined by the first of the options \fB-[alrs]\fP specified.
+Thus specifying \fB-p n -[al]\fP prints the \fBn\fP nodes with the greatest
+arrival-time/load. For the \fB-[rs]\fP option the nodes with the smallest
+required-time/slack are printed.
+.PP
+The delay model can be specified by the \fB-m\fP option followed by one
+of the following keywords --- \fIunit\fR, \fIunit-fanout\fR,
+\fIlibrary\fR, \fImapped\fR or \fItdc\fR.
+Specifying \fIunit\fR results in delay being computed as 1 unit per node in
+the network.
+\fIunit-fanout\fR adds an additional delay of 0.2 per fanout.
+If a library has been read in using the \fBread_library\fP command one
+can use more accurate models, \fImapped\fR and \fIlibrary\fR, by using data 
+stored in the library. Using the model \fIlibrary\fR assumes  that the network
+has been mapped. The \fImapped\fR model does not make this assumption and will
+do a mapping of the nodes on an individual basis to compute a
+delay model for use during the delay trace.
+The \fItdc\fR model is an attempt to predict the delay of a node based on the
+distribution of arrival times. The parameters used in this model prediction
+are optionally specified using the \fB-f\fR option.

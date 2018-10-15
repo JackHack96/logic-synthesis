@@ -1,0 +1,13 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_gate [-ps] node-list
+ 
+     Prints the information provided in the library for the list of mapped
+     gates.
+ 
+     The -p option prints the pin information of the gates.
+ 
+     The -s option prints summary of the gates and their area.
+ 
+                                                                            1

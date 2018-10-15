@@ -1,0 +1,17 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_latch [-s] [node-list]
+ 
+     With no arguments, print_latch prints out information for all the
+     latches in the network.  The information printed for each latch is the
+     latch input, latch output, initial value, current value, synchronization
+     type, and controlling node.  The latch values can be 0, 1, 2 (don't
+     care), and 3 (undefined).
+ 
+     If the -s option is specified, only the latch input, output, initial and
+     current values are given.  If a node-list is given, only the latches
+     associated with those nodes are printed (each node should be a latch
+     input or output).
+ 
+                                                                            1

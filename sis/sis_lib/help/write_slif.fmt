@@ -1,0 +1,21 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   write_slif [-s] [-n] [-d] [filename]
+ 
+     Write the current network to the file filename in the Stanford Logic
+     Interchange Format (_S_L_I_F).
+ 
+     The -s option uses the network short names rather than the network long
+     names for the _S_L_I_F file.  This can be used to encrypt the names of a
+     net-list.
+ 
+     The -n option uses the net-list format of _S_L_I_F when a node has a gate
+     implementation in the library.
+ 
+     The -d option makes the _S_L_I_F writer print out any delay information
+     known about the current network.  This is not the default because a
+     standard for printing delay information has not been established for the
+     _S_L_I_F format.
+ 
+                                                                            1

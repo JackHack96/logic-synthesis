@@ -1,0 +1,16 @@
+ 
+   May 4, 1992                                                         SIS(1)
+ 
+   astg_irred [-p]
+ 
+     Delete or print structurally redundant constraints in the ASTG.  A
+     redundant constraint is essentially a constraint from some transition x*
+     to transition z* when there is also a constraint from x* to y* to z*
+     (there are additional global conditions in which the constraint x* to z*
+     is not redundant, see Chu's dissertation).  In this case z* is already
+     constrained to follow x* and so the explicit constraint is redundant.
+ 
+     The -p option just prints constraints which have been identified as
+     redundant without modifying the ASTG.
+ 
+                                                                            1

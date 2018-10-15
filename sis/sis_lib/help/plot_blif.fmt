@@ -1,0 +1,32 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   plot_blif [-k] [-r] [-i] [-g WxH+X+Y] [-n name]
+ 
+     The plot_blif command creates a window with an abstract representation
+     of the network, at its current level of optimization, labeling all
+     nodes, including primary inputs and outputs.  Vectors are used to show
+     relationships between the various nodes.  Latches are not printed expli-
+     citly.  The network is drawn as an acyclic combinational circuit.
+     Labelled arrows indicate the locations of the latches.
+ 
+     The -k option "kills" (closes) the most recent plot window with the
+     current network name.
+ 
+     The -r option replaces the contents of an existing plot window with the
+     current network structure.  This is useful if the network has been modi-
+     fied since it was last plotted.  If no plot window is open with the
+     current network name, the command has no effect.
+ 
+     The -i option forces a plot of the internal network structure used by
+     _S_I_S.  The default is to plot the structure corresponding to the
+     write_blif command.  The primary difference in the internal structure is
+     in how primary outputs are handled.
+ 
+     The -g option allows an initial geometry to be specified for the plot
+     window.
+ 
+     The -n option allows "name" to be used for the plot window name instead
+     of the network name.
+ 
+                                                                            1

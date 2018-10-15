@@ -1,0 +1,38 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   set [name] [value]
+   unset name ...
+ 
+     A variable environment is maintained by the command interpreter.  The
+     set command sets a variable to a particular value, and the unset command
+     removes the definition of a variable.  If set is given no arguments, it
+     prints the definition of all variables.
+ 
+     Different commands use environment information for different purposes.
+     The command interpreter makes use of the following:
+ 
+     autoexec
+             Defines a command string to be automatically executed after
+             every command processed by the command interpreter.  This is
+             useful for things like timing commands, or tracing the progress
+             of optimization.
+ 
+     sisout  Standard output (normally stdout) can be re-directed to a file
+             by setting the variable sisout.
+ 
+     siserr  Standard error (normally stderr) can be re-directed to a file by
+             setting the variable siserr.
+ 
+     open_path
+             open_path (in analogy to the shell-variable PATH) is a list of
+             colon-separated strings giving directories to be searched when-
+             ever a file is opened for read.  Typically the current directory
+             (.) is first in this list.  The standard system library (typi-
+             cally $SIS/sis_lib) is always implicitly appended to the current
+             path.  This provides a convenient short-hand mechanism for
+             reaching standard library files.
+ 
+     prompt  defines the prompt string
+ 
+                                                                            1

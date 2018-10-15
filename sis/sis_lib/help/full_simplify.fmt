@@ -1,0 +1,42 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   full_simplify [-d][-o ordering] [-m method] [-l] [-v verbose]
+ 
+     Simplify each node in the network using the local don't cares generated
+     in terms of fanins of each node.  First compatible observability plus
+     external don't cares are generated for each node in terms of primary
+     inputs.  Then the image computation techniques are used to map these
+     don't cares to the local space of each node.  This technique removes
+     most redundancies in the network.  The satisfiability don't cares for a
+     subset of the nodes in the network which have the same support as the
+     node being simplified is also generated.  An ordering is given to the
+     nodes of the network and local don't cares for the nodes are computed
+     according to that ordering.  Each node is simplified using its local
+     don't cares and an appropriate satisfiability don't care subset.
+ 
+     -d If this option is used no observability don't cares are computed.  In
+     this case the local don't cares are only the unreachable points in the
+     local space of each node (a subset of the satisfiability don't care
+     set).
+ 
+     -o Used for BDD ordering. If 0 (default) is used, variables are ordered
+     based on their depth. If 1 is used, the level of a node is used for its
+     ordering.
+ 
+     method specifies the algorithm used to minimize the nodes.  _s_n_o_c_o_m_p
+     (default) invokes a single pass minimization procedure that does not
+     compute the complete offset.  _n_o_c_o_m_p invokes the full minimization pro-
+     cedure (ala ESPRESSO) but does not compute the complete offset.  _d_c_s_i_m_p
+     invokes single pass tautology-based minimizer.
+ 
+     -l generates fanin don't cares only for nodes with the same or subset
+     support as the node being minimized which have level less than the node
+     being minimized. The level is the largest number of nodes on the longest
+     path from the node to a primary input.
+ 
+     -v prints out extra info for debugging the code.
+ 
+     SIS(1)              UNIX Programmer's Manual               SIS(1)
+ 
+                                                                            1

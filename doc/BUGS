@@ -1,0 +1,124 @@
+(1) simulate
+	There is just the matter of the simulate command inside SIS... I
+believe there is an inconsistency between the simulation of the STG and the
+network when the network has a clock input and the STG does not.
+
+    One might also modify the input to the simulate command to allow for 
+input values like "r" and "f" to be specified for the clock. The reason
+for doing so is to handle the simulation of multi-phase circuits. We
+might want to update the state-vector for those latches whose type 
+(rising/falling) is consistent with the specified value for the clock signal
+(r/f). Does this seem like a reasonable thing to do ?
+
+Example of inconsistent simulation....
+UC Berkeley, SIS Release 1.1 (compiled 29-Nov-93 at 2:39 PM)
+sis<2> rl a.blif
+Warning: network `bbara.kiss2', node "in_0" does not fanout
+Warning: network `bbara.kiss2', node "in_1" does not fanout
+Warning: network `bbara.kiss2', node "in_2" does not fanout
+Warning: network `bbara.kiss2', node "in_3" does not fanout
+Warning: network `bbara.kiss2', node "out_0" is not driven (zero assumed)
+Warning: network `bbara.kiss2', node "out_1" is not driven (zero assumed)
+Warning: network `bbara.kiss2', node "clk" does not fanout
+sis<3> sa jedi
+Running jedi, written by Bill Lin,  UC Berkeley
+sis<5> sim 0 0 0 0 0
+
+Network simulation:
+Outputs: 0 0
+Next state: 1010
+simulate stg: stg has 4 inputs; 5 values were supplied.
+usage: simulate [-s] [-i] in1 in2 in3 ...
+
+It might be easy to fix. However, when I tried it here I ran into a lot
+of problems. One can talk about it to find out what is the best fix...
+The problem that is likely to arise, is to simulate the STG when the
+state assignment is not done. In that case, the STG does have 4 inputs.
+
+(2)
+All these things came out from the sis project that my students did
+this year. Nothing is really urgent. One area that is not very strong in
+sis is the simulation capability. One simple way to make it a lot better
+would be to provide a command, say print_value, that prints the values
+of nodes in a list. This would allow one to inspect internal signals,
+and, from my understanding of sis, would be relatively cheap to
+implement.
+
+(3)
+#define ST_PTRHASH(x,size) ((int)((unsigned)(x)>>2)%size)
+
+line 16 in st.c should be
+
+#define ST_PTRHASH(x,size) ((int)((unsigned)(x)>>3)%size)
+
+on the alpha to account for ptr size of 8 instead of 4.
+So a #ifdef for the alpha case should be added
+
+(4)
+Another nice feature would be to have read_pla have and option
+like the -Dmany of espresso.
+
+(5)
+Hi Ellen.  Here are some details on the problem I have been having
+with the sis atpg command. I have not found any smaller examples which
+reproduce this strange behavior.  I have no time to look into this
+further for a couple of weeks.  When is this version of sis scheduled
+to be released?
+
+---------------------------------------------------------------------
+Results using SIS Development Version (compiled 11-May-94 at 2:22 PM),
+with the command "atpg -v 1"
+
+/users/stephan/bm/c38417.blif:
+
+    cad (mips): hangs after about 20 minutes CPU, using 66MB
+	Last message printed is:
+	    0 faults remaining
+
+    theseus (alpha): hangs after about 9 minutes CPU, using 87MB
+	Last message printed is:
+	    0 faults remaining
+
+    susie (alpha): crashes after about 5 minutes CPU, out of
+	memory (with 250MB limit).
+	Last message printed is:
+	    1987 faults remaining
+	    S_A_0: NODE: I23020     INPUT: g11906
+	    out of memory allocating 25856 bytes
+
+/users/stephan/bm/c38584.blif:
+
+    fjord (mips): hangs after about 10 minutes CPU, using 47MB
+	Last message printed is:
+	    0 faults remaining
+
+    susie (alpha): crashes after about 6 minutes CPU, out of
+	memory (with 250MB limit).  About 280 faults remaining.
+
+If sis makes it to the message "0 faults remaining", it seems to hang there
+using CPU time without any noticeable change in memory usage for as long as
+I let it run (I let one run for an additional 110 CPU minutes).
+
+(6)
+	What happens when I use the routine bdd_compose() to replace a
+variable, "v", by a function "g" that also depends on the variable "v'.
+	bdd_compose(f, v, g);
+	If "g" also depends on the BDD varaiable "v", then I seem to be
+getting quite bogus results. I suspect this since some verification task
+fails on what are equivalent machines.
+
+	However, if I fist perform a substitution of a variable "u" for
+the variable "v" in "f" and then do bdd_compose() the exact same code 
+works.
+	bdd_substitute(f, v, u); /*"g" is independent of  "u" */
+	bdd_compose(f, u, g); 
+
+I was wondering if this is a "bug" or something that should be documented
+in the BDD documentation or flagged somehow...
+
+	There is no rush since the workaround works for me...
+-kj
+
+(7)
+        - xsis exits when _speed_plot buttons are clicked
+	  also _speed_plot -H (I will try the old version)

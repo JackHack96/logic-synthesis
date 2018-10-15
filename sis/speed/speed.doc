@@ -1,0 +1,195 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/speed/speed.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:50 $
+ *
+ */
+	The routines described herein are provided for the use of
+	applications programmers who wish to use performance
+	optimization within their code. Since the exported interface
+	is not compelte (the programmer is not allowed full control
+	and some of the specified parameters may be ignored) one may
+	consider using the function "com_execute()" to avail of the
+	many different options that the user can provide on the
+	command-line.
+
+	If an advanced programmer is interested in using the
+	internal-routines they must follow the sequence of calls inthe
+	command speed_loop_interface() in the file speed_loop.c...
+	After the initial setup, one can call alternate routines like
+            new_speed(network, &speed_param)  /* for the latest stuff */
+	or make an additional assignment and call
+            speed_param.new_mode = 0;
+	    seed_up_network(network, &speed_param); /* for the orig code */
+
+void
+speed_loop_interface(network, thresh, coeff, dist, model, flag)
+network_t **network;
+delay_model_t model;
+double thresh, coeff;
+int dist, flag;
+	Speed-up the network and keep the best network seen till
+	now. Exits the program if a serious error occurs.
+	"dist" is the distance for collapsing. A value of 3 is the default.
+	"model" is the delay model used for computing delays during
+	the speedup. The default is DELAY_MODEL_UNIT.
+	"flag" = 1 produces an output to "misout" describing how the
+	delay changes at each iteration. Flag = 0 is the silent mode.
+
+void
+speed_node_interface(network, node, coeff, model)
+network_t *network;
+node_t *node;
+double thresh, coeff;
+delay_model_t model;
+	Speedup the node f belonging to the network. The node f is
+	modified in place by a 2-input nand gate decomposition.
+	ASSUMES that a delay trace using the delay_model "model" has
+	already been done so that the arrival times at the inputs of
+	node f are valid.
+	Exits the program if there is a serious error.
+
+
+array_t *
+speed_decomp_interface(f, coeff, model)
+node_t * f;
+double coeff;
+delay_model_t model;
+	Returns an array of nodes representing the node f as a
+	2-input nand representation. A valid delay trace must have
+	been performed on the node so that the fanins have arrival
+	time information annotated.  The array contains nodes of
+	type NODE_PO, NODE_PI and internal nodes. Only the 
+	internal nodes should be used by the calling routine. 
+	This is a manifestation of the fact that the nodes in the
+	returned array are not part of the network, but nodes in
+	the array have the same fanins as node f. The first 
+	internal node is the root node and the node f can be
+	replaced by this node. The remaining nodes can be simply
+	added to the network.
+	Returns NIL(array_t) if there has been an error.
+
+/*
+ Routines to improve circuit performance by adding buffers.
+*/
+
+int
+buffer_network(network, limit, trace, thresh, single_pass, do_decomp)
+network_t *network;
+int limit;
+int trace;
+double thresh;
+int single_pass;
+int do_decomp;
+	    This routine operates on an entire network and will find 
+	out appropriate sites to add buffers. If the network is mapped,
+	the "mapped" delay model will be used else the "unit-fanout"
+	model is used. The routine will iterate over different
+	cutsets of the critical paths (except when "single_pass" = 1).
+	If the required time is set for the primary outputs the algorithm
+	will try to meet them, otherwise it will buffer so as to reduce
+	the delay thru the circuit.
+	    The critical paths are determined by the parameter "thresh".
+	The paths with a slack value within "thresh" of the smallest
+	slack are deemed to be critical.
+	    If the "trace" parameter is set to 1, the delay data will be
+	printed to misout as the algorithm proceeds. 
+	    "limit" specifies the acceptable fanout limit for a gate. 
+	Nodes with fanout less than this are not candidates for buffering.
+	    If "do_decomp" parameter is specified, the routine will
+	also attempt the decomposition of complex gates in an effort to
+	increace performance.
+
+/*
+ * The following routines are provided for interface to the buffering
+ * algorithm by other packages (actually only the MAP package) 
+ */
+
+void
+buffer_init_globals(lib_present, limit, mode, do_decomp, debug)
+int lib_present;        /* Generate buffers from the library */
+int limit;              /* Limit for the fanout algorithm */
+int mode;               /* Which transformations to carry out */
+int do_decomp;		/* Should root node be decomposed */
+int debug;              /* Set the level of verbosity */
+	    This routine sets up the global data structure used in the
+	recursive buffering algorithm. The parameters to this routine
+	are used to set up global information.
+	    "lib_present" when non-zero instructs the algorithm to
+	use the inverters present in the library. "limit" is the
+	maximum number of fanouts that a node can have.
+	    "mode" is  a three bit flag that can be used to enable/
+	disable some of the delay reducing transformations. Thus if the
+	binary representation  of "mode" is 0x.....BUR, the three least
+	significant digits enable(1)/disable(0) the transformations
+	"Repower", "Unbalanced" and "Balanced".
+	    The parameter "do_decomp" when set will allow the
+	decomposition of the root agt into smaller gates if required.
+	    "debug" is a verbosity level. the range is 1-20.
+
+
+int 
+sp_buffer_recur(network, fanout_data, req_diff, levelp)
+network_t *network;
+buf_alg_input_t *fanout_data;   /* The data regarding the fanouts */
+delay_time_t req_diff;  	/* This much needs to be saved */
+int *levelp;			/* Iteration counter */
+	   The basic recursive routine. Depending on the "mode" set when
+       initializing the defaults, the routine may 
+	           -- redistribute the fanouts of node by adding a buffer
+       and/or	   -- Try a balanced decomposition of the outputs..
+       and/or 	   -- try to decompose node into smaller gates
+	   
+	   The contents of "levelp" must be 0 when the routine is invoked by
+	the user for a particular instance of the fanout problem.
+	   "req_diff" tells the routine how much the delay at the root
+	needs to be improved by.
+
+
+*********** ADDING NEW OPTIMIZATIONS TO THE SPEED_UP CODE *******
+
+   The speed_up package has undergone major modifications (in its
+   structure as well as the algorithms) since the sis release 2.1. The
+   new package allows the user to select form a set of optimizations.
+   These optimizations are applied to regions whose size and influence
+   the user can control. The local performance improvements are cast
+   into an algorithm that ensures that the predicted saving can be
+   achieved at a small cost (at least in the case of unmapped
+   circuits). For mapped circuits the prediction of achievable saving
+   is difficult due to the interactions between transforms. However,
+   the techniquies work well in practice. 
+
+   The modularity of the code allows the user to add their favorite
+   transformations without much problem. In case the transformations
+   affect the way in which delay is computed (e.g. an annotation on a
+   node that specified gate doubling) the routines in the delay
+   package will ahve to be changed as well to account for this.
+   Hopefully only an appropriate change to the routine get_pin_delay()
+   will be adequate.
+   
+   In order to specify a new optimization follow the steps stated
+   below
+   1)	Create an entry int he file new_speed_models.h that has
+       /* name, opt_fn, delay computing fn, priority, on-flag, netw-flag */
+   where name = name of the optimization so that it can be selected
+                using the comand speedup_alg
+         opt_fn = The optimization code that given a network returns
+	 	the optimized network
+	 delay_fn = The function that will return the performance of
+	 	 the optimized network (arrival/required time)
+	 priority = The evaluation of optimizations is stopped if a
+	 	 transform with lower-value of this flag succeeds
+	 on-flag = If this optimization is enabled by default
+	 netw_flag = A flag that makes the use of delay_fn obsolete
+	 	 since based on this the optimization is applied on
+		 either a subnetwork or a fanout-branch. The value
+		 DUAL for this flag is currently not processed. It was
+		 intended for subnetworks with multiplt inputs and
+		 outputs but the theory does not handle that yet...
+   2) Add the routine opt_fn() to the code
+   3) recompile.
+   4) enable the optimization using the speedup_alg command
+   5) The optimization is now avialable for use

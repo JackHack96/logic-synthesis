@@ -1,0 +1,50 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   source [-psx] filename
+ 
+     Read commands from a file.  The -p option prints a prompt before reading
+     each command, and the -x option echoes each command before it is exe-
+     cuted.  The -s option silently ignores an attempt to execute commands
+     from a nonexistent file.
+ 
+     Arguments on the command line after the filename are remembered but not
+     evaluated.  Commands in the script file can then refer to these argu-
+     ments using the history substitution mechanism.
+ 
+     EXAMPLE:
+ 
+          Contents of test.scr:
+ 
+              read_blif %:2
+              collapse
+              write_eqn %:2.eqn
+ 
+          Typing "source test.scr lion.blif" on the command line will execute
+          the sequence
+ 
+              read_blif lion.blif
+              collapse
+              write_eqn lion.blif.eqn
+ 
+          If you type "alias st source test.scr" and then type "st lion.blif
+          bozo", you will execute
+ 
+              read_blif bozo
+              collapse
+              write_eqn bozo.eqn
+ 
+          because "bozo" was the second argument on the last command line
+          typed.  In other words, command substitution in a script file
+          depends on how the script file was invoked.
+ 
+     Some standard script files are provided.  _s_c_r_i_p_t (executed by typing
+     source script is a script that works well on most examples.
+     _s_c_r_i_p_t._b_o_o_l_e_a_n uses a larger part of the don't care set during two-level
+     minimization, requiring more time and producing better results.
+     _s_c_r_i_p_t._a_l_g_e_b_r_a_i_c uses a smaller part of the don't care set.
+     _s_c_r_i_p_t._r_u_g_g_e_d uses the newest BDD-based techniques, and _s_c_r_i_p_t._d_e_l_a_y
+     synthesizes a circuit for a final implementation that is optimal with
+     respect to speed.
+ 
+                                                                            1

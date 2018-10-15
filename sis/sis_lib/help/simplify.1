@@ -1,0 +1,38 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/simplify.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:38 $
+.\"  *
+.\"
+.XX
+simplify [-d][-i <num>[:<num>]] [-m method] [-f filter] [node-list]
+.PP
+Simplify each node in the \fBnode-list\fR using
+\fImethod\fR with the don't-care set generated according to
+\fIdctype\fR.
+.PP
+\fImethod\fR specifies the algorithm used to minimize the nodes.
+\fIsnocomp\fR (default) invokes a single pass minimization procedure that does
+not compute the complete offset.
+\fInocomp\fR invokes the full minimization procedure (ala ESPRESSO) but does
+not compute the complete offset.
+\fIdcsimp\fR invokes single pass tautology-based minimizer.
+.PP
+\fIdctype\fR specifies how the don't-care set is generated.
+The default don't care set generated is a subset of the fanin don't care set.
+\fB-d\fR option specifies that no don't care set is used.
+\fB-i m:n\fR specifies that the fanin don't cares of nodes within 
+\fBm\fR levels of transitive fanin and \fBn\fR levels of transitive fanout 
+of these transitive fanin are to be generated.
+.PP
+\fIfilter\fR specifies how the don't-care set is filtered.
+\fIexact\fR (default) uses the exact filter.
+\fIdisj_sup\fR uses the disjoint support filter.
+.PP
+Note that a node function is replaced with the simplified version
+if the new function has fewer literals in factored form.
+In the case of a tie, the node function is replaced if the new function
+has fewer literals in sum-of-products form.

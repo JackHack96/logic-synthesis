@@ -1,0 +1,15 @@
+alias 1h state_assign nova -e h
+alias oh one_hot
+alias pc print_clock
+alias pl print_latch
+alias ra read_astg
+alias rk read_kiss
+alias rs read_slif
+alias sa state_assign
+alias se stg_extract
+alias sm state_minimize
+alias v verify_fsm
+alias wa write_astg
+alias wk write_kiss
+alias ws write_slif
+alias xdc extract_seq_dc

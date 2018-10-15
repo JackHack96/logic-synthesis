@@ -1,0 +1,18 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   write_pds [-c] [-d] [-s] [filename]
+ 
+     Write the current network to file filename in the _p_d_s format suitable
+     for Xilinx. The _p_d_s descriptions are generated for single output CLBs
+     (LUTs) only.
+ 
+     The -c option indicates that only the combinational portion of the net-
+     work should be written out.
+ 
+     The -d option will cause debugging information to be printed.
+ 
+     The -s option uses the network short names rather than the network long
+     names for the _p_d_s file.
+ 
+                                                                            1
