@@ -20,8 +20,8 @@
 
 int parse_options(); /* forward declaration */
 
-extern FILE *infp;  /* jedi.c */
-extern FILE *outfp; /* jedi.c */
+FILE *infp;  /* jedi.c */
+FILE *outfp; /* jedi.c */
 
 usage() {
   (void)fprintf(stderr, "usage: jedi [options] [input] \n");
@@ -60,8 +60,8 @@ usage() {
 parse_options(argc, argv) int argc;
 char **argv;
 {
-  extern int optind;
-  extern char *optarg;
+  int optind;
+  char *optarg;
   int c;
 
   /*

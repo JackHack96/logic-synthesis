@@ -428,16 +428,16 @@
  * MEMORY ALLOCATION
  */
 
-extern char *malloc(), *calloc(), *realloc();
+char *malloc(), *calloc(), *realloc();
 
 #ifdef ultrix
-extern void free();
-extern void abort();
+void free();
+void abort();
 #else
 
-extern free();
+free();
 
-extern abort();
+abort();
 
 #endif
 

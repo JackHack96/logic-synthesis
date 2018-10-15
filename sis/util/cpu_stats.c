@@ -6,7 +6,7 @@
 #include <sys/time.h>
 #include <sys/types.h>
 
-extern int end, etext, edata;
+int end, etext, edata;
 
 #endif
 

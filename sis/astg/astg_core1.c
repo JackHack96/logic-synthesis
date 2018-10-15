@@ -121,7 +121,7 @@ static astg_vertex *astg_new_vertex(astg_graph *stg, astg_vertex_enum vtype, cha
     return v;
 }
 
-extern astg_vertex_enum astg_v_type(astg_vertex *v) {
+astg_vertex_enum astg_v_type(astg_vertex *v) {
     /* Return whether a vertex is a place or transition. */
     return v->vtype;
 }
@@ -149,7 +149,7 @@ void astg_delete_vertex(astg_vertex *v) {
     FREE(v);
 }
 
-extern int astg_out_degree(astg_vertex *v) {
+int astg_out_degree(astg_vertex *v) {
     /*	Return the out-degree of a vertex. */
     int            n_out_edge = 0;
     astg_generator gen;
@@ -159,7 +159,7 @@ extern int astg_out_degree(astg_vertex *v) {
     return n_out_edge;
 }
 
-extern int astg_in_degree(astg_vertex *v) {
+int astg_in_degree(astg_vertex *v) {
     /*	Return the in-degree of a vertex. */
     int            n_in_edge = 0;
     astg_generator gen;
@@ -169,7 +169,7 @@ extern int astg_in_degree(astg_vertex *v) {
     return n_in_edge;
 }
 
-extern int astg_degree(astg_vertex *v) {
+int astg_degree(astg_vertex *v) {
     /*	Return the degree (in-degree+out-degree) of a vertex. */
     return astg_in_degree(v) + astg_out_degree(v);
 }
@@ -217,7 +217,7 @@ astg_bool astg_boring_place(astg_place *p) {
             astg_in_degree(p) == 1 && astg_out_degree(p) == 1);
 }
 
-extern char *astg_place_name(astg_place *p) {
+char *astg_place_name(astg_place *p) {
     /*	Return name of a place.  Do not modify the string. */
 
     static char pname[80], *rc;
@@ -234,7 +234,7 @@ extern char *astg_place_name(astg_place *p) {
     return rc;
 }
 
-extern astg_place *astg_find_place(astg_graph *stg, char *name, astg_bool create) {
+astg_place *astg_find_place(astg_graph *stg, char *name, astg_bool create) {
     /*	Return the specified place, or NULL if it does not exist.  If create
     is true, the place is created if it does not already exist.  If name
     is NULL, it does not match any existing place, and a new, unnamed
@@ -350,7 +350,7 @@ astg_bool astg_reset_state_graph(astg_graph *stg) {
     return ASTG_TRUE;
 }
 
-extern astg_state *astg_find_state(astg_graph *stg, astg_scode real_code, astg_bool create) {
+astg_state *astg_find_state(astg_graph *stg, astg_scode real_code, astg_bool create) {
     /*	Return the state information for a state code, or NULL if it could
     not be returned (flow not performed, invalid state code, etc.).  If
     not found and create is ASTG_TRUE, then a new state with no markings
@@ -497,7 +497,7 @@ void astg_print_marking(
     printf("\n");
 }
 
-extern void astg_set_marking(astg_graph *stg, astg_marking *marking_p) {
+void astg_set_marking(astg_graph *stg, astg_marking *marking_p) {
     /*	Set the STG marking to the specified one.  This new marking will be
     returned by astg_initial_marking until it is changed again.  It is
     also used for astg_token_flow.  The stg change count is incremented
@@ -596,7 +596,7 @@ astg_marking *astg_dup_marking(astg_marking *marking) {
     return dup;
 }
 
-extern astg_marking *astg_initial_marking(astg_graph *stg) {
+astg_marking *astg_initial_marking(astg_graph *stg) {
     /*	Return initial marking of the STG if there is one, or NULL. */
 
     astg_marking   *marking = ALLOC(astg_marking, 1);
@@ -627,7 +627,7 @@ void astg_set_marked(astg_marking *marking, astg_place *p, astg_bool value) {
     }
 }
 
-extern astg_bool astg_get_marked(astg_marking *marking, astg_place *p) {
+astg_bool astg_get_marked(astg_marking *marking, astg_place *p) {
     /*	Return true if this place has a token in this marking or
      * if the place has no flow-id, i.e. it has just been added (e.g. by the
      * state encoding routines)
@@ -710,13 +710,13 @@ char *astg_trans_alpha_name(astg_trans *t) { return t->type.trans.alpha_name; }
 
 astg_trans_enum astg_trans_type(astg_trans *t) { return t->type.trans.trans_type; }
 
-extern char *astg_trans_name(astg_place *t) {
+char *astg_trans_name(astg_place *t) {
     /*	Return name of a transition.  Do not modify the string. */
 
     return astg_v_name(t);
 }
 
-extern astg_trans *astg_find_trans(astg_graph *stg, char *sig_name, astg_trans_enum type, int copy_n,
+astg_trans *astg_find_trans(astg_graph *stg, char *sig_name, astg_trans_enum type, int copy_n,
                                    astg_bool create) {
     /*	Return the corresponding transition, or NULL if it does not exist.
     If create is true, the transition is created if it does not already
@@ -756,7 +756,7 @@ extern astg_trans *astg_find_trans(astg_graph *stg, char *sig_name, astg_trans_e
     return new_t;
 }
 
-extern astg_trans *astg_noninput_trigger(astg_trans *one_trans) {
+astg_trans *astg_noninput_trigger(astg_trans *one_trans) {
     /*	Return a noninput signal which enables t.  If there is more than
     one such signal, an arbitrary one is selected. */
 
@@ -918,7 +918,7 @@ astg_bool astg_set_guard(astg_edge *se, char *guard_str, io_t *source) {
     return ok;
 }
 
-extern astg_edge *astg_find_edge(astg_vertex *v1, astg_vertex *v2, astg_bool create) {
+astg_edge *astg_find_edge(astg_vertex *v1, astg_vertex *v2, astg_bool create) {
     /*	Return the specified edge if it already exists.  If create is
     ASTG_TRUE, then create the edge and return it, otherwise return
     NULL. */
@@ -1080,13 +1080,13 @@ astg_graph *astg_duplicate(astg_graph *old_g, char *name) {
 
 /* -------------------------------- Marking stuff --------------------------- */
 
-extern astg_scode astg_marking_enabled(astg_marking *marking_p) {
+astg_scode astg_marking_enabled(astg_marking *marking_p) {
     /*	Return set of enabled transitions for this marking. */
 
     return marking_p->enabled;
 }
 
-extern int astg_state_count(astg_graph *stg) {
+int astg_state_count(astg_graph *stg) {
     /*	Return the number of states in the state graph.  This is only valid
     after some call which does token flow such as astg_token_flow or
     astg_initial_state. */
@@ -1094,7 +1094,7 @@ extern int astg_state_count(astg_graph *stg) {
     return st_count(stg->flow_info.state_list);
 }
 
-extern astg_scode astg_state_code(astg_state *state_p) {
+astg_scode astg_state_code(astg_state *state_p) {
     /*	Return the state code for a flow state. */
 
     astg_scode   real_code = 0;
@@ -1105,7 +1105,7 @@ extern astg_scode astg_state_code(astg_state *state_p) {
     return real_code;
 }
 
-extern astg_scode astg_state_enabled(astg_state *state_p) {
+astg_scode astg_state_enabled(astg_state *state_p) {
     /*	Return the complete set of enabled transitions in this state. */
 
     astg_scode     enabled = 0;
@@ -1506,13 +1506,13 @@ void astg_sel_show(astg_graph *stg) {
 
 astg_signal_enum astg_signal_type(astg_signal *sig) { return sig->sig_type; }
 
-extern char *astg_signal_name(astg_signal *sig) {
+char *astg_signal_name(astg_signal *sig) {
     /*	Return name of a signal.  Do not modify the string. */
 
     return sig->name;
 }
 
-extern astg_scode astg_state_bit(astg_signal *sig) {
+astg_scode astg_state_bit(astg_signal *sig) {
     /*	Returns a bit mask for the bit being used to represent this signal.
     This mask is used to interpret the state code and enabled transitions
     from the state list and astg_get_enabled. */
@@ -1552,7 +1552,7 @@ static astg_signal *sig_new(astg_graph *stg, char *name) {
     return sig_p;
 }
 
-extern astg_signal *astg_find_named_signal(astg_graph *stg, char *sig_name) {
+astg_signal *astg_find_named_signal(astg_graph *stg, char *sig_name) {
 /*	Return the signal, or NULL if it does not exist. */
 
     astg_signal    *sig_p, *found_sig = NULL;
@@ -1568,7 +1568,7 @@ extern astg_signal *astg_find_named_signal(astg_graph *stg, char *sig_name) {
             found_sig;
 }
 
-extern astg_signal *astg_find_signal(astg_graph *stg, char *name, astg_signal_enum type, astg_bool create) {
+astg_signal *astg_find_signal(astg_graph *stg, char *name, astg_signal_enum type, astg_bool create) {
     /*	Return the signal, or NULL if it does not exist. */
 
     astg_signal *sig_p = astg_find_named_signal(stg, name);
@@ -1609,7 +1609,7 @@ astg_signal *astg_new_sig(astg_graph *stg, astg_signal_enum type) {
     return astg_find_signal(stg, sig_name, type, ASTG_TRUE);
 }
 
-extern astg_bool astg_is_trigger(astg_signal *sig1, astg_signal *sig2) {
+astg_bool astg_is_trigger(astg_signal *sig1, astg_signal *sig2) {
     /*	Returns true if sig1 is a trigger signal for sig2. */
 
     astg_trans     *trigger, *t;

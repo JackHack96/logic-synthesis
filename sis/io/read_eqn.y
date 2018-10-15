@@ -4,7 +4,7 @@
 #include "io_int.h"
 #include <setjmp.h>
 
-extern char *yytext;
+char *yytext;
 
 static network_t *global_network;
 static lsList po_list;
@@ -17,8 +17,8 @@ static int unput();
 static int yywrap();
 #endif
 
-extern int equation_setup_string(char *);
-extern int equation_setup_file(FILE *);
+int equation_setup_string(char *);
+int equation_setup_file(FILE *);
 
 static void
 do_assign(name, expr)

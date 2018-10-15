@@ -302,7 +302,7 @@ static int com_fast_extract(network_t **network, int argc, char **argv) {
     int       max_level, po_level;
     char      *dummy;
     node_t    *po;
-    extern st_table *find_node_level();
+    st_table *find_node_level();
 
     /* Global variables should never have been used!  Must initialize
        them for extract. */

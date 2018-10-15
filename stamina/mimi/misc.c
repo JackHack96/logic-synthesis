@@ -12,13 +12,13 @@
 char time_msg[][14] = {"compatible",    "disjoint", "iso",          "maximal",
                        "class & bound", "prime",    "binate_cover", "map"};
 
-extern int *b_cover;
-extern int *c_cover;
+int *b_cover;
+int *c_cover;
 
 say_solution() {
   sm_element *p;
   register i, j, m, k;
-  extern long t_start;
+  long t_start;
   int tmp_states;
   long t_stop;
 

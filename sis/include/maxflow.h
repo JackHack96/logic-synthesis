@@ -5,7 +5,7 @@
 #define CUTSET 1
 
 /* Global variable */
-extern int maxflow_debug;
+int maxflow_debug;
 
 #include "st.h"
 #include "array.h"
@@ -80,42 +80,42 @@ struct MF_CUTSET {
  * Declare the exported routines
  */
 
-extern int mf_sizeof_cutset(mf_graph_t *);
+int mf_sizeof_cutset(mf_graph_t *);
 
-extern int mf_remove_node(mf_graph_t *, char *);
+int mf_remove_node(mf_graph_t *, char *);
 
-extern int mf_reread_edge(mf_graph_t *, char *, char *, int);
+int mf_reread_edge(mf_graph_t *, char *, char *, int);
 
-extern void maxflow(mf_graph_t *, int);
+void maxflow(mf_graph_t *, int);
 
-extern void mf_read_node(mf_graph_t *, char *, int);
+void mf_read_node(mf_graph_t *, char *, int);
 
-extern void mf_read_edge(mf_graph_t *, char *, char *, int);
+void mf_read_edge(mf_graph_t *, char *, char *, int);
 
-extern void mf_free_cutset(mf_cutset_t *);
+void mf_free_cutset(mf_cutset_t *);
 
-extern void mf_free_graph(mf_graph_t *);
+void mf_free_graph(mf_graph_t *);
 
-extern void mf_display_graph(FILE *, mf_graph_t *);
+void mf_display_graph(FILE *, mf_graph_t *);
 
-extern void mf_display_flow(FILE *, mf_graph_t *);
+void mf_display_flow(FILE *, mf_graph_t *);
 
-extern void mf_display_cutset(FILE *, mf_graph_t *);
+void mf_display_cutset(FILE *, mf_graph_t *);
 
-extern array_t *cutset(network_t *, st_table *);
+array_t *cutset(network_t *, st_table *);
 
-extern array_t *cutset_interface(network_t *, st_table *, int);
+array_t *cutset_interface(network_t *, st_table *, int);
 
-extern array_t *mf_build_node_cutset(mf_graph_t *, st_table *);
+array_t *mf_build_node_cutset(mf_graph_t *, st_table *);
 
-extern mf_node_t *mf_get_node(mf_graph_t *, char *);
+mf_node_t *mf_get_node(mf_graph_t *, char *);
 
-extern mf_graph_t *mf_alloc_graph(void);
+mf_graph_t *mf_alloc_graph(void);
 
-extern mf_graph_t *mf_create_flow_network(network_t *, st_table *, int,
+mf_graph_t *mf_create_flow_network(network_t *, st_table *, int,
                                           st_table **);
 
-extern mf_cutset_t *mf_get_cutset(mf_graph_t *, array_t **, array_t **,
+mf_cutset_t *mf_get_cutset(mf_graph_t *, array_t **, array_t **,
                                   array_t **);
 
 int init_maxflow();

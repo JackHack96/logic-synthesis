@@ -89,32 +89,32 @@ typedef struct LATTICE {
   int type;
 } LATTICE;
 
-extern int isymb, osymb;
-extern int newnp, np, nis, ns, nos, ni, no;
-extern int type;
-extern int errorcount;
-extern int yylineno, mylinepos;
-extern int unspec;
+int isymb, osymb;
+int newnp, np, nis, ns, nos, ni, no;
+int type;
+int errorcount;
+int yylineno, mylinepos;
+int unspec;
 
-extern char identification[MAXNAME], startstate[MAXNAME];
-extern char myline[MAXNAME];
-extern char state[MAXNAME], in[MAXNAME], next[MAXNAME], out[MAXNAME];
+char identification[MAXNAME], startstate[MAXNAME];
+char myline[MAXNAME];
+char state[MAXNAME], in[MAXNAME], next[MAXNAME], out[MAXNAME];
 
-extern char **slab;
-extern int slab_size;
+char **slab;
+int slab_size;
 
-extern char lastnum[MAXNAME], lastid[MAXNAME], lastvect[MAXNAME];
-extern char laststate[MAXNAME], lastin[MAXNAME], lastnext[MAXNAME];
-extern char lastout[MAXNAME];
+char lastnum[MAXNAME], lastid[MAXNAME], lastvect[MAXNAME];
+char laststate[MAXNAME], lastin[MAXNAME], lastnext[MAXNAME];
+char lastout[MAXNAME];
 
-extern SYMTABLE *inputlist, *statelist, *outputlist;
+SYMTABLE *inputlist, *statelist, *outputlist;
 
-extern NAMETABLE *nametable;
+NAMETABLE *nametable;
 
-extern INPUTTABLE *itable;
-extern int itable_size;
+INPUTTABLE *itable;
+int itable_size;
 
-extern FILE *filin, *filout;
+FILE *filin, *filout;
 
 /* VARIABLES RELATED TO FUNCTIONAL MINIMIZATION */
 
@@ -123,14 +123,14 @@ typedef struct SUBCOMP {
   int cmpnum;
 } SUBCOMP;
 
-extern pset_family incograph;
-extern SUBCOMP incocomp;
-extern int *color;
-extern int colornum;
-extern pset_family maxcompatibles;
+pset_family incograph;
+SUBCOMP incocomp;
+int *color;
+int colornum;
+pset_family maxcompatibles;
 
-extern pset_family primes;
-extern int reset;
+pset_family primes;
+int reset;
 
 typedef struct CHAINS {
   pset_family implied;
@@ -139,9 +139,9 @@ typedef struct CHAINS {
   pset_family cover;
 } CHAINS;
 
-extern CHAINS firstchain;
+CHAINS firstchain;
 
-extern pset_family copertura1, copertura2;
+pset_family copertura1, copertura2;
 
 typedef struct MINITABLE {
   char *input;
@@ -150,11 +150,11 @@ typedef struct MINITABLE {
   char *output;
 } MINITABLE;
 
-extern MINITABLE *mintable;
-extern int mintable_size;
+MINITABLE *mintable;
+int mintable_size;
 
-extern int do_print_classes;
-extern char *coloring_algo;
+int do_print_classes;
+char *coloring_algo;
 
 int mygetc();
 

@@ -673,7 +673,7 @@ static void read_stg(io_t *source, astg_graph *stg) {
     } /* end while */
 }
 
-extern astg_graph *astg_read(FILE *fin, char *fname) {
+astg_graph *astg_read(FILE *fin, char *fname) {
     /*	Read an STG description from the opened stream.  The filename
     argument is used for error messages and to remember where the STG
     description came from. */

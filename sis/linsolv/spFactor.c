@@ -2447,7 +2447,7 @@ static void RealRowColElimination(MatrixPtr Matrix, register ElementPtr pPivot) 
     register ElementPtr pSub;
     register int        Row;
     register ElementPtr pLower, pUpper;
-    extern ElementPtr CreateFillin();
+    ElementPtr CreateFillin();
 
     /* Begin `RealRowColElimination'. */
 

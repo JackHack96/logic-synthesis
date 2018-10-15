@@ -3,7 +3,7 @@
  *   set.c -- routines for maniuplating sets and set families
  */
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 static pset_family set_family_garbage = NULL;
 

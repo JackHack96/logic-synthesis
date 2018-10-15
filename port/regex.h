@@ -255,17 +255,17 @@ enum regexpcode {
                    specified. */
 };
 
-extern char *re_compile_pattern();
+char *re_compile_pattern();
 /* Is this really advertised? */
-extern void re_compile_fastmap();
-extern int re_search(), re_search_2();
-extern int re_match(), re_match_2();
+void re_compile_fastmap();
+int re_search(), re_search_2();
+int re_match(), re_match_2();
 
 /* 4.2 bsd compatibility (yuck) */
-extern char *re_comp();
-extern int re_exec();
+char *re_comp();
+int re_exec();
 
 #ifdef SYNTAX_TABLE
-extern char *re_syntax_table;
+char *re_syntax_table;
 #endif
 #endif

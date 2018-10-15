@@ -24,16 +24,16 @@
 
 #if defined(USE_MALLOC_FREE)
 #if defined(__STDC__)
-extern void *malloc(unsigned long);
-extern void free(void *);
-extern void *realloc(void *, unsigned long);
+void *malloc(unsigned long);
+void free(void *);
+void *realloc(void *, unsigned long);
 #define MALLOC(size) ((pointer)malloc((unsigned long)(size)))
 #define FREE(p) (free((void *)(p)))
 #define REALLOC(p, size) ((pointer)realloc((void *)(p), (unsigned long)(size)))
 #else
-extern char *malloc();
-extern void free();
-extern char *realloc();
+char *malloc();
+void free();
+char *realloc();
 #define MALLOC(size) ((pointer)malloc((int)(size)))
 #define FREE(p) (free((char *)(p)))
 #define REALLOC(p, size) ((pointer)realloc((char *)(p), (int)(size)))
@@ -41,11 +41,11 @@ extern char *realloc();
 #else
 #if defined(__STDC__)
 
-extern char *sbrk(int);
+char *sbrk(int);
 
 #define SBRK(size) ((pointer)sbrk((int)(size)))
 #else
-extern char *sbrk();
+char *sbrk();
 #define SBRK(size) ((pointer)sbrk((int)(size)))
 #endif
 #endif
@@ -55,18 +55,18 @@ extern char *sbrk();
 
 #if defined(__STDC__)
 
-extern void *
+void *
 memcpy(); /* TRS, 6/17/94: removed arg types to suppress warning on mips/gcc */
-/* extern void *memcpy(void *, const void *, unsigned long); */
-extern void *memset();
-/* extern void *memset(void *, int, unsigned long); */
+/* void *memcpy(void *, const void *, unsigned long); */
+void *memset();
+/* void *memset(void *, int, unsigned long); */
 #define MEM_COPY(dest, src, size)                                              \
   (void)memcpy((void *)(dest), (const void *)(src), (unsigned long)(size))
 #define MEM_ZERO(ptr, size)                                                    \
   (void)memset((void *)(ptr), 0, (unsigned long)(size))
 #else
-extern void bcopy();
-extern void bzero();
+void bcopy();
+void bzero();
 #define MEM_COPY(dest, src, size)                                              \
   bcopy((char *)(src), (char *)(dest), (int)(size))
 #define MEM_ZERO(ptr, size) bzero((char *)(ptr), (int)(size))
@@ -105,7 +105,7 @@ typedef struct block_ *block;
 
 #define NICE_BLOCK_SIZE ((SIZE_T)4096 - ROUNDUP(sizeof(struct block_)))
 
-extern void mem_fatal(char *);
+void mem_fatal(char *);
 
 #undef ARGS
 

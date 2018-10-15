@@ -15,11 +15,11 @@
 /*	hash table for partial results*/
 st_table *misc_table;
 
-/*extern ACT_VERTEX_PTR p_dagCopy();
-extern ACT_VERTEX_PTR p_dagComplement();
-extern void applyCreate();
-extern void actDestroy();
-extern void actCreate4Set();*/
+/*ACT_VERTEX_PTR p_dagCopy();
+ACT_VERTEX_PTR p_dagComplement();
+void applyCreate();
+void actDestroy();
+void actCreate4Set();*/
 
 void p_act_node_free(node_t *node) { p_actDestroy(&ACT_SET(node)->GLOBAL_ACT, 0); }
 

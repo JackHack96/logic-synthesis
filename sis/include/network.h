@@ -51,145 +51,145 @@ struct network_struct {
 #define foreach_latch(network, gen, l) lsForeachItem((network)->latch, gen, l)
 #endif /* SIS */
 
-extern network_t *network_alloc(void);
+network_t *network_alloc(void);
 
-extern void network_free(network_t *);
+void network_free(network_t *);
 
-extern network_t *network_dup(network_t *);
+network_t *network_dup(network_t *);
 
-extern network_t *network_create_from_node(node_t *);
+network_t *network_create_from_node(node_t *);
 
-extern network_t *network_from_nodevec(array_t *);
+network_t *network_from_nodevec(array_t *);
 
-extern char *network_name(network_t *);
+char *network_name(network_t *);
 
-extern void network_set_name(network_t *, char *);
+void network_set_name(network_t *, char *);
 
-extern int network_num_pi(network_t *);
+int network_num_pi(network_t *);
 
-extern int network_num_po(network_t *);
+int network_num_po(network_t *);
 
-extern int network_num_internal(network_t *);
+int network_num_internal(network_t *);
 
-extern node_t *network_get_pi(network_t *, int);
+node_t *network_get_pi(network_t *, int);
 
-extern node_t *network_get_po(network_t *, int);
+node_t *network_get_po(network_t *, int);
 
-extern void network_add_node(network_t *, node_t *);
+void network_add_node(network_t *, node_t *);
 
-extern void network_add_primary_input(network_t *, node_t *);
+void network_add_primary_input(network_t *, node_t *);
 
-extern node_t *network_add_primary_output(network_t *, node_t *);
+node_t *network_add_primary_output(network_t *, node_t *);
 
-extern void network_delete_node(network_t *, node_t *);
+void network_delete_node(network_t *, node_t *);
 
-extern void network_delete_node_gen(network_t *, lsGen);
+void network_delete_node_gen(network_t *, lsGen);
 
-extern node_t *network_find_node(network_t *, char *);
+node_t *network_find_node(network_t *, char *);
 
-extern void network_change_node_type(network_t *, node_t *,
+void network_change_node_type(network_t *, node_t *,
                                      enum node_type_enum);
 
-extern void network_change_node_name(network_t *, node_t *, char *);
+void network_change_node_name(network_t *, node_t *, char *);
 
-extern int network_check(network_t *);
+int network_check(network_t *);
 
-extern int network_is_acyclic(network_t *);
+int network_is_acyclic(network_t *);
 
-extern int network_collapse(network_t *);
+int network_collapse(network_t *);
 
-extern int network_sweep(network_t *);
+int network_sweep(network_t *);
 
-extern int network_csweep(network_t *);
+int network_csweep(network_t *);
 
-extern int network_cleanup(network_t *);
+int network_cleanup(network_t *);
 
-extern int network_ccleanup(network_t *);
+int network_ccleanup(network_t *);
 
-extern network_t *network_espresso(network_t *);
+network_t *network_espresso(network_t *);
 
-extern array_t *network_dfs(network_t *);
+array_t *network_dfs(network_t *);
 
 #ifdef SIS
 
-extern array_t *network_special_dfs(network_t *);
+array_t *network_special_dfs(network_t *);
 
 #endif /* SIS */
 
-extern array_t *network_dfs_from_input(network_t *);
+array_t *network_dfs_from_input(network_t *);
 
-extern array_t *network_tfi(node_t *, int);
+array_t *network_tfi(node_t *, int);
 
-extern array_t *network_tfo(node_t *, int);
+array_t *network_tfo(node_t *, int);
 
-extern int network_append(network_t *, network_t *);
+int network_append(network_t *, network_t *);
 
-extern pPLA espresso_read_pla(FILE *);
+pPLA espresso_read_pla(FILE *);
 
-extern void discard_pla(pPLA);
+void discard_pla(pPLA);
 
-extern pPLA network_to_pla(network_t *);
+pPLA network_to_pla(network_t *);
 
-extern network_t *pla_to_network(pPLA);
+network_t *pla_to_network(pPLA);
 
-extern network_t *pla_to_network_single(pPLA);
+network_t *pla_to_network_single(pPLA);
 
-extern network_t *pla_to_dcnetwork_single(pPLA);
+network_t *pla_to_dcnetwork_single(pPLA);
 
-extern void network_reset_long_name(network_t *);
+void network_reset_long_name(network_t *);
 
-extern void network_reset_short_name(network_t *);
+void network_reset_short_name(network_t *);
 
-extern void network_swap_names(network_t *, node_t *, node_t *);
+void network_swap_names(network_t *, node_t *, node_t *);
 
 #ifdef SIS
 
-extern void copy_latch_info(lsList, lsList, st_table *);
+void copy_latch_info(lsList, lsList, st_table *);
 
 /* network_create_latch, network_delete_latch declared in latch.h */
-extern node_t *network_latch_end(node_t *);
+node_t *network_latch_end(node_t *);
 
-extern void network_disconnect(node_t *, node_t *, node_t **, node_t **);
+void network_disconnect(node_t *, node_t *, node_t **, node_t **);
 
-extern void network_connect(node_t *, node_t *);
+void network_connect(node_t *, node_t *);
 
-extern st_table *snetwork_tfi_po(network_t *);
+st_table *snetwork_tfi_po(network_t *);
 
 #define network_num_latch(n) lsLength((n)->latch)
 
-extern graph_t *network_stg(network_t *);
+graph_t *network_stg(network_t *);
 
-extern void network_set_stg(network_t *, graph_t *);
+void network_set_stg(network_t *, graph_t *);
 
-extern int network_stg_check(network_t *);
+int network_stg_check(network_t *);
 
-extern int network_is_real_po(network_t *, node_t *);
+int network_is_real_po(network_t *, node_t *);
 
-extern int network_is_real_pi(network_t *, node_t *);
+int network_is_real_pi(network_t *, node_t *);
 
-extern int network_is_control(network_t *, node_t *);
+int network_is_control(network_t *, node_t *);
 
-extern node_t *network_get_control(network_t *, node_t *);
+node_t *network_get_control(network_t *, node_t *);
 
-extern node_t *network_add_fake_primary_output(network_t *, node_t *);
+node_t *network_add_fake_primary_output(network_t *, node_t *);
 
-extern void network_replace_io_fake_names(network_t *);
+void network_replace_io_fake_names(network_t *);
 
 #endif /* SIS */
 
 /* network_bdd_list, network_add_bdd declared in bdd.h	*/
 
-extern int network_verify(network_t *, network_t *, int);
+int network_verify(network_t *, network_t *, int);
 
-extern int net_verify_with_dc(network_t *, network_t *, int, int);
+int net_verify_with_dc(network_t *, network_t *, int, int);
 
-extern network_t *network_dc_network(network_t *);
+network_t *network_dc_network(network_t *);
 
-extern st_table *attach_dcnetwork_to_network(network_t *);
+st_table *attach_dcnetwork_to_network(network_t *);
 
-extern node_t *find_ex_dc(node_t *, st_table *);
+node_t *find_ex_dc(node_t *, st_table *);
 
-extern network_t *or_net_dcnet(network_t *);
+network_t *or_net_dcnet(network_t *);
 
 int init_network(void);
 

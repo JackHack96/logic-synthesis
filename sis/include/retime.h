@@ -117,62 +117,62 @@ struct re_latch_t {
        index++)
 
 /* export functions */
-extern int retime_is_network_retimable(network_t *);
+int retime_is_network_retimable(network_t *);
 
-extern re_graph *retime_network_to_graph(network_t *, int, int);
+re_graph *retime_network_to_graph(network_t *, int, int);
 
-extern int retime_graph(network_t *, re_graph *, double, double, double, double,
+int retime_graph(network_t *, re_graph *, double, double, double, double,
                         double *, int, int, int, int *);
 
-extern int retime_graph_interface(re_graph *, double, double, double, double,
+int retime_graph_interface(re_graph *, double, double, double, double,
                                   double *);
 
-extern network_t *retime_graph_to_network(re_graph *, int);
+network_t *retime_graph_to_network(re_graph *, int);
 
-extern void re_graph_free(re_graph *);
+void re_graph_free(re_graph *);
 
-extern re_graph *re_graph_dup(re_graph *);
+re_graph *re_graph_dup(re_graph *);
 
-extern re_graph *re_graph_alloc(void);
+re_graph *re_graph_alloc(void);
 
-extern re_node *re_get_node(re_graph *, int);
+re_node *re_get_node(re_graph *, int);
 
-extern re_edge *re_get_edge(re_graph *, int);
+re_edge *re_get_edge(re_graph *, int);
 
-extern re_node *re_get_primary_input(re_graph *, int);
+re_node *re_get_primary_input(re_graph *, int);
 
-extern re_node *re_get_primary_output(re_graph *, int);
+re_node *re_get_primary_output(re_graph *, int);
 
-extern re_edge *re_get_fanin(re_node *, int);
+re_edge *re_get_fanin(re_node *, int);
 
-extern re_edge *re_get_fanout(re_node *, int);
+re_edge *re_get_fanout(re_node *, int);
 
-extern re_edge *re_create_edge(re_graph *, re_node *, re_node *, int, int,
+re_edge *re_create_edge(re_graph *, re_node *, re_node *, int, int,
                                double);
 
-extern int re_min_fanin_weight(re_node *);
+int re_min_fanin_weight(re_node *);
 
-extern int re_min_fanout_weight(re_node *);
+int re_min_fanout_weight(re_node *);
 
-extern int re_max_fanin_weight(re_node *);
+int re_max_fanin_weight(re_node *);
 
-extern int re_max_fanout_weight(re_node *);
+int re_max_fanout_weight(re_node *);
 
-extern int re_sum_of_edge_weight(re_graph *);
+int re_sum_of_edge_weight(re_graph *);
 
-extern int re_effective_sum_edge_weight(re_graph *);
+int re_effective_sum_edge_weight(re_graph *);
 
-extern double re_sum_node_area(re_graph *);
+double re_sum_node_area(re_graph *);
 
-extern double re_total_area(re_graph *, double);
+double re_total_area(re_graph *, double);
 
-extern double re_cycle_delay(re_graph *, double);
+double re_cycle_delay(re_graph *, double);
 
-extern int re_node_retimable(re_node *);
+int re_node_retimable(re_node *);
 
-extern int re_node_forward_retimable(re_node *);
+int re_node_forward_retimable(re_node *);
 
-extern int re_node_backward_retimable(re_node *);
+int re_node_backward_retimable(re_node *);
 
 int init_retime();
 

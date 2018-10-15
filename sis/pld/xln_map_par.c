@@ -22,9 +22,9 @@
 #include "pld_int.h"
 #include "sis.h"
 
-extern sm_row *sm_mat_bin_minimum_cover();
+sm_row *sm_mat_bin_minimum_cover();
 
-extern sm_row *sm_mat_minimum_cover();
+sm_row *sm_mat_minimum_cover();
 
 mf_graph_t  *pld_nishiza_graph;       /* a graph (flow network) */
 network_t   *pld_nishiza_network;      /* network we are working on */
@@ -591,7 +591,7 @@ network_t *partial_collapse(array_t *sink_array, array_t *sepset_array) {
 }
 
 /*
- extern void partition_network();
+ void partition_network();
  *  partition_network()
  *	Partition the given network into universal logic modules
  */

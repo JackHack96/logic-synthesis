@@ -1,7 +1,7 @@
 
 #include "sis.h"
 
-extern pset_family node_sf_adjust();
+pset_family node_sf_adjust();
 
 PLA_t *network_to_pla(network_t *network_1) {
     PLA_t         *PLA;

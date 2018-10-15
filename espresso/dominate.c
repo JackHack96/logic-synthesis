@@ -1,5 +1,5 @@
 
-#include "inc/mincov_int.h"
+#include "mincov.h"
 
 int sm_row_dominance(A) sm_matrix *A;
 {

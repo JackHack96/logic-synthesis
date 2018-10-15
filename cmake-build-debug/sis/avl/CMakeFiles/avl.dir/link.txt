@@ -1,0 +1,2 @@
+/usr/bin/ar qc libavl.a  CMakeFiles/avl.dir/avl.c.o
+/usr/bin/ranlib libavl.a

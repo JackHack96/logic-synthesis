@@ -72,130 +72,130 @@ typedef struct act_ite_cost_struct_defn {
 #define ACT_ITE_act(node) (ACT_ITE_SLOT(node)->act)
 #define ACT_ITE_will_ite(node) (ACT_ITE_SLOT(node)->will_ite)
 /* ite_map.c */
-extern int            act_is_or_used;
-extern int            ACT_ITE_DEBUG;
-extern ite_vertex_ptr PRESENT_ITE;
-extern ACT_VERTEX_PTR PRESENT_ACT;
+int            act_is_or_used;
+int            ACT_ITE_DEBUG;
+ite_vertex_ptr PRESENT_ITE;
+ACT_VERTEX_PTR PRESENT_ACT;
 
 /* #ifndef
 #define MAXINT 10000000
 #endif
 */  /* Feb 8, 1992 - defined in pld_int.h */
-extern int act_map_ite();
+int act_map_ite();
 
-extern act_ite_map_network_with_iter();
+void act_ite_map_network_with_iter(network_t *network, act_init_param_t *init_param);
 
 /* com_ite.c */
-extern void act_ite_alloc();
+void act_ite_alloc();
 
-extern void act_ite_free();
+void act_ite_free();
 
-extern int ACT_ITE_DEBUG;
-extern int ACT_ITE_STATISTICS;
-extern int ACT_BDD_NEW;
-extern int USE_FAC_WHEN_UNATE; /* only used when V >= 0, and new mapper */
-extern int ACT_ITE_ALPHA;      /* for binateness of the variable */
-extern int ACT_ITE_GAMMA;      /* for binateness of the resulting functions */
-extern int UNATE_SELECT;       /* if 1, then apply max column cover for unate
+int ACT_ITE_DEBUG;
+int ACT_ITE_STATISTICS;
+int ACT_BDD_NEW;
+int USE_FAC_WHEN_UNATE; /* only used when V >= 0, and new mapper */
+int ACT_ITE_ALPHA;      /* for binateness of the variable */
+int ACT_ITE_GAMMA;      /* for binateness of the resulting functions */
+int UNATE_SELECT;       /* if 1, then apply max column cover for unate
                                   functions for m = 1 */
 
 /* ite_urp.c */
-extern ite_vertex *ite_literal();
+ite_vertex *ite_literal();
 
-extern ite_vertex *my_shannon_ite();
+ite_vertex *my_shannon_ite();
 
-extern void ite_split_F();
+void ite_split_F();
 
-extern st_table *ite_end_table;
-extern int      ACT_ITE_FIND_KERNEL;
+st_table *ite_end_table;
+int      ACT_ITE_FIND_KERNEL;
 
 /* act_ite.c */
-extern node_t *act_make_node_from_row();
+node_t *act_make_node_from_row();
 
-extern ite_vertex *ite_OR_itevec();
+ite_vertex *ite_OR_itevec();
 
 /* ite_leaf.c */
-extern ite_vertex *ite_check_for_single_literal_cubes();
+ite_vertex *ite_check_for_single_literal_cubes();
 
 /* ite_util.c */
 /*
-extern node_t *pld_remap_get_node();
+node_t *pld_remap_get_node();
 */ /* pld_int.h */
-extern node_t *ite_get_node_literal_of_vertex();
+node_t *ite_get_node_literal_of_vertex();
 
-extern st_table *ite_my_traverse_ite();
+st_table *ite_my_traverse_ite();
 
 /* ite_break.c */
-extern node_t *act_ite_get_function();
+node_t *act_ite_get_function();
 
-extern node_t *act_new_act_get_function();
+node_t *act_new_act_get_function();
 
 /* ite_new_urp.c */
-extern ite_vertex *ite_for_muxnode();
+ite_vertex *ite_for_muxnode();
 
-extern ite_vertex *ite_buffer();
+ite_vertex *ite_buffer();
 
-extern ite_vertex *ite_inv();
+ite_vertex *ite_inv();
 
-extern ite_vertex *ite_get_vertex();
+ite_vertex *ite_get_vertex();
 
-extern ite_vertex *ite_new_OR();
+ite_vertex *ite_new_OR();
 
-extern ite_vertex *ite_new_OR_with_inv();
+ite_vertex *ite_new_OR_with_inv();
 
-extern ite_vertex *ite_create_ite_for_orthogonal_cubes();
+ite_vertex *ite_create_ite_for_orthogonal_cubes();
 
-extern ite_vertex *ite_new_ite_for_unate_cover();
+ite_vertex *ite_new_ite_for_unate_cover();
 
-extern ite_vertex *ite_convert_match_to_ite();
+ite_vertex *ite_convert_match_to_ite();
 
-extern node_t *node_most_binate_variable();
+node_t *node_most_binate_variable();
 
-extern node_t *node_most_binate_variable_new();
+node_t *node_most_binate_variable_new();
 
-extern node_t *ite_get_minimum_cost_variable();
+node_t *ite_get_minimum_cost_variable();
 
-extern ite_vertex *ite_new_literal();
+ite_vertex *ite_new_literal();
 
 /* act_ite_new.c */
-extern ite_vertex *ite_new_ite_for_cubenode();
+ite_vertex *ite_new_ite_for_cubenode();
 
-extern ite_vertex *ite_new_ite_for_single_literal_cubes();
+ite_vertex *ite_new_ite_for_single_literal_cubes();
 
-extern ite_vertex *ite_new_ite_and();
+ite_vertex *ite_new_ite_and();
 
-extern ite_vertex *ite_new_ite_or();
+ite_vertex *ite_new_ite_or();
 
 /* ite_new_map.c */
-extern act_ite_map_node_with_iter_imp();
+act_ite_map_node_with_iter_imp();
 
 /* ite_new_bdd.c */
-extern network_t *act_map_using_new_bdd();
+network_t *act_map_using_new_bdd();
 
 /* ite_factor.c */
-extern ite_vertex *act_ite_create_from_factored_form();
+ite_vertex *act_ite_create_from_factored_form();
 
-extern ite_vertex *act_ite_factored_and();
+ite_vertex *act_ite_factored_and();
 
-extern ite_vertex *act_ite_factored_or();
+ite_vertex *act_ite_factored_or();
 
-extern ite_vertex *act_ite_get_ite();
+ite_vertex *act_ite_get_ite();
 
 /*---------------------------- my file ends ----------------------------*/
 
 #define ite_slot (ACT_ITE_COST_STRUCT *)ite
 #define ite_get(node) ((ite_vertex_ptr)(ACT_ITE_SLOT(node)->will_ite))
 
-extern void ite_clear_dag();
+void ite_clear_dag();
 
-extern ite_vertex *ite_alloc();
+ite_vertex *ite_alloc();
 
-extern void ite_print_dag();
+void ite_print_dag();
 
-extern void ite_print_out();
+void ite_print_out();
 
-extern void ite_assgn_num();
+void ite_assgn_num();
 
-extern void ite_print();
+void ite_print();
 
 #endif

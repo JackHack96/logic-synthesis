@@ -26,8 +26,8 @@ struct sp_2c_kernel_info {
     speed_global_t *globals; /* Reference to all the global information */
 };
 
-extern void node_evaluate();        /* Part of speed_net.c */
-extern node_t *fx_2c_kernel_best(); /* Part of gen_2c_kernel.c */
+void node_evaluate();        /* Part of speed_net.c */
+node_t *fx_2c_kernel_best(); /* Part of gen_2c_kernel.c */
 static int sp_eval_2c_kernel();
 
 int twocube_timeout_occured =

@@ -590,7 +590,7 @@ static char *octio_clock_name(clock, short_flag) sis_clock_t *clock;
 int short_flag;
 {
   node_t *node;
-  extern char *io_name(); /* Should be in io.h */
+  char *io_name(); /* Should be in io.h */
 
   node = network_find_node(clock->network, clock_name(clock));
   assert(node != NIL(node_t));

@@ -7,7 +7,7 @@
 #ifndef MINIMIZE_H
 #define MINIMIZE_H
 
-extern pcover minimize(pcover, pcover, int);
+pcover minimize(pcover, pcover, int);
 
 #endif
 #endif

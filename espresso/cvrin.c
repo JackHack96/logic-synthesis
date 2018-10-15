@@ -5,7 +5,7 @@
 */
 
 #include "../utility/utility.h"
-#include "inc/espresso.h"
+#include "espresso.h"
 
 static bool line_length_error;
 static int lineno;

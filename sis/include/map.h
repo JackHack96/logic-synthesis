@@ -9,13 +9,13 @@
 
 typedef void (*VoidFn)();
 
-extern network_t *map_network(network_t *, library_t *, double, int, int);
+network_t *map_network(network_t *, library_t *, double, int, int);
 
-extern void map_add_inverter(network_t *, int);
+void map_add_inverter(network_t *, int);
 
-extern void map_remove_inverter(network_t *, void (*)());
+void map_remove_inverter(network_t *, void (*)());
 
-extern void map_network_dup(network_t *);
+void map_network_dup(network_t *);
 
 int init_map();
 

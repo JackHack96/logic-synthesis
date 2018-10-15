@@ -1,7 +1,7 @@
 #include "enc_int.h"
 #include "sis.h"
 
-extern bool enc_debug;
+bool enc_debug;
 
 static void cnf_array_free();
 

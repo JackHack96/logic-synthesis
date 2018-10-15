@@ -12,10 +12,10 @@ typedef struct two_key_defn {
     int field2;
 }        TWO_KEY, *TWO_KEY_PTR;
 
-/*extern ACT_VERTEX_PTR applyStep();
-extern int two_cmp();
-extern int two_hash();
-extern enum st_retval applyCleanUp();*/
+/*ACT_VERTEX_PTR applyStep();
+int two_cmp();
+int two_hash();
+enum st_retval applyCleanUp();*/
 
 ACT_VERTEX_PTR apply(ACT_VERTEX_PTR v1, ACT_VERTEX_PTR v2, int op) {
     ACT_VERTEX_PTR u, actReduce(), applyStep();

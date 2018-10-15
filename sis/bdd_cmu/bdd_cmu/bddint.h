@@ -39,7 +39,7 @@ typedef struct hash_table_ *hash_table;
 /* >>> BDD data structures */
 
 #if !defined(POWER_OF_2_SIZES)
-extern long bdd_primes[];
+long bdd_primes[];
 #endif
 
 /* Pointer tagging stuff */
@@ -535,83 +535,83 @@ struct bdd_manager_ {
 
 /* Internal BDD routines */
 
-extern int bdd_check_arguments(int, ...);
+int bdd_check_arguments(int, ...);
 
-extern void bdd_check_array(bdd *);
+void bdd_check_array(bdd *);
 
-extern bdd bdd_make_external(bdd);
+bdd bdd_make_external(bdd);
 
-extern int cmu_bdd_type_aux(cmu_bdd_manager, bdd);
+int cmu_bdd_type_aux(cmu_bdd_manager, bdd);
 
-extern void bdd_rehash_var_table(var_table, int);
+void bdd_rehash_var_table(var_table, int);
 
-extern bdd bdd_find_aux(cmu_bdd_manager, bdd_indexindex_type, INT_PTR, INT_PTR);
+bdd bdd_find_aux(cmu_bdd_manager, bdd_indexindex_type, INT_PTR, INT_PTR);
 
-extern bdd cmu_bdd_ite_step(cmu_bdd_manager, bdd, bdd, bdd);
+bdd cmu_bdd_ite_step(cmu_bdd_manager, bdd, bdd, bdd);
 
-extern bdd cmu_bdd_exists_temp(cmu_bdd_manager, bdd, long);
+bdd cmu_bdd_exists_temp(cmu_bdd_manager, bdd, long);
 
-extern bdd cmu_bdd_compose_temp(cmu_bdd_manager, bdd, bdd, bdd);
+bdd cmu_bdd_compose_temp(cmu_bdd_manager, bdd, bdd, bdd);
 
-extern bdd cmu_bdd_substitute_step(cmu_bdd_manager, bdd, long,
+bdd cmu_bdd_substitute_step(cmu_bdd_manager, bdd, long,
                                    bdd (*)(cmu_bdd_manager, bdd, bdd, bdd),
                                    var_assoc);
 
-extern bdd cmu_bdd_swap_vars_temp(cmu_bdd_manager, bdd, bdd, bdd);
+bdd cmu_bdd_swap_vars_temp(cmu_bdd_manager, bdd, bdd, bdd);
 
-extern int cmu_bdd_compare_temp(cmu_bdd_manager, bdd, bdd, bdd);
+int cmu_bdd_compare_temp(cmu_bdd_manager, bdd, bdd, bdd);
 
-extern double cmu_bdd_satisfying_fraction_step(cmu_bdd_manager, bdd);
+double cmu_bdd_satisfying_fraction_step(cmu_bdd_manager, bdd);
 
-extern void bdd_mark_shared_nodes(cmu_bdd_manager, bdd);
+void bdd_mark_shared_nodes(cmu_bdd_manager, bdd);
 
-extern void bdd_number_shared_nodes(cmu_bdd_manager, bdd, hash_table, long *);
+void bdd_number_shared_nodes(cmu_bdd_manager, bdd, hash_table, long *);
 
-extern char *
+char *
 bdd_terminal_id(cmu_bdd_manager, bdd,
                 char *(*)(cmu_bdd_manager, INT_PTR, INT_PTR, pointer), pointer);
 
-extern char *bdd_var_name(cmu_bdd_manager, bdd,
+char *bdd_var_name(cmu_bdd_manager, bdd,
                           char *(*)(cmu_bdd_manager, bdd, pointer), pointer);
 
-extern long bdd_find_block(block, long);
+long bdd_find_block(block, long);
 
-extern void bdd_block_delta(block, long);
+void bdd_block_delta(block, long);
 
-extern void cmu_bdd_reorder_aux(cmu_bdd_manager);
+void cmu_bdd_reorder_aux(cmu_bdd_manager);
 
-extern void cmu_mtbdd_terminal_value_aux(cmu_bdd_manager, bdd, INT_PTR *,
+void cmu_mtbdd_terminal_value_aux(cmu_bdd_manager, bdd, INT_PTR *,
                                          INT_PTR *);
 
 /* System cache routines */
 
-extern void bdd_insert_in_cache31(cmu_bdd_manager, int, INT_PTR, INT_PTR,
+void bdd_insert_in_cache31(cmu_bdd_manager, int, INT_PTR, INT_PTR,
                                   INT_PTR, INT_PTR);
 
-extern int bdd_lookup_in_cache31(cmu_bdd_manager, int, INT_PTR, INT_PTR,
+int bdd_lookup_in_cache31(cmu_bdd_manager, int, INT_PTR, INT_PTR,
                                  INT_PTR, INT_PTR *);
 
-extern void bdd_insert_in_cache22(cmu_bdd_manager, int, INT_PTR, INT_PTR,
+void bdd_insert_in_cache22(cmu_bdd_manager, int, INT_PTR, INT_PTR,
                                   INT_PTR, INT_PTR);
 
-extern int bdd_lookup_in_cache22(cmu_bdd_manager, int, INT_PTR, INT_PTR,
+int bdd_lookup_in_cache22(cmu_bdd_manager, int, INT_PTR, INT_PTR,
                                  INT_PTR *, INT_PTR *);
 
-extern void bdd_insert_in_cache13(cmu_bdd_manager, int, INT_PTR, INT_PTR,
+void bdd_insert_in_cache13(cmu_bdd_manager, int, INT_PTR, INT_PTR,
                                   INT_PTR, INT_PTR);
 
-extern int bdd_lookup_in_cache13(cmu_bdd_manager, int, INT_PTR, INT_PTR *,
+int bdd_lookup_in_cache13(cmu_bdd_manager, int, INT_PTR, INT_PTR *,
                                  INT_PTR *, INT_PTR *);
 
-extern void bdd_flush_cache(cmu_bdd_manager,
+void bdd_flush_cache(cmu_bdd_manager,
                             int (*)(cmu_bdd_manager, cache_entry, pointer),
                             pointer);
 
-extern void bdd_purge_cache(cmu_bdd_manager);
+void bdd_purge_cache(cmu_bdd_manager);
 
-extern void bdd_flush_all(cmu_bdd_manager);
+void bdd_flush_all(cmu_bdd_manager);
 
-extern int bdd_cache_functions(cmu_bdd_manager, int,
+int bdd_cache_functions(cmu_bdd_manager, int,
                                int (*)(cmu_bdd_manager, cache_entry),
                                void (*)(cmu_bdd_manager, cache_entry),
                                void (*)(cmu_bdd_manager, cache_entry),
@@ -619,13 +619,13 @@ extern int bdd_cache_functions(cmu_bdd_manager, int,
 
 );
 
-extern void cmu_bdd_free_cache_tag(cmu_bdd_manager, int);
+void cmu_bdd_free_cache_tag(cmu_bdd_manager, int);
 
-extern void bdd_rehash_cache(cmu_bdd_manager, int);
+void bdd_rehash_cache(cmu_bdd_manager, int);
 
-extern void cmu_bdd_init_cache(cmu_bdd_manager);
+void cmu_bdd_init_cache(cmu_bdd_manager);
 
-extern void cmu_bdd_free_cache(cmu_bdd_manager);
+void cmu_bdd_free_cache(cmu_bdd_manager);
 
 #define bdd_insert_in_cache2(bddm, op, f, g, result)                           \
   bdd_insert_in_cache31((bddm), CACHE_TYPE_TWO, (INT_PTR)(op), (INT_PTR)(f),   \
@@ -667,29 +667,29 @@ extern void cmu_bdd_free_cache(cmu_bdd_manager);
 
 /* Unique table routines */
 
-extern void bdd_clear_temps(cmu_bdd_manager);
+void bdd_clear_temps(cmu_bdd_manager);
 
-extern void bdd_sweep_var_table(cmu_bdd_manager, long, int);
+void bdd_sweep_var_table(cmu_bdd_manager, long, int);
 
-extern void bdd_sweep(cmu_bdd_manager);
+void bdd_sweep(cmu_bdd_manager);
 
-extern void bdd_cleanup(cmu_bdd_manager, int);
+void bdd_cleanup(cmu_bdd_manager, int);
 
-extern bdd bdd_find(cmu_bdd_manager, bdd_indexindex_type, bdd, bdd);
+bdd bdd_find(cmu_bdd_manager, bdd_indexindex_type, bdd, bdd);
 
-extern bdd bdd_find_terminal(cmu_bdd_manager, INT_PTR, INT_PTR);
+bdd bdd_find_terminal(cmu_bdd_manager, INT_PTR, INT_PTR);
 
-extern var_table bdd_new_var_table(cmu_bdd_manager);
+var_table bdd_new_var_table(cmu_bdd_manager);
 
-extern void cmu_bdd_init_unique(cmu_bdd_manager);
+void cmu_bdd_init_unique(cmu_bdd_manager);
 
-extern void cmu_bdd_free_unique(cmu_bdd_manager);
+void cmu_bdd_free_unique(cmu_bdd_manager);
 
 /* Error routines */
 
-extern void cmu_bdd_fatal(char *);
+void cmu_bdd_fatal(char *);
 
-extern void cmu_bdd_warning(char *);
+void cmu_bdd_warning(char *);
 
 /* >>> Hash table declarations */
 
@@ -711,13 +711,13 @@ struct hash_table_ {
 
 /* Hash table routines */
 
-extern void bdd_insert_in_hash_table(hash_table, bdd, pointer);
+void bdd_insert_in_hash_table(hash_table, bdd, pointer);
 
-extern pointer bdd_lookup_in_hash_table(hash_table, bdd);
+pointer bdd_lookup_in_hash_table(hash_table, bdd);
 
-extern hash_table bdd_new_hash_table(cmu_bdd_manager, int);
+hash_table bdd_new_hash_table(cmu_bdd_manager, int);
 
-extern void cmu_bdd_free_hash_table(hash_table);
+void cmu_bdd_free_hash_table(hash_table);
 
 #undef ARGS
 

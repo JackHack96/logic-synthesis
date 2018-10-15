@@ -234,128 +234,128 @@ typedef struct {
 } seq_info_t;
 
 /* com_atpg.c */
-extern int com_atpg();
+int com_atpg();
 
 /* com_short_tests.c */
-extern int com_short_tests();
+int com_short_tests();
 
 /* com_redund.c */
-extern int com_redundancy_removal();
-extern int st_fpcmp();
-extern int st_fphash();
+int com_redundancy_removal();
+int st_fpcmp();
+int st_fphash();
 
 /* atpg_clauses.c */
-extern int atpg_network_fault_clauses();
-extern void atpg_node_clause();
-extern void atpg_setup_clause_info();
-extern void atpg_clause_info_free();
-extern void atpg_sat_clause_begin();
-extern void atpg_sat_clause_end();
+int atpg_network_fault_clauses();
+void atpg_node_clause();
+void atpg_setup_clause_info();
+void atpg_clause_info_free();
+void atpg_sat_clause_begin();
+void atpg_sat_clause_end();
 
 /* atpg_util.c */
-extern bool bdd_is_cube();
-extern double tmg_compute_optimal_clock();
-extern void concat_lists();
-extern void create_just_sequence();
-extern void atpg_print_fault();
-extern void atpg_print_vectors();
-extern void atpg_print_some_vectors();
-extern void atpg_print_bdd();
-extern void atpg_print_results();
-extern void atpg_derive_excitation_vector();
-extern int *fanin_dfs_sort();
-extern node_t **sat_fanout_dfs_sort();
-extern sequence_t *derive_test_sequence();
-extern void reset_word_vectors();
-extern void lengthen_word_vectors();
-extern void fillin_word_vectors();
+bool bdd_is_cube();
+double tmg_compute_optimal_clock();
+void concat_lists();
+void create_just_sequence();
+void atpg_print_fault();
+void atpg_print_vectors();
+void atpg_print_some_vectors();
+void atpg_print_bdd();
+void atpg_print_results();
+void atpg_derive_excitation_vector();
+int *fanin_dfs_sort();
+node_t **sat_fanout_dfs_sort();
+sequence_t *derive_test_sequence();
+void reset_word_vectors();
+void lengthen_word_vectors();
+void fillin_word_vectors();
 
 /* atpg_faults.c */
-extern void atpg_gen_faults();
-extern void atpg_gen_node_faults();
-extern fault_t *new_fault();
-extern void free_fault();
+void atpg_gen_faults();
+void atpg_gen_node_faults();
+fault_t *new_fault();
+void free_fault();
 
 /* atpg_faultsim.c */
-extern lsList atpg_seq_single_fault_simulate();
-extern lsList atpg_random_cover();
-extern int random_propagate();
-extern void fault_simulate();
-extern void atpg_simulate_pattern_fault();
-extern int get_min_just_sequence();
-extern void simulate_entire_sequence();
-extern bool atpg_verify_test();
-extern lsList seq_single_sequence_simulate();
-extern void fault_simulate_to_get_final_state();
-extern void atpg_simulate_old_sequences();
-extern void extract_test_sequences();
-extern void reverse_fault_simulate();
-extern void atpg_sf_set_sim_masks();
-extern void atpg_sf_reset_sim_masks();
-extern void atpg_set_sim_masks();
-extern void atpg_reset_sim_masks();
-extern void extract_sequences();
+lsList atpg_seq_single_fault_simulate();
+lsList atpg_random_cover();
+int random_propagate();
+void fault_simulate();
+void atpg_simulate_pattern_fault();
+int get_min_just_sequence();
+void simulate_entire_sequence();
+bool atpg_verify_test();
+lsList seq_single_sequence_simulate();
+void fault_simulate_to_get_final_state();
+void atpg_simulate_old_sequences();
+void extract_test_sequences();
+void reverse_fault_simulate();
+void atpg_sf_set_sim_masks();
+void atpg_sf_reset_sim_masks();
+void atpg_set_sim_masks();
+void atpg_reset_sim_masks();
+void extract_sequences();
 
 /* atpg_init.c */
-extern int set_atpg_options();
-extern atpg_info_t *atpg_info_init();
-extern atpg_ss_info_t *atpg_sim_sat_info_init();
-extern seq_info_t *atpg_seq_info_init();
-extern void atpg_setup_seq_info();
-extern void atpg_product_setup_seq_info();
-extern void atpg_sim_setup();
-extern void atpg_comb_sim_setup();
-extern void atpg_exdc_sim_link();
-extern void atpg_sat_init();
-extern void atpg_sat_node_info_setup();
-extern void print_and_destroy_sequences();
-extern void atpg_sim_unsetup();
-extern void atpg_comb_sim_unsetup();
-extern void atpg_sim_free();
-extern void atpg_sat_free();
-extern void seq_info_free();
-extern void seq_info_product_free();
-extern void atpg_free_info();
+int set_atpg_options();
+atpg_info_t *atpg_info_init();
+atpg_ss_info_t *atpg_sim_sat_info_init();
+seq_info_t *atpg_seq_info_init();
+void atpg_setup_seq_info();
+void atpg_product_setup_seq_info();
+void atpg_sim_setup();
+void atpg_comb_sim_setup();
+void atpg_exdc_sim_link();
+void atpg_sat_init();
+void atpg_sat_node_info_setup();
+void print_and_destroy_sequences();
+void atpg_sim_unsetup();
+void atpg_comb_sim_unsetup();
+void atpg_sim_free();
+void atpg_sat_free();
+void seq_info_free();
+void seq_info_product_free();
+void atpg_free_info();
 
 /* atpg_generate_test.c */
-extern sequence_t *generate_test();
-extern sequence_t *generate_test_using_verification();
+sequence_t *generate_test();
+sequence_t *generate_test_using_verification();
 
 /* atpg_seq.c */
-extern void seq_setup();
-extern void seq_product_setup();
-extern void copy_orig_bdds();
-extern void record_reset_state();
-extern void construct_product_start_states();
-extern bool calculate_reachable_states();
-extern bdd_t *seq_derive_excitation_states();
-extern int seq_reuse_just_sequence();
-extern int seq_state_justify();
-extern int internal_states_seq_state_justify();
-extern int seq_reuse_prop_sequence();
-extern int seq_fault_free_propagate();
-extern int traverse_product_machine();
-extern int good_faulty_PMT();
+void seq_setup();
+void seq_product_setup();
+void copy_orig_bdds();
+void record_reset_state();
+void construct_product_start_states();
+bool calculate_reachable_states();
+bdd_t *seq_derive_excitation_states();
+int seq_reuse_just_sequence();
+int seq_state_justify();
+int internal_states_seq_state_justify();
+int seq_reuse_prop_sequence();
+int seq_fault_free_propagate();
+int traverse_product_machine();
+int good_faulty_PMT();
 
 /* atpg_seq_util.c */
-extern void free_bdds_in_array();
-extern network_t *convert_bdd_to_network();
-extern int convert_bdd_to_int();
-extern int convert_product_bdd_to_key();
-extern bdd_t *convert_state_to_bdd();
-extern st_table *get_pi_to_var_table();
-extern bdd_t *seq_get_one_minterm();
-extern bdd_t *find_good_constraint();
-extern void use_cofactored_set();
-extern void bdd_add_varids_to_table();
-extern bdd_t *convert_states_to_product_bdd();
-extern int derive_prop_key();
-extern int derive_inverted_prop_key();
+void free_bdds_in_array();
+network_t *convert_bdd_to_network();
+int convert_bdd_to_int();
+int convert_product_bdd_to_key();
+bdd_t *convert_state_to_bdd();
+st_table *get_pi_to_var_table();
+bdd_t *seq_get_one_minterm();
+bdd_t *find_good_constraint();
+void use_cofactored_set();
+void bdd_add_varids_to_table();
+bdd_t *convert_states_to_product_bdd();
+int derive_prop_key();
+int derive_inverted_prop_key();
 
 /* atpg_comb.c */
-extern sequence_t *derive_comb_test();
-extern lsList atpg_comb_single_fault_simulate();
-extern void atpg_comb_simulate_old_sequences();
+sequence_t *derive_comb_test();
+lsList atpg_comb_single_fault_simulate();
+void atpg_comb_simulate_old_sequences();
 
 typedef struct {
   int true_id;

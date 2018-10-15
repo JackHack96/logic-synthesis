@@ -241,7 +241,7 @@ bdd_t *bdd_consensus(bdd_t *f, array_t *quantifying_vars) {
     return result;
 }
 
-extern bdd cmu_bdd_project();
+bdd cmu_bdd_project();
 
 /*
  *    bdd_cproject - the compatible projection function

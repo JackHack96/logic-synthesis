@@ -20,7 +20,7 @@ NLIST *_head, *_hend;
 disjoint() {
   register i, j, k, l;
   int num_jt;
-  extern int *c_cover;
+  int *c_cover;
   EDGE *nedge;
   NLIST *start, *advance, *previous, *inp, *list;
   NLIST *install_input();

@@ -27,30 +27,30 @@ typedef struct ft_struct {
     struct ft_struct *same_level;
 }                             ft_t;
 
-extern void factor_recur();
+void factor_recur();
 
-extern node_t *factor_best_literal();
+node_t *factor_best_literal();
 
-extern node_t *factor_quick_kernel();
+node_t *factor_quick_kernel();
 
-extern node_t *factor_best_kernel();
+node_t *factor_best_kernel();
 
-extern void factor_traverse();
+void factor_traverse();
 
-extern void factor_nt_free();
+void factor_nt_free();
 
-extern void value_print();
+void value_print();
 
-extern ft_t *factor_nt_to_ft();
+ft_t *factor_nt_to_ft();
 
-extern void ft_print();
+void ft_print();
 
-extern void set_line_width();
+void set_line_width();
 
-extern void eliminate();
+void eliminate();
 
-extern int value_cmp_inc();
+int value_cmp_inc();
 
-extern int value_cmp_dec();
+int value_cmp_dec();
 
 #endif

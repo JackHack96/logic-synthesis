@@ -291,7 +291,7 @@ void xln_is_just_one_fanin_critical(node_t *fanout, array_t *comp_fanin, int siz
   Using the data structure of delay package, tell if the
   node is critical.
 -------------------------------------------------------*/
-void xln_is_node_critical(node_t *node, double threshold) {
+int xln_is_node_critical(node_t *node, double threshold) {
 
     delay_time_t slack;
     slack = delay_slack_time(node);
@@ -311,14 +311,14 @@ xln_is_node_critical_sophis(node, threshold)
   node_t *node;
   double threshold;
 {
-  extern double pld_get_node_slack();
+  double pld_get_node_slack();
 
   if (pld_get_node_slack(node) <= threshold) return 1;
   return 0;
 }
 */
 
-void xln_num_composite_fanin(node_t *n1, node_t *n2) {
+int xln_num_composite_fanin(node_t *n1, node_t *n2) {
     int    is_n2_fanin_of_n1, is_n1_fanin_of_n2, i;
     int    num_composite_fanin;
     node_t *fanin;

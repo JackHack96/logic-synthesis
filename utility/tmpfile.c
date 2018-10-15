@@ -11,7 +11,7 @@
 
 #ifdef unix
 
-extern char *mktemp();
+char *mktemp();
 
 FILE *util_tmpfile() {
   FILE *fp;

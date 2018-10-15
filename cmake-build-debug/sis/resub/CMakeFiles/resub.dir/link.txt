@@ -1,0 +1,2 @@
+/usr/bin/ar qc libresub.a  CMakeFiles/resub.dir/aresub.c.o CMakeFiles/resub.dir/bresub.c.o CMakeFiles/resub.dir/com_resub.c.o
+/usr/bin/ranlib libresub.a

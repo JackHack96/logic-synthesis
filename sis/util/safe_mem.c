@@ -19,11 +19,11 @@
  *  and exit routine).
  */
 
-extern char *MMalloc();
+char *MMalloc();
 
-extern void MMout_of_memory();
+void MMout_of_memory();
 
-extern char *MMrealloc();
+char *MMrealloc();
 
 void (*MMoutOfMemory)() = MMout_of_memory;
 

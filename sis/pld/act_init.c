@@ -13,7 +13,7 @@
 /*	the init and end routines for the ACT package
  */
 
-/*extern void p_transitiveFree();*/
+/*void p_transitiveFree();*/
 
 end_p_act() {
     int     i;

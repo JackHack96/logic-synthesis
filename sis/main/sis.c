@@ -3,9 +3,9 @@
 
 #include <sys/stat.h>
 
-extern void init_sis();
+void init_sis();
 
-extern void end_sis();
+void end_sis();
 
 static int main_has_restarted = 0;
 static network_t *network; /* allows for restart ... */

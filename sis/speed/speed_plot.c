@@ -41,7 +41,7 @@ do_speed_plot(network_t *network, char *plot_name, double thresh, int path_flag,
     lib_gate_t     *gate;
     speed_global_t speed_param;
     st_table       *weight_table, *clp_table;
-    extern void io_plot_network();
+    void io_plot_network();
 
     if (!com_graphics_enabled())
         return;

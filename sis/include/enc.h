@@ -31,16 +31,16 @@ typedef struct cnf {
 #define MERGE1 1
 #define MERGE2 2
 
-extern pset dic_new();
+pset dic_new();
 
-extern dic_family_t *dic_family_alloc();
+dic_family_t *dic_family_alloc();
 
-extern dic_family_t *gen_uniq();
+dic_family_t *gen_uniq();
 
-extern dic_family_t *gen_eqn();
+dic_family_t *gen_eqn();
 
-extern sm_matrix *dic_to_sm();
+sm_matrix *dic_to_sm();
 
-extern dic_family_t *reduce_seeds();
+dic_family_t *reduce_seeds();
 
 #endif

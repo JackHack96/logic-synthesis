@@ -159,7 +159,7 @@ astg_bool astg_one_sm_token(astg_graph *stg) {
     return found_marking;
 }
 
-extern astg_retval astg_initial_state(astg_graph *stg, astg_scode *state_p) {
+astg_retval astg_initial_state(astg_graph *stg, astg_scode *state_p) {
     /*	Returns the state code and corresponding marking for some initial state
     of the STG.  If a marking has been set with the initial_token flags of
     each place, then that is used, otherwise an arbitrary live-safe marking
@@ -181,7 +181,7 @@ extern astg_retval astg_initial_state(astg_graph *stg, astg_scode *state_p) {
     return status;
 }
 
-extern astg_retval astg_unique_state(astg_graph *stg, astg_scode *state_code) {
+astg_retval astg_unique_state(astg_graph *stg, astg_scode *state_code) {
     /*	Returns an arbitrary unique state code for this STG.  Even if the STG
     has a state assignment problem, a state code will be returned which
     corresponds to a unique marking.  Possible return values:
@@ -244,7 +244,7 @@ astg_retval astg_set_marking_by_code(astg_graph *stg, astg_scode state_code, ast
     return status;
 }
 
-extern astg_retval astg_set_marking_by_name(astg_graph *stg, st_table *sig_values) {
+astg_retval astg_set_marking_by_name(astg_graph *stg, st_table *sig_values) {
     /*	Set the marking using pairs of signal name/value.  The key for the hash
     table is signal name strings, the data is an int which nonzero means
     the signal should have level 1, otherwise 0.  These values are combined

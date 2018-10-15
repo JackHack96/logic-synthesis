@@ -8,7 +8,7 @@
     cube while still maintaining a cover of the same logic function.
 */
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 static bool toggle = TRUE;
 

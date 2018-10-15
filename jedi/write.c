@@ -14,7 +14,7 @@ int write_output();    /* forward declaration */
 int add_dont_cares();  /* forward declaration */
 int check_dont_care(); /* forward declaration */
 
-extern int expand_code();
+int expand_code();
 
 write_output(fptr) FILE *fptr;
 {

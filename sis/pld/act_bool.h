@@ -24,6 +24,6 @@ typedef struct cofc_struct_defn {
   node_t *fanin;
 } COFC_STRUCT;
 
-extern ACT_MATCH *act_is_act_function();
+ACT_MATCH *act_is_act_function();
 
 #endif

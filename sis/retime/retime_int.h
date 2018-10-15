@@ -21,44 +21,44 @@ struct wd_struct {
 };
 
 /* Global variables */
-extern int retime_debug;
+int retime_debug;
 
 /* Extern function declarations */
-extern void re_computeWD();
+void re_computeWD();
 
-extern void retime_dump_graph();
+void retime_dump_graph();
 
-extern void retime_single_node();
+void retime_single_node();
 
-extern void re_graph_add_node();
+void re_graph_add_node();
 
-extern void re_evaluate_delay();
+void re_evaluate_delay();
 
-extern int re_simplx(double **a, int m, int n, int m1, int m2, int m3, int *icase, int izrov[], int iposv[]);
+int re_simplx(double **a, int m, int n, int m1, int m2, int m3, int *icase, int izrov[], int iposv[]);
 
-extern int retime_check_graph();
+int retime_check_graph();
 
-extern int retime_min_register();  /* re_minreg.c */
-extern int retime_nanni_routine(); /* re_nanni.c */
-extern int retime_lies_routine();  /* re_milp.c */
-extern int retime_update_init_states();
+int retime_min_register();  /* re_minreg.c */
+int retime_nanni_routine(); /* re_nanni.c */
+int retime_lies_routine();  /* re_milp.c */
+int retime_update_init_states();
 
-extern int retime_get_dff_info();
+int retime_get_dff_info();
 
-extern int retime_get_clock_data();
+int retime_get_clock_data();
 
-extern node_t *retime_network_latch_end(); /* utility */
-extern double retime_simulate_gate();
+node_t *retime_network_latch_end(); /* utility */
+double retime_simulate_gate();
 
-extern double retime_cycle_lower_bound();
+double retime_cycle_lower_bound();
 
-extern array_t *re_graph_dfs();
+array_t *re_graph_dfs();
 
-extern array_t *re_graph_dfs_from_input();
+array_t *re_graph_dfs_from_input();
 
-extern re_node *retime_alloc_node();
+re_node *retime_alloc_node();
 
-extern re_edge *re_graph_add_edge();
+re_edge *re_graph_add_edge();
 
 #define RETIME_DEFAULT_REG_AREA 1.0  /* Area of a latch */
 #define RETIME_DEFAULT_REG_DELAY 0.0 /* Delay through a latch */

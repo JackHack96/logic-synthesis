@@ -34,8 +34,8 @@ int currentEnumtype; /* states the current type being encoded */
  * external declarations
  */
 double rint();                /* math.h */
-extern char *int_to_binary(); /* util.c */
-extern int binary_to_int();   /* util.c */
+char *int_to_binary(); /* util.c */
+int binary_to_int();   /* util.c */
 
 /*
  * forward declarations

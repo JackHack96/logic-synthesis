@@ -21,24 +21,24 @@
  *
  */
 
-extern library_t *lib_current_library;
+library_t *lib_current_library;
 
-extern int lib_pattern_matches();
+int lib_pattern_matches();
 
-extern int lib_read_blif();
+int lib_read_blif();
 
-extern void lib_free();
+void lib_free();
 
-extern void lib_dump();
+void lib_dump();
 
-extern void lib_dump_class();
+void lib_dump_class();
 
-extern double lib_gate_area();
+double lib_gate_area();
 
-extern lib_gate_t *lib_get_default_inverter();
+lib_gate_t *lib_get_default_inverter();
 
-extern array_t *lib_get_prims_from_class(/* lib_class_t *class */);
+array_t *lib_get_prims_from_class(/* lib_class_t *class */);
 
-extern void lib_dump_gate();
+void lib_dump_gate();
 
 #endif

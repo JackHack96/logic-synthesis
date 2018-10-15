@@ -41,6 +41,6 @@ struct u {
   char *oname; /* output file name */
 };
 
-extern struct u user;
+struct u user;
 
 #define HEU1 1

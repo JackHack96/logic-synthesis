@@ -1301,7 +1301,7 @@ network_t *sp_noalg_opt(network_t *network, sp_xform_t *ti_model, speed_global_t
 /*
  * Do the decomposition based on the timing divisors
  */
-extern int kernel_timeout_occured;
+int kernel_timeout_occured;
 
 static void div_timeout_handler() { kernel_timeout_occured = TRUE; }
 
@@ -1345,7 +1345,7 @@ network_t *sp_divisor_opt(network_t *network, sp_xform_t *ti_model, speed_global
 /*
  * Do a decomposition of the collapsed fn based on 2-cube kernels !!!
  */
-extern int twocube_timeout_occured;
+int twocube_timeout_occured;
 
 static void twocube_timeout_handler() { twocube_timeout_occured = TRUE; }
 
@@ -1690,7 +1690,7 @@ network_t *sp_bypass_opt(network_t *network, sp_xform_t *ti_model, speed_global_
         static ref_count = 0;
         char command[256];
     */
-    extern int do_bypass_transform();
+    int do_bypass_transform();
 
     if (network == NIL(network_t)) {
         return NIL(network_t);

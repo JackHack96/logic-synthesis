@@ -20,22 +20,22 @@ struct heap_struct {
 };
 
 /* heap.c */
-extern heap_entry_t *heap_entry_alloc();
+heap_entry_t *heap_entry_alloc();
 
-extern void heap_entry_free();
+void heap_entry_free();
 
-extern heap_t *heap_alloc();
+heap_t *heap_alloc();
 
-extern void heap_free();
+void heap_free();
 
-extern heap_entry_t *findmax_heap();
+heap_entry_t *findmax_heap();
 
-extern void swap_entry();
+void swap_entry();
 
-extern void resize_heap();
+void resize_heap();
 
-extern void insert_heap();
+void insert_heap();
 
-extern heap_entry_t *deletemax_heap();
+heap_entry_t *deletemax_heap();
 
 #endif

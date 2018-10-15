@@ -10,24 +10,24 @@
 
 int astg_debug_flag = 0; /* global debugging flag	*/
 
-extern char *astg_dup(char *old_astg) {
+char *astg_dup(char *old_astg) {
     /*	Duplicate the network astg slot value. */
     return (char *) astg_duplicate((astg_graph *) old_astg, NULL);
 }
 
-extern void astg_free(char *old_astg) {
+void astg_free(char *old_astg) {
     /*	Free all structures for the given network astg slot. */
     astg_delete((astg_graph *) old_astg);
 }
 
-extern astg_graph *astg_current(network_t *network) {
+astg_graph *astg_current(network_t *network) {
     /*	Return the ASTG corresponding to this network, or NULL if either
     the network pointer is NULL or it has no ASTG. */
 
     return (network == NULL) ? NULL : (astg_graph *) (network->astg);
 }
 
-extern void astg_set_current(network_t **network_p, astg_graph *stg, astg_bool reset) {
+void astg_set_current(network_t **network_p, astg_graph *stg, astg_bool reset) {
     /*	Whenever the astg is changed, call astg_set_current with the indirect
     network pointer, and set reset to ASTG_TRUE if the previous network
     contents should be destroyed, or ASTG_FALSE if the network does
@@ -69,7 +69,7 @@ extern void astg_set_current(network_t **network_p, astg_graph *stg, astg_bool r
     }
 }
 
-extern void astg_usage(char **usage, char *cmd) {
+void astg_usage(char **usage, char *cmd) {
     /*	Print a set of usage strings, replacing the first %s with cmd.  A
     newline is automatically added to each line in usage; you can put
     more for special formatting.  The last element in the usage array

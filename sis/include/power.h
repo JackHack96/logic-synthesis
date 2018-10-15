@@ -34,15 +34,15 @@ typedef struct {
 } power_info_t;
 
 /* Table with switching, capacitance and delay info */
-extern st_table *power_info_table;
+st_table *power_info_table;
 
-extern int power_free_info();  /* power_util.c */
-extern int power_print_info(); /* power_util.c */
+int power_free_info();  /* power_util.c */
+int power_print_info(); /* power_util.c */
 
-extern int power_estimate();    /* power_main.c */
-extern int power_main_driver(); /* power_main.c */
+int power_estimate();    /* power_main.c */
+int power_main_driver(); /* power_main.c */
 
-extern char *power_dummy; /* For use in the following macros */
+char *power_dummy; /* For use in the following macros */
 
 #define SWITCH_PROB(node)                                                      \
   (st_lookup(power_info_table, (char *)(node), &power_dummy)                   \

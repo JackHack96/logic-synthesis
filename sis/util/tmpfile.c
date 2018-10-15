@@ -32,7 +32,7 @@ static char check_directory(char *dir) {
 
 /* function for creating temporary filenames */
 char *util_tempnam(char *dir, char *pfx) {
-  extern char *getenv();
+  char *getenv();
   char *tmpdir = NULL, *env, *filename;
   static char unique_letters[4] = "AAA";
   char addslash = 0;

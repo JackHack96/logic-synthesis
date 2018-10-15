@@ -4,13 +4,13 @@
 
 #include "node.h"
 
-extern int resub_alge_node(node_t *, int);
+int resub_alge_node(node_t *, int);
 
-extern void resub_alge_network(network_t *, int);
+void resub_alge_network(network_t *, int);
 
-extern void resub_bool_node(node_t *);
+void resub_bool_node(node_t *);
 
-extern void resub_bool_network(network_t *);
+void resub_bool_network(network_t *);
 
 int init_resub();
 

@@ -13,7 +13,7 @@ static int read_cover();
 
 static int read_blif_gate();
 
-extern int read_line();
+int read_line();
 
 #ifdef SIS
 
@@ -30,7 +30,7 @@ static int read_blif_code();
 #endif
 
 /* ### hack, reach in and grab this from the node package */
-extern void node_replace_internal();
+void node_replace_internal();
 
 static int print_stuff = 0; /* debugging */
 

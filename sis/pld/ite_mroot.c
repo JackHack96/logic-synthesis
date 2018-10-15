@@ -2,7 +2,7 @@
 #include "pld_int.h"
 #include "sis.h"
 
-extern ite_vertex *PRESENT_ITE;
+ite_vertex *PRESENT_ITE;
 
 /*
  *   This file contains routines to construct a multiple-root ite for the

@@ -88,8 +88,8 @@ typedef int int16;
 #endif /* } */
 
 #if defined(ultrix3) && defined(mips)
-extern double rint();
-extern double trunc();
+double rint();
+double trunc();
 #endif
 
 #if defined(sun) && defined(FD_SETSIZE)
@@ -145,15 +145,15 @@ extern double trunc();
 
 /* Some machines fail to define some functions in stdio.h */
 #if !defined(__STDC__) && !defined(sprite)
-extern FILE *popen(), *tmpfile();
-extern int pclose();
+FILE *popen(), *tmpfile();
+int pclose();
 #ifndef clearerr /* is a macro on many machines, but not all */
-extern VOID_HACK clearerr();
+VOID_HACK clearerr();
 #endif /* clearerr */
 #ifndef _IBMR2
 #ifndef __osf__
 #ifndef rewind
-extern VOID_HACK rewind();
+VOID_HACK rewind();
 #endif /* rewind */
 #endif /* __osf__ */
 #endif /* _IBMR2 */
@@ -169,29 +169,29 @@ extern VOID_HACK rewind();
 #endif             /* __hpux */
 #else
 #ifdef _IBMR2
-extern int abort(), exit();
-extern void free(), perror();
+int abort(), exit();
+void free(), perror();
 #else
-extern VOID_HACK abort(), free(), exit(), perror();
+VOID_HACK abort(), free(), exit(), perror();
 #endif
-extern char *getenv();
+char *getenv();
 #ifdef ultrix4
-extern void *malloc(), *realloc(), *calloc();
+void *malloc(), *realloc(), *calloc();
 #else
-extern char *malloc(), *realloc(), *calloc();
+char *malloc(), *realloc(), *calloc();
 #endif
 #if defined(aiws)
-extern int sprintf();
+int sprintf();
 #else
 #ifndef _IBMR2
-extern char *sprintf();
+char *sprintf();
 #endif
 #endif
-extern int system();
-extern double atof();
-extern long atol();
+int system();
+double atof();
+long atol();
 #ifndef _IBMR2
-extern int sscanf();
+int sscanf();
 #endif
 #endif /* __STDC__ */
 
@@ -205,11 +205,11 @@ extern int sscanf();
 #if defined(ultrix4) || defined(__hpux)
 #include <strings.h>
 #else
-extern char *strcpy(), *strncpy(), *strcat(), *strncat(), *strerror();
-extern char *strpbrk(), *strtok(), *strchr(), *strrchr(), *strstr();
-extern int strcoll(), strxfrm(), strncmp(), strlen(), strspn(), strcspn();
-extern char *memmove(), *memccpy(), *memchr(), *memcpy(), *memset();
-extern int memcmp(), strcmp();
+char *strcpy(), *strncpy(), *strcat(), *strncat(), *strerror();
+char *strpbrk(), *strtok(), *strchr(), *strrchr(), *strstr();
+int strcoll(), strxfrm(), strncmp(), strlen(), strspn(), strcspn();
+char *memmove(), *memccpy(), *memchr(), *memcpy(), *memset();
+int memcmp(), strcmp();
 #endif /* ultrix4 */
 #endif /* __STDC__ */
 
@@ -226,9 +226,9 @@ extern int memcmp(), strcmp();
 #else
 #if !defined(__osf__) && !defined(__CYGWIN__)
 
-extern VOID_HACK srandom();
+VOID_HACK srandom();
 
-extern long random();
+long random();
 
 #endif
 #endif

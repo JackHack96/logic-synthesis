@@ -21,10 +21,10 @@
 #include "oh.h"
 
 #ifdef SIS
-extern void read_change_madeup_name(); /* Should be in io.h */
+void read_change_madeup_name(); /* Should be in io.h */
 static void oct_read_set_latch();
 #endif                                     /* SIS */
-extern node_t *read_find_or_create_node(); /* Should be in io.h */
+node_t *read_find_or_create_node(); /* Should be in io.h */
 
 #define node_oct_name(node) (node)->name
 

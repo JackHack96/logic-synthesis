@@ -90,7 +90,7 @@ int array_resize(array_t *array, int new_size);
 
 char *array_do_data(array_t *array);
 
-extern unsigned int array_global_index;
+unsigned int array_global_index;
 
 /**
  * Allocate and initialize an array of objects of type `type'.

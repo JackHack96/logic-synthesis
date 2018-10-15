@@ -6,7 +6,7 @@
 
 #define MAX_WORD 1024
 
-extern long random();
+long random();
 
 /* ARGSUSED */
 main(argc, argv) char *argv;

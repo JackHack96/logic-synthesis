@@ -92,7 +92,7 @@ static void astg_print_cube(FILE *fp, astg_graph *stg, astg_scode scode, int fr)
     fprintf(fp, " %d\n", fr);
 }
 
-extern void astg_to_blif(FILE *fp, astg_graph *stg, char *latch_type) {
+void astg_to_blif(FILE *fp, astg_graph *stg, char *latch_type) {
     /*	Write a sequential BLIF description of the token flow state graph.
     The network can be read in using read_blif of the SIS io package.
     Primary input and output names are preserved.  In addition, for each
@@ -216,7 +216,7 @@ static node_t *astg_trace_fake_pi(node_t *node) {
     return fake_pi;
 }
 
-extern node_t *astg_find_pi_or_po(network_t *network, char *sig_name, astg_io_enum type) {
+node_t *astg_find_pi_or_po(network_t *network, char *sig_name, astg_io_enum type) {
     /*	Find the primary input or output of the given type for a signal.  This
     assumes the network has a specific structure: any output which is used
     for feedback is connected to the fake PI for the SIS latch.  If no

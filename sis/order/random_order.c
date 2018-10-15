@@ -37,7 +37,7 @@ static int *random_permutation(int seed, int n_elts) {
     int n_entries;
     /* Declaration for random shouldn't be necessary (pick up from util.h). */
     /* Declaring it here breaks hpux. */
-    /* extern long random(); */
+    /* long random(); */
 
     if (n_elts <= 0)
         return NIL(int);

@@ -305,7 +305,7 @@ typedef struct set_family {
 #endif
 
 /* Table for efficient bit counting */
-extern int bit_count[256];
+int bit_count[256];
 /*----- END OF set.h ----- */
 
 /* Define a boolean type */
@@ -496,29 +496,29 @@ typedef struct {
  *    Global Variable Declarations
  */
 
-extern unsigned int debug;           /* debug parameter */
-extern bool verbose_debug;           /* -v:  whether to print a lot */
-extern char *total_name[TIME_COUNT]; /* basic function names */
-extern long total_time[TIME_COUNT];  /* time spent in basic fcts */
-extern int total_calls[TIME_COUNT];  /* # calls to each fct */
+unsigned int debug;           /* debug parameter */
+bool verbose_debug;           /* -v:  whether to print a lot */
+char *total_name[TIME_COUNT]; /* basic function names */
+long total_time[TIME_COUNT];  /* time spent in basic fcts */
+int total_calls[TIME_COUNT];  /* # calls to each fct */
 
-extern bool echo_comments;         /* turned off by -eat option */
-extern bool echo_unknown_commands; /* always true ?? */
-extern bool force_irredundant;     /* -nirr command line option */
-extern bool skip_make_sparse;
-extern bool kiss;                     /* -kiss command line option */
-extern bool pos;                      /* -pos command line option */
-extern bool print_solution;           /* -x command line option */
-extern bool recompute_onset;          /* -onset command line option */
-extern bool remove_essential;         /* -ness command line option */
-extern bool single_expand;            /* -fast command line option */
-extern bool summary;                  /* -s command line option */
-extern bool trace;                    /* -t command line option */
-extern bool unwrap_onset;             /* -nunwrap command line option */
-extern bool use_random_order;         /* -random command line option */
-extern bool use_super_gasp;           /* -strong command line option */
-extern char *filename;                /* filename PLA was read from */
-extern bool debug_exact_minimization; /* dumps info for -do exact */
+bool echo_comments;         /* turned off by -eat option */
+bool echo_unknown_commands; /* always true ?? */
+bool force_irredundant;     /* -nirr command line option */
+bool skip_make_sparse;
+bool kiss;                     /* -kiss command line option */
+bool pos;                      /* -pos command line option */
+bool print_solution;           /* -x command line option */
+bool recompute_onset;          /* -onset command line option */
+bool remove_essential;         /* -ness command line option */
+bool single_expand;            /* -fast command line option */
+bool summary;                  /* -s command line option */
+bool trace;                    /* -t command line option */
+bool unwrap_onset;             /* -nunwrap command line option */
+bool use_random_order;         /* -random command line option */
+bool use_super_gasp;           /* -strong command line option */
+char *filename;                /* filename PLA was read from */
+bool debug_exact_minimization; /* dumps info for -do exact */
 
 /*
  *  pla_types are the input and output types for reading/writing a PLA
@@ -568,9 +568,9 @@ struct cdata_struct {
   int best;          /* best "binate" variable */
 };
 
-extern struct pla_types_struct pla_types[];
-extern struct cube_struct cube, temp_cube_save;
-extern struct cdata_struct cdata, temp_cdata_save;
+struct pla_types_struct pla_types[];
+struct cube_struct cube, temp_cube_save;
+struct cdata_struct cdata, temp_cdata_save;
 
 #ifdef lint
 #define DISJOINT 0x5555
@@ -586,525 +586,525 @@ extern struct cdata_struct cdata, temp_cdata_save;
 
 typedef int (*ESP_PFI)();
 
-/* cofactor.c */ extern int binate_split_select(pcube *, pcube, pcube, int);
+/* cofactor.c */ int binate_split_select(pcube *, pcube, pcube, int);
 
-/* cofactor.c */ extern pcover cubeunlist(pcube *);
+/* cofactor.c */ pcover cubeunlist(pcube *);
 
-/* cofactor.c */ extern pcube *cofactor(pcube *, pcube);
+/* cofactor.c */ pcube *cofactor(pcube *, pcube);
 
-/* cofactor.c */ extern pcube *cube1list(pcover);
+/* cofactor.c */ pcube *cube1list(pcover);
 
-/* cofactor.c */ extern pcube *cube2list(pcover, pcover);
+/* cofactor.c */ pcube *cube2list(pcover, pcover);
 
-/* cofactor.c */ extern pcube *cube3list(pcover, pcover, pcover);
+/* cofactor.c */ pcube *cube3list(pcover, pcover, pcover);
 
-/* cofactor.c */ extern pcube *scofactor(pcube *, pcube, int);
+/* cofactor.c */ pcube *scofactor(pcube *, pcube, int);
 
-/* cofactor.c */ extern void massive_count(pcube *);
+/* cofactor.c */ void massive_count(pcube *);
 
-/* compl.c */ extern pcover complement(pcube *);
+/* compl.c */ pcover complement(pcube *);
 
-/* compl.c */ extern pcover simplify(pcube *);
+/* compl.c */ pcover simplify(pcube *);
 
-/* compl.c */ extern void simp_comp(pcube *, pcover *, pcover *);
+/* compl.c */ void simp_comp(pcube *, pcover *, pcover *);
 
-/* contain.c */ extern int d1_rm_equal(pset *, ESP_PFI);
+/* contain.c */ int d1_rm_equal(pset *, ESP_PFI);
 
-/* contain.c */ extern int rm2_contain(pset *, pset *);
+/* contain.c */ int rm2_contain(pset *, pset *);
 
-/* contain.c */ extern int rm2_equal(pset *, pset *, pset *, ESP_PFI);
+/* contain.c */ int rm2_equal(pset *, pset *, pset *, ESP_PFI);
 
-/* contain.c */ extern int rm_contain(pset *);
+/* contain.c */ int rm_contain(pset *);
 
-/* contain.c */ extern int rm_equal(pset *, ESP_PFI);
+/* contain.c */ int rm_equal(pset *, ESP_PFI);
 
-/* contain.c */ extern int rm_rev_contain(pset *);
+/* contain.c */ int rm_rev_contain(pset *);
 
-/* contain.c */ extern pset *sf_list(pset_family);
+/* contain.c */ pset *sf_list(pset_family);
 
-/* contain.c */ extern pset *sf_sort(pset_family, ESP_PFI);
+/* contain.c */ pset *sf_sort(pset_family, ESP_PFI);
 
-/* contain.c */ extern pset_family d1merge(pset_family, int);
+/* contain.c */ pset_family d1merge(pset_family, int);
 
-/* contain.c */ extern pset_family dist_merge(pset_family, pset);
+/* contain.c */ pset_family dist_merge(pset_family, pset);
 
-/* contain.c */ extern pset_family sf_contain(pset_family);
+/* contain.c */ pset_family sf_contain(pset_family);
 
-/* contain.c */ extern pset_family sf_dupl(pset_family);
+/* contain.c */ pset_family sf_dupl(pset_family);
 
-/* contain.c */ extern pset_family sf_ind_contain(pset_family, int *);
+/* contain.c */ pset_family sf_ind_contain(pset_family, int *);
 
-/* contain.c */ extern pset_family sf_ind_unlist(pset *, int, int, int *, pset);
+/* contain.c */ pset_family sf_ind_unlist(pset *, int, int, int *, pset);
 
-/* contain.c */ extern pset_family sf_merge(pset *, pset *, pset *, int, int);
+/* contain.c */ pset_family sf_merge(pset *, pset *, pset *, int, int);
 
-/* contain.c */ extern pset_family sf_rev_contain(pset_family);
+/* contain.c */ pset_family sf_rev_contain(pset_family);
 
-/* contain.c */ extern pset_family sf_union(pset_family, pset_family);
+/* contain.c */ pset_family sf_union(pset_family, pset_family);
 
-/* contain.c */ extern pset_family sf_unlist(pset *, int, int);
+/* contain.c */ pset_family sf_unlist(pset *, int, int);
 
-/* cubestr.c */ extern void cube_setup();
+/* cubestr.c */ void cube_setup();
 
-/* cubestr.c */ extern void restore_cube_struct();
+/* cubestr.c */ void restore_cube_struct();
 
-/* cubestr.c */ extern void save_cube_struct();
+/* cubestr.c */ void save_cube_struct();
 
-/* cubestr.c */ extern void setdown_cube();
+/* cubestr.c */ void setdown_cube();
 
-/* cvrin.c */ extern void PLA_labels(pPLA);
+/* cvrin.c */ void PLA_labels(pPLA);
 
-/* cvrin.c */ extern char *get_word(FILE *, char *);
+/* cvrin.c */ char *get_word(FILE *, char *);
 
-/* cvrin.c */ extern int label_index(pPLA, char *, int *, int *);
+/* cvrin.c */ int label_index(pPLA, char *, int *, int *);
 
-/* cvrin.c */ extern int read_pla(FILE *, bool, bool, int, pPLA *);
+/* cvrin.c */ int read_pla(FILE *, bool, bool, int, pPLA *);
 
-/* cvrin.c */ extern int read_symbolic(FILE *, pPLA, char *, symbolic_t **);
+/* cvrin.c */ int read_symbolic(FILE *, pPLA, char *, symbolic_t **);
 
-/* cvrin.c */ extern pPLA new_PLA();
+/* cvrin.c */ pPLA new_PLA();
 
-/* cvrin.c */ extern void PLA_summary(pPLA);
+/* cvrin.c */ void PLA_summary(pPLA);
 
-/* cvrin.c */ extern void free_PLA(pPLA);
+/* cvrin.c */ void free_PLA(pPLA);
 
-/* cvrin.c */ extern void parse_pla(FILE *, pPLA);
+/* cvrin.c */ void parse_pla(FILE *, pPLA);
 
-/* cvrin.c */ extern void read_cube(FILE *, pPLA);
+/* cvrin.c */ void read_cube(FILE *, pPLA);
 
-/* cvrin.c */ extern void skip_line(FILE *, FILE *, bool);
+/* cvrin.c */ void skip_line(FILE *, FILE *, bool);
 
-/* cvrm.c */ extern void foreach_output_function(pPLA, ESP_PFI, ESP_PFI);
+/* cvrm.c */ void foreach_output_function(pPLA, ESP_PFI, ESP_PFI);
 
-/* cvrm.c */ extern int cubelist_partition(pcube *, pcube **, pcube **,
+/* cvrm.c */ int cubelist_partition(pcube *, pcube **, pcube **,
                                            unsigned int);
 
-/* cvrm.c */ extern int so_both_do_espresso(pPLA, int);
+/* cvrm.c */ int so_both_do_espresso(pPLA, int);
 
-/* cvrm.c */ extern int so_both_do_exact(pPLA, int);
+/* cvrm.c */ int so_both_do_exact(pPLA, int);
 
-/* cvrm.c */ extern int so_both_save(pPLA, int);
+/* cvrm.c */ int so_both_save(pPLA, int);
 
-/* cvrm.c */ extern int so_do_espresso(pPLA, int);
+/* cvrm.c */ int so_do_espresso(pPLA, int);
 
-/* cvrm.c */ extern int so_do_exact(pPLA, int);
+/* cvrm.c */ int so_do_exact(pPLA, int);
 
-/* cvrm.c */ extern int so_save(pPLA, int);
+/* cvrm.c */ int so_save(pPLA, int);
 
-/* cvrm.c */ extern pcover cof_output(pcover, int);
+/* cvrm.c */ pcover cof_output(pcover, int);
 
-/* cvrm.c */ extern pcover lex_sort(pcover);
+/* cvrm.c */ pcover lex_sort(pcover);
 
-/* cvrm.c */ extern pcover mini_sort(pcover, ESP_PFI);
+/* cvrm.c */ pcover mini_sort(pcover, ESP_PFI);
 
-/* cvrm.c */ extern pcover random_order(pcover);
+/* cvrm.c */ pcover random_order(pcover);
 
-/* cvrm.c */ extern pcover size_sort(pcover);
+/* cvrm.c */ pcover size_sort(pcover);
 
-/* cvrm.c */ extern pcover sort_reduce(pcover);
+/* cvrm.c */ pcover sort_reduce(pcover);
 
-/* cvrm.c */ extern pcover uncof_output(pcover, int);
+/* cvrm.c */ pcover uncof_output(pcover, int);
 
-/* cvrm.c */ extern pcover unravel(pcover, int);
+/* cvrm.c */ pcover unravel(pcover, int);
 
-/* cvrm.c */ extern pcover unravel_range(pcover, int, int);
+/* cvrm.c */ pcover unravel_range(pcover, int, int);
 
-/* cvrm.c */ extern void so_both_espresso(pPLA, int);
+/* cvrm.c */ void so_both_espresso(pPLA, int);
 
-/* cvrm.c */ extern void so_espresso(pPLA, int);
+/* cvrm.c */ void so_espresso(pPLA, int);
 
-/* cvrmisc.c */ extern char *fmt_cost(pcost);
+/* cvrmisc.c */ char *fmt_cost(pcost);
 
-/* cvrmisc.c */ extern char *print_cost(pcover);
+/* cvrmisc.c */ char *print_cost(pcover);
 
-/* cvrmisc.c */ extern void copy_cost(pcost, pcost);
+/* cvrmisc.c */ void copy_cost(pcost, pcost);
 
-/* cvrmisc.c */ extern void cover_cost(pcover, pcost);
+/* cvrmisc.c */ void cover_cost(pcover, pcost);
 
-/* cvrmisc.c */ extern void fatal(char *);
+/* cvrmisc.c */ void fatal(char *);
 
-/* cvrmisc.c */ extern void print_trace(pcover, char *, long);
+/* cvrmisc.c */ void print_trace(pcover, char *, long);
 
-/* cvrmisc.c */ extern void size_stamp(pcover, char *);
+/* cvrmisc.c */ void size_stamp(pcover, char *);
 
-/* cvrmisc.c */ extern void totals(long, int, pcover, pcost);
+/* cvrmisc.c */ void totals(long, int, pcover, pcost);
 
-/* cvrout.c */ extern char *fmt_cube(pcube, char *, char *);
+/* cvrout.c */ char *fmt_cube(pcube, char *, char *);
 
-/* cvrout.c */ extern char *fmt_expanded_cube();
+/* cvrout.c */ char *fmt_expanded_cube();
 
-/* cvrout.c */ extern char *pc1(pcube);
+/* cvrout.c */ char *pc1(pcube);
 
-/* cvrout.c */ extern char *pc2(pcube);
+/* cvrout.c */ char *pc2(pcube);
 
-/* cvrout.c */ extern char *pc3(pcube);
+/* cvrout.c */ char *pc3(pcube);
 
-/* cvrout.c */ extern int makeup_labels(pPLA);
+/* cvrout.c */ int makeup_labels(pPLA);
 
-/* cvrout.c */ extern void kiss_output(FILE *, pPLA);
+/* cvrout.c */ void kiss_output(FILE *, pPLA);
 
-/* cvrout.c */ extern void kiss_print_cube(FILE *, pPLA, pcube, char *);
+/* cvrout.c */ void kiss_print_cube(FILE *, pPLA, pcube, char *);
 
-/* cvrout.c */ extern void output_symbolic_constraints(FILE *, pPLA, int);
+/* cvrout.c */ void output_symbolic_constraints(FILE *, pPLA, int);
 
-/* cvrout.c */ extern void cprint(pcover);
+/* cvrout.c */ void cprint(pcover);
 
-/* cvrout.c */ extern void debug1_print(pcover, char *, int);
+/* cvrout.c */ void debug1_print(pcover, char *, int);
 
-/* cvrout.c */ extern void sf_debug_print(pcube *, char *, int);
+/* cvrout.c */ void sf_debug_print(pcube *, char *, int);
 
-/* cvrout.c */ extern void eqn_output(pPLA);
+/* cvrout.c */ void eqn_output(pPLA);
 
-/* cvrout.c */ extern void fpr_header(FILE *, pPLA, int);
+/* cvrout.c */ void fpr_header(FILE *, pPLA, int);
 
-/* cvrout.c */ extern void fprint_pla(FILE *, pPLA, int);
+/* cvrout.c */ void fprint_pla(FILE *, pPLA, int);
 
-/* cvrout.c */ extern void pls_group(pPLA, FILE *);
+/* cvrout.c */ void pls_group(pPLA, FILE *);
 
-/* cvrout.c */ extern void pls_label(pPLA, FILE *);
+/* cvrout.c */ void pls_label(pPLA, FILE *);
 
-/* cvrout.c */ extern void pls_output(pPLA);
+/* cvrout.c */ void pls_output(pPLA);
 
-/* cvrout.c */ extern void print_cube(FILE *, pcube, char *);
+/* cvrout.c */ void print_cube(FILE *, pcube, char *);
 
-/* cvrout.c */ extern void print_expanded_cube(FILE *, pcube, pcube);
+/* cvrout.c */ void print_expanded_cube(FILE *, pcube, pcube);
 
-/* cvrout.c */ extern void debug_print(pcube *, char *, int);
+/* cvrout.c */ void debug_print(pcube *, char *, int);
 
-/* equiv.c */ extern void find_equiv_outputs(pPLA);
+/* equiv.c */ void find_equiv_outputs(pPLA);
 
-/* equiv.c */ extern int check_equiv(pcover, pcover);
+/* equiv.c */ int check_equiv(pcover, pcover);
 
-/* espresso.c */ extern pcover espresso(pcover, pcover, pcover);
+/* espresso.c */ pcover espresso(pcover, pcover, pcover);
 
-/* essen.c */ extern bool essen_cube(pcover, pcover, pcube);
+/* essen.c */ bool essen_cube(pcover, pcover, pcube);
 
-/* essen.c */ extern pcover cb_consensus(pcover, pcube);
+/* essen.c */ pcover cb_consensus(pcover, pcube);
 
-/* essen.c */ extern pcover cb_consensus_dist0(pcover, pcube, pcube);
+/* essen.c */ pcover cb_consensus_dist0(pcover, pcube, pcube);
 
-/* essen.c */ extern pcover essential(pcover *, pcover *);
+/* essen.c */ pcover essential(pcover *, pcover *);
 
-/* exact.c */ extern pcover minimize_exact(pcover, pcover, pcover, int);
+/* exact.c */ pcover minimize_exact(pcover, pcover, pcover, int);
 
-/* exact.c */ extern pcover minimize_exact_literals(pcover, pcover, pcover,
+/* exact.c */ pcover minimize_exact_literals(pcover, pcover, pcover,
                                                     int);
 
-/* expand.c */ extern bool feasibly_covered(pcover, pcube, pcube, pcube);
+/* expand.c */ bool feasibly_covered(pcover, pcube, pcube, pcube);
 
-/* expand.c */ extern int most_frequent(pcover, pcube);
+/* expand.c */ int most_frequent(pcover, pcube);
 
-/* expand.c */ extern pcover all_primes(pcover, pcover);
+/* expand.c */ pcover all_primes(pcover, pcover);
 
-/* expand.c */ extern pcover expand(pcover, pcover, bool);
+/* expand.c */ pcover expand(pcover, pcover, bool);
 
-/* expand.c */ extern pcover find_all_primes(pcover, pcube, pcube);
+/* expand.c */ pcover find_all_primes(pcover, pcube, pcube);
 
-/* expand.c */ extern void elim_lowering(pcover, pcover, pcube, pcube);
+/* expand.c */ void elim_lowering(pcover, pcover, pcube, pcube);
 
-/* expand.c */ extern void essen_parts(pcover, pcover, pcube, pcube);
+/* expand.c */ void essen_parts(pcover, pcover, pcube, pcube);
 
-/* expand.c */ extern void essen_raising(pcover, pcube, pcube);
+/* expand.c */ void essen_raising(pcover, pcube, pcube);
 
-/* expand.c */ extern void expand1(pcover, pcover, pcube, pcube, pcube, pcube,
+/* expand.c */ void expand1(pcover, pcover, pcube, pcube, pcube, pcube,
                                    pcube, int *, pcube);
 
-/* expand.c */ extern void mincov(pcover, pcube, pcube);
+/* expand.c */ void mincov(pcover, pcube, pcube);
 
-/* expand.c */ extern void select_feasible(pcover, pcover, pcube, pcube, pcube,
+/* expand.c */ void select_feasible(pcover, pcover, pcube, pcube, pcube,
                                            int *);
 
-/* expand.c */ extern void setup_BB_CC(pcover, pcover);
+/* expand.c */ void setup_BB_CC(pcover, pcover);
 
-/* gasp.c */ extern pcover expand_gasp(pcover, pcover, pcover, pcover);
+/* gasp.c */ pcover expand_gasp(pcover, pcover, pcover, pcover);
 
-/* gasp.c */ extern pcover irred_gasp(pcover, pcover, pcover);
+/* gasp.c */ pcover irred_gasp(pcover, pcover, pcover);
 
-/* gasp.c */ extern pcover last_gasp(pcover, pcover, pcover, cost_t *cost);
+/* gasp.c */ pcover last_gasp(pcover, pcover, pcover, cost_t *cost);
 
-/* gasp.c */ extern pcover super_gasp(pcover, pcover, pcover, cost_t *cost);
+/* gasp.c */ pcover super_gasp(pcover, pcover, pcover, cost_t *cost);
 
-/* gasp.c */ extern void expand1_gasp(pcover, pcover, pcover, pcover, int,
+/* gasp.c */ void expand1_gasp(pcover, pcover, pcover, pcover, int,
                                       pcover *);
 
-/* hack.c */ extern int find_dc_inputs(pPLA, symbolic_list_t *, int, int,
+/* hack.c */ int find_dc_inputs(pPLA, symbolic_list_t *, int, int,
                                        pcover *, pcover *);
 
-/* hack.c */ extern void find_inputs(pcover, pPLA, symbolic_list_t *, int, int,
+/* hack.c */ void find_inputs(pcover, pPLA, symbolic_list_t *, int, int,
                                      pcover *, pcover *);
 
-/* hack.c */ extern void form_bitvector(pset, int, int, symbolic_list_t *);
+/* hack.c */ void form_bitvector(pset, int, int, symbolic_list_t *);
 
-/* hack.c */ extern void map_dcset(pPLA);
+/* hack.c */ void map_dcset(pPLA);
 
-/* hack.c */ extern void map_output_symbolic(pPLA);
+/* hack.c */ void map_output_symbolic(pPLA);
 
-/* hack.c */ extern void map_symbolic(pPLA);
+/* hack.c */ void map_symbolic(pPLA);
 
-/* hack.c */ extern pcover map_symbolic_cover(pcover, symbolic_list_t *, int);
+/* hack.c */ pcover map_symbolic_cover(pcover, symbolic_list_t *, int);
 
-/* hack.c */ extern void symbolic_hack_labels(pPLA, symbolic_t *, pset, int, int,
+/* hack.c */ void symbolic_hack_labels(pPLA, symbolic_t *, pset, int, int,
                                               int);
 
-/* irred.c */ extern bool cube_is_covered(pcube *, pcube);
+/* irred.c */ bool cube_is_covered(pcube *, pcube);
 
-/* irred.c */ extern bool taut_special_cases(pcube *);
+/* irred.c */ bool taut_special_cases(pcube *);
 
-/* irred.c */ extern bool tautology(pcube *);
+/* irred.c */ bool tautology(pcube *);
 
-/* irred.c */ extern pcover irredundant(pcover, pcover);
+/* irred.c */ pcover irredundant(pcover, pcover);
 
-/* irred.c */ extern void mark_irredundant(pcover, pcover);
+/* irred.c */ void mark_irredundant(pcover, pcover);
 
-/* irred.c */ extern void irred_split_cover(pcover, pcover, pcover *, pcover *,
+/* irred.c */ void irred_split_cover(pcover, pcover, pcover *, pcover *,
                                             pcover *);
 
-/* irred.c */ extern sm_matrix *irred_derive_table(pcover, pcover, pcover);
+/* irred.c */ sm_matrix *irred_derive_table(pcover, pcover, pcover);
 
-/* map.c */ extern pset minterms(pcover);
+/* map.c */ pset minterms(pcover);
 
-/* map.c */ extern void explode(int, int);
+/* map.c */ void explode(int, int);
 
-/* map.c */ extern void map(pcover);
+/* map.c */ void map(pcover);
 
-/* opo.c */ extern void output_phase_setup(pPLA, int);
+/* opo.c */ void output_phase_setup(pPLA, int);
 
-/* opo.c */ extern pPLA set_phase(pPLA);
+/* opo.c */ pPLA set_phase(pPLA);
 
-/* opo.c */ extern pcover opo(pcube, pcover, pcover, pcover, int);
+/* opo.c */ pcover opo(pcube, pcover, pcover, pcover, int);
 
-/* opo.c */ extern pcube find_phase(pPLA, int, pcube);
+/* opo.c */ pcube find_phase(pPLA, int, pcube);
 
-/* opo.c */ extern pset_family find_covers(pcover, pcover, pset, int);
+/* opo.c */ pset_family find_covers(pcover, pcover, pset, int);
 
-/* opo.c */ extern pset_family form_cover_table(pcover, pcover, pset, int, int);
+/* opo.c */ pset_family form_cover_table(pcover, pcover, pset, int, int);
 
-/* opo.c */ extern pset_family opo_leaf(pcover, pset, int, int);
+/* opo.c */ pset_family opo_leaf(pcover, pset, int, int);
 
-/* opo.c */ extern pset_family opo_recur(pcover, pcover, pcube, int, int, int);
+/* opo.c */ pset_family opo_recur(pcover, pcover, pcube, int, int, int);
 
-/* opo.c */ extern void opoall(pPLA, int, int, int);
+/* opo.c */ void opoall(pPLA, int, int, int);
 
-/* opo.c */ extern void phase_assignment(pPLA, int);
+/* opo.c */ void phase_assignment(pPLA, int);
 
-/* opo.c */ extern void repeated_phase_assignment(pPLA);
+/* opo.c */ void repeated_phase_assignment(pPLA);
 
-/* pair.c */ extern void generate_all_pairs(ppair, int, pset, ESP_PFI);
+/* pair.c */ void generate_all_pairs(ppair, int, pset, ESP_PFI);
 
-/* pair.c */ extern int **find_pairing_cost(pPLA, int);
+/* pair.c */ int **find_pairing_cost(pPLA, int);
 
-/* pair.c */ extern int find_best_cost(ppair);
+/* pair.c */ int find_best_cost(ppair);
 
-/* pair.c */ extern int greedy_best_cost(int **, ppair *);
+/* pair.c */ int greedy_best_cost(int **, ppair *);
 
-/* pair.c */ extern int minimize_pair(ppair);
+/* pair.c */ int minimize_pair(ppair);
 
-/* pair.c */ extern int pair_free(ppair);
+/* pair.c */ int pair_free(ppair);
 
-/* pair.c */ extern void pair_all(pPLA, int);
+/* pair.c */ void pair_all(pPLA, int);
 
-/* pair.c */ extern pcover delvar(pcover, bool *);
+/* pair.c */ pcover delvar(pcover, bool *);
 
-/* pair.c */ extern pcover pairvar(pcover, ppair);
+/* pair.c */ pcover pairvar(pcover, ppair);
 
-/* pair.c */ extern ppair pair_best_cost(int **);
+/* pair.c */ ppair pair_best_cost(int **);
 
-/* pair.c */ extern ppair pair_new(int);
+/* pair.c */ ppair pair_new(int);
 
-/* pair.c */ extern ppair pair_save(ppair, int);
+/* pair.c */ ppair pair_save(ppair, int);
 
-/* pair.c */ extern int print_pair(ppair);
+/* pair.c */ int print_pair(ppair);
 
-/* pair.c */ extern void find_optimal_pairing(pPLA, int);
+/* pair.c */ void find_optimal_pairing(pPLA, int);
 
-/* pair.c */ extern void set_pair(pPLA);
+/* pair.c */ void set_pair(pPLA);
 
-/* pair.c */ extern void set_pair1(pPLA, bool);
+/* pair.c */ void set_pair1(pPLA, bool);
 
-/* primes.c */ extern pcover primes_consensus(pcube *);
+/* primes.c */ pcover primes_consensus(pcube *);
 
-/* reduce.c */ extern bool sccc_special_cases(pcube *, pcube *);
+/* reduce.c */ bool sccc_special_cases(pcube *, pcube *);
 
-/* reduce.c */ extern pcover reduce(pcover, pcover);
+/* reduce.c */ pcover reduce(pcover, pcover);
 
-/* reduce.c */ extern pcube reduce_cube(pcube *, pcube);
+/* reduce.c */ pcube reduce_cube(pcube *, pcube);
 
-/* reduce.c */ extern pcube sccc(pcube *);
+/* reduce.c */ pcube sccc(pcube *);
 
-/* reduce.c */ extern pcube sccc_cube(pcube, pcube);
+/* reduce.c */ pcube sccc_cube(pcube, pcube);
 
-/* reduce.c */ extern pcube sccc_merge(pcube, pcube, pcube, pcube);
+/* reduce.c */ pcube sccc_merge(pcube, pcube, pcube, pcube);
 
-/* set.c */ extern bool set_andp(pset, pset, pset);
+/* set.c */ bool set_andp(pset, pset, pset);
 
-/* set.c */ extern bool set_orp(pset, pset, pset);
+/* set.c */ bool set_orp(pset, pset, pset);
 
-/* set.c */ extern bool setp_disjoint(pset, pset);
+/* set.c */ bool setp_disjoint(pset, pset);
 
-/* set.c */ extern bool setp_empty(pset);
+/* set.c */ bool setp_empty(pset);
 
-/* set.c */ extern bool setp_equal(pset, pset);
+/* set.c */ bool setp_equal(pset, pset);
 
-/* set.c */ extern bool setp_full(pset, int);
+/* set.c */ bool setp_full(pset, int);
 
-/* set.c */ extern bool setp_implies(pset, pset);
+/* set.c */ bool setp_implies(pset, pset);
 
-/* set.c */ extern char *pbv1(pset, int);
+/* set.c */ char *pbv1(pset, int);
 
-/* set.c */ extern char *ps1(pset);
+/* set.c */ char *ps1(pset);
 
-/* set.c */ extern int *sf_count(pset_family);
+/* set.c */ int *sf_count(pset_family);
 
-/* set.c */ extern int *sf_count_restricted(pset_family, pset);
+/* set.c */ int *sf_count_restricted(pset_family, pset);
 
-/* set.c */ extern int bit_index(unsigned int);
+/* set.c */ int bit_index(unsigned int);
 
-/* set.c */ extern int set_dist(pset, pset);
+/* set.c */ int set_dist(pset, pset);
 
-/* set.c */ extern int set_ord(pset);
+/* set.c */ int set_ord(pset);
 
-/* set.c */ extern void set_adjcnt(pset, int *, int);
+/* set.c */ void set_adjcnt(pset, int *, int);
 
-/* set.c */ extern pset set_and(pset, pset, pset);
+/* set.c */ pset set_and(pset, pset, pset);
 
-/* set.c */ extern pset set_clear(pset, int);
+/* set.c */ pset set_clear(pset, int);
 
-/* set.c */ extern pset set_copy(pset, pset);
+/* set.c */ pset set_copy(pset, pset);
 
-/* set.c */ extern pset set_diff(pset, pset, pset);
+/* set.c */ pset set_diff(pset, pset, pset);
 
-/* set.c */ extern pset set_fill(pset, int);
+/* set.c */ pset set_fill(pset, int);
 
-/* set.c */ extern pset set_merge(pset, pset, pset, pset);
+/* set.c */ pset set_merge(pset, pset, pset, pset);
 
-/* set.c */ extern pset set_or(pset, pset, pset);
+/* set.c */ pset set_or(pset, pset, pset);
 
-/* set.c */ extern pset set_xor(pset, pset, pset);
+/* set.c */ pset set_xor(pset, pset, pset);
 
-/* set.c */ extern pset sf_and(pset_family);
+/* set.c */ pset sf_and(pset_family);
 
-/* set.c */ extern pset sf_or(pset_family);
+/* set.c */ pset sf_or(pset_family);
 
-/* set.c */ extern pset_family sf_active(pset_family);
+/* set.c */ pset_family sf_active(pset_family);
 
-/* set.c */ extern pset_family sf_addcol(pset_family, int, int);
+/* set.c */ pset_family sf_addcol(pset_family, int, int);
 
-/* set.c */ extern pset_family sf_addset(pset_family, pset);
+/* set.c */ pset_family sf_addset(pset_family, pset);
 
-/* set.c */ extern pset_family sf_append(pset_family, pset_family);
+/* set.c */ pset_family sf_append(pset_family, pset_family);
 
-/* set.c */ extern pset_family sf_bm_read(FILE *);
+/* set.c */ pset_family sf_bm_read(FILE *);
 
-/* set.c */ extern pset_family sf_compress(pset_family, pset);
+/* set.c */ pset_family sf_compress(pset_family, pset);
 
-/* set.c */ extern pset_family sf_copy(pset_family, pset_family);
+/* set.c */ pset_family sf_copy(pset_family, pset_family);
 
-/* set.c */ extern pset_family sf_copy_col(pset_family, int, pset_family, int);
+/* set.c */ pset_family sf_copy_col(pset_family, int, pset_family, int);
 
-/* set.c */ extern pset_family sf_delc(pset_family, int, int);
+/* set.c */ pset_family sf_delc(pset_family, int, int);
 
-/* set.c */ extern pset_family sf_delcol(pset_family, int, int);
+/* set.c */ pset_family sf_delcol(pset_family, int, int);
 
-/* set.c */ extern pset_family sf_inactive(pset_family);
+/* set.c */ pset_family sf_inactive(pset_family);
 
-/* set.c */ extern pset_family sf_join(pset_family, pset_family);
+/* set.c */ pset_family sf_join(pset_family, pset_family);
 
-/* set.c */ extern pset_family sf_new(int, int);
+/* set.c */ pset_family sf_new(int, int);
 
-/* set.c */ extern pset_family sf_permute(pset_family, int *, int);
+/* set.c */ pset_family sf_permute(pset_family, int *, int);
 
-/* set.c */ extern pset_family sf_read(FILE *);
+/* set.c */ pset_family sf_read(FILE *);
 
-/* set.c */ extern pset_family sf_save(pset_family);
+/* set.c */ pset_family sf_save(pset_family);
 
-/* set.c */ extern pset_family sf_transpose(pset_family);
+/* set.c */ pset_family sf_transpose(pset_family);
 
-/* set.c */ extern void set_write(FILE *, pset);
+/* set.c */ void set_write(FILE *, pset);
 
-/* set.c */ extern void sf_bm_print(pset_family);
+/* set.c */ void sf_bm_print(pset_family);
 
-/* set.c */ extern void sf_cleanup();
+/* set.c */ void sf_cleanup();
 
-/* set.c */ extern void sf_delset(pset_family, int);
+/* set.c */ void sf_delset(pset_family, int);
 
-/* set.c */ extern void sf_free(pset_family);
+/* set.c */ void sf_free(pset_family);
 
-/* set.c */ extern void sf_print(pset_family);
+/* set.c */ void sf_print(pset_family);
 
-/* set.c */ extern void sf_write(FILE *, pset_family);
+/* set.c */ void sf_write(FILE *, pset_family);
 
-/* setc.c */ extern bool ccommon(pcube, pcube, pcube);
+/* setc.c */ bool ccommon(pcube, pcube, pcube);
 
-/* setc.c */ extern bool cdist0(pcube, pcube);
+/* setc.c */ bool cdist0(pcube, pcube);
 
-/* setc.c */ extern bool full_row(pcube, pcube);
+/* setc.c */ bool full_row(pcube, pcube);
 
-/* setc.c */ extern int ascend(pset *, pset *);
+/* setc.c */ int ascend(pset *, pset *);
 
-/* setc.c */ extern int cactive(pcube);
+/* setc.c */ int cactive(pcube);
 
-/* setc.c */ extern int cdist(pset, pset);
+/* setc.c */ int cdist(pset, pset);
 
-/* setc.c */ extern int cdist01(pset, pset);
+/* setc.c */ int cdist01(pset, pset);
 
-/* setc.c */ extern int d1_order(pset *, pset *);
+/* setc.c */ int d1_order(pset *, pset *);
 
-/* setc.c */ extern int desc1(pset, pset);
+/* setc.c */ int desc1(pset, pset);
 
-/* setc.c */ extern int descend(pset *, pset *);
+/* setc.c */ int descend(pset *, pset *);
 
-/* setc.c */ extern int lex_order(pset *, pset *);
+/* setc.c */ int lex_order(pset *, pset *);
 
-/* setc.c */ extern pset force_lower(pset, pset, pset);
+/* setc.c */ pset force_lower(pset, pset, pset);
 
-/* setc.c */ extern void consensus(pcube, pcube, pcube);
+/* setc.c */ void consensus(pcube, pcube, pcube);
 
-/* sharp.c */ extern pcover cb1_dsharp(pcover, pcube);
+/* sharp.c */ pcover cb1_dsharp(pcover, pcube);
 
-/* sharp.c */ extern pcover cb_dsharp(pcube, pcover);
+/* sharp.c */ pcover cb_dsharp(pcube, pcover);
 
-/* sharp.c */ extern pcover cb_recur_sharp(pcube, pcover, int, int, int);
+/* sharp.c */ pcover cb_recur_sharp(pcube, pcover, int, int, int);
 
-/* sharp.c */ extern pcover cb_sharp(pcube, pcover);
+/* sharp.c */ pcover cb_sharp(pcube, pcover);
 
-/* sharp.c */ extern pcover cv_dsharp(pcover, pcover);
+/* sharp.c */ pcover cv_dsharp(pcover, pcover);
 
-/* sharp.c */ extern pcover cv_intersect(pcover, pcover);
+/* sharp.c */ pcover cv_intersect(pcover, pcover);
 
-/* sharp.c */ extern pcover cv_sharp(pcover, pcover);
+/* sharp.c */ pcover cv_sharp(pcover, pcover);
 
-/* sharp.c */ extern pcover dsharp(pcube, pcube);
+/* sharp.c */ pcover dsharp(pcube, pcube);
 
-/* sharp.c */ extern pcover make_disjoint(pcover);
+/* sharp.c */ pcover make_disjoint(pcover);
 
-/* sharp.c */ extern pcover sharp(pcube, pcube);
+/* sharp.c */ pcover sharp(pcube, pcube);
 
 /* sminterf.c */ pset do_sm_minimum_cover(pset_family);
 
-/* sparse.c */ extern pcover make_sparse(pcover, pcover, pcover);
+/* sparse.c */ pcover make_sparse(pcover, pcover, pcover);
 
-/* sparse.c */ extern pcover mv_reduce(pcover, pcover);
+/* sparse.c */ pcover mv_reduce(pcover, pcover);
 
-/* unate.c */ extern pcover find_all_minimal_covers_petrick();
+/* unate.c */ pcover find_all_minimal_covers_petrick();
 
-/* unate.c */ extern pcover map_cover_to_unate(pcube *);
+/* unate.c */ pcover map_cover_to_unate(pcube *);
 
-/* unate.c */ extern pcover map_unate_to_cover(pset_family);
+/* unate.c */ pcover map_unate_to_cover(pset_family);
 
-/* unate.c */ extern pset_family exact_minimum_cover(pset_family);
+/* unate.c */ pset_family exact_minimum_cover(pset_family);
 
-/* unate.c */ extern pset_family unate_compl(pset_family);
+/* unate.c */ pset_family unate_compl(pset_family);
 
-/* unate.c */ extern pset_family unate_complement(pset_family);
+/* unate.c */ pset_family unate_complement(pset_family);
 
-/* unate.c */ extern pset_family unate_intersect(pset_family, pset_family,
+/* unate.c */ pset_family unate_intersect(pset_family, pset_family,
                                                  bool);
 
-/* verify.c */ extern int PLA_permute(pPLA, pPLA);
+/* verify.c */ int PLA_permute(pPLA, pPLA);
 
-/* verify.c */ extern bool PLA_verify(pPLA, pPLA);
+/* verify.c */ bool PLA_verify(pPLA, pPLA);
 
-/* verify.c */ extern bool check_consistency(pPLA);
+/* verify.c */ bool check_consistency(pPLA);
 
-/* verify.c */ extern bool verify(pcover, pcover, pcover);
+/* verify.c */ bool verify(pcover, pcover, pcover);
 #endif

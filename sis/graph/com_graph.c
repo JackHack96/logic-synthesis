@@ -174,7 +174,7 @@ static int graph_dfs_test() {
 }
 
 init_graph() {
-    extern int g_unique_id;
+    int g_unique_id;
 
     g_unique_id = 0;
     com_add_command("_graph_test", graph_test, 0);

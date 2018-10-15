@@ -37,46 +37,46 @@ struct network_info_struct {
 #define COM_GRAPHICS_MSG_START "#START-GRAPHICS-COMMAND\n"
 #define COM_GRAPHICS_MSG_END "#END-GRAPHICS-COMMAND\n"
 
-extern char sis_hist_char;
-extern char sis_shell_char;
+char sis_hist_char;
+char sis_shell_char;
 
-extern avl_tree *command_table;
-extern avl_tree *flag_table;
-extern avl_tree *alias_table;
-extern network_t *backup_network;
+avl_tree *command_table;
+avl_tree *flag_table;
+avl_tree *alias_table;
+network_t *backup_network;
 
-extern int com_alias();
+int com_alias();
 
-extern int com_unalias();
+int com_unalias();
 
-extern int com_execute();
+int com_execute();
 
-extern int com_help();
+int com_help();
 
-extern int com_time();
+int com_time();
 
-extern int com_echo();
+int com_echo();
 
-extern int com_quit();
+int com_quit();
 
-extern int com_set_variable();
+int com_set_variable();
 
-extern int com_unset_variable();
+int com_unset_variable();
 
-extern int com_source();
+int com_source();
 
-extern int com_undo();
+int com_undo();
 
-extern void com_free_argv();
+void com_free_argv();
 
-extern void com_alias_free();
+void com_alias_free();
 
-extern void com_command_free();
+void com_command_free();
 
-extern char *fgets_filec();
+char *fgets_filec();
 
-extern char *hist_subst();
+char *hist_subst();
 
-extern void print_prompt();
+void print_prompt();
 
 #endif //COM_INT_H

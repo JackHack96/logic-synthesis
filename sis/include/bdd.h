@@ -91,57 +91,57 @@ typedef enum {
 /*
  * BDD Manager Allocation And Destruction
  */
-extern void bdd_end(bdd_manager *);
-extern void bdd_register_daemon(bdd_manager *, void (*daemon)());
-extern void bdd_set_mgr_init_dflts(bdd_mgr_init *);
-extern bdd_manager *bdd_start(int);
-extern bdd_manager *bdd_start_with_params(int, bdd_mgr_init *);
+void bdd_end(bdd_manager *);
+void bdd_register_daemon(bdd_manager *, void (*daemon)());
+void bdd_set_mgr_init_dflts(bdd_mgr_init *);
+bdd_manager *bdd_start(int);
+bdd_manager *bdd_start_with_params(int, bdd_mgr_init *);
 
 /*
  * BDD Variable Allocation
  */
-extern bdd_t *bdd_create_variable(bdd_manager *);
-extern bdd_t *bdd_get_variable(bdd_manager *, bdd_variableId);
+bdd_t *bdd_create_variable(bdd_manager *);
+bdd_t *bdd_get_variable(bdd_manager *, bdd_variableId);
 
 /*
  * BDD Formula Management
  */
-extern bdd_t *bdd_dup(bdd_t *);
-extern void bdd_free(bdd_t *);
+bdd_t *bdd_dup(bdd_t *);
+void bdd_free(bdd_t *);
 
 /*
  * Operations on BDD Formulas
  */
-extern bdd_t *bdd_and(bdd_t *, bdd_t *, boolean, boolean);
-extern bdd_t *bdd_and_smooth(bdd_t *, bdd_t *, array_t *);
-extern bdd_t *bdd_between(bdd_t *, bdd_t *);
-extern bdd_t *bdd_cofactor(bdd_t *, bdd_t *);
-extern bdd_t *bdd_compose(bdd_t *, bdd_t *, bdd_t *);
-extern bdd_t *bdd_consensus(bdd_t *, array_t *);
-extern bdd_t *bdd_cproject(bdd_t *, array_t *);
-extern bdd_t *bdd_else(bdd_t *);
-extern bdd_t *bdd_ite(bdd_t *, bdd_t *, bdd_t *, boolean, boolean, boolean);
-extern bdd_t *bdd_minimize(bdd_t *, bdd_t *);
-extern bdd_t *bdd_minimize_with_params(bdd_t *, bdd_t *, bdd_min_match_type_t,
+bdd_t *bdd_and(bdd_t *, bdd_t *, boolean, boolean);
+bdd_t *bdd_and_smooth(bdd_t *, bdd_t *, array_t *);
+bdd_t *bdd_between(bdd_t *, bdd_t *);
+bdd_t *bdd_cofactor(bdd_t *, bdd_t *);
+bdd_t *bdd_compose(bdd_t *, bdd_t *, bdd_t *);
+bdd_t *bdd_consensus(bdd_t *, array_t *);
+bdd_t *bdd_cproject(bdd_t *, array_t *);
+bdd_t *bdd_else(bdd_t *);
+bdd_t *bdd_ite(bdd_t *, bdd_t *, bdd_t *, boolean, boolean, boolean);
+bdd_t *bdd_minimize(bdd_t *, bdd_t *);
+bdd_t *bdd_minimize_with_params(bdd_t *, bdd_t *, bdd_min_match_type_t,
                                        boolean, boolean, boolean);
-extern bdd_t *bdd_not(bdd_t *);
-extern bdd_t *bdd_one(bdd_manager *);
-extern bdd_t *bdd_or(bdd_t *, bdd_t *, boolean, boolean);
-extern bdd_t *bdd_smooth(bdd_t *, array_t *);
-extern bdd_t *bdd_substitute(bdd_t *, array_t *, array_t *);
-extern bdd_t *bdd_then(bdd_t *);
-extern bdd_t *bdd_top_var(bdd_t *);
-extern bdd_t *bdd_xnor(bdd_t *, bdd_t *);
-extern bdd_t *bdd_xor(bdd_t *, bdd_t *);
-extern bdd_t *bdd_zero(bdd_manager *);
+bdd_t *bdd_not(bdd_t *);
+bdd_t *bdd_one(bdd_manager *);
+bdd_t *bdd_or(bdd_t *, bdd_t *, boolean, boolean);
+bdd_t *bdd_smooth(bdd_t *, array_t *);
+bdd_t *bdd_substitute(bdd_t *, array_t *, array_t *);
+bdd_t *bdd_then(bdd_t *);
+bdd_t *bdd_top_var(bdd_t *);
+bdd_t *bdd_xnor(bdd_t *, bdd_t *);
+bdd_t *bdd_xor(bdd_t *, bdd_t *);
+bdd_t *bdd_zero(bdd_manager *);
 
 /*
  * Queries about BDD Formulas
  */
-extern boolean bdd_equal(bdd_t *, bdd_t *);
-extern bdd_t *bdd_intersects(bdd_t *, bdd_t *);
-extern boolean bdd_is_tautology(bdd_t *, boolean);
-extern boolean bdd_leq(bdd_t *, bdd_t *, boolean, boolean);
+boolean bdd_equal(bdd_t *, bdd_t *);
+bdd_t *bdd_intersects(bdd_t *, bdd_t *);
+boolean bdd_is_tautology(bdd_t *, boolean);
+boolean bdd_leq(bdd_t *, bdd_t *, boolean, boolean);
 
 /*
  * Statistics and Other Queries
@@ -206,17 +206,17 @@ typedef struct bdd_stats {
   } memory; /* memory usage */
 } bdd_stats;
 
-extern double bdd_count_onset(bdd_t *, array_t *);
-extern bdd_manager *bdd_get_manager(bdd_t *);
-extern bdd_node *bdd_get_node(bdd_t *, boolean *);
-extern void bdd_get_stats(bdd_manager *, bdd_stats *);
-extern var_set_t *bdd_get_support(bdd_t *);
-extern array_t *bdd_get_varids(array_t *);
-extern unsigned int bdd_num_vars(bdd_manager *);
-extern void bdd_print(bdd_t *);
-extern void bdd_print_stats(bdd_stats, FILE *);
-extern int bdd_size(bdd_t *);
-extern bdd_variableId bdd_top_var_id(bdd_t *);
+double bdd_count_onset(bdd_t *, array_t *);
+bdd_manager *bdd_get_manager(bdd_t *);
+bdd_node *bdd_get_node(bdd_t *, boolean *);
+void bdd_get_stats(bdd_manager *, bdd_stats *);
+var_set_t *bdd_get_support(bdd_t *);
+array_t *bdd_get_varids(array_t *);
+unsigned int bdd_num_vars(bdd_manager *);
+void bdd_print(bdd_t *);
+void bdd_print_stats(bdd_stats, FILE *);
+int bdd_size(bdd_t *);
+bdd_variableId bdd_top_var_id(bdd_t *);
 
 /*
  * Traversal of BDD Formulas
@@ -283,20 +283,20 @@ typedef struct {
        ((gen)->status != bdd_EMPTY) ? TRUE : bdd_gen_free(gen);                \
        (void)bdd_next_node(gen, &node))
 
-extern int bdd_gen_free(bdd_gen *);
+int bdd_gen_free(bdd_gen *);
 
 /*
  * These are NOT to be used directly; only indirectly in the macros.
  */
-extern bdd_gen *bdd_first_cube(bdd_t *, array_t **);
-extern boolean bdd_next_cube(bdd_gen *, array_t **);
-extern bdd_gen *bdd_first_node(bdd_t *, bdd_node **);
-extern boolean bdd_next_node(bdd_gen *, bdd_node **);
+bdd_gen *bdd_first_cube(bdd_t *, array_t **);
+boolean bdd_next_cube(bdd_gen *, array_t **);
+bdd_gen *bdd_first_node(bdd_t *, bdd_node **);
+boolean bdd_next_node(bdd_gen *, bdd_node **);
 
 /*
  * Miscellaneous
  */
-extern void bdd_set_gc_mode(bdd_manager *, boolean);
+void bdd_set_gc_mode(bdd_manager *, boolean);
 
 /*
  *    These are the hooks for stuff that uses bdd's
@@ -311,7 +311,7 @@ typedef struct bdd_external_hooks {
   char *undef1;
 } bdd_external_hooks;
 
-extern bdd_external_hooks *bdd_get_external_hooks(bdd_manager *);
+bdd_external_hooks *bdd_get_external_hooks(bdd_manager *);
 
 /*
  * Dynamic reordering.
@@ -322,8 +322,8 @@ typedef enum {
   BDD_REORDER_NONE
 } bdd_reorder_type_t;
 
-extern void bdd_dynamic_reordering(bdd_manager *, bdd_reorder_type_t);
-extern void bdd_reorder(bdd_manager *);
+void bdd_dynamic_reordering(bdd_manager *, bdd_reorder_type_t);
+void bdd_reorder(bdd_manager *);
 
 void bdd_check_array(bdd *fs);
 int bdd_check_arguments(int count, ...);

@@ -24,7 +24,7 @@ st_table  *node_to_ndata_table;
 int       n_varying_nodes;
 ndata     **varying_node;
 
-extern sis_clock_t *clock_get_transitive_clock(); /* Should be in clock.h */
+sis_clock_t *clock_get_transitive_clock(); /* Should be in clock.h */
 static stg_clock_t *stg_get_clock_info();
 
 static int stg_valid_network();

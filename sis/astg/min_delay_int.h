@@ -49,14 +49,14 @@ typedef struct delay_network_struct {
 } delay_network_t;
 
 /* used in com_delay.c */
-extern void delay_dup();
+void delay_dup();
 
-extern void delay_free();
+void delay_free();
 
-extern void delay_alloc();
+void delay_alloc();
 
-extern void delay_invalid();
+void delay_invalid();
 
-extern void delay_print_wire_loads();
+void delay_print_wire_loads();
 
 #endif

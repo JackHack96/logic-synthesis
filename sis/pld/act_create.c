@@ -1,7 +1,7 @@
 #include "pld_int.h"
 #include "sis.h"
 
-extern int MAXOPTIMAL;
+int MAXOPTIMAL;
 
 /*	constructing the local and global ACTs
  */

@@ -5,40 +5,40 @@
 
 /* Functions to initialize fanout optimization algorithms. */
 
-extern void noalg_init();
+void noalg_init();
 
-extern void lt_trees_init();
+void lt_trees_init();
 
-extern void two_level_init();
+void two_level_init();
 
-extern void fanout_dump_init();
+void fanout_dump_init();
 
-extern void mixed_lt_trees_init();
+void mixed_lt_trees_init();
 
-extern void bottom_up_init();
+void bottom_up_init();
 
-extern void balanced_init();
+void balanced_init();
 
-extern void top_down_init();
+void top_down_init();
 
 /* Functions to update fanout optimization properties. */
 
-extern void fanout_opt_update_size_threshold();
+void fanout_opt_update_size_threshold();
 
-extern void fanout_opt_update_peephole_flag();
+void fanout_opt_update_peephole_flag();
 
-extern void lt_trees_set_max_n_gaps();
+void lt_trees_set_max_n_gaps();
 
-extern void fanout_dump_set_dump_threshold();
+void fanout_dump_set_dump_threshold();
 
-extern void mixed_lt_trees_set_max_n_gaps();
+void mixed_lt_trees_set_max_n_gaps();
 
-extern void mixed_lt_trees_set_max_x_index();
+void mixed_lt_trees_set_max_x_index();
 
-extern void mixed_lt_trees_set_max_y_index();
+void mixed_lt_trees_set_max_y_index();
 
-extern void top_down_set_mode();
+void top_down_set_mode();
 
-extern void top_down_set_debug();
+void top_down_set_debug();
 
 #endif

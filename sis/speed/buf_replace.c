@@ -20,7 +20,7 @@ static delay_time_t large_req_time = {POS_LARGE, POS_LARGE};
 int sp_replace_cell_strength(network_t *network, buf_global_t *buf_param, buf_alg_input_t *fanout_data,
                              delay_pin_t *gate_array, int num_gates, delay_time_t crit_pos, delay_time_t crit_neg,
                              double total_cap_pos, double total_cap_neg, delay_time_t *save) {
-    extern void map_invalid(); /* Should be in map.h */
+    void map_invalid(); /* Should be in map.h */
     node_t        *node                         = fanout_data->node;
     node_t        *inv_node                     = fanout_data->inv_node;
     delay_model_t model                         = buf_param->model;

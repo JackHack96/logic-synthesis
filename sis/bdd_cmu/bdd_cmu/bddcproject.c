@@ -19,7 +19,7 @@ static char vcid[] = "bddcproject.c,v 1.2 1994/06/02 02:36:30 shiple Exp";
 
 #define OP_CPROJ 5000001
 
-extern bdd cmu_bdd_project();
+bdd cmu_bdd_project();
 
 /* INTERNAL ONLY */
 

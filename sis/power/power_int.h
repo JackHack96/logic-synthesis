@@ -53,50 +53,50 @@ char *power_dummy;  /* Used in the SWITCH_PROB and CAP_FACTOR macros */
 
 st_table *power_get_node_info(); /* power_main.c */
 #else
-extern short  power_verbose;
-extern int    power_cap_in_latch;
-extern int    power_cap_out_latch;
-extern double power_delta;
-extern int    power_setSize;
+short  power_verbose;
+int    power_cap_in_latch;
+int    power_cap_out_latch;
+double power_delta;
+int    power_setSize;
 
-extern int power_command_line_interface(); /* power_main.c */
-extern st_table *power_get_node_info();    /* power_main.c */
-extern int power_get_mapped_delay();       /* power_main.c */
+int power_command_line_interface(); /* power_main.c */
+st_table *power_get_node_info();    /* power_main.c */
+int power_get_mapped_delay();       /* power_main.c */
 
-extern int power_comb_static_zero();  /* power_comb.c */
-extern int power_comb_static_arbit(); /* power_comb.c */
+int power_comb_static_zero();  /* power_comb.c */
+int power_comb_static_arbit(); /* power_comb.c */
 
-extern int power_dynamic();            /* power_dynamic.c */
+int power_dynamic();            /* power_dynamic.c */
 
 #ifdef SIS
-extern int power_pipe_static_arbit();  /* power_pipe.c */
-extern int power_add_pipeline_logic(); /* power_pipe.c */
+int power_pipe_static_arbit();  /* power_pipe.c */
+int power_add_pipeline_logic(); /* power_pipe.c */
 
-extern int power_seq_static_arbit();    /* power_seq.c */
-extern int power_add_fsm_state_logic(); /* power_seq.c */
+int power_seq_static_arbit();    /* power_seq.c */
+int power_add_fsm_state_logic(); /* power_seq.c */
 
-extern void power_PS_lines_from_state(); /* power_PSprob_exact.c */
-extern double *power_exact_state_prob(); /* power_PSprob_exact.c */
+void power_PS_lines_from_state(); /* power_PSprob_exact.c */
+double *power_exact_state_prob(); /* power_PSprob_exact.c */
 
-extern double *power_direct_PS_lines_prob(); /* power_PSprob_direct.c*/
-extern void power_place_PIs_last();          /* power_PSprob_direct.c*/
+double *power_direct_PS_lines_prob(); /* power_PSprob_direct.c*/
+void power_place_PIs_last();          /* power_PSprob_direct.c*/
 
-extern double power_calc_func_prob_w_stateProb(); /* power_comp.c */
-extern double power_calc_func_prob_w_sets();      /* power_comp.c */
+double power_calc_func_prob_w_stateProb(); /* power_comp.c */
+double power_calc_func_prob_w_sets();      /* power_comp.c */
 #endif /* SIS */
 
-extern double power_calc_func_prob(); /* power_comp.c */
+double power_calc_func_prob(); /* power_comp.c */
 
-extern network_t *power_symbolic_simulate(); /* power_sim.c */
+network_t *power_symbolic_simulate(); /* power_sim.c */
 
-extern array_t *power_network_dfs(); /* power_util.c */
-extern void power_network_print();   /* power_util.c */
-extern pset power_lines_in_set();    /* power_util.c */
+array_t *power_network_dfs(); /* power_util.c */
+void power_network_print();   /* power_util.c */
+pset power_lines_in_set();    /* power_util.c */
 
-extern bdd_node *cmu_bdd_zero(); /* Taken directly from the CMU package */
-extern bdd_node *cmu_bdd_one();
+bdd_node *cmu_bdd_zero(); /* Taken directly from the CMU package */
+bdd_node *cmu_bdd_one();
 
-extern long cmu_bdd_if_index();
+long cmu_bdd_if_index();
 
 #endif
 #endif

@@ -216,36 +216,39 @@ array_t *index_list_array;
 array_t *index_list_array2;
 array_t *global_lists;
 
-extern void p_actAlloc();   /* act_init.c	*/
-extern void p_actFree();    /* act_init.c	*/
-extern void p_actfree();    /* act_init.c	*/
-extern void p_actDup();     /* act_init.c	*/
-extern int p_actRemove();   /* act_remove.c	*/
-extern void p_actDestroy(); /* act_remove.c	 */
-extern void p_dagDestroy(); /* act_remove.c	 */
-extern void p_actCreate4Set(array_t *node_vec, array_t *node_list, int locality,
+void p_actAlloc();   /* act_init.c	*/
+void p_actFree();    /* act_init.c	*/
+void p_actfree();    /* act_init.c	*/
+void p_actDup();     /* act_init.c	*/
+int p_actRemove();   /* act_remove.c	*/
+void p_actDestroy(); /* act_remove.c	 */
+void p_dagDestroy(); /* act_remove.c	 */
+void p_actCreate4Set(array_t *node_vec, array_t *node_list, int locality,
                             int order_style, float mode, network_t *network,
                             array_t *delay_values, st_table *cost_table);
 
-extern void p_addLists();
+void p_addLists();
 
-extern void p_applyCreate();
+void p_applyCreate();
 
-extern void traverse();            /*	act_trav.c*/
-extern ACT_VERTEX_PTR actReduce(); /*act_reduce.c*/
+void traverse();            /*	act_trav.c*/
+ACT_VERTEX_PTR actReduce(); /*act_reduce.c*/
 
 /* act_map_delay.c (act_map.c) */
-extern COST_STRUCT *act_evaluate_map_cost();
+COST_STRUCT *act_evaluate_map_cost();
 
-static decomp_big_nodes();
+static void decomp_big_nodes(network_t *network, st_table *cost_table,
+                             int *gain, act_init_param_t *init_param);
 
-static improve_network();
+static void improve_network(network_t *network, st_table *cost_table,
+                            act_init_param_t *init_param);
 
-static act_quick_phase();
+static void act_quick_phase(network_t *network, st_table *cost_table,
+                            act_init_param_t *init_param);
 
 static void iterative_improvement(network_t *network, st_table *cost_table, act_init_param_t *init_param);
 
-extern node_t *act_mux_node();
+node_t *act_mux_node();
 
 static node_t *basic_block_node();
 
@@ -257,19 +260,20 @@ static node_t *get_node_of_vertex();
 
 void free_node_if_possible();
 
-extern void put_node_names_in_act();
+void put_node_names_in_act();
 
-extern void print_vertex();
+void print_vertex();
 
 static int OR_pattern();
 
-extern array_t *OR_literal_order();
+array_t *OR_literal_order();
 
-extern array_t *single_cube_order();
+array_t *single_cube_order();
 
 static int minimum_cost_index();
 
-static int minimum_costdelay_index();
+static int minimum_costdelay_index(int cost[], double delay[], int num_entries,
+                                   float mode);
 
 static char *formulate_IP();
 
@@ -277,11 +281,11 @@ static void read_LINDO_file();
 
 static void partial_scan_lindoFile();
 
-extern int is_anyfo_PO();
+int is_anyfo_PO();
 
 static int compute_cost_array();
 
-extern int cost_of_node();
+int cost_of_node();
 
 static void print_node_with_string();
 
@@ -295,9 +299,9 @@ static char *act_get_node_fn_type();
 
 static enum st_retval free_table_entry();
 
-extern enum st_retval free_table_entry_without_freeing_key();
+enum st_retval free_table_entry_without_freeing_key();
 
-extern void free_cost_table_without_freeing_key();
+void free_cost_table_without_freeing_key();
 
 ACT_VERTEX_PTR my_create_act(node_t *node, float mode, st_table *cost_table, network_t *network, array_t *delay_values);
 
@@ -305,139 +309,141 @@ static ACT_VERTEX_PTR my_create_act_general();
 
 static int all_fanins_positive();
 
-extern int     MARK_VALUE, MARK_COMPLEMENT_VALUE;
+int     MARK_VALUE, MARK_COMPLEMENT_VALUE;
 
-extern array_t *act_order_for_delay();
+array_t *act_order_for_delay();
 
-extern int arrival_compare_fn();
+int arrival_compare_fn();
 
-extern array_t *act_read_delay(); /*act_read.c */
-extern array_t *vertex_name_array;
+array_t *act_read_delay(); /*act_read.c */
+array_t *vertex_name_array;
 
 /* act_collapse.c */
-extern int act_partial_collapse_assign_score_network();
+int act_partial_collapse_assign_score_network();
 
-extern int act_partial_collapse_assign_score_node();
+int act_partial_collapse_assign_score_node();
 
-extern int act_partial_collapse_node();
+int act_partial_collapse_node();
 
-extern int act_partial_collapse_without_lindo();
+int act_partial_collapse_without_lindo();
 
-extern network_t *xln_check_network_for_collapsing_area();
+network_t *xln_check_network_for_collapsing_area();
 
 /* act_util.c */
-extern int is_fanin_of();
+int is_fanin_of();
 
-extern double my_max();
+double my_max();
 
-extern COST_STRUCT *act_allocate_cost_node();
+COST_STRUCT *act_allocate_cost_node();
 
-extern ACT_VERTEX_PTR act_allocate_act_vertex();
+ACT_VERTEX_PTR act_allocate_act_vertex();
 
-extern void act_initialize_act_area();
+void act_initialize_act_area();
 
-extern void act_initialize_act_delay();
+void act_initialize_act_delay();
 
-extern VERTEX_NODE *act_allocate_vertex_node_struct();
+VERTEX_NODE *act_allocate_vertex_node_struct();
 
-extern void act_put_nodes();
+void act_put_nodes();
 
-extern void my_traverse_act();
+void my_traverse_act();
 
 /*act_dutil.c */
-extern void act_delay_trace_forward();
+void act_delay_trace_forward();
 
-extern void act_delay_trace_backward();
+void act_delay_trace_backward();
 
-extern double act_get_arrival_time();
+double act_get_arrival_time();
 
-extern double act_get_required_time();
+double act_get_required_time();
 
-extern COST_STRUCT *act_set_arrival_time();
+COST_STRUCT *act_set_arrival_time();
 
-extern COST_STRUCT *act_set_required_time();
+COST_STRUCT *act_set_required_time();
 
-extern double act_get_bddfanout_delay();
+double act_get_bddfanout_delay();
 
-extern double act_get_node_delay_correction();
+double act_get_node_delay_correction();
 
-extern void act_set_pi_arrival_time_network();
+void act_set_pi_arrival_time_network();
 
-extern COST_STRUCT *act_set_pi_arrival_time_node();
+COST_STRUCT *act_set_pi_arrival_time_node();
 
-extern void act_invalidate_cost_and_arrival_time();
+void act_invalidate_cost_and_arrival_time();
 
-extern double act_cost_delay(COST_STRUCT *cost_node, float mode);
+double act_cost_delay(COST_STRUCT *cost_node, float mode);
 
-extern double act_delay_for_fanout();
+double act_delay_for_fanout();
 
-extern void act_set_slack_network();
+void act_set_slack_network();
 
-extern COST_STRUCT *act_set_slack_node();
+COST_STRUCT *act_set_slack_node();
 
-extern double act_get_slack_node();
+double act_get_slack_node();
 
-extern void act_find_critical_nodes();
+void act_find_critical_nodes();
 
-extern array_t *
+array_t *
 act_compute_area_delay_weight_network_for_collapse(network_t *network, st_table *cost_table, float mode);
 
-extern array_t *
+array_t *
 act_compute_area_delay_weight_node_for_collapse(node_t *node, COST_STRUCT *cost_node, st_table *cost_table, float mode);
 
-extern double act_compute_area_weight_node_for_collapse();
+double act_compute_area_weight_node_for_collapse();
 
-extern COLLAPSIBLE_PAIR *act_allocate_collapsible_pair();
+COLLAPSIBLE_PAIR *act_allocate_collapsible_pair();
 
-extern double act_smallest_fanin_arrival_time_at_fanout_except_node();
+double act_smallest_fanin_arrival_time_at_fanout_except_node();
 
-extern double act_largest_fanin_arrival_time_at_node();
+double act_largest_fanin_arrival_time_at_node();
 
-extern int c_pair_compare_function();
+int c_pair_compare_function();
 
-extern double act_get_max_arrival_time();
+double act_get_max_arrival_time();
 
-extern st_table *act_assign_topol_indices_network();
+st_table *act_assign_topol_indices_network();
 
-extern array_t *act_topol_sort_fanins();
+array_t *act_topol_sort_fanins();
 
-extern void act_delete_topol_table_entries();
+void act_delete_topol_table_entries();
 
-extern enum st_retval act_delete_topol_table_entry();
+enum st_retval act_delete_topol_table_entry();
 
 /* act_map_delay.c (act_map.c) */
-extern void act_init_multiple_fo_array(/* VERTEX_PTR act_of_node */);
+void act_init_multiple_fo_array(/* VERTEX_PTR act_of_node */);
 
-extern int map_act(/* VERTEX_PTR vertex */);
+int map_act(/* VERTEX_PTR vertex */);
 
-extern st_table *end_table;            /* needed in make_bdd() urp_bdd.c*/
-extern network_t *act_map_network();   /* act_map.c */
-extern network_t *act_break_network(); /*act_map.c */
-extern network_t *act_network_remap(); /* act_map.c */
-extern void act_act_free();
+st_table *end_table;            /* needed in make_bdd() urp_bdd.c*/
+network_t *act_map_network();   /* act_map.c */
+network_t *act_break_network(); /*act_map.c */
+network_t *act_network_remap(); /* act_map.c */
+void act_act_free();
 
-extern void free_cost_struct();
+void free_cost_struct();
 
-extern COST_STRUCT *make_tree_and_map();
+COST_STRUCT *make_tree_and_map();
 
-extern COST_STRUCT *make_tree_and_map_delay();
+COST_STRUCT *make_tree_and_map_delay(node_t *node, ACT_VERTEX_PTR act_of_node,
+                                     network_t *network, array_t *delay_values,
+                                     st_table *cost_table, float mode);
 
-extern int WHICH_ACT; /* act_map.c */
-extern int print_network();
+int WHICH_ACT; /* act_map.c */
+int print_network();
 
-extern FILE *BDNET_FILE;   /* com_pld.c */
-extern int  ACT_DEBUG;      /*  com_pld.c */
-extern int  ACT_STATISTICS; /*  com_pld.c */
+FILE *BDNET_FILE;   /* com_pld.c */
+int  ACT_DEBUG;      /*  com_pld.c */
+int  ACT_STATISTICS; /*  com_pld.c */
 
-extern int        MAXOPTIMAL;
-extern array_t
+int        MAXOPTIMAL;
+array_t
                   *multiple_fo_array; /* holds the nodes that have multiple_fo in the act */
-extern int        WHICH_ACT;
-extern ACT_VERTEX *PRESENT_ACT; /* for temporary storage */
-extern int        num_or_patterns;
+int        WHICH_ACT;
+ACT_VERTEX *PRESENT_ACT; /* for temporary storage */
+int        num_or_patterns;
 
 /* act_delay.c */
-extern array_t *act_order_for_delay();
+array_t *act_order_for_delay();
 
 /* Definitions for Xilinx*/
 
@@ -457,44 +463,44 @@ extern array_t *act_order_for_delay();
 #define OK 1
 //#define UNKNOWN (-1) //TODO: what's this?
 
-extern void ULM_decompose_func();
+void ULM_decompose_func();
 
-extern void ULM_eval_func();
+void ULM_eval_func();
 
-extern void ULM_create_partition_matrix();
+void ULM_create_partition_matrix();
 
-extern void merge_node();
+void merge_node();
 
-extern void partition_network();
+void partition_network();
 
-extern void change_edge_capacity();
+void change_edge_capacity();
 
-extern int get_maxflow();
+int get_maxflow();
 
-extern char *formulate_Lindo();
+char *formulate_Lindo();
 
-extern mf_edge_t *get_maxflow_edge();
+mf_edge_t *get_maxflow_edge();
 
-extern node_t *graph2network_node();
+node_t *graph2network_node();
 
-extern void print_fanin();
+void print_fanin();
 
-extern int comp_ptr();
+int comp_ptr();
 
-extern void count_intsec_union();
+void count_intsec_union();
 
-extern enum st_retval print_table_entry();
+enum st_retval print_table_entry();
 
-extern void print_array();
+void print_array();
 /* added March 30, 1992 */
 /*----------------------*/
-extern sm_row *sm_shortest_row();
+sm_row *sm_shortest_row();
 
-extern st_table *xln_collapse_nodes_after_merge();
+st_table *xln_collapse_nodes_after_merge();
 
-extern sm_row *sm_mat_bin_minimum_cover_my();
+sm_row *sm_mat_bin_minimum_cover_my();
 
-extern sm_row *sm_mat_bin_minimum_cover_greedy();
+sm_row *sm_mat_bin_minimum_cover_greedy();
 
 /**********/
 /* macros */
@@ -553,93 +559,93 @@ typedef struct tree_node {
     int              class_num;
 }                 tree_node;
 
-extern void binary(); /* (value, string) */               /* xln_aux.c */
-extern void reverse_string(); /* (answer, givenstring) */ /* xln_aux.c */
-extern void xl_binary1();                                 /*xln_aux.c */
-extern int *xln_array_to_indices();                       /* xln_aux.c */
-extern tree_node *find_tree();                            /*xln_ufind.c */
-extern int unionop();                                     /* xln_ufind.c */
+void binary(); /* (value, string) */               /* xln_aux.c */
+void reverse_string(); /* (answer, givenstring) */ /* xln_aux.c */
+void xl_binary1();                                 /*xln_aux.c */
+int *xln_array_to_indices();                       /* xln_aux.c */
+tree_node *find_tree();                            /*xln_ufind.c */
+void unionop();                                     /* xln_ufind.c */
 
 /* xln_feasible.c */
-extern array_t *xln_get_bound_set();
+array_t *xln_get_bound_set();
 
-extern int xln_node_move_fanin();
+int xln_node_move_fanin(node_t *node, node_t *f, int support, int bound_alphas, float mode);
 
-extern node_t *dec_node_cube(); /* xln_aodecomp.c */
-extern int pld_decomp_and_or(); /* xln_part_dec.c */
+node_t *dec_node_cube(); /* xln_aodecomp.c */
+int pld_decomp_and_or(); /* xln_part_dec.c */
 
-extern int XLN_DEBUG;
-extern int XLN_BEST;
-extern int use_complement;
+int XLN_DEBUG;
+int XLN_BEST;
+int use_complement;
 
-extern xln_kernel_extract();
+xln_kernel_extract();
 
 /* xln_imp.c */
-extern network_t *xln_best_script();
+network_t *xln_best_script();
 
-extern network_t *xln_cofactor_decomp();
+network_t *xln_cofactor_decomp(node_t *node, int support, float mode);
 
-extern node_t *xln_select_fanin_for_cofactor_area();
+node_t *xln_select_fanin_for_cofactor_area();
 
-extern node_t *xln_select_fanin_for_cofactor_delay();
+node_t *xln_select_fanin_for_cofactor_delay();
 
-extern array_t *xln_k_decomp_node_with_array();
+array_t *xln_k_decomp_node_with_array();
 
-extern network_t *xln_k_decomp_node_with_network();
+network_t *xln_k_decomp_node_with_network();
 
 /* xln_level.c */
-extern network_t *xln_check_network_for_collapsing_delay();
+network_t *xln_check_network_for_collapsing_delay();
 
-extern array_t *xln_array_of_levels();
+array_t *xln_array_of_levels();
 
-extern array_t *xln_array_of_critical_nodes_at_levels();
+array_t *xln_array_of_critical_nodes_at_levels();
 
 /* xln_k_decomp_area.c */
-extern network_t *xln_exhaustive_k_decomp_node();
+network_t *xln_exhaustive_k_decomp_node();
 
 /* xln_cube.c */
-extern int xln_ao_compare();
+int xln_ao_compare();
 
 /* pld_util.c */
-extern pld_replace_node_by_network();
+void pld_replace_node_by_network();
 
-extern pld_remap_init_corr();
+void pld_remap_init_corr();
 
-extern node_t *pld_remap_get_node();
+node_t *pld_remap_get_node();
 
-extern node_t *pld_make_node_from_cube();
+node_t *pld_make_node_from_cube();
 
-extern array_t *pld_nodes_from_cubes();
+array_t *pld_nodes_from_cubes();
 
-extern array_t *pld_cubes_of_node();
+array_t *pld_cubes_of_node();
 
-extern array_t *pld_get_non_common_fanins();
+array_t *pld_get_non_common_fanins();
 
-extern int pld_is_node_in_array();
+int pld_is_node_in_array();
 
-extern int pld_is_fanin_subset();
+int pld_is_fanin_subset();
 
-extern array_t *pld_get_array_of_fanins();
+array_t *pld_get_array_of_fanins();
 
-extern st_table *pld_insert_intermediate_nodes_in_table();
+st_table *pld_insert_intermediate_nodes_in_table();
 
-extern array_t *sm_get_rows_covered_by_col();
+array_t *sm_get_rows_covered_by_col();
 
-extern array_t *sm_get_cols_covered_by_row();
+array_t *sm_get_cols_covered_by_row();
 
 /* xln_dec_merge.c */
 #define ALL_CUBES 1
 #define PAIR_NODES 2
 
-extern int pld_affinity_compare_function();
+int pld_affinity_compare_function();
 
-extern array_t *xln_node_find_common_inputs();
+array_t *xln_node_find_common_inputs();
 
-extern node_t *xln_extract_supercube_from_cube();
+node_t *xln_extract_supercube_from_cube();
 
-extern array_t *xln_fill_tables();
+array_t *xln_fill_tables();
 
-extern array_t *xln_infeasible_nodes();
+array_t *xln_infeasible_nodes();
 
 /* for storing the pairs of nodes and their affinity */
 typedef struct xln_affinity_struct_defn {
@@ -689,5 +695,9 @@ typedef struct xln_init_param_defn {
 array_t *pld_shuffle(array_t *list);
 
 int my_node_equal(node_t *node1, node_t *node2);
+
+ACT_VERTEX_PTR p_act_construct(node_t *node, array_t *order_list, int locality);
+
+int xln_cofactor_decomp_node(node_t *node, int support, float mode);
 
 #endif

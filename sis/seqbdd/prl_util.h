@@ -73,47 +73,47 @@ struct seq_info_t {
  * Procedures used to manipulate 'seq_info_t' records
  */
 
-extern seq_info_t *Prl_SeqInitNetwork(network_t *, prl_options_t *);
+seq_info_t *Prl_SeqInitNetwork(network_t *, prl_options_t *);
 
-extern bdd_t *Prl_ExtractReachableStates(seq_info_t *, prl_options_t *);
+bdd_t *Prl_ExtractReachableStates(seq_info_t *, prl_options_t *);
 
-extern void Prl_SeqInfoFree(seq_info_t *, prl_options_t *);
+void Prl_SeqInfoFree(seq_info_t *, prl_options_t *);
 
 /* utilities for dc_networks */
 
-extern void Prl_RemoveDcNetwork(network_t *);
+void Prl_RemoveDcNetwork(network_t *);
 
-extern void Prl_CleanupDcNetwork(network_t *);
+void Prl_CleanupDcNetwork(network_t *);
 
-extern bdd_t *Prl_GetSimpleDc(seq_info_t *);
+bdd_t *Prl_GetSimpleDc(seq_info_t *);
 
 /* utilities for networks */
 
-extern void Prl_StoreAsSingleOutputDcNetwork(network_t *, network_t *);
+void Prl_StoreAsSingleOutputDcNetwork(network_t *, network_t *);
 
-extern void Prl_CleanupDcNetwork(network_t *);
+void Prl_CleanupDcNetwork(network_t *);
 
-extern void Prl_SetupCopyFields(network_t *, network_t *);
+void Prl_SetupCopyFields(network_t *, network_t *);
 
-extern node_t *Prl_CopySubnetwork(network_t *, node_t *);
+node_t *Prl_CopySubnetwork(network_t *, node_t *);
 
-extern char *Prl_DisambiguateName(network_t *, char *, node_t *);
+char *Prl_DisambiguateName(network_t *, char *, node_t *);
 
-extern void Prl_CleanupDcNetwork(network_t *);
+void Prl_CleanupDcNetwork(network_t *);
 
 /* BDD utilities */
 
-extern void Prl_FreeBddArray(array_t *);
+void Prl_FreeBddArray(array_t *);
 
-extern array_t *Prl_OrderSetHeuristic(set_info_t *, int, int);
+array_t *Prl_OrderSetHeuristic(set_info_t *, int, int);
 
-extern void Prl_GetOneEdge(bdd_t *, seq_info_t *, bdd_t **, bdd_t **);
+void Prl_GetOneEdge(bdd_t *, seq_info_t *, bdd_t **, bdd_t **);
 
-extern st_table *Prl_GetPiToVarTable(seq_info_t *);
+st_table *Prl_GetPiToVarTable(seq_info_t *);
 
 /* Misc. utilities */
 
-extern void Prl_ReportElapsedTime(prl_options_t *, char *);
+void Prl_ReportElapsedTime(prl_options_t *, char *);
 
 /* utilities from other directories */
 
@@ -121,6 +121,6 @@ extern void Prl_ReportElapsedTime(prl_options_t *, char *);
 #define GET_VALUE(node) ((int)node->SIM_SLOT)
 #define SET_VALUE(node, value) (node->SIM_SLOT = (char *)value)
 
-extern array_t *simulate_network(network_t *, array_t *, array_t *);
+array_t *simulate_network(network_t *, array_t *, array_t *);
 
 #endif /* PRL_INT_H */

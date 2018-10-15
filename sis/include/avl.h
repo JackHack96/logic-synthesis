@@ -30,33 +30,33 @@ struct avl_generator_struct {
 #define AVL_FORWARD 0
 #define AVL_BACKWARD 1
 
-extern avl_tree *avl_init_table(int (*)());
+avl_tree *avl_init_table(int (*)());
 
-extern int avl_delete(avl_tree *, char **, char **);
+int avl_delete(avl_tree *, char **, char **);
 
-extern int avl_insert(avl_tree *, char *, char *);
+int avl_insert(avl_tree *, char *, char *);
 
-extern int avl_lookup(avl_tree *, char *, char **);
+int avl_lookup(avl_tree *, char *, char **);
 
-extern int avl_first(avl_tree *, char **, char **);
+int avl_first(avl_tree *, char **, char **);
 
-extern int avl_last(avl_tree *, char **, char **);
+int avl_last(avl_tree *, char **, char **);
 
-extern int avl_find_or_add(avl_tree *, char *, char ***);
+int avl_find_or_add(avl_tree *, char *, char ***);
 
-extern int avl_count(avl_tree *);
+int avl_count(avl_tree *);
 
-extern int avl_numcmp(char *, char *);
+int avl_numcmp(char *, char *);
 
-extern int avl_gen(avl_generator *, char **, char **);
+int avl_gen(avl_generator *, char **, char **);
 
-extern void avl_foreach(avl_tree *, void (*)(), int);
+void avl_foreach(avl_tree *, void (*)(), int);
 
-extern void avl_free_table(avl_tree *, void (*)(), void (*)());
+void avl_free_table(avl_tree *, void (*)(), void (*)());
 
-extern void avl_free_gen(avl_generator *);
+void avl_free_gen(avl_generator *);
 
-extern avl_generator *avl_init_gen(avl_tree *, int);
+avl_generator *avl_init_gen(avl_tree *, int);
 
 #define avl_is_member(tree, key) avl_lookup(tree, key, (char **)0)
 

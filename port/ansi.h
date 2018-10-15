@@ -15,7 +15,7 @@
  *
  * ARGS:
  *   Used in function prototypes.  Example:
- *   extern int foo
+ *   int foo
  *     (char *, double);
  */
 
@@ -33,9 +33,9 @@
 #endif
 
 #ifdef __cplusplus
-#define extern extern "C"
+#define "C"
 #else
-#define extern extern
+#define extern
 #endif
 
 #if defined(__cplusplus) || defined(__STDC__)

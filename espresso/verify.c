@@ -2,7 +2,7 @@
 /*
  */
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 /*
  *  verify -- check that all minterms of F are contained in (Fold u Dold)

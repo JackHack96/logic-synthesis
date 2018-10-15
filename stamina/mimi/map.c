@@ -11,9 +11,9 @@
 
 P_EDGE **r_states;
 static char *r_out;
-extern int *b_cover;
-extern int *c_cover;
-extern NLIST *_head;
+int *b_cover;
+int *c_cover;
+NLIST *_head;
 
 map() {
   register i;

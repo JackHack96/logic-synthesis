@@ -24,7 +24,7 @@ void astg_do_daemons(astg_graph *stg1, astg_graph *stg2, astg_daemon_enum type) 
     }
 }
 
-extern void astg_register_daemon(astg_daemon_enum type, astg_daemon daemon) {
+void astg_register_daemon(astg_daemon_enum type, astg_daemon daemon) {
     /*	Register an ASTG daemon.  A daemon is a function which takes two
     arguments:
       static void daemon (astg_graph *g1, astg_graph *g2);
@@ -54,19 +54,19 @@ void astg_discard_daemons() {
     daemon_list = NULL;
 }
 
-extern void *astg_get_slot(astg_graph *stg, astg_slot_enum slot_id) {
+void *astg_get_slot(astg_graph *stg, astg_slot_enum slot_id) {
     /*	Return the value of the given slot. */
     return stg->slots[(int) slot_id];
 }
 
-extern void astg_set_slot(astg_graph *stg, astg_slot_enum slot_id, void *value) {
+void astg_set_slot(astg_graph *stg, astg_slot_enum slot_id, void *value) {
     /*	Set a slot to a new value. */
     stg->slots[(int) slot_id] = value;
 }
 
 /* --------------------------- Net Predicates ------------------------------- */
 
-extern astg_bool astg_is_marked_graph(astg_graph *stg) {
+astg_bool astg_is_marked_graph(astg_graph *stg) {
     /*	Returns true if stg is a marked graph. */
 
     astg_generator pgen;
@@ -81,7 +81,7 @@ extern astg_bool astg_is_marked_graph(astg_graph *stg) {
     return is_mg;
 }
 
-extern astg_bool astg_is_state_machine(astg_graph *stg) {
+astg_bool astg_is_state_machine(astg_graph *stg) {
     /*	Returns true if stg is a state machine. */
 
     astg_bool      is_sm = ASTG_TRUE;
@@ -96,7 +96,7 @@ extern astg_bool astg_is_state_machine(astg_graph *stg) {
     return is_sm;
 }
 
-extern astg_bool astg_is_free_choice_net(astg_graph *stg) {
+astg_bool astg_is_free_choice_net(astg_graph *stg) {
     /*	Returns true if the stg is a Free Choice net. */
 
     astg_bool      is_fcn = ASTG_TRUE;

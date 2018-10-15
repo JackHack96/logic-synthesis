@@ -1163,7 +1163,7 @@ int com_xln_collapse_check_area(network_t **network, int argc, char **argv) {
 
 /* init routines*/
 init_pld() {
-    extern int init_ite(), end_ite();
+    int init_ite(), end_ite();
 
     com_add_command("act_map", com_act_main, 1);
 

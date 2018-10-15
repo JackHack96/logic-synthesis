@@ -11,13 +11,13 @@ static int unput();
 static int yywrap();
 
 FILE *gl_out_file;
-extern char *yytext;
+char *yytext;
 
 static int global_use_nor;
 static function_t *global_fct;
 
-extern int library_setup_string(char *);
-extern int library_setup_file(FILE *, char *);
+int library_setup_string(char *);
+int library_setup_file(FILE *, char *);
 
 %}
 

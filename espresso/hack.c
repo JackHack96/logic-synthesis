@@ -1,5 +1,5 @@
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 map_dcset(PLA) pPLA PLA;
 {

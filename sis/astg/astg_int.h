@@ -13,7 +13,7 @@
 #include "network.h"
 #include "latch.h"
 
-extern int astg_debug_flag;
+int astg_debug_flag;
 
 typedef unsigned astg_bool;
 #define ASTG_FALSE 0
@@ -311,7 +311,7 @@ void astg_usage(char **, char *);
 
 #ifdef SIS_H /* Declarations depending on <sis.h>.	*/
 
-extern astg_graph *astg_current(network_t *network);
+astg_graph *astg_current(network_t *network);
 
 void astg_set_current(network_t **, astg_graph *, astg_bool);
 

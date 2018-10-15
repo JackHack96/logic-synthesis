@@ -105,76 +105,76 @@ struct sm_cube_cell_struct {
 };
 
 /* com_fx.c */
-extern int ONE_PASS;
-extern int FX_DELETE;
-extern int LENGTH1;
-extern int LENGTH2;
-extern int DONT_USE_WEIGHT_ZERO;
+int ONE_PASS;
+int FX_DELETE;
+int LENGTH1;
+int LENGTH2;
+int DONT_USE_WEIGHT_ZERO;
 
 /* ddivisor.c */
-extern int extract_ddivisor();
+int extract_ddivisor();
 
-extern ddivisor_t *check_append();
+ddivisor_t *check_append();
 
-extern void hash_ddset_table();
+void hash_ddset_table();
 
-extern lsList choose_check_set();
+lsList choose_check_set();
 
 static lsList lookup_ddset_other();
 
 static lsList lookup_ddset();
 
-extern int check_exist();
+int check_exist();
 
-extern ddivisor_t *gen_ddivisor();
+ddivisor_t *gen_ddivisor();
 
-extern int decide_dtype();
+int decide_dtype();
 
-extern void clear_row_element();
+void clear_row_element();
 
 /* memory allocation and free in ddivsior.c */
-extern ddivisor_t *ddivisor_alloc();
+ddivisor_t *ddivisor_alloc();
 
-extern void ddivisor_free();
+void ddivisor_free();
 
-extern ddivisor_cell_t *ddivisor_cell_alloc();
+ddivisor_cell_t *ddivisor_cell_alloc();
 
-extern void ddivisor_cell_free();
+void ddivisor_cell_free();
 
-extern ddset_t *ddset_alloc_init();
+ddset_t *ddset_alloc_init();
 
-extern void ddset_free();
+void ddset_free();
 
-extern sm_cube_t *sm_cube_alloc();
+sm_cube_t *sm_cube_alloc();
 
-extern void sm_cube_free();
+void sm_cube_free();
 
 /* fast_extract.c */
-extern void fx_node_to_sm();
+void fx_node_to_sm();
 
-extern node_t *fx_sm_to_node();
+node_t *fx_sm_to_node();
 
-extern int fast_extract();
+int fast_extract();
 
-extern void calc_weight();
+void calc_weight();
 
 /* sdivisor.c */
 static sdivisor_t *sdivisor_alloc();
 
 static void sdivisor_free();
 
-extern sdset_t *sdset_alloc();
+sdset_t *sdset_alloc();
 
-extern void sdset_free();
+void sdset_free();
 
 static col_cell_t *col_cell_alloc();
 
 static void col_cell_free();
 
-extern sdivisor_t *extract_sdivisor();
+sdivisor_t *extract_sdivisor();
 
-extern sdivisor_t *sdivsisor_alloc();
+sdivisor_t *sdivsisor_alloc();
 
-extern void sdivisor_free();
+void sdivisor_free();
 
 #endif

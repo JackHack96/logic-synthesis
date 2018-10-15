@@ -1,7 +1,7 @@
 #include "enc_int.h"
 #include "sis.h"
 
-extern bool enc_debug;
+bool enc_debug;
 
 /* ARGSUSED */
 int com_enc_sat(cons_t **cons, int nsymb, char ***codes)

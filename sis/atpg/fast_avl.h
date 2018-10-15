@@ -39,25 +39,25 @@ struct fast_avl_generator_struct {
 #define AVL_FORWARD 0
 #define AVL_BACKWARD 1
 
-extern fast_avl_tree *fast_avl_init_tree(int (*)());
+fast_avl_tree *fast_avl_init_tree(int (*)());
 
-extern int fast_avl_insert(fast_avl_tree *, char *, char *);
+int fast_avl_insert(fast_avl_tree *, char *, char *);
 
-extern int fast_avl_lookup(fast_avl_tree *, char *, char **);
+int fast_avl_lookup(fast_avl_tree *, char *, char **);
 
-extern int fast_avl_numcmp(char *, char *);
+int fast_avl_numcmp(char *, char *);
 
-extern int fast_avl_gen(fast_avl_generator *, char **, char **);
+int fast_avl_gen(fast_avl_generator *, char **, char **);
 
-extern void fast_avl_foreach(fast_avl_tree *, void (*)(), int);
+void fast_avl_foreach(fast_avl_tree *, void (*)(), int);
 
-extern void fast_avl_free_tree(fast_avl_tree *, void (*)(), void (*)());
+void fast_avl_free_tree(fast_avl_tree *, void (*)(), void (*)());
 
-extern void fast_avl_free_gen(fast_avl_generator *);
+void fast_avl_free_gen(fast_avl_generator *);
 
-extern fast_avl_generator *fast_avl_init_gen(fast_avl_tree *, int);
+fast_avl_generator *fast_avl_init_gen(fast_avl_tree *, int);
 
-extern void fast_avl_cleanup();
+void fast_avl_cleanup();
 
 #define fast_avl_count(tree) (tree)->num_entries
 
@@ -67,10 +67,10 @@ extern void fast_avl_cleanup();
   for (gen = fast_avl_init_gen(tree, dir);                                     \
        fast_avl_gen(gen, key_p, value_p) || (fast_avl_free_gen(gen), 0);)
 
-extern fast_avl_node      *fast_avl_node_freelist;
-extern fast_avl_tree      *fast_avl_tree_freelist;
-extern fast_avl_generator *fast_avl_generator_freelist;
-extern fast_avl_nodelist  *fast_avl_nodelist_freelist;
+fast_avl_node      *fast_avl_node_freelist;
+fast_avl_tree      *fast_avl_tree_freelist;
+fast_avl_generator *fast_avl_generator_freelist;
+fast_avl_nodelist  *fast_avl_nodelist_freelist;
 
 #define fast_avl_node_alloc(newobj)                                            \
   if (fast_avl_node_freelist == NIL(fast_avl_node)) {                          \

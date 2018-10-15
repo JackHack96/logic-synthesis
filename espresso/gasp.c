@@ -16,7 +16,7 @@
     maximally reduced cubes.
 */
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 /*
  *  reduce_gasp -- compute the maximal reduction of each cube of F

@@ -1,5 +1,5 @@
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 static bool primes_consensus_special_cases();
 

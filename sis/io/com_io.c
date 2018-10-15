@@ -258,7 +258,7 @@ static int com_write(network_t **network, int argc, char **argv) {
 
 #define node_short_name(n) n->short_name
 
-extern char *node_decide_name();
+char *node_decide_name();
 
 static int com_pds(network_t **network, int argc, char **argv) {
     int  c, short_name, combinational_flag;
@@ -389,7 +389,7 @@ int write_pds_sop(FILE *fp, node_t *node, int short_name) {
     node_literal_t literal;
     node_t         *fanin;
 
-    extern int io_node_should_be_printed();
+    int io_node_should_be_printed();
 
     if (io_node_should_be_printed(node) == 0) {
         return;
@@ -452,7 +452,7 @@ int po_fanout_count(node_t *n) {
 }
 
 char *node_decide_name(node_t *node, int short_name) {
-    extern char *io_name();
+    char *io_name();
 
     return io_name(node, short_name);
 }

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libdecomp.a  CMakeFiles/decomp.dir/com_dec.c.o CMakeFiles/decomp.dir/dec_alg.c.o CMakeFiles/decomp.dir/dec_sm.c.o CMakeFiles/decomp.dir/dec_tech.c.o CMakeFiles/decomp.dir/dec_util.c.o CMakeFiles/decomp.dir/decomp.c.o CMakeFiles/decomp.dir/disj.c.o CMakeFiles/decomp.dir/partition.c.o
+/usr/bin/ranlib libdecomp.a

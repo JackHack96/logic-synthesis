@@ -22,9 +22,9 @@ typedef struct {
 /*
  * Stuff internal to the ntbdd package.
  */
-extern void bdd_alloc_demon(/* node_t *node */);
+void bdd_alloc_demon(/* node_t *node */);
 
-extern void bdd_free_demon(/* node_t *node; */);
+void bdd_free_demon(/* node_t *node; */);
 
 /*
  * enum type to denote what type of BDD is being created: LOCAL

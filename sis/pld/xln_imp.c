@@ -11,9 +11,9 @@
 #include "pld_int.h"
 #include "sis.h"
 
-extern node_t *pld_remap_get_node();
+node_t *pld_remap_get_node();
 
-extern network_t *xln_best_script();
+network_t *xln_best_script();
 
 /*--------------------------------------------------------------------------
   If the network is small (number of literals in SOP less than lit_limit),

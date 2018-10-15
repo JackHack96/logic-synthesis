@@ -15,13 +15,13 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-extern int errno;
+int errno;
 
 #define BUFSIZE 8192
 
-extern long lseek(); /* For lint */
-extern int getpagesize();
-extern char *sbrk();
+long lseek(); /* For lint */
+int getpagesize();
+char *sbrk();
 
 static int copy_file();
 static int pad_file();

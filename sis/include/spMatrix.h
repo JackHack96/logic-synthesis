@@ -271,96 +271,96 @@ struct spTemplate {
 
 /* For compilers that understand function prototypes. */
 
-extern void spClear(char *);
+void spClear(char *);
 
-extern spREAL spCondition(char *, spREAL, int *);
+spREAL spCondition(char *, spREAL, int *);
 
-extern char *spCreate(int, int, int *);
+char *spCreate(int, int, int *);
 
-extern void spDeleteRowAndCol(char *, int, int);
+void spDeleteRowAndCol(char *, int, int);
 
-extern void spDestroy(char *);
+void spDestroy(char *);
 
-extern int spElementCount(char *);
+int spElementCount(char *);
 
-extern int spError(char *);
+int spError(char *);
 
-extern int spFactor(char *);
+int spFactor(char *);
 
-extern int spFileMatrix(char *, char *, char *, int, int, int);
+int spFileMatrix(char *, char *, char *, int, int, int);
 
-extern int spFileStats(char *, char *, char *);
+int spFileStats(char *, char *, char *);
 
-extern int spFillinCount(char *);
+int spFillinCount(char *);
 
-extern int spGetAdmittance(char *, int, int, struct spTemplate *);
+int spGetAdmittance(char *, int, int, struct spTemplate *);
 
-extern spREAL *spGetElement(char *, int, int);
+spREAL *spGetElement(char *, int, int);
 
-extern char *spGetInitInfo(spREAL *);
+char *spGetInitInfo(spREAL *);
 
-extern int spGetOnes(char *, int, int, int, struct spTemplate *);
+int spGetOnes(char *, int, int, int, struct spTemplate *);
 
-extern int spGetQuad(char *, int, int, int, int, struct spTemplate *);
+int spGetQuad(char *, int, int, int, int, struct spTemplate *);
 
-extern int spGetSize(char *, int);
+int spGetSize(char *, int);
 
-extern int spInitialize(char *, int (*)());
+int spInitialize(char *, int (*)());
 
-extern void spInstallInitInfo(spREAL *, char *);
+void spInstallInitInfo(spREAL *, char *);
 
-extern spREAL spLargestElement(char *);
+spREAL spLargestElement(char *);
 
-extern void spMNA_Preorder(char *);
+void spMNA_Preorder(char *);
 
-extern spREAL spNorm(char *);
+spREAL spNorm(char *);
 
-extern int spOrderAndFactor(char *, spREAL[], spREAL, spREAL, int);
+int spOrderAndFactor(char *, spREAL[], spREAL, spREAL, int);
 
-extern void spPartition(char *, int);
+void spPartition(char *, int);
 
-extern void spPrint(char *, int, int, int);
+void spPrint(char *, int, int, int);
 
-extern spREAL spPseudoCondition(char *);
+spREAL spPseudoCondition(char *);
 
-extern spREAL spRoundoff(char *, spREAL);
+spREAL spRoundoff(char *, spREAL);
 
-extern void spScale(char *, spREAL[], spREAL[]);
+void spScale(char *, spREAL[], spREAL[]);
 
-extern void spSetComplex(char *);
+void spSetComplex(char *);
 
-extern void spSetReal(char *);
+void spSetReal(char *);
 
-extern void spStripFills(char *);
+void spStripFills(char *);
 
-extern void spWhereSingular(char *, int *, int *);
+void spWhereSingular(char *, int *, int *);
 
 /* Functions with argument lists that are dependent on options. */
 
 #if spCOMPLEX
-extern void spDeterminant(char *, int *, spREAL *, spREAL *);
+void spDeterminant(char *, int *, spREAL *, spREAL *);
 #else /* NOT spCOMPLEX */
 
-extern void spDeterminant(char *, int *, spREAL *);
+void spDeterminant(char *, int *, spREAL *);
 
 #endif /* NOT spCOMPLEX */
 #if spCOMPLEX && spSEPARATED_COMPLEX_VECTORS
-extern int spFileVector(char *, char *, spREAL[], spREAL[]);
-extern void spMultiply(char *, spREAL[], spREAL[], spREAL[], spREAL[]);
-extern void spMultTransposed(char *, spREAL[], spREAL[], spREAL[], spREAL[]);
-extern void spSolve(char *, spREAL[], spREAL[], spREAL[], spREAL[]);
-extern void spSolveTransposed(char *, spREAL[], spREAL[], spREAL[], spREAL[]);
+int spFileVector(char *, char *, spREAL[], spREAL[]);
+void spMultiply(char *, spREAL[], spREAL[], spREAL[], spREAL[]);
+void spMultTransposed(char *, spREAL[], spREAL[], spREAL[], spREAL[]);
+void spSolve(char *, spREAL[], spREAL[], spREAL[], spREAL[]);
+void spSolveTransposed(char *, spREAL[], spREAL[], spREAL[], spREAL[]);
 #else /* NOT (spCOMPLEX && spSEPARATED_COMPLEX_VECTORS) */
 
-extern int spFileVector(char *, char *, spREAL[]);
+int spFileVector(char *, char *, spREAL[]);
 
-extern void spMultiply(char *, spREAL[], spREAL[]);
+void spMultiply(char *, spREAL[], spREAL[]);
 
-extern void spMultTransposed(char *, spREAL[], spREAL[]);
+void spMultTransposed(char *, spREAL[], spREAL[]);
 
-extern void spSolve(char *, spREAL[], spREAL[]);
+void spSolve(char *, spREAL[], spREAL[]);
 
-extern void spSolveTransposed(char *, spREAL[], spREAL[]);
+void spSolveTransposed(char *, spREAL[], spREAL[]);
 
 #endif /* NOT (spCOMPLEX && spSEPARATED_COMPLEX_VECTORS) */
 
@@ -368,82 +368,82 @@ extern void spSolveTransposed(char *, spREAL[], spREAL[]);
 
 /* For compilers that do not understand function prototypes. */
 
-extern void spClear();
-extern spREAL spCondition();
-extern char *spCreate();
-extern void spDeleteRowAndCol();
-extern void spDestroy();
-extern void spDeterminant();
-extern int spElementCount();
-extern int spError();
-extern int spFactor();
-extern int spFileMatrix();
-extern int spFileStats();
-extern int spFileVector();
-extern int spFillinCount();
-extern int spGetAdmittance();
-extern spREAL *spGetElement();
-extern char *spGetInitInfo();
-extern int spGetOnes();
-extern int spGetQuad();
-extern int spGetSize();
-extern int spInitialize();
-extern void spInstallInitInfo();
-extern spREAL spLargestElement();
-extern void spMNA_Preorder();
-extern void spMultiply();
-extern void spMultTransposed();
-extern spREAL spNorm();
-extern int spOrderAndFactor();
-extern void spPartition();
-extern void spPrint();
-extern spREAL spPseudoCondition();
-extern spREAL spRoundoff();
-extern void spScale();
-extern void spSetComplex();
-extern void spSetReal();
-extern void spSolve();
-extern void spSolveTransposed();
-extern void spStripFills();
-extern void spWhereSingular();
+void spClear();
+spREAL spCondition();
+char *spCreate();
+void spDeleteRowAndCol();
+void spDestroy();
+void spDeterminant();
+int spElementCount();
+int spError();
+int spFactor();
+int spFileMatrix();
+int spFileStats();
+int spFileVector();
+int spFillinCount();
+int spGetAdmittance();
+spREAL *spGetElement();
+char *spGetInitInfo();
+int spGetOnes();
+int spGetQuad();
+int spGetSize();
+int spInitialize();
+void spInstallInitInfo();
+spREAL spLargestElement();
+void spMNA_Preorder();
+void spMultiply();
+void spMultTransposed();
+spREAL spNorm();
+int spOrderAndFactor();
+void spPartition();
+void spPrint();
+spREAL spPseudoCondition();
+spREAL spRoundoff();
+void spScale();
+void spSetComplex();
+void spSetReal();
+void spSolve();
+void spSolveTransposed();
+void spStripFills();
+void spWhereSingular();
 #endif /* defined(__STDC__) */
 
 #if spCOMPATIBILITY
-extern char *AllocateMatrix();
-extern spREAL *AddElementToMatrix();
-extern void AddRealElementToMatrix();
-extern void AddImagElementToMatrix();
-extern void AddComplexElementToMatrix();
-extern void AddAdmittanceToMatrix();
-extern void AddOnesToMatrix();
-extern void AddQuadToMatrix();
-extern void AddRealQuadElementToMatrix();
-extern void AddImagQuadElementToMatrix();
-extern void AddComplexQuadElementToMatrix();
-extern void CleanMatrix();
-extern void ClearMatrix();
-extern int ClearMatrixError();
-extern void DeallocateMatrix();
-extern void DeleteRowAndColFromMatrix();
-extern void Determinant();
-extern int DecomposeMatrix();
-extern int GetMatrixSize();
-extern int MatrixElementCount();
-extern int MatrixFillinCount();
-extern void MatrixMultiply();
-extern spREAL MatrixRoundoffError();
-extern int MatrixError();
-extern int OrderAndDecomposeMatrix();
-extern void OutputMatrixToFile();
-extern void OutputStatisticsToFile();
-extern void OutputVectorToFile();
-extern void PreorderForModifiedNodal();
-extern void PrintMatrix();
-extern void SetMatrixComplex();
-extern void SetMatrixReal();
-extern void SolveMatrix();
-extern void SolveTransposedMatrix();
-extern void ScaleMatrix();
+char *AllocateMatrix();
+spREAL *AddElementToMatrix();
+void AddRealElementToMatrix();
+void AddImagElementToMatrix();
+void AddComplexElementToMatrix();
+void AddAdmittanceToMatrix();
+void AddOnesToMatrix();
+void AddQuadToMatrix();
+void AddRealQuadElementToMatrix();
+void AddImagQuadElementToMatrix();
+void AddComplexQuadElementToMatrix();
+void CleanMatrix();
+void ClearMatrix();
+int ClearMatrixError();
+void DeallocateMatrix();
+void DeleteRowAndColFromMatrix();
+void Determinant();
+int DecomposeMatrix();
+int GetMatrixSize();
+int MatrixElementCount();
+int MatrixFillinCount();
+void MatrixMultiply();
+spREAL MatrixRoundoffError();
+int MatrixError();
+int OrderAndDecomposeMatrix();
+void OutputMatrixToFile();
+void OutputStatisticsToFile();
+void OutputVectorToFile();
+void PreorderForModifiedNodal();
+void PrintMatrix();
+void SetMatrixComplex();
+void SetMatrixReal();
+void SolveMatrix();
+void SolveTransposedMatrix();
+void ScaleMatrix();
 #endif /* spCOMPATIBILITY */
 
 #endif /* SPMATRIX_H */

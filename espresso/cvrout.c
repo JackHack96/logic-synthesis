@@ -4,7 +4,7 @@
     purpose: cube and cover output routines
 */
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 void fprint_pla(fp, PLA, output_type) INOUT FILE *fp;
 IN pPLA PLA;

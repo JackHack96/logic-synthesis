@@ -133,7 +133,7 @@ char *util_tilde_expand(fname) char *fname;
   static char result[8][PATHLEN];
   static int count = 0;
   struct passwd *userRecord;
-  extern struct passwd *getpwuid(), *getpwnam();
+  struct passwd *getpwuid(), *getpwnam();
   register int i, j;
   char *dir;
 

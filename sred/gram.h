@@ -15,6 +15,6 @@
 #define CUBE 264
 #define NUM 265
 
-extern YYSTYPE yylval;
+YYSTYPE yylval;
 
 #endif /* not BISON_GRAM_H */

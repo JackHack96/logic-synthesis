@@ -1,0 +1,2 @@
+/usr/bin/ar qc liblatch.a  CMakeFiles/latch.dir/com_latch.c.o CMakeFiles/latch.dir/latch.c.o
+/usr/bin/ranlib liblatch.a

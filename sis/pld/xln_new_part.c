@@ -10,7 +10,7 @@
 #include "pld_int.h"
 #include "sis.h"
 
-extern int                XLN_DEBUG;
+int                XLN_DEBUG;
 
 struct sol_struct {
     int    value;

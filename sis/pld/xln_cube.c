@@ -12,7 +12,7 @@
 
 node_t *xln_make_big_and();
 
-extern int XLN_DEBUG;
+int XLN_DEBUG;
 
 /*----------------------------------------------------------------------
   Employs a bin-packing Best Fit Decreasing algorithm to decompose all

@@ -41,50 +41,50 @@ typedef int (*ST_PFI)();
 
 typedef int (*ST_PFICPI)();
 
-extern int st_delete(st_table *, char **, char **);
+int st_delete(st_table *, char **, char **);
 
-extern int st_delete_int(st_table *, int *, char **);
+int st_delete_int(st_table *, int *, char **);
 
-extern int st_insert(st_table *, char *, char *);
+int st_insert(st_table *, char *, char *);
 
-extern int st_foreach(st_table *, ST_PFSR, char *);
+int st_foreach(st_table *, ST_PFSR, char *);
 
-extern int st_gen(st_generator *, char **, char **);
+int st_gen(st_generator *, char **, char **);
 
-extern int st_gen_int(st_generator *, char **, int *);
+int st_gen_int(st_generator *, char **, int *);
 
-extern int st_lookup(st_table *, char *, char **);
+int st_lookup(st_table *, char *, char **);
 
-extern int st_lookup_int(st_table *, char *, int *);
+int st_lookup_int(st_table *, char *, int *);
 
-extern int st_find_or_add(st_table *, char *, char ***);
+int st_find_or_add(st_table *, char *, char ***);
 
-extern int st_find(st_table *, char *, char ***);
+int st_find(st_table *, char *, char ***);
 
 void st_add_direct(st_table *table, char *key, char *value);
 
-extern int st_strhash(char *, int);
+int st_strhash(char *, int);
 
-extern int st_numhash(char *, int);
+int st_numhash(char *, int);
 
-extern int st_ptrhash(char *, int);
+int st_ptrhash(char *, int);
 
-extern int st_numcmp(char *, char *);
+int st_numcmp(char *, char *);
 
-extern int st_ptrcmp(char *, char *);
+int st_ptrcmp(char *, char *);
 
-extern st_table *st_init_table(ST_PFI, ST_PFI);
+st_table *st_init_table(ST_PFI, ST_PFI);
 
-extern st_table *st_init_table_with_params(ST_PFI, ST_PFI, int, int, double,
+st_table *st_init_table_with_params(ST_PFI, ST_PFI, int, int, double,
                                            int);
 
-extern st_table *st_copy(st_table *);
+st_table *st_copy(st_table *);
 
-extern st_generator *st_init_gen(st_table *);
+st_generator *st_init_gen(st_table *);
 
-extern void st_free_table(st_table *);
+void st_free_table(st_table *);
 
-extern void st_free_gen(st_generator *);
+void st_free_gen(st_generator *);
 
 #define ST_DEFAULT_MAX_DENSITY 5
 #define ST_DEFAULT_INIT_TABLE_SIZE 11

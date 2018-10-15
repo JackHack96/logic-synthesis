@@ -35,64 +35,64 @@ typedef struct node_data {
 #define SENUM_ALLOC(type, num)                                                 \
   ((type *)calloc((unsigned)(num), (unsigned)sizeof(type)))
 
-extern int stg_statecmp();
+int stg_statecmp();
 
-extern int stg_statehash();
+int stg_statehash();
 
-extern void stg_init_state_hash();
+void stg_init_state_hash();
 
-extern void stg_end_state_hash();
+void stg_end_state_hash();
 
 /*
-extern void stg_print_hashed_state();
+void stg_print_hashed_state();
 */
-extern void stg_translate_hashed_code();
+void stg_translate_hashed_code();
 
-extern unsigned *stg_get_state_hash();
+unsigned *stg_get_state_hash();
 
-extern ndata *nptr();
+ndata *nptr();
 
-extern void setnptr();
+void setnptr();
 
 /* Old use of the undef1 has been discontinued
 #define nptr(node)	((ndata *) (node)->undef1)
 #define setnptr(node,n)	((node)->undef1 = (char *) (n))
 */
 
-extern network_t *copy;
-extern ndata     **stg_pstate, **stg_nstate, **real_po;
-extern int       *stg_estate;
-extern int       nlatch, npi, npo;
-extern int       stg_longs_per_state, stg_bits_per_long;
-extern int       total_no_of_states;
-extern long      total_no_of_edges;
-extern unsigned  *unfinish_head, *hashed_state;
-extern st_table  *slist;
-extern st_table  *state_table;
-extern int       n_varying_nodes;
-extern ndata     **varying_node;
+network_t *copy;
+ndata     **stg_pstate, **stg_nstate, **real_po;
+int       *stg_estate;
+int       nlatch, npi, npo;
+int       stg_longs_per_state, stg_bits_per_long;
+int       total_no_of_states;
+long      total_no_of_edges;
+unsigned  *unfinish_head, *hashed_state;
+st_table  *slist;
+st_table  *state_table;
+int       n_varying_nodes;
+ndata     **varying_node;
 
 #define SCHEDULED 1
 #define ALL_ASSIGNED 2
 #define MARKED 4
 #define CHANGED 8
 
-extern void ctable_enum();
+void ctable_enum();
 
-extern unsigned *shashcode();
+unsigned *shashcode();
 
-extern void enumerate();
+void enumerate();
 
-extern void stg_sc_sim();
+void stg_sc_sim();
 
-extern void level_circuit();
+void level_circuit();
 
-extern void rearrange_gate_inputs();
+void rearrange_gate_inputs();
 
-extern void stg_copy_names();
+void stg_copy_names();
 
-extern void stg_copy_clock_data();
+void stg_copy_clock_data();
 
-extern void stg_set_network_pipo_names();
+void stg_set_network_pipo_names();
 
 #endif

@@ -111,87 +111,87 @@ struct verif_options_t {
 /* Three sets of functions to implement 3 different methods.  */
 /* Because of bug in DECstation cc, can't use typedefs above. */
 
-extern range_data_t *consistency_alloc_range_data();
+range_data_t *consistency_alloc_range_data();
 
-extern bdd_t *consistency_compute_next_states();
+bdd_t *consistency_compute_next_states();
 
-extern bdd_t *consistency_compute_reverse_image();
+bdd_t *consistency_compute_reverse_image();
 
-extern void consistency_free_range_data();
+void consistency_free_range_data();
 
-extern int consistency_check_output();
+int consistency_check_output();
 
-extern void consistency_bdd_sizes();
+void consistency_bdd_sizes();
 
-extern range_data_t *bull_alloc_range_data();
+range_data_t *bull_alloc_range_data();
 
-extern bdd_t *bull_compute_next_states();
+bdd_t *bull_compute_next_states();
 
-extern bdd_t *bull_compute_reverse_image();
+bdd_t *bull_compute_reverse_image();
 
-extern void bull_free_range_data();
+void bull_free_range_data();
 
-extern int bull_check_output();
+int bull_check_output();
 
-extern void bull_bdd_sizes();
+void bull_bdd_sizes();
 
-extern range_data_t *product_alloc_range_data();
+range_data_t *product_alloc_range_data();
 
-extern bdd_t *product_compute_next_states();
+bdd_t *product_compute_next_states();
 
-extern bdd_t *product_compute_reverse_image();
+bdd_t *product_compute_reverse_image();
 
-extern void product_free_range_data();
+void product_free_range_data();
 
-extern int product_check_output();
+int product_check_output();
 
-extern void product_bdd_sizes();
+void product_bdd_sizes();
 
-extern int seqbdd_extract_input_sequence();
+int seqbdd_extract_input_sequence();
 
-extern int bdd_range_fill_options();
+int bdd_range_fill_options();
 
-extern int input_network_check_pi(/* net1, net2 */);
+int input_network_check_pi(/* net1, net2 */);
 
-extern int check_input_networks(/* net1, constraints1, net2, constraints2 */);
+int check_input_networks(/* net1, constraints1, net2, constraints2 */);
 
-extern void bdd_print_any_minterm(/* bdd_t *fn */);
+void bdd_print_any_minterm(/* bdd_t *fn */);
 
-extern int seq_verify_interface();
+int seq_verify_interface();
 
-extern network_t *range_computation_interface();
+network_t *range_computation_interface();
 
-extern node_t *copy_init_state_constraint();
+node_t *copy_init_state_constraint();
 
-extern node_t *build_equivalence_node();
+node_t *build_equivalence_node();
 
 /* from verif_util.c */
-extern array_t *order_nodes();
+array_t *order_nodes();
 
-extern array_t *create_new_pi();
+array_t *create_new_pi();
 
-extern array_t *get_po_ordering();
+array_t *get_po_ordering();
 
-extern st_table *get_pi_ordering();
+st_table *get_pi_ordering();
 
-extern array_t *get_remaining_po();
+array_t *get_remaining_po();
 
-extern array_t *network_extract_next_state_po(
+array_t *network_extract_next_state_po(
     /* network_t *network, network_t *constraints */);
 
-extern array_t *network_extract_pi(/* network_t *network */);
+array_t *network_extract_pi(/* network_t *network */);
 
-extern void print_node_array(/* array_t *array */);
+void print_node_array(/* array_t *array */);
 
-extern void print_node_table(/* st_table *table */);
+void print_node_table(/* st_table *table */);
 
-extern node_t *network_copy_subnetwork();
+node_t *network_copy_subnetwork();
 
-extern void report_inconsistency();
+void report_inconsistency();
 
-extern st_table *from_array_to_table(/* array_t *array */);
+st_table *from_array_to_table(/* array_t *array */);
 
-extern void output_info_free();
+void output_info_free();
 
 /* from ordering.c */
 typedef struct {
@@ -200,34 +200,34 @@ typedef struct {
   var_set_t **sets;
 } set_info_t;
 
-extern array_t *find_best_set_order(/* set_info_t *info, int verbose */);
+array_t *find_best_set_order(/* set_info_t *info, int verbose */);
 
-extern array_t *find_greedy_set_order(/* set_info_t *info, int verbose */);
+array_t *find_greedy_set_order(/* set_info_t *info, int verbose */);
 
 /* from verif_util.c */
-extern array_t *bdd_extract_var_array(/* array_t *node_list */);
+array_t *bdd_extract_var_array(/* array_t *node_list */);
 
 /* bdd_tovar.c */
-extern array_t *bdd_get_varids(/* array_t *var_array */);
+array_t *bdd_get_varids(/* array_t *var_array */);
 
-extern array_t *bdd_get_sorted_varids(/* array_t *var_array */);
+array_t *bdd_get_sorted_varids(/* array_t *var_array */);
 
-extern int bdd_varid_cmp(/* char *obj1, char *obj2 */);
+int bdd_varid_cmp(/* char *obj1, char *obj2 */);
 
-extern array_t *
+array_t *
     extract_state_input_vars(/* st_table *pi_ordering, st_table *ito_table */);
 
-extern array_t *
+array_t *
     extract_state_output_vars(/* st_table *pi_ordering, st_table *ito_table */);
 
-extern st_table *extract_input_to_output_table(
+st_table *extract_input_to_output_table(
     /* array_t *org_pi, *new_pi, *po_ordering, network_t *network */);
 
-extern void report_elapsed_time(/* verif_options_t *options, char *string */);
+void report_elapsed_time(/* verif_options_t *options, char *string */);
 
-extern void compute_product_network();
+void compute_product_network();
 
-extern void output_info_init();
+void output_info_init();
 
 typedef struct {
   array_t *fns;
@@ -239,22 +239,22 @@ typedef struct {
   bdd_t *range;
 } bull_value_t;
 
-extern bdd_t *input_cofactor();
+bdd_t *input_cofactor();
 
-extern array_t *disjoint_support_functions();
+array_t *disjoint_support_functions();
 
-extern bdd_t *range_2_compute();
+bdd_t *range_2_compute();
 
-extern bdd_t *bull_cofactor();
+bdd_t *bull_cofactor();
 
-extern void get_manual_order(/* st_table *order, verif_options_t *options */);
+void get_manual_order(/* st_table *order, verif_options_t *options */);
 
-extern int breadth_first_stg_traversal(/* network_t **network, network_t
+int breadth_first_stg_traversal(/* network_t **network, network_t
                                           *constraints, */
                                        /* verif_options_t *options */);
 
 /* from product.c */
-extern bdd_t *bdd_incr_and_smooth();
+bdd_t *bdd_incr_and_smooth();
 
 int init_seqbdd();
 

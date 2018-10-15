@@ -16,18 +16,18 @@ typedef struct prl_options_t prl_options_t;
 /* routines that are method dependent; currently we only support product method
  */
 
-extern void Prl_ProductBddOrder(seq_info_t *, prl_options_t *);
+void Prl_ProductBddOrder(seq_info_t *, prl_options_t *);
 
-extern void Prl_ProductInitSeqInfo(seq_info_t *, prl_options_t *);
+void Prl_ProductInitSeqInfo(seq_info_t *, prl_options_t *);
 
-extern void Prl_ProductFreeSeqInfo(seq_info_t *, prl_options_t *);
+void Prl_ProductFreeSeqInfo(seq_info_t *, prl_options_t *);
 
-extern bdd_t *Prl_ProductComputeNextStates(bdd_t *, seq_info_t *,
+bdd_t *Prl_ProductComputeNextStates(bdd_t *, seq_info_t *,
                                            prl_options_t *);
 
-extern bdd_t *Prl_ProductReverseImage(bdd_t *, seq_info_t *, prl_options_t *);
+bdd_t *Prl_ProductReverseImage(bdd_t *, seq_info_t *, prl_options_t *);
 
-extern array_t *Prl_ProductExtractNetworkInputNames(seq_info_t *,
+array_t *Prl_ProductExtractNetworkInputNames(seq_info_t *,
                                                     prl_options_t *);
 
 /* the corresponding function types */
@@ -84,20 +84,20 @@ struct prl_removedep_struct {
                      */
 };
 
-extern int Prl_ExtractEnvDc(network_t *, network_t *, prl_options_t *);
+int Prl_ExtractEnvDc(network_t *, network_t *, prl_options_t *);
 
-extern void Prl_EquivNets(network_t *, prl_options_t *);
+void Prl_EquivNets(network_t *, prl_options_t *);
 
-extern void Prl_RemoveLatches(network_t *, prl_options_t *);
+void Prl_RemoveLatches(network_t *, prl_options_t *);
 
-extern int Prl_LatchOutput(network_t *, array_t *, int);
+int Prl_LatchOutput(network_t *, array_t *, int);
 
-extern int Prl_RemoveDependencies(network_t *, array_t *, prl_removedep_t *);
+int Prl_RemoveDependencies(network_t *, array_t *, prl_removedep_t *);
 
-extern int Prl_VerifyEnvFsm(network_t *, network_t *, network_t *,
+int Prl_VerifyEnvFsm(network_t *, network_t *, network_t *,
                             prl_options_t *);
 
 /* exported from "com_verify.c" */
-extern void Prl_StoreAsSingleOutputDcNetwork(network_t *, network_t *);
+void Prl_StoreAsSingleOutputDcNetwork(network_t *, network_t *);
 
 #endif /* PRL_SEQBDD_H */

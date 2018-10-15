@@ -9,8 +9,8 @@
 #include "user.h"
 
 PRIMES max;
-extern struct isomor *iso;
-extern int *b_cover;
+struct isomor *iso;
+int *b_cover;
 
 maximal_compatibles() {
   register i, j, k, m, l;

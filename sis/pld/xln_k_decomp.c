@@ -24,7 +24,7 @@ static node_t *G_node; /* used for finding G_node */
 static array_t *karp_decomp_internal();      /* added Feb 25, 1991 */
 network_t *xln_k_decomp_node_with_network(); /* added Feb 25, 1991 */
 array_t *xln_k_decomp_node_with_array();     /* added Feb 25, 1991 */
-extern int split_node(); /* Narendra's routine added Feb 25, 1991 */
+int split_node(); /* Narendra's routine added Feb 25, 1991 */
 
 static void karp_decomp_node_internal();
 

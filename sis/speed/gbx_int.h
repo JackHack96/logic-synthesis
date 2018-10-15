@@ -15,20 +15,20 @@
 
 /* find all bypasses in a network */
 
-extern int com_gbx_print_bypasses();
+int com_gbx_print_bypasses();
 
 /*
  * Find bypasses and take them
  */
-extern int com_gbx_bypass();
+int com_gbx_bypass();
 
 /*
  * Find the bypasses and take them ALL
  */
-extern int com_gbx_all_bypasses();
+int com_gbx_all_bypasses();
 
-extern st_table             *node_weight_table;
-extern delay_model_t        gbx_delay_model;
+st_table             *node_weight_table;
+delay_model_t        gbx_delay_model;
 typedef enum gbx_trace_enum gbx_trace_t;
 enum gbx_trace_enum {
     GBX_OLD_TRACE, GBX_NEW_TRACE, GBX_NEWER_TRACE
@@ -57,45 +57,45 @@ struct node_bp_struct {
     double        path_slack;                /* extra slack on most critical S.I */
     char          mark; /* Marked if there's a bypass through this */
 };
-extern network_t              *gbx_dup_network;
-extern st_table               *bypass_table;
-extern st_table               *gbx_node_table;
-extern lsList                 bypasses;
+network_t              *gbx_dup_network;
+st_table               *bypass_table;
+st_table               *gbx_node_table;
+lsList                 bypasses;
 
-extern int take_bypass();
+int take_bypass();
 
-extern bypass_t *new_bypass();
+bypass_t *new_bypass();
 
-extern void free_bypass();
+void free_bypass();
 
-extern void bypass_add_node();
+void bypass_add_node();
 
-extern void register_bypass();
+void register_bypass();
 
-extern node_bp_t *new_node_bp_record();
+node_bp_t *new_node_bp_record();
 
-extern void gbx_init_node_table();
+void gbx_init_node_table();
 
-extern void gbx_clean_node_table();
+void gbx_clean_node_table();
 
-extern node_t *path_fanout();
+node_t *path_fanout();
 
-extern double retrieve_slack();
+double retrieve_slack();
 
-extern double weight();
+double weight();
 
-extern lsList find_bypass_nodes();
+lsList find_bypass_nodes();
 
-extern void print_bypass();
+void print_bypass();
 
-extern void trace_bypass();
+void trace_bypass();
 
-extern lsList new_find_bypass_nodes();
+lsList new_find_bypass_nodes();
 
-extern lsList newer_find_bypass_nodes();
+lsList newer_find_bypass_nodes();
 
-extern int gbx_verbose_mode;
-extern int start_node_mode;
-extern int print_bypass_mode;
+int gbx_verbose_mode;
+int start_node_mode;
+int print_bypass_mode;
 
 #endif

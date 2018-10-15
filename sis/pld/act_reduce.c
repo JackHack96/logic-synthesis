@@ -13,7 +13,7 @@
 /*	reduce, strictly follows bryants paper
  */
 
-extern int p_compare2key();
+int p_compare2key();
 
 ACT_VERTEX_PTR actReduce(ACT_VERTEX_PTR fn_graph) {
     int            nextid, i, j, list_size, q_size, num_var;

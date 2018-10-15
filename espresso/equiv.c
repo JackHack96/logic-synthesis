@@ -1,5 +1,5 @@
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 find_equiv_outputs(PLA) pPLA PLA;
 {

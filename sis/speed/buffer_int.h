@@ -100,80 +100,80 @@ struct global_buffer_param_struct {
  * Functions internal to the buffering package
  * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  */
-extern char *sp_buffer_name();
+char *sp_buffer_name();
 
-extern char *sp_name_of_impl();
+char *sp_name_of_impl();
 
-extern void speed_dump_buffer_list();
+void speed_dump_buffer_list();
 
-extern void speed_free_buffer_list();
+void speed_free_buffer_list();
 
-extern void sp_buf_array_from_list();
+void sp_buf_array_from_list();
 
-extern int buf_critical();
+int buf_critical();
 
-extern int sp_buffer_recur();
+int sp_buffer_recur();
 
-extern int speed_buffer_node();
+int speed_buffer_node();
 
-extern int sp_satisfy_max_load();
+int sp_satisfy_max_load();
 
-extern int sp_max_load_violation();
+int sp_max_load_violation();
 
-extern int buf_compare_fanout();
+int buf_compare_fanout();
 
-extern int buf_evaluate_trans2();
+int buf_evaluate_trans2();
 
-extern int speed_buffer_network();
+int speed_buffer_network();
 
-extern int buf_failed_slack_test();
+int buf_failed_slack_test();
 
-extern int sp_replace_cell_strength();
+int sp_replace_cell_strength();
 
-extern int speed_buffer_array_of_nodes();
+int speed_buffer_array_of_nodes();
 
-extern void buffer_free();
+void buffer_free();
 
-extern void buffer_alloc();
+void buffer_alloc();
 
-extern void set_buf_thresh();
+void set_buf_thresh();
 
-extern void buf_dump_fanout_data();
+void buf_dump_fanout_data();
 
-extern void buf_set_buffers();
+void buf_set_buffers();
 
-extern void buf_free_buffers();
+void buf_free_buffers();
 
-extern int sp_buf_get_crit_fanin();
+int sp_buf_get_crit_fanin();
 
-extern void sp_set_inverter();
+void sp_set_inverter();
 
-extern void sp_replace_lib_gate();
+void sp_replace_lib_gate();
 
-extern void sp_buf_annotate_gate();
+void sp_buf_annotate_gate();
 
-extern void sp_implement_buffer_chain();
+void sp_implement_buffer_chain();
 
-extern lib_gate_t *buf_get_gate_version();
+lib_gate_t *buf_get_gate_version();
 
 /*
  * DELAY STUFF for the buffering algorithm --- need a better way out
  */
 
-extern void sp_compute();
+void sp_compute();
 
-extern void sp_buf_req_time();
+void sp_buf_req_time();
 
-extern void sp_subtract_delay();
+void sp_subtract_delay();
 
-extern void sp_buf_compute_req_time();
+void sp_buf_compute_req_time();
 
-extern void buffer_init_globals();
+void buffer_init_globals();
 
-extern double sp_get_pin_load();
+double sp_get_pin_load();
 
-extern delay_time_t sp_get_input_drive();
+delay_time_t sp_get_input_drive();
 
-extern void buffer_delay_get_pi_drive();
+void buffer_delay_get_pi_drive();
 
 #endif //BUFFER_INT_H

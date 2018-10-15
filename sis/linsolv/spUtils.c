@@ -548,7 +548,7 @@ RealVector RHS, Solution IMAG_VECTORS;
   register RealNumber Sum;
   register int I, *pExtOrder;
   MatrixPtr Matrix = (MatrixPtr)eMatrix;
-  extern void ComplexMatrixMultiply();
+  void ComplexMatrixMultiply();
 
   /* Begin `spMultiply'. */
   ASSERT(IS_SPARSE(Matrix) AND NOT Matrix->Factored);
@@ -729,7 +729,7 @@ RealVector RHS, Solution IMAG_VECTORS;
   register RealNumber Sum;
   register int I, *pExtOrder;
   MatrixPtr Matrix = (MatrixPtr)eMatrix;
-  extern void ComplexTransposedMatrixMultiply();
+  void ComplexTransposedMatrixMultiply();
 
   /* Begin `spMultTransposed'. */
   ASSERT(IS_SPARSE(Matrix) AND NOT Matrix->Factored);

@@ -21,25 +21,25 @@
 #include <stdio.h>
 #include "../port/ansi.h"
 
-extern long util_cpu_time NULLARGS;
+long util_cpu_time NULLARGS;
 
-extern char *util_path_search(char *);
+char *util_path_search(char *);
 
-extern char *util_file_search(char *, char *, char *);
+char *util_file_search(char *, char *, char *);
 
-extern int util_pipefork(char **, FILE **, FILE **, int *);
+int util_pipefork(char **, FILE **, FILE **, int *);
 
-extern int util_csystem(char *);
+int util_csystem(char *);
 
-extern char *util_print_time(long);
+char *util_print_time(long);
 
-extern char *util_strsav(char *);
+char *util_strsav(char *);
 
-extern char *util_tilde_expand(char *);
+char *util_tilde_expand(char *);
 
-extern char *util_tilde_compress(char *);
+char *util_tilde_compress(char *);
 
-extern void util_register_user(char *, char *);
+void util_register_user(char *, char *);
 
 #ifndef NIL_FN
 #define NIL_FN(type) ((type(*)())0)

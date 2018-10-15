@@ -86,13 +86,13 @@ typedef int util_ptrint;
 /* Some machines fail to define some functions in stdio.h */
 #if !defined(__STDC__) && !defined(sprite) && !defined(_IBMR2) &&              \
     !defined(__osf__)
-extern FILE *popen(), *tmpfile();
-extern int pclose();
+FILE *popen(), *tmpfile();
+int pclose();
 #ifndef clearerr /* is a macro on many machines, but not all */
-extern VOID_HACK clearerr();
+VOID_HACK clearerr();
 #endif
 #ifndef rewind
-extern VOID_HACK rewind();
+VOID_HACK rewind();
 #endif
 #endif
 
@@ -124,22 +124,22 @@ extern VOID_HACK rewind();
 #include <errno.h> /* For perror() defininition */
 #endif             /* __hpux */
 #else
-extern VOID_HACK abort(), free(), exit(), perror();
-extern char *getenv();
+VOID_HACK abort(), free(), exit(), perror();
+char *getenv();
 #ifdef ultrix4
-extern void *malloc(), *realloc(), *calloc();
+void *malloc(), *realloc(), *calloc();
 #else
-extern char *malloc(), *realloc(), *calloc();
+char *malloc(), *realloc(), *calloc();
 #endif
 #if defined(aiws)
-extern int sprintf();
+int sprintf();
 #else
 #ifndef _IBMR2
-extern char *sprintf();
+char *sprintf();
 #endif
 #endif
-extern int system();
-extern double atof();
+int system();
+double atof();
 #endif
 
 #ifndef PORT_H
@@ -167,11 +167,11 @@ extern double atof();
 /* ANSI C string.h -- 1/11/88 Draft Standard */
 /* ugly, awful hack */
 #ifndef PORT_H
-extern char *strcpy(), *strncpy(), *strcat(), *strncat(), *strerror();
-extern char *strpbrk(), *strtok(), *strchr(), *strrchr(), *strstr();
-extern int strcoll(), strxfrm(), strncmp(), strlen(), strspn(), strcspn();
-extern char *memmove(), *memccpy(), *memchr(), *memcpy(), *memset();
-extern int memcmp(), strcmp();
+char *strcpy(), *strncpy(), *strcat(), *strncat(), *strerror();
+char *strpbrk(), *strtok(), *strchr(), *strrchr(), *strstr();
+int strcoll(), strxfrm(), strncmp(), strlen(), strspn(), strcspn();
+char *memmove(), *memccpy(), *memchr(), *memcpy(), *memset();
+int memcmp(), strcmp();
 #endif
 #endif
 #endif
@@ -185,8 +185,8 @@ extern int memcmp(), strcmp();
 #else
 #if !defined(__osf__) && !defined(linux) && !defined(__CYGWIN__)
 /* these are defined as macros in stdlib.h */
-extern VOID_HACK srandom();
-extern long random();
+VOID_HACK srandom();
+long random();
 #endif
 #endif
 
@@ -243,13 +243,13 @@ extern long random();
 
 #ifndef USE_MM
 
-extern void MMout_of_memory(long size);
+void MMout_of_memory(long size);
 
-extern char *MMalloc(long size);
+char *MMalloc(long size);
 
-extern char *MMrealloc(char *obj, long size);
+char *MMrealloc(char *obj, long size);
 
-extern void MMfree(char *obj);
+void MMfree(char *obj);
 
 #endif
 
@@ -258,25 +258,25 @@ extern void MMfree(char *obj);
  * For BSD machines, this includes a formatted dump of the
  * getrusage(2) structure.
  */
-extern void util_print_cpu_stats(FILE *fp);
+void util_print_cpu_stats(FILE *fp);
 
 /**
  * Returns the processor time used since some constant reference
  * in milliseconds.
  */
-extern long util_cpu_time();
+long util_cpu_time();
 
 /**
  * Reset getopt argument parsing to start parsing a new argc/argv pair.
  * Not available from the standard getopt(3).
  */
-extern void util_getopt_reset();
+void util_getopt_reset();
 
 /**
  * Also known as getopt(3) for backwards compatability.
  * Parses options from an argc/argv command line pair.
  */
-extern int util_getopt(int argc, char *argv[], char *optstring);
+int util_getopt(int argc, char *argv[], char *optstring);
 
 /**
  * Simulate the execvp(3) semantics of searching the user's environment
@@ -285,7 +285,7 @@ extern int util_getopt(int argc, char *argv[], char *optstring);
  * returns NIL(char) if none was found.  This routines uses
  * util_file_search().
  */
-extern char *util_path_search(char *prog);
+char *util_path_search(char *prog);
 
 /**
  * 'path' is string of the form "dir1:dir2: ...".  Each of the
@@ -297,7 +297,7 @@ extern char *util_path_search(char *prog);
  * string should be freed by the caller.  Tilde expansion is
  * performed on both 'file' and any directory in 'path'.
  */
-extern char *util_file_search(char *file, char *path, char *mode);
+char *util_file_search(char *file, char *path, char *mode);
 
 /**
  * Fork (using execvp(3)) the program argv[0] with argv[1] ...
@@ -310,7 +310,7 @@ extern char *util_file_search(char *file, char *path, char *mode);
  * watch out for dead-locks.
  * @return Returns 1 for success, 0 if any failure occured forking the child.
  */
-extern int util_pipefork(char **argv, FILE **toCommand, FILE **fromCommand,
+int util_pipefork(char **argv, FILE **toCommand, FILE **fromCommand,
                          int *pid);
 
 /**
@@ -321,7 +321,7 @@ extern int util_pipefork(char **argv, FILE **toCommand, FILE **fromCommand,
  * second).
  * @return Returns a string of the form "10.5 sec".
  */
-extern char *util_print_time(long t);
+char *util_print_time(long t);
 
 /**
  * Save the text and data segments of the current executable
@@ -335,13 +335,13 @@ extern char *util_print_time(long t);
  * BSD-specific, but should run on most operating systems which are
  * derived from Berkeley Unix 4.2.
  */
-extern int util_save_image(char *orig_file_name, char *save_file_name);
+int util_save_image(char *orig_file_name, char *save_file_name);
 
 /**
  * Also known as strsav() for backwards compatability.
  * Returns a copy of the string 's'.
  */
-extern char *util_strsav(char *s);
+char *util_strsav(char *s);
 
 /**
  * Returns a new string corresponding to 'tilde-expansion' of the
@@ -350,9 +350,9 @@ extern char *util_strsav(char *s);
  * appropriate user's home directory.  The returned string should
  * be free'd by the caller.
  */
-extern char *util_tilde_expand(char *fname);
+char *util_tilde_expand(char *fname);
 
-extern char *util_tempnam(char *dir, char *pfx);
+char *util_tempnam(char *dir, char *pfx);
 
 /**
  * Returns a file pointer to a temporary file.  It uses util_tempnam()
@@ -363,17 +363,17 @@ extern char *util_tempnam(char *dir, char *pfx);
  * read from by calling rewind before reading.  The file should be
  * closed using fclose when it is no longer needed.
  */
-extern FILE *util_tmpfile();
+FILE *util_tmpfile();
 
 #define ptime() util_cpu_time()
 #define print_time(t) util_print_time(t)
 
 /* util_getopt() global variables (ack !) */
-extern int util_optind;
-extern char *util_optarg;
+int util_optind;
+char *util_optarg;
 
 /* for CUDD package */
-extern long getSoftDataLimit(void);
+long getSoftDataLimit(void);
 
 #include <math.h>
 

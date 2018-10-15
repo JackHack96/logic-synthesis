@@ -41,35 +41,35 @@ typedef enum delay_model_enum {
   DELAY_MODEL_TDC
 } delay_model_t;
 
-extern int delay_trace(network_t *, delay_model_t);
+int delay_trace(network_t *, delay_model_t);
 
-extern delay_model_t delay_get_model_from_name(char *);
+delay_model_t delay_get_model_from_name(char *);
 
-extern delay_pin_t *get_pin_delay(node_t *, int, delay_model_t);
+delay_pin_t *get_pin_delay(node_t *, int, delay_model_t);
 
-extern node_t *delay_latest_output(network_t *, double *);
+node_t *delay_latest_output(network_t *, double *);
 
-extern network_t *delay_generate_decomposition(node_t *, double);
+network_t *delay_generate_decomposition(node_t *, double);
 
-extern delay_time_t delay_node_pin(node_t *, int, delay_model_t);
+delay_time_t delay_node_pin(node_t *, int, delay_model_t);
 
-extern delay_time_t delay_fanout_contribution(node_t *, int, node_t *,
+delay_time_t delay_fanout_contribution(node_t *, int, node_t *,
                                               delay_model_t);
 
-extern int delay_wire_required_time(node_t *, int, delay_model_t,
+int delay_wire_required_time(node_t *, int, delay_model_t,
                                     delay_time_t *);
 
-extern delay_time_t delay_required_time(node_t *);
+delay_time_t delay_required_time(node_t *);
 
-extern delay_time_t delay_arrival_time(node_t *);
+delay_time_t delay_arrival_time(node_t *);
 
-extern delay_time_t delay_slack_time(node_t *);
+delay_time_t delay_slack_time(node_t *);
 
-extern double delay_load(node_t *);
+double delay_load(node_t *);
 
-extern double delay_compute_fo_load(node_t *, delay_model_t);
+double delay_compute_fo_load(node_t *, delay_model_t);
 
-extern double compute_wire_load(network_t *, int);
+double compute_wire_load(network_t *, int);
 
 typedef enum delay_param_enum {
   DELAY_BLOCK_RISE,
@@ -112,61 +112,61 @@ typedef enum delay_param_enum {
 #define DELAY_PHASE_NONINVERTING 1.0
 #define DELAY_PHASE_NEITHER 2.0
 
-extern void delay_set_tdc_params(char *);
+void delay_set_tdc_params(char *);
 
-extern void delay_set_parameter(node_t *, delay_param_t, double);
+void delay_set_parameter(node_t *, delay_param_t, double);
 
-extern double delay_get_parameter(node_t *, delay_param_t);
+double delay_get_parameter(node_t *, delay_param_t);
 
-extern void delay_set_default_parameter(network_t *, delay_param_t, double);
+void delay_set_default_parameter(network_t *, delay_param_t, double);
 
-extern double delay_get_default_parameter(network_t *, delay_param_t);
+double delay_get_default_parameter(network_t *, delay_param_t);
 
 /* Routines to interface with the mapper */
-extern delay_time_t delay_map_simulate(); /* special mapping routine */
-extern char **delay_giveaway_pin_delay(network_t *); /* library read-in hack */
-extern double delay_get_load(char *);
+delay_time_t delay_map_simulate(); /* special mapping routine */
+char **delay_giveaway_pin_delay(network_t *); /* library read-in hack */
+double delay_get_load(char *);
 
-extern double delay_get_load_limit(char *);
+double delay_get_load_limit(char *);
 
-extern delay_time_t delay_get_drive(char *);
+delay_time_t delay_get_drive(char *);
 
-extern delay_time_t delay_get_block(char *);
+delay_time_t delay_get_block(char *);
 
 /* Routines to query user-specified data regarding the environment */
-extern int delay_get_pi_drive(node_t *, delay_time_t *);
+int delay_get_pi_drive(node_t *, delay_time_t *);
 
-extern int delay_get_pi_load_limit(node_t *, double *);
+int delay_get_pi_load_limit(node_t *, double *);
 
-extern int delay_get_pi_arrival_time(node_t *, delay_time_t *);
+int delay_get_pi_arrival_time(node_t *, delay_time_t *);
 
-extern int delay_get_po_load(node_t *, double *);
+int delay_get_po_load(node_t *, double *);
 
-extern int delay_get_po_required_time(node_t *, delay_time_t *);
+int delay_get_po_required_time(node_t *, delay_time_t *);
 
 #ifdef SIS
-extern int delay_set_synch_edge(node_t *, clock_edge_t, int);
-extern int delay_get_synch_edge(node_t *, clock_edge_t *, int *);
+int delay_set_synch_edge(node_t *, clock_edge_t, int);
+int delay_get_synch_edge(node_t *, clock_edge_t *, int *);
 #endif /* SIS */
 
 /* io package */
-extern void delay_print_blif_wire_loads(network_t *, FILE *);
+void delay_print_blif_wire_loads(network_t *, FILE *);
 
-extern void delay_print_slif_wire_loads(network_t *, FILE *);
+void delay_print_slif_wire_loads(network_t *, FILE *);
 
 #ifdef SIS
-extern void delay_copy_terminal_constraints(node_t *);
+void delay_copy_terminal_constraints(node_t *);
 #endif /* SIS */
 
 /* networks */
-extern void delay_network_alloc(network_t *);
+void delay_network_alloc(network_t *);
 
-extern void delay_network_free(network_t *);
+void delay_network_free(network_t *);
 
-extern void delay_network_dup(network_t *, network_t *);
+void delay_network_dup(network_t *, network_t *);
 
 /* For the speed package */
-extern network_t *tdc_factor_network(network_t *);
+network_t *tdc_factor_network(network_t *);
 
 int init_delay();
 

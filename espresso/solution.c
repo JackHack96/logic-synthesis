@@ -1,5 +1,5 @@
 
-#include "inc/mincov_int.h"
+#include "mincov_int.h"
 
 solution_t *solution_alloc() {
   solution_t *sol;

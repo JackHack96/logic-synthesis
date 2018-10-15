@@ -52,15 +52,15 @@
 #include "maxflow.h"
 #include "speed.h"
 
-extern FILE    *sisout;
-extern FILE    *siserr;
-extern FILE    *sishist;
-extern array_t *command_hist;
-extern char    *program_name;
+FILE    *sisout;
+FILE    *siserr;
+FILE    *sishist;
+array_t *command_hist;
+char    *program_name;
 
-extern char *sis_version();
+char *sis_version();
 
-extern char *sis_library();
+char *sis_library();
 
 #define misout sisout
 #define miserr siserr

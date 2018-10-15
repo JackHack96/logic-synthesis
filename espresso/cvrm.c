@@ -7,7 +7,7 @@
         c) sort covers
 */
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 static void cb_unravel(c, start, end, startbase, B1) IN register pcube c;
 IN int start, end;

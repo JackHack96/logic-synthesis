@@ -27,7 +27,7 @@ main(argc, argv) char **argv;
 
   int say_solution();
 
-  extern int (*method1[])();
+  int (*method1[])();
 
   /* initialize some parameters for command line options */
 

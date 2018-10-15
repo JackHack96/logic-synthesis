@@ -4,19 +4,19 @@
 
 #include "network.h"
 
-extern void add_inv_network(network_t *);
+void add_inv_network(network_t *);
 
-extern int add_inv_node(network_t *, node_t *);
+int add_inv_node(network_t *, node_t *);
 
-extern void phase_quick(network_t *);
+void phase_quick(network_t *);
 
-extern void phase_good(network_t *);
+void phase_good(network_t *);
 
-extern void phase_random_greedy(network_t *, int);
+void phase_random_greedy(network_t *, int);
 
-extern void phase_trace_set(void);
+void phase_trace_set(void);
 
-extern void phase_trace_unset(void);
+void phase_trace_unset(void);
 
 int init_phase();
 

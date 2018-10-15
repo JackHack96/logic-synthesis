@@ -48,27 +48,27 @@ typedef struct rec_mgr_ *rec_mgr;
 
 /* Block storage management routines */
 
-extern pointer mem_get_block(SIZE_T);
+pointer mem_get_block(SIZE_T);
 
-extern void mem_free_block(pointer);
+void mem_free_block(pointer);
 
-extern pointer mem_resize_block(pointer, SIZE_T);
+pointer mem_resize_block(pointer, SIZE_T);
 
-extern void mem_copy(pointer, pointer, SIZE_T);
+void mem_copy(pointer, pointer, SIZE_T);
 
-extern void mem_zero(pointer, SIZE_T);
+void mem_zero(pointer, SIZE_T);
 
-extern SIZE_T mem_allocation(void);
+SIZE_T mem_allocation(void);
 
 /* Record manager routines */
 
-extern pointer mem_new_rec(rec_mgr);
+pointer mem_new_rec(rec_mgr);
 
-extern void mem_free_rec(rec_mgr, pointer);
+void mem_free_rec(rec_mgr, pointer);
 
-extern rec_mgr mem_new_rec_mgr(int);
+rec_mgr mem_new_rec_mgr(int);
 
-extern void mem_free_rec_mgr(rec_mgr);
+void mem_free_rec_mgr(rec_mgr);
 
 #undef ARGS
 

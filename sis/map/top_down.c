@@ -48,7 +48,7 @@ void top_down_init(network_t *network, fanout_alg_t *alg) {
 }
 
 /* INTERNAL INTERFACE */
-extern delay_time_t map_compute_fanout_tree_req_time(); /* fanout_tree.c */
+delay_time_t map_compute_fanout_tree_req_time(); /* fanout_tree.c */
 
 static int fanout_optimize(opt_array_t *fanout_info, array_t *tree, fanout_cost_t *cost) {
     lsGen           gen;

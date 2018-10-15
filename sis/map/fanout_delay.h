@@ -23,53 +23,53 @@ struct n_gates_struct {
   int n_gates;       /* n_gates always == to n_neg_sources */
 };
 
-extern void fanout_delay_init(/* */);
+void fanout_delay_init(/* */);
 
-extern void fanout_delay_end(/* */);
+void fanout_delay_end(/* */);
 
-extern void fanout_delay_add_source(/* node_t *source, int source_polarity */);
+void fanout_delay_add_source(/* node_t *source, int source_polarity */);
 
-extern void fanout_delay_init_sources(/* */);
+void fanout_delay_init_sources(/* */);
 
-extern void fanout_delay_free_sources(/* */);
+void fanout_delay_free_sources(/* */);
 
-extern double fanout_delay_get_buffer_load(/* int gate_index */);
+double fanout_delay_get_buffer_load(/* int gate_index */);
 
-extern delay_time_t fanout_delay_backward_intrinsic(
+delay_time_t fanout_delay_backward_intrinsic(
     /* delay_time_t required, int gate_index */);
 
-extern delay_time_t fanout_delay_backward_load_dependent(
+delay_time_t fanout_delay_backward_load_dependent(
     /* delay_time_t required, int gate_index, double load */);
 
-extern delay_time_t
+delay_time_t
     fanout_delay_forward_intrinsic(/* delay_time_t arrival, int gate_index */);
 
-extern delay_time_t fanout_delay_forward_load_dependent(
+delay_time_t fanout_delay_forward_load_dependent(
     /* delay_time_t arrival, int gate_index, double load */);
 
-extern int compute_best_number_of_inverters(
+int compute_best_number_of_inverters(
     /* int source_index, int buffer_index, double load, int max_int_nodes */);
 
-extern n_gates_t fanout_delay_get_n_gates(/* */);
+n_gates_t fanout_delay_get_n_gates(/* */);
 
-extern double fanout_delay_get_area(/* int gate_index */);
+double fanout_delay_get_area(/* int gate_index */);
 
-extern node_t *fanout_delay_get_source_node(/* int gate_index */);
+node_t *fanout_delay_get_source_node(/* int gate_index */);
 
-extern lib_gate_t *fanout_delay_get_gate(/* int gate_index */);
+lib_gate_t *fanout_delay_get_gate(/* int gate_index */);
 
-extern int fanout_delay_get_source_polarity(/* int source_index */);
+int fanout_delay_get_source_polarity(/* int source_index */);
 
-extern int fanout_delay_get_buffer_polarity(/* int buffer_index */);
+int fanout_delay_get_buffer_polarity(/* int buffer_index */);
 
-extern int fanout_delay_get_buffer_index(/* lib_gate_t *buffer */);
+int fanout_delay_get_buffer_index(/* lib_gate_t *buffer */);
 
-extern int fanout_delay_get_source_index(/* node_t *node */);
+int fanout_delay_get_source_index(/* node_t *node */);
 
-extern void
+void
     fanout_delay_add_pwl_source(/* node_t *source, int source_polarity */);
 
-extern delay_pwl_t
+delay_pwl_t
     fanout_delay_get_delay_pwl(/* int gate_index, delay_time_t arrival */);
 
 #define foreach_buffer(n_gates, gate)                                          \

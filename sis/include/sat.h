@@ -54,11 +54,11 @@ typedef struct {
   char *info;
 } sat_input_t;
 
-extern sat_t *sat_new();
-extern void sat_reset();
-extern void sat_delete();
-extern int sat_new_variable();
-extern bool sat_add_implication();
-extern sat_result_t sat_solve();
-extern int sat_get_value();
+sat_t *sat_new();
+void sat_reset();
+void sat_delete();
+int sat_new_variable();
+bool sat_add_implication();
+sat_result_t sat_solve();
+int sat_get_value();
 #endif /* SATISFY_H */

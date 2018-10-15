@@ -151,7 +151,7 @@ max_cover(bina) {
   return user.stat.nstates;
 }
 
-extern struct isomor *iso;
+struct isomor *iso;
 
 max_close() {
   register i, j, k;
@@ -525,8 +525,8 @@ get_implied_by_other_prime(prime_no, x_imp) int *x_imp;
 {
   register i, j, k;
   NLIST *link;
-  extern NLIST *_head;
-  extern int *local_state;
+  NLIST *_head;
+  int *local_state;
   IMPLIED flow_imply;
   int s_num;
 

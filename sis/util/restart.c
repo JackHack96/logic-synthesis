@@ -18,7 +18,7 @@ static char *old_file_name;
 static char *new_file_name;
 
 char *util_save_sp; /* set by util_restart_save_state() */
-extern char *sbrk();
+char *sbrk();
 
 static void grow_stack() {
   int i, space[256];

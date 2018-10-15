@@ -70,8 +70,8 @@ typedef int int16;
 #endif /* } */
 
 #if defined(ultrix3) && defined(mips)
-extern double rint();
-extern double trunc();
+double rint();
+double trunc();
 #endif
 
 #if defined(sun) && defined(FD_SETSIZE)
@@ -126,13 +126,13 @@ extern double trunc();
 
 /* Some machines fail to define some functions in stdio.h */
 #ifndef __STDC__
-extern FILE *popen(), *tmpfile();
-extern int pclose();
+FILE *popen(), *tmpfile();
+int pclose();
 #ifndef clearerr /* is a macro on many machines, but not all */
-extern VOID_HACK clearerr();
+VOID_HACK clearerr();
 #endif /* clearerr */
 #ifndef rewind
-extern VOID_HACK rewind();
+VOID_HACK rewind();
 #endif /* rewind */
 #endif /* __STDC__ */
 
@@ -143,21 +143,21 @@ extern VOID_HACK rewind();
 
 #else
 #ifdef __hpux
-extern int abort();
-extern void free(), exit(), perror();
+int abort();
+void free(), exit(), perror();
 #else
-extern VOID_HACK abort(), free(), exit(), perror();
+VOID_HACK abort(), free(), exit(), perror();
 #endif /* __hpux */
-extern char *getenv(), *malloc(), *realloc(), *calloc();
+char *getenv(), *malloc(), *realloc(), *calloc();
 #ifdef aiws
-extern int sprintf();
+int sprintf();
 #else
-extern char *sprintf();
+char *sprintf();
 #endif
-extern int system();
-extern double atof();
-extern long atol();
-extern int sscanf();
+int system();
+double atof();
+long atol();
+int sscanf();
 #endif /* __STDC__ */
 
 /* some call it strings.h, some call it string.h; others, also have memory.h */
@@ -170,11 +170,11 @@ extern int sscanf();
 #if defined(ultrix4)
 #include <strings.h>
 #else
-extern char *strcpy(), *strncpy(), *strcat(), *strncat(), *strerror();
-extern char *strpbrk(), *strtok(), *strchr(), *strrchr(), *strstr();
-extern int strcoll(), strxfrm(), strncmp(), strlen(), strspn(), strcspn();
-extern char *memmove(), *memccpy(), *memchr(), *memcpy(), *memset();
-extern int memcmp(), strcmp();
+char *strcpy(), *strncpy(), *strcat(), *strncat(), *strerror();
+char *strpbrk(), *strtok(), *strchr(), *strrchr(), *strstr();
+int strcoll(), strxfrm(), strncmp(), strlen(), strspn(), strcspn();
+char *memmove(), *memccpy(), *memchr(), *memcpy(), *memset();
+int memcmp(), strcmp();
 #endif /* ultrix4 */
 #endif /* __STDC__ */
 
@@ -183,15 +183,15 @@ extern int memcmp(), strcmp();
 #endif      /* lint */
 
 /* a few extras */
-extern VOID_HACK srandom();
+VOID_HACK srandom();
 
-extern long random();
+long random();
 
 #if defined(ultrix3)
-extern unsigned sleep();
+unsigned sleep();
 #else
 
-extern VOID_HACK sleep();
+VOID_HACK sleep();
 
 #endif
 

@@ -134,136 +134,136 @@ typedef int  node_literal_t;
 #define node_get_literal(c_, j_)                                               \
   ((c_) ? GETINPUT((c_), (j_)) : (node_literal_t)node_error(2))
 
-extern name_mode_t name_mode;
+name_mode_t name_mode;
 
-extern node_t *node_alloc(void);
+node_t *node_alloc(void);
 
-extern void node_free(node_t *);
+void node_free(node_t *);
 
-extern node_t *node_dup(node_t *);
+node_t *node_dup(node_t *);
 
-extern void node_register_daemon(enum node_daemon_type_enum, void (*)());
+void node_register_daemon(enum node_daemon_type_enum, void (*)());
 
-extern network_t *node_network(node_t *);
+network_t *node_network(node_t *);
 
-extern node_t *node_and(node_t *, node_t *);
+node_t *node_and(node_t *, node_t *);
 
-extern node_t *node_or(node_t *, node_t *);
+node_t *node_or(node_t *, node_t *);
 
-extern node_t *node_not(node_t *);
+node_t *node_not(node_t *);
 
-extern node_t *node_xor(node_t *, node_t *);
+node_t *node_xor(node_t *, node_t *);
 
-extern node_t *node_xnor(node_t *, node_t *);
+node_t *node_xnor(node_t *, node_t *);
 
-extern node_t *node_div(node_t *, node_t *, node_t **);
+node_t *node_div(node_t *, node_t *, node_t **);
 
-extern node_t *node_literal(node_t *, int);
+node_t *node_literal(node_t *, int);
 
-extern node_t *node_constant(int);
+node_t *node_constant(int);
 
-extern node_t *node_cofactor(node_t *, node_t *);
+node_t *node_cofactor(node_t *, node_t *);
 
-extern node_t *node_simplify(node_t *, node_t *, enum node_sim_enum);
+node_t *node_simplify(node_t *, node_t *, enum node_sim_enum);
 
-extern node_t *node_largest_cube_divisor(node_t *);
+node_t *node_largest_cube_divisor(node_t *);
 
-extern void node_replace(node_t *, node_t *);
+void node_replace(node_t *, node_t *);
 
-extern int node_contains(node_t *, node_t *);
+int node_contains(node_t *, node_t *);
 
-extern int node_equal(node_t *, node_t *);
+int node_equal(node_t *, node_t *);
 
-extern int node_equal_by_name(node_t *, node_t *);
+int node_equal_by_name(node_t *, node_t *);
 
-extern char *node_name(node_t *);
+char *node_name(node_t *);
 
-extern char *node_long_name(node_t *);
+char *node_long_name(node_t *);
 
-extern int node_num_literal(node_t *);
+int node_num_literal(node_t *);
 
-extern int node_num_cube(node_t *);
+int node_num_cube(node_t *);
 
-extern int *node_literal_count(node_t *);
+int *node_literal_count(node_t *);
 
-extern int node_num_fanin(node_t *);
+int node_num_fanin(node_t *);
 
-extern int node_num_fanout(node_t *);
+int node_num_fanout(node_t *);
 
-extern node_t *node_get_fanin(node_t *, int);
+node_t *node_get_fanin(node_t *, int);
 
-extern node_t *node_get_fanout(node_t *, int);
+node_t *node_get_fanout(node_t *, int);
 
-extern int node_get_fanin_index(node_t *, node_t *);
+int node_get_fanin_index(node_t *, node_t *);
 
-/* extern int node_get_fanout_index(); */
+/* int node_get_fanout_index(); */
 
-extern void node_scc(node_t *);
+void node_scc(node_t *);
 
-extern void node_d1merge(node_t *);
+void node_d1merge(node_t *);
 
-extern int node_substitute(node_t *, node_t *, int);
+int node_substitute(node_t *, node_t *, int);
 
-extern int node_collapse(node_t *, node_t *);
+int node_collapse(node_t *, node_t *);
 
-extern void node_algebraic_cofactor(node_t *, node_t *, node_t **, node_t **,
+void node_algebraic_cofactor(node_t *, node_t *, node_t **, node_t **,
                                     node_t **);
 
-extern int node_invert(node_t *);
+int node_invert(node_t *);
 
-extern node_function_t node_function(node_t *);
+node_function_t node_function(node_t *);
 
-extern node_type_t node_type(node_t *);
+node_type_t node_type(node_t *);
 
-extern input_phase_t node_input_phase(node_t *, node_t *);
+input_phase_t node_input_phase(node_t *, node_t *);
 
-extern void node_print(FILE *, node_t *);
+void node_print(FILE *, node_t *);
 
-extern void node_print_negative(FILE *, node_t *);
+void node_print_negative(FILE *, node_t *);
 
-extern void node_print_rhs(FILE *, node_t *);
+void node_print_rhs(FILE *, node_t *);
 
-extern void node_lib_process(network_t *);
+void node_lib_process(network_t *);
 
-extern void node_minimum_base(node_t *);
+void node_minimum_base(node_t *);
 
-extern void node_replace_internal(node_t *, node_t **, int,
+void node_replace_internal(node_t *, node_t **, int,
                                   struct set_family *);
 
-extern int node_patch_fanin(node_t *, node_t *, node_t *);
+int node_patch_fanin(node_t *, node_t *, node_t *);
 
-extern int node_patch_fanin_index(node_t *, int, node_t *);
+int node_patch_fanin_index(node_t *, int, node_t *);
 
-extern int node_compare_id(char **, char **);
+int node_compare_id(char **, char **);
 
-extern pset_family node_sf_adjust(node_t *, node_t **, int);
+pset_family node_sf_adjust(node_t *, node_t **, int);
 
-extern node_t **nodevec_dup(node_t **, int);
+node_t **nodevec_dup(node_t **, int);
 
-extern node_t *node_create(struct set_family *, node_t **, int);
+node_t *node_create(struct set_family *, node_t **, int);
 
-extern void cautious_define_cube_size(int);
+void cautious_define_cube_size(int);
 
-extern void define_cube_size(int);
+void define_cube_size(int);
 
-extern void undefine_cube_size(void);
+void undefine_cube_size(void);
 
-extern void node_assign_name(node_t *);
+void node_assign_name(node_t *);
 
-extern void node_assign_short_name(node_t *);
+void node_assign_short_name(node_t *);
 
-extern int node_is_madeup_name(char *, int *);
+int node_is_madeup_name(char *, int *);
 
-extern void fanin_remove_fanout(node_t *);
+void fanin_remove_fanout(node_t *);
 
-extern void fanin_add_fanout(node_t *);
+void fanin_add_fanout(node_t *);
 
 /* exported for use in macros	*/
-extern uintptr_t node_error(int);
+uintptr_t node_error(int);
 
-extern node_t *node_fanout_gen(lsList, int *);
+node_t *node_fanout_gen(lsList, int *);
 
-extern lsGen node_fanout_init_gen(node_t *);
+lsGen node_fanout_init_gen(node_t *);
 
 int init_node(void);
 

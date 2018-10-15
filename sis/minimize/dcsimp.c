@@ -16,11 +16,11 @@ bool is_orthagonal();
 
 pcover expand_to_largest();
 
-extern void init_ROS();
+void init_ROS();
 
-extern void close_ROS();
+void close_ROS();
 
-extern pcover get_ROS();
+pcover get_ROS();
 
 pcover ROS;
 

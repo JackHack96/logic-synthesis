@@ -110,7 +110,7 @@ int Prl_ExtractEnvDc(network_t *fsm_network, network_t *env_network, prl_options
     return status;
 }
 
-extern char *io_name(node_t *, int);
+char *io_name(node_t *, int);
 
 static int CopyRealPo(network_t *, node_t *, char *);
 

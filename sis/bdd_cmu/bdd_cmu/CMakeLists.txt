@@ -25,3 +25,5 @@ add_library(bdd_cmu STATIC
         bddwarn.c
         mtbdd.c
         )
+add_dependencies(bdd_cmu mem)
+target_link_libraries(bdd_cmu mem)

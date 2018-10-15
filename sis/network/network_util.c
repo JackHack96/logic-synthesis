@@ -14,7 +14,7 @@ static void copy_list();
 
 static void reset_io();
 
-extern void network_rehash_names();
+void network_rehash_names();
 
 static void cpexdc_alloc(node_t *node) {
     node->OBS = (char *) ALLOC(cpexdc_type_t, 1);

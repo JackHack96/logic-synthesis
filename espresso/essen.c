@@ -4,7 +4,7 @@
     purpose: Find essential primes in a multiple-valued function
 */
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 /*
     essential -- return a cover consisting of the cubes of F which are

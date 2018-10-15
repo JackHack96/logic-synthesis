@@ -1,5 +1,5 @@
 
-#include "inc/mincov_int.h"
+#include "mincov_int.h"
 
 static sm_matrix *build_intersection_matrix();
 

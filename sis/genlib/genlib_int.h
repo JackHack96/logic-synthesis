@@ -39,6 +39,6 @@ struct constraint_info_struct {
     constraint_info_t *next;
 };
 
-extern FILE *gl_out_file;
-extern int  read_lineno; /* hack ! */
+FILE *gl_out_file;
+int  read_lineno; /* hack ! */
 #endif

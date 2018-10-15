@@ -49,17 +49,17 @@ typedef struct delay_network_struct {
 } delay_network_t;
 
 /* used in com_delay.c */
-extern void delay_dup();
+void delay_dup();
 
-extern void delay_free();
+void delay_free();
 
-extern void delay_alloc();
+void delay_alloc();
 
-extern void delay_invalid();
+void delay_invalid();
 
 /* Interface to the timing driven cofactoring (tdc) model */
-extern void compute_tdc_parms();
+void compute_tdc_parms();
 
-extern void delay_print_wire_loads();
+void delay_print_wire_loads();
 
 #endif //DELAY_INT_H

@@ -35,43 +35,43 @@ struct element_data_struct {
     int phase; /* 0 - pos. unate, 1 - neg_ungate, 2 - binate */
 };
 
-extern net_phase_t *phase_setup();
+net_phase_t *phase_setup();
 
-extern int invert_saving();
+int invert_saving();
 
-extern void phase_node_invert();
+void phase_node_invert();
 
-extern node_phase_t *phase_get_best();
+node_phase_t *phase_get_best();
 
-extern double network_cost();
+double network_cost();
 
-extern void phase_unmark_all();
+void phase_unmark_all();
 
-extern void phase_mark();
+void phase_mark();
 
-extern net_phase_t *phase_dup();
+net_phase_t *phase_dup();
 
-extern void phase_replace();
+void phase_replace();
 
-extern void phase_free();
+void phase_free();
 
-extern void phase_record();
+void phase_record();
 
-extern void phase_check_unset();
+void phase_check_unset();
 
-extern void phase_check_set();
+void phase_check_set();
 
-extern void phase_random_assign();
+void phase_random_assign();
 
-extern void phase_invert();
+void phase_invert();
 
-extern double phase_value();
+double phase_value();
 
-extern double cost_comp();
+double cost_comp();
 
-extern void phase_invertible_set();
+void phase_invertible_set();
 
-extern bool phase_trace;
-extern bool phase_check;
+bool phase_trace;
+bool phase_check;
 
 #endif

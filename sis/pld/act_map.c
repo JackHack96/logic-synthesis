@@ -8,7 +8,9 @@
 #include "pld_int.h"
 #include "sis.h"
 
-static int map_act_delay();
+static int map_act_delay(ACT_VERTEX_PTR vertex, network_t *network,
+                         array_t *delay_values, st_table *cost_table,
+                         float mode);
 
 array_t
            *multiple_fo_array; /* holds the nodes that have multiple_fo in the act */
@@ -22,7 +24,7 @@ ACT_VERTEX *PRESENT_ACT; /* for temporary storage */
 int        MARK_VALUE, MARK_COMPLEMENT_VALUE;
 int        num_or_patterns; /* number of blocks that use the OR_gate */
 static int instance_num;
-extern int act_is_or_used;
+int act_is_or_used;
 
 network_t *act_map_network(network_t *network, act_init_param_t *init_param,
                            st_table *cost_table) {
@@ -468,7 +470,7 @@ static ACT_VERTEX_PTR my_create_act_general(node_t *node) {
     ACT_VERTEX_PTR act;
     array_t        *order_list, *order_list1;
     array_t        *pld_order_nodes(), *act_get_corr_fanin_nodes();
-    extern ACT_VERTEX *p_act_construct();
+    ACT_VERTEX *p_act_construct();
     node_t         *po1, *node1;
     network_t      *network1;
 

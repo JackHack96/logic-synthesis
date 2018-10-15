@@ -81,51 +81,51 @@ struct network_clock_struct {
 /*
  * List of exported routines
  */
-extern int clock_add_to_network(network_t *, sis_clock_t *);
+int clock_add_to_network(network_t *, sis_clock_t *);
 
-extern int clock_set_parameter(clock_edge_t, enum clock_param_enum, double);
+int clock_set_parameter(clock_edge_t, enum clock_param_enum, double);
 
-extern int clock_add_dependency(clock_edge_t, clock_edge_t);
+int clock_add_dependency(clock_edge_t, clock_edge_t);
 
-extern int clock_delete_from_network(network_t *, sis_clock_t *);
+int clock_delete_from_network(network_t *, sis_clock_t *);
 
-extern void clock_set_cycletime(network_t *, double);
+void clock_set_cycletime(network_t *, double);
 
-extern void clock_free(sis_clock_t *);
+void clock_free(sis_clock_t *);
 
-extern void network_clock_dup(network_t *, network_t *);
+void network_clock_dup(network_t *, network_t *);
 
-extern void network_clock_free(network_t *);
+void network_clock_free(network_t *);
 
-extern int network_num_clock(network_t *);
+int network_num_clock(network_t *);
 
-extern int clock_num_dependent_edges(clock_edge_t);
+int clock_num_dependent_edges(clock_edge_t);
 
-extern void network_clock_alloc(network_t *);
+void network_clock_alloc(network_t *);
 
-extern void clock_remove_dependency(clock_edge_t, clock_edge_t);
+void clock_remove_dependency(clock_edge_t, clock_edge_t);
 
-extern void clock_set_current_setting(network_t *, enum clock_setting_enum);
+void clock_set_current_setting(network_t *, enum clock_setting_enum);
 
-extern char *clock_name(sis_clock_t *);
+char *clock_name(sis_clock_t *);
 
-extern lsGen clock_gen_dependency(clock_edge_t);
+lsGen clock_gen_dependency(clock_edge_t);
 
-extern sis_clock_t *clock_get_by_name(network_t *, char *);
+sis_clock_t *clock_get_by_name(network_t *, char *);
 
-extern sis_clock_t *clock_create(char *);
+sis_clock_t *clock_create(char *);
 
-extern double clock_get_parameter(clock_edge_t, enum clock_param_enum);
+double clock_get_parameter(clock_edge_t, enum clock_param_enum);
 
-extern double clock_get_cycletime(network_t *);
+double clock_get_cycletime(network_t *);
 
-extern clock_setting_t clock_get_current_setting(network_t *);
+clock_setting_t clock_get_current_setting(network_t *);
 
 /*
  * The following routines are internal to the clock package --
  * they are placed here to avoid creation of another file clock_int.h
  */
-extern int clock_get_current_setting_index(network_t *);
+int clock_get_current_setting_index(network_t *);
 
 int init_clock();
 

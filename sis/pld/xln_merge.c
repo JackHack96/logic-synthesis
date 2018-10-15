@@ -94,7 +94,7 @@
  */
 static sm_row *xln_merge_find_neighbor_of_row1_with_minimum_neighbors();
 
-extern void merge_node();
+void merge_node();
 
 void
 merge_node(network_t *network, int MAX_FANIN, int MAX_COMMON_FANIN, int MAX_UNION_FANIN, char *filename, int verbose,

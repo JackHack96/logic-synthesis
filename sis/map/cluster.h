@@ -69,6 +69,6 @@ typedef struct {
 #endif
 */
 
-extern network_t *cluster_under_constraint(network_t *, clust_options_t *);
+network_t *cluster_under_constraint(network_t *, clust_options_t *);
 
 #endif /* CLUSTER_H */

@@ -8,9 +8,9 @@
 #include "node.h"
 
 /* tdc_util.c declares */
-extern int bdd_node_id();
+int bdd_node_id();
 
-extern void delay_set_tdc_params();
+void delay_set_tdc_params();
 
 /* Structures for tdc delay model */
 struct pin_member {

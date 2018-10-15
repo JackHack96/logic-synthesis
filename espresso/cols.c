@@ -1,6 +1,8 @@
 
-#include "../port/port.h"
-#include "inc/sparse_int.h"
+#include "port.h"
+#include "sparse.h"
+#include "utility.h"
+#include "sparse_int.h"
 
 /*
  *  allocate a new col vector

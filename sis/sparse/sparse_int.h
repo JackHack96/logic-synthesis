@@ -77,9 +77,9 @@
   }
 
 #ifdef FAST_AND_LOOSE
-extern sm_element *sm_element_freelist;
-extern sm_row *sm_row_freelist;
-extern sm_col *sm_col_freelist;
+sm_element *sm_element_freelist;
+sm_row *sm_row_freelist;
+sm_col *sm_col_freelist;
 
 #define sm_element_alloc(newobj)                                               \
   if (sm_element_freelist == NIL(sm_element)) {                                \
@@ -101,8 +101,8 @@ extern sm_col *sm_col_freelist;
 #define sm_element_free(e) FREE(e)
 #endif
 
-extern void sm_row_remove_element();
+void sm_row_remove_element();
 
-extern void sm_col_remove_element();
+void sm_col_remove_element();
 
 #endif

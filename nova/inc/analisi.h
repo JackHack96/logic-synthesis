@@ -65,12 +65,12 @@ typedef struct codex {
 
 /* GLOBAL VARIABLES */
 
-extern ESPTERM *esptable;  /* pointer to esp file product terms */
-extern CODEX *codici;      /* array of states/codes descriptors */
-extern int codexnum;       /* number of next state binary patterns */
-extern int espterm_card;   /* number of product terms of minimized implem.   */
-extern int espinp_card;    /* number of binary inputs of minimized implem.   */
-extern int espout_card;    /* number of binary outputs of minimized implem.  */
-extern int nulltrans_card; /* number of product terms saved for zero effect */
-extern int mvtrans_card;   /* number of product terms saved for join effect */
-extern int ortrans_card;   /* number of product terms saved for oring effect */
+ESPTERM *esptable;  /* pointer to esp file product terms */
+CODEX *codici;      /* array of states/codes descriptors */
+int codexnum;       /* number of next state binary patterns */
+int espterm_card;   /* number of product terms of minimized implem.   */
+int espinp_card;    /* number of binary inputs of minimized implem.   */
+int espout_card;    /* number of binary outputs of minimized implem.  */
+int nulltrans_card; /* number of product terms saved for zero effect */
+int mvtrans_card;   /* number of product terms saved for join effect */
+int ortrans_card;   /* number of product terms saved for oring effect */

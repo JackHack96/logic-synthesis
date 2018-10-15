@@ -22,19 +22,19 @@
 
 #if defined(__STDC__)
 
-extern void srandom(int);
+void srandom(int);
 
-extern long random(void);
+long random(void);
 
-extern char *mktemp(char *);
+char *mktemp(char *);
 
-extern int unlink(char *);
+int unlink(char *);
 
 #else
-extern void srandom();
-extern long random();
-extern char *mktemp();
-extern int unlink();
+void srandom();
+long random();
+char *mktemp();
+int unlink();
 #endif
 
 typedef unsigned long tt; /* "Truth table" */

@@ -50,19 +50,19 @@ enum sim_filter_enum {
   SIM_FILTER_ALL
 };
 
-extern void simplify_node();
+void simplify_node();
 
-extern void simplify_all();
+void simplify_all();
 
-extern node_t *simp_dc_filter();
+node_t *simp_dc_filter();
 
-extern void comp_perm_fn();
+void comp_perm_fn();
 
-extern node_t *cspf_dc();
+node_t *cspf_dc();
 
-extern node_t *simp_obsdc_filter();
+node_t *simp_obsdc_filter();
 
-extern node_t *simp_obssatdc_filter();
+node_t *simp_obssatdc_filter();
 
 int init_simplify();
 

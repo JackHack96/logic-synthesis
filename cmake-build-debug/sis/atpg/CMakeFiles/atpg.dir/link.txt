@@ -1,0 +1,2 @@
+/usr/bin/ar qc libatpg.a  CMakeFiles/atpg.dir/atpg_clauses.c.o CMakeFiles/atpg.dir/atpg_comb.c.o CMakeFiles/atpg.dir/atpg_faults.c.o CMakeFiles/atpg.dir/atpg_faultsim.c.o CMakeFiles/atpg.dir/atpg_gen_test.c.o CMakeFiles/atpg.dir/atpg_init.c.o CMakeFiles/atpg.dir/atpg_seq.c.o CMakeFiles/atpg.dir/atpg_seq_util.c.o CMakeFiles/atpg.dir/atpg_util.c.o CMakeFiles/atpg.dir/com_atpg.c.o CMakeFiles/atpg.dir/com_redund.c.o CMakeFiles/atpg.dir/com_short_t.c.o CMakeFiles/atpg.dir/fast_avl.c.o CMakeFiles/atpg.dir/sat.c.o
+/usr/bin/ranlib libatpg.a

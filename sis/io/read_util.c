@@ -3,7 +3,7 @@
 #include "sis.h"
 
 /* from map/map_int.h */
-extern lib_gate_t *choose_smallest_gate();
+lib_gate_t *choose_smallest_gate();
 
 int  read_lineno;
 char *read_filename;

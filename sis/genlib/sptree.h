@@ -26,41 +26,41 @@ struct tree_node_struct {
 };
 
 /* tree.c */
-extern tree_node_t *gl_alloc_node(), *gl_alloc_leaf(), *gl_dup_tree();
+tree_node_t *gl_alloc_node(), *gl_alloc_leaf(), *gl_dup_tree();
 
-extern void gl_free_tree(), gl_reverse_tree(), gl_print_tree();
+void gl_free_tree(), gl_reverse_tree(), gl_print_tree();
 
-extern void gl_compute_level();
+void gl_compute_level();
 
-extern void gl_print_tree_algebraic();
+void gl_print_tree_algebraic();
 
-extern void gl_canonical_tree(), gl_assign_leaf_names(), gl_assign_node_names();
+void gl_canonical_tree(), gl_assign_leaf_names(), gl_assign_node_names();
 
-extern void gl_hash_save(), gl_make_well_formed();
+void gl_hash_save(), gl_make_well_formed();
 
-extern int gl_hash_end(), gl_hash_find_or_add(), gl_compare_tree();
+int gl_hash_end(), gl_hash_find_or_add(), gl_compare_tree();
 
-extern int gl_get_unique_leaf_pointers();
+int gl_get_unique_leaf_pointers();
 
-extern avl_tree *gl_hash_init();
+avl_tree *gl_hash_init();
 
 /* io.c */
-extern void gl_print_all_gates(), gl_print_all_nand_forms();
+void gl_print_all_gates(), gl_print_all_nand_forms();
 
-extern void gl_print_nand_forms(), gl_print_all_gates_genlib();
+void gl_print_nand_forms(), gl_print_all_gates_genlib();
 
-extern void gl_table_of_gate_count(), gl_table_of_nand_forms();
+void gl_table_of_gate_count(), gl_table_of_nand_forms();
 
 /* nand.c */
-extern void gl_write_blif();
+void gl_write_blif();
 
-extern int gl_nand_gate_forms();
+int gl_nand_gate_forms();
 
 /* aoi.c */
-extern int gl_gen_complex_gates(), gl_generate_complex_gates();
+int gl_gen_complex_gates(), gl_generate_complex_gates();
 
 /* genlib.c */
-extern int genlib();
+int genlib();
 
-extern char read_error_string[];
+char read_error_string[];
 #endif

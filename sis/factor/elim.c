@@ -36,7 +36,7 @@ void eliminate(network_t *network, int thresh, int limit) {
     st_table *dont_elim;
     char     *dummy;
     int      newlimit, tmplimit;
-    extern array_t *order_nodes_elim();
+    array_t *order_nodes_elim();
 
     dont_elim = st_init_table(st_ptrcmp, st_ptrhash);
     while (eliminating) {

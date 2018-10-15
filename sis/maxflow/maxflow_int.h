@@ -4,11 +4,11 @@
 /*
  * functions that will be used internal to the package
  */
-extern void mf_error();
+void mf_error();
 
-extern char *MF_calloc();
+char *MF_calloc();
 
-extern void get_cutset();
+void get_cutset();
 
 #define LABELLED 1
 #define MARKED 2

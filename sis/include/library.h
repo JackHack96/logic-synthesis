@@ -53,33 +53,33 @@ struct lib_gate_struct {
 };
 
 /* normal library functions */
-extern library_t *lib_get_library(void);
+library_t *lib_get_library(void);
 
-extern lsGen lib_gen_classes(library_t *);
+lsGen lib_gen_classes(library_t *);
 
-extern lsGen lib_gen_gates(lib_class_t *);
+lsGen lib_gen_gates(lib_class_t *);
 
-extern lib_class_t *lib_get_class(network_t *, library_t *);
+lib_class_t *lib_get_class(network_t *, library_t *);
 
-extern char *lib_class_name(lib_class_t *);
+char *lib_class_name(lib_class_t *);
 
-extern network_t *lib_class_network(lib_class_t *);
+network_t *lib_class_network(lib_class_t *);
 
-extern lib_class_t *lib_class_dual(lib_class_t *);
+lib_class_t *lib_class_dual(lib_class_t *);
 
-extern lib_gate_t *lib_get_gate(library_t *, char *);
+lib_gate_t *lib_get_gate(library_t *, char *);
 
-extern char *lib_gate_name(lib_gate_t *);
+char *lib_gate_name(lib_gate_t *);
 
-extern char *lib_gate_pin_name(lib_gate_t *, int, int);
+char *lib_gate_pin_name(lib_gate_t *, int, int);
 
-extern double lib_gate_area(lib_gate_t *);
+double lib_gate_area(lib_gate_t *);
 
-extern lib_class_t *lib_gate_class(lib_gate_t *);
+lib_class_t *lib_gate_class(lib_gate_t *);
 
-extern int lib_gate_num_in(lib_gate_t *);
+int lib_gate_num_in(lib_gate_t *);
 
-extern int lib_gate_num_out(lib_gate_t *);
+int lib_gate_num_out(lib_gate_t *);
 
 /* sequential support */
 #define lib_gate_type(g)                                                       \
@@ -90,27 +90,27 @@ extern int lib_gate_num_out(lib_gate_t *);
 #define lib_gate_clock_delay(g)                                                \
   (((g) == NIL(lib_gate_t)) ? NIL(delay_pin_t) : (g)->clock_delay)
 
-extern lib_gate_t *lib_choose_smallest_latch(library_t *library, char *string, latch_synch_t latch_type);
+lib_gate_t *lib_choose_smallest_latch(library_t *library, char *string, latch_synch_t latch_type);
 
-extern lib_class_t *lib_get_class_by_type(network_t *, library_t *,
+lib_class_t *lib_get_class_by_type(network_t *, library_t *,
                                           latch_synch_t);
 
 /* for mapped nodes/networks */
-extern lib_gate_t *lib_gate_of(node_t *);
+lib_gate_t *lib_gate_of(node_t *);
 
-extern int lib_network_is_mapped(network_t *);
+int lib_network_is_mapped(network_t *);
 
-extern int lib_set_gate(node_t *, lib_gate_t *, char **, node_t **, int);
+int lib_set_gate(node_t *, lib_gate_t *, char **, node_t **, int);
 
 /* obsolete */
-extern char *lib_get_gate_name(node_t *);
+char *lib_get_gate_name(node_t *);
 
-extern char *lib_get_pin_name(node_t *, int);
+char *lib_get_pin_name(node_t *, int);
 
-extern char *lib_get_out_pin_name(node_t *, int);
+char *lib_get_out_pin_name(node_t *, int);
 
-extern char *lib_get_pin_delay(node_t *, int);
+char *lib_get_pin_delay(node_t *, int);
 
-extern double lib_get_gate_area(node_t *);
+double lib_get_gate_area(node_t *);
 
 #endif

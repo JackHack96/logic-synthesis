@@ -1,0 +1,2 @@
+/usr/bin/ar qc libutil.a  CMakeFiles/util.dir/cpu_stats.c.o CMakeFiles/util.dir/cpu_time.c.o CMakeFiles/util.dir/getopt.c.o CMakeFiles/util.dir/pathsearch.c.o CMakeFiles/util.dir/pipefork.c.o CMakeFiles/util.dir/prtime.c.o CMakeFiles/util.dir/restart.c.o CMakeFiles/util.dir/safe_mem.c.o CMakeFiles/util.dir/saveimage.c.o CMakeFiles/util.dir/state.c.o CMakeFiles/util.dir/strsav.c.o CMakeFiles/util.dir/texpand.c.o CMakeFiles/util.dir/tmpfile.c.o
+/usr/bin/ranlib libutil.a

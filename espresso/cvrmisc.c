@@ -1,5 +1,5 @@
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 /* cost -- compute the cost of a cover */
 void cover_cost(F, cost) IN pcover F;

@@ -486,7 +486,7 @@ int extract_ddivisor(sm_matrix *B, int index, int row, ddset_t *ddivisor_set) {
     lsHandle        handle, handle1, handle2;
     int             i, j;
 
-    extern int twocube_timeout_occured;
+    int twocube_timeout_occured;
 
     if ((B->nrows - row) == 1) {
         cube1    = sm_get_row(B, row);

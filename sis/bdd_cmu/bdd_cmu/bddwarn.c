@@ -5,7 +5,7 @@
 
 #include "bddint.h"
 
-extern void exit(int);
+void exit(int);
 
 /* cmu_bdd_warning(message) prints a warning and returns. */
 

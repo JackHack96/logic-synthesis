@@ -732,7 +732,7 @@ input_phase_t retrieve_phase(node_t *fanout, node_t *node) {
     return record->input_phases[i];
 }
 
-lsList new_find_bypass_nodes(network_t *networknetwork, double epsilon, double mux_delay, delay_model_t model) {
+lsList new_find_bypass_nodes(network_t *network, double epsilon, double mux_delay, delay_model_t model) {
     array_t   *nodes;
     int       i, j;
     node_t    *node, *fanout;

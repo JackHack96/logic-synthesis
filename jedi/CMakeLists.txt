@@ -7,16 +7,16 @@ add_executable(jedi
         hill.c
         hot.c
         jedi.c
-        inc/jedi.h
-        inc/jedi_int.h
+
+
         options.c
         random.c
         read.c
         rp.c
-        inc/rp.h
-        inc/rp_int.h
+
+
         util.c
-        inc/util.h
+
         weights.c
         write.c
         )

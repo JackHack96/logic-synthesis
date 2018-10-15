@@ -17,24 +17,24 @@ struct daemon_struct {
 
 #define node_has_function(f) (f->F != 0)
 
-extern void network_rehash_names();
+void network_rehash_names();
 
-extern void node_complement();
+void node_complement();
 
-extern void node_invalid();
+void node_invalid();
 
-extern void make_common_base_by_name();
+void make_common_base_by_name();
 
-extern void make_common_base();
+void make_common_base();
 
-extern void node_discard_all_daemons();
+void node_discard_all_daemons();
 
-extern void set_espresso_flags();
+void set_espresso_flags();
 
-extern node_t *node_sort_for_printing();
+node_t *node_sort_for_printing();
 
-extern int fancy_lex_order();
+int fancy_lex_order();
 
-extern void node_remove_dup_fanin();
+void node_remove_dup_fanin();
 
 #endif

@@ -6,13 +6,13 @@
 #include "list.h"
 #include "sparse.h"
 
-extern void ex_kernel_gen();
+void ex_kernel_gen();
 
-extern void ex_subkernel_gen();
+void ex_subkernel_gen();
 
-extern node_t *ex_find_divisor();
+node_t *ex_find_divisor();
 
-extern node_t *ex_find_divisor_quick();
+node_t *ex_find_divisor_quick();
 
 int init_extract();
 

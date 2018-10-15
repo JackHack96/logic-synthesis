@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="sred"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\blif2vst\;CMake Files\espresso\;CMake Files\stamina\;CMake Files\stamina\hash\;CMake Files\stamina\mimi\;CMake Files\jedi\;CMake Files\nova\;CMake Files\options\;CMake Files\vst2blif\;CMake Files\sis\;CMake Files\sis\array\;CMake Files\sis\astg\;CMake Files\sis\atpg\;CMake Files\sis\avl\;CMake Files\sis\bdd_cmu\;CMake Files\sis\bdd_cmu\bdd_cmu\;CMake Files\sis\bdd_cmu\bdd_port\;CMake Files\sis\bdd_cmu\mem\;CMake Files\sis\clock\;CMake Files\sis\command\;CMake Files\sis\decomp\;CMake Files\sis\delay\;CMake Files\sis\enc\;CMake Files\sis\error\;CMake Files\sis\espresso\;CMake Files\sis\extract\;CMake Files\sis\factor\;CMake Files\sis\gcd\;CMake Files\sis\genlib\;CMake Files\sis\graph\;CMake Files\sis\graphics\;CMake Files\sis\io\;CMake Files\sis\latch\;CMake Files\sis\linsolv\;CMake Files\sis\list\;CMake Files\sis\main\;CMake Files\sis\map\;CMake Files\sis\maxflow\;CMake Files\sis\mincov\;CMake Files\sis\minimize\;CMake Files\sis\network\;CMake Files\sis\node\;CMake Files\sis\ntbdd\;CMake Files\sis\octio\;CMake Files\sis\order\;CMake Files\sis\phase\;CMake Files\sis\pld\;CMake Files\sis\power\;CMake Files\sis\resub\;CMake Files\sis\retime\;CMake Files\sis\seqbdd\;CMake Files\sis\sim\;CMake Files\sis\simplify\;CMake Files\sis\sparse\;CMake Files\sis\speed\;CMake Files\sis\st\;CMake Files\sis\stg\;CMake Files\sis\test\;CMake Files\sis\timing\;CMake Files\sis\util\;CMake Files\sis\var_set\;CMake Files\sred\;CMake Files\utility\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/matteo/Dropbox/sis/cmake-build-debug/sred"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/matteo/Dropbox/sis/cmake-build-debug/sred/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/matteo/Dropbox/sis/cmake-build-debug/sred/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/matteo/Dropbox/sis/cmake-build-debug/sred/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/matteo/Dropbox/sis/cmake-build-debug/sred/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sred">
+				<Option output="/home/matteo/Dropbox/sis/cmake-build-debug/sred/sred" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/matteo/Dropbox/sis/cmake-build-debug/sred"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/matteo/Dropbox/sis/sis/include"/>
+					<Add directory="/home/matteo/Dropbox/sis/sred/../espresso/inc"/>
+					<Add directory="/home/matteo/Dropbox/sis/sred/../utility"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/matteo/Dropbox/sis/cmake-build-debug/sred/Makefile&quot;  VERBOSE=1 sred"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/matteo/Dropbox/sis/cmake-build-debug/sred/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/matteo/Dropbox/sis/cmake-build-debug/sred/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/matteo/Dropbox/sis/cmake-build-debug/sred/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sred/fast">
+				<Option output="/home/matteo/Dropbox/sis/cmake-build-debug/sred/sred" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/matteo/Dropbox/sis/cmake-build-debug/sred"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/matteo/Dropbox/sis/sis/include"/>
+					<Add directory="/home/matteo/Dropbox/sis/sred/../espresso/inc"/>
+					<Add directory="/home/matteo/Dropbox/sis/sred/../utility"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j12 -f &quot;/home/matteo/Dropbox/sis/cmake-build-debug/sred/Makefile&quot;  VERBOSE=1 sred/fast"/>
+					<CompileFile command="/usr/bin/make -j12 -f &quot;/home/matteo/Dropbox/sis/cmake-build-debug/sred/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j12 -f &quot;/home/matteo/Dropbox/sis/cmake-build-debug/sred/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j12 -f &quot;/home/matteo/Dropbox/sis/cmake-build-debug/sred/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/action.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/boolcmp.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/chinclus.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/chiusura.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/choose.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/clinchain.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/clinclus.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/clincop.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/closure.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/coloring.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/comp.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/connected.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/esp_color.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/exist.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/existdf.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/generate.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/gram.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/gram.c.rule">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/gram.h">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/ibincompa.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/incompat.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/iobincomp.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/label.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/lex.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/lex.c.rule">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/main.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/makeout.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/misc.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/mxcomptbl.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/newnstate.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/newoutput.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/newprime.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/obincompa.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/prime.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/primeones.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/procargs.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/qsort.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/qspart.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/qspivot.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/reduced.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/solution.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/strbar.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/strcom.c">
+			<Option target="sred"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/blif2vst/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\blif2vst\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/espresso/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\espresso\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/stamina/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\stamina\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/stamina/hash/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\stamina\hash\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/stamina/mimi/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\stamina\mimi\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/jedi/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\jedi\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/nova/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\nova\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/options/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\options\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/vst2blif/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\vst2blif\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/array/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\array\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/astg/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\astg\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/atpg/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\atpg\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/avl/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\avl\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/bdd_cmu/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\bdd_cmu\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/bdd_cmu/bdd_cmu/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\bdd_cmu\bdd_cmu\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/bdd_cmu/bdd_port/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\bdd_cmu\bdd_port\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/bdd_cmu/mem/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\bdd_cmu\mem\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/clock/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\clock\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/command/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\command\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/decomp/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\decomp\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/delay/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\delay\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/enc/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\enc\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/error/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\error\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/espresso/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\espresso\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/extract/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\extract\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/factor/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\factor\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/gcd/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\gcd\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/genlib/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\genlib\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/graph/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\graph\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/graphics/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\graphics\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/io/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\io\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/latch/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\latch\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/linsolv/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\linsolv\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/list/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\list\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/main/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\main\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/map/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\map\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/maxflow/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\maxflow\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/mincov/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\mincov\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/minimize/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\minimize\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/network/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\network\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/node/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\node\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/ntbdd/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\ntbdd\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/octio/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\octio\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/order/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\order\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/phase/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\phase\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/pld/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\pld\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/power/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\power\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/resub/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\resub\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/retime/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\retime\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/seqbdd/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\seqbdd\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/sim/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\sim\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/simplify/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\simplify\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/sparse/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\sparse\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/speed/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\speed\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/st/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\st\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/stg/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\stg\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/test/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\test\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/timing/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\timing\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/util/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\util\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sis/var_set/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sis\var_set\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/sred/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\sred\"/>
+		</Unit>
+		<Unit filename="/home/matteo/Dropbox/sis/utility/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\utility\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>

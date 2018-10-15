@@ -17,14 +17,14 @@ struct nodeindex_struct {
     array_t  *int_to_node;
 };
 
-extern struct nodeindex_struct *nodeindex_alloc(void);
+struct nodeindex_struct *nodeindex_alloc(void);
 
-extern void nodeindex_free(struct nodeindex_struct *);
+void nodeindex_free(struct nodeindex_struct *);
 
-extern int nodeindex_insert(struct nodeindex_struct *, node_t *);
+int nodeindex_insert(struct nodeindex_struct *, node_t *);
 
-extern int nodeindex_indexof(struct nodeindex_struct *, node_t *);
+int nodeindex_indexof(struct nodeindex_struct *, node_t *);
 
-extern node_t *nodeindex_nodeof(struct nodeindex_struct *, int);
+node_t *nodeindex_nodeof(struct nodeindex_struct *, int);
 
 #endif

@@ -1,5 +1,8 @@
 project(espresso)
 
+include_directories(../port
+        ../utility)
+
 add_executable(espresso
         cofactor.c
         cols.c
@@ -13,7 +16,6 @@ add_executable(espresso
         dominate.c
         equiv.c
         espresso.c
-        inc/espresso.h
         essen.c
         exact.c
         expand.c
@@ -25,12 +27,11 @@ add_executable(espresso
         indep.c
         irred.c
         main.c
-        inc/main.h
         map.c
         matrix.c
         mincov.c
-        inc/mincov.h
-        inc/mincov_int.h
+
+
         opo.c
         pair.c
         part.c
@@ -43,9 +44,10 @@ add_executable(espresso
         sminterf.c
         solution.c
         sparse.c
-        inc/sparse.h
-        inc/sparse_int.h
+
+
         unate.c
         verify.c
         )
 target_link_libraries(espresso utility)
+add_dependencies(espresso utility)

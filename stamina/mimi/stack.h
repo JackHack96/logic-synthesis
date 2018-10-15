@@ -13,4 +13,4 @@ struct stack {
 
 STACK *pop();
 
-extern STACK *xstack;
+STACK *xstack;

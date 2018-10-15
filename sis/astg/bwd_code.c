@@ -39,7 +39,7 @@ static array_t *marking_pairs;
 static array_t *partitioning_signals;
 
 /* from bin_mincov.c */
-extern int call_count;
+int call_count;
 
 /* dummy signal for dummy transitions... */
 static astg_signal *dum_sig;

@@ -9,7 +9,7 @@ typedef struct {
     int tos_inc;
 } stk_status_t;
 
-extern bool sat_add_implication();
+bool sat_add_implication();
 
 /*
  *  sorted, double-linked list insertion

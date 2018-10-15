@@ -16,23 +16,23 @@ typedef struct fanin_record_defn {
     node_t *node;
 } fanin_record_t;
 
-extern void p_rootAdd();
+void p_rootAdd();
 
-extern void p_levelAdd();
+void p_levelAdd();
 
-extern int p_maxAdd();
+int p_maxAdd();
 
-extern void p_recOrder();
+void p_recOrder();
 
-extern enum st_retval p_cleanFRTable();
+enum st_retval p_cleanFRTable();
 
-extern enum st_retval p_cleanRTable();
+enum st_retval p_cleanRTable();
 
-extern void p_recFree();
+void p_recFree();
 
-extern int p_fanin_record_sort();
+int p_fanin_record_sort();
 
-extern enum st_retval p_addPI();
+enum st_retval p_addPI();
 
 array_t *p_alap_order_nodes(array_t *node_vec) {
     node_t         *dummy_node, *t_node, *tt_node, *root, *node;

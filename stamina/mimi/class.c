@@ -40,7 +40,7 @@ one_implied() {
   Find_Implied(max, i);
 }
 
-extern NLIST *_head;
+NLIST *_head;
 static int sequ, deleted;
 
 Find_Implied(xmax, max_index) PRIMES xmax;
@@ -278,7 +278,7 @@ char *r_out;
   int num_implied;
   register i, j, l;
   int exist;
-  extern PRIMES prime;
+  PRIMES prime;
 
   if (r_out) {
     for (i = 0; i < num_po; i++)

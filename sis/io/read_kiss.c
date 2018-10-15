@@ -3,9 +3,9 @@
 
 #include "sis.h"
 
-//extern void read_error();
-extern int  read_lineno;
-extern char *read_filename;
+//void read_error();
+int  read_lineno;
+char *read_filename;
 
 #define GETC(c, fp) (((((c) = getc(fp)) == '\n') ? read_lineno++ : 0), c)
 
@@ -54,7 +54,7 @@ int read_kiss(FILE *f, graph_t **g) {
     vertex_t   *v;
     edge_t     *e;
     lsGen      gen;
-    extern int stg_testing;
+    int stg_testing;
 
     state_table = st_init_table(strcmp, st_strhash);
     stg         = stg_alloc();

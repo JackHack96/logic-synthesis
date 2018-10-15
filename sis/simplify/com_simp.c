@@ -87,7 +87,7 @@ int com_simplify(network_t **network, int argc, char **argv) {
     sim_dctype_t dctype;
     sim_filter_t filter;
     st_table     *level_table;
-    extern int level_node_cmp2();
+    int level_node_cmp2();
 
     dctype = SIM_DCTYPE_SUB_FANIN;
     accept = SIM_ACCEPT_FCT_LITS;
@@ -361,14 +361,14 @@ int com_full_simplify(network_t **network, int argc, char **argv) {
     bdd_manager  *manager;
     int          x_ordering = 0;
     int          array_size;
-    extern int level_node_cmp2();
+    int level_node_cmp2();
     int          c, i, j;
     sim_accept_t accept;
     sim_method_t method;
     sim_dctype_t dctype;
     sim_filter_t filter;
     st_table     *level_table;
-    extern st_table *attach_dcnetwork_to_network();
+    st_table *attach_dcnetwork_to_network();
     int          timeout    = 0;
     st_generator *tablegen;
     int          max, index;

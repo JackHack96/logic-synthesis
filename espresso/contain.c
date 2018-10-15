@@ -14,7 +14,7 @@
     smaller) than a given cube for containment.
 */
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 /*
     sf_contain -- perform containment on a set family (delete sets which

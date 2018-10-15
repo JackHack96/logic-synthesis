@@ -5,8 +5,8 @@
  *  Old style -do xxx, -out xxx, etc. are still supported.
  */
 
-#include "inc/main.h" /* table definitions for options */
-#include "inc/espresso.h"
+#include "main.h" /* table definitions for options */
+#include "espresso.h"
 
 static FILE *last_fp;
 static int input_type = FD_type;
@@ -21,8 +21,8 @@ char *argv[];
   cost_t cost;
   bool error, exact_cover;
   long start;
-  extern char *optarg;
-  extern int optind;
+  char *optarg;
+  int optind;
 
   start = ptime();
 

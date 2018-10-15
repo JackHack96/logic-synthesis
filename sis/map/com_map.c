@@ -934,11 +934,11 @@ int com_print_map_stats(network_t **network, int argc, char **argv) {
 
 /* reduces depth by clustering using Lawler's algorithm */
 
-extern network_t *cluster_under_size_constraint();
+network_t *cluster_under_size_constraint();
 
-extern network_t *cluster_under_depth_constraint();
+network_t *cluster_under_depth_constraint();
 
-extern network_t *cluster_under_size_as_depth_constraint();
+network_t *cluster_under_size_as_depth_constraint();
 
 int com_reduce_depth(network_t **network, int argc, char **argv) {
     int             c;

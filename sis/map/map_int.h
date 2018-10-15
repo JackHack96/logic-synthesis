@@ -187,88 +187,88 @@ struct match_struct {
 #define IS_LATCH_END(node) (network_latch_end((node)) != NIL(node_t))
 #endif
 
-extern void map_network_dup();
+void map_network_dup();
 
-extern int map_network_to_prim();
+int map_network_to_prim();
 
-extern st_table *map_find_isomorphisms();
+st_table *map_find_isomorphisms();
 
-extern void prim_free();
+void prim_free();
 
-extern void prim_clear_binding();
+void prim_clear_binding();
 
-extern void map_prim_dump();
+void map_prim_dump();
 
-extern int tree_map();
+int tree_map();
 
-extern void map_print_tree_size();
+void map_print_tree_size();
 
-extern node_t *map_prim_get_root();
+node_t *map_prim_get_root();
 
-extern void map_alloc(), map_free(), map_invalid();
+void map_alloc(), map_free(), map_invalid();
 
-extern void     map_dup(), map_setup_network();
+void     map_dup(), map_setup_network();
 
-extern void gen_all_matches();
+void gen_all_matches();
 
-extern int map_check_form();
+int map_check_form();
 
-extern int do_tree_premap();
+int do_tree_premap();
 
-extern void map_prep();
+void map_prep();
 
-extern void patch_constant_cells();
+void patch_constant_cells();
 
-extern network_t *map_build_network();
+network_t *map_build_network();
 
-extern lib_gate_t *choose_smallest_gate();
+lib_gate_t *choose_smallest_gate();
 
-extern lib_gate_t *choose_nth_smallest_gate();
+lib_gate_t *choose_nth_smallest_gate();
 
-extern node_t *map_po_get_fanin();
+node_t *map_po_get_fanin();
 
 /* EXPORTED FROM "com_map.c" */
-extern int map_fill_options();
+int map_fill_options();
 
 /* EXPORTED FROM "bin_delay.c" */
-extern int bin_delay_tree_match();
+int bin_delay_tree_match();
 
-extern int bin_delay_area_tree_match();
+int bin_delay_area_tree_match();
 
-extern void
+void
 bin_for_all_nodes_inputs_first(/* network_t *network; VoidFn fn; */);
 
-extern void
+void
 bin_for_all_nodes_outputs_first(/* network_t *network;VoidFn fn; */);
 
 /* EXPORTED FROM "treemap.c" */
-extern network_t *do_old_tree_match();
+network_t *do_old_tree_match();
 
 #ifdef SIS
 
-extern int seq_filter();
+int seq_filter();
 
 #endif /* SIS */
 
 /* map_interface.c */
-extern network_t *complete_map_interface();
+network_t *complete_map_interface();
 
-extern network_t *build_mapped_network_interface();
+network_t *build_mapped_network_interface();
 
-extern network_t *tree_map_interface();
+network_t *tree_map_interface();
 
-extern network_t *fanout_opt_interface();
+network_t *fanout_opt_interface();
 
-extern network_type_t map_get_network_type(/* network_t *network */);
+network_type_t map_get_network_type(/* network_t *network */);
 
-extern void map_report_node_data(/* node_t *node */);
+void map_report_node_data(/* node_t *node */);
 
-extern network_t *map_premap_network();
+network_t *map_premap_network();
 
-extern void map_report_data_mapped();
+void map_report_data_mapped();
 
 /* from replace.c */
-extern void replace_2or();
+void replace_2or();
 
 #define is_tree_leaf(node)                                                     \
   (node->type == PRIMARY_INPUT || node_num_fanout(node) > 1)
@@ -282,11 +282,11 @@ extern void replace_2or();
 
 #ifdef SIS
 
-extern int network_gate_type();
+int network_gate_type();
 
-extern node_t *network_latch_input();
+node_t *network_latch_input();
 
-extern st_table *network_type_table;
+st_table *network_type_table;
 #endif /* SIS */
 
 #endif

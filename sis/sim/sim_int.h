@@ -7,13 +7,13 @@
 #define GET_VALUE(node) ((int)node->SIM_SLOT)
 #define SET_VALUE(node, value) (node->SIM_SLOT = (char *)value)
 
-extern void simulate_node();
+void simulate_node();
 
-extern array_t *simulate_network();
+array_t *simulate_network();
 
-extern array_t *simulate_stg();
+array_t *simulate_stg();
 
-extern int sim_verify_codegen();
+int sim_verify_codegen();
 
 int init_sim();
 

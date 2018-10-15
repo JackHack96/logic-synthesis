@@ -4,11 +4,11 @@
 
 #if defined(__STDC__)
 
-extern void qsort(pointer, unsigned, int, int (*)(pointer, pointer)
+void qsort(pointer, unsigned, int, int (*)(pointer, pointer)
 
 );
 #else
-extern void qsort();
+void qsort();
 #endif
 
 static bdd

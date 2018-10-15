@@ -25,9 +25,9 @@ struct latch_struct {
     char *undef1;		/* undefined 1, for the programer's use */
 };
 
-extern latch_t *latch_alloc(void);
+latch_t *latch_alloc(void);
 
-extern void latch_free(latch_t *);
+void latch_free(latch_t *);
 
 #define latch_set_input(l, n) (void)((l)->latch_input = n)
 
@@ -53,19 +53,19 @@ extern void latch_free(latch_t *);
 
 #define latch_get_gate(l) (l)->gate
 
-extern void latch_set_control(latch_t *, node_t *);
+void latch_set_control(latch_t *, node_t *);
 
 #define latch_get_control(l) (l)->control
 
-extern latch_t *latch_from_node(node_t *);
+latch_t *latch_from_node(node_t *);
 
-extern void network_create_latch(network_t *, latch_t **, node_t *, node_t *);
+void network_create_latch(network_t *, latch_t **, node_t *, node_t *);
 
-extern void network_delete_latch(network_t *, latch_t *);
+void network_delete_latch(network_t *, latch_t *);
 
-extern void network_delete_latch_gen(network_t *, lsGen);
+void network_delete_latch_gen(network_t *, lsGen);
 
-extern int latch_equal(latch_t *, latch_t *);
+int latch_equal(latch_t *, latch_t *);
 
 int init_latch();
 

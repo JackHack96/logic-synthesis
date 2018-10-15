@@ -5,7 +5,7 @@
 static void act_initialize_ite_area();
 
 ite_vertex_ptr PRESENT_ITE;
-extern int     WHICH_ACT;
+int     WHICH_ACT;
 
 void act_ite_map_network_with_iter(network_t *network, act_init_param_t *init_param) {
     /* act_ite_preprocess(network, init_param); */ /* done with a separate command

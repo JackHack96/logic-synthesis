@@ -20,27 +20,27 @@ typedef struct {
                       queue_entry_t * in Queue */
 } queue_t;
 
-extern queue_t *
+queue_t *
 init_queue(/* int max_size; int (*cmp)(); void (*print_fn)() */);
 
-extern void free_queue(/* queue_t *queue */);
+void free_queue(/* queue_t *queue */);
 
-extern void put_queue(/* queue_t *queue; char *ptr */);
+void put_queue(/* queue_t *queue; char *ptr */);
 
-extern char *get_queue(/* queue_t *queue */);
+char *get_queue(/* queue_t *queue */);
 
-extern char *top_queue(/* queue_t *queue */);
+char *top_queue(/* queue_t *queue */);
 
-extern void adj_queue(/* queue_t *queue; char *ptr */);
+void adj_queue(/* queue_t *queue; char *ptr */);
 
-extern void adj_up_queue(/* queue_t *queue; char *ptr */);
+void adj_up_queue(/* queue_t *queue; char *ptr */);
 
-extern void adj_down_queue(/* queue_t *queue; char *ptr */);
+void adj_down_queue(/* queue_t *queue; char *ptr */);
 
-extern int queue_size(/* queue_t *queue */);
+int queue_size(/* queue_t *queue */);
 
-extern void print_queue(/* queue_t *queue */);
+void print_queue(/* queue_t *queue */);
 
-extern void check_queue(/* queue_t *queue */);
+void check_queue(/* queue_t *queue */);
 
 #endif

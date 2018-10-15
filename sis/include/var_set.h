@@ -14,42 +14,42 @@ typedef struct var_set_struct {
   unsigned int *data;
 } var_set_t;
 
-extern var_set_t *var_set_new(int);
+var_set_t *var_set_new(int);
 
-extern var_set_t *var_set_copy(var_set_t *);
+var_set_t *var_set_copy(var_set_t *);
 
-extern var_set_t *var_set_assign(var_set_t *, var_set_t *);
+var_set_t *var_set_assign(var_set_t *, var_set_t *);
 
-extern void var_set_free(var_set_t *);
+void var_set_free(var_set_t *);
 
-extern int var_set_n_elts(var_set_t *);
+int var_set_n_elts(var_set_t *);
 
-extern var_set_t *var_set_or(var_set_t *, var_set_t *, var_set_t *);
+var_set_t *var_set_or(var_set_t *, var_set_t *, var_set_t *);
 
-extern var_set_t *var_set_and(var_set_t *, var_set_t *, var_set_t *);
+var_set_t *var_set_and(var_set_t *, var_set_t *, var_set_t *);
 
-extern var_set_t *var_set_not(var_set_t *, var_set_t *);
+var_set_t *var_set_not(var_set_t *, var_set_t *);
 
-extern int var_set_get_elt(var_set_t *, int);
+int var_set_get_elt(var_set_t *, int);
 
-extern void var_set_set_elt(var_set_t *, int);
+void var_set_set_elt(var_set_t *, int);
 
-extern void var_set_clear_elt(var_set_t *, int);
+void var_set_clear_elt(var_set_t *, int);
 
-extern void var_set_clear(var_set_t *);
+void var_set_clear(var_set_t *);
 
-extern int var_set_intersect(var_set_t *, var_set_t *);
+int var_set_intersect(var_set_t *, var_set_t *);
 
-extern int var_set_is_empty(var_set_t *);
+int var_set_is_empty(var_set_t *);
 
-extern int var_set_is_full(var_set_t *);
+int var_set_is_full(var_set_t *);
 
-extern void var_set_print(FILE *, var_set_t *);
+void var_set_print(FILE *, var_set_t *);
 
-extern int var_set_equal(var_set_t *, var_set_t *);
+int var_set_equal(var_set_t *, var_set_t *);
 
-extern int var_set_cmp(char *, char *);
+int var_set_cmp(char *, char *);
 
-extern unsigned int var_set_hash(var_set_t *);
+unsigned int var_set_hash(var_set_t *);
 
 #endif /* } */

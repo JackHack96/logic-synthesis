@@ -17,7 +17,7 @@ static void extract_support_info_rec();
 
 static void node_table_entry_print();
 
-extern void output_info_free();
+void output_info_free();
 
 static void use_cofactored_set();
 

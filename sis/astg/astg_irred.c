@@ -36,7 +36,7 @@ static int check_redundant(astg_graph *stg, void *data) {
     return 0;
 }
 
-extern int astg_irred(astg_graph *stg, astg_bool modify) {
+int astg_irred(astg_graph *stg, astg_bool modify) {
     /*	Count the number of redundant arcs in the STG, and if modify is
     true, delete them as well. */
 

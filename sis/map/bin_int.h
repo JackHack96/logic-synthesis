@@ -79,24 +79,24 @@ typedef struct {
 
  /* from bin_delay.c */
 
-extern delay_bucket_t *bin_delay_compute_gate_bucket(/* lib_gate_t *gate; int ninputs; pin_info_t *pin_info; */);
-extern delay_pwl_t bin_delay_compute_gate_pwl(/* lib_gate_t *gate; int ninputs; pin_info_t *pin_info; */);
-extern void bin_delay_update_node_pwl(/* node_t *node, delay_bucket_t *bucket */);
-extern delay_time_t bin_delay_compute_pwl_delay(/* pwl_t *pwl; double load; */);
-extern delay_pwl_t bin_delay_select_active_pwl_delay(/* pwl_t *pwl; double load; */);
-extern void bin_delay_update_node_pwl(/* node_t *node; delay_bucket_t *bucket; */);
-extern delay_pwl_t bin_delay_get_pi_delay_pwl(/* node_t *node; */);
-extern delay_time_t bin_delay_compute_pwl_delay(/* pwl_t *pwl, double load */);
-extern delay_time_t bin_delay_compute_delay_pwl_delay(/* delay_pwl_t pwl, double load */);
+delay_bucket_t *bin_delay_compute_gate_bucket(/* lib_gate_t *gate; int ninputs; pin_info_t *pin_info; */);
+delay_pwl_t bin_delay_compute_gate_pwl(/* lib_gate_t *gate; int ninputs; pin_info_t *pin_info; */);
+void bin_delay_update_node_pwl(/* node_t *node, delay_bucket_t *bucket */);
+delay_time_t bin_delay_compute_pwl_delay(/* pwl_t *pwl; double load; */);
+delay_pwl_t bin_delay_select_active_pwl_delay(/* pwl_t *pwl; double load; */);
+void bin_delay_update_node_pwl(/* node_t *node; delay_bucket_t *bucket; */);
+delay_pwl_t bin_delay_get_pi_delay_pwl(/* node_t *node; */);
+delay_time_t bin_delay_compute_pwl_delay(/* pwl_t *pwl, double load */);
+delay_time_t bin_delay_compute_delay_pwl_delay(/* delay_pwl_t pwl, double load */);
 
 
  /* from fanout_est.c */
 
-extern void fanout_est_get_prim_pin_fanout(/* prim_t *prim; int pin; pin_info_t *pin_info; */);
-extern void fanout_est_compute_fanout_info(/* node_t *node; */);
-extern fanout_bucket_t *fanout_est_fanout_bucket_alloc(/* multi_fanout_t *fanout */);
-extern void fanout_est_free_fanout_info(/* node_t *node; */);
-extern delay_time_t fanout_est_get_pin_arrival_time(/* pin_info_t *pin_info; double pin_load; */);
+void fanout_est_get_prim_pin_fanout(/* prim_t *prim; int pin; pin_info_t *pin_info; */);
+void fanout_est_compute_fanout_info(/* node_t *node; */);
+fanout_bucket_t *fanout_est_fanout_bucket_alloc(/* multi_fanout_t *fanout */);
+void fanout_est_free_fanout_info(/* node_t *node; */);
+delay_time_t fanout_est_get_pin_arrival_time(/* pin_info_t *pin_info; double pin_load; */);
 
 
 #endif /* BIN_INT_H */

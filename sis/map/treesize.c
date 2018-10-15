@@ -71,7 +71,7 @@ static void find_tree_size(node_t *node, st_table *leaf_table, st_table *visited
 
 void map_print_tree_size(FILE *fp, network_t *network) {
 #ifdef _IBMR2
-    extern void free();
+    void free();
 #endif
     count_t      *count, *count_list, *count_next;
     node_t       *node, *fanin;

@@ -45,7 +45,7 @@ static int new_cost = 0;
 static int best_cost = 0;
 static int accepted = 0;
 static int attempted = 0;
-extern int num_moves;
+int num_moves;
 static pcover constr_sf;
 HYPERVERTEX *vertices;
 

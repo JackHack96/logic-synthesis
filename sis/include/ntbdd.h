@@ -14,25 +14,25 @@ typedef enum {
 /*
  * Utilities
  */
-extern bdd_t *ntbdd_at_node(node_t *);
+bdd_t *ntbdd_at_node(node_t *);
 
-extern network_t *ntbdd_bdd_single_to_network(bdd_t *, char *, array_t *);
+network_t *ntbdd_bdd_single_to_network(bdd_t *, char *, array_t *);
 
-extern network_t *ntbdd_bdd_array_to_network(array_t *, array_t *, array_t *);
+network_t *ntbdd_bdd_array_to_network(array_t *, array_t *, array_t *);
 
-extern void ntbdd_end_manager(bdd_manager *);
+void ntbdd_end_manager(bdd_manager *);
 
-extern void ntbdd_free_at_node(node_t *);
+void ntbdd_free_at_node(node_t *);
 
-extern bdd_t *ntbdd_node_to_bdd(node_t *, bdd_manager *, st_table *);
+bdd_t *ntbdd_node_to_bdd(node_t *, bdd_manager *, st_table *);
 
-extern bdd_t *ntbdd_node_to_local_bdd(node_t *, bdd_manager *, st_table *);
+bdd_t *ntbdd_node_to_local_bdd(node_t *, bdd_manager *, st_table *);
 
-extern void ntbdd_set_at_node(node_t *, bdd_t *);
+void ntbdd_set_at_node(node_t *, bdd_t *);
 
-extern bdd_manager *ntbdd_start_manager(int);
+bdd_manager *ntbdd_start_manager(int);
 
-extern int ntbdd_verify_network(network_t *, network_t *, order_method_t,
+int ntbdd_verify_network(network_t *, network_t *, order_method_t,
                                 ntbdd_verify_method_t);
 
 void init_ntbdd();

@@ -1,5 +1,5 @@
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 /*
  *   Phase assignment technique (T. Sasao):

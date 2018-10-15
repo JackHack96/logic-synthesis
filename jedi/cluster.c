@@ -16,7 +16,7 @@
  */
 #include "inc/jedi.h"
 
-extern int currentEnumtype;
+int currentEnumtype;
 
 cluster_embedding() {
   int i;

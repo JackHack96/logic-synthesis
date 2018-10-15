@@ -1,0 +1,2 @@
+/usr/bin/ar qc liboptions.a  CMakeFiles/options.dir/dfltoptions.c.o CMakeFiles/options.dir/dflttap.c.o CMakeFiles/options.dir/options.c.o
+/usr/bin/ranlib liboptions.a

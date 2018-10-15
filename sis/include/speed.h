@@ -6,14 +6,14 @@
 #include "delay.h"
 #include "library.h"
 
-extern void speed_node_interface(network_t *, node_t *, double, delay_model_t);
+void speed_node_interface(network_t *, node_t *, double, delay_model_t);
 
-extern void speed_loop_interface(network_t **, double, double, int,
+void speed_loop_interface(network_t **, double, double, int,
                                  delay_model_t, int);
 
-extern array_t *speed_decomp_interface(node_t *, double, delay_model_t);
+array_t *speed_decomp_interface(node_t *, double, delay_model_t);
 
-extern int buffer_network(network_t *, int, int, double, int, int);
+int buffer_network(network_t *, int, int, double, int, int);
 
 /*
  * some of the low level buffering stuff ...
@@ -40,26 +40,26 @@ struct buffer_alg_input_struct {
 };
 
 /* Following routines are for the map package */
-extern void buf_init_top_down(network_t *, int, int);
+void buf_init_top_down(network_t *, int, int);
 
-extern void buf_map_interface(network_t *, buf_alg_input_t *);
+void buf_map_interface(network_t *, buf_alg_input_t *);
 
-extern void buf_add_implementation(node_t *, lib_gate_t *);
+void buf_add_implementation(node_t *, lib_gate_t *);
 
-extern void buf_set_prev_drive(node_t *, delay_time_t);
+void buf_set_prev_drive(node_t *, delay_time_t);
 
-extern void buf_set_prev_phase(node_t *, pin_phase_t);
+void buf_set_prev_phase(node_t *, pin_phase_t);
 
-extern void buf_set_required_time_at_input(node_t *, delay_time_t);
+void buf_set_required_time_at_input(node_t *, delay_time_t);
 
-extern double buf_get_auto_route(void);
+double buf_get_auto_route(void);
 
-extern delay_model_t buf_get_model(void);
+delay_model_t buf_get_model(void);
 
-extern delay_time_t buf_get_required_time_at_input(node_t *);
+delay_time_t buf_get_required_time_at_input(node_t *);
 
-int init_speed();
+void init_speed();
 
-int end_speed();
+void end_speed();
 
 #endif

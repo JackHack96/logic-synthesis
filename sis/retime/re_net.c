@@ -449,15 +449,15 @@ network_t *retime_graph_to_network(re_graph *graph, int use_mapped)
   re_node *re_no;
   st_table *node_to_id_table; /* Need to maintain correspondence */
   st_table *gate_table;
-  extern void delay_dup(); /* Should actually be in delay.h */
+  void delay_dup(); /* Should actually be in delay.h */
   array_t *fo_array, *nodes, *orig_po_array, *fanin_array;
   network_t *netw, *netw1, *network;
   lib_gate_t *gate, *d_latch;
   node_t *temp, *new_buffer, *node, *dup_node, *po, *pi, *control;
   node_t *root_node, *fanin, *fanin_node, *fo, *old_fanin;
 
-  extern void map_invalid();                   /* belongs to map_int.h */
-  extern array_t *network_and_node_to_array(); /* belongs to speed_int.h */
+  void map_invalid();                   /* belongs to map_int.h */
+  array_t *network_and_node_to_array(); /* belongs to speed_int.h */
 
   if (use_mapped) {
     /* Get the latch from the library so as to annotate the latches */

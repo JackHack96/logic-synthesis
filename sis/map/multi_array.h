@@ -13,10 +13,10 @@ struct multidim_struct {
     char *array;
 };
 
-extern multidim_t *
+multidim_t *
 generic_multidim_alloc(/* int type_size, int n_indices, int *max_index */);
 
-extern void multidim_free(/* multidim_t * array */);
+void multidim_free(/* multidim_t * array */);
 
 #define multidim_alloc(TYPE, n_indices, max_index)                             \
   generic_multidim_alloc(sizeof(TYPE), n_indices, max_index)
@@ -28,7 +28,7 @@ extern void multidim_free(/* multidim_t * array */);
       ((TYPE *)(ARRAY)->array)[i] = INIT_VALUE;                                \
   }
 
-extern int multidim_array_abort();
+int multidim_array_abort();
 
 #ifndef FAST_ARRAY
 

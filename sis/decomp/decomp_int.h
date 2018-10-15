@@ -5,22 +5,22 @@
 #include "array.h"
 #include "sparse.h"
 
-extern node_t *decomp_quick_kernel();
+node_t *decomp_quick_kernel();
 
-extern node_t *decomp_good_kernel();
+node_t *decomp_good_kernel();
 
-extern array_t *decomp_recur();
+array_t *decomp_recur();
 
-extern array_t *my_array_append();
+array_t *my_array_append();
 
-extern array_t *decomp_tech_recur();
+array_t *decomp_tech_recur();
 
-extern node_t *dec_node_cube();
+node_t *dec_node_cube();
 
-extern int dec_block_partition();
+int dec_block_partition();
 
-extern sm_matrix *dec_node_to_sm();
+sm_matrix *dec_node_to_sm();
 
-extern node_t *dec_sm_to_node();
+node_t *dec_sm_to_node();
 
 #endif

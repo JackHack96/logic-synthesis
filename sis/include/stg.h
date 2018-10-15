@@ -24,21 +24,21 @@
 #define OUTPUT_STRING 1
 #define NUM_T_SLOTS 2 /* update this when a new slot is added */
 
-extern graph_t *stg_alloc(void);
+graph_t *stg_alloc(void);
 
-extern void stg_free(graph_t *);
+void stg_free(graph_t *);
 
-extern graph_t *stg_dup(graph_t *);
+graph_t *stg_dup(graph_t *);
 
-extern int stg_check(graph_t *);
+int stg_check(graph_t *);
 
-extern void stg_dump_graph(graph_t *, network_t *);
+void stg_dump_graph(graph_t *, network_t *);
 
-extern void stg_reset(graph_t *);
+void stg_reset(graph_t *);
 
-extern void stg_sim(graph_t *, char *);
+void stg_sim(graph_t *, char *);
 
-extern int stg_save_names(network_t *, graph_t *, int);
+int stg_save_names(network_t *, graph_t *, int);
 
 #define stg_get_num_inputs(stg) (int)g_get_g_slot_static((stg), NUM_INPUTS)
 #define stg_set_num_inputs(stg, i)                                             \
@@ -62,32 +62,32 @@ extern int stg_save_names(network_t *, graph_t *, int);
 
 #define stg_get_start(stg) ((vertex_t *)g_get_g_slot_static((stg), START))
 
-extern void stg_set_start(graph_t *, vertex_t *);
+void stg_set_start(graph_t *, vertex_t *);
 
 #define stg_get_current(stg) ((vertex_t *)g_get_g_slot_static((stg), CURRENT))
 
-extern void stg_set_current(graph_t *, vertex_t *);
+void stg_set_current(graph_t *, vertex_t *);
 
-extern void stg_set_names(graph_t *, array_t *, int);
+void stg_set_names(graph_t *, array_t *, int);
 
-extern array_t *stg_get_names(graph_t *, int);
+array_t *stg_get_names(graph_t *, int);
 
-extern vertex_t *stg_create_state(graph_t *, char *, char *);
+vertex_t *stg_create_state(graph_t *, char *, char *);
 
-extern edge_t *stg_create_transition(vertex_t *, vertex_t *, char *, char *);
+edge_t *stg_create_transition(vertex_t *, vertex_t *, char *, char *);
 
-extern vertex_t *stg_get_state_by_name(graph_t *, char *);
+vertex_t *stg_get_state_by_name(graph_t *, char *);
 
-extern vertex_t *stg_get_state_by_encoding(graph_t *, char *);
+vertex_t *stg_get_state_by_encoding(graph_t *, char *);
 
 #define stg_get_state_name(v) ((char *)g_get_v_slot_static((v), STATE_STRING))
 
-extern void stg_set_state_name(vertex_t *, char *);
+void stg_set_state_name(vertex_t *, char *);
 
 #define stg_get_state_encoding(v)                                              \
   ((char *)g_get_v_slot_static((v), ENCODING_STRING))
 
-extern void stg_set_state_encoding(vertex_t *, char *);
+void stg_set_state_encoding(vertex_t *, char *);
 
 #define stg_foreach_state(stg, lgen, s)                                        \
   for (lgen = lsStart(g_get_vertices(stg));                                    \
@@ -117,9 +117,9 @@ extern void stg_set_state_encoding(vertex_t *, char *);
 #define stg_edge_from_state(e) (g_e_source(e))
 #define stg_edge_to_state(e) (g_e_dest(e))
 
-extern graph_t *stg_extract(network_t *, int);
+graph_t *stg_extract(network_t *, int);
 
-extern network_t *stg_to_network(graph_t *, int);
+network_t *stg_to_network(graph_t *, int);
 
 int init_stg();
 

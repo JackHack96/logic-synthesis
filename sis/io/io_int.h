@@ -6,68 +6,68 @@
 #include "network.h"
 #include "list.h"
 
-extern void io_fprintf_break(FILE *, char *, ...);
+void io_fprintf_break(FILE *, char *, ...);
 
 void io_fputs_break(register FILE *fp, register char *s);
 
-extern void io_fputc_break();
+void io_fputc_break();
 
-extern void io_fput_params();
+void io_fput_params();
 
-extern void write_sop();
+void write_sop();
 
-extern char *io_node_name();
+char *io_node_name();
 
-extern char *io_name();
+char *io_name();
 
-extern void io_write_name();
+void io_write_name();
 
-extern void io_write_node();
+void io_write_node();
 
-extern void io_write_gate();
+void io_write_gate();
 
-extern int io_po_fanout_count();
+int io_po_fanout_count();
 
-extern int io_rpo_fanout_count();
+int io_rpo_fanout_count();
 
-extern int io_lpo_fanout_count();
+int io_lpo_fanout_count();
 
-extern int io_node_should_be_printed();
+int io_node_should_be_printed();
 
-extern void read_filename_to_netname(network_t *network, char *filename);
+void read_filename_to_netname(network_t *network, char *filename);
 
-extern node_t *read_find_or_create_node();
+node_t *read_find_or_create_node();
 
-extern node_t *read_slif_find_or_create_node();
+node_t *read_slif_find_or_create_node();
 
-extern int read_check_io_list();
+int read_check_io_list();
 
-extern void read_hack_outputs();
+void read_hack_outputs();
 
-extern void read_cleanup_buffers();
+void read_cleanup_buffers();
 
 #ifdef SIS
 
-extern void read_delay_cleanup();
+void read_delay_cleanup();
 
-extern void read_change_madeup_name();
+void read_change_madeup_name();
 
 #endif /* SIS */
 
-extern node_t *read_add_fake_primary_output();
+node_t *read_add_fake_primary_output();
 
-extern void write_blif_for_bdsyn();
+void write_blif_for_bdsyn();
 
-extern void write_blif_slif_delay();
+void write_blif_slif_delay();
 
-extern int  read_lineno;
-extern char *read_filename;
+int  read_lineno;
+char *read_filename;
 
-extern int com_write_slif();
+int com_write_slif();
 
-extern int com_plot_blif();
+int com_plot_blif();
 
-extern char *gettoken();
+char *gettoken();
 
 #define MAX_WORD 1024
 
@@ -87,14 +87,14 @@ typedef struct {           /* Data field in the models table */
     int       library;             /* Is this going to be put in library? */
 }           modelinfo;
 
-extern modelinfo *read_find_or_create_model();
+modelinfo *read_find_or_create_model();
 
 #ifdef SIS
 
-extern int slif_add_to_library();
+int slif_add_to_library();
 
 #endif /* SIS */
 
-extern int read_blif_slif();
+int read_blif_slif();
 
 #endif

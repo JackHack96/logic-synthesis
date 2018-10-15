@@ -1,5 +1,5 @@
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 void set_pair(PLA) pPLA PLA;
 { set_pair1(PLA, TRUE); }

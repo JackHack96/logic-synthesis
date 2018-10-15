@@ -1,7 +1,7 @@
 #include "act_bool.h"
 #include "sis.h"
 
-extern int ACT_ITE_DEBUG;
+int ACT_ITE_DEBUG;
 
 /*
  *   Jan 29 '93 - added act_is_or_used.
@@ -22,7 +22,7 @@ void act_bool_map_network(network_t *network, int map_alg, int act_is_or_used,
     ACT_MATCH       *match, *act_is_act_function();
     node_t          *node;
     node_function_t node_fun_S0, node_fun_S1;
-    extern char *io_name(); /* to take care of inputs to POs */
+    char *io_name(); /* to take care of inputs to POs */
 
     nodevec = network_dfs(network);
     for (i  = 0; i < array_n(nodevec); i++) {

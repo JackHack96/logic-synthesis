@@ -36,8 +36,8 @@ struct implied_states {
 #define SELECTED 0x8000
 #define FOREVER 1
 
-extern p_num;
-extern PRIMES prime;
-extern PRIMES max;
-extern IMPLIED **local_imply;
-extern int *local_state;
+p_num;
+PRIMES prime;
+PRIMES max;
+IMPLIED **local_imply;
+int *local_state;

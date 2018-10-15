@@ -116,209 +116,209 @@ typedef struct weight_clp_struct {
 /*
 #define speed_network_dup network_dup
 */
-extern network_t *speed_network_dup();
+network_t *speed_network_dup();
 
-extern int new_speed();
+int new_speed();
 
-extern int nsp_critical_edge();
+int nsp_critical_edge();
 
-extern int nsp_first_slack_diff();
+int nsp_first_slack_diff();
 
-extern int new_speed_is_fanout_po();
+int new_speed_is_fanout_po();
 
-extern int sp_num_active_local_trans();
+int sp_num_active_local_trans();
 
-extern int sp_num_local_trans_of_type();
+int sp_num_local_trans_of_type();
 
-extern void sp_append_network();
+void sp_append_network();
 
-extern void sp_delete_network();
+void sp_delete_network();
 
-extern void sp_print_network();
+void sp_print_network();
 
-extern void nsp_free_buf_param();
+void nsp_free_buf_param();
 
-extern void speed_reorder_cutset();
+void speed_reorder_cutset();
 
-extern void sp_expand_selection();
+void sp_expand_selection();
 
-extern void sp_print_local_trans();
+void sp_print_local_trans();
 
-extern void sp_find_output_arrival_time();
+void sp_find_output_arrival_time();
 
-extern void speed_restore_required_times();
+void speed_restore_required_times();
 
-extern void new_speed_adjust_po_arrival();
+void new_speed_adjust_po_arrival();
 
-extern void sp_patch_fanouts_of_node();
+void sp_patch_fanouts_of_node();
 
-extern void new_speed_compute_weight();
+void new_speed_compute_weight();
 
-extern void sp_print_delay_data();
+void sp_print_delay_data();
 
-extern void sp_free_local_trans();
+void sp_free_local_trans();
 
-extern void new_free_weight_info();
+void new_free_weight_info();
 
-extern void sp_free_collapse_record();
+void sp_free_collapse_record();
 
-extern double sp_compute_duplicated_area();
+double sp_compute_duplicated_area();
 
-extern array_t *sp_get_local_trans();
+array_t *sp_get_local_trans();
 
-extern array_t *new_speed_select_xform();
+array_t *new_speed_select_xform();
 
-extern delay_time_t *sp_compute_side_req_time();
+delay_time_t *sp_compute_side_req_time();
 
-extern delay_time_t nsp_compute_delay_saving();
+delay_time_t nsp_compute_delay_saving();
 
-extern sp_xform_t *sp_local_trans_from_index();
+sp_xform_t *sp_local_trans_from_index();
 
-extern sp_clp_t *sp_create_collapse_record();
+sp_clp_t *sp_create_collapse_record();
 
-extern st_table *speed_store_required_times();
+st_table *speed_store_required_times();
 
-extern network_t *sp_get_network_to_collapse();
+network_t *sp_get_network_to_collapse();
 
-extern network_t *buf_get_fanout_network();
+network_t *buf_get_fanout_network();
 
-extern network_t *nsp_get_dual_network();
+network_t *nsp_get_dual_network();
 
 /* network the interface to the various restructuring techniques */
-extern network_t *sp_and_or_opt();
+network_t *sp_and_or_opt();
 
-extern network_t *sp_noalg_opt();
+network_t *sp_noalg_opt();
 
-extern network_t *sp_divisor_opt();
+network_t *sp_divisor_opt();
 
-extern network_t *sp_2c_kernel_opt();
+network_t *sp_2c_kernel_opt();
 
-extern network_t *sp_comp_div_opt();
+network_t *sp_comp_div_opt();
 
-extern network_t *sp_comp_2c_opt();
+network_t *sp_comp_2c_opt();
 
-extern network_t *sp_bypass_opt();
+network_t *sp_bypass_opt();
 
-extern network_t *sp_cofactor_opt();
+network_t *sp_cofactor_opt();
 
-extern network_t *sp_fanout_opt();
+network_t *sp_fanout_opt();
 
-extern network_t *sp_repower_opt();
+network_t *sp_repower_opt();
 
-extern network_t *sp_duplicate_opt();
+network_t *sp_duplicate_opt();
 
-extern network_t *sp_dual_opt();
+network_t *sp_dual_opt();
 
-extern delay_time_t new_delay_arrival();
+delay_time_t new_delay_arrival();
 
-extern delay_time_t new_delay_required();
+delay_time_t new_delay_required();
 
-extern delay_time_t new_delay_slack(); /* like delay_latest_output() */
-extern delay_time_t new_sp_delay_arrival();
+delay_time_t new_delay_slack(); /* like delay_latest_output() */
+delay_time_t new_sp_delay_arrival();
 
 /*
- * Function declarations as extern in the package
+ * Function declarations as in the package
  */
-extern int speed_weight();
+int speed_weight();
 
-extern int com__speed_plot();
+int com__speed_plot();
 
-extern int speed_and_decomp();
+int speed_and_decomp();
 
-extern int speed_init_decomp();
+int speed_init_decomp();
 
-extern int speed_delay_trace();
+int speed_delay_trace();
 
-extern int sp_po_req_times_set();
+int sp_po_req_times_set();
 
-extern int speed_and_or_decomp();
+int speed_and_or_decomp();
 
-extern int speed_decomp_network();
+int speed_decomp_network();
 
-extern int speed_get_library_accl();
+int speed_get_library_accl();
 
-extern int speed_update_arrival_time();
+int speed_update_arrival_time();
 
-extern int speed_buffer_recover_area();
+int speed_buffer_recover_area();
 
-extern int nsp_downsize_non_crit_gates(); /* wrapper routine */
-extern int speed_is_fanout_po();
+int nsp_downsize_non_crit_gates(); /* wrapper routine */
+int speed_is_fanout_po();
 
-extern void speed_absorb();
+void speed_absorb();
 
-extern void speed_absorb_array();
+void speed_absorb_array();
 
-extern void speed_up_node();
+void speed_up_node();
 
-extern void speed_up_loop();
+void speed_up_loop();
 
-extern void speed_up_script();
+void speed_up_script();
 
-extern void speed_up_network();
+void speed_up_network();
 
-extern void set_speed_thresh();
+void set_speed_thresh();
 
-extern void speed_node_replace();
+void speed_node_replace();
 
-extern void speed_adjust_phase();
+void speed_adjust_phase();
 
-extern void nsp_get_orig_edge();
+void nsp_get_orig_edge();
 
-extern void speed_update_fanout();
+void speed_update_fanout();
 
-extern void speed_set_library_accl();
+void speed_set_library_accl();
 
-extern void speed_set_arrival_time();
+void speed_set_arrival_time();
 
-extern void speed_plot_crit_network();
+void speed_plot_crit_network();
 
-extern void speed_reset_arrival_time();
+void speed_reset_arrival_time();
 
-extern void speed_del_critical_cubes();
+void speed_del_critical_cubes();
 
-extern void speed_delay_arrival_time();
+void speed_delay_arrival_time();
 
-extern void speed_single_level_update();
+void speed_single_level_update();
 
-extern void speed_network_delete_node();
+void speed_network_delete_node();
 
-extern void speed_delete_single_fanin_node();
+void speed_delete_single_fanin_node();
 
-extern double sp_get_netw_area();
+double sp_get_netw_area();
 
-extern bool speed_critical();
+bool speed_critical();
 
-extern node_t *name_to_node();
+node_t *name_to_node();
 
-extern node_t *sp_minimum_slack();
+node_t *sp_minimum_slack();
 
-extern node_t *node_del_two_cubes();
+node_t *node_del_two_cubes();
 
-extern node_t *speed_dec_node_cube();
+node_t *speed_dec_node_cube();
 
-extern node_t *speed_node_conditional();
+node_t *speed_node_conditional();
 
-extern node_t *nsp_network_find_node();
+node_t *nsp_network_find_node();
 
-extern array_t *speed_decomp();
+array_t *speed_decomp();
 
-extern array_t *network_to_array();
+array_t *network_to_array();
 
-extern array_t *sp_generate_revised_order();
+array_t *sp_generate_revised_order();
 
-extern array_t *network_and_node_to_array();
+array_t *network_and_node_to_array();
 
-extern st_table *speed_levelize_crit();
+st_table *speed_levelize_crit();
 
-extern st_table *speed_compute_weight();
+st_table *speed_compute_weight();
 
-extern network_t *speed_network_create_from_node();
+network_t *speed_network_create_from_node();
 
-extern lib_gate_t *sp_get_gate();
+lib_gate_t *sp_get_gate();
 
-extern lib_gate_t *sp_lib_get_inv();
+lib_gate_t *sp_lib_get_inv();
 
-extern lib_gate_t *sp_lib_get_buffer();
+lib_gate_t *sp_lib_get_buffer();
 
 /*
  * MACRO definitions for the speedup package

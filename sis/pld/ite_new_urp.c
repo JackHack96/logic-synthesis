@@ -3,7 +3,7 @@
 #include "pld_int.h"
 #include "sis.h"
 
-extern st_table   *ite_end_table;
+st_table          *ite_end_table;
 static ite_vertex *ite_1, *ite_0;
 
 static sm_matrix *build_F();
@@ -16,7 +16,7 @@ static int find_var();
 
 static void update_F();
 
-extern            my_sm_copy_row(), my_sm_print();
+extern my_sm_copy_row(), my_sm_print();
 
 int act_ite_new_map_node(node_t *node, act_init_param_t *init_param) {
     ACT_ITE_COST_STRUCT *cost_node;
@@ -31,7 +31,8 @@ int act_ite_new_map_node(node_t *node, act_init_param_t *init_param) {
     return cost_node->cost;
 }
 
-void act_ite_intermediate_new_make_ite(node_t *node, act_init_param_t *init_param) {
+void act_ite_intermediate_new_make_ite(node_t *node,
+                                       act_init_param_t *init_param) {
     ite_vertex      *ite;
     node_function_t node_fun;
 
@@ -281,7 +282,9 @@ node_t *node_most_binate_variable(node_t *node) {
     return variable;
 }
 
-node_t *node_most_binate_variable_new(node_t *node, act_init_param_t *init_param, ite_vertex **pite) {
+node_t *node_most_binate_variable_new(node_t *node,
+                                      act_init_param_t *init_param,
+                                      ite_vertex **pite) {
 
     int    *lit_count_array, j, j2, j2p1, num_cube, max_count, wt, max_weight;
     int    unate, diff_count, index, j_count, j_diff_count;
@@ -388,7 +391,8 @@ node_t *node_most_binate_variable_new(node_t *node, act_init_param_t *init_param
   function with respect to each fanin and returns the variable that
   results in minimum cost.
 -----------------------------------------------------------------------*/
-node_t *ite_get_minimum_cost_variable(node_t *node, act_init_param_t *init_param) {
+node_t *ite_get_minimum_cost_variable(node_t *node,
+                                      act_init_param_t *init_param) {
     int    min_cost, j, cost;
     node_t *fanin, *variable;
     int    break_sav, num_iter_sav, map_method_sav, var_selection_lit_sav,
@@ -641,37 +645,27 @@ int ite_find_mux_remaining(int p, int q, int count) {
   Given a cubenode, return in p number of variables in the positive phase
   and in q, the ones in negative phase.
 ------------------------------------------------------------------------*/
-void pld_find_pos_neg_litcount_in_cube(node_t *cubenode, int *p,
+void pld_find_pos_neg_litcount_in_cube(node_t *cubenode, int *p, int *q) {
+    int           i;
+    node_t        *fanin;
+    input_phase_t phase;
 
-*q)
-{
-int           i;
-node_t        *fanin;
-input_phase_t phase;
-
-*
-p = *q = 0;
-assert(node_num_cube(cubenode) == 1);
-for (
-i = 0;
-i <
-node_num_fanin(cubenode);
-i++) {
-fanin = node_get_fanin(cubenode, i);
-phase = node_input_phase(cubenode, fanin);
-switch (phase) {
-case POS_UNATE:
-(*p)++;
-break;
-case NEG_UNATE:
-(*q)++;
-break;
-default:
-(void)printf(
-"pld_find_pos_neg_litcount_in_cube(): variable type binate?");
-exit(1);
-}
-}
+    *p = *q = 0;
+    assert(node_num_cube(cubenode) == 1);
+    for (i = 0; i < node_num_fanin(cubenode); i++) {
+        fanin = node_get_fanin(cubenode, i);
+        phase = node_input_phase(cubenode, fanin);
+        switch (phase) {
+            case POS_UNATE:(*p)++;
+                break;
+            case NEG_UNATE:(*q)++;
+                break;
+            default:
+                (void) printf(
+                        "pld_find_pos_neg_litcount_in_cube(): variable type binate?");
+                exit(1);
+        }
+    }
 }
 
 /*-------------------------------------------------------------------
@@ -680,7 +674,8 @@ exit(1);
  ite gets utilized. Boundary cases are handled explicitly causing the
  code to become longish.
 ---------------------------------------------------------------------*/
-void ite_interleave_muxfree_and_full(array_t *muxfree_ite_vec, array_t *full_ite_vec, int m, int f) {
+void ite_interleave_muxfree_and_full(array_t *muxfree_ite_vec,
+                                     array_t *full_ite_vec, int m, int f) {
     ite_vertex *ite, *ite_a, *ite_b, *ite_c, *ite_d, *ite_c1, *ite_c2, *ite_bc,
                *ite_cd, *ite_ab, *temp;
     int        diff, diff_f, a_inv, b_inv, c_inv, temp_inv;
@@ -884,7 +879,8 @@ int node_num_binate_variables(node_t *node) {
      node wrt fanin.
 -------------------------------------------------------------*/
 
-int ite_assign_var_weight(node_t *node, node_t *fanin, int j, int *lit_count_array) {
+int ite_assign_var_weight(node_t *node, node_t *fanin, int j,
+                          int *lit_count_array) {
     int    j2, j2p1, weight1, weight2, weight;
     int    binateness_if, binateness_then, binateness_else, total_binateness,
            node_compute_binateness();
@@ -942,7 +938,8 @@ int node_compute_binateness(node_t *node) {
   In this case, the cost returned is not the right estimate, but that is fine
   since a lower cost is known.
 -------------------------------------------------------------------------------*/
-int ite_assign_var_cost(node_t *node, node_t *fanin, act_init_param_t *init_param, int min_cost_so_far) {
+int ite_assign_var_cost(node_t *node, node_t *fanin,
+                        act_init_param_t *init_param, int min_cost_so_far) {
     node_t *node_if, *node_else_else, *node_else_then;
     int    total_cost;
 
@@ -1019,7 +1016,8 @@ static sm_matrix *build_F(node_t *node) {
     return F;
 }
 
-ite_vertex *ite_new_ite_for_unate_cover(node_t *node, act_init_param_t *init_param) {
+ite_vertex *ite_new_ite_for_unate_cover(node_t *node,
+                                        act_init_param_t *init_param) {
     sm_matrix     *F, *M, *build_F();
     sm_col        *pcol, *col;
     sm_row        *row, *F_row, *cover;

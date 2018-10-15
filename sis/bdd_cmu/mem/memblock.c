@@ -4,10 +4,10 @@
 
 #if defined(__STDC__)
 
-extern void exit(int);
+void exit(int);
 
 #else
-extern void exit();
+void exit();
 #endif
 
 /* Amount of memory allocated */

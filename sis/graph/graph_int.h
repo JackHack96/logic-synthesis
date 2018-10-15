@@ -26,7 +26,7 @@ typedef struct edge_struct_int {
     lsHandle     handle; /* for quick deletion in the graph e_list */
 } edge_t_int;
 
-extern void del_from_list();
+void del_from_list();
 
-extern int g_unique_id;
+int g_unique_id;
 #endif

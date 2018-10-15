@@ -3,7 +3,7 @@
  *  unate.c -- routines for dealing with unate functions
  */
 
-#include "inc/espresso.h"
+#include "espresso.h"
 
 static pset_family abs_covered();
 
