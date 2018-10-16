@@ -12,6 +12,7 @@
 
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/simple-sidebar.css" rel="stylesheet">
+    <link href="css/code.css" rel="stylesheet">
 
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="js/navbar-tutorials.js"></script>
@@ -29,7 +30,196 @@
                     In this tutorial you'll see the basic things of logic synthesis, like creating basic logic gates.
                     This is a good way to acquire some basic knowledge of how SIS works.
                 </p>
-                
+                The basic logic gates are AND, OR, NOT and XOR.
+                <p>
+                    The AND gate is an electronic circuit that gives a high output (1) only if all its inputs are high.
+                    The diagram is the following:<br />
+                    <img src="img/and.png" class="img-thumbnail"><br />
+                    For describing the functionality of the circuit we use <i>truth tables</i>, which can be <b>extended</b> or
+                    <b>reduced</b>. We can in fact provide the functionality of the circuit by giving a partial specification.
+                    If we provide the <b>on-set</b> truth table, we provide the values for which our circuit will respond with
+                    high output (1). Vice-versa when we provide the values for 0, we are describing the <b>off-set</b>.
+                    <br/>
+                    In the case of the AND gate, the extended truth table is this one:
+                    <table class="table" style="text-align:center">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:center">Inputs</td>
+                                    <th style="text-align:center">Output</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" style="text-align:center">A</th>
+                                    <th scope="col" style="text-align:center">B</th>
+                                    <th scope="col" style="text-align:center">C</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </p>
+                <p>
+                    The OR gate is an electronic circuit that gives a high output (1) if one or more of its inputs are
+                    high.
+                    The diagram is the following:<br />
+                    <img src="img/or.png" class="img-thumbnail"><br />
+                    And here is the extended truth table:
+                    <table class="table" style="text-align:center">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:center">Inputs</td>
+                                    <th style="text-align:center">Output</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" style="text-align:center">A</th>
+                                    <th scope="col" style="text-align:center">B</th>
+                                    <th scope="col" style="text-align:center">C</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </p>
+                <p>
+                    The NOT gate is an electronic circuit that produces an inverted version of the input at its output.
+                    The diagram is the following:<br />
+                    <img src="img/not.png" class="img-thumbnail"><br />
+                    And here is the extended truth table:
+                    <table class="table" style="text-align:center">
+                            <thead>
+                                <tr>
+                                    <th style="text-align:center">Input</td>
+                                    <th style="text-align:center">Output</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" style="text-align:center">A</th>
+                                    <th scope="col" style="text-align:center">C</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </p>
+                <p>
+                    The XOR gate is a circuit which will give a high output if either, but not both, of its two inputs
+                    are high.
+                    The diagram is the following:<br />
+                    <img src="img/xor.png" class="img-thumbnail"><br />
+                    And here is the extended truth table:
+                    <table class="table" style="text-align:center">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" style="text-align:center">Inputs</td>
+                                    <th style="text-align:center">Output</td>
+                                </tr>
+                                <tr>
+                                    <th scope="col" style="text-align:center">A</th>
+                                    <th scope="col" style="text-align:center">B</th>
+                                    <th scope="col" style="text-align:center">C</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>0</td>
+                                    <td>0</td>
+                                    <td>0</td>
+                                </tr>
+                                <tr>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </p>
+                <p>
+                    But how can we represent those things inside SIS? Through <code>BLIF</code> files!
+                    BLIF stands for Berkeley Logic Interchange Format and it's a specification for describing sequential circuit logic.
+                    The format is easy to understand, so let's start. Here is the BLIF file of and AND gate.
+                    <pre>
+                        <code>
+# This is an AND gate
+.model AND
+
+.inputs A B
+.outputs X
+
+.names A B X
+11 1
+
+.end</code>
+                    </pre>
+                    Let's take a closer look at it. When a word start with a point <code>.</code>, it means it's a keyword.
+                    When it starts with a hash <code>#</code>, it's a comment.
+                    The first instruction, <code>.model</code>, declares the name of the model. While it's not mandatory, it's very
+                    recommended to declare it (otherwise you couldn't reuse it later, see the full adder tutorial).
+                    The <code>.inputs</code> and the <code>.outputs</code> instruction are self-explanatory.
+                    The <code>.names</code> instruction tells SIS we're going to write a partial truth table.
+                    Please note that SIS will complain if we deliver the extended truth table, so we choose if we want to provide
+                    the on-set or the off-set and we write down the partial truth table.
+                    In case of the AND port it's convenient to write the on-set (it's only one row!). As you can see we write the inputs
+                    close together and the output is separated with a blank space.
+                    SIS support only one output at a time, so if we need to deliver more outputs, we'll need to use more <code>.names</code>.
+                    We can also use temporary variables to store the output, the important thing is that if we declared <code>X</code> to be
+                    the output, at some point a <code>.names</code> structure will have to deliver it.
+                </p>
             </p>
     </div>
 </body>
