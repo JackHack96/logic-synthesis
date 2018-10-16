@@ -1,0 +1,10 @@
+pre{
+    counter-reset: line;
+}
+code{
+    counter-increment: line;
+}
+code:before{
+    content: counter(line);
+    -webkit-user-select: none;
+}

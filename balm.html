@@ -10,40 +10,16 @@
 
   <title>Univr Logic Sythesis Software</title>
 
-  <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
   <link href="css/simple-sidebar.css" rel="stylesheet">
+
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="js/navbar.js"></script>
 
 </head>
 
 <body>
-  <div class="sidenav">
-    <a href="index.html">Home</a>
-    <button class="dropdown-btn">SIS
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="sis.html#overview">Overview</a>
-        <a href="sis.html#downloads">Downloads</a>
-        <a href="sis.html#quick-tutorial">Quick tutorial</a>
-    </div>
-    <button class="dropdown-btn">Balm-II
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="balm.html#overview">Overview</a>
-        <a href="balm.html#downloads">Downloads</a>
-    </div>
-    <button class="dropdown-btn">MVSIS
-        <i class="fa fa-caret-down"></i>
-    </button>
-    <div class="dropdown-container">
-        <a href="mvsis.html#overview">Overview</a>
-        <a href="mvsis.html#downloads">Downloads</a>
-    </div>
-</div>
+  <div id="sidenav"></div>
 
   <div class="main">
     <p id="overview">
@@ -54,24 +30,6 @@
       <h2>Downloads</h2>
     </p>
   </div>
-
-  <script>
-    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-    var dropdown = document.getElementsByClassName("dropdown-btn");
-    var i;
-
-    for (i = 0; i < dropdown.length; i++) {
-      dropdown[i].addEventListener("click", function () {
-        this.classList.toggle("active");
-        var dropdownContent = this.nextElementSibling;
-        if (dropdownContent.style.display === "block") {
-          dropdownContent.style.display = "none";
-        } else {
-          dropdownContent.style.display = "block";
-        }
-      });
-    }
-  </script>
 
 </body>
 
