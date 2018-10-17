@@ -59,10 +59,27 @@
                 Download source (.zip)
             </a>
             <h3>Version 1.4 packages coming soon...</h3>
+            <p>
+                If you're using a Debian-based distribution like Ubuntu, just download the <code>.deb</code> file and install it,
+                either through <code>GDebi</code> or simply by <code>dpkg</code> (<code>sudo dpkg -i sis_1.3.6-1-amd64.deb</code>).<br/>
+                If you downloaded the static linked archive, there's a bash script that install and set it up.<br/>
+                If you downloaded the source tarball, be aware that the 1.3.6 version might not compile on your machine.
+                Anyway, try configuring it for using <code>GNU90 GCC standard</code>:
+                <pre>
+<code>
+export CFLAGS=-std=gnu90
+./configure prefix=/usr/local --without-x
+make
+sudo make install
+</code>
+                </pre>
+                Obviously you can speed up the compilation if you have multiple cores, by using <code>make -jn</code> where n is the number
+                of your cores starting from 0.
+            </p>
         </p>
         <p id="tutorials">
             <h2>Tutorials</h2>
-            You can find a set of tutorials for installing and for learning SIS basic usage.
+            You can find a set of tutorials for learning SIS basic usage.
             <ul>
                 <li><a href="basic-gates.html">Basic logic gates</a></li>
                 <li><a href="full-adder.html">4-bit full adder</a></li>
