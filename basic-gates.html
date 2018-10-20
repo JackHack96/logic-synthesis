@@ -197,9 +197,7 @@
                     BLIF stands for Berkeley Logic Interchange Format and it's a specification for describing
                     sequential circuit logic.
                     The format is easy to understand, so let's start. Here is the BLIF file of and AND gate.
-                    <pre>
-                        <code>
-# This is an AND gate
+                    <pre><code># This is an AND gate
 .model AND
 
 .inputs A B
@@ -208,8 +206,7 @@
 .names A B X
 11 1
 
-.end</code>
-                    </pre>
+.end</code></pre>
                     Let's take a closer look at it. When a word start with a point <code>.</code>, it means it's a
                     keyword.
                     When it starts with a hash <code>#</code>, it's a comment.
@@ -233,9 +230,7 @@
                 <p>
                     So we are now able to write down the other three port.
                     The OR port (off-set table):
-                    <pre>
-<code>
-# This is an OR gate
+                    <pre><code># This is an OR gate
 .model OR
 
 .inputs A B
@@ -244,12 +239,9 @@
 .names A B X
 00 0
 
-.end</code>
-</pre>
+.end</code></pre>
                     The NOT port (on-set table):
-                    <pre>
-<code>
-# This is a NOT gate
+                    <pre><code># This is a NOT gate
 .model NOT
 
 .inputs A
@@ -258,12 +250,9 @@
 .names A B
 0 1
 
-.end</code>
-</pre>
+.end</code></pre>
                     The XOR port (on-set table):
-                    <pre>
-<code>
-# This is a XOR gate
+                    <pre><code># This is a XOR gate
 .model XOR
 
 .inputs A B
@@ -273,16 +262,13 @@
 01 1
 10 1
 
-.end</code>
-</pre>
+.end</code></pre>
                 </p>
                 <p>
                     We can easily test the models with the <code>sim</code> command, which allows to simulate an input.
                     For doing that, open up SIS <b>in the same directory</b> where the <code>.blif</code> file is stored,
                     load that file with <code>read_blif [FILE_NAME].blif</code> command, and then you can run the simulation.
-                    <pre>
-<code>
-UC Berkeley, SIS 1.3.6 (compiled 2017-10-27 16:08:57)
+                    <pre><code>UC Berkeley, SIS 1.4 (compiled 2018-10-15 16:08:57)
 sis> read_blif and.blif
 sis> sim 0 1
 
@@ -317,9 +303,7 @@ sis> sim 1
 Network simulation:
 Outputs: 0
 Next state: 
-sis>         
-</code>
-                    </pre>
+sis></code></pre>
                 </p>
             </p>
     </div>

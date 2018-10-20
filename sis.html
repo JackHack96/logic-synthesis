@@ -65,14 +65,11 @@
                 If you downloaded the static linked archive, there's a bash script that install and set it up.<br/>
                 If you downloaded the source tarball, be aware that the 1.3.6 version might not compile on your machine.
                 Anyway, try configuring it for using <code>GNU90 GCC standard</code>:
-                <pre>
-<code>
-export CFLAGS=-std=gnu90
+                <pre><code>export CFLAGS=-std=gnu90
 ./configure prefix=/usr/local --without-x
 make
 sudo make install
-</code>
-                </pre>
+</code></pre>
                 Obviously you can speed up the compilation if you have multiple cores, by using <code>make -jn</code> where n is the number
                 of your cores starting from 0.
             </p>
