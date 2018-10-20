@@ -1,0 +1,37 @@
+cd mvsis-3.0/
+
+comandi per ricompilare balm
+
+autoconf
+./configure
+./config.status
+make
+
+se ci fossero problemi di compilazione, provare a pulire con
+make clean
+
+[villa@villa mvsis-3.0]$ ./mvsis
+UC Berkeley, BALM 1.0 (compiled 27-May-10 at 4:57 PM)
+balm 01> 
+
+
+
+Subject:   	mvsis
+From:   	"Matteo Piccolo" <matteo.piccolo@gmail.com>
+Date:   	Fri, May 28, 2010 10:17 am
+To:   	"Tiziano Villa" <tiziano.villa@univr.it>
+Priority:   	Normal
+Options:   	View Full Header |  View Printable Version  | Download this as a file
+
+Buongiorno,
+il file da modificare per poter compilare mvsis invece di balm e'
+src/base/main/mv.h, occorre commentare riga 26, ovvero #define BALM 1.
+In questo modo si ritrovano tutti i comandi di mvsis, anche quelli che
+inaspettatamente non erano presenti in balm (come write_blif e
+write_blif_mv).
+
+Buona giornata
+
+Giovanni
+Matteo
+

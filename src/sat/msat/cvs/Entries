@@ -1,0 +1,18 @@
+/msat.h/1.1/Fri Jul  8 01:01:35 2005//
+/msat.make/1.5/Fri Jul  8 01:01:35 2005//
+/msatActivity.c/1.1/Fri Jul  8 01:01:35 2005//
+/msatClause.c/1.1/Fri Jul  8 01:01:35 2005//
+/msatClauseVec.c/1.1/Fri Jul  8 01:01:36 2005//
+/msatInt.h/1.1/Fri Jul  8 01:01:36 2005//
+/msatMem.c/1.1/Fri Jul  8 01:01:36 2005//
+/msatOrderH.c/1.1/Fri Jul  8 01:01:36 2005//
+/msatOrderJ.c/1.1/Fri Jul  8 01:01:36 2005//
+/msatQueue.c/1.1/Fri Jul  8 01:01:37 2005//
+/msatRead.c/1.1/Fri Jul  8 01:01:37 2005//
+/msatSolverApi.c/1.1/Fri Jul  8 01:01:37 2005//
+/msatSolverCore.c/1.1/Fri Jul  8 01:01:37 2005//
+/msatSolverIo.c/1.1/Fri Jul  8 01:01:38 2005//
+/msatSolverSearch.c/1.1/Fri Jul  8 01:01:38 2005//
+/msatSort.c/1.1/Fri Jul  8 01:01:38 2005//
+/msatVec.c/1.1/Fri Jul  8 01:01:38 2005//
+D

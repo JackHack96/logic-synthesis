@@ -1,0 +1,95 @@
+                             AVL Tree Algorithm
+
+An AVL Tree is a form of binary tree, however unlike a binary tree, the
+worst case scenario for a search is O(log n). The AVL data structure
+achieves this property by placing restrictions on the difference in height
+between the sub-trees of a given node, and re-balancing the tree if it
+violates these restrictions.
+
+  ------------------------------------------------------------------------
+
+AVL Tree Balance Requirements
+
+The complexity of an AVL Tree comes from the balance requirements it
+enforces on each node. A node is only allowed to possess one of three
+possible states (or balance factors):
+
+Left-High (balance factor -1)
+The left-sub tree is one level taller than the right-sub tree
+
+Balanced (balance factor 0)
+The left and right sub-trees are both the same heights
+
+Right-High (balance factor +1)
+The right sub-tree is one level taller than the left-sub tree.
+
+If the balance of a node becomes -2 (it was left high and a level was lost
+from the left sub-tree) or +2 (it was right high and a level was lost from
+the right sub-tree) it will require re-balancing. This is achieved by
+performing a rotation about this node (see the section below on rotations).
+
+  ------------------------------------------------------------------------
+
+Inserting in an AVL Tree
+
+Nodes are initially inserted into AVL Trees in the same manner as an
+ordinary binary search tree (that is, they are always inserted as leaf
+nodes). After insertion, however, the insertion algorithm for an AVL Tree
+travels back along the path it took to find the point of insertion, and
+checks the balance at each node on the path. If a node is found that is
+unbalanced (that is, it has a balance factor of either -2 or +2), then a
+rotation is performed (see the section below on rotations) based on the
+inserted nodes position relative to the node being examined (the unbalanced
+node).
+
+NB. There will only ever be at most one rotation required after an insert
+operation.
+
+  ------------------------------------------------------------------------
+
+Deleting from an AVL Tree
+
+The deletion algorithm for AVL Trees is a little more complex, as there are
+several extra steps involved in the deletion of a node. If the node is not
+a leaf node (that is, is has at least one child), then the node must be
+swapped with either it's in-order successor or predecessor (based on
+availability). Once the node has been swapped we can delete it (and have
+its parent pick up any children it may have - bear in mind that it will
+only ever have at most one child). If a deletion node was originally a leaf
+node, then it can simply be removed.
+
+Now, as with the insertion algorithm, we traverse back up the path to the
+root node, checking the balance of all nodes along the path. If we
+encounter an unbalanced node we perform an appropriate rotation to balance
+the node (see the section below on rotations).
+
+NB. Unlike the insertion algorithm, more than one rotation may be required
+after a delete operation, so in some cases we will have to continue back up
+the tree after a rotation.
+
+  ------------------------------------------------------------------------
+
+AVL Tree Rotations
+
+As mentioned previously, an AVL Tree and the nodes it contains must meet
+strict balance requirements to maintain is O(log n) search capabilities.
+These balance restrictions are maintained using various rotation functions.
+Below is a diagrammatic overview of the four possible rotations that can be
+performed on an unbalanced AVL Tree, illustrating the before and after
+states of an AVL Tree requiring the rotation.
+
+                                LL Rotation
+
+                    [An LL Rotation - before and after]
+
+                                RR Rotation
+
+                    [An RR Rotation - before and after]
+
+                                LR Rotation
+
+                    [An LR Rotation - before and after]
+
+                                RL Rotation
+
+                    [An RL Rotation - before and after]

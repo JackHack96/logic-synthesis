@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!--Converted with LaTeX2HTML 98.1p1 release (March 2nd, 1998)
+originally by Nikos Drakos (nikos@cbl.leeds.ac.uk), CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>The C++ Interface</TITLE>
+<META NAME="description" CONTENT="The C++ Interface">
+<META NAME="keywords" CONTENT="cuddIntro">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<LINK REL="STYLESHEET" HREF="cuddIntro.css">
+<LINK REL="next" HREF="node6.html">
+<LINK REL="previous" HREF="node4.html">
+<LINK REL="up" HREF="cuddIntro.html">
+<LINK REL="next" HREF="node6.html">
+</HEAD>
+<BODY >
+<!--Navigation Panel-->
+<A NAME="tex2html337"
+ HREF="node6.html">
+<IMG WIDTH="37" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="next"
+ SRC="icons/next_motif.gif"></A> 
+<A NAME="tex2html334"
+ HREF="cuddIntro.html">
+<IMG WIDTH="26" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="up"
+ SRC="icons/up_motif.gif"></A> 
+<A NAME="tex2html328"
+ HREF="node4.html">
+<IMG WIDTH="63" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="previous"
+ SRC="icons/previous_motif.gif"></A>  
+<A NAME="tex2html336"
+ HREF="node8.html">
+<IMG WIDTH="43" HEIGHT="24" ALIGN="BOTTOM" BORDER="0" ALT="index"
+ SRC="icons/index_motif.gif"></A> 
+<BR>
+<B> Next:</B> <A NAME="tex2html338"
+ HREF="node6.html">Acknowledgments</A>
+<B> Up:</B> <A NAME="tex2html335"
+ HREF="cuddIntro.html">CUDD: CU Decision Diagram</A>
+<B> Previous:</B> <A NAME="tex2html329"
+ HREF="node4.html">Programmer's Manual</A>
+<BR>
+<BR>
+<!--End of Navigation Panel-->
+<!--Table of Child-Links-->
+<A NAME="CHILD_LINKS"><strong>Subsections</strong></A>
+<UL>
+<LI><A NAME="tex2html339"
+ HREF="node5.html#SECTION00051000000000000000">Compiling and Linking</A>
+<LI><A NAME="tex2html340"
+ HREF="node5.html#SECTION00052000000000000000">Basic Manipulation</A>
+</UL>
+<!--End of Table of Child-Links-->
+<HR>
+
+<H1><A NAME="SECTION00050000000000000000">&#160;</A>
+<A NAME="sec:cpp">&#160;</A>
+<BR>
+The C++ Interface
+</H1>
+
+<P>
+
+<H2><A NAME="SECTION00051000000000000000">&#160;</A>
+<A NAME="sec:compileCpp">&#160;</A>
+<BR>
+Compiling and Linking
+</H2>
+
+<P>
+To build an application that uses the CUDD C++ interface, you should
+add
+<PRE>
+#include "cuddObj.hh"
+</PRE>to your source files. In addition to the normal CUDD libraries (see
+Section&nbsp;<A HREF="node3.html#sec:compileExt">3.1</A>) you should link 
+<code>libobj.a</code><A NAME="1200">&#160;</A> to your executable. Refer to the
+<TT>Makefile<A NAME="1201">&#160;</A></TT> in the top level directory of the
+distribution for further details.
+
+<P>
+
+<H2><A NAME="SECTION00052000000000000000">&#160;</A>
+<A NAME="sec:basicCpp">&#160;</A>
+<BR>
+Basic Manipulation
+</H2>
+
+<P>
+The following fragment of code illustrates some simple operations on
+BDDs using the C++ interface.
+<PRE>
+        Cudd mgr(0,0);
+        BDD x = mgr.bddVar();
+        BDD y = mgr.bddVar();
+        BDD f = x * y;
+        BDD g = y + !x;
+        cout &lt;&lt; "f is" &lt;&lt; (f &lt;= g ? "" : " not")
+             &lt;&lt; " less than or equal to g\n";
+</PRE>This code creates a manager called <code>mgr</code> and two variables in it.
+It then defines two functions <code>f</code> and <code>g</code> in terms of the
+variables. Finally, it prints a message based on the comparison of the
+two functions. No explicit referencing or dereferencing is required.
+The operators are overloaded in the intuitive way. BDDs are freed when
+execution leaves the scope in which they are defined or when the
+variables referring to them are overwritten.
+
+<P>
+<BR><HR>
+<ADDRESS>
+<I>Fabio Somenzi</I>
+<BR><I>2001-02-16</I>
+</ADDRESS>
+</BODY>
+</HTML>

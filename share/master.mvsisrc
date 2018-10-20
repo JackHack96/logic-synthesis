@@ -1,0 +1,52 @@
+set cost 2
+set namemode 1
+set savesteps 6
+set line_width 70
+
+alias lsl ls -l
+alias sa  set autoexec ps
+alias so  source -p -x
+alias sos so script.mvs
+alias q   quit
+alias u   undo
+alias g   snatch 
+alias cn  chng_name
+alias rsn reset_name
+
+alias rl  read_blif_mv
+alias wl  write_blif_mv
+alias wb  write_blif
+alias wp  write_pla
+
+alias clp collapse
+alias sw  sweep
+alias el  eliminate 
+alias e   eliminate
+
+alias pf  print_factor
+alias pv  print_value
+alias pio print_io
+alias pr  print_range
+alias p   print -d
+alias pl  print_level
+alias ps  print_stats -c
+alias pss print_stats -s
+alias pnd print_nd
+
+alias ro   reorder
+alias isop free cvr
+alias fx   fxu
+alias fxz  fxu -z
+alias pd   pair_decode
+alias v    verify 
+
+alias rsd   reset_default
+alias sm    simplify -m simple
+alias sr    simplify -r -t 1
+alias fs    fullsimp -t 1 -i 1
+alias fsp   fs -p
+alias mfs11 mfs -i 1 -o 1
+alias mfs22 mfs -i 1 -o 1
+alias kmin  mfs -v 
+alias k     mfs -k 
+alias ffd   _ffrsd

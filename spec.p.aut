@@ -1,0 +1,17 @@
+.model spec
+.inputs i o
+.outputs Acc
+
+.mv i 3
+.mv CS, NS  0  
+
+.latch NS CS
+.reset CS
+-
+
+.table ->Acc
+1
+
+.table i o CS ->NS
+
+.end

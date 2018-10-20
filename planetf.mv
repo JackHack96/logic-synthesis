@@ -1,0 +1,475 @@
+.model planet.kiss2
+.spec planetf.blif
+.inputs v0 v1 v2 v3 v4 v5 v6 v7 v8 v9 v10
+.outputs v13.6 v13.7 v13.8 v13.9 v13.10 v13.11 v13.12 v13.13 v13.14 v13.15 \
+ v13.16 v13.17 v13.18 v13.19 v13.20 v13.21 v13.22 v13.23 v13.24 v11 v12
+.default_input_arrival 0 0
+
+.reset IN-v11
+1
+.latch v13.4 IN-v11
+.reset IN-v12
+0
+.latch v13.5 IN-v12
+
+.table IN-v11 IN-v12 v10 v4 v5 v7 v8 v9 [0]
+.default 0
+0 0 0 1 0 0 0 0  1
+.table [11] [19] [25] [28] [2] [31] [32] [33] [35] [3] [41] [42] [45] [46] \
+ [48] [49] [4] [50] [51] [52] [53] [56] [59] [65] [67] [69] [71] [72] [78] \
+ [80] [81] [84] [86] [87] [88] [89] [91] [9] [100]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table [18] [22] [24] [28] [29] [2] [30] [31] [3] [41] [42] [44] [45] [48] \
+ [50] [55] [56] [58] [5] [63] [64] [65] [67] [69] [70] [75] [77] [78] [79] \
+ [83] [84] [85] [87] [89] [90] [9] [102]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table [18] [20] [24] [25] [29] [30] [32] [33] [37] [39] [46] [47] [48] \
+ [49] [50] [51] [53] [55] [56] [57] [58] [59] [61] [62] [64] [66] [68] [70] \
+ [71] [72] [74] [75] [77] [79] [7] [81] [82] [83] [84] [85] [86] [87] [88] \
+ [90] [91] [104]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table [10] [12] [17] [34] [40] [63] [65] [67] [73] [76] [78] [89] [8] \
+ [106]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table [10] [12] [17] [24] [25] [29] [30] [32] [33] [34] [37] [39] [44] \
+ [48] [49] [50] [51] [52] [53] [54] [55] [57] [58] [60] [61] [62] [63] [64] \
+ [65] [66] [67] [68] [69] [71] [72] [73] [74] [76] [77] [78] [80] [81] [82] \
+ [83] [85] [86] [88] [89] [8] [90] [91] [108]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table IN-v11 IN-v12 v0 v10 v4 v5 v8 v9 [10]
+.default 0
+1 0 0 0 0 0 1 0  1
+.table [20] [40] [45] [46] [54] [65] [69] [80] [110]
+.default 0
+0 0 0 0 0 0 0 0  1
+.table [12] [17] [18] [34] [40] [44] [45] [54] [59] [60] [67] [69] [70] \
+ [73] [75] [76] [80] [84] [87] [89] [112]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table [24] [29] [30] [32] [33] [37] [39] [42] [43] [44] [46] [48] [49] \
+ [50] [51] [53] [54] [55] [56] [57] [58] [59] [60] [61] [62] [63] [64] [66] \
+ [67] [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78] [79] [80] [81] \
+ [82] [83] [84] [85] [86] [87] [88] [89] [90] [91] [114]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table [18] [44] [45] [54] [56] [59] [60] [65] [69] [70] [73] [75] [79] \
+ [80] [84] [87] [89] [116]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table [12] [14] [17] [18] [20] [26] [34] [56] [59] [63] [65] [67] [70] \
+ [75] [76] [78] [79] [84] [87] [118]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table IN-v11 IN-v12 v2 v4 v7 v8 v9 [11]
+.default 0
+0 0 0 0 1 1 0  1
+.table [10] [24] [25] [29] [30] [32] [33] [37] [39] [40] [42] [43] [44] \
+ [45] [46] [47] [48] [49] [50] [51] [52] [53] [54] [55] [56] [57] [58] [59] \
+ [60] [61] [62] [63] [64] [65] [66] [67] [68] [69] [70] [71] [72] [73] [74] \
+ [75] [76] [77] [78] [79] [7] [80] [81] [82] [83] [84] [85] [86] [87] [88] \
+ [89] [8] [90] [91] [120]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table [0] [4] [5] [9] [122]
+.default 0
+0 0 0 0  1
+.table [25] [59] [124]
+.default 0
+0 0  1
+.table [13] [18] [21] [23] [59] [67] [70] [80] [87] [126]
+.default 0
+0 0 0 0 0 0 0 0 0  1
+.table [12] [17] [18] [4] [5] [9] [128]
+.default 0
+0 0 0 0 0 0  1
+.table IN-v11 v10 v2 v5 v7 v8 v9 [12]
+.default 0
+0 0 0 1 1 1 0  1
+.table [24] [25] [59] [130]
+.default 0
+0 0 0  1
+.table [29] [2] [30] [3] [132]
+.default 0
+0 0 0 0  1
+.table [18] [32] [134]
+.default 0
+0 0  1
+.table [33] [35] [65] [136]
+.default 0
+0 0 0  1
+.table [39] [66] [69] [138]
+.default 0
+0 0 0  1
+.table IN-v12 v0 v2 v8 v9 [13]
+.default 0
+0 0 1 1 0  1
+.table [0] [10] [25] [27] [47] [4] [56] [5] [63] [6] [78] [79] [7] [8] [9] \
+ [140]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table IN-v11 v1 v10 v7 v9 [14]
+.default 0
+1 1 1 1 1  1
+.table IN-v11 v10 v2 v3 v8 [15]
+.default 0
+1 1 1 0 0  1
+.table IN-v11 IN-v12 v2 v3 v8 [16]
+.default 0
+1 1 1 0 0  1
+.table IN-v11 IN-v12 v0 v10 v5 v8 v9 [17]
+.default 0
+1 0 0 0 1 1 0  1
+.table IN-v11 IN-v12 v10 v4 v5 v7 v8 v9 [18]
+.default 0
+0 0 0 1 1 0 0 0  1
+.table IN-v11 IN-v12 v10 v7 v8 [19]
+.default 0
+1 0 1 0 0  1
+.table IN-v11 v10 v4 v5 v7 v8 v9 [1]
+.default 0
+0 0 1 1 1 1 0  1
+.table IN-v11 v10 v2 v7 v8 v9 [20]
+.default 0
+1 0 0 1 0 1  1
+.table v2 v7 v8 v9 [21]
+.default 0
+1 1 1 1  1
+.table IN-v11 IN-v12 v10 v4 v8 v9 [22]
+.default 0
+0 1 0 0 1 0  1
+.table v10 v2 v7 v8 [23]
+.default 0
+1 1 1 1  1
+.table IN-v11 IN-v12 v10 v3 v6 v7 v8 v9 [24]
+.default 0
+1 1 1 1 0 0 1 1  1
+.table IN-v12 v10 v3 v6 v7 v8 v9 [25]
+.default 0
+1 1 1 1 1 0 0  1
+.table v1 v10 v7 v8 [26]
+.default 0
+0 0 1 1  1
+.table IN-v11 IN-v12 v7 v9 [27]
+.default 0
+1 1 1 1  1
+.table IN-v11 IN-v12 v10 v7 v8 v9 [28]
+.default 0
+0 0 0 1 0 0  1
+.table IN-v11 IN-v12 v0 v1 v10 v3 v7 v9 [29]
+.default 0
+1 1 1 1 0 1 0 0  1
+.table IN-v11 IN-v12 v0 v1 v10 v3 v7 v9 [2]
+.default 0
+1 1 0 1 0 1 0 0  1
+.table IN-v11 IN-v12 v0 v10 v3 v6 v7 v9 [30]
+.default 0
+1 1 1 0 1 0 0 0  1
+.table IN-v11 IN-v12 v4 v8 v9 [31]
+.default 0
+1 0 0 1 0  1
+.table IN-v11 IN-v12 v10 v2 v3 v7 v8 v9 [32]
+.default 0
+0 1 1 1 0 0 0 0  1
+.table IN-v11 IN-v12 v10 v2 v3 v7 v8 v9 [33]
+.default 0
+0 1 1 0 0 0 0 0  1
+.table IN-v11 IN-v12 v10 v7 v8 v9 [34]
+.default 0
+1 0 0 0 0 1  1
+.table IN-v11 IN-v12 v10 v7 v9 [35]
+.default 0
+0 0 1 1 0  1
+.table IN-v11 v1 v10 v8 v9 [36]
+.default 0
+1 0 1 0 0  1
+.table IN-v12 v0 v1 v10 v6 v7 v9 [37]
+.default 0
+1 1 0 0 1 0 0  1
+.table IN-v11 v10 v6 v8 v9 [38]
+.default 0
+1 1 0 0 0  1
+.table IN-v11 IN-v12 v10 v6 v7 v8 v9 [39]
+.default 0
+1 1 1 1 0 1 1  1
+.table IN-v11 IN-v12 v0 v10 v3 v6 v7 v9 [3]
+.default 0
+1 1 0 0 1 0 0 0  1
+.table IN-v11 v10 v7 v8 v9 [40]
+.default 0
+1 1 1 1 1  1
+.table IN-v12 v10 v7 v8 [41]
+.default 0
+1 0 0 1  1
+.table IN-v11 v10 v2 v8 v9 [42]
+.default 0
+1 0 0 0 1  1
+.table v10 v4 v5 [43]
+.default 0
+0 1 1  1
+.table IN-v11 IN-v12 v10 v7 v8 v9 [44]
+.default 0
+1 0 0 1 1 1  1
+.table IN-v11 IN-v12 v10 v7 v9 [45]
+.default 0
+0 0 1 1 1  1
+.table IN-v11 IN-v12 v10 v2 v8 v9 [46]
+.default 0
+1 1 0 0 1 0  1
+.table v10 v2 v7 v8 v9 [47]
+.default 0
+0 0 0 1 0  1
+.table IN-v11 IN-v12 v1 v2 v7 v8 v9 [48]
+.default 0
+1 0 0 1 1 0 0  1
+.table IN-v11 IN-v12 v1 v2 v7 v8 v9 [49]
+.default 0
+1 0 1 1 1 0 0  1
+.table IN-v11 IN-v12 v2 v4 v5 v7 v8 v9 [4]
+.default 0
+0 0 0 1 0 1 1 0  1
+.table IN-v11 IN-v12 v1 v2 v7 v8 v9 [50]
+.default 0
+1 0 1 0 1 0 0  1
+.table IN-v11 IN-v12 v1 v2 v7 v8 v9 [51]
+.default 0
+1 0 0 0 1 0 0  1
+.table IN-v11 IN-v12 v10 v7 v9 [52]
+.default 0
+1 1 0 1 1  1
+.table IN-v11 IN-v12 v3 v7 v8 v9 [53]
+.default 0
+0 1 1 0 1 1  1
+.table IN-v11 v10 v2 v7 v8 [54]
+.default 0
+1 1 0 1 0  1
+.table IN-v11 IN-v12 v10 v3 v7 v9 [55]
+.default 0
+0 1 1 1 0 0  1
+.table IN-v11 IN-v12 v10 v7 v8 v9 [56]
+.default 0
+0 1 1 1 1 1  1
+.table IN-v11 v10 v2 v8 v9 [57]
+.default 0
+1 1 0 0 0  1
+.table IN-v12 v3 v6 v7 v8 [58]
+.default 0
+1 0 0 0 1  1
+.table v10 v2 v7 v8 v9 [59]
+.default 0
+0 1 0 1 0  1
+.table IN-v11 IN-v12 v10 v2 v4 v5 v8 v9 [5]
+.default 0
+0 1 0 0 1 0 1 0  1
+.table IN-v11 IN-v12 v7 v9 [60]
+.default 0
+1 0 0 0  1
+.table IN-v12 v0 v10 v7 [61]
+.default 0
+1 0 0 0  1
+.table IN-v11 v10 v2 v8 v9 [62]
+.default 0
+1 1 1 0 0  1
+.table IN-v11 IN-v12 v10 v7 v8 [63]
+.default 0
+0 1 0 1 0  1
+.table IN-v11 IN-v12 v3 v7 v8 [64]
+.default 0
+0 1 0 0 1  1
+.table IN-v11 v10 v7 v8 v9 [65]
+.default 0
+0 1 1 1 0  1
+.table IN-v12 v7 v8 v9 [66]
+.default 0
+1 1 0 1  1
+.table IN-v11 IN-v12 v10 v2 v8 v9 [67]
+.default 0
+1 0 0 1 0 1  1
+.table IN-v11 IN-v12 v7 v8 [68]
+.default 0
+0 0 1 0  1
+.table IN-v11 IN-v12 v0 v10 v8 v9 [69]
+.default 0
+1 0 1 0 1 0  1
+.table IN-v11 v0 v10 v2 v8 v9 [6]
+.default 0
+0 0 0 0 1 1  1
+.table IN-v11 IN-v12 v2 v7 v8 v9 [70]
+.default 0
+0 0 1 1 1 0  1
+.table v10 v6 v7 v8 v9 [71]
+.default 0
+1 0 1 0 0  1
+.table v10 v3 v7 v8 v9 [72]
+.default 0
+1 0 1 0 0  1
+.table IN-v11 IN-v12 v10 v7 v9 [73]
+.default 0
+1 1 1 1 0  1
+.table IN-v12 v10 v3 v7 v9 [74]
+.default 0
+1 0 0 0 0  1
+.table IN-v11 IN-v12 v10 v8 v9 [75]
+.default 0
+0 0 0 1 1  1
+.table IN-v12 v10 v7 v9 [76]
+.default 0
+0 1 0 0  1
+.table IN-v11 IN-v12 v10 v8 v9 [77]
+.default 0
+0 0 1 0 1  1
+.table IN-v11 IN-v12 v10 v9 [78]
+.default 0
+0 1 0 1  1
+.table IN-v11 IN-v12 v10 v7 v8 [79]
+.default 0
+0 0 1 0 1  1
+.table IN-v11 IN-v12 v10 v4 v5 v7 v8 v9 [7]
+.default 0
+0 0 0 0 0 0 0 0  1
+.table IN-v11 v10 v2 v7 v8 [80]
+.default 0
+1 1 1 1 0  1
+.table IN-v11 IN-v12 v7 v8 [81]
+.default 0
+1 1 1 0  1
+.table IN-v11 v10 v7 v8 [82]
+.default 0
+1 0 0 1  1
+.table IN-v11 IN-v12 v10 v7 [83]
+.default 0
+1 0 1 0  1
+.table IN-v11 IN-v12 v7 v8 v9 [84]
+.default 0
+0 1 0 0 1  1
+.table IN-v11 v10 v7 v8 v9 [85]
+.default 0
+1 1 0 0 1  1
+.table IN-v11 v10 v7 v9 [86]
+.default 0
+0 0 0 1  1
+.table IN-v12 v10 v2 v8 v9 [87]
+.default 0
+1 0 1 1 0  1
+.table IN-v12 v10 v8 v9 [88]
+.default 0
+1 0 0 1  1
+.table IN-v11 IN-v12 v10 v9 [89]
+.default 0
+1 0 1 0  1
+.table IN-v11 v10 v2 v4 v5 v7 v8 v9 [8]
+.default 0
+0 0 0 0 0 1 1 0  1
+.table IN-v11 v7 v8 v9 [90]
+.default 0
+1 0 1 0  1
+.table IN-v11 IN-v12 v10 v7 [91]
+.default 0
+0 1 0 0  1
+.table [16] [18] [20] [24] [28] [2] [32] [33] [35] [36] [37] [38] [3] [46] \
+ [47] [48] [49] [50] [51] [53] [54] [55] [58] [62] [64] [70] [71] [72] [73] \
+ [74] [75] [77] [82] [85] [86] [88] [90] [91] [92]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table [11] [22] [32] [33] [34] [36] [37] [38] [39] [48] [4] [50] [55] [58] \
+ [5] [61] [62] [64] [67] [68] [71] [72] [74] [77] [79] [80] [82] [84] [85] \
+ [86] [87] [88] [89] [90] [91] [94]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table [10] [11] [15] [17] [1] [29] [30] [34] [35] [36] [37] [38] [39] [40] \
+ [45] [47] [49] [4] [51] [52] [53] [67] [69] [70] [74] [76] [77] [79] [80] \
+ [81] [83] [84] [85] [87] [88] [91] [9] [96]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table [15] [18] [22] [29] [30] [31] [36] [38] [39] [40] [41] [49] [51] \
+ [52] [56] [57] [5] [63] [65] [66] [69] [70] [73] [75] [79] [80] [83] [84] \
+ [85] [86] [87] [89] [90] [91] [9] [98]
+.default 0
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  1
+.table IN-v11 IN-v12 v0 v10 v4 v5 v8 v9 [9]
+.default 0
+1 0 0 0 1 0 1 0  1
+.table [92] v13.0
+.default 0
+0  1
+.table [94] v13.1
+.default 0
+0  1
+.table [96] v13.2
+.default 0
+0  1
+.table [98] v13.3
+.default 0
+0  1
+.table [104] v13.6
+.default 0
+0  1
+.table [106] v13.7
+.default 0
+0  1
+.table [108] v13.8
+.default 0
+0  1
+.table [110] v13.9
+.default 0
+0  1
+.table [112] v13.10
+.default 0
+0  1
+.table [114] v13.11
+.default 0
+0  1
+.table [116] v13.12
+.default 0
+0  1
+.table [118] v13.13
+.default 0
+0  1
+.table [120] v13.14
+.default 0
+0  1
+.table [122] v13.15
+.default 0
+0  1
+.table [124] v13.16
+.default 0
+0  1
+.table [126] v13.17
+.default 0
+0  1
+.table [128] v13.18
+.default 0
+0  1
+.table [130] v13.19
+.default 0
+0  1
+.table [132] v13.20
+.default 0
+0  1
+.table [134] v13.21
+.default 0
+0  1
+.table [136] v13.22
+.default 0
+0  1
+.table [138] v13.23
+.default 0
+0  1
+.table [140] v13.24
+.default 0
+0  1
+.table [100] v13.4
+.default 0
+0  1
+.table [102] v13.5
+.default 0
+0  1
+.table IN-v11 v11
+- =IN-v11
+.table IN-v12 v12
+- =IN-v12
+.end

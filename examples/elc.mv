@@ -1,0 +1,5200 @@
+.model main_control 
+# I/O ports
+.inputs init2<0> init2<1> 
+.inputs init1<0> init1<1> 
+.outputs stop_next<1> stop_next<2> 
+.inputs dec<1> dec<2> 
+.inputs inc<1> inc<2> 
+.outputs continue<1> continue<2> 
+
+#PI for psuedo inputs
+.inputs random_up<0> 
+.inputs random_down<0> 
+.inputs random_up<1> 
+.inputs random_down<1> 
+.inputs random_up<2> 
+.inputs random_down<2> 
+
+.mv down_floor_buttons<*0*> 2 ON OFF 
+.mv down_floor_buttons<*1*> 2 ON OFF 
+.mv down_floor_buttons<*2*> 2 ON OFF 
+.mv direction<*1*> 2 UP DOWN 
+.mv direction<*2*> 2 UP DOWN 
+.mv up_floor_buttons<*0*> 2 ON OFF 
+.mv up_floor_buttons<*1*> 2 ON OFF 
+.mv up_floor_buttons<*2*> 2 ON OFF 
+# locations [1] = init1 
+.names _n2d0<0>
+1
+.names _n2d0<1>
+0
+.names _n2d1<0>
+1
+.names _n2d1<1>
+0
+.names _n2d1<0> _n2d0<0> _n2d3<0>
+.def 0
+0 1 1
+1 0 1
+.names _n2d1<1> _n2d0<1> _n2d3<1>
+.def 0
+0 1 1
+1 0 1
+.names _n2d3<0> _n2d3<1> _n2d4
+.def 1
+0 0 0
+.names _n2d4 _n2d2
+0 1  
+1 0  
+.names _n2d5<0>
+0
+.names _n2d5<1>
+0
+.names _n2cf<0> _n2d5<0> _n2d2 locations$raw_n2ce<*1*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2cf<1> _n2d5<1> _n2d2 locations$raw_n2ce<*1*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2d8<0>
+0
+.names _n2d8<1>
+1
+.names _n2d8<0> _n2d0<0> _n2da<0>
+.def 0
+0 1 1
+1 0 1
+.names _n2d8<1> _n2d0<1> _n2da<1>
+.def 0
+0 1 1
+1 0 1
+.names _n2da<0> _n2da<1> _n2db
+.def 1
+0 0 0
+.names _n2db _n2d9
+0 1  
+1 0  
+.names _n2dc<0>
+0
+.names _n2dc<1>
+0
+.names _n2cf<0> _n2dc<0> _n2d9 locations$raw_n2ce<*2*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2cf<1> _n2dc<1> _n2d9 locations$raw_n2ce<*2*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names init1<0> _n2cf<0>
+- =init1<0>
+.names init1<1> _n2cf<1>
+- =init1<1>
+# locations [2] = init2 
+.names _n2e1<0>
+0
+.names _n2e1<1>
+1
+.names _n2e2<0>
+1
+.names _n2e2<1>
+0
+.names _n2e2<0> _n2e1<0> _n2e4<0>
+.def 0
+0 1 1
+1 0 1
+.names _n2e2<1> _n2e1<1> _n2e4<1>
+.def 0
+0 1 1
+1 0 1
+.names _n2e4<0> _n2e4<1> _n2e5
+.def 1
+0 0 0
+.names _n2e5 _n2e3
+0 1  
+1 0  
+.names _n2e0<0> locations$raw_n2ce<*1*><0> _n2e3 locations$raw_n2df<*1*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2e0<1> locations$raw_n2ce<*1*><1> _n2e3 locations$raw_n2df<*1*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2e8<0>
+0
+.names _n2e8<1>
+1
+.names _n2e8<0> _n2e1<0> _n2ea<0>
+.def 0
+0 1 1
+1 0 1
+.names _n2e8<1> _n2e1<1> _n2ea<1>
+.def 0
+0 1 1
+1 0 1
+.names _n2ea<0> _n2ea<1> _n2eb
+.def 1
+0 0 0
+.names _n2eb _n2e9
+0 1  
+1 0  
+.names _n2e0<0> locations$raw_n2ce<*2*><0> _n2e9 locations$raw_n2df<*2*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2e0<1> locations$raw_n2ce<*2*><1> _n2e9 locations$raw_n2df<*2*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names init2<0> _n2e0<0>
+- =init2<0>
+.names init2<1> _n2e0<1>
+- =init2<1>
+# up_floor_buttons [0] = 1
+.mv up_floor_buttons$raw_n2ee<*0*> 2 ON OFF 
+.mv up_floor_buttons$raw_n2ee<*1*> 2 ON OFF 
+.mv up_floor_buttons$raw_n2ee<*2*> 2 ON OFF 
+.mv _n2ef 2 ON OFF 
+.names _n2f0<0>
+0
+.names _n2f0<1>
+0
+.names _n2f1<0>
+0
+.names _n2f1<1>
+0
+.names _n2f1<0> _n2f0<0> _n2f3<0>
+.def 0
+0 1 1
+1 0 1
+.names _n2f1<1> _n2f0<1> _n2f3<1>
+.def 0
+0 1 1
+1 0 1
+.names _n2f3<0> _n2f3<1> _n2f4
+.def 1
+0 0 0
+.names _n2f4 _n2f2
+0 1  
+1 0  
+.mv _n2f5 2 ON OFF 
+.names _n2f5
+ON
+.names _n2ef _n2f5 _n2f2 up_floor_buttons$raw_n2ee<*0*>
+- - 0 =_n2f5
+- - 1 =_n2ef
+.names _n2f6<0>
+1
+.names _n2f6<1>
+0
+.names _n2f6<0> _n2f0<0> _n2f8<0>
+.def 0
+0 1 1
+1 0 1
+.names _n2f6<1> _n2f0<1> _n2f8<1>
+.def 0
+0 1 1
+1 0 1
+.names _n2f8<0> _n2f8<1> _n2f9
+.def 1
+0 0 0
+.names _n2f9 _n2f7
+0 1  
+1 0  
+.mv _n2fa 2 ON OFF 
+.names _n2fa
+ON
+.names _n2ef _n2fa _n2f7 up_floor_buttons$raw_n2ee<*1*>
+- - 0 =_n2fa
+- - 1 =_n2ef
+.names _n2fb<0>
+0
+.names _n2fb<1>
+1
+.names _n2fb<0> _n2f0<0> _n2fd<0>
+.def 0
+0 1 1
+1 0 1
+.names _n2fb<1> _n2f0<1> _n2fd<1>
+.def 0
+0 1 1
+1 0 1
+.names _n2fd<0> _n2fd<1> _n2fe
+.def 1
+0 0 0
+.names _n2fe _n2fc
+0 1  
+1 0  
+.mv _n2ff 2 ON OFF 
+.names _n2ff
+ON
+.names _n2ef _n2ff _n2fc up_floor_buttons$raw_n2ee<*2*>
+- - 0 =_n2ff
+- - 1 =_n2ef
+.names _n2ef
+OFF
+# up_floor_buttons [1] = 1
+.mv up_floor_buttons$raw_n300<*0*> 2 ON OFF 
+.mv up_floor_buttons$raw_n300<*1*> 2 ON OFF 
+.mv up_floor_buttons$raw_n300<*2*> 2 ON OFF 
+.mv _n301 2 ON OFF 
+.names _n302<0>
+1
+.names _n302<1>
+0
+.names _n303<0>
+0
+.names _n303<1>
+0
+.names _n303<0> _n302<0> _n305<0>
+.def 0
+0 1 1
+1 0 1
+.names _n303<1> _n302<1> _n305<1>
+.def 0
+0 1 1
+1 0 1
+.names _n305<0> _n305<1> _n306
+.def 1
+0 0 0
+.names _n306 _n304
+0 1  
+1 0  
+.names _n301 up_floor_buttons$raw_n2ee<*0*> _n304 up_floor_buttons$raw_n300<*0*>
+- - 0 =up_floor_buttons$raw_n2ee<*0*>
+- - 1 =_n301
+.names _n307<0>
+1
+.names _n307<1>
+0
+.names _n307<0> _n302<0> _n309<0>
+.def 0
+0 1 1
+1 0 1
+.names _n307<1> _n302<1> _n309<1>
+.def 0
+0 1 1
+1 0 1
+.names _n309<0> _n309<1> _n30a
+.def 1
+0 0 0
+.names _n30a _n308
+0 1  
+1 0  
+.names _n301 up_floor_buttons$raw_n2ee<*1*> _n308 up_floor_buttons$raw_n300<*1*>
+- - 0 =up_floor_buttons$raw_n2ee<*1*>
+- - 1 =_n301
+.names _n30b<0>
+0
+.names _n30b<1>
+1
+.names _n30b<0> _n302<0> _n30d<0>
+.def 0
+0 1 1
+1 0 1
+.names _n30b<1> _n302<1> _n30d<1>
+.def 0
+0 1 1
+1 0 1
+.names _n30d<0> _n30d<1> _n30e
+.def 1
+0 0 0
+.names _n30e _n30c
+0 1  
+1 0  
+.names _n301 up_floor_buttons$raw_n2ee<*2*> _n30c up_floor_buttons$raw_n300<*2*>
+- - 0 =up_floor_buttons$raw_n2ee<*2*>
+- - 1 =_n301
+.names _n301
+OFF
+# up_floor_buttons [2] = 1
+.mv up_floor_buttons$raw_n30f<*0*> 2 ON OFF 
+.mv up_floor_buttons$raw_n30f<*1*> 2 ON OFF 
+.mv up_floor_buttons$raw_n30f<*2*> 2 ON OFF 
+.mv _n310 2 ON OFF 
+.names _n311<0>
+0
+.names _n311<1>
+1
+.names _n312<0>
+0
+.names _n312<1>
+0
+.names _n312<0> _n311<0> _n314<0>
+.def 0
+0 1 1
+1 0 1
+.names _n312<1> _n311<1> _n314<1>
+.def 0
+0 1 1
+1 0 1
+.names _n314<0> _n314<1> _n315
+.def 1
+0 0 0
+.names _n315 _n313
+0 1  
+1 0  
+.names _n310 up_floor_buttons$raw_n300<*0*> _n313 up_floor_buttons$raw_n30f<*0*>
+- - 0 =up_floor_buttons$raw_n300<*0*>
+- - 1 =_n310
+.names _n316<0>
+1
+.names _n316<1>
+0
+.names _n316<0> _n311<0> _n318<0>
+.def 0
+0 1 1
+1 0 1
+.names _n316<1> _n311<1> _n318<1>
+.def 0
+0 1 1
+1 0 1
+.names _n318<0> _n318<1> _n319
+.def 1
+0 0 0
+.names _n319 _n317
+0 1  
+1 0  
+.names _n310 up_floor_buttons$raw_n300<*1*> _n317 up_floor_buttons$raw_n30f<*1*>
+- - 0 =up_floor_buttons$raw_n300<*1*>
+- - 1 =_n310
+.names _n31a<0>
+0
+.names _n31a<1>
+1
+.names _n31a<0> _n311<0> _n31c<0>
+.def 0
+0 1 1
+1 0 1
+.names _n31a<1> _n311<1> _n31c<1>
+.def 0
+0 1 1
+1 0 1
+.names _n31c<0> _n31c<1> _n31d
+.def 1
+0 0 0
+.names _n31d _n31b
+0 1  
+1 0  
+.names _n310 up_floor_buttons$raw_n300<*2*> _n31b up_floor_buttons$raw_n30f<*2*>
+- - 0 =up_floor_buttons$raw_n300<*2*>
+- - 1 =_n310
+.names _n310
+OFF
+# down_floor_buttons [0] = 1
+.mv down_floor_buttons$raw_n31e<*0*> 2 ON OFF 
+.mv down_floor_buttons$raw_n31e<*1*> 2 ON OFF 
+.mv down_floor_buttons$raw_n31e<*2*> 2 ON OFF 
+.mv _n31f 2 ON OFF 
+.names _n320<0>
+0
+.names _n320<1>
+0
+.names _n321<0>
+0
+.names _n321<1>
+0
+.names _n321<0> _n320<0> _n323<0>
+.def 0
+0 1 1
+1 0 1
+.names _n321<1> _n320<1> _n323<1>
+.def 0
+0 1 1
+1 0 1
+.names _n323<0> _n323<1> _n324
+.def 1
+0 0 0
+.names _n324 _n322
+0 1  
+1 0  
+.mv _n325 2 ON OFF 
+.names _n325
+ON
+.names _n31f _n325 _n322 down_floor_buttons$raw_n31e<*0*>
+- - 0 =_n325
+- - 1 =_n31f
+.names _n326<0>
+1
+.names _n326<1>
+0
+.names _n326<0> _n320<0> _n328<0>
+.def 0
+0 1 1
+1 0 1
+.names _n326<1> _n320<1> _n328<1>
+.def 0
+0 1 1
+1 0 1
+.names _n328<0> _n328<1> _n329
+.def 1
+0 0 0
+.names _n329 _n327
+0 1  
+1 0  
+.mv _n32a 2 ON OFF 
+.names _n32a
+ON
+.names _n31f _n32a _n327 down_floor_buttons$raw_n31e<*1*>
+- - 0 =_n32a
+- - 1 =_n31f
+.names _n32b<0>
+0
+.names _n32b<1>
+1
+.names _n32b<0> _n320<0> _n32d<0>
+.def 0
+0 1 1
+1 0 1
+.names _n32b<1> _n320<1> _n32d<1>
+.def 0
+0 1 1
+1 0 1
+.names _n32d<0> _n32d<1> _n32e
+.def 1
+0 0 0
+.names _n32e _n32c
+0 1  
+1 0  
+.mv _n32f 2 ON OFF 
+.names _n32f
+ON
+.names _n31f _n32f _n32c down_floor_buttons$raw_n31e<*2*>
+- - 0 =_n32f
+- - 1 =_n31f
+.names _n31f
+OFF
+# down_floor_buttons [1] = 1
+.mv down_floor_buttons$raw_n330<*0*> 2 ON OFF 
+.mv down_floor_buttons$raw_n330<*1*> 2 ON OFF 
+.mv down_floor_buttons$raw_n330<*2*> 2 ON OFF 
+.mv _n331 2 ON OFF 
+.names _n332<0>
+1
+.names _n332<1>
+0
+.names _n333<0>
+0
+.names _n333<1>
+0
+.names _n333<0> _n332<0> _n335<0>
+.def 0
+0 1 1
+1 0 1
+.names _n333<1> _n332<1> _n335<1>
+.def 0
+0 1 1
+1 0 1
+.names _n335<0> _n335<1> _n336
+.def 1
+0 0 0
+.names _n336 _n334
+0 1  
+1 0  
+.names _n331 down_floor_buttons$raw_n31e<*0*> _n334 down_floor_buttons$raw_n330<*0*>
+- - 0 =down_floor_buttons$raw_n31e<*0*>
+- - 1 =_n331
+.names _n337<0>
+1
+.names _n337<1>
+0
+.names _n337<0> _n332<0> _n339<0>
+.def 0
+0 1 1
+1 0 1
+.names _n337<1> _n332<1> _n339<1>
+.def 0
+0 1 1
+1 0 1
+.names _n339<0> _n339<1> _n33a
+.def 1
+0 0 0
+.names _n33a _n338
+0 1  
+1 0  
+.names _n331 down_floor_buttons$raw_n31e<*1*> _n338 down_floor_buttons$raw_n330<*1*>
+- - 0 =down_floor_buttons$raw_n31e<*1*>
+- - 1 =_n331
+.names _n33b<0>
+0
+.names _n33b<1>
+1
+.names _n33b<0> _n332<0> _n33d<0>
+.def 0
+0 1 1
+1 0 1
+.names _n33b<1> _n332<1> _n33d<1>
+.def 0
+0 1 1
+1 0 1
+.names _n33d<0> _n33d<1> _n33e
+.def 1
+0 0 0
+.names _n33e _n33c
+0 1  
+1 0  
+.names _n331 down_floor_buttons$raw_n31e<*2*> _n33c down_floor_buttons$raw_n330<*2*>
+- - 0 =down_floor_buttons$raw_n31e<*2*>
+- - 1 =_n331
+.names _n331
+OFF
+# down_floor_buttons [2] = 1
+.mv down_floor_buttons$raw_n33f<*0*> 2 ON OFF 
+.mv down_floor_buttons$raw_n33f<*1*> 2 ON OFF 
+.mv down_floor_buttons$raw_n33f<*2*> 2 ON OFF 
+.mv _n340 2 ON OFF 
+.names _n341<0>
+0
+.names _n341<1>
+1
+.names _n342<0>
+0
+.names _n342<1>
+0
+.names _n342<0> _n341<0> _n344<0>
+.def 0
+0 1 1
+1 0 1
+.names _n342<1> _n341<1> _n344<1>
+.def 0
+0 1 1
+1 0 1
+.names _n344<0> _n344<1> _n345
+.def 1
+0 0 0
+.names _n345 _n343
+0 1  
+1 0  
+.names _n340 down_floor_buttons$raw_n330<*0*> _n343 down_floor_buttons$raw_n33f<*0*>
+- - 0 =down_floor_buttons$raw_n330<*0*>
+- - 1 =_n340
+.names _n346<0>
+1
+.names _n346<1>
+0
+.names _n346<0> _n341<0> _n348<0>
+.def 0
+0 1 1
+1 0 1
+.names _n346<1> _n341<1> _n348<1>
+.def 0
+0 1 1
+1 0 1
+.names _n348<0> _n348<1> _n349
+.def 1
+0 0 0
+.names _n349 _n347
+0 1  
+1 0  
+.names _n340 down_floor_buttons$raw_n330<*1*> _n347 down_floor_buttons$raw_n33f<*1*>
+- - 0 =down_floor_buttons$raw_n330<*1*>
+- - 1 =_n340
+.names _n34a<0>
+0
+.names _n34a<1>
+1
+.names _n34a<0> _n341<0> _n34c<0>
+.def 0
+0 1 1
+1 0 1
+.names _n34a<1> _n341<1> _n34c<1>
+.def 0
+0 1 1
+1 0 1
+.names _n34c<0> _n34c<1> _n34d
+.def 1
+0 0 0
+.names _n34d _n34b
+0 1  
+1 0  
+.names _n340 down_floor_buttons$raw_n330<*2*> _n34b down_floor_buttons$raw_n33f<*2*>
+- - 0 =down_floor_buttons$raw_n330<*2*>
+- - 1 =_n340
+.names _n340
+OFF
+# direction [1] = 0
+.mv direction$raw_n34e<*1*> 2 UP DOWN 
+.mv direction$raw_n34e<*2*> 2 UP DOWN 
+.mv _n34f 2 UP DOWN 
+.names _n350<0>
+1
+.names _n350<1>
+0
+.names _n351<0>
+1
+.names _n351<1>
+0
+.names _n351<0> _n350<0> _n353<0>
+.def 0
+0 1 1
+1 0 1
+.names _n351<1> _n350<1> _n353<1>
+.def 0
+0 1 1
+1 0 1
+.names _n353<0> _n353<1> _n354
+.def 1
+0 0 0
+.names _n354 _n352
+0 1  
+1 0  
+.mv _n355 2 UP DOWN 
+.names _n355
+UP
+.names _n34f _n355 _n352 direction$raw_n34e<*1*>
+- - 0 =_n355
+- - 1 =_n34f
+.names _n356<0>
+0
+.names _n356<1>
+1
+.names _n356<0> _n350<0> _n358<0>
+.def 0
+0 1 1
+1 0 1
+.names _n356<1> _n350<1> _n358<1>
+.def 0
+0 1 1
+1 0 1
+.names _n358<0> _n358<1> _n359
+.def 1
+0 0 0
+.names _n359 _n357
+0 1  
+1 0  
+.mv _n35a 2 UP DOWN 
+.names _n35a
+UP
+.names _n34f _n35a _n357 direction$raw_n34e<*2*>
+- - 0 =_n35a
+- - 1 =_n34f
+.names _n34f
+UP
+# direction [2] = 0
+.mv direction$raw_n35b<*1*> 2 UP DOWN 
+.mv direction$raw_n35b<*2*> 2 UP DOWN 
+.mv _n35c 2 UP DOWN 
+.names _n35d<0>
+0
+.names _n35d<1>
+1
+.names _n35e<0>
+1
+.names _n35e<1>
+0
+.names _n35e<0> _n35d<0> _n360<0>
+.def 0
+0 1 1
+1 0 1
+.names _n35e<1> _n35d<1> _n360<1>
+.def 0
+0 1 1
+1 0 1
+.names _n360<0> _n360<1> _n361
+.def 1
+0 0 0
+.names _n361 _n35f
+0 1  
+1 0  
+.names _n35c direction$raw_n34e<*1*> _n35f direction$raw_n35b<*1*>
+- - 0 =direction$raw_n34e<*1*>
+- - 1 =_n35c
+.names _n362<0>
+0
+.names _n362<1>
+1
+.names _n362<0> _n35d<0> _n364<0>
+.def 0
+0 1 1
+1 0 1
+.names _n362<1> _n35d<1> _n364<1>
+.def 0
+0 1 1
+1 0 1
+.names _n364<0> _n364<1> _n365
+.def 1
+0 0 0
+.names _n365 _n363
+0 1  
+1 0  
+.names _n35c direction$raw_n34e<*2*> _n363 direction$raw_n35b<*2*>
+- - 0 =direction$raw_n34e<*2*>
+- - 1 =_n35c
+.names _n35c
+UP
+# non-blocking assignments for initial
+# assign buttons [0] = up_floor_buttons [0] == ON  || down_floor_buttons [0] == ON 
+.names _n368<0>
+0
+.names _n368<1>
+0
+.mv _n369 2 ON OFF 
+.names up_floor_buttons<*0*> up_floor_buttons<*1*> up_floor_buttons<*2*> _n368<1> _n368<0> _n369
+- - - 0 0 =up_floor_buttons<*0*>
+- - - 0 1 =up_floor_buttons<*1*>
+- - - 1 0 =up_floor_buttons<*2*>
+- - - 1 1 ON
+.mv _n36a 2 ON OFF 
+.names _n36a
+ON
+# up_floor_buttons [0] == 0
+.names _n369 _n36a _n367
+.def 0
+- =_n369 1
+.names _n36c<0>
+0
+.names _n36c<1>
+0
+.mv _n36d 2 ON OFF 
+.names down_floor_buttons<*0*> down_floor_buttons<*1*> down_floor_buttons<*2*> _n36c<1> _n36c<0> _n36d
+- - - 0 0 =down_floor_buttons<*0*>
+- - - 0 1 =down_floor_buttons<*1*>
+- - - 1 0 =down_floor_buttons<*2*>
+- - - 1 1 ON
+.mv _n36e 2 ON OFF 
+.names _n36e
+ON
+# down_floor_buttons [0] == 0
+.names _n36d _n36e _n36b
+.def 0
+- =_n36d 1
+# up_floor_buttons [0] == 0 || down_floor_buttons [0] == 0
+.names _n367 _n36b _n36f
+.def 1
+0 0 0
+.names _n36f buttons$raw_n366<0>
+- =_n36f
+.names _n370
+0
+# assign buttons [1] = up_floor_buttons [1] == ON  || down_floor_buttons [1] == ON 
+.names _n373<0>
+1
+.names _n373<1>
+0
+.mv _n374 2 ON OFF 
+.names up_floor_buttons<*0*> up_floor_buttons<*1*> up_floor_buttons<*2*> _n373<1> _n373<0> _n374
+- - - 0 0 =up_floor_buttons<*0*>
+- - - 0 1 =up_floor_buttons<*1*>
+- - - 1 0 =up_floor_buttons<*2*>
+- - - 1 1 ON
+.mv _n375 2 ON OFF 
+.names _n375
+ON
+# up_floor_buttons [1] == 0
+.names _n374 _n375 _n372
+.def 0
+- =_n374 1
+.names _n377<0>
+1
+.names _n377<1>
+0
+.mv _n378 2 ON OFF 
+.names down_floor_buttons<*0*> down_floor_buttons<*1*> down_floor_buttons<*2*> _n377<1> _n377<0> _n378
+- - - 0 0 =down_floor_buttons<*0*>
+- - - 0 1 =down_floor_buttons<*1*>
+- - - 1 0 =down_floor_buttons<*2*>
+- - - 1 1 ON
+.mv _n379 2 ON OFF 
+.names _n379
+ON
+# down_floor_buttons [1] == 0
+.names _n378 _n379 _n376
+.def 0
+- =_n378 1
+# up_floor_buttons [1] == 0 || down_floor_buttons [1] == 0
+.names _n372 _n376 _n37a
+.def 1
+0 0 0
+.names _n37a buttons$raw_n371<1>
+- =_n37a
+.names _n37b
+0
+# assign buttons [2] = up_floor_buttons [2] == ON  || down_floor_buttons [2] == ON 
+.names _n37e<0>
+0
+.names _n37e<1>
+1
+.mv _n37f 2 ON OFF 
+.names up_floor_buttons<*0*> up_floor_buttons<*1*> up_floor_buttons<*2*> _n37e<1> _n37e<0> _n37f
+- - - 0 0 =up_floor_buttons<*0*>
+- - - 0 1 =up_floor_buttons<*1*>
+- - - 1 0 =up_floor_buttons<*2*>
+- - - 1 1 ON
+.mv _n380 2 ON OFF 
+.names _n380
+ON
+# up_floor_buttons [2] == 0
+.names _n37f _n380 _n37d
+.def 0
+- =_n37f 1
+.names _n382<0>
+0
+.names _n382<1>
+1
+.mv _n383 2 ON OFF 
+.names down_floor_buttons<*0*> down_floor_buttons<*1*> down_floor_buttons<*2*> _n382<1> _n382<0> _n383
+- - - 0 0 =down_floor_buttons<*0*>
+- - - 0 1 =down_floor_buttons<*1*>
+- - - 1 0 =down_floor_buttons<*2*>
+- - - 1 1 ON
+.mv _n384 2 ON OFF 
+.names _n384
+ON
+# down_floor_buttons [2] == 0
+.names _n383 _n384 _n381
+.def 0
+- =_n383 1
+# up_floor_buttons [2] == 0 || down_floor_buttons [2] == 0
+.names _n37d _n381 _n385
+.def 1
+0 0 0
+.names _n385 buttons$raw_n37c<2>
+- =_n385
+.names _n386
+0
+# assign button_below [1] = ((locations [1] == 2) && (buttons [0] || buttons [1])) || (locations [1] == 1 && buttons [0])
+.names _n389<0>
+1
+.names _n389<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n389<1> _n389<0> _n38a<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n389<1> _n389<0> _n38a<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n38b<0>
+0
+.names _n38b<1>
+1
+# locations [1] == 2
+.names _n38a<0> _n38b<0> _n38c<0>
+.def 0
+0 1 1
+1 0 1
+.names _n38a<1> _n38b<1> _n38c<1>
+.def 0
+0 1 1
+1 0 1
+.names _n38c<0> _n38c<1> _n38d
+.def 1
+0 0 0
+.names _n38d _n388
+0 1  
+1 0  
+# buttons [0] || buttons [1]
+.names buttons<0> buttons<1> _n38e<0>
+.def 1
+0 0 0
+# (locations [1] == 2) && (buttons [0] || buttons [1])
+.names _n388 _n38e<0> _n38f<0>
+.def 0
+1 1 1
+.names _n390
+0
+.names _n392<0>
+1
+.names _n392<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n392<1> _n392<0> _n393<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n392<1> _n392<0> _n393<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n394<0>
+1
+.names _n394<1>
+0
+# locations [1] == 1
+.names _n393<0> _n394<0> _n395<0>
+.def 0
+0 1 1
+1 0 1
+.names _n393<1> _n394<1> _n395<1>
+.def 0
+0 1 1
+1 0 1
+.names _n395<0> _n395<1> _n396
+.def 1
+0 0 0
+.names _n396 _n391
+0 1  
+1 0  
+# locations [1] == 1 && buttons [0]
+.names _n391 buttons<0> _n397<0>
+.def 0
+1 1 1
+.names _n398
+0
+# ((locations [1] == 2) && (buttons [0] || buttons [1])) || (locations [1] == 1 && buttons [0])
+.names _n38f<0> _n397<0> _n399<0>
+.def 1
+0 0 0
+.names _n399<0> button_below$raw_n387<1>
+- =_n399<0>
+# assign button_above [1] = ((locations [1] == 0) && (buttons [2] || buttons [1])) || ((locations [1] == 1) && (buttons [2]))
+.names _n39c<0>
+1
+.names _n39c<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n39c<1> _n39c<0> _n39d<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n39c<1> _n39c<0> _n39d<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n39e<0>
+0
+.names _n39e<1>
+0
+# locations [1] == 0
+.names _n39d<0> _n39e<0> _n39f<0>
+.def 0
+0 1 1
+1 0 1
+.names _n39d<1> _n39e<1> _n39f<1>
+.def 0
+0 1 1
+1 0 1
+.names _n39f<0> _n39f<1> _n3a0
+.def 1
+0 0 0
+.names _n3a0 _n39b
+0 1  
+1 0  
+# buttons [2] || buttons [1]
+.names buttons<2> buttons<1> _n3a1<0>
+.def 1
+0 0 0
+# (locations [1] == 0) && (buttons [2] || buttons [1])
+.names _n39b _n3a1<0> _n3a2<0>
+.def 0
+1 1 1
+.names _n3a3
+0
+.names _n3a5<0>
+1
+.names _n3a5<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n3a5<1> _n3a5<0> _n3a6<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n3a5<1> _n3a5<0> _n3a6<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n3a7<0>
+1
+.names _n3a7<1>
+0
+# locations [1] == 1
+.names _n3a6<0> _n3a7<0> _n3a8<0>
+.def 0
+0 1 1
+1 0 1
+.names _n3a6<1> _n3a7<1> _n3a8<1>
+.def 0
+0 1 1
+1 0 1
+.names _n3a8<0> _n3a8<1> _n3a9
+.def 1
+0 0 0
+.names _n3a9 _n3a4
+0 1  
+1 0  
+# (locations [1] == 1) && (buttons [2])
+.names _n3a4 buttons<2> _n3aa<2>
+.def 0
+1 1 1
+.names _n3ab
+0
+# ((locations [1] == 0) && (buttons [2] || buttons [1])) || ((locations [1] == 1) && (buttons [2]))
+.names _n3a2<0> _n3aa<2> _n3ac<0>
+.def 1
+0 0 0
+.names _n3ac<0> button_above$raw_n39a<1>
+- =_n3ac<0>
+# assign button_below [2] = ((locations [2] == 2) && (buttons [0] || buttons [1])) || (locations [2] == 1 && buttons [0])
+.names _n3af<0>
+0
+.names _n3af<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n3af<1> _n3af<0> _n3b0<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n3af<1> _n3af<0> _n3b0<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n3b1<0>
+0
+.names _n3b1<1>
+1
+# locations [2] == 2
+.names _n3b0<0> _n3b1<0> _n3b2<0>
+.def 0
+0 1 1
+1 0 1
+.names _n3b0<1> _n3b1<1> _n3b2<1>
+.def 0
+0 1 1
+1 0 1
+.names _n3b2<0> _n3b2<1> _n3b3
+.def 1
+0 0 0
+.names _n3b3 _n3ae
+0 1  
+1 0  
+# buttons [0] || buttons [1]
+.names buttons<0> buttons<1> _n3b4<0>
+.def 1
+0 0 0
+# (locations [2] == 2) && (buttons [0] || buttons [1])
+.names _n3ae _n3b4<0> _n3b5<0>
+.def 0
+1 1 1
+.names _n3b6
+0
+.names _n3b8<0>
+0
+.names _n3b8<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n3b8<1> _n3b8<0> _n3b9<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n3b8<1> _n3b8<0> _n3b9<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n3ba<0>
+1
+.names _n3ba<1>
+0
+# locations [2] == 1
+.names _n3b9<0> _n3ba<0> _n3bb<0>
+.def 0
+0 1 1
+1 0 1
+.names _n3b9<1> _n3ba<1> _n3bb<1>
+.def 0
+0 1 1
+1 0 1
+.names _n3bb<0> _n3bb<1> _n3bc
+.def 1
+0 0 0
+.names _n3bc _n3b7
+0 1  
+1 0  
+# locations [2] == 1 && buttons [0]
+.names _n3b7 buttons<0> _n3bd<0>
+.def 0
+1 1 1
+.names _n3be
+0
+# ((locations [2] == 2) && (buttons [0] || buttons [1])) || (locations [2] == 1 && buttons [0])
+.names _n3b5<0> _n3bd<0> _n3bf<0>
+.def 1
+0 0 0
+.names _n3bf<0> button_below$raw_n3ad<2>
+- =_n3bf<0>
+# assign button_above [2] = ((locations [2] == 0) && (buttons [2] || buttons [1])) || ((locations [2] == 1) && (buttons [2]))
+.names _n3c2<0>
+0
+.names _n3c2<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n3c2<1> _n3c2<0> _n3c3<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n3c2<1> _n3c2<0> _n3c3<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n3c4<0>
+0
+.names _n3c4<1>
+0
+# locations [2] == 0
+.names _n3c3<0> _n3c4<0> _n3c5<0>
+.def 0
+0 1 1
+1 0 1
+.names _n3c3<1> _n3c4<1> _n3c5<1>
+.def 0
+0 1 1
+1 0 1
+.names _n3c5<0> _n3c5<1> _n3c6
+.def 1
+0 0 0
+.names _n3c6 _n3c1
+0 1  
+1 0  
+# buttons [2] || buttons [1]
+.names buttons<2> buttons<1> _n3c7<0>
+.def 1
+0 0 0
+# (locations [2] == 0) && (buttons [2] || buttons [1])
+.names _n3c1 _n3c7<0> _n3c8<0>
+.def 0
+1 1 1
+.names _n3c9
+0
+.names _n3cb<0>
+0
+.names _n3cb<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n3cb<1> _n3cb<0> _n3cc<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n3cb<1> _n3cb<0> _n3cc<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n3cd<0>
+1
+.names _n3cd<1>
+0
+# locations [2] == 1
+.names _n3cc<0> _n3cd<0> _n3ce<0>
+.def 0
+0 1 1
+1 0 1
+.names _n3cc<1> _n3cd<1> _n3ce<1>
+.def 0
+0 1 1
+1 0 1
+.names _n3ce<0> _n3ce<1> _n3cf
+.def 1
+0 0 0
+.names _n3cf _n3ca
+0 1  
+1 0  
+# (locations [2] == 1) && (buttons [2])
+.names _n3ca buttons<2> _n3d0<2>
+.def 0
+1 1 1
+.names _n3d1
+0
+# ((locations [2] == 0) && (buttons [2] || buttons [1])) || ((locations [2] == 1) && (buttons [2]))
+.names _n3c8<0> _n3d0<2> _n3d2<0>
+.def 1
+0 0 0
+.names _n3d2<0> button_above$raw_n3c0<2>
+- =_n3d2<0>
+# assign continue [1] = button_above [1] && direction [1] == UP  || button_below [1] && direction [1] == DOWN 
+.names _n3d5<0>
+1
+.names _n3d5<1>
+0
+.mv _n3d6 2 UP DOWN 
+.names direction<*1*> direction<*2*> _n3d5<1> _n3d5<0> _n3d6
+- - 0 0 UP
+- - 0 1 =direction<*1*>
+- - 1 0 =direction<*2*>
+- - 1 1 UP
+.mv _n3d7 2 UP DOWN 
+.names _n3d7
+UP
+# direction [1] == 0
+.names _n3d6 _n3d7 _n3d4
+.def 0
+- =_n3d6 1
+# button_above [1] && direction [1] == 0
+.names button_above<1> _n3d4 _n3d8<1>
+.def 0
+1 1 1
+.names _n3d9
+0
+.names _n3db<0>
+1
+.names _n3db<1>
+0
+.mv _n3dc 2 UP DOWN 
+.names direction<*1*> direction<*2*> _n3db<1> _n3db<0> _n3dc
+- - 0 0 UP
+- - 0 1 =direction<*1*>
+- - 1 0 =direction<*2*>
+- - 1 1 UP
+.mv _n3dd 2 UP DOWN 
+.names _n3dd
+DOWN
+# direction [1] == 1
+.names _n3dc _n3dd _n3da
+.def 0
+- =_n3dc 1
+# button_below [1] && direction [1] == 1
+.names button_below<1> _n3da _n3de<1>
+.def 0
+1 1 1
+.names _n3df
+0
+# button_above [1] && direction [1] == 0 || button_below [1] && direction [1] == 1
+.names _n3d8<1> _n3de<1> _n3e0<0>
+.def 1
+0 0 0
+.names _n3e0<0> continue$raw_n3d3<1>
+- =_n3e0<0>
+# assign continue [2] = button_above [2] && direction [2] == UP  || button_below [2] && direction [2] == DOWN 
+.names _n3e3<0>
+0
+.names _n3e3<1>
+1
+.mv _n3e4 2 UP DOWN 
+.names direction<*1*> direction<*2*> _n3e3<1> _n3e3<0> _n3e4
+- - 0 0 UP
+- - 0 1 =direction<*1*>
+- - 1 0 =direction<*2*>
+- - 1 1 UP
+.mv _n3e5 2 UP DOWN 
+.names _n3e5
+UP
+# direction [2] == 0
+.names _n3e4 _n3e5 _n3e2
+.def 0
+- =_n3e4 1
+# button_above [2] && direction [2] == 0
+.names button_above<2> _n3e2 _n3e6<2>
+.def 0
+1 1 1
+.names _n3e7
+0
+.names _n3e9<0>
+0
+.names _n3e9<1>
+1
+.mv _n3ea 2 UP DOWN 
+.names direction<*1*> direction<*2*> _n3e9<1> _n3e9<0> _n3ea
+- - 0 0 UP
+- - 0 1 =direction<*1*>
+- - 1 0 =direction<*2*>
+- - 1 1 UP
+.mv _n3eb 2 UP DOWN 
+.names _n3eb
+DOWN
+# direction [2] == 1
+.names _n3ea _n3eb _n3e8
+.def 0
+- =_n3ea 1
+# button_below [2] && direction [2] == 1
+.names button_below<2> _n3e8 _n3ec<2>
+.def 0
+1 1 1
+.names _n3ed
+0
+# button_above [2] && direction [2] == 0 || button_below [2] && direction [2] == 1
+.names _n3e6<2> _n3ec<2> _n3ee<0>
+.def 1
+0 0 0
+.names _n3ee<0> continue$raw_n3e1<2>
+- =_n3ee<0>
+# assign stop_next [1] = ((locations [1] != 3 - 1) && (direction [1] == UP )) ? ((up_floor_buttons [locations [1] + 1] == ON ) ? 1 : 0) : (((locations [1] != 0) && (direction [1] == DOWN )) ? ((down_floor_buttons [locations [1] - 1] == ON ) ? 1 : 0) : 0)
+.names _n3f1<0>
+1
+.names _n3f1<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n3f1<1> _n3f1<0> _n3f2<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n3f1<1> _n3f1<0> _n3f2<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n3f3<0>
+1
+.names _n3f3<1>
+1
+.names _n3f4<0>
+1
+.names _n3f4<1>
+0
+# 3 - 1
+.names _n3f6
+0
+.names _n3f3<0> _n3f4<0> _n3f6 _n3f5<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n3f8
+0
+.names _n3f3<0> _n3f4<0> _n3f8 _n3f7
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n3f3<1> _n3f4<1> _n3f7 _n3f5<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# locations [1] != 3 - 1
+.names _n3f2<0> _n3f5<0> _n3f9<0>
+.def 0
+0 1 1
+1 0 1
+.names _n3f2<1> _n3f5<1> _n3f9<1>
+.def 0
+0 1 1
+1 0 1
+.names _n3f9<0> _n3f9<1> _n3fa
+.def 1
+0 0 0
+.names _n3fa _n3f0
+- =_n3fa
+.names _n3fc<0>
+1
+.names _n3fc<1>
+0
+.mv _n3fd 2 UP DOWN 
+.names direction<*1*> direction<*2*> _n3fc<1> _n3fc<0> _n3fd
+- - 0 0 UP
+- - 0 1 =direction<*1*>
+- - 1 0 =direction<*2*>
+- - 1 1 UP
+.mv _n3fe 2 UP DOWN 
+.names _n3fe
+UP
+# direction [1] == 0
+.names _n3fd _n3fe _n3fb
+.def 0
+- =_n3fd 1
+# (locations [1] != 3 - 1) && (direction [1] == 0)
+.names _n3f0 _n3fb _n3ff
+.def 0
+1 1 1
+.names _n401<0>
+1
+.names _n401<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n401<1> _n401<0> _n402<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n401<1> _n401<0> _n402<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n403<0>
+1
+.names _n403<1>
+0
+# locations [1] + 1
+.names _n405
+0
+.names _n402<0> _n403<0> _n405 _n404<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n407
+0
+.names _n402<0> _n403<0> _n407 _n406
+.def 0
+0 1 1 1
+1 0 1 1
+1 1 0 1
+1 1 1 1
+.names _n402<1> _n403<1> _n406 _n404<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.mv _n408 2 ON OFF 
+.names up_floor_buttons<*0*> up_floor_buttons<*1*> up_floor_buttons<*2*> _n404<1> _n404<0> _n408
+- - - 0 0 =up_floor_buttons<*0*>
+- - - 0 1 =up_floor_buttons<*1*>
+- - - 1 0 =up_floor_buttons<*2*>
+- - - 1 1 ON
+.mv _n409 2 ON OFF 
+.names _n409
+ON
+# up_floor_buttons [locations [1] + 1] == 0
+.names _n408 _n409 _n400
+.def 0
+- =_n408 1
+.names _n40a<1>
+1
+.names _n40b<1>
+0
+# (up_floor_buttons [locations [1] + 1] == 0) ? 1 : 0
+.names _n40a<1> _n40b<1> _n400 _n40c<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n40f<0>
+1
+.names _n40f<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n40f<1> _n40f<0> _n410<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n40f<1> _n40f<0> _n410<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n411<0>
+0
+.names _n411<1>
+0
+# locations [1] != 0
+.names _n410<0> _n411<0> _n412<0>
+.def 0
+0 1 1
+1 0 1
+.names _n410<1> _n411<1> _n412<1>
+.def 0
+0 1 1
+1 0 1
+.names _n412<0> _n412<1> _n413
+.def 1
+0 0 0
+.names _n413 _n40e
+- =_n413
+.names _n415<0>
+1
+.names _n415<1>
+0
+.mv _n416 2 UP DOWN 
+.names direction<*1*> direction<*2*> _n415<1> _n415<0> _n416
+- - 0 0 UP
+- - 0 1 =direction<*1*>
+- - 1 0 =direction<*2*>
+- - 1 1 UP
+.mv _n417 2 UP DOWN 
+.names _n417
+DOWN
+# direction [1] == 1
+.names _n416 _n417 _n414
+.def 0
+- =_n416 1
+# (locations [1] != 0) && (direction [1] == 1)
+.names _n40e _n414 _n418
+.def 0
+1 1 1
+.names _n41a<0>
+1
+.names _n41a<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n41a<1> _n41a<0> _n41b<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n41a<1> _n41a<0> _n41b<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n41c<0>
+1
+.names _n41c<1>
+0
+# locations [1] - 1
+.names _n41e
+0
+.names _n41b<0> _n41c<0> _n41e _n41d<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n420
+0
+.names _n41b<0> _n41c<0> _n420 _n41f
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n41b<1> _n41c<1> _n41f _n41d<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.mv _n421 2 ON OFF 
+.names down_floor_buttons<*0*> down_floor_buttons<*1*> down_floor_buttons<*2*> _n41d<1> _n41d<0> _n421
+- - - 0 0 =down_floor_buttons<*0*>
+- - - 0 1 =down_floor_buttons<*1*>
+- - - 1 0 =down_floor_buttons<*2*>
+- - - 1 1 ON
+.mv _n422 2 ON OFF 
+.names _n422
+ON
+# down_floor_buttons [locations [1] - 1] == 0
+.names _n421 _n422 _n419
+.def 0
+- =_n421 1
+.names _n423<1>
+1
+.names _n424<1>
+0
+# (down_floor_buttons [locations [1] - 1] == 0) ? 1 : 0
+.names _n423<1> _n424<1> _n419 _n425<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n427<1>
+0
+# ((locations [1] != 0) && (direction [1] == 1)) ? ((down_floor_buttons [locations [1] - 1] == 0) ? 1 : 0) : 0
+.names _n425<1> _n427<1> _n418 _n428<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+# ((locations [1] != 3 - 1) && (direction [1] == 0)) ? ((up_floor_buttons [locations [1] + 1] == 0) ? 1 : 0) : (((locations [1] != 0) && (direction [1] == 1)) ? ((down_floor_buttons [locations [1] - 1] == 0) ? 1 : 0) : 0)
+.names _n40c<1> _n428<1> _n3ff _n42a<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n42a<1> stop_next$raw_n3ef<1>
+- =_n42a<1>
+# assign stop_next [2] = ((locations [2] != 3 - 1) && (direction [2] == UP )) ? ((up_floor_buttons [locations [2] + 1] == ON ) ? 1 : 0) : (((locations [2] != 0) && (direction [2] == DOWN )) ? ((down_floor_buttons [locations [2] - 1] == ON ) ? 1 : 0) : 0)
+.names _n42e<0>
+0
+.names _n42e<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n42e<1> _n42e<0> _n42f<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n42e<1> _n42e<0> _n42f<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n430<0>
+1
+.names _n430<1>
+1
+.names _n431<0>
+1
+.names _n431<1>
+0
+# 3 - 1
+.names _n433
+0
+.names _n430<0> _n431<0> _n433 _n432<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n435
+0
+.names _n430<0> _n431<0> _n435 _n434
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n430<1> _n431<1> _n434 _n432<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# locations [2] != 3 - 1
+.names _n42f<0> _n432<0> _n436<0>
+.def 0
+0 1 1
+1 0 1
+.names _n42f<1> _n432<1> _n436<1>
+.def 0
+0 1 1
+1 0 1
+.names _n436<0> _n436<1> _n437
+.def 1
+0 0 0
+.names _n437 _n42d
+- =_n437
+.names _n439<0>
+0
+.names _n439<1>
+1
+.mv _n43a 2 UP DOWN 
+.names direction<*1*> direction<*2*> _n439<1> _n439<0> _n43a
+- - 0 0 UP
+- - 0 1 =direction<*1*>
+- - 1 0 =direction<*2*>
+- - 1 1 UP
+.mv _n43b 2 UP DOWN 
+.names _n43b
+UP
+# direction [2] == 0
+.names _n43a _n43b _n438
+.def 0
+- =_n43a 1
+# (locations [2] != 3 - 1) && (direction [2] == 0)
+.names _n42d _n438 _n43c
+.def 0
+1 1 1
+.names _n43e<0>
+0
+.names _n43e<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n43e<1> _n43e<0> _n43f<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n43e<1> _n43e<0> _n43f<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n440<0>
+1
+.names _n440<1>
+0
+# locations [2] + 1
+.names _n442
+0
+.names _n43f<0> _n440<0> _n442 _n441<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n444
+0
+.names _n43f<0> _n440<0> _n444 _n443
+.def 0
+0 1 1 1
+1 0 1 1
+1 1 0 1
+1 1 1 1
+.names _n43f<1> _n440<1> _n443 _n441<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.mv _n445 2 ON OFF 
+.names up_floor_buttons<*0*> up_floor_buttons<*1*> up_floor_buttons<*2*> _n441<1> _n441<0> _n445
+- - - 0 0 =up_floor_buttons<*0*>
+- - - 0 1 =up_floor_buttons<*1*>
+- - - 1 0 =up_floor_buttons<*2*>
+- - - 1 1 ON
+.mv _n446 2 ON OFF 
+.names _n446
+ON
+# up_floor_buttons [locations [2] + 1] == 0
+.names _n445 _n446 _n43d
+.def 0
+- =_n445 1
+.names _n447<2>
+1
+.names _n448<2>
+0
+# (up_floor_buttons [locations [2] + 1] == 0) ? 1 : 0
+.names _n447<2> _n448<2> _n43d _n449<2>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n44c<0>
+0
+.names _n44c<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n44c<1> _n44c<0> _n44d<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n44c<1> _n44c<0> _n44d<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n44e<0>
+0
+.names _n44e<1>
+0
+# locations [2] != 0
+.names _n44d<0> _n44e<0> _n44f<0>
+.def 0
+0 1 1
+1 0 1
+.names _n44d<1> _n44e<1> _n44f<1>
+.def 0
+0 1 1
+1 0 1
+.names _n44f<0> _n44f<1> _n450
+.def 1
+0 0 0
+.names _n450 _n44b
+- =_n450
+.names _n452<0>
+0
+.names _n452<1>
+1
+.mv _n453 2 UP DOWN 
+.names direction<*1*> direction<*2*> _n452<1> _n452<0> _n453
+- - 0 0 UP
+- - 0 1 =direction<*1*>
+- - 1 0 =direction<*2*>
+- - 1 1 UP
+.mv _n454 2 UP DOWN 
+.names _n454
+DOWN
+# direction [2] == 1
+.names _n453 _n454 _n451
+.def 0
+- =_n453 1
+# (locations [2] != 0) && (direction [2] == 1)
+.names _n44b _n451 _n455
+.def 0
+1 1 1
+.names _n457<0>
+0
+.names _n457<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n457<1> _n457<0> _n458<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n457<1> _n457<0> _n458<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n459<0>
+1
+.names _n459<1>
+0
+# locations [2] - 1
+.names _n45b
+0
+.names _n458<0> _n459<0> _n45b _n45a<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n45d
+0
+.names _n458<0> _n459<0> _n45d _n45c
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n458<1> _n459<1> _n45c _n45a<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.mv _n45e 2 ON OFF 
+.names down_floor_buttons<*0*> down_floor_buttons<*1*> down_floor_buttons<*2*> _n45a<1> _n45a<0> _n45e
+- - - 0 0 =down_floor_buttons<*0*>
+- - - 0 1 =down_floor_buttons<*1*>
+- - - 1 0 =down_floor_buttons<*2*>
+- - - 1 1 ON
+.mv _n45f 2 ON OFF 
+.names _n45f
+ON
+# down_floor_buttons [locations [2] - 1] == 0
+.names _n45e _n45f _n456
+.def 0
+- =_n45e 1
+.names _n460<2>
+1
+.names _n461<2>
+0
+# (down_floor_buttons [locations [2] - 1] == 0) ? 1 : 0
+.names _n460<2> _n461<2> _n456 _n462<2>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n464<2>
+0
+# ((locations [2] != 0) && (direction [2] == 1)) ? ((down_floor_buttons [locations [2] - 1] == 0) ? 1 : 0) : 0
+.names _n462<2> _n464<2> _n455 _n465<2>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+# ((locations [2] != 3 - 1) && (direction [2] == 0)) ? ((up_floor_buttons [locations [2] + 1] == 0) ? 1 : 0) : (((locations [2] != 0) && (direction [2] == 1)) ? ((down_floor_buttons [locations [2] - 1] == 0) ? 1 : 0) : 0)
+.names _n449<2> _n465<2> _n43c _n467<2>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n467<2> stop_next$raw_n42c<2>
+- =_n467<2>
+# assign random_up [0] = $NDset ( 0,1 ) 
+# .names -> random_up<0> 
+# 0 
+# 1 
+# assign random_down [0] = $NDset ( 0,1 ) 
+#.names -> random_down<0> 
+#0 
+#1 
+# assign random_up [1] = $NDset ( 0,1 ) 
+#.names -> random_up<1> 
+#0 
+#1 
+# assign random_down [1] = $NDset ( 0,1 ) 
+#.names -> random_down<1> 
+#0 
+#1 
+# assign random_up [2] = $NDset ( 0,1 ) 
+#.names -> random_up<2> 
+#0 
+#1 
+# assign random_down [2] = $NDset ( 0,1 ) 
+#.names -> random_down<2> 
+#0 
+#1 
+.names random_up<0> _n476
+.def 1
+0 0
+.names _n476 _n475
+- =_n476
+# up_floor_buttons [0] = 0
+.mv up_floor_buttons$random_up_n477$true<*0*> 2 ON OFF 
+.mv up_floor_buttons$random_up_n477$true<*1*> 2 ON OFF 
+.mv up_floor_buttons$random_up_n477$true<*2*> 2 ON OFF 
+.mv _n478 2 ON OFF 
+.names _n479<0>
+0
+.names _n479<1>
+0
+.names _n47a<0>
+0
+.names _n47a<1>
+0
+.names _n47a<0> _n479<0> _n47c<0>
+.def 0
+0 1 1
+1 0 1
+.names _n47a<1> _n479<1> _n47c<1>
+.def 0
+0 1 1
+1 0 1
+.names _n47c<0> _n47c<1> _n47d
+.def 1
+0 0 0
+.names _n47d _n47b
+0 1  
+1 0  
+.names _n478 up_floor_buttons<*0*> _n47b up_floor_buttons$random_up_n477$true<*0*>
+- - 0 =up_floor_buttons<*0*>
+- - 1 =_n478
+.names _n47e<0>
+1
+.names _n47e<1>
+0
+.names _n47e<0> _n479<0> _n480<0>
+.def 0
+0 1 1
+1 0 1
+.names _n47e<1> _n479<1> _n480<1>
+.def 0
+0 1 1
+1 0 1
+.names _n480<0> _n480<1> _n481
+.def 1
+0 0 0
+.names _n481 _n47f
+0 1  
+1 0  
+.names _n478 up_floor_buttons<*1*> _n47f up_floor_buttons$random_up_n477$true<*1*>
+- - 0 =up_floor_buttons<*1*>
+- - 1 =_n478
+.names _n482<0>
+0
+.names _n482<1>
+1
+.names _n482<0> _n479<0> _n484<0>
+.def 0
+0 1 1
+1 0 1
+.names _n482<1> _n479<1> _n484<1>
+.def 0
+0 1 1
+1 0 1
+.names _n484<0> _n484<1> _n485
+.def 1
+0 0 0
+.names _n485 _n483
+0 1  
+1 0  
+.names _n478 up_floor_buttons<*2*> _n483 up_floor_buttons$random_up_n477$true<*2*>
+- - 0 =up_floor_buttons<*2*>
+- - 1 =_n478
+.names _n478
+ON
+# if/else (random_up [0])
+.mv up_floor_buttons$random_up$raw_n488<*0*> 2 ON OFF 
+.mv up_floor_buttons$random_up$raw_n488<*1*> 2 ON OFF 
+.mv up_floor_buttons$random_up$raw_n488<*2*> 2 ON OFF 
+.names random_up<0> _n489
+.def 1
+0 0
+.names up_floor_buttons$random_up_n477$true<*0*> up_floor_buttons<*0*> _n489 up_floor_buttons$random_up$raw_n488<*0*>
+- - 0 =up_floor_buttons<*0*>
+- - 1 =up_floor_buttons$random_up_n477$true<*0*>
+.names up_floor_buttons$random_up_n477$true<*1*> up_floor_buttons<*1*> _n489 up_floor_buttons$random_up$raw_n488<*1*>
+- - 0 =up_floor_buttons<*1*>
+- - 1 =up_floor_buttons$random_up_n477$true<*1*>
+.names up_floor_buttons$random_up_n477$true<*2*> up_floor_buttons<*2*> _n489 up_floor_buttons$random_up$raw_n488<*2*>
+- - 0 =up_floor_buttons<*2*>
+- - 1 =up_floor_buttons$random_up_n477$true<*2*>
+.names random_down<0> _n48b
+.def 1
+0 0
+.names _n48b _n48a
+- =_n48b
+# down_floor_buttons [0] = 0
+.mv down_floor_buttons$random_down_n48c$true<*0*> 2 ON OFF 
+.mv down_floor_buttons$random_down_n48c$true<*1*> 2 ON OFF 
+.mv down_floor_buttons$random_down_n48c$true<*2*> 2 ON OFF 
+.mv _n48d 2 ON OFF 
+.names _n48e<0>
+0
+.names _n48e<1>
+0
+.names _n48f<0>
+0
+.names _n48f<1>
+0
+.names _n48f<0> _n48e<0> _n491<0>
+.def 0
+0 1 1
+1 0 1
+.names _n48f<1> _n48e<1> _n491<1>
+.def 0
+0 1 1
+1 0 1
+.names _n491<0> _n491<1> _n492
+.def 1
+0 0 0
+.names _n492 _n490
+0 1  
+1 0  
+.names _n48d down_floor_buttons<*0*> _n490 down_floor_buttons$random_down_n48c$true<*0*>
+- - 0 =down_floor_buttons<*0*>
+- - 1 =_n48d
+.names _n493<0>
+1
+.names _n493<1>
+0
+.names _n493<0> _n48e<0> _n495<0>
+.def 0
+0 1 1
+1 0 1
+.names _n493<1> _n48e<1> _n495<1>
+.def 0
+0 1 1
+1 0 1
+.names _n495<0> _n495<1> _n496
+.def 1
+0 0 0
+.names _n496 _n494
+0 1  
+1 0  
+.names _n48d down_floor_buttons<*1*> _n494 down_floor_buttons$random_down_n48c$true<*1*>
+- - 0 =down_floor_buttons<*1*>
+- - 1 =_n48d
+.names _n497<0>
+0
+.names _n497<1>
+1
+.names _n497<0> _n48e<0> _n499<0>
+.def 0
+0 1 1
+1 0 1
+.names _n497<1> _n48e<1> _n499<1>
+.def 0
+0 1 1
+1 0 1
+.names _n499<0> _n499<1> _n49a
+.def 1
+0 0 0
+.names _n49a _n498
+0 1  
+1 0  
+.names _n48d down_floor_buttons<*2*> _n498 down_floor_buttons$random_down_n48c$true<*2*>
+- - 0 =down_floor_buttons<*2*>
+- - 1 =_n48d
+.names _n48d
+ON
+# if/else (random_down [0])
+.mv down_floor_buttons$random_down$raw_n49f<*0*> 2 ON OFF 
+.mv down_floor_buttons$random_down$raw_n49f<*1*> 2 ON OFF 
+.mv down_floor_buttons$random_down$raw_n49f<*2*> 2 ON OFF 
+.names random_down<0> _n4a0
+.def 1
+0 0
+.names down_floor_buttons$random_down_n48c$true<*0*> down_floor_buttons<*0*> _n4a0 down_floor_buttons$random_down$raw_n49f<*0*>
+- - 0 =down_floor_buttons<*0*>
+- - 1 =down_floor_buttons$random_down_n48c$true<*0*>
+.names down_floor_buttons$random_down_n48c$true<*1*> down_floor_buttons<*1*> _n4a0 down_floor_buttons$random_down$raw_n49f<*1*>
+- - 0 =down_floor_buttons<*1*>
+- - 1 =down_floor_buttons$random_down_n48c$true<*1*>
+.names down_floor_buttons$random_down_n48c$true<*2*> down_floor_buttons<*2*> _n4a0 down_floor_buttons$random_down$raw_n49f<*2*>
+- - 0 =down_floor_buttons<*2*>
+- - 1 =down_floor_buttons$random_down_n48c$true<*2*>
+.names random_up<1> _n4a4
+.def 1
+0 0
+.names _n4a4 _n4a3
+- =_n4a4
+# up_floor_buttons [1] = 0
+.mv up_floor_buttons$random_up_n4a5$true<*0*> 2 ON OFF 
+.mv up_floor_buttons$random_up_n4a5$true<*1*> 2 ON OFF 
+.mv up_floor_buttons$random_up_n4a5$true<*2*> 2 ON OFF 
+.mv _n4a6 2 ON OFF 
+.names _n4a7<0>
+1
+.names _n4a7<1>
+0
+.names _n4a8<0>
+0
+.names _n4a8<1>
+0
+.names _n4a8<0> _n4a7<0> _n4aa<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4a8<1> _n4a7<1> _n4aa<1>
+.def 0
+0 1 1
+1 0 1
+.names _n4aa<0> _n4aa<1> _n4ab
+.def 1
+0 0 0
+.names _n4ab _n4a9
+0 1  
+1 0  
+.names _n4a6 up_floor_buttons$random_up$raw_n488<*0*> _n4a9 up_floor_buttons$random_up_n4a5$true<*0*>
+- - 0 =up_floor_buttons$random_up$raw_n488<*0*>
+- - 1 =_n4a6
+.names _n4ac<0>
+1
+.names _n4ac<1>
+0
+.names _n4ac<0> _n4a7<0> _n4ae<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4ac<1> _n4a7<1> _n4ae<1>
+.def 0
+0 1 1
+1 0 1
+.names _n4ae<0> _n4ae<1> _n4af
+.def 1
+0 0 0
+.names _n4af _n4ad
+0 1  
+1 0  
+.names _n4a6 up_floor_buttons$random_up$raw_n488<*1*> _n4ad up_floor_buttons$random_up_n4a5$true<*1*>
+- - 0 =up_floor_buttons$random_up$raw_n488<*1*>
+- - 1 =_n4a6
+.names _n4b0<0>
+0
+.names _n4b0<1>
+1
+.names _n4b0<0> _n4a7<0> _n4b2<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4b0<1> _n4a7<1> _n4b2<1>
+.def 0
+0 1 1
+1 0 1
+.names _n4b2<0> _n4b2<1> _n4b3
+.def 1
+0 0 0
+.names _n4b3 _n4b1
+0 1  
+1 0  
+.names _n4a6 up_floor_buttons$random_up$raw_n488<*2*> _n4b1 up_floor_buttons$random_up_n4a5$true<*2*>
+- - 0 =up_floor_buttons$random_up$raw_n488<*2*>
+- - 1 =_n4a6
+.names _n4a6
+ON
+# if/else (random_up [1])
+.mv up_floor_buttons$random_up$raw_n4b5<*0*> 2 ON OFF 
+.mv up_floor_buttons$random_up$raw_n4b5<*1*> 2 ON OFF 
+.mv up_floor_buttons$random_up$raw_n4b5<*2*> 2 ON OFF 
+.names random_up<1> _n4b6
+.def 1
+0 0
+.names up_floor_buttons$random_up_n4a5$true<*0*> up_floor_buttons$random_up$raw_n488<*0*> _n4b6 up_floor_buttons$random_up$raw_n4b5<*0*>
+- - 0 =up_floor_buttons$random_up$raw_n488<*0*>
+- - 1 =up_floor_buttons$random_up_n4a5$true<*0*>
+.names up_floor_buttons$random_up_n4a5$true<*1*> up_floor_buttons$random_up$raw_n488<*1*> _n4b6 up_floor_buttons$random_up$raw_n4b5<*1*>
+- - 0 =up_floor_buttons$random_up$raw_n488<*1*>
+- - 1 =up_floor_buttons$random_up_n4a5$true<*1*>
+.names up_floor_buttons$random_up_n4a5$true<*2*> up_floor_buttons$random_up$raw_n488<*2*> _n4b6 up_floor_buttons$random_up$raw_n4b5<*2*>
+- - 0 =up_floor_buttons$random_up$raw_n488<*2*>
+- - 1 =up_floor_buttons$random_up_n4a5$true<*2*>
+.names random_down<1> _n4be
+.def 1
+0 0
+.names _n4be _n4bd
+- =_n4be
+# down_floor_buttons [1] = 0
+.mv down_floor_buttons$random_down_n4bf$true<*0*> 2 ON OFF 
+.mv down_floor_buttons$random_down_n4bf$true<*1*> 2 ON OFF 
+.mv down_floor_buttons$random_down_n4bf$true<*2*> 2 ON OFF 
+.mv _n4c0 2 ON OFF 
+.names _n4c1<0>
+1
+.names _n4c1<1>
+0
+.names _n4c2<0>
+0
+.names _n4c2<1>
+0
+.names _n4c2<0> _n4c1<0> _n4c4<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4c2<1> _n4c1<1> _n4c4<1>
+.def 0
+0 1 1
+1 0 1
+.names _n4c4<0> _n4c4<1> _n4c5
+.def 1
+0 0 0
+.names _n4c5 _n4c3
+0 1  
+1 0  
+.names _n4c0 down_floor_buttons$random_down$raw_n49f<*0*> _n4c3 down_floor_buttons$random_down_n4bf$true<*0*>
+- - 0 =down_floor_buttons$random_down$raw_n49f<*0*>
+- - 1 =_n4c0
+.names _n4c6<0>
+1
+.names _n4c6<1>
+0
+.names _n4c6<0> _n4c1<0> _n4c8<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4c6<1> _n4c1<1> _n4c8<1>
+.def 0
+0 1 1
+1 0 1
+.names _n4c8<0> _n4c8<1> _n4c9
+.def 1
+0 0 0
+.names _n4c9 _n4c7
+0 1  
+1 0  
+.names _n4c0 down_floor_buttons$random_down$raw_n49f<*1*> _n4c7 down_floor_buttons$random_down_n4bf$true<*1*>
+- - 0 =down_floor_buttons$random_down$raw_n49f<*1*>
+- - 1 =_n4c0
+.names _n4ca<0>
+0
+.names _n4ca<1>
+1
+.names _n4ca<0> _n4c1<0> _n4cc<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4ca<1> _n4c1<1> _n4cc<1>
+.def 0
+0 1 1
+1 0 1
+.names _n4cc<0> _n4cc<1> _n4cd
+.def 1
+0 0 0
+.names _n4cd _n4cb
+0 1  
+1 0  
+.names _n4c0 down_floor_buttons$random_down$raw_n49f<*2*> _n4cb down_floor_buttons$random_down_n4bf$true<*2*>
+- - 0 =down_floor_buttons$random_down$raw_n49f<*2*>
+- - 1 =_n4c0
+.names _n4c0
+ON
+# if/else (random_down [1])
+.mv down_floor_buttons$random_down$raw_n4ce<*0*> 2 ON OFF 
+.mv down_floor_buttons$random_down$raw_n4ce<*1*> 2 ON OFF 
+.mv down_floor_buttons$random_down$raw_n4ce<*2*> 2 ON OFF 
+.names random_down<1> _n4cf
+.def 1
+0 0
+.names down_floor_buttons$random_down_n4bf$true<*0*> down_floor_buttons$random_down$raw_n49f<*0*> _n4cf down_floor_buttons$random_down$raw_n4ce<*0*>
+- - 0 =down_floor_buttons$random_down$raw_n49f<*0*>
+- - 1 =down_floor_buttons$random_down_n4bf$true<*0*>
+.names down_floor_buttons$random_down_n4bf$true<*1*> down_floor_buttons$random_down$raw_n49f<*1*> _n4cf down_floor_buttons$random_down$raw_n4ce<*1*>
+- - 0 =down_floor_buttons$random_down$raw_n49f<*1*>
+- - 1 =down_floor_buttons$random_down_n4bf$true<*1*>
+.names down_floor_buttons$random_down_n4bf$true<*2*> down_floor_buttons$random_down$raw_n49f<*2*> _n4cf down_floor_buttons$random_down$raw_n4ce<*2*>
+- - 0 =down_floor_buttons$random_down$raw_n49f<*2*>
+- - 1 =down_floor_buttons$random_down_n4bf$true<*2*>
+.names random_up<2> _n4d8
+.def 1
+0 0
+.names _n4d8 _n4d7
+- =_n4d8
+# up_floor_buttons [2] = 0
+.mv up_floor_buttons$random_up_n4d9$true<*0*> 2 ON OFF 
+.mv up_floor_buttons$random_up_n4d9$true<*1*> 2 ON OFF 
+.mv up_floor_buttons$random_up_n4d9$true<*2*> 2 ON OFF 
+.mv _n4da 2 ON OFF 
+.names _n4db<0>
+0
+.names _n4db<1>
+1
+.names _n4dc<0>
+0
+.names _n4dc<1>
+0
+.names _n4dc<0> _n4db<0> _n4de<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4dc<1> _n4db<1> _n4de<1>
+.def 0
+0 1 1
+1 0 1
+.names _n4de<0> _n4de<1> _n4df
+.def 1
+0 0 0
+.names _n4df _n4dd
+0 1  
+1 0  
+.names _n4da up_floor_buttons$random_up$raw_n4b5<*0*> _n4dd up_floor_buttons$random_up_n4d9$true<*0*>
+- - 0 =up_floor_buttons$random_up$raw_n4b5<*0*>
+- - 1 =_n4da
+.names _n4e0<0>
+1
+.names _n4e0<1>
+0
+.names _n4e0<0> _n4db<0> _n4e2<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4e0<1> _n4db<1> _n4e2<1>
+.def 0
+0 1 1
+1 0 1
+.names _n4e2<0> _n4e2<1> _n4e3
+.def 1
+0 0 0
+.names _n4e3 _n4e1
+0 1  
+1 0  
+.names _n4da up_floor_buttons$random_up$raw_n4b5<*1*> _n4e1 up_floor_buttons$random_up_n4d9$true<*1*>
+- - 0 =up_floor_buttons$random_up$raw_n4b5<*1*>
+- - 1 =_n4da
+.names _n4e4<0>
+0
+.names _n4e4<1>
+1
+.names _n4e4<0> _n4db<0> _n4e6<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4e4<1> _n4db<1> _n4e6<1>
+.def 0
+0 1 1
+1 0 1
+.names _n4e6<0> _n4e6<1> _n4e7
+.def 1
+0 0 0
+.names _n4e7 _n4e5
+0 1  
+1 0  
+.names _n4da up_floor_buttons$random_up$raw_n4b5<*2*> _n4e5 up_floor_buttons$random_up_n4d9$true<*2*>
+- - 0 =up_floor_buttons$random_up$raw_n4b5<*2*>
+- - 1 =_n4da
+.names _n4da
+ON
+# if/else (random_up [2])
+.mv up_floor_buttons$random_up$raw_n4e9<*0*> 2 ON OFF 
+.mv up_floor_buttons$random_up$raw_n4e9<*1*> 2 ON OFF 
+.mv up_floor_buttons$random_up$raw_n4e9<*2*> 2 ON OFF 
+.names random_up<2> _n4ea
+.def 1
+0 0
+.names up_floor_buttons$random_up_n4d9$true<*0*> up_floor_buttons$random_up$raw_n4b5<*0*> _n4ea up_floor_buttons$random_up$raw_n4e9<*0*>
+- - 0 =up_floor_buttons$random_up$raw_n4b5<*0*>
+- - 1 =up_floor_buttons$random_up_n4d9$true<*0*>
+.names up_floor_buttons$random_up_n4d9$true<*1*> up_floor_buttons$random_up$raw_n4b5<*1*> _n4ea up_floor_buttons$random_up$raw_n4e9<*1*>
+- - 0 =up_floor_buttons$random_up$raw_n4b5<*1*>
+- - 1 =up_floor_buttons$random_up_n4d9$true<*1*>
+.names up_floor_buttons$random_up_n4d9$true<*2*> up_floor_buttons$random_up$raw_n4b5<*2*> _n4ea up_floor_buttons$random_up$raw_n4e9<*2*>
+- - 0 =up_floor_buttons$random_up$raw_n4b5<*2*>
+- - 1 =up_floor_buttons$random_up_n4d9$true<*2*>
+.names random_down<2> _n4f2
+.def 1
+0 0
+.names _n4f2 _n4f1
+- =_n4f2
+# down_floor_buttons [2] = 0
+.mv down_floor_buttons$random_down_n4f3$true<*0*> 2 ON OFF 
+.mv down_floor_buttons$random_down_n4f3$true<*1*> 2 ON OFF 
+.mv down_floor_buttons$random_down_n4f3$true<*2*> 2 ON OFF 
+.mv _n4f4 2 ON OFF 
+.names _n4f5<0>
+0
+.names _n4f5<1>
+1
+.names _n4f6<0>
+0
+.names _n4f6<1>
+0
+.names _n4f6<0> _n4f5<0> _n4f8<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4f6<1> _n4f5<1> _n4f8<1>
+.def 0
+0 1 1
+1 0 1
+.names _n4f8<0> _n4f8<1> _n4f9
+.def 1
+0 0 0
+.names _n4f9 _n4f7
+0 1  
+1 0  
+.names _n4f4 down_floor_buttons$random_down$raw_n4ce<*0*> _n4f7 down_floor_buttons$random_down_n4f3$true<*0*>
+- - 0 =down_floor_buttons$random_down$raw_n4ce<*0*>
+- - 1 =_n4f4
+.names _n4fa<0>
+1
+.names _n4fa<1>
+0
+.names _n4fa<0> _n4f5<0> _n4fc<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4fa<1> _n4f5<1> _n4fc<1>
+.def 0
+0 1 1
+1 0 1
+.names _n4fc<0> _n4fc<1> _n4fd
+.def 1
+0 0 0
+.names _n4fd _n4fb
+0 1  
+1 0  
+.names _n4f4 down_floor_buttons$random_down$raw_n4ce<*1*> _n4fb down_floor_buttons$random_down_n4f3$true<*1*>
+- - 0 =down_floor_buttons$random_down$raw_n4ce<*1*>
+- - 1 =_n4f4
+.names _n4fe<0>
+0
+.names _n4fe<1>
+1
+.names _n4fe<0> _n4f5<0> _n500<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4fe<1> _n4f5<1> _n500<1>
+.def 0
+0 1 1
+1 0 1
+.names _n500<0> _n500<1> _n501
+.def 1
+0 0 0
+.names _n501 _n4ff
+0 1  
+1 0  
+.names _n4f4 down_floor_buttons$random_down$raw_n4ce<*2*> _n4ff down_floor_buttons$random_down_n4f3$true<*2*>
+- - 0 =down_floor_buttons$random_down$raw_n4ce<*2*>
+- - 1 =_n4f4
+.names _n4f4
+ON
+# if/else (random_down [2])
+.mv down_floor_buttons$random_down$raw_n502<*0*> 2 ON OFF 
+.mv down_floor_buttons$random_down$raw_n502<*1*> 2 ON OFF 
+.mv down_floor_buttons$random_down$raw_n502<*2*> 2 ON OFF 
+.names random_down<2> _n503
+.def 1
+0 0
+.names down_floor_buttons$random_down_n4f3$true<*0*> down_floor_buttons$random_down$raw_n4ce<*0*> _n503 down_floor_buttons$random_down$raw_n502<*0*>
+- - 0 =down_floor_buttons$random_down$raw_n4ce<*0*>
+- - 1 =down_floor_buttons$random_down_n4f3$true<*0*>
+.names down_floor_buttons$random_down_n4f3$true<*1*> down_floor_buttons$random_down$raw_n4ce<*1*> _n503 down_floor_buttons$random_down$raw_n502<*1*>
+- - 0 =down_floor_buttons$random_down$raw_n4ce<*1*>
+- - 1 =down_floor_buttons$random_down_n4f3$true<*1*>
+.names down_floor_buttons$random_down_n4f3$true<*2*> down_floor_buttons$random_down$raw_n4ce<*2*> _n503 down_floor_buttons$random_down$raw_n502<*2*>
+- - 0 =down_floor_buttons$random_down$raw_n4ce<*2*>
+- - 1 =down_floor_buttons$random_down_n4f3$true<*2*>
+.names _n50c<0>
+1
+.names _n50c<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n50c<1> _n50c<0> _n50d<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n50c<1> _n50c<0> _n50d<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n50e<0>
+1
+.names _n50e<1>
+1
+.names _n50f<0>
+1
+.names _n50f<1>
+0
+# 3 - 1
+.names _n511
+0
+.names _n50e<0> _n50f<0> _n511 _n510<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n513
+0
+.names _n50e<0> _n50f<0> _n513 _n512
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n50e<1> _n50f<1> _n512 _n510<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# locations [1] != 3 - 1
+.names _n50d<0> _n510<0> _n514<0>
+.def 0
+0 1 1
+1 0 1
+.names _n50d<1> _n510<1> _n514<1>
+.def 0
+0 1 1
+1 0 1
+.names _n514<0> _n514<1> _n515
+.def 1
+0 0 0
+.names _n515 _n50b
+- =_n515
+.names _n517<0>
+1
+.names _n517<1>
+0
+.mv _n518 2 UP DOWN 
+.names direction<*1*> direction<*2*> _n517<1> _n517<0> _n518
+- - 0 0 UP
+- - 0 1 =direction<*1*>
+- - 1 0 =direction<*2*>
+- - 1 1 UP
+.mv _n519 2 UP DOWN 
+.names _n519
+UP
+# direction [1] == 0
+.names _n518 _n519 _n516
+.def 0
+- =_n518 1
+# (locations [1] != 3 - 1) && (direction [1] == 0)
+.names _n50b _n516 _n51a
+.def 0
+1 1 1
+.names _n51a _n51b
+- =_n51a
+.names _n51d<0>
+1
+.names _n51d<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n51d<1> _n51d<0> _n51e<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n51d<1> _n51d<0> _n51e<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n51f<0>
+1
+.names _n51f<1>
+0
+# locations [1] + 1
+.names _n521
+0
+.names _n51e<0> _n51f<0> _n521 _n520<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n523
+0
+.names _n51e<0> _n51f<0> _n523 _n522
+.def 0
+0 1 1 1
+1 0 1 1
+1 1 0 1
+1 1 1 1
+.names _n51e<1> _n51f<1> _n522 _n520<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.mv _n524 2 ON OFF 
+.names up_floor_buttons$random_up$raw_n4e9<*0*> up_floor_buttons$random_up$raw_n4e9<*1*> up_floor_buttons$random_up$raw_n4e9<*2*> _n520<1> _n520<0> _n524
+- - - 0 0 =up_floor_buttons$random_up$raw_n4e9<*0*>
+- - - 0 1 =up_floor_buttons$random_up$raw_n4e9<*1*>
+- - - 1 0 =up_floor_buttons$random_up$raw_n4e9<*2*>
+- - - 1 1 ON
+.mv _n525 2 ON OFF 
+.names _n525
+ON
+# up_floor_buttons [locations [1] + 1] == 0
+.names _n524 _n525 _n51c
+.def 0
+- =_n524 1
+.names _n51c _n526
+- =_n51c
+# up_floor_buttons [locations [1] + 1] = 1
+.mv up_floor_buttons$_n51c_n527$true<*0*> 2 ON OFF 
+.mv up_floor_buttons$_n51c_n527$true<*1*> 2 ON OFF 
+.mv up_floor_buttons$_n51c_n527$true<*2*> 2 ON OFF 
+.names _n528<0>
+1
+.names _n528<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n528<1> _n528<0> _n529<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n528<1> _n528<0> _n529<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n52a<0>
+1
+.names _n52a<1>
+0
+# locations [1] + 1
+.names _n52c
+0
+.names _n529<0> _n52a<0> _n52c _n52b<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n52e
+0
+.names _n529<0> _n52a<0> _n52e _n52d
+.def 0
+0 1 1 1
+1 0 1 1
+1 1 0 1
+1 1 1 1
+.names _n529<1> _n52a<1> _n52d _n52b<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.mv _n52f 2 ON OFF 
+.names _n530<0>
+0
+.names _n530<1>
+0
+.names _n530<0> _n52b<0> _n532<0>
+.def 0
+0 1 1
+1 0 1
+.names _n530<1> _n52b<1> _n532<1>
+.def 0
+0 1 1
+1 0 1
+.names _n532<0> _n532<1> _n533
+.def 1
+0 0 0
+.names _n533 _n531
+0 1  
+1 0  
+.names _n52f up_floor_buttons$random_up$raw_n4e9<*0*> _n531 up_floor_buttons$_n51c_n527$true<*0*>
+- - 0 =up_floor_buttons$random_up$raw_n4e9<*0*>
+- - 1 =_n52f
+.names _n534<0>
+1
+.names _n534<1>
+0
+.names _n534<0> _n52b<0> _n536<0>
+.def 0
+0 1 1
+1 0 1
+.names _n534<1> _n52b<1> _n536<1>
+.def 0
+0 1 1
+1 0 1
+.names _n536<0> _n536<1> _n537
+.def 1
+0 0 0
+.names _n537 _n535
+0 1  
+1 0  
+.names _n52f up_floor_buttons$random_up$raw_n4e9<*1*> _n535 up_floor_buttons$_n51c_n527$true<*1*>
+- - 0 =up_floor_buttons$random_up$raw_n4e9<*1*>
+- - 1 =_n52f
+.names _n538<0>
+0
+.names _n538<1>
+1
+.names _n538<0> _n52b<0> _n53a<0>
+.def 0
+0 1 1
+1 0 1
+.names _n538<1> _n52b<1> _n53a<1>
+.def 0
+0 1 1
+1 0 1
+.names _n53a<0> _n53a<1> _n53b
+.def 1
+0 0 0
+.names _n53b _n539
+0 1  
+1 0  
+.names _n52f up_floor_buttons$random_up$raw_n4e9<*2*> _n539 up_floor_buttons$_n51c_n527$true<*2*>
+- - 0 =up_floor_buttons$random_up$raw_n4e9<*2*>
+- - 1 =_n52f
+.names _n52f
+OFF
+# if/else (up_floor_buttons [locations [1] + 1] == 0)
+.mv up_floor_buttons$_n51c$raw_n53d<*0*> 2 ON OFF 
+.mv up_floor_buttons$_n51c$raw_n53d<*1*> 2 ON OFF 
+.mv up_floor_buttons$_n51c$raw_n53d<*2*> 2 ON OFF 
+.names up_floor_buttons$_n51c_n527$true<*0*> up_floor_buttons$random_up$raw_n4e9<*0*> _n51c up_floor_buttons$_n51c$raw_n53d<*0*>
+- - 0 =up_floor_buttons$random_up$raw_n4e9<*0*>
+- - 1 =up_floor_buttons$_n51c_n527$true<*0*>
+.names up_floor_buttons$_n51c_n527$true<*1*> up_floor_buttons$random_up$raw_n4e9<*1*> _n51c up_floor_buttons$_n51c$raw_n53d<*1*>
+- - 0 =up_floor_buttons$random_up$raw_n4e9<*1*>
+- - 1 =up_floor_buttons$_n51c_n527$true<*1*>
+.names up_floor_buttons$_n51c_n527$true<*2*> up_floor_buttons$random_up$raw_n4e9<*2*> _n51c up_floor_buttons$_n51c$raw_n53d<*2*>
+- - 0 =up_floor_buttons$random_up$raw_n4e9<*2*>
+- - 1 =up_floor_buttons$_n51c_n527$true<*2*>
+# if/else ((locations [1] != 3 - 1) && (direction [1] == 0))
+.mv up_floor_buttons$_n51a$raw_n545<*0*> 2 ON OFF 
+.mv up_floor_buttons$_n51a$raw_n545<*1*> 2 ON OFF 
+.mv up_floor_buttons$_n51a$raw_n545<*2*> 2 ON OFF 
+.names up_floor_buttons$_n51c$raw_n53d<*0*> up_floor_buttons$random_up$raw_n4e9<*0*> _n51a up_floor_buttons$_n51a$raw_n545<*0*>
+- - 0 =up_floor_buttons$random_up$raw_n4e9<*0*>
+- - 1 =up_floor_buttons$_n51c$raw_n53d<*0*>
+.names up_floor_buttons$_n51c$raw_n53d<*1*> up_floor_buttons$random_up$raw_n4e9<*1*> _n51a up_floor_buttons$_n51a$raw_n545<*1*>
+- - 0 =up_floor_buttons$random_up$raw_n4e9<*1*>
+- - 1 =up_floor_buttons$_n51c$raw_n53d<*1*>
+.names up_floor_buttons$_n51c$raw_n53d<*2*> up_floor_buttons$random_up$raw_n4e9<*2*> _n51a up_floor_buttons$_n51a$raw_n545<*2*>
+- - 0 =up_floor_buttons$random_up$raw_n4e9<*2*>
+- - 1 =up_floor_buttons$_n51c$raw_n53d<*2*>
+.names _n54d<0>
+1
+.names _n54d<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n54d<1> _n54d<0> _n54e<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n54d<1> _n54d<0> _n54e<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n54f<0>
+0
+.names _n54f<1>
+0
+# locations [1] != 0
+.names _n54e<0> _n54f<0> _n550<0>
+.def 0
+0 1 1
+1 0 1
+.names _n54e<1> _n54f<1> _n550<1>
+.def 0
+0 1 1
+1 0 1
+.names _n550<0> _n550<1> _n551
+.def 1
+0 0 0
+.names _n551 _n54c
+- =_n551
+.names _n553<0>
+1
+.names _n553<1>
+0
+.mv _n554 2 UP DOWN 
+.names direction<*1*> direction<*2*> _n553<1> _n553<0> _n554
+- - 0 0 UP
+- - 0 1 =direction<*1*>
+- - 1 0 =direction<*2*>
+- - 1 1 UP
+.mv _n555 2 UP DOWN 
+.names _n555
+DOWN
+# direction [1] == 1
+.names _n554 _n555 _n552
+.def 0
+- =_n554 1
+# (locations [1] != 0) && (direction [1] == 1)
+.names _n54c _n552 _n556
+.def 0
+1 1 1
+.names _n556 _n557
+- =_n556
+.names _n559<0>
+1
+.names _n559<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n559<1> _n559<0> _n55a<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n559<1> _n559<0> _n55a<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n55b<0>
+1
+.names _n55b<1>
+0
+# locations [1] - 1
+.names _n55d
+0
+.names _n55a<0> _n55b<0> _n55d _n55c<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n55f
+0
+.names _n55a<0> _n55b<0> _n55f _n55e
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n55a<1> _n55b<1> _n55e _n55c<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.mv _n560 2 ON OFF 
+.names down_floor_buttons$random_down$raw_n502<*0*> down_floor_buttons$random_down$raw_n502<*1*> down_floor_buttons$random_down$raw_n502<*2*> _n55c<1> _n55c<0> _n560
+- - - 0 0 =down_floor_buttons$random_down$raw_n502<*0*>
+- - - 0 1 =down_floor_buttons$random_down$raw_n502<*1*>
+- - - 1 0 =down_floor_buttons$random_down$raw_n502<*2*>
+- - - 1 1 ON
+.mv _n561 2 ON OFF 
+.names _n561
+ON
+# down_floor_buttons [locations [1] - 1] == 0
+.names _n560 _n561 _n558
+.def 0
+- =_n560 1
+.names _n558 _n562
+- =_n558
+# down_floor_buttons [locations [1] - 1] = 1
+.mv down_floor_buttons$_n558_n563$true<*0*> 2 ON OFF 
+.mv down_floor_buttons$_n558_n563$true<*1*> 2 ON OFF 
+.mv down_floor_buttons$_n558_n563$true<*2*> 2 ON OFF 
+.names _n564<0>
+1
+.names _n564<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n564<1> _n564<0> _n565<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n564<1> _n564<0> _n565<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n566<0>
+1
+.names _n566<1>
+0
+# locations [1] - 1
+.names _n568
+0
+.names _n565<0> _n566<0> _n568 _n567<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n56a
+0
+.names _n565<0> _n566<0> _n56a _n569
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n565<1> _n566<1> _n569 _n567<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.mv _n56b 2 ON OFF 
+.names _n56c<0>
+0
+.names _n56c<1>
+0
+.names _n56c<0> _n567<0> _n56e<0>
+.def 0
+0 1 1
+1 0 1
+.names _n56c<1> _n567<1> _n56e<1>
+.def 0
+0 1 1
+1 0 1
+.names _n56e<0> _n56e<1> _n56f
+.def 1
+0 0 0
+.names _n56f _n56d
+0 1  
+1 0  
+.names _n56b down_floor_buttons$random_down$raw_n502<*0*> _n56d down_floor_buttons$_n558_n563$true<*0*>
+- - 0 =down_floor_buttons$random_down$raw_n502<*0*>
+- - 1 =_n56b
+.names _n570<0>
+1
+.names _n570<1>
+0
+.names _n570<0> _n567<0> _n572<0>
+.def 0
+0 1 1
+1 0 1
+.names _n570<1> _n567<1> _n572<1>
+.def 0
+0 1 1
+1 0 1
+.names _n572<0> _n572<1> _n573
+.def 1
+0 0 0
+.names _n573 _n571
+0 1  
+1 0  
+.names _n56b down_floor_buttons$random_down$raw_n502<*1*> _n571 down_floor_buttons$_n558_n563$true<*1*>
+- - 0 =down_floor_buttons$random_down$raw_n502<*1*>
+- - 1 =_n56b
+.names _n574<0>
+0
+.names _n574<1>
+1
+.names _n574<0> _n567<0> _n576<0>
+.def 0
+0 1 1
+1 0 1
+.names _n574<1> _n567<1> _n576<1>
+.def 0
+0 1 1
+1 0 1
+.names _n576<0> _n576<1> _n577
+.def 1
+0 0 0
+.names _n577 _n575
+0 1  
+1 0  
+.names _n56b down_floor_buttons$random_down$raw_n502<*2*> _n575 down_floor_buttons$_n558_n563$true<*2*>
+- - 0 =down_floor_buttons$random_down$raw_n502<*2*>
+- - 1 =_n56b
+.names _n56b
+OFF
+# if/else (down_floor_buttons [locations [1] - 1] == 0)
+.mv down_floor_buttons$_n558$raw_n578<*0*> 2 ON OFF 
+.mv down_floor_buttons$_n558$raw_n578<*1*> 2 ON OFF 
+.mv down_floor_buttons$_n558$raw_n578<*2*> 2 ON OFF 
+.names down_floor_buttons$_n558_n563$true<*0*> down_floor_buttons$random_down$raw_n502<*0*> _n558 down_floor_buttons$_n558$raw_n578<*0*>
+- - 0 =down_floor_buttons$random_down$raw_n502<*0*>
+- - 1 =down_floor_buttons$_n558_n563$true<*0*>
+.names down_floor_buttons$_n558_n563$true<*1*> down_floor_buttons$random_down$raw_n502<*1*> _n558 down_floor_buttons$_n558$raw_n578<*1*>
+- - 0 =down_floor_buttons$random_down$raw_n502<*1*>
+- - 1 =down_floor_buttons$_n558_n563$true<*1*>
+.names down_floor_buttons$_n558_n563$true<*2*> down_floor_buttons$random_down$raw_n502<*2*> _n558 down_floor_buttons$_n558$raw_n578<*2*>
+- - 0 =down_floor_buttons$random_down$raw_n502<*2*>
+- - 1 =down_floor_buttons$_n558_n563$true<*2*>
+# if/else ((locations [1] != 0) && (direction [1] == 1))
+.mv down_floor_buttons$_n556$raw_n580<*0*> 2 ON OFF 
+.mv down_floor_buttons$_n556$raw_n580<*1*> 2 ON OFF 
+.mv down_floor_buttons$_n556$raw_n580<*2*> 2 ON OFF 
+.names down_floor_buttons$_n558$raw_n578<*0*> down_floor_buttons$random_down$raw_n502<*0*> _n556 down_floor_buttons$_n556$raw_n580<*0*>
+- - 0 =down_floor_buttons$random_down$raw_n502<*0*>
+- - 1 =down_floor_buttons$_n558$raw_n578<*0*>
+.names down_floor_buttons$_n558$raw_n578<*1*> down_floor_buttons$random_down$raw_n502<*1*> _n556 down_floor_buttons$_n556$raw_n580<*1*>
+- - 0 =down_floor_buttons$random_down$raw_n502<*1*>
+- - 1 =down_floor_buttons$_n558$raw_n578<*1*>
+.names down_floor_buttons$_n558$raw_n578<*2*> down_floor_buttons$random_down$raw_n502<*2*> _n556 down_floor_buttons$_n556$raw_n580<*2*>
+- - 0 =down_floor_buttons$random_down$raw_n502<*2*>
+- - 1 =down_floor_buttons$_n558$raw_n578<*2*>
+.names _n589<0>
+0
+.names _n589<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n589<1> _n589<0> _n58a<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n589<1> _n589<0> _n58a<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n58b<0>
+1
+.names _n58b<1>
+1
+.names _n58c<0>
+1
+.names _n58c<1>
+0
+# 3 - 1
+.names _n58e
+0
+.names _n58b<0> _n58c<0> _n58e _n58d<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n590
+0
+.names _n58b<0> _n58c<0> _n590 _n58f
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n58b<1> _n58c<1> _n58f _n58d<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# locations [2] != 3 - 1
+.names _n58a<0> _n58d<0> _n591<0>
+.def 0
+0 1 1
+1 0 1
+.names _n58a<1> _n58d<1> _n591<1>
+.def 0
+0 1 1
+1 0 1
+.names _n591<0> _n591<1> _n592
+.def 1
+0 0 0
+.names _n592 _n588
+- =_n592
+.names _n594<0>
+0
+.names _n594<1>
+1
+.mv _n595 2 UP DOWN 
+.names direction<*1*> direction<*2*> _n594<1> _n594<0> _n595
+- - 0 0 UP
+- - 0 1 =direction<*1*>
+- - 1 0 =direction<*2*>
+- - 1 1 UP
+.mv _n596 2 UP DOWN 
+.names _n596
+UP
+# direction [2] == 0
+.names _n595 _n596 _n593
+.def 0
+- =_n595 1
+# (locations [2] != 3 - 1) && (direction [2] == 0)
+.names _n588 _n593 _n597
+.def 0
+1 1 1
+.names _n597 _n598
+- =_n597
+.names _n59a<0>
+0
+.names _n59a<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n59a<1> _n59a<0> _n59b<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n59a<1> _n59a<0> _n59b<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n59c<0>
+1
+.names _n59c<1>
+0
+# locations [2] + 1
+.names _n59e
+0
+.names _n59b<0> _n59c<0> _n59e _n59d<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n5a0
+0
+.names _n59b<0> _n59c<0> _n5a0 _n59f
+.def 0
+0 1 1 1
+1 0 1 1
+1 1 0 1
+1 1 1 1
+.names _n59b<1> _n59c<1> _n59f _n59d<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.mv _n5a1 2 ON OFF 
+.names up_floor_buttons$_n51a$raw_n545<*0*> up_floor_buttons$_n51a$raw_n545<*1*> up_floor_buttons$_n51a$raw_n545<*2*> _n59d<1> _n59d<0> _n5a1
+- - - 0 0 =up_floor_buttons$_n51a$raw_n545<*0*>
+- - - 0 1 =up_floor_buttons$_n51a$raw_n545<*1*>
+- - - 1 0 =up_floor_buttons$_n51a$raw_n545<*2*>
+- - - 1 1 ON
+.mv _n5a2 2 ON OFF 
+.names _n5a2
+ON
+# up_floor_buttons [locations [2] + 1] == 0
+.names _n5a1 _n5a2 _n599
+.def 0
+- =_n5a1 1
+.names _n599 _n5a3
+- =_n599
+# up_floor_buttons [locations [2] + 1] = 1
+.mv up_floor_buttons$_n599_n5a4$true<*0*> 2 ON OFF 
+.mv up_floor_buttons$_n599_n5a4$true<*1*> 2 ON OFF 
+.mv up_floor_buttons$_n599_n5a4$true<*2*> 2 ON OFF 
+.names _n5a5<0>
+0
+.names _n5a5<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n5a5<1> _n5a5<0> _n5a6<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n5a5<1> _n5a5<0> _n5a6<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n5a7<0>
+1
+.names _n5a7<1>
+0
+# locations [2] + 1
+.names _n5a9
+0
+.names _n5a6<0> _n5a7<0> _n5a9 _n5a8<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n5ab
+0
+.names _n5a6<0> _n5a7<0> _n5ab _n5aa
+.def 0
+0 1 1 1
+1 0 1 1
+1 1 0 1
+1 1 1 1
+.names _n5a6<1> _n5a7<1> _n5aa _n5a8<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.mv _n5ac 2 ON OFF 
+.names _n5ad<0>
+0
+.names _n5ad<1>
+0
+.names _n5ad<0> _n5a8<0> _n5af<0>
+.def 0
+0 1 1
+1 0 1
+.names _n5ad<1> _n5a8<1> _n5af<1>
+.def 0
+0 1 1
+1 0 1
+.names _n5af<0> _n5af<1> _n5b0
+.def 1
+0 0 0
+.names _n5b0 _n5ae
+0 1  
+1 0  
+.names _n5ac up_floor_buttons$_n51a$raw_n545<*0*> _n5ae up_floor_buttons$_n599_n5a4$true<*0*>
+- - 0 =up_floor_buttons$_n51a$raw_n545<*0*>
+- - 1 =_n5ac
+.names _n5b1<0>
+1
+.names _n5b1<1>
+0
+.names _n5b1<0> _n5a8<0> _n5b3<0>
+.def 0
+0 1 1
+1 0 1
+.names _n5b1<1> _n5a8<1> _n5b3<1>
+.def 0
+0 1 1
+1 0 1
+.names _n5b3<0> _n5b3<1> _n5b4
+.def 1
+0 0 0
+.names _n5b4 _n5b2
+0 1  
+1 0  
+.names _n5ac up_floor_buttons$_n51a$raw_n545<*1*> _n5b2 up_floor_buttons$_n599_n5a4$true<*1*>
+- - 0 =up_floor_buttons$_n51a$raw_n545<*1*>
+- - 1 =_n5ac
+.names _n5b5<0>
+0
+.names _n5b5<1>
+1
+.names _n5b5<0> _n5a8<0> _n5b7<0>
+.def 0
+0 1 1
+1 0 1
+.names _n5b5<1> _n5a8<1> _n5b7<1>
+.def 0
+0 1 1
+1 0 1
+.names _n5b7<0> _n5b7<1> _n5b8
+.def 1
+0 0 0
+.names _n5b8 _n5b6
+0 1  
+1 0  
+.names _n5ac up_floor_buttons$_n51a$raw_n545<*2*> _n5b6 up_floor_buttons$_n599_n5a4$true<*2*>
+- - 0 =up_floor_buttons$_n51a$raw_n545<*2*>
+- - 1 =_n5ac
+.names _n5ac
+OFF
+# if/else (up_floor_buttons [locations [2] + 1] == 0)
+.mv up_floor_buttons$_n599$raw_n5ba<*0*> 2 ON OFF 
+.mv up_floor_buttons$_n599$raw_n5ba<*1*> 2 ON OFF 
+.mv up_floor_buttons$_n599$raw_n5ba<*2*> 2 ON OFF 
+.names up_floor_buttons$_n599_n5a4$true<*0*> up_floor_buttons$_n51a$raw_n545<*0*> _n599 up_floor_buttons$_n599$raw_n5ba<*0*>
+- - 0 =up_floor_buttons$_n51a$raw_n545<*0*>
+- - 1 =up_floor_buttons$_n599_n5a4$true<*0*>
+.names up_floor_buttons$_n599_n5a4$true<*1*> up_floor_buttons$_n51a$raw_n545<*1*> _n599 up_floor_buttons$_n599$raw_n5ba<*1*>
+- - 0 =up_floor_buttons$_n51a$raw_n545<*1*>
+- - 1 =up_floor_buttons$_n599_n5a4$true<*1*>
+.names up_floor_buttons$_n599_n5a4$true<*2*> up_floor_buttons$_n51a$raw_n545<*2*> _n599 up_floor_buttons$_n599$raw_n5ba<*2*>
+- - 0 =up_floor_buttons$_n51a$raw_n545<*2*>
+- - 1 =up_floor_buttons$_n599_n5a4$true<*2*>
+# if/else ((locations [2] != 3 - 1) && (direction [2] == 0))
+.mv up_floor_buttons$_n597$raw_n5c2<*0*> 2 ON OFF 
+.mv up_floor_buttons$_n597$raw_n5c2<*1*> 2 ON OFF 
+.mv up_floor_buttons$_n597$raw_n5c2<*2*> 2 ON OFF 
+.names up_floor_buttons$_n599$raw_n5ba<*0*> up_floor_buttons$_n51a$raw_n545<*0*> _n597 up_floor_buttons$_n597$raw_n5c2<*0*>
+- - 0 =up_floor_buttons$_n51a$raw_n545<*0*>
+- - 1 =up_floor_buttons$_n599$raw_n5ba<*0*>
+.names up_floor_buttons$_n599$raw_n5ba<*1*> up_floor_buttons$_n51a$raw_n545<*1*> _n597 up_floor_buttons$_n597$raw_n5c2<*1*>
+- - 0 =up_floor_buttons$_n51a$raw_n545<*1*>
+- - 1 =up_floor_buttons$_n599$raw_n5ba<*1*>
+.names up_floor_buttons$_n599$raw_n5ba<*2*> up_floor_buttons$_n51a$raw_n545<*2*> _n597 up_floor_buttons$_n597$raw_n5c2<*2*>
+- - 0 =up_floor_buttons$_n51a$raw_n545<*2*>
+- - 1 =up_floor_buttons$_n599$raw_n5ba<*2*>
+.names _n5ca<0>
+0
+.names _n5ca<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n5ca<1> _n5ca<0> _n5cb<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n5ca<1> _n5ca<0> _n5cb<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n5cc<0>
+0
+.names _n5cc<1>
+0
+# locations [2] != 0
+.names _n5cb<0> _n5cc<0> _n5cd<0>
+.def 0
+0 1 1
+1 0 1
+.names _n5cb<1> _n5cc<1> _n5cd<1>
+.def 0
+0 1 1
+1 0 1
+.names _n5cd<0> _n5cd<1> _n5ce
+.def 1
+0 0 0
+.names _n5ce _n5c9
+- =_n5ce
+.names _n5d0<0>
+0
+.names _n5d0<1>
+1
+.mv _n5d1 2 UP DOWN 
+.names direction<*1*> direction<*2*> _n5d0<1> _n5d0<0> _n5d1
+- - 0 0 UP
+- - 0 1 =direction<*1*>
+- - 1 0 =direction<*2*>
+- - 1 1 UP
+.mv _n5d2 2 UP DOWN 
+.names _n5d2
+DOWN
+# direction [2] == 1
+.names _n5d1 _n5d2 _n5cf
+.def 0
+- =_n5d1 1
+# (locations [2] != 0) && (direction [2] == 1)
+.names _n5c9 _n5cf _n5d3
+.def 0
+1 1 1
+.names _n5d3 _n5d4
+- =_n5d3
+.names _n5d6<0>
+0
+.names _n5d6<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n5d6<1> _n5d6<0> _n5d7<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n5d6<1> _n5d6<0> _n5d7<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n5d8<0>
+1
+.names _n5d8<1>
+0
+# locations [2] - 1
+.names _n5da
+0
+.names _n5d7<0> _n5d8<0> _n5da _n5d9<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n5dc
+0
+.names _n5d7<0> _n5d8<0> _n5dc _n5db
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n5d7<1> _n5d8<1> _n5db _n5d9<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.mv _n5dd 2 ON OFF 
+.names down_floor_buttons$_n556$raw_n580<*0*> down_floor_buttons$_n556$raw_n580<*1*> down_floor_buttons$_n556$raw_n580<*2*> _n5d9<1> _n5d9<0> _n5dd
+- - - 0 0 =down_floor_buttons$_n556$raw_n580<*0*>
+- - - 0 1 =down_floor_buttons$_n556$raw_n580<*1*>
+- - - 1 0 =down_floor_buttons$_n556$raw_n580<*2*>
+- - - 1 1 ON
+.mv _n5de 2 ON OFF 
+.names _n5de
+ON
+# down_floor_buttons [locations [2] - 1] == 0
+.names _n5dd _n5de _n5d5
+.def 0
+- =_n5dd 1
+.names _n5d5 _n5df
+- =_n5d5
+# down_floor_buttons [locations [2] - 1] = 1
+.mv down_floor_buttons$_n5d5_n5e0$true<*0*> 2 ON OFF 
+.mv down_floor_buttons$_n5d5_n5e0$true<*1*> 2 ON OFF 
+.mv down_floor_buttons$_n5d5_n5e0$true<*2*> 2 ON OFF 
+.names _n5e1<0>
+0
+.names _n5e1<1>
+1
+.names locations<*1*><0> locations<*2*><0> _n5e1<1> _n5e1<0> _n5e2<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n5e1<1> _n5e1<0> _n5e2<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n5e3<0>
+1
+.names _n5e3<1>
+0
+# locations [2] - 1
+.names _n5e5
+0
+.names _n5e2<0> _n5e3<0> _n5e5 _n5e4<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n5e7
+0
+.names _n5e2<0> _n5e3<0> _n5e7 _n5e6
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n5e2<1> _n5e3<1> _n5e6 _n5e4<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.mv _n5e8 2 ON OFF 
+.names _n5e9<0>
+0
+.names _n5e9<1>
+0
+.names _n5e9<0> _n5e4<0> _n5eb<0>
+.def 0
+0 1 1
+1 0 1
+.names _n5e9<1> _n5e4<1> _n5eb<1>
+.def 0
+0 1 1
+1 0 1
+.names _n5eb<0> _n5eb<1> _n5ec
+.def 1
+0 0 0
+.names _n5ec _n5ea
+0 1  
+1 0  
+.names _n5e8 down_floor_buttons$_n556$raw_n580<*0*> _n5ea down_floor_buttons$_n5d5_n5e0$true<*0*>
+- - 0 =down_floor_buttons$_n556$raw_n580<*0*>
+- - 1 =_n5e8
+.names _n5ed<0>
+1
+.names _n5ed<1>
+0
+.names _n5ed<0> _n5e4<0> _n5ef<0>
+.def 0
+0 1 1
+1 0 1
+.names _n5ed<1> _n5e4<1> _n5ef<1>
+.def 0
+0 1 1
+1 0 1
+.names _n5ef<0> _n5ef<1> _n5f0
+.def 1
+0 0 0
+.names _n5f0 _n5ee
+0 1  
+1 0  
+.names _n5e8 down_floor_buttons$_n556$raw_n580<*1*> _n5ee down_floor_buttons$_n5d5_n5e0$true<*1*>
+- - 0 =down_floor_buttons$_n556$raw_n580<*1*>
+- - 1 =_n5e8
+.names _n5f1<0>
+0
+.names _n5f1<1>
+1
+.names _n5f1<0> _n5e4<0> _n5f3<0>
+.def 0
+0 1 1
+1 0 1
+.names _n5f1<1> _n5e4<1> _n5f3<1>
+.def 0
+0 1 1
+1 0 1
+.names _n5f3<0> _n5f3<1> _n5f4
+.def 1
+0 0 0
+.names _n5f4 _n5f2
+0 1  
+1 0  
+.names _n5e8 down_floor_buttons$_n556$raw_n580<*2*> _n5f2 down_floor_buttons$_n5d5_n5e0$true<*2*>
+- - 0 =down_floor_buttons$_n556$raw_n580<*2*>
+- - 1 =_n5e8
+.names _n5e8
+OFF
+# if/else (down_floor_buttons [locations [2] - 1] == 0)
+.mv down_floor_buttons$_n5d5$raw_n5f5<*0*> 2 ON OFF 
+.mv down_floor_buttons$_n5d5$raw_n5f5<*1*> 2 ON OFF 
+.mv down_floor_buttons$_n5d5$raw_n5f5<*2*> 2 ON OFF 
+.names down_floor_buttons$_n5d5_n5e0$true<*0*> down_floor_buttons$_n556$raw_n580<*0*> _n5d5 down_floor_buttons$_n5d5$raw_n5f5<*0*>
+- - 0 =down_floor_buttons$_n556$raw_n580<*0*>
+- - 1 =down_floor_buttons$_n5d5_n5e0$true<*0*>
+.names down_floor_buttons$_n5d5_n5e0$true<*1*> down_floor_buttons$_n556$raw_n580<*1*> _n5d5 down_floor_buttons$_n5d5$raw_n5f5<*1*>
+- - 0 =down_floor_buttons$_n556$raw_n580<*1*>
+- - 1 =down_floor_buttons$_n5d5_n5e0$true<*1*>
+.names down_floor_buttons$_n5d5_n5e0$true<*2*> down_floor_buttons$_n556$raw_n580<*2*> _n5d5 down_floor_buttons$_n5d5$raw_n5f5<*2*>
+- - 0 =down_floor_buttons$_n556$raw_n580<*2*>
+- - 1 =down_floor_buttons$_n5d5_n5e0$true<*2*>
+# if/else ((locations [2] != 0) && (direction [2] == 1))
+.mv down_floor_buttons$_n5d3$raw_n5fd<*0*> 2 ON OFF 
+.mv down_floor_buttons$_n5d3$raw_n5fd<*1*> 2 ON OFF 
+.mv down_floor_buttons$_n5d3$raw_n5fd<*2*> 2 ON OFF 
+.names down_floor_buttons$_n5d5$raw_n5f5<*0*> down_floor_buttons$_n556$raw_n580<*0*> _n5d3 down_floor_buttons$_n5d3$raw_n5fd<*0*>
+- - 0 =down_floor_buttons$_n556$raw_n580<*0*>
+- - 1 =down_floor_buttons$_n5d5$raw_n5f5<*0*>
+.names down_floor_buttons$_n5d5$raw_n5f5<*1*> down_floor_buttons$_n556$raw_n580<*1*> _n5d3 down_floor_buttons$_n5d3$raw_n5fd<*1*>
+- - 0 =down_floor_buttons$_n556$raw_n580<*1*>
+- - 1 =down_floor_buttons$_n5d5$raw_n5f5<*1*>
+.names down_floor_buttons$_n5d5$raw_n5f5<*2*> down_floor_buttons$_n556$raw_n580<*2*> _n5d3 down_floor_buttons$_n5d3$raw_n5fd<*2*>
+- - 0 =down_floor_buttons$_n556$raw_n580<*2*>
+- - 1 =down_floor_buttons$_n5d5$raw_n5f5<*2*>
+.names _n606<0>
+1
+.names _n606<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n606<1> _n606<0> _n607<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n606<1> _n606<0> _n607<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n608<0>
+1
+.names _n608<1>
+1
+.names _n609<0>
+1
+.names _n609<1>
+0
+# 3 - 1
+.names _n60b
+0
+.names _n608<0> _n609<0> _n60b _n60a<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n60d
+0
+.names _n608<0> _n609<0> _n60d _n60c
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n608<1> _n609<1> _n60c _n60a<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# locations [1] == 3 - 1
+.names _n607<0> _n60a<0> _n60e<0>
+.def 0
+0 1 1
+1 0 1
+.names _n607<1> _n60a<1> _n60e<1>
+.def 0
+0 1 1
+1 0 1
+.names _n60e<0> _n60e<1> _n60f
+.def 1
+0 0 0
+.names _n60f _n605
+0 1  
+1 0  
+.names _n605 _n610
+- =_n605
+# direction [1] = 1
+.mv direction$_n605_n611$true<*1*> 2 UP DOWN 
+.mv direction$_n605_n611$true<*2*> 2 UP DOWN 
+.mv _n612 2 UP DOWN 
+.names _n613<0>
+1
+.names _n613<1>
+0
+.names _n614<0>
+1
+.names _n614<1>
+0
+.names _n614<0> _n613<0> _n616<0>
+.def 0
+0 1 1
+1 0 1
+.names _n614<1> _n613<1> _n616<1>
+.def 0
+0 1 1
+1 0 1
+.names _n616<0> _n616<1> _n617
+.def 1
+0 0 0
+.names _n617 _n615
+0 1  
+1 0  
+.names _n612 direction<*1*> _n615 direction$_n605_n611$true<*1*>
+- - 0 =direction<*1*>
+- - 1 =_n612
+.names _n618<0>
+0
+.names _n618<1>
+1
+.names _n618<0> _n613<0> _n61a<0>
+.def 0
+0 1 1
+1 0 1
+.names _n618<1> _n613<1> _n61a<1>
+.def 0
+0 1 1
+1 0 1
+.names _n61a<0> _n61a<1> _n61b
+.def 1
+0 0 0
+.names _n61b _n619
+0 1  
+1 0  
+.names _n612 direction<*2*> _n619 direction$_n605_n611$true<*2*>
+- - 0 =direction<*2*>
+- - 1 =_n612
+.names _n612
+DOWN
+# if/else (locations [1] == 3 - 1)
+.mv direction$_n605$raw_n61e<*1*> 2 UP DOWN 
+.mv direction$_n605$raw_n61e<*2*> 2 UP DOWN 
+.names direction$_n605_n611$true<*1*> direction<*1*> _n605 direction$_n605$raw_n61e<*1*>
+- - 0 =direction<*1*>
+- - 1 =direction$_n605_n611$true<*1*>
+.names direction$_n605_n611$true<*2*> direction<*2*> _n605 direction$_n605$raw_n61e<*2*>
+- - 0 =direction<*2*>
+- - 1 =direction$_n605_n611$true<*2*>
+.names _n620<0>
+1
+.names _n620<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n620<1> _n620<0> _n621<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n620<1> _n620<0> _n621<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n622<0>
+0
+.names _n622<1>
+0
+# locations [1] == 0
+.names _n621<0> _n622<0> _n623<0>
+.def 0
+0 1 1
+1 0 1
+.names _n621<1> _n622<1> _n623<1>
+.def 0
+0 1 1
+1 0 1
+.names _n623<0> _n623<1> _n624
+.def 1
+0 0 0
+.names _n624 _n61f
+0 1  
+1 0  
+.names _n61f _n625
+- =_n61f
+# direction [1] = 0
+.mv direction$_n61f_n626$true<*1*> 2 UP DOWN 
+.mv direction$_n61f_n626$true<*2*> 2 UP DOWN 
+.mv _n627 2 UP DOWN 
+.names _n628<0>
+1
+.names _n628<1>
+0
+.names _n629<0>
+1
+.names _n629<1>
+0
+.names _n629<0> _n628<0> _n62b<0>
+.def 0
+0 1 1
+1 0 1
+.names _n629<1> _n628<1> _n62b<1>
+.def 0
+0 1 1
+1 0 1
+.names _n62b<0> _n62b<1> _n62c
+.def 1
+0 0 0
+.names _n62c _n62a
+0 1  
+1 0  
+.names _n627 direction$_n605$raw_n61e<*1*> _n62a direction$_n61f_n626$true<*1*>
+- - 0 =direction$_n605$raw_n61e<*1*>
+- - 1 =_n627
+.names _n62d<0>
+0
+.names _n62d<1>
+1
+.names _n62d<0> _n628<0> _n62f<0>
+.def 0
+0 1 1
+1 0 1
+.names _n62d<1> _n628<1> _n62f<1>
+.def 0
+0 1 1
+1 0 1
+.names _n62f<0> _n62f<1> _n630
+.def 1
+0 0 0
+.names _n630 _n62e
+0 1  
+1 0  
+.names _n627 direction$_n605$raw_n61e<*2*> _n62e direction$_n61f_n626$true<*2*>
+- - 0 =direction$_n605$raw_n61e<*2*>
+- - 1 =_n627
+.names _n627
+UP
+# if/else (locations [1] == 0)
+.mv direction$_n61f$raw_n631<*1*> 2 UP DOWN 
+.mv direction$_n61f$raw_n631<*2*> 2 UP DOWN 
+.names direction$_n61f_n626$true<*1*> direction$_n605$raw_n61e<*1*> _n61f direction$_n61f$raw_n631<*1*>
+- - 0 =direction$_n605$raw_n61e<*1*>
+- - 1 =direction$_n61f_n626$true<*1*>
+.names direction$_n61f_n626$true<*2*> direction$_n605$raw_n61e<*2*> _n61f direction$_n61f$raw_n631<*2*>
+- - 0 =direction$_n605$raw_n61e<*2*>
+- - 1 =direction$_n61f_n626$true<*2*>
+.names inc<1> _n636
+.def 1
+0 0
+.names _n636 _n635
+- =_n636
+# locations [1] = locations [1] + 1
+.names _n639<0>
+1
+.names _n639<1>
+0
+.names _n63a<0>
+1
+.names _n63a<1>
+0
+.names _n63a<0> _n639<0> _n63c<0>
+.def 0
+0 1 1
+1 0 1
+.names _n63a<1> _n639<1> _n63c<1>
+.def 0
+0 1 1
+1 0 1
+.names _n63c<0> _n63c<1> _n63d
+.def 1
+0 0 0
+.names _n63d _n63b
+0 1  
+1 0  
+.names _n638<0> locations<*1*><0> _n63b locations$inc_n637$true<*1*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n638<1> locations<*1*><1> _n63b locations$inc_n637$true<*1*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n640<0>
+0
+.names _n640<1>
+1
+.names _n640<0> _n639<0> _n642<0>
+.def 0
+0 1 1
+1 0 1
+.names _n640<1> _n639<1> _n642<1>
+.def 0
+0 1 1
+1 0 1
+.names _n642<0> _n642<1> _n643
+.def 1
+0 0 0
+.names _n643 _n641
+0 1  
+1 0  
+.names _n638<0> locations<*2*><0> _n641 locations$inc_n637$true<*2*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n638<1> locations<*2*><1> _n641 locations$inc_n637$true<*2*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n646<0>
+1
+.names _n646<1>
+0
+.names locations<*1*><0> locations<*2*><0> _n646<1> _n646<0> _n647<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations<*1*><1> locations<*2*><1> _n646<1> _n646<0> _n647<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n648<0>
+1
+.names _n648<1>
+0
+# locations [1] + 1
+.names _n64a
+0
+.names _n647<0> _n648<0> _n64a _n649<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n64c
+0
+.names _n647<0> _n648<0> _n64c _n64b
+.def 0
+0 1 1 1
+1 0 1 1
+1 1 0 1
+1 1 1 1
+.names _n647<1> _n648<1> _n64b _n649<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.names _n649<0> _n638<0>
+- =_n649<0>
+.names _n649<1> _n638<1>
+- =_n649<1>
+# direction [1] = 0
+.mv direction$inc_n64d$true<*1*> 2 UP DOWN 
+.mv direction$inc_n64d$true<*2*> 2 UP DOWN 
+.mv _n64e 2 UP DOWN 
+.names _n64f<0>
+1
+.names _n64f<1>
+0
+.names _n650<0>
+1
+.names _n650<1>
+0
+.names _n650<0> _n64f<0> _n652<0>
+.def 0
+0 1 1
+1 0 1
+.names _n650<1> _n64f<1> _n652<1>
+.def 0
+0 1 1
+1 0 1
+.names _n652<0> _n652<1> _n653
+.def 1
+0 0 0
+.names _n653 _n651
+0 1  
+1 0  
+.names _n64e direction$_n61f$raw_n631<*1*> _n651 direction$inc_n64d$true<*1*>
+- - 0 =direction$_n61f$raw_n631<*1*>
+- - 1 =_n64e
+.names _n654<0>
+0
+.names _n654<1>
+1
+.names _n654<0> _n64f<0> _n656<0>
+.def 0
+0 1 1
+1 0 1
+.names _n654<1> _n64f<1> _n656<1>
+.def 0
+0 1 1
+1 0 1
+.names _n656<0> _n656<1> _n657
+.def 1
+0 0 0
+.names _n657 _n655
+0 1  
+1 0  
+.names _n64e direction$_n61f$raw_n631<*2*> _n655 direction$inc_n64d$true<*2*>
+- - 0 =direction$_n61f$raw_n631<*2*>
+- - 1 =_n64e
+.names _n64e
+UP
+# if/else (inc [1])
+.mv direction$inc$raw_n658<*1*> 2 UP DOWN 
+.mv direction$inc$raw_n658<*2*> 2 UP DOWN 
+.names inc<1> _n659
+.def 1
+0 0
+.names direction$inc_n64d$true<*1*> direction$_n61f$raw_n631<*1*> _n659 direction$inc$raw_n658<*1*>
+- - 0 =direction$_n61f$raw_n631<*1*>
+- - 1 =direction$inc_n64d$true<*1*>
+.names direction$inc_n64d$true<*2*> direction$_n61f$raw_n631<*2*> _n659 direction$inc$raw_n658<*2*>
+- - 0 =direction$_n61f$raw_n631<*2*>
+- - 1 =direction$inc_n64d$true<*2*>
+.names inc<1> _n65f
+.def 1
+0 0
+.names locations$inc_n637$true<*1*><0> locations<*1*><0> _n65f locations$inc$raw_n65e<*1*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names locations$inc_n637$true<*1*><1> locations<*1*><1> _n65f locations$inc$raw_n65e<*1*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names locations$inc_n637$true<*2*><0> locations<*2*><0> _n65f locations$inc$raw_n65e<*2*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names locations$inc_n637$true<*2*><1> locations<*2*><1> _n65f locations$inc$raw_n65e<*2*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names dec<1> _n666
+.def 1
+0 0
+.names _n666 _n665
+- =_n666
+# locations [1] = locations [1] - 1
+.names _n669<0>
+1
+.names _n669<1>
+0
+.names _n66a<0>
+1
+.names _n66a<1>
+0
+.names _n66a<0> _n669<0> _n66c<0>
+.def 0
+0 1 1
+1 0 1
+.names _n66a<1> _n669<1> _n66c<1>
+.def 0
+0 1 1
+1 0 1
+.names _n66c<0> _n66c<1> _n66d
+.def 1
+0 0 0
+.names _n66d _n66b
+0 1  
+1 0  
+.names _n668<0> locations$inc$raw_n65e<*1*><0> _n66b locations$dec_n667$true<*1*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n668<1> locations$inc$raw_n65e<*1*><1> _n66b locations$dec_n667$true<*1*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n670<0>
+0
+.names _n670<1>
+1
+.names _n670<0> _n669<0> _n672<0>
+.def 0
+0 1 1
+1 0 1
+.names _n670<1> _n669<1> _n672<1>
+.def 0
+0 1 1
+1 0 1
+.names _n672<0> _n672<1> _n673
+.def 1
+0 0 0
+.names _n673 _n671
+0 1  
+1 0  
+.names _n668<0> locations$inc$raw_n65e<*2*><0> _n671 locations$dec_n667$true<*2*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n668<1> locations$inc$raw_n65e<*2*><1> _n671 locations$dec_n667$true<*2*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n676<0>
+1
+.names _n676<1>
+0
+.names locations$inc$raw_n65e<*1*><0> locations$inc$raw_n65e<*2*><0> _n676<1> _n676<0> _n677<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations$inc$raw_n65e<*1*><1> locations$inc$raw_n65e<*2*><1> _n676<1> _n676<0> _n677<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n678<0>
+1
+.names _n678<1>
+0
+# locations [1] - 1
+.names _n67a
+0
+.names _n677<0> _n678<0> _n67a _n679<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n67c
+0
+.names _n677<0> _n678<0> _n67c _n67b
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n677<1> _n678<1> _n67b _n679<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.names _n679<0> _n668<0>
+- =_n679<0>
+.names _n679<1> _n668<1>
+- =_n679<1>
+# direction [1] = 1
+.mv direction$dec_n67d$true<*1*> 2 UP DOWN 
+.mv direction$dec_n67d$true<*2*> 2 UP DOWN 
+.mv _n67e 2 UP DOWN 
+.names _n67f<0>
+1
+.names _n67f<1>
+0
+.names _n680<0>
+1
+.names _n680<1>
+0
+.names _n680<0> _n67f<0> _n682<0>
+.def 0
+0 1 1
+1 0 1
+.names _n680<1> _n67f<1> _n682<1>
+.def 0
+0 1 1
+1 0 1
+.names _n682<0> _n682<1> _n683
+.def 1
+0 0 0
+.names _n683 _n681
+0 1  
+1 0  
+.names _n67e direction$inc$raw_n658<*1*> _n681 direction$dec_n67d$true<*1*>
+- - 0 =direction$inc$raw_n658<*1*>
+- - 1 =_n67e
+.names _n684<0>
+0
+.names _n684<1>
+1
+.names _n684<0> _n67f<0> _n686<0>
+.def 0
+0 1 1
+1 0 1
+.names _n684<1> _n67f<1> _n686<1>
+.def 0
+0 1 1
+1 0 1
+.names _n686<0> _n686<1> _n687
+.def 1
+0 0 0
+.names _n687 _n685
+0 1  
+1 0  
+.names _n67e direction$inc$raw_n658<*2*> _n685 direction$dec_n67d$true<*2*>
+- - 0 =direction$inc$raw_n658<*2*>
+- - 1 =_n67e
+.names _n67e
+DOWN
+# if/else (dec [1])
+.mv direction$dec$raw_n688<*1*> 2 UP DOWN 
+.mv direction$dec$raw_n688<*2*> 2 UP DOWN 
+.names dec<1> _n689
+.def 1
+0 0
+.names direction$dec_n67d$true<*1*> direction$inc$raw_n658<*1*> _n689 direction$dec$raw_n688<*1*>
+- - 0 =direction$inc$raw_n658<*1*>
+- - 1 =direction$dec_n67d$true<*1*>
+.names direction$dec_n67d$true<*2*> direction$inc$raw_n658<*2*> _n689 direction$dec$raw_n688<*2*>
+- - 0 =direction$inc$raw_n658<*2*>
+- - 1 =direction$dec_n67d$true<*2*>
+.names dec<1> _n68b
+.def 1
+0 0
+.names locations$dec_n667$true<*1*><0> locations$inc$raw_n65e<*1*><0> _n68b locations$dec$raw_n68a<*1*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names locations$dec_n667$true<*1*><1> locations$inc$raw_n65e<*1*><1> _n68b locations$dec$raw_n68a<*1*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names locations$dec_n667$true<*2*><0> locations$inc$raw_n65e<*2*><0> _n68b locations$dec$raw_n68a<*2*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names locations$dec_n667$true<*2*><1> locations$inc$raw_n65e<*2*><1> _n68b locations$dec$raw_n68a<*2*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n697<0>
+0
+.names _n697<1>
+1
+.names locations$dec$raw_n68a<*1*><0> locations$dec$raw_n68a<*2*><0> _n697<1> _n697<0> _n698<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations$dec$raw_n68a<*1*><1> locations$dec$raw_n68a<*2*><1> _n697<1> _n697<0> _n698<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n699<0>
+1
+.names _n699<1>
+1
+.names _n69a<0>
+1
+.names _n69a<1>
+0
+# 3 - 1
+.names _n69c
+0
+.names _n699<0> _n69a<0> _n69c _n69b<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n69e
+0
+.names _n699<0> _n69a<0> _n69e _n69d
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n699<1> _n69a<1> _n69d _n69b<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# locations [2] == 3 - 1
+.names _n698<0> _n69b<0> _n69f<0>
+.def 0
+0 1 1
+1 0 1
+.names _n698<1> _n69b<1> _n69f<1>
+.def 0
+0 1 1
+1 0 1
+.names _n69f<0> _n69f<1> _n6a0
+.def 1
+0 0 0
+.names _n6a0 _n696
+0 1  
+1 0  
+.names _n696 _n6a1
+- =_n696
+# direction [2] = 1
+.mv direction$_n696_n6a2$true<*1*> 2 UP DOWN 
+.mv direction$_n696_n6a2$true<*2*> 2 UP DOWN 
+.mv _n6a3 2 UP DOWN 
+.names _n6a4<0>
+0
+.names _n6a4<1>
+1
+.names _n6a5<0>
+1
+.names _n6a5<1>
+0
+.names _n6a5<0> _n6a4<0> _n6a7<0>
+.def 0
+0 1 1
+1 0 1
+.names _n6a5<1> _n6a4<1> _n6a7<1>
+.def 0
+0 1 1
+1 0 1
+.names _n6a7<0> _n6a7<1> _n6a8
+.def 1
+0 0 0
+.names _n6a8 _n6a6
+0 1  
+1 0  
+.names _n6a3 direction$dec$raw_n688<*1*> _n6a6 direction$_n696_n6a2$true<*1*>
+- - 0 =direction$dec$raw_n688<*1*>
+- - 1 =_n6a3
+.names _n6a9<0>
+0
+.names _n6a9<1>
+1
+.names _n6a9<0> _n6a4<0> _n6ab<0>
+.def 0
+0 1 1
+1 0 1
+.names _n6a9<1> _n6a4<1> _n6ab<1>
+.def 0
+0 1 1
+1 0 1
+.names _n6ab<0> _n6ab<1> _n6ac
+.def 1
+0 0 0
+.names _n6ac _n6aa
+0 1  
+1 0  
+.names _n6a3 direction$dec$raw_n688<*2*> _n6aa direction$_n696_n6a2$true<*2*>
+- - 0 =direction$dec$raw_n688<*2*>
+- - 1 =_n6a3
+.names _n6a3
+DOWN
+# if/else (locations [2] == 3 - 1)
+.mv direction$_n696$raw_n6ad<*1*> 2 UP DOWN 
+.mv direction$_n696$raw_n6ad<*2*> 2 UP DOWN 
+.names direction$_n696_n6a2$true<*1*> direction$dec$raw_n688<*1*> _n696 direction$_n696$raw_n6ad<*1*>
+- - 0 =direction$dec$raw_n688<*1*>
+- - 1 =direction$_n696_n6a2$true<*1*>
+.names direction$_n696_n6a2$true<*2*> direction$dec$raw_n688<*2*> _n696 direction$_n696$raw_n6ad<*2*>
+- - 0 =direction$dec$raw_n688<*2*>
+- - 1 =direction$_n696_n6a2$true<*2*>
+.names _n6b6<0>
+0
+.names _n6b6<1>
+1
+.names locations$dec$raw_n68a<*1*><0> locations$dec$raw_n68a<*2*><0> _n6b6<1> _n6b6<0> _n6b7<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations$dec$raw_n68a<*1*><1> locations$dec$raw_n68a<*2*><1> _n6b6<1> _n6b6<0> _n6b7<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n6b8<0>
+0
+.names _n6b8<1>
+0
+# locations [2] == 0
+.names _n6b7<0> _n6b8<0> _n6b9<0>
+.def 0
+0 1 1
+1 0 1
+.names _n6b7<1> _n6b8<1> _n6b9<1>
+.def 0
+0 1 1
+1 0 1
+.names _n6b9<0> _n6b9<1> _n6ba
+.def 1
+0 0 0
+.names _n6ba _n6b5
+0 1  
+1 0  
+.names _n6b5 _n6bb
+- =_n6b5
+# direction [2] = 0
+.mv direction$_n6b5_n6bc$true<*1*> 2 UP DOWN 
+.mv direction$_n6b5_n6bc$true<*2*> 2 UP DOWN 
+.mv _n6bd 2 UP DOWN 
+.names _n6be<0>
+0
+.names _n6be<1>
+1
+.names _n6bf<0>
+1
+.names _n6bf<1>
+0
+.names _n6bf<0> _n6be<0> _n6c1<0>
+.def 0
+0 1 1
+1 0 1
+.names _n6bf<1> _n6be<1> _n6c1<1>
+.def 0
+0 1 1
+1 0 1
+.names _n6c1<0> _n6c1<1> _n6c2
+.def 1
+0 0 0
+.names _n6c2 _n6c0
+0 1  
+1 0  
+.names _n6bd direction$_n696$raw_n6ad<*1*> _n6c0 direction$_n6b5_n6bc$true<*1*>
+- - 0 =direction$_n696$raw_n6ad<*1*>
+- - 1 =_n6bd
+.names _n6c3<0>
+0
+.names _n6c3<1>
+1
+.names _n6c3<0> _n6be<0> _n6c5<0>
+.def 0
+0 1 1
+1 0 1
+.names _n6c3<1> _n6be<1> _n6c5<1>
+.def 0
+0 1 1
+1 0 1
+.names _n6c5<0> _n6c5<1> _n6c6
+.def 1
+0 0 0
+.names _n6c6 _n6c4
+0 1  
+1 0  
+.names _n6bd direction$_n696$raw_n6ad<*2*> _n6c4 direction$_n6b5_n6bc$true<*2*>
+- - 0 =direction$_n696$raw_n6ad<*2*>
+- - 1 =_n6bd
+.names _n6bd
+UP
+# if/else (locations [2] == 0)
+.mv direction$_n6b5$raw_n6c7<*1*> 2 UP DOWN 
+.mv direction$_n6b5$raw_n6c7<*2*> 2 UP DOWN 
+.names direction$_n6b5_n6bc$true<*1*> direction$_n696$raw_n6ad<*1*> _n6b5 direction$_n6b5$raw_n6c7<*1*>
+- - 0 =direction$_n696$raw_n6ad<*1*>
+- - 1 =direction$_n6b5_n6bc$true<*1*>
+.names direction$_n6b5_n6bc$true<*2*> direction$_n696$raw_n6ad<*2*> _n6b5 direction$_n6b5$raw_n6c7<*2*>
+- - 0 =direction$_n696$raw_n6ad<*2*>
+- - 1 =direction$_n6b5_n6bc$true<*2*>
+.names inc<2> _n6d0
+.def 1
+0 0
+.names _n6d0 _n6cf
+- =_n6d0
+# locations [2] = locations [2] + 1
+.names _n6d3<0>
+0
+.names _n6d3<1>
+1
+.names _n6d4<0>
+1
+.names _n6d4<1>
+0
+.names _n6d4<0> _n6d3<0> _n6d6<0>
+.def 0
+0 1 1
+1 0 1
+.names _n6d4<1> _n6d3<1> _n6d6<1>
+.def 0
+0 1 1
+1 0 1
+.names _n6d6<0> _n6d6<1> _n6d7
+.def 1
+0 0 0
+.names _n6d7 _n6d5
+0 1  
+1 0  
+.names _n6d2<0> locations$dec$raw_n68a<*1*><0> _n6d5 locations$inc_n6d1$true<*1*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n6d2<1> locations$dec$raw_n68a<*1*><1> _n6d5 locations$inc_n6d1$true<*1*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n6da<0>
+0
+.names _n6da<1>
+1
+.names _n6da<0> _n6d3<0> _n6dc<0>
+.def 0
+0 1 1
+1 0 1
+.names _n6da<1> _n6d3<1> _n6dc<1>
+.def 0
+0 1 1
+1 0 1
+.names _n6dc<0> _n6dc<1> _n6dd
+.def 1
+0 0 0
+.names _n6dd _n6db
+0 1  
+1 0  
+.names _n6d2<0> locations$dec$raw_n68a<*2*><0> _n6db locations$inc_n6d1$true<*2*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n6d2<1> locations$dec$raw_n68a<*2*><1> _n6db locations$inc_n6d1$true<*2*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n6e0<0>
+0
+.names _n6e0<1>
+1
+.names locations$dec$raw_n68a<*1*><0> locations$dec$raw_n68a<*2*><0> _n6e0<1> _n6e0<0> _n6e1<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations$dec$raw_n68a<*1*><1> locations$dec$raw_n68a<*2*><1> _n6e0<1> _n6e0<0> _n6e1<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n6e2<0>
+1
+.names _n6e2<1>
+0
+# locations [2] + 1
+.names _n6e4
+0
+.names _n6e1<0> _n6e2<0> _n6e4 _n6e3<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n6e6
+0
+.names _n6e1<0> _n6e2<0> _n6e6 _n6e5
+.def 0
+0 1 1 1
+1 0 1 1
+1 1 0 1
+1 1 1 1
+.names _n6e1<1> _n6e2<1> _n6e5 _n6e3<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.names _n6e3<0> _n6d2<0>
+- =_n6e3<0>
+.names _n6e3<1> _n6d2<1>
+- =_n6e3<1>
+# direction [2] = 0
+.mv direction$inc_n6e7$true<*1*> 2 UP DOWN 
+.mv direction$inc_n6e7$true<*2*> 2 UP DOWN 
+.mv _n6e8 2 UP DOWN 
+.names _n6e9<0>
+0
+.names _n6e9<1>
+1
+.names _n6ea<0>
+1
+.names _n6ea<1>
+0
+.names _n6ea<0> _n6e9<0> _n6ec<0>
+.def 0
+0 1 1
+1 0 1
+.names _n6ea<1> _n6e9<1> _n6ec<1>
+.def 0
+0 1 1
+1 0 1
+.names _n6ec<0> _n6ec<1> _n6ed
+.def 1
+0 0 0
+.names _n6ed _n6eb
+0 1  
+1 0  
+.names _n6e8 direction$_n6b5$raw_n6c7<*1*> _n6eb direction$inc_n6e7$true<*1*>
+- - 0 =direction$_n6b5$raw_n6c7<*1*>
+- - 1 =_n6e8
+.names _n6ee<0>
+0
+.names _n6ee<1>
+1
+.names _n6ee<0> _n6e9<0> _n6f0<0>
+.def 0
+0 1 1
+1 0 1
+.names _n6ee<1> _n6e9<1> _n6f0<1>
+.def 0
+0 1 1
+1 0 1
+.names _n6f0<0> _n6f0<1> _n6f1
+.def 1
+0 0 0
+.names _n6f1 _n6ef
+0 1  
+1 0  
+.names _n6e8 direction$_n6b5$raw_n6c7<*2*> _n6ef direction$inc_n6e7$true<*2*>
+- - 0 =direction$_n6b5$raw_n6c7<*2*>
+- - 1 =_n6e8
+.names _n6e8
+UP
+# if/else (inc [2])
+.mv direction$inc$raw_n6f2<*1*> 2 UP DOWN 
+.mv direction$inc$raw_n6f2<*2*> 2 UP DOWN 
+.names inc<2> _n6f3
+.def 1
+0 0
+.names direction$inc_n6e7$true<*1*> direction$_n6b5$raw_n6c7<*1*> _n6f3 direction$inc$raw_n6f2<*1*>
+- - 0 =direction$_n6b5$raw_n6c7<*1*>
+- - 1 =direction$inc_n6e7$true<*1*>
+.names direction$inc_n6e7$true<*2*> direction$_n6b5$raw_n6c7<*2*> _n6f3 direction$inc$raw_n6f2<*2*>
+- - 0 =direction$_n6b5$raw_n6c7<*2*>
+- - 1 =direction$inc_n6e7$true<*2*>
+.names inc<2> _n6f5
+.def 1
+0 0
+.names locations$inc_n6d1$true<*1*><0> locations$dec$raw_n68a<*1*><0> _n6f5 locations$inc$raw_n6f4<*1*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names locations$inc_n6d1$true<*1*><1> locations$dec$raw_n68a<*1*><1> _n6f5 locations$inc$raw_n6f4<*1*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names locations$inc_n6d1$true<*2*><0> locations$dec$raw_n68a<*2*><0> _n6f5 locations$inc$raw_n6f4<*2*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names locations$inc_n6d1$true<*2*><1> locations$dec$raw_n68a<*2*><1> _n6f5 locations$inc$raw_n6f4<*2*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names dec<2> _n701
+.def 1
+0 0
+.names _n701 _n700
+- =_n701
+# locations [2] = locations [2] - 1
+.names _n704<0>
+0
+.names _n704<1>
+1
+.names _n705<0>
+1
+.names _n705<1>
+0
+.names _n705<0> _n704<0> _n707<0>
+.def 0
+0 1 1
+1 0 1
+.names _n705<1> _n704<1> _n707<1>
+.def 0
+0 1 1
+1 0 1
+.names _n707<0> _n707<1> _n708
+.def 1
+0 0 0
+.names _n708 _n706
+0 1  
+1 0  
+.names _n703<0> locations$inc$raw_n6f4<*1*><0> _n706 locations$dec_n702$true<*1*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n703<1> locations$inc$raw_n6f4<*1*><1> _n706 locations$dec_n702$true<*1*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n70b<0>
+0
+.names _n70b<1>
+1
+.names _n70b<0> _n704<0> _n70d<0>
+.def 0
+0 1 1
+1 0 1
+.names _n70b<1> _n704<1> _n70d<1>
+.def 0
+0 1 1
+1 0 1
+.names _n70d<0> _n70d<1> _n70e
+.def 1
+0 0 0
+.names _n70e _n70c
+0 1  
+1 0  
+.names _n703<0> locations$inc$raw_n6f4<*2*><0> _n70c locations$dec_n702$true<*2*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n703<1> locations$inc$raw_n6f4<*2*><1> _n70c locations$dec_n702$true<*2*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n711<0>
+0
+.names _n711<1>
+1
+.names locations$inc$raw_n6f4<*1*><0> locations$inc$raw_n6f4<*2*><0> _n711<1> _n711<0> _n712<0>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names locations$inc$raw_n6f4<*1*><1> locations$inc$raw_n6f4<*2*><1> _n711<1> _n711<0> _n712<1>
+- - 0 0 0
+- - 0 0 0
+0 - 0 1 0
+1 - 0 1 1
+- 0 1 0 0
+- 1 1 0 1
+- - 1 1 0
+- - 1 1 0
+.names _n713<0>
+1
+.names _n713<1>
+0
+# locations [2] - 1
+.names _n715
+0
+.names _n712<0> _n713<0> _n715 _n714<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n717
+0
+.names _n712<0> _n713<0> _n717 _n716
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n712<1> _n713<1> _n716 _n714<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.names _n714<0> _n703<0>
+- =_n714<0>
+.names _n714<1> _n703<1>
+- =_n714<1>
+# direction [2] = 1
+.mv direction$dec_n718$true<*1*> 2 UP DOWN 
+.mv direction$dec_n718$true<*2*> 2 UP DOWN 
+.mv _n719 2 UP DOWN 
+.names _n71a<0>
+0
+.names _n71a<1>
+1
+.names _n71b<0>
+1
+.names _n71b<1>
+0
+.names _n71b<0> _n71a<0> _n71d<0>
+.def 0
+0 1 1
+1 0 1
+.names _n71b<1> _n71a<1> _n71d<1>
+.def 0
+0 1 1
+1 0 1
+.names _n71d<0> _n71d<1> _n71e
+.def 1
+0 0 0
+.names _n71e _n71c
+0 1  
+1 0  
+.names _n719 direction$inc$raw_n6f2<*1*> _n71c direction$dec_n718$true<*1*>
+- - 0 =direction$inc$raw_n6f2<*1*>
+- - 1 =_n719
+.names _n71f<0>
+0
+.names _n71f<1>
+1
+.names _n71f<0> _n71a<0> _n721<0>
+.def 0
+0 1 1
+1 0 1
+.names _n71f<1> _n71a<1> _n721<1>
+.def 0
+0 1 1
+1 0 1
+.names _n721<0> _n721<1> _n722
+.def 1
+0 0 0
+.names _n722 _n720
+0 1  
+1 0  
+.names _n719 direction$inc$raw_n6f2<*2*> _n720 direction$dec_n718$true<*2*>
+- - 0 =direction$inc$raw_n6f2<*2*>
+- - 1 =_n719
+.names _n719
+DOWN
+# if/else (dec [2])
+.mv direction$dec$raw_n723<*1*> 2 UP DOWN 
+.mv direction$dec$raw_n723<*2*> 2 UP DOWN 
+.names dec<2> _n724
+.def 1
+0 0
+.names direction$dec_n718$true<*1*> direction$inc$raw_n6f2<*1*> _n724 direction$dec$raw_n723<*1*>
+- - 0 =direction$inc$raw_n6f2<*1*>
+- - 1 =direction$dec_n718$true<*1*>
+.names direction$dec_n718$true<*2*> direction$inc$raw_n6f2<*2*> _n724 direction$dec$raw_n723<*2*>
+- - 0 =direction$inc$raw_n6f2<*2*>
+- - 1 =direction$dec_n718$true<*2*>
+.names dec<2> _n726
+.def 1
+0 0
+.names locations$dec_n702$true<*1*><0> locations$inc$raw_n6f4<*1*><0> _n726 locations$dec$raw_n725<*1*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names locations$dec_n702$true<*1*><1> locations$inc$raw_n6f4<*1*><1> _n726 locations$dec$raw_n725<*1*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names locations$dec_n702$true<*2*><0> locations$inc$raw_n6f4<*2*><0> _n726 locations$dec$raw_n725<*2*><0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names locations$dec_n702$true<*2*><1> locations$inc$raw_n6f4<*2*><1> _n726 locations$dec$raw_n725<*2*><1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+# conflict arbitrators
+.names button_above$raw_n39a<1>  button_above<1>
+- =button_above$raw_n39a<1>
+.names button_above$raw_n3c0<2>  button_above<2>
+- =button_above$raw_n3c0<2>
+.names _n48a _n4bd _n4f1 _n557 _n562 _n5d4 _n5df _n731
+.def 0
+ 1 - - - - - - 1
+ - 1 - - - - - 1
+ - - 1 - - - - 1
+ - - - 1 1 - - 1
+ - - - - - 1 1 1
+.mv _n732<*0*> 2 ON OFF 
+.mv _n732<*1*> 2 ON OFF 
+.mv _n732<*2*> 2 ON OFF 
+.names _n731 down_floor_buttons$_n5d3$raw_n5fd<*0*> down_floor_buttons<*0*> _n732<*0*> 
+1 - - =down_floor_buttons$_n5d3$raw_n5fd<*0*>
+0 - - =down_floor_buttons<*0*>
+.names _n731 down_floor_buttons$_n5d3$raw_n5fd<*1*> down_floor_buttons<*1*> _n732<*1*> 
+1 - - =down_floor_buttons$_n5d3$raw_n5fd<*1*>
+0 - - =down_floor_buttons<*1*>
+.names _n731 down_floor_buttons$_n5d3$raw_n5fd<*2*> down_floor_buttons<*2*> _n732<*2*> 
+1 - - =down_floor_buttons$_n5d3$raw_n5fd<*2*>
+0 - - =down_floor_buttons<*2*>
+.names buttons$raw_n366<0>  buttons<0>
+- =buttons$raw_n366<0>
+.names buttons$raw_n371<1>  buttons<1>
+- =buttons$raw_n371<1>
+.names buttons$raw_n37c<2>  buttons<2>
+- =buttons$raw_n37c<2>
+.names _n610 _n625 _n635 _n665 _n6a1 _n6bb _n6cf _n700 _n784
+.def 0
+ 1 - - - - - - - 1
+ - 1 - - - - - - 1
+ - - 1 - - - - - 1
+ - - - 1 - - - - 1
+ - - - - 1 - - - 1
+ - - - - - 1 - - 1
+ - - - - - - 1 - 1
+ - - - - - - - 1 1
+.mv _n785<*1*> 2 UP DOWN 
+.mv _n785<*2*> 2 UP DOWN 
+.names _n784 direction$dec$raw_n723<*1*> direction<*1*> _n785<*1*> 
+1 - - =direction$dec$raw_n723<*1*>
+0 - - =direction<*1*>
+.names _n784 direction$dec$raw_n723<*2*> direction<*2*> _n785<*2*> 
+1 - - =direction$dec$raw_n723<*2*>
+0 - - =direction<*2*>
+.names button_below$raw_n387<1>  button_below<1>
+- =button_below$raw_n387<1>
+.names button_below$raw_n3ad<2>  button_below<2>
+- =button_below$raw_n3ad<2>
+.names _n475 _n4a3 _n4d7 _n51b _n526 _n598 _n5a3 _n7bc
+.def 0
+ 1 - - - - - - 1
+ - 1 - - - - - 1
+ - - 1 - - - - 1
+ - - - 1 1 - - 1
+ - - - - - 1 1 1
+.mv _n7bd<*0*> 2 ON OFF 
+.mv _n7bd<*1*> 2 ON OFF 
+.mv _n7bd<*2*> 2 ON OFF 
+.names _n7bc up_floor_buttons$_n597$raw_n5c2<*0*> up_floor_buttons<*0*> _n7bd<*0*> 
+1 - - =up_floor_buttons$_n597$raw_n5c2<*0*>
+0 - - =up_floor_buttons<*0*>
+.names _n7bc up_floor_buttons$_n597$raw_n5c2<*1*> up_floor_buttons<*1*> _n7bd<*1*> 
+1 - - =up_floor_buttons$_n597$raw_n5c2<*1*>
+0 - - =up_floor_buttons<*1*>
+.names _n7bc up_floor_buttons$_n597$raw_n5c2<*2*> up_floor_buttons<*2*> _n7bd<*2*> 
+1 - - =up_floor_buttons$_n597$raw_n5c2<*2*>
+0 - - =up_floor_buttons<*2*>
+.names stop_next$raw_n3ef<1>  stop_next<1>
+- =stop_next$raw_n3ef<1>
+.names stop_next$raw_n42c<2>  stop_next<2>
+- =stop_next$raw_n42c<2>
+.names _n635 _n665 _n6cf _n700 _n80f
+.def 0
+ 1 - - - 1
+ - 1 - - 1
+ - - 1 - 1
+ - - - 1 1
+.names _n80f locations$dec$raw_n725<*1*><0> locations$dec$raw_n725<*1*><1> locations<*1*><0> locations<*1*><1> -> _n810<*1*><0> 
+1 - - - - =locations$dec$raw_n725<*1*><0> 
+0 - - - - =locations<*1*><0> 
+.names _n80f locations$dec$raw_n725<*1*><0> locations$dec$raw_n725<*1*><1> locations<*1*><0> locations<*1*><1> -> _n810<*1*><1> 
+1 - - - - =locations$dec$raw_n725<*1*><1> 
+0 - - - - =locations<*1*><1> 
+.names _n80f locations$dec$raw_n725<*2*><0> locations$dec$raw_n725<*2*><1> locations<*2*><0> locations<*2*><1> -> _n810<*2*><0>
+1 - - - - =locations$dec$raw_n725<*2*><0>
+0 - - - - =locations<*2*><0>
+.names _n80f locations$dec$raw_n725<*2*><0> locations$dec$raw_n725<*2*><1> locations<*2*><0> locations<*2*><1> -> _n810<*2*><1> 
+1 - - - - =locations$dec$raw_n725<*2*><1> 
+0 - - - - =locations<*2*><1> 
+.names continue$raw_n3d3<1>  continue<1>
+- =continue$raw_n3d3<1>
+.names continue$raw_n3e1<2>  continue<2>
+- =continue$raw_n3e1<2>
+# non-blocking assignments 
+# latches
+.r down_floor_buttons<*0*>
+ON
+.r down_floor_buttons<*1*>
+ON
+.r down_floor_buttons<*2*>
+ON
+.latch _n732<*0*> down_floor_buttons<*0*>
+.latch _n732<*1*> down_floor_buttons<*1*>
+.latch _n732<*2*> down_floor_buttons<*2*>
+.r up_floor_buttons<*0*>
+ON
+.r up_floor_buttons<*1*>
+ON
+.r up_floor_buttons<*2*>
+ON
+.latch _n7bd<*0*> up_floor_buttons<*0*>
+.latch _n7bd<*1*> up_floor_buttons<*1*>
+.latch _n7bd<*2*> up_floor_buttons<*2*>
+.r direction<*1*>
+UP
+.r direction<*2*>
+UP
+.latch _n785<*1*> direction<*1*>
+.latch _n785<*2*> direction<*2*>
+.r locations<*1*><0>
+0
+.r locations<*2*><0>
+0
+.r locations<*1*><1>
+0
+.r locations<*2*><1>
+0
+.latch _n810<*1*><0> locations<*1*><0>
+.latch _n810<*2*><0> locations<*2*><0>
+.latch _n810<*1*><1> locations<*1*><1>
+.latch _n810<*2*><1> locations<*2*><1>
+# quasi-continuous assignment
+.end

@@ -1,0 +1,127 @@
+---------------------------------------------------------------------------
+* MVSIS: Logic Synthesis System for Binary and Multi-Valued Networks
+---------------------------------------------------------------------------
+
+This is Release 2.0 of MVSIS. The most recent versions of MVSIS 
+can be found at:
+
+        http://www-cad.eecs.berkeley.edu/mvsis
+
+This version of source code has been compiled and tested on the
+following architecture/operating system/compiler combinations, 
+but other Unix/Windows platforms should work similarly.
+
+        * Intel ix86 / Linux  / gcc
+        * Intel ix86 / Windows 2000/XP / Visual Studio
+
+The following sections provide detailed information on building
+MVSIS 2.0 on Unix and Windows. Please send bug reports and comments to:
+
+        MVSIS group (mvsis-devel@ic.eecs.berkeley.edu)
+
+---------------------------------------------------------------------------
+* Building MVSIS on Unix
+---------------------------------------------------------------------------
+
+To build a MVSIS executable for a single operating system:
+
+1. Download the most recent versions of MVSIS from the address
+   above into a convenient directory, (e.g., /tmp).
+
+2. Move to where you would like to build MVSIS and unpack the
+   distributions:
+
+        % cd /home/mvsis                                  # for example
+        % gzip -dc /tmp/mvsis-2.0.tar.gz | tar xf -
+
+3. Move into the mvsis-2.0 directory and run configure, which will
+   determine some system-specific parameters and create the Makefile:
+
+        % cd mvsis-2.0
+        % autoconf
+        % ./configure
+        % ./config.status
+
+   By default, this will use your system's native compiler.  To use gcc,
+
+        % ./configure --enable-gcc
+
+   (You may want to do this because you don't have the native compiler
+   installed or because it is not ANSI.)
+
+   Note: The Makefile by default uses the "-g" option for
+   compilation.  The resultant "mvsis" executable may be much larger than
+   the executable generated without using the "-g" option.  Using the
+   "-g" option however, provides debugging capabilities.
+
+   Note: The following is of interest only to people developing code
+   within mvsis.  For full debugging support, specify
+   --with-comp-mode=debug.  This will turn off optimization, and turn
+   on the assertions (sanity checks) in the code.  Similarly,
+   --with-comp-mode=gprof and --with-comp-mode=memwatch will link mvsis
+   with performance profiling tool "gprof", and memory leak detection tool
+   "memwatch", if it is installed.
+
+4. Build MVSIS by running GNU's gmake utility:
+
+        % gmake
+
+   You may not have GNU make installed on your system under the name
+   'gmake' -- try make.  If this fails, you probably need the latest
+   version of GNU's make program -- download it from the address
+   above.
+
+5. OPTIONAL: Verify that MVSIS works by running it on some of the 
+   examples included in the distribution:
+
+        % gmake check
+
+   This step executes an optimization script on a list of examples and
+   check for the equivalence of the result.
+
+6. SUGGESTED: set up the initialization script.
+
+        % gmake setup
+
+   This step tries to create an initialization script ".mvsisrc" in 
+   the user's home directory. The script contains MVSIS commands to
+   setup the directories where some scripts and example files are 
+   located, and will be invoked by MVSIS at start up time.
+
+
+---------------------------------------------------------------------------
+* Building MVSIS on Windows with MS Visual Studio 6.0
+---------------------------------------------------------------------------
+
+1. Download the most recent versions of MVSIS from the address
+   above into a convenient directory, (e.g., /tmp).
+
+2. Use WinZip 8.0 or other archiver to ungzip and untar the
+   distribution.
+
+3. Copy directory "src" with its contents into the directory
+   where you would like to store your Visual Studio MVSIS project.
+
+4. Rename "src" directory into "mvsis".
+
+5. Enter this directory and double click on "mvsis.dsw".
+   If Visual Studio 6.0 is installed, this should open it
+   and load the MVSIS project.
+
+6. In Build menu, choose Set Active Configuration, and select
+   the configuration of your choice (Release or Debug).
+
+7. In Project menu, choose "Rebuild All". Wait while the project
+   compiles. It would take about a minute on a typical computer.
+   There should be no errors. If there are warning, ignore them.
+
+8. The resulting binary executable "mvsis.exe" is created in 
+   subdirectory "mvsis/_TEST" of the "mvsis" directory.
+
+9. If you are not setting the library path, put "master.mvsisrc", 
+   script files, and benchmark files into "mvsis/_TEMP".
+
+10. MVSIS is now ready for use. Enter this subdirectory and 
+    run "mvsis.exe". 
+
+
