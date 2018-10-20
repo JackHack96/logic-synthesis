@@ -1,0 +1,19 @@
+.model csf
+.inputs z0 x1
+.outputs Acc
+
+.mv CS, NS  2  s0 DC1
+
+.latch NS CS
+.reset CS
+s0
+
+.table ->Acc
+1
+
+.table z0 x1 CS ->NS
+1 0    s0  DC1
+0 1    s0  DC1
+- -   DC1  DC1
+
+.end

@@ -1,0 +1,53 @@
+.model fig31ma*fig31mc
+.inputs u v
+.outputs Acc
+
+.mv CS, NS  13  s00 s01 s02 s03 s04 s05 s06 s07 s08 s09 s10 s11 DC
+
+.latch NS CS
+.reset CS
+s00
+
+.table CS ->Acc
+.default 0
+(s00,s01,s02,DC) 1
+
+.table u v CS ->NS
+.default DC
+1 0   s00  s01
+1 1   s00  s02
+0 0   s01  s00
+1 0   s01  s01
+1 1   s01  s03
+0 0   s02  s04
+0 1   s02  s00
+1 0   s02  s01
+1 1   s02  s02
+0 0   s03  s04
+0 1   s03  s05
+1 0   s03  s01
+1 1   s03  s02
+0 0   s04  s06
+1 1   s04  s07
+1 0   s05  s08
+1 1   s05  s09
+1 0   s06  s10
+1 1   s06  s11
+0 0   s07  s04
+0 1   s07  s06
+0 0   s08  s05
+1 0   s08  s08
+1 1   s08  s09
+0 0   s09  s04
+0 1   s09  s05
+1 0   s09  s08
+1 1   s09  s09
+0 0   s10  s06
+1 0   s10  s10
+1 1   s10  s11
+0 0   s11  s04
+0 1   s11  s06
+1 0   s11  s10
+1 1   s11  s11
+
+.end

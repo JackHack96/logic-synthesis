@@ -1,0 +1,26 @@
+.model mc
+.inputs i o  
+.outputs Acc
+
+
+.mv i 2 i1 i2
+.mv o 2 o1 o2
+.mv CS, NS 2 c d
+
+.latch NS CS
+.reset CS
+c
+
+.table CS -> Acc
+.default 1
+
+.table i o CS -> NS
+
+i1 o1 c d
+i2 o2 c d
+
+i1 o1 d c
+i2 o2 d c
+
+.end
+

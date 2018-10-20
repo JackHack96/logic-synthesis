@@ -1,0 +1,38 @@
+.model es11ma*es7mc
+.inputs i v o
+.outputs Acc
+
+.mv i 2 i1 i2
+.mv v 2 v1 v2
+.mv o 2 o1 o2
+.mv CS, NS  6  s0 s1 s2 s3 s4 s5
+
+.latch NS CS
+.reset CS
+s0
+
+.table CS ->Acc
+.default 0
+(s2,s4) 1
+
+.table i v o CS ->NS
+i2 v2 o2   s0  s1
+i1 v2 o2   s0  s2
+i1 v1 o1   s0  s3
+i2 v1 o1   s0  s4
+- v2 o2   s1  s2
+i1 v1 o1   s1  s5
+i2 v1 o1   s1  s3
+- v2 o2   s2  s2
+- v1 o1   s2  s4
+i2 v1 o2   s3  s0
+i1 v1 o2   s3  s1
+- v2 o1   s3  s4
+- v1 o2   s4  s2
+- v2 o1   s4  s4
+i2 v1 o2   s5  s1
+i1 v1 o2   s5  s2
+i1 v2 o1   s5  s3
+i2 v2 o1   s5  s4
+
+.end

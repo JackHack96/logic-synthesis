@@ -1,0 +1,23 @@
+.model es11ma
+.inputs i v o 
+.outputs Acc
+
+.mv CS, NS 2 1 2  
+.mv v 2 v1 v2
+.mv o 2 o1 o2
+.mv i 2 i1 i2
+.latch NS CS
+.reset CS
+1
+
+.table ->Acc
+1
+
+.table i v o  CS ->NS
+- v2 o2 1 1
+- v1 o2 2 1
+- v1 o1 1 2
+- v2 o1 2 2 
+
+
+.end

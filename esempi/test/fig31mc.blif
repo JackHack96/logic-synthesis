@@ -1,0 +1,25 @@
+.model fig31mc.kiss2
+.inputs IN_0
+.outputs OUT_0
+.latch    [66] LatchOut_v1   1
+.latch    [67] LatchOut_v2   1
+
+
+.names IN_0 LatchOut_v1 [66]
+1- 1
+-0 1
+.names LatchOut_v1 [67]
+0 1
+.names IN_0 LatchOut_v1 OUT_0
+1- 1
+-0 1
+.exdc 
+.inputs IN_0 LatchOut_v1 LatchOut_v2
+.outputs [66] [67] OUT_0
+.names LatchOut_v1 LatchOut_v2 [66]
+01 1
+.names LatchOut_v1 LatchOut_v2 [67]
+01 1
+.names LatchOut_v1 LatchOut_v2 OUT_0
+01 1
+.end

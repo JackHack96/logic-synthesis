@@ -1,0 +1,56 @@
+.model es3ma*es3mc
+.inputs i u v o
+.outputs Acc
+
+.mv i 2 i1 i2
+.mv u 2 u1 u2
+.mv v 2 v1 v2
+.mv o 2 o1 o2
+.mv CS, NS  8  s0 s1 s3 s4 s6 s7 DC DC1
+
+.latch NS CS
+.reset CS
+s0
+
+.table CS ->Acc
+.default 1
+DC1 0
+
+.table i u v o CS ->NS
+.default DC1
+i2 u1 v2 o2    s0   s0
+i1 u1 v2 o1    s0   s1
+i2 u1 v1 o2    s0   s3
+i1 u1 v1 o1    s0   s4
+- u2 - -    s0   DC
+i2 u1 v2 o1    s1   s6
+i1 u1 v2 o2    s1   s6
+i2 u1 v1 o1    s1   s7
+i1 u1 v1 o2    s1   s7
+- u2 - -    s1   DC
+i2 u2 v2 o2    s3   s3
+i1 u2 v2 o1    s3   s4
+i2 u1 v1 o2    s3   s0
+i1 u1 v1 o1    s3   s1
+- u2 v1 -    s3   DC
+- u1 v2 -    s3   DC
+i2 u2 v2 o1    s4   s7
+i1 u2 v2 o2    s4   s7
+i2 u1 v1 o1    s4   s6
+i1 u1 v1 o2    s4   s6
+- u2 v1 -    s4   DC
+- u1 v2 -    s4   DC
+i2 u1 v2 o1    s6   s6
+i1 u1 v2 o2    s6   s0
+i2 u1 v1 o1    s6   s7
+i1 u1 v1 o2    s6   s3
+- u2 - -    s6   DC
+i2 u2 v2 o1    s7   s7
+i1 u2 v2 o2    s7   s3
+i2 u1 v1 o1    s7   s6
+i1 u1 v1 o2    s7   s0
+- u2 v1 -    s7   DC
+- u1 v2 -    s7   DC
+- - - -    DC   DC
+
+.end

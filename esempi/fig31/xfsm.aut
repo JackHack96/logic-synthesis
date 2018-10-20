@@ -1,0 +1,26 @@
+.model fig31ma*fig31mc
+.inputs u v
+.outputs Acc
+
+.mv CS, NS  4  s00 s01 s02 DC
+
+.latch NS CS
+.reset CS
+s00
+
+.table ->Acc
+1
+
+.table u v CS ->NS
+1 0   s00  s01
+1 1   s00  s02
+0 -   s00   DC
+0 0   s01  s00
+1 0   s01  s01
+0 1   s01   DC
+0 1   s02  s00
+1 0   s02  s01
+1 1   s02  s02
+- -    DC   DC
+
+.end

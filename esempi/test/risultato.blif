@@ -1,0 +1,19 @@
+.model csf
+.inputs c b
+.outputs Acc
+
+.mv CS, NS  3  s0 s2 DC1
+
+.latch NS CS
+.reset CS
+s0
+
+.table ->Acc
+1
+
+.table c b CS ->NS
+.default DC1
+0 -    s0   s2
+1 -    s2   s0
+
+.end

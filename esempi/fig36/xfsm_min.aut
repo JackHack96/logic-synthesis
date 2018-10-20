@@ -1,0 +1,40 @@
+.model fig36ma*fig31mc
+.inputs u v
+.outputs Acc
+
+.mv CS, NS  9  s00 s01 s02 s03 s04 s08 s10 DC DC1
+
+.latch NS CS
+.reset CS
+s00
+
+.table CS ->Acc
+.default 1
+DC1 0
+
+.table u v CS ->NS
+.default DC1
+0 1   s00  s01
+1 0   s00  s02
+0 0   s00   DC
+1 1   s00   DC
+0 1   s01  s03
+1 0   s01  s04
+0 0   s01   DC
+0 0   s02  s00
+0 1   s02  s03
+1 0   s02  s04
+0 1   s03  s01
+1 1   s03  s08
+0 0   s03   DC
+0 1   s04  s01
+1 0   s04  s02
+1 1   s04  s10
+1 1   s08  s10
+1 0   s08   DC
+0 1   s08   DC
+1 1   s10  s08
+0 -   s10   DC
+- -    DC   DC
+
+.end

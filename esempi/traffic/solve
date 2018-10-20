@@ -1,0 +1,6 @@
+complement esempi/traffic/mc.aut esempi/traffic/mc_comp.aut
+product esempi/traffic/ma.aut esempi/traffic/mc_comp.aut esempi/traffic/product.aut
+support i1(3),i2(3),v1,v2 esempi/traffic/product.aut esempi/traffic/product_supp.aut
+complement esempi/traffic/product_supp.aut esempi/traffic/x.aut
+progressive -i 1 esempi/traffic/x.aut esempi/traffic/xfsm.aut
+minimize esempi/traffic/xfsm.aut esempi/traffic/xfsm_min.aut

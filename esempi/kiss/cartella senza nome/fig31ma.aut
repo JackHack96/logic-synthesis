@@ -1,0 +1,23 @@
+.model esempi/kiss/fig31
+.inputs x0 x1 z0 z1
+.outputs Acc
+
+.mv CS, NS  3  0 1 2
+
+.latch NS CS
+.reset CS
+0
+
+.table ->Acc
+1
+
+.table x0 x1 z0 z1 CS ->NS
+0 0 1 0   0  1
+1 - 1 1   0  0
+0 1 1 0   0  2
+- 0 0 1   1  0
+- 1 1 0   1  2
+- 0 0 0   2  1
+- 1 0 1   2  0
+
+.end

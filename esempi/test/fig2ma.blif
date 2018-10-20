@@ -1,0 +1,14 @@
+.model fig2ma
+.inputs a b
+.outputs c d
+.latch    [35] LatchOut_v2   1
+
+
+
+.names LatchOut_v2 [35]
+0 1
+.names LatchOut_v2 c
+0 1
+.names LatchOut_v2 d
+0 1
+.end

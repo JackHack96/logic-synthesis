@@ -1,0 +1,36 @@
+.model mc
+.inputs i1 i2 colours  
+.outputs Acc
+
+.mv CS, NS 4 a b c d  
+
+.mv i1 3 
+.mv i2 3 
+.mv colours 3 r g y
+
+.latch NS CS
+.reset CS
+a
+
+.table CS -> Acc
+.default 1 
+
+.table i1 i2 colours CS -> NS
+0 - r a a 
+1 1 r a a
+1 2 r a a 
+2 2 r a a 
+1 0 g a b 
+2 0 g a b 
+2 1 g a b 
+- 1 g b c 
+- 2 g b c 
+- - y c a 
+- 0 g b d
+- 0 g d d
+- 1 y d a 
+- 2 y d a 
+
+
+.end
+

@@ -1,0 +1,57 @@
+.model ma*mc
+.inputs i1 i2 v1 v2
+.outputs Acc
+
+.mv i1 3
+.mv i2 3
+.mv CS, NS  10  s0 s1 s2 s3 s4 s5 s6 s7 s8 DC
+
+.latch NS CS
+.reset CS
+s0
+
+.table CS ->Acc
+.default 1
+(s1,s3,s8) 0
+
+.table i1 i2 v1 v2 CS ->NS
+.default DC
+- 2 0 -   s0  s0
+(0,1) (1,2) 0 -   s0  s0
+0 - 0 -   s0  s0
+(1,2) 0 0 -   s0  s1
+2 (0,1) 0 -   s0  s1
+(1,2) 0 1 -   s0  s2
+2 (0,1) 1 -   s0  s2
+- 2 1 -   s0  s3
+(0,1) (1,2) 1 -   s0  s3
+0 - 1 -   s0  s3
+- - 0 -   s1  s1
+- - 1 -   s1  s3
+- (1,2) 0 0   s2  s4
+- 0 0 0   s2  s5
+- - 1 0   s2  s1
+- (1,2) - 1   s2  s6
+- 0 - 1   s2  s7
+- - 0 0   s3  s3
+- - 1 0   s3  s1
+- - - 1   s3  s8
+- - 0 0   s4  s3
+- - 1 0   s4  s0
+- - - 1   s4  s8
+- 0 0 0   s5  s5
+- (1,2) 0 0   s5  s3
+- (1,2) 1 0   s5  s0
+- 0 1 0   s5  s1
+- 0 - 1   s5  s7
+- (1,2) - 1   s5  s8
+- - 0 1   s6  s8
+- - 1 1   s6  s0
+- 0 0 1   s7  s7
+- (1,2) 0 1   s7  s8
+- (1,2) 1 1   s7  s0
+- 0 1 1   s7  s1
+- - 0 1   s8  s8
+- - 1 1   s8  s1
+
+.end

@@ -1,0 +1,2422 @@
+.model DIRECTORY 
+# I/O ports
+.outputs blk_ok2
+.outputs write_back_req2
+.outputs blk_ok1
+.outputs write_back_req1
+.inputs blk_add2<0> 
+.outputs inval2
+.inputs blk_add1<0> 
+.outputs blk_data
+.outputs inval1
+.inputs cache_req2
+.inputs back_data2
+.inputs cache_req1
+.inputs back_data1
+.outputs blocknum<0> 
+
+.mv cache_req2 4 ok blk_rreq blk_excl noop 
+.mv cache_req1 4 ok blk_rreq blk_excl noop 
+.mv arbiter_state 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+# arbiter_state  = 0
+.mv arbiter_state$raw_n229 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$raw_n229
+ONE
+# main_mem [0] = 0
+.names _n22c<0>
+0
+.names _n22d<0>
+0
+.names _n22d<0> _n22c<0> _n22f<0>
+.def 0
+0 1 1
+1 0 1
+.names _n22f<0> _n230
+.def 1
+0 0
+.names _n230 _n22e
+0 1  
+1 0  
+.names _n231
+0
+.names _n22b _n231 _n22e main_mem$raw_n22a<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n233<0>
+1
+.names _n233<0> _n22c<0> _n235<0>
+.def 0
+0 1 1
+1 0 1
+.names _n235<0> _n236
+.def 1
+0 0
+.names _n236 _n234
+0 1  
+1 0  
+.names _n237
+0
+.names _n22b _n237 _n234 main_mem$raw_n22a<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n22b
+0
+# cache_Rlist1 [0] = 0
+.names _n23b<0>
+0
+.names _n23c<0>
+0
+.names _n23c<0> _n23b<0> _n23e<0>
+.def 0
+0 1 1
+1 0 1
+.names _n23e<0> _n23f
+.def 1
+0 0
+.names _n23f _n23d
+0 1  
+1 0  
+.names _n240
+0
+.names _n23a _n240 _n23d cache_Rlist1$raw_n239<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n242<0>
+1
+.names _n242<0> _n23b<0> _n244<0>
+.def 0
+0 1 1
+1 0 1
+.names _n244<0> _n245
+.def 1
+0 0
+.names _n245 _n243
+0 1  
+1 0  
+.names _n246
+0
+.names _n23a _n246 _n243 cache_Rlist1$raw_n239<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n23a
+0
+# cache_Rlist2 [0] = 0
+.names _n24a<0>
+0
+.names _n24b<0>
+0
+.names _n24b<0> _n24a<0> _n24d<0>
+.def 0
+0 1 1
+1 0 1
+.names _n24d<0> _n24e
+.def 1
+0 0
+.names _n24e _n24c
+0 1  
+1 0  
+.names _n24f
+0
+.names _n249 _n24f _n24c cache_Rlist2$raw_n248<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n251<0>
+1
+.names _n251<0> _n24a<0> _n253<0>
+.def 0
+0 1 1
+1 0 1
+.names _n253<0> _n254
+.def 1
+0 0
+.names _n254 _n252
+0 1  
+1 0  
+.names _n255
+0
+.names _n249 _n255 _n252 cache_Rlist2$raw_n248<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n249
+0
+# cache_Wlist1 [0] = 0
+.names _n259<0>
+0
+.names _n25a<0>
+0
+.names _n25a<0> _n259<0> _n25c<0>
+.def 0
+0 1 1
+1 0 1
+.names _n25c<0> _n25d
+.def 1
+0 0
+.names _n25d _n25b
+0 1  
+1 0  
+.names _n25e
+0
+.names _n258 _n25e _n25b cache_Wlist1$raw_n257<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n260<0>
+1
+.names _n260<0> _n259<0> _n262<0>
+.def 0
+0 1 1
+1 0 1
+.names _n262<0> _n263
+.def 1
+0 0
+.names _n263 _n261
+0 1  
+1 0  
+.names _n264
+0
+.names _n258 _n264 _n261 cache_Wlist1$raw_n257<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n258
+0
+# cache_Wlist2 [0] = 0
+.names _n268<0>
+0
+.names _n269<0>
+0
+.names _n269<0> _n268<0> _n26b<0>
+.def 0
+0 1 1
+1 0 1
+.names _n26b<0> _n26c
+.def 1
+0 0
+.names _n26c _n26a
+0 1  
+1 0  
+.names _n26d
+0
+.names _n267 _n26d _n26a cache_Wlist2$raw_n266<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n26f<0>
+1
+.names _n26f<0> _n268<0> _n271<0>
+.def 0
+0 1 1
+1 0 1
+.names _n271<0> _n272
+.def 1
+0 0
+.names _n272 _n270
+0 1  
+1 0  
+.names _n273
+0
+.names _n267 _n273 _n270 cache_Wlist2$raw_n266<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n267
+0
+# main_mem [1] = 0
+.names _n277<0>
+1
+.names _n278<0>
+0
+.names _n278<0> _n277<0> _n27a<0>
+.def 0
+0 1 1
+1 0 1
+.names _n27a<0> _n27b
+.def 1
+0 0
+.names _n27b _n279
+0 1  
+1 0  
+.names _n276 main_mem$raw_n22a<*0*> _n279 main_mem$raw_n275<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n27d<0>
+1
+.names _n27d<0> _n277<0> _n27f<0>
+.def 0
+0 1 1
+1 0 1
+.names _n27f<0> _n280
+.def 1
+0 0
+.names _n280 _n27e
+0 1  
+1 0  
+.names _n276 main_mem$raw_n22a<*1*> _n27e main_mem$raw_n275<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n276
+0
+# cache_Rlist1 [1] = 0
+.names _n284<0>
+1
+.names _n285<0>
+0
+.names _n285<0> _n284<0> _n287<0>
+.def 0
+0 1 1
+1 0 1
+.names _n287<0> _n288
+.def 1
+0 0
+.names _n288 _n286
+0 1  
+1 0  
+.names _n283 cache_Rlist1$raw_n239<*0*> _n286 cache_Rlist1$raw_n282<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n28a<0>
+1
+.names _n28a<0> _n284<0> _n28c<0>
+.def 0
+0 1 1
+1 0 1
+.names _n28c<0> _n28d
+.def 1
+0 0
+.names _n28d _n28b
+0 1  
+1 0  
+.names _n283 cache_Rlist1$raw_n239<*1*> _n28b cache_Rlist1$raw_n282<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n283
+0
+# cache_Rlist2 [1] = 0
+.names _n291<0>
+1
+.names _n292<0>
+0
+.names _n292<0> _n291<0> _n294<0>
+.def 0
+0 1 1
+1 0 1
+.names _n294<0> _n295
+.def 1
+0 0
+.names _n295 _n293
+0 1  
+1 0  
+.names _n290 cache_Rlist2$raw_n248<*0*> _n293 cache_Rlist2$raw_n28f<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n297<0>
+1
+.names _n297<0> _n291<0> _n299<0>
+.def 0
+0 1 1
+1 0 1
+.names _n299<0> _n29a
+.def 1
+0 0
+.names _n29a _n298
+0 1  
+1 0  
+.names _n290 cache_Rlist2$raw_n248<*1*> _n298 cache_Rlist2$raw_n28f<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n290
+0
+# cache_Wlist1 [1] = 0
+.names _n29e<0>
+1
+.names _n29f<0>
+0
+.names _n29f<0> _n29e<0> _n2a1<0>
+.def 0
+0 1 1
+1 0 1
+.names _n2a1<0> _n2a2
+.def 1
+0 0
+.names _n2a2 _n2a0
+0 1  
+1 0  
+.names _n29d cache_Wlist1$raw_n257<*0*> _n2a0 cache_Wlist1$raw_n29c<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2a4<0>
+1
+.names _n2a4<0> _n29e<0> _n2a6<0>
+.def 0
+0 1 1
+1 0 1
+.names _n2a6<0> _n2a7
+.def 1
+0 0
+.names _n2a7 _n2a5
+0 1  
+1 0  
+.names _n29d cache_Wlist1$raw_n257<*1*> _n2a5 cache_Wlist1$raw_n29c<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n29d
+0
+# cache_Wlist2 [1] = 0
+.names _n2ab<0>
+1
+.names _n2ac<0>
+0
+.names _n2ac<0> _n2ab<0> _n2ae<0>
+.def 0
+0 1 1
+1 0 1
+.names _n2ae<0> _n2af
+.def 1
+0 0
+.names _n2af _n2ad
+0 1  
+1 0  
+.names _n2aa cache_Wlist2$raw_n266<*0*> _n2ad cache_Wlist2$raw_n2a9<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2b1<0>
+1
+.names _n2b1<0> _n2ab<0> _n2b3<0>
+.def 0
+0 1 1
+1 0 1
+.names _n2b3<0> _n2b4
+.def 1
+0 0
+.names _n2b4 _n2b2
+0 1  
+1 0  
+.names _n2aa cache_Wlist2$raw_n266<*1*> _n2b2 cache_Wlist2$raw_n2a9<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2aa
+0
+# non-blocking assignments for initial
+# assign inval1  = ((arbiter_state  == TWO ) && (cache_req2  == blk_excl )) ? 1 : 0
+.mv _n2b8 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n2b8
+TWO
+# arbiter_state  == 2
+.names arbiter_state _n2b8 _n2b7
+.def 0
+- =arbiter_state 1
+.mv _n2ba 4 ok blk_rreq blk_excl noop 
+.names _n2ba
+blk_excl
+# cache_req2  == 2
+.names cache_req2 _n2ba _n2b9
+.def 0
+- =cache_req2 1
+# (arbiter_state  == 2) && (cache_req2  == 2)
+.names _n2b7 _n2b9 _n2bb
+.def 0
+1 1 1
+.names _n2bc
+1
+.names _n2bd
+0
+# ((arbiter_state  == 2) && (cache_req2  == 2)) ? 1 : 0
+.names _n2bc _n2bd _n2bb _n2be
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2be inval1$raw_n2b6
+- =_n2be
+# assign inval2  = ((arbiter_state  == ONE ) && (cache_req1  == blk_excl )) ? 1 : 0
+.mv _n2c2 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n2c2
+ONE
+# arbiter_state  == 0
+.names arbiter_state _n2c2 _n2c1
+.def 0
+- =arbiter_state 1
+.mv _n2c4 4 ok blk_rreq blk_excl noop 
+.names _n2c4
+blk_excl
+# cache_req1  == 2
+.names cache_req1 _n2c4 _n2c3
+.def 0
+- =cache_req1 1
+# (arbiter_state  == 0) && (cache_req1  == 2)
+.names _n2c1 _n2c3 _n2c5
+.def 0
+1 1 1
+.names _n2c6
+1
+.names _n2c7
+0
+# ((arbiter_state  == 0) && (cache_req1  == 2)) ? 1 : 0
+.names _n2c6 _n2c7 _n2c5 _n2c8
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2c8 inval2$raw_n2c0
+- =_n2c8
+# assign write_back_req1  = ((arbiter_state  == TWOWAIT ) && (cache_req1  != ok )) ? 1 : 0
+.mv _n2cc 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n2cc
+TWOWAIT
+# arbiter_state  == 3
+.names arbiter_state _n2cc _n2cb
+.def 0
+- =arbiter_state 1
+.mv _n2ce 4 ok blk_rreq blk_excl noop 
+.names _n2ce
+ok
+# cache_req1  != 0
+.names cache_req1 _n2ce _n2cd
+.def 1
+- =cache_req1 0
+# (arbiter_state  == 3) && (cache_req1  != 0)
+.names _n2cb _n2cd _n2cf
+.def 0
+1 1 1
+.names _n2d0
+1
+.names _n2d1
+0
+# ((arbiter_state  == 3) && (cache_req1  != 0)) ? 1 : 0
+.names _n2d0 _n2d1 _n2cf _n2d2
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2d2 write_back_req1$raw_n2ca
+- =_n2d2
+# assign write_back_req2  = ((arbiter_state  == ONEWAIT ) && (cache_req2  != ok )) ? 1 : 0
+.mv _n2d6 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n2d6
+ONEWAIT
+# arbiter_state  == 1
+.names arbiter_state _n2d6 _n2d5
+.def 0
+- =arbiter_state 1
+.mv _n2d8 4 ok blk_rreq blk_excl noop 
+.names _n2d8
+ok
+# cache_req2  != 0
+.names cache_req2 _n2d8 _n2d7
+.def 1
+- =cache_req2 0
+# (arbiter_state  == 1) && (cache_req2  != 0)
+.names _n2d5 _n2d7 _n2d9
+.def 0
+1 1 1
+.names _n2da
+1
+.names _n2db
+0
+# ((arbiter_state  == 1) && (cache_req2  != 0)) ? 1 : 0
+.names _n2da _n2db _n2d9 _n2dc
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2dc write_back_req2$raw_n2d4
+- =_n2dc
+# assign blk_data  = (arbiter_state  == ONESERVE ) ? main_mem [blk_add1 ] : (arbiter_state  == TWOSERVE ) ? main_mem [blk_add2 ] : 0
+.mv _n2e0 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n2e0
+ONESERVE
+# arbiter_state  == 4
+.names arbiter_state _n2e0 _n2df
+.def 0
+- =arbiter_state 1
+.names main_mem<*0*> main_mem<*1*> blk_add1<0> _n2e1
+0 - 0 0
+1 - 0 1
+- 0 1 0
+- 1 1 1
+.mv _n2e3 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n2e3
+TWOSERVE
+# arbiter_state  == 5
+.names arbiter_state _n2e3 _n2e2
+.def 0
+- =arbiter_state 1
+.names main_mem<*0*> main_mem<*1*> blk_add2<0> _n2e4
+0 - 0 0
+1 - 0 1
+- 0 1 0
+- 1 1 1
+.names _n2e5
+0
+# (arbiter_state  == 5) ? main_mem [blk_add2 ] : 0
+.names _n2e4 _n2e5 _n2e2 _n2e6
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+# (arbiter_state  == 4) ? main_mem [blk_add1 ] : (arbiter_state  == 5) ? main_mem [blk_add2 ] : 0
+.names _n2e1 _n2e6 _n2df _n2e8
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2e8 blk_data$raw_n2de
+- =_n2e8
+# assign blk_ok1  = (arbiter_state  == ONESERVE ) ? 1 : 0
+.mv _n2ec 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n2ec
+ONESERVE
+# arbiter_state  == 4
+.names arbiter_state _n2ec _n2eb
+.def 0
+- =arbiter_state 1
+.names _n2ed
+1
+.names _n2ee
+0
+# (arbiter_state  == 4) ? 1 : 0
+.names _n2ed _n2ee _n2eb _n2ef
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2ef blk_ok1$raw_n2ea
+- =_n2ef
+# assign blk_ok2  = (arbiter_state  == TWOSERVE ) ? 1 : 0
+.mv _n2f3 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n2f3
+TWOSERVE
+# arbiter_state  == 5
+.names arbiter_state _n2f3 _n2f2
+.def 0
+- =arbiter_state 1
+.names _n2f4
+1
+.names _n2f5
+0
+# (arbiter_state  == 5) ? 1 : 0
+.names _n2f4 _n2f5 _n2f2 _n2f6
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n2f6 blk_ok2$raw_n2f1
+- =_n2f6
+# assign blocknum  = ((arbiter_state  == ONE ) && (cache_req1  == blk_excl )) ? blk_add1  : ((arbiter_state  == TWO ) && (cache_req2  == blk_excl )) ? blk_add2  : 0
+.mv _n2fa 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n2fa
+ONE
+# arbiter_state  == 0
+.names arbiter_state _n2fa _n2f9
+.def 0
+- =arbiter_state 1
+.mv _n2fc 4 ok blk_rreq blk_excl noop 
+.names _n2fc
+blk_excl
+# cache_req1  == 2
+.names cache_req1 _n2fc _n2fb
+.def 0
+- =cache_req1 1
+# (arbiter_state  == 0) && (cache_req1  == 2)
+.names _n2f9 _n2fb _n2fd
+.def 0
+1 1 1
+.mv _n2ff 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n2ff
+TWO
+# arbiter_state  == 2
+.names arbiter_state _n2ff _n2fe
+.def 0
+- =arbiter_state 1
+.mv _n301 4 ok blk_rreq blk_excl noop 
+.names _n301
+blk_excl
+# cache_req2  == 2
+.names cache_req2 _n301 _n300
+.def 0
+- =cache_req2 1
+# (arbiter_state  == 2) && (cache_req2  == 2)
+.names _n2fe _n300 _n302
+.def 0
+1 1 1
+.names _n303<0>
+0
+# ((arbiter_state  == 2) && (cache_req2  == 2)) ? blk_add2  : 0
+.names blk_add2<0> _n303<0> _n302 _n304<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+# ((arbiter_state  == 0) && (cache_req1  == 2)) ? blk_add1  : ((arbiter_state  == 2) && (cache_req2  == 2)) ? blk_add2  : 0
+.names blk_add1<0> _n304<0> _n2fd _n306<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n306<0> blocknum$raw_n2f8<0>
+- =_n306<0>
+.mv _n30a 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n30a
+ONE
+.names arbiter_state _n30a _n309
+.def 0
+- =arbiter_state 1
+.names _n309  _n308
+1 1
+0 0
+.mv _n30c 4 ok blk_rreq blk_excl noop 
+.names _n30c
+blk_rreq
+# cache_req1  == 1
+.names cache_req1 _n30c _n30b
+.def 0
+- =cache_req1 1
+.names _n30b _n30d
+- =_n30b
+.names cache_Wlist2<*0*> cache_Wlist2<*1*> blk_add1<0> _n30f
+0 - 0 0
+1 - 0 1
+- 0 1 0
+- 1 1 1
+.names _n310
+1
+# cache_Wlist2 [blk_add1 ] == 1
+.names _n30f _n310 _n311
+.def 0
+0 1 1
+1 0 1
+.names _n311 _n30e
+0 1  
+1 0  
+.names _n30e _n313
+- =_n30e
+# cache_Rlist1 [blk_add1 ] = 1
+.names _n316<0>
+0
+.names _n316<0> blk_add1<0> _n318<0>
+.def 0
+0 1 1
+1 0 1
+.names _n318<0> _n319
+.def 1
+0 0
+.names _n319 _n317
+0 1  
+1 0  
+.names _n315 cache_Rlist1<*0*> _n317 cache_Rlist1$_n30e_n314$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n31b<0>
+1
+.names _n31b<0> blk_add1<0> _n31d<0>
+.def 0
+0 1 1
+1 0 1
+.names _n31d<0> _n31e
+.def 1
+0 0
+.names _n31e _n31c
+0 1  
+1 0  
+.names _n315 cache_Rlist1<*1*> _n31c cache_Rlist1$_n30e_n314$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n315
+1
+# cache_Wlist2 [blk_add1 ] = 0
+.names _n322<0>
+0
+.names _n322<0> blk_add1<0> _n324<0>
+.def 0
+0 1 1
+1 0 1
+.names _n324<0> _n325
+.def 1
+0 0
+.names _n325 _n323
+0 1  
+1 0  
+.names _n321 cache_Wlist2<*0*> _n323 cache_Wlist2$_n30e_n320$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n327<0>
+1
+.names _n327<0> blk_add1<0> _n329<0>
+.def 0
+0 1 1
+1 0 1
+.names _n329<0> _n32a
+.def 1
+0 0
+.names _n32a _n328
+0 1  
+1 0  
+.names _n321 cache_Wlist2<*1*> _n328 cache_Wlist2$_n30e_n320$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n321
+0
+# cache_Rlist2 [blk_add1 ] = 1
+.names _n32e<0>
+0
+.names _n32e<0> blk_add1<0> _n330<0>
+.def 0
+0 1 1
+1 0 1
+.names _n330<0> _n331
+.def 1
+0 0
+.names _n331 _n32f
+0 1  
+1 0  
+.names _n32d cache_Rlist2<*0*> _n32f cache_Rlist2$_n30e_n32c$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n333<0>
+1
+.names _n333<0> blk_add1<0> _n335<0>
+.def 0
+0 1 1
+1 0 1
+.names _n335<0> _n336
+.def 1
+0 0
+.names _n336 _n334
+0 1  
+1 0  
+.names _n32d cache_Rlist2<*1*> _n334 cache_Rlist2$_n30e_n32c$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n32d
+1
+# arbiter_state  = 1
+.mv arbiter_state$_n30e_n338$true 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n30e_n338$true
+ONEWAIT
+# cache_Wlist1 [0] = 0
+.names _n33b<0>
+0
+.names _n33c<0>
+0
+.names _n33c<0> _n33b<0> _n33e<0>
+.def 0
+0 1 1
+1 0 1
+.names _n33e<0> _n33f
+.def 1
+0 0
+.names _n33f _n33d
+0 1  
+1 0  
+.names _n33a cache_Wlist1<*0*> _n33d cache_Wlist1$_n30e_n339$false<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n341<0>
+1
+.names _n341<0> _n33b<0> _n343<0>
+.def 0
+0 1 1
+1 0 1
+.names _n343<0> _n344
+.def 1
+0 0
+.names _n344 _n342
+0 1  
+1 0  
+.names _n33a cache_Wlist1<*1*> _n342 cache_Wlist1$_n30e_n339$false<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n33a
+0
+# cache_Wlist1 [1] = 0
+.names _n348<0>
+1
+.names _n349<0>
+0
+.names _n349<0> _n348<0> _n34b<0>
+.def 0
+0 1 1
+1 0 1
+.names _n34b<0> _n34c
+.def 1
+0 0
+.names _n34c _n34a
+0 1  
+1 0  
+.names _n347 cache_Wlist1$_n30e_n339$false<*0*> _n34a cache_Wlist1$_n30e_n346$false<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n34e<0>
+1
+.names _n34e<0> _n348<0> _n350<0>
+.def 0
+0 1 1
+1 0 1
+.names _n350<0> _n351
+.def 1
+0 0
+.names _n351 _n34f
+0 1  
+1 0  
+.names _n347 cache_Wlist1$_n30e_n339$false<*1*> _n34f cache_Wlist1$_n30e_n346$false<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n347
+0
+# cache_Rlist1 [blk_add1 ] = 1
+.names _n355<0>
+0
+.names _n355<0> blk_add1<0> _n357<0>
+.def 0
+0 1 1
+1 0 1
+.names _n357<0> _n358
+.def 1
+0 0
+.names _n358 _n356
+0 1  
+1 0  
+.names _n354 cache_Rlist1<*0*> _n356 cache_Rlist1$_n30e_n353$false<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n35a<0>
+1
+.names _n35a<0> blk_add1<0> _n35c<0>
+.def 0
+0 1 1
+1 0 1
+.names _n35c<0> _n35d
+.def 1
+0 0
+.names _n35d _n35b
+0 1  
+1 0  
+.names _n354 cache_Rlist1<*1*> _n35b cache_Rlist1$_n30e_n353$false<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n354
+1
+# arbiter_state  = 4
+.mv arbiter_state$_n30e_n35f$false 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n30e_n35f$false
+ONESERVE
+# if/else (cache_Wlist2 [blk_add1 ] == 1)
+.names cache_Rlist1$_n30e_n314$true<*0*> cache_Rlist1$_n30e_n353$false<*0*> _n30e cache_Rlist1$_n30e$raw_n366<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n30e_n314$true<*1*> cache_Rlist1$_n30e_n353$false<*1*> _n30e cache_Rlist1$_n30e$raw_n366<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv arbiter_state$_n30e$raw_n369 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n30e_n338$true arbiter_state$_n30e_n35f$false _n30e arbiter_state$_n30e$raw_n369
+- - 0 =arbiter_state$_n30e_n35f$false
+- - 1 =arbiter_state$_n30e_n338$true
+.names cache_Wlist2$_n30e_n320$true<*0*> cache_Wlist2<*0*> _n30e cache_Wlist2$_n30e$raw_n36a<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2$_n30e_n320$true<*1*> cache_Wlist2<*1*> _n30e cache_Wlist2$_n30e$raw_n36a<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n30e_n32c$true<*0*> cache_Rlist2<*0*> _n30e cache_Rlist2$_n30e$raw_n36d<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n30e_n32c$true<*1*> cache_Rlist2<*1*> _n30e cache_Rlist2$_n30e$raw_n36d<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist1<*0*> cache_Wlist1$_n30e_n346$false<*0*> _n30e cache_Wlist1$_n30e$raw_n372<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist1<*1*> cache_Wlist1$_n30e_n346$false<*1*> _n30e cache_Wlist1$_n30e$raw_n372<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv _n378 4 ok blk_rreq blk_excl noop 
+.names _n378
+blk_excl
+# cache_req1  == 2
+.names cache_req1 _n378 _n377
+.def 0
+- =cache_req1 1
+.names _n377 _n379
+- =_n377
+# cache_Wlist1 [blk_add1 ] = 1
+.names _n37c<0>
+0
+.names _n37c<0> blk_add1<0> _n37e<0>
+.def 0
+0 1 1
+1 0 1
+.names _n37e<0> _n37f
+.def 1
+0 0
+.names _n37f _n37d
+0 1  
+1 0  
+.names _n37b cache_Wlist1<*0*> _n37d cache_Wlist1$_n377_n37a$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n381<0>
+1
+.names _n381<0> blk_add1<0> _n383<0>
+.def 0
+0 1 1
+1 0 1
+.names _n383<0> _n384
+.def 1
+0 0
+.names _n384 _n382
+0 1  
+1 0  
+.names _n37b cache_Wlist1<*1*> _n382 cache_Wlist1$_n377_n37a$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n37b
+1
+# cache_Rlist1 [blk_add1 ] = 0
+.names _n388<0>
+0
+.names _n388<0> blk_add1<0> _n38a<0>
+.def 0
+0 1 1
+1 0 1
+.names _n38a<0> _n38b
+.def 1
+0 0
+.names _n38b _n389
+0 1  
+1 0  
+.names _n387 cache_Rlist1<*0*> _n389 cache_Rlist1$_n377_n386$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n38d<0>
+1
+.names _n38d<0> blk_add1<0> _n38f<0>
+.def 0
+0 1 1
+1 0 1
+.names _n38f<0> _n390
+.def 1
+0 0
+.names _n390 _n38e
+0 1  
+1 0  
+.names _n387 cache_Rlist1<*1*> _n38e cache_Rlist1$_n377_n386$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n387
+0
+# cache_Rlist2 [blk_add1 ] = 0
+.names _n394<0>
+0
+.names _n394<0> blk_add1<0> _n396<0>
+.def 0
+0 1 1
+1 0 1
+.names _n396<0> _n397
+.def 1
+0 0
+.names _n397 _n395
+0 1  
+1 0  
+.names _n393 cache_Rlist2<*0*> _n395 cache_Rlist2$_n377_n392$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n399<0>
+1
+.names _n399<0> blk_add1<0> _n39b<0>
+.def 0
+0 1 1
+1 0 1
+.names _n39b<0> _n39c
+.def 1
+0 0
+.names _n39c _n39a
+0 1  
+1 0  
+.names _n393 cache_Rlist2<*1*> _n39a cache_Rlist2$_n377_n392$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n393
+0
+# cache_Wlist2 [blk_add1 ] = 0
+.names _n3a0<0>
+0
+.names _n3a0<0> blk_add1<0> _n3a2<0>
+.def 0
+0 1 1
+1 0 1
+.names _n3a2<0> _n3a3
+.def 1
+0 0
+.names _n3a3 _n3a1
+0 1  
+1 0  
+.names _n39f cache_Wlist2<*0*> _n3a1 cache_Wlist2$_n377_n39e$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n3a5<0>
+1
+.names _n3a5<0> blk_add1<0> _n3a7<0>
+.def 0
+0 1 1
+1 0 1
+.names _n3a7<0> _n3a8
+.def 1
+0 0
+.names _n3a8 _n3a6
+0 1  
+1 0  
+.names _n39f cache_Wlist2<*1*> _n3a6 cache_Wlist2$_n377_n39e$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n39f
+0
+# arbiter_state  = 4
+.mv arbiter_state$_n377_n3aa$true 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n377_n3aa$true
+ONESERVE
+# arbiter_state  = 2
+.mv arbiter_state$_n377_n3ab$false 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n377_n3ab$false
+TWO
+# if/else (cache_req1  == 2)
+.mv arbiter_state$_n377$raw_n3b5 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n377_n3aa$true arbiter_state$_n377_n3ab$false _n377 arbiter_state$_n377$raw_n3b5
+- - 0 =arbiter_state$_n377_n3ab$false
+- - 1 =arbiter_state$_n377_n3aa$true
+.names cache_Wlist1$_n377_n37a$true<*0*> cache_Wlist1<*0*> _n377 cache_Wlist1$_n377$raw_n3b6<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist1$_n377_n37a$true<*1*> cache_Wlist1<*1*> _n377 cache_Wlist1$_n377$raw_n3b6<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2$_n377_n39e$true<*0*> cache_Wlist2<*0*> _n377 cache_Wlist2$_n377$raw_n3b9<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2$_n377_n39e$true<*1*> cache_Wlist2<*1*> _n377 cache_Wlist2$_n377$raw_n3b9<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n377_n392$true<*0*> cache_Rlist2<*0*> _n377 cache_Rlist2$_n377$raw_n3bc<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n377_n392$true<*1*> cache_Rlist2<*1*> _n377 cache_Rlist2$_n377$raw_n3bc<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n377_n386$true<*0*> cache_Rlist1<*0*> _n377 cache_Rlist1$_n377$raw_n3bf<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n377_n386$true<*1*> cache_Rlist1<*1*> _n377 cache_Rlist1$_n377$raw_n3bf<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+# if/else (cache_req1  == 1)
+.names cache_Wlist1$_n30e$raw_n372<*0*> cache_Wlist1$_n377$raw_n3b6<*0*> _n30b cache_Wlist1$_n30b$raw_n3c9<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist1$_n30e$raw_n372<*1*> cache_Wlist1$_n377$raw_n3b6<*1*> _n30b cache_Wlist1$_n30b$raw_n3c9<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2$_n30e$raw_n36a<*0*> cache_Wlist2$_n377$raw_n3b9<*0*> _n30b cache_Wlist2$_n30b$raw_n3cc<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2$_n30e$raw_n36a<*1*> cache_Wlist2$_n377$raw_n3b9<*1*> _n30b cache_Wlist2$_n30b$raw_n3cc<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n30e$raw_n36d<*0*> cache_Rlist2$_n377$raw_n3bc<*0*> _n30b cache_Rlist2$_n30b$raw_n3cf<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n30e$raw_n36d<*1*> cache_Rlist2$_n377$raw_n3bc<*1*> _n30b cache_Rlist2$_n30b$raw_n3cf<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n30e$raw_n366<*0*> cache_Rlist1$_n377$raw_n3bf<*0*> _n30b cache_Rlist1$_n30b$raw_n3d2<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n30e$raw_n366<*1*> cache_Rlist1$_n377$raw_n3bf<*1*> _n30b cache_Rlist1$_n30b$raw_n3d2<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv arbiter_state$_n30b$raw_n3d5 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n30e$raw_n369 arbiter_state$_n377$raw_n3b5 _n30b arbiter_state$_n30b$raw_n3d5
+- - 0 =arbiter_state$_n377$raw_n3b5
+- - 1 =arbiter_state$_n30e$raw_n369
+.mv _n3e2 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n3e2
+ONESERVE
+.names arbiter_state _n3e2 _n3e1
+.def 0
+- =arbiter_state 1
+.names _n3e1  _n3e0
+1 1
+0 0
+# arbiter_state  = 2
+.mv arbiter_state$_n3e0_n3e3$true 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n3e0_n3e3$true
+TWO
+.mv _n3e6 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n3e6
+ONEWAIT
+.names arbiter_state _n3e6 _n3e5
+.def 0
+- =arbiter_state 1
+.names _n3e5  _n3e4
+1 1
+0 0
+.mv _n3e8 4 ok blk_rreq blk_excl noop 
+.names _n3e8
+ok
+# cache_req2  == 0
+.names cache_req2 _n3e8 _n3e7
+.def 0
+- =cache_req2 1
+.names _n3e7 _n3e9
+- =_n3e7
+# main_mem [blk_add1 ] = back_data2 
+.names _n3ec<0>
+0
+.names _n3ec<0> blk_add1<0> _n3ee<0>
+.def 0
+0 1 1
+1 0 1
+.names _n3ee<0> _n3ef
+.def 1
+0 0
+.names _n3ef _n3ed
+0 1  
+1 0  
+.names _n3eb main_mem<*0*> _n3ed main_mem$_n3e7_n3ea$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n3f1<0>
+1
+.names _n3f1<0> blk_add1<0> _n3f3<0>
+.def 0
+0 1 1
+1 0 1
+.names _n3f3<0> _n3f4
+.def 1
+0 0
+.names _n3f4 _n3f2
+0 1  
+1 0  
+.names _n3eb main_mem<*1*> _n3f2 main_mem$_n3e7_n3ea$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names back_data2 _n3eb
+- =back_data2
+# arbiter_state  = 4
+.mv arbiter_state$_n3e7_n3f6$true 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n3e7_n3f6$true
+ONESERVE
+# if/else (cache_req2  == 0)
+.names main_mem$_n3e7_n3ea$true<*0*> main_mem<*0*> _n3e7 main_mem$_n3e7$raw_n3fb<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names main_mem$_n3e7_n3ea$true<*1*> main_mem<*1*> _n3e7 main_mem$_n3e7$raw_n3fb<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv arbiter_state$_n3e7$raw_n3fe 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n3e7_n3f6$true arbiter_state _n3e7 arbiter_state$_n3e7$raw_n3fe
+- - 0 =arbiter_state
+- - 1 =arbiter_state$_n3e7_n3f6$true
+.mv _n401 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n401
+TWO
+.names arbiter_state _n401 _n400
+.def 0
+- =arbiter_state 1
+.names _n400  _n3ff
+1 1
+0 0
+.mv _n403 4 ok blk_rreq blk_excl noop 
+.names _n403
+blk_rreq
+# cache_req2  == 1
+.names cache_req2 _n403 _n402
+.def 0
+- =cache_req2 1
+.names _n402 _n404
+- =_n402
+.names cache_Wlist1<*0*> cache_Wlist1<*1*> blk_add2<0> _n406
+0 - 0 0
+1 - 0 1
+- 0 1 0
+- 1 1 1
+.names _n407
+1
+# cache_Wlist1 [blk_add2 ] == 1
+.names _n406 _n407 _n408
+.def 0
+0 1 1
+1 0 1
+.names _n408 _n405
+0 1  
+1 0  
+.names _n405 _n40a
+- =_n405
+# cache_Rlist2 [blk_add2 ] = 1
+.names _n40d<0>
+0
+.names _n40d<0> blk_add2<0> _n40f<0>
+.def 0
+0 1 1
+1 0 1
+.names _n40f<0> _n410
+.def 1
+0 0
+.names _n410 _n40e
+0 1  
+1 0  
+.names _n40c cache_Rlist2<*0*> _n40e cache_Rlist2$_n405_n40b$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n412<0>
+1
+.names _n412<0> blk_add2<0> _n414<0>
+.def 0
+0 1 1
+1 0 1
+.names _n414<0> _n415
+.def 1
+0 0
+.names _n415 _n413
+0 1  
+1 0  
+.names _n40c cache_Rlist2<*1*> _n413 cache_Rlist2$_n405_n40b$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n40c
+1
+# cache_Wlist1 [blk_add2 ] = 0
+.names _n419<0>
+0
+.names _n419<0> blk_add2<0> _n41b<0>
+.def 0
+0 1 1
+1 0 1
+.names _n41b<0> _n41c
+.def 1
+0 0
+.names _n41c _n41a
+0 1  
+1 0  
+.names _n418 cache_Wlist1<*0*> _n41a cache_Wlist1$_n405_n417$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n41e<0>
+1
+.names _n41e<0> blk_add2<0> _n420<0>
+.def 0
+0 1 1
+1 0 1
+.names _n420<0> _n421
+.def 1
+0 0
+.names _n421 _n41f
+0 1  
+1 0  
+.names _n418 cache_Wlist1<*1*> _n41f cache_Wlist1$_n405_n417$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n418
+0
+# cache_Rlist1 [blk_add2 ] = 1
+.names _n425<0>
+0
+.names _n425<0> blk_add2<0> _n427<0>
+.def 0
+0 1 1
+1 0 1
+.names _n427<0> _n428
+.def 1
+0 0
+.names _n428 _n426
+0 1  
+1 0  
+.names _n424 cache_Rlist1<*0*> _n426 cache_Rlist1$_n405_n423$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n42a<0>
+1
+.names _n42a<0> blk_add2<0> _n42c<0>
+.def 0
+0 1 1
+1 0 1
+.names _n42c<0> _n42d
+.def 1
+0 0
+.names _n42d _n42b
+0 1  
+1 0  
+.names _n424 cache_Rlist1<*1*> _n42b cache_Rlist1$_n405_n423$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n424
+1
+# arbiter_state  = 3
+.mv arbiter_state$_n405_n42f$true 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n405_n42f$true
+TWOWAIT
+# cache_Wlist2 [0] = 0
+.names _n432<0>
+0
+.names _n433<0>
+0
+.names _n433<0> _n432<0> _n435<0>
+.def 0
+0 1 1
+1 0 1
+.names _n435<0> _n436
+.def 1
+0 0
+.names _n436 _n434
+0 1  
+1 0  
+.names _n431 cache_Wlist2<*0*> _n434 cache_Wlist2$_n405_n430$false<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n438<0>
+1
+.names _n438<0> _n432<0> _n43a<0>
+.def 0
+0 1 1
+1 0 1
+.names _n43a<0> _n43b
+.def 1
+0 0
+.names _n43b _n439
+0 1  
+1 0  
+.names _n431 cache_Wlist2<*1*> _n439 cache_Wlist2$_n405_n430$false<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n431
+0
+# cache_Wlist2 [1] = 0
+.names _n43f<0>
+1
+.names _n440<0>
+0
+.names _n440<0> _n43f<0> _n442<0>
+.def 0
+0 1 1
+1 0 1
+.names _n442<0> _n443
+.def 1
+0 0
+.names _n443 _n441
+0 1  
+1 0  
+.names _n43e cache_Wlist2$_n405_n430$false<*0*> _n441 cache_Wlist2$_n405_n43d$false<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n445<0>
+1
+.names _n445<0> _n43f<0> _n447<0>
+.def 0
+0 1 1
+1 0 1
+.names _n447<0> _n448
+.def 1
+0 0
+.names _n448 _n446
+0 1  
+1 0  
+.names _n43e cache_Wlist2$_n405_n430$false<*1*> _n446 cache_Wlist2$_n405_n43d$false<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n43e
+0
+# cache_Rlist2 [blk_add2 ] = 1
+.names _n44c<0>
+0
+.names _n44c<0> blk_add2<0> _n44e<0>
+.def 0
+0 1 1
+1 0 1
+.names _n44e<0> _n44f
+.def 1
+0 0
+.names _n44f _n44d
+0 1  
+1 0  
+.names _n44b cache_Rlist2<*0*> _n44d cache_Rlist2$_n405_n44a$false<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n451<0>
+1
+.names _n451<0> blk_add2<0> _n453<0>
+.def 0
+0 1 1
+1 0 1
+.names _n453<0> _n454
+.def 1
+0 0
+.names _n454 _n452
+0 1  
+1 0  
+.names _n44b cache_Rlist2<*1*> _n452 cache_Rlist2$_n405_n44a$false<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n44b
+1
+# arbiter_state  = 5
+.mv arbiter_state$_n405_n456$false 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n405_n456$false
+TWOSERVE
+# if/else (cache_Wlist1 [blk_add2 ] == 1)
+.names cache_Rlist2$_n405_n40b$true<*0*> cache_Rlist2$_n405_n44a$false<*0*> _n405 cache_Rlist2$_n405$raw_n45c<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n405_n40b$true<*1*> cache_Rlist2$_n405_n44a$false<*1*> _n405 cache_Rlist2$_n405$raw_n45c<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv arbiter_state$_n405$raw_n460 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n405_n42f$true arbiter_state$_n405_n456$false _n405 arbiter_state$_n405$raw_n460
+- - 0 =arbiter_state$_n405_n456$false
+- - 1 =arbiter_state$_n405_n42f$true
+.names cache_Wlist1$_n405_n417$true<*0*> cache_Wlist1<*0*> _n405 cache_Wlist1$_n405$raw_n461<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist1$_n405_n417$true<*1*> cache_Wlist1<*1*> _n405 cache_Wlist1$_n405$raw_n461<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n405_n423$true<*0*> cache_Rlist1<*0*> _n405 cache_Rlist1$_n405$raw_n465<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n405_n423$true<*1*> cache_Rlist1<*1*> _n405 cache_Rlist1$_n405$raw_n465<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2<*0*> cache_Wlist2$_n405_n43d$false<*0*> _n405 cache_Wlist2$_n405$raw_n469<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2<*1*> cache_Wlist2$_n405_n43d$false<*1*> _n405 cache_Wlist2$_n405$raw_n469<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv _n46f 4 ok blk_rreq blk_excl noop 
+.names _n46f
+blk_excl
+# cache_req2  == 2
+.names cache_req2 _n46f _n46e
+.def 0
+- =cache_req2 1
+.names _n46e _n470
+- =_n46e
+# cache_Wlist1 [blk_add2 ] = 0
+.names _n473<0>
+0
+.names _n473<0> blk_add2<0> _n475<0>
+.def 0
+0 1 1
+1 0 1
+.names _n475<0> _n476
+.def 1
+0 0
+.names _n476 _n474
+0 1  
+1 0  
+.names _n472 cache_Wlist1<*0*> _n474 cache_Wlist1$_n46e_n471$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n478<0>
+1
+.names _n478<0> blk_add2<0> _n47a<0>
+.def 0
+0 1 1
+1 0 1
+.names _n47a<0> _n47b
+.def 1
+0 0
+.names _n47b _n479
+0 1  
+1 0  
+.names _n472 cache_Wlist1<*1*> _n479 cache_Wlist1$_n46e_n471$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n472
+0
+# cache_Rlist1 [blk_add2 ] = 0
+.names _n47f<0>
+0
+.names _n47f<0> blk_add2<0> _n481<0>
+.def 0
+0 1 1
+1 0 1
+.names _n481<0> _n482
+.def 1
+0 0
+.names _n482 _n480
+0 1  
+1 0  
+.names _n47e cache_Rlist1<*0*> _n480 cache_Rlist1$_n46e_n47d$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n484<0>
+1
+.names _n484<0> blk_add2<0> _n486<0>
+.def 0
+0 1 1
+1 0 1
+.names _n486<0> _n487
+.def 1
+0 0
+.names _n487 _n485
+0 1  
+1 0  
+.names _n47e cache_Rlist1<*1*> _n485 cache_Rlist1$_n46e_n47d$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n47e
+0
+# cache_Rlist2 [blk_add2 ] = 0
+.names _n48b<0>
+0
+.names _n48b<0> blk_add2<0> _n48d<0>
+.def 0
+0 1 1
+1 0 1
+.names _n48d<0> _n48e
+.def 1
+0 0
+.names _n48e _n48c
+0 1  
+1 0  
+.names _n48a cache_Rlist2<*0*> _n48c cache_Rlist2$_n46e_n489$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n490<0>
+1
+.names _n490<0> blk_add2<0> _n492<0>
+.def 0
+0 1 1
+1 0 1
+.names _n492<0> _n493
+.def 1
+0 0
+.names _n493 _n491
+0 1  
+1 0  
+.names _n48a cache_Rlist2<*1*> _n491 cache_Rlist2$_n46e_n489$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n48a
+0
+# cache_Wlist2 [blk_add2 ] = 1
+.names _n497<0>
+0
+.names _n497<0> blk_add2<0> _n499<0>
+.def 0
+0 1 1
+1 0 1
+.names _n499<0> _n49a
+.def 1
+0 0
+.names _n49a _n498
+0 1  
+1 0  
+.names _n496 cache_Wlist2<*0*> _n498 cache_Wlist2$_n46e_n495$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n49c<0>
+1
+.names _n49c<0> blk_add2<0> _n49e<0>
+.def 0
+0 1 1
+1 0 1
+.names _n49e<0> _n49f
+.def 1
+0 0
+.names _n49f _n49d
+0 1  
+1 0  
+.names _n496 cache_Wlist2<*1*> _n49d cache_Wlist2$_n46e_n495$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n496
+1
+# arbiter_state  = 5
+.mv arbiter_state$_n46e_n4a1$true 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n46e_n4a1$true
+TWOSERVE
+# arbiter_state  = 0
+.mv arbiter_state$_n46e_n4a2$false 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n46e_n4a2$false
+ONE
+# if/else (cache_req2  == 2)
+.mv arbiter_state$_n46e$raw_n4ac 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n46e_n4a1$true arbiter_state$_n46e_n4a2$false _n46e arbiter_state$_n46e$raw_n4ac
+- - 0 =arbiter_state$_n46e_n4a2$false
+- - 1 =arbiter_state$_n46e_n4a1$true
+.names cache_Wlist1$_n46e_n471$true<*0*> cache_Wlist1<*0*> _n46e cache_Wlist1$_n46e$raw_n4ad<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist1$_n46e_n471$true<*1*> cache_Wlist1<*1*> _n46e cache_Wlist1$_n46e$raw_n4ad<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2$_n46e_n495$true<*0*> cache_Wlist2<*0*> _n46e cache_Wlist2$_n46e$raw_n4b0<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2$_n46e_n495$true<*1*> cache_Wlist2<*1*> _n46e cache_Wlist2$_n46e$raw_n4b0<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n46e_n489$true<*0*> cache_Rlist2<*0*> _n46e cache_Rlist2$_n46e$raw_n4b3<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n46e_n489$true<*1*> cache_Rlist2<*1*> _n46e cache_Rlist2$_n46e$raw_n4b3<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n46e_n47d$true<*0*> cache_Rlist1<*0*> _n46e cache_Rlist1$_n46e$raw_n4b6<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n46e_n47d$true<*1*> cache_Rlist1<*1*> _n46e cache_Rlist1$_n46e$raw_n4b6<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+# if/else (cache_req2  == 1)
+.names cache_Wlist1$_n405$raw_n461<*0*> cache_Wlist1$_n46e$raw_n4ad<*0*> _n402 cache_Wlist1$_n402$raw_n4c0<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist1$_n405$raw_n461<*1*> cache_Wlist1$_n46e$raw_n4ad<*1*> _n402 cache_Wlist1$_n402$raw_n4c0<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2$_n405$raw_n469<*0*> cache_Wlist2$_n46e$raw_n4b0<*0*> _n402 cache_Wlist2$_n402$raw_n4c3<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2$_n405$raw_n469<*1*> cache_Wlist2$_n46e$raw_n4b0<*1*> _n402 cache_Wlist2$_n402$raw_n4c3<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n405$raw_n45c<*0*> cache_Rlist2$_n46e$raw_n4b3<*0*> _n402 cache_Rlist2$_n402$raw_n4c6<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n405$raw_n45c<*1*> cache_Rlist2$_n46e$raw_n4b3<*1*> _n402 cache_Rlist2$_n402$raw_n4c6<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n405$raw_n465<*0*> cache_Rlist1$_n46e$raw_n4b6<*0*> _n402 cache_Rlist1$_n402$raw_n4c9<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n405$raw_n465<*1*> cache_Rlist1$_n46e$raw_n4b6<*1*> _n402 cache_Rlist1$_n402$raw_n4c9<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv arbiter_state$_n402$raw_n4cc 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n405$raw_n460 arbiter_state$_n46e$raw_n4ac _n402 arbiter_state$_n402$raw_n4cc
+- - 0 =arbiter_state$_n46e$raw_n4ac
+- - 1 =arbiter_state$_n405$raw_n460
+.mv _n4d9 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n4d9
+TWOSERVE
+.names arbiter_state _n4d9 _n4d8
+.def 0
+- =arbiter_state 1
+.names _n4d8  _n4d7
+1 1
+0 0
+# arbiter_state  = 0
+.mv arbiter_state$_n4d7_n4da$true 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n4d7_n4da$true
+ONE
+.mv _n4dd 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n4dd
+TWOWAIT
+.names arbiter_state _n4dd _n4dc
+.def 0
+- =arbiter_state 1
+.names _n4dc  _n4db
+1 1
+0 0
+.mv _n4df 4 ok blk_rreq blk_excl noop 
+.names _n4df
+ok
+# cache_req1  == 0
+.names cache_req1 _n4df _n4de
+.def 0
+- =cache_req1 1
+.names _n4de _n4e0
+- =_n4de
+# main_mem [blk_add2 ] = back_data1 
+.names _n4e3<0>
+0
+.names _n4e3<0> blk_add2<0> _n4e5<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4e5<0> _n4e6
+.def 1
+0 0
+.names _n4e6 _n4e4
+0 1  
+1 0  
+.names _n4e2 main_mem<*0*> _n4e4 main_mem$_n4de_n4e1$true<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n4e8<0>
+1
+.names _n4e8<0> blk_add2<0> _n4ea<0>
+.def 0
+0 1 1
+1 0 1
+.names _n4ea<0> _n4eb
+.def 1
+0 0
+.names _n4eb _n4e9
+0 1  
+1 0  
+.names _n4e2 main_mem<*1*> _n4e9 main_mem$_n4de_n4e1$true<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names back_data1 _n4e2
+- =back_data1
+# arbiter_state  = 5
+.mv arbiter_state$_n4de_n4ed$true 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n4de_n4ed$true
+TWOSERVE
+# if/else (cache_req1  == 0)
+.names main_mem$_n4de_n4e1$true<*0*> main_mem<*0*> _n4de main_mem$_n4de$raw_n4f2<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names main_mem$_n4de_n4e1$true<*1*> main_mem<*1*> _n4de main_mem$_n4de$raw_n4f2<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv arbiter_state$_n4de$raw_n4f5 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n4de_n4ed$true arbiter_state _n4de arbiter_state$_n4de$raw_n4f5
+- - 0 =arbiter_state
+- - 1 =arbiter_state$_n4de_n4ed$true
+# case (arbiter_state )
+.names main_mem$_n4de$raw_n4f2<*0*> main_mem<*0*> _n4db main_mem$_n4db$raw_n4fa<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names main_mem$_n4de$raw_n4f2<*1*> main_mem<*1*> _n4db main_mem$_n4db$raw_n4fa<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv arbiter_state$_n4db$raw_n4fd 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n4de$raw_n4f5 arbiter_state _n4db arbiter_state$_n4db$raw_n4fd
+- - 0 =arbiter_state
+- - 1 =arbiter_state$_n4de$raw_n4f5
+.mv arbiter_state$_n4d7$raw_n4ff 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n4d7_n4da$true arbiter_state$_n4db$raw_n4fd _n4d7 arbiter_state$_n4d7$raw_n4ff
+- - 0 =arbiter_state$_n4db$raw_n4fd
+- - 1 =arbiter_state$_n4d7_n4da$true
+.names main_mem<*0*> main_mem$_n4db$raw_n4fa<*0*> _n4d7 main_mem$_n4d7$raw_n501<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names main_mem<*1*> main_mem$_n4db$raw_n4fa<*1*> _n4d7 main_mem$_n4d7$raw_n501<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv arbiter_state$_n3ff$raw_n50e 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n402$raw_n4cc arbiter_state$_n4d7$raw_n4ff _n3ff arbiter_state$_n3ff$raw_n50e
+- - 0 =arbiter_state$_n4d7$raw_n4ff
+- - 1 =arbiter_state$_n402$raw_n4cc
+.names cache_Wlist1$_n402$raw_n4c0<*0*> cache_Wlist1<*0*> _n3ff cache_Wlist1$_n3ff$raw_n50f<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist1$_n402$raw_n4c0<*1*> cache_Wlist1<*1*> _n3ff cache_Wlist1$_n3ff$raw_n50f<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2$_n402$raw_n4c3<*0*> cache_Wlist2<*0*> _n3ff cache_Wlist2$_n3ff$raw_n512<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2$_n402$raw_n4c3<*1*> cache_Wlist2<*1*> _n3ff cache_Wlist2$_n3ff$raw_n512<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n402$raw_n4c6<*0*> cache_Rlist2<*0*> _n3ff cache_Rlist2$_n3ff$raw_n515<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n402$raw_n4c6<*1*> cache_Rlist2<*1*> _n3ff cache_Rlist2$_n3ff$raw_n515<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n402$raw_n4c9<*0*> cache_Rlist1<*0*> _n3ff cache_Rlist1$_n3ff$raw_n518<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n402$raw_n4c9<*1*> cache_Rlist1<*1*> _n3ff cache_Rlist1$_n3ff$raw_n518<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names main_mem<*0*> main_mem$_n4d7$raw_n501<*0*> _n3ff main_mem$_n3ff$raw_n51c<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names main_mem<*1*> main_mem$_n4d7$raw_n501<*1*> _n3ff main_mem$_n3ff$raw_n51c<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names main_mem$_n3e7$raw_n3fb<*0*> main_mem$_n3ff$raw_n51c<*0*> _n3e4 main_mem$_n3e4$raw_n522<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names main_mem$_n3e7$raw_n3fb<*1*> main_mem$_n3ff$raw_n51c<*1*> _n3e4 main_mem$_n3e4$raw_n522<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv arbiter_state$_n3e4$raw_n525 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n3e7$raw_n3fe arbiter_state$_n3ff$raw_n50e _n3e4 arbiter_state$_n3e4$raw_n525
+- - 0 =arbiter_state$_n3ff$raw_n50e
+- - 1 =arbiter_state$_n3e7$raw_n3fe
+.names cache_Wlist1<*0*> cache_Wlist1$_n3ff$raw_n50f<*0*> _n3e4 cache_Wlist1$_n3e4$raw_n529<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist1<*1*> cache_Wlist1$_n3ff$raw_n50f<*1*> _n3e4 cache_Wlist1$_n3e4$raw_n529<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2<*0*> cache_Wlist2$_n3ff$raw_n512<*0*> _n3e4 cache_Wlist2$_n3e4$raw_n52c<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2<*1*> cache_Wlist2$_n3ff$raw_n512<*1*> _n3e4 cache_Wlist2$_n3e4$raw_n52c<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2<*0*> cache_Rlist2$_n3ff$raw_n515<*0*> _n3e4 cache_Rlist2$_n3e4$raw_n52f<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2<*1*> cache_Rlist2$_n3ff$raw_n515<*1*> _n3e4 cache_Rlist2$_n3e4$raw_n52f<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1<*0*> cache_Rlist1$_n3ff$raw_n518<*0*> _n3e4 cache_Rlist1$_n3e4$raw_n532<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1<*1*> cache_Rlist1$_n3ff$raw_n518<*1*> _n3e4 cache_Rlist1$_n3e4$raw_n532<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv arbiter_state$_n3e0$raw_n537 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n3e0_n3e3$true arbiter_state$_n3e4$raw_n525 _n3e0 arbiter_state$_n3e0$raw_n537
+- - 0 =arbiter_state$_n3e4$raw_n525
+- - 1 =arbiter_state$_n3e0_n3e3$true
+.names main_mem<*0*> main_mem$_n3e4$raw_n522<*0*> _n3e0 main_mem$_n3e0$raw_n539<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names main_mem<*1*> main_mem$_n3e4$raw_n522<*1*> _n3e0 main_mem$_n3e0$raw_n539<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist1<*0*> cache_Wlist1$_n3e4$raw_n529<*0*> _n3e0 cache_Wlist1$_n3e0$raw_n53c<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist1<*1*> cache_Wlist1$_n3e4$raw_n529<*1*> _n3e0 cache_Wlist1$_n3e0$raw_n53c<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2<*0*> cache_Wlist2$_n3e4$raw_n52c<*0*> _n3e0 cache_Wlist2$_n3e0$raw_n53f<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2<*1*> cache_Wlist2$_n3e4$raw_n52c<*1*> _n3e0 cache_Wlist2$_n3e0$raw_n53f<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2<*0*> cache_Rlist2$_n3e4$raw_n52f<*0*> _n3e0 cache_Rlist2$_n3e0$raw_n542<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2<*1*> cache_Rlist2$_n3e4$raw_n52f<*1*> _n3e0 cache_Rlist2$_n3e0$raw_n542<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1<*0*> cache_Rlist1$_n3e4$raw_n532<*0*> _n3e0 cache_Rlist1$_n3e0$raw_n545<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1<*1*> cache_Rlist1$_n3e4$raw_n532<*1*> _n3e0 cache_Rlist1$_n3e0$raw_n545<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist1$_n30b$raw_n3c9<*0*> cache_Wlist1$_n3e0$raw_n53c<*0*> _n308 cache_Wlist1$_n308$raw_n54e<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist1$_n30b$raw_n3c9<*1*> cache_Wlist1$_n3e0$raw_n53c<*1*> _n308 cache_Wlist1$_n308$raw_n54e<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2$_n30b$raw_n3cc<*0*> cache_Wlist2$_n3e0$raw_n53f<*0*> _n308 cache_Wlist2$_n308$raw_n551<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Wlist2$_n30b$raw_n3cc<*1*> cache_Wlist2$_n3e0$raw_n53f<*1*> _n308 cache_Wlist2$_n308$raw_n551<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n30b$raw_n3cf<*0*> cache_Rlist2$_n3e0$raw_n542<*0*> _n308 cache_Rlist2$_n308$raw_n554<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist2$_n30b$raw_n3cf<*1*> cache_Rlist2$_n3e0$raw_n542<*1*> _n308 cache_Rlist2$_n308$raw_n554<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n30b$raw_n3d2<*0*> cache_Rlist1$_n3e0$raw_n545<*0*> _n308 cache_Rlist1$_n308$raw_n557<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names cache_Rlist1$_n30b$raw_n3d2<*1*> cache_Rlist1$_n3e0$raw_n545<*1*> _n308 cache_Rlist1$_n308$raw_n557<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv arbiter_state$_n308$raw_n55a 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names arbiter_state$_n30b$raw_n3d5 arbiter_state$_n3e0$raw_n537 _n308 arbiter_state$_n308$raw_n55a
+- - 0 =arbiter_state$_n3e0$raw_n537
+- - 1 =arbiter_state$_n30b$raw_n3d5
+.names main_mem<*0*> main_mem$_n3e0$raw_n539<*0*> _n308 main_mem$_n308$raw_n560<*0*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names main_mem<*1*> main_mem$_n3e0$raw_n539<*1*> _n308 main_mem$_n308$raw_n560<*1*>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+# conflict arbitrators
+.names blk_ok2$raw_n2f1  blk_ok2
+0 0
+1 1
+.names _n308 _n3e0 _n3e4 _n3e9 _n3ff _n4d7 _n4db _n4e0 _n568
+.def 0
+ 0 0 1 1 - - - - 1
+ 0 0 0 - 0 0 1 1 1
+.names _n568 main_mem$_n308$raw_n560<*0*> main_mem<*0*> _n569<*0*> 
+1 0 - 0
+1 1 - 1
+0 - 0 0
+0 - 1 1
+.names _n568 main_mem$_n308$raw_n560<*1*> main_mem<*1*> _n569<*1*> 
+1 0 - 0
+1 1 - 1
+0 - 0 0
+0 - 1 1
+.names write_back_req2$raw_n2d4  write_back_req2
+0 0
+1 1
+.names blk_ok1$raw_n2ea  blk_ok1
+0 0
+1 1
+.names write_back_req1$raw_n2ca  write_back_req1
+0 0
+1 1
+.names inval2$raw_n2c0  inval2
+0 0
+1 1
+.names blk_data$raw_n2de  blk_data
+0 0
+1 1
+.names inval1$raw_n2b6  inval1
+0 0
+1 1
+.names _n308 _n30d _n313 _n379 _n3e0 _n3e4 _n3ff _n404 _n40a _n470 _n56a
+.def 0
+ 1 1 0 - - - - - - - 1
+ 1 1 0 - - - - - - - 1
+ 1 0 - 1 - - - - - - 1
+ 0 - - - 0 0 1 1 1 - 1
+ 0 - - - 0 0 1 0 - 1 1
+.names _n56a cache_Wlist1$_n308$raw_n54e<*0*> cache_Wlist1<*0*> _n56b<*0*> 
+1 0 - 0
+1 1 - 1
+0 - 0 0
+0 - 1 1
+.names _n56a cache_Wlist1$_n308$raw_n54e<*1*> cache_Wlist1<*1*> _n56b<*1*> 
+1 0 - 0
+1 1 - 1
+0 - 0 0
+0 - 1 1
+.names _n308 _n30d _n313 _n379 _n3e0 _n3e4 _n3ff _n404 _n40a _n470 _n56c
+.def 0
+ 1 1 1 - - - - - - - 1
+ 1 0 - 1 - - - - - - 1
+ 0 - - - 0 0 1 1 0 - 1
+ 0 - - - 0 0 1 1 0 - 1
+ 0 - - - 0 0 1 0 - 1 1
+.names _n56c cache_Wlist2$_n308$raw_n551<*0*> cache_Wlist2<*0*> _n56d<*0*> 
+1 0 - 0
+1 1 - 1
+0 - 0 0
+0 - 1 1
+.names _n56c cache_Wlist2$_n308$raw_n551<*1*> cache_Wlist2<*1*> _n56d<*1*> 
+1 0 - 0
+1 1 - 1
+0 - 0 0
+0 - 1 1
+.names _n308 _n30d _n313 _n379 _n3e0 _n3e4 _n3ff _n404 _n40a _n470 _n56e
+.def 0
+ 1 1 1 - - - - - - - 1
+ 1 0 - 1 - - - - - - 1
+ 0 - - - 0 0 1 1 1 - 1
+ 0 - - - 0 0 1 1 0 - 1
+ 0 - - - 0 0 1 0 - 1 1
+.names _n56e cache_Rlist2$_n308$raw_n554<*0*> cache_Rlist2<*0*> _n56f<*0*> 
+1 0 - 0
+1 1 - 1
+0 - 0 0
+0 - 1 1
+.names _n56e cache_Rlist2$_n308$raw_n554<*1*> cache_Rlist2<*1*> _n56f<*1*> 
+1 0 - 0
+1 1 - 1
+0 - 0 0
+0 - 1 1
+.names blocknum$raw_n2f8<0>  blocknum<0>
+- =blocknum$raw_n2f8<0>
+.names _n308 _n30d _n313 _n379 _n3e0 _n3e4 _n3ff _n404 _n40a _n470 _n570
+.def 0
+ 1 1 1 - - - - - - - 1
+ 1 1 0 - - - - - - - 1
+ 1 0 - 1 - - - - - - 1
+ 0 - - - 0 0 1 1 1 - 1
+ 0 - - - 0 0 1 0 - 1 1
+.names _n570 cache_Rlist1$_n308$raw_n557<*0*> cache_Rlist1<*0*> _n571<*0*> 
+1 0 - 0
+1 1 - 1
+0 - 0 0
+0 - 1 1
+.names _n570 cache_Rlist1$_n308$raw_n557<*1*> cache_Rlist1<*1*> _n571<*1*> 
+1 0 - 0
+1 1 - 1
+0 - 0 0
+0 - 1 1
+.names _n308 _n30d _n313 _n379 _n3e0 _n3e4 _n3e9 _n3ff _n404 _n40a _n470 _n4d7 _n4db _n4e0 _n572
+.def 0
+ 1 1 1 - - - - - - - - - - - 1
+ 1 1 0 - - - - - - - - - - - 1
+ 1 0 - 1 - - - - - - - - - - 1
+ 1 0 - 0 - - - - - - - - - - 1
+ 0 - - - 1 - - - - - - - - - 1
+ 0 - - - 0 1 1 - - - - - - - 1
+ 0 - - - 0 0 - 1 1 1 - - - - 1
+ 0 - - - 0 0 - 1 1 0 - - - - 1
+ 0 - - - 0 0 - 1 0 - 1 - - - 1
+ 0 - - - 0 0 - 1 0 - 0 - - - 1
+ 0 - - - 0 0 - 0 - - - 1 - - 1
+ 0 - - - 0 0 - 0 - - - 0 1 1 1
+.mv _n573 6 ONE ONEWAIT TWO TWOWAIT ONESERVE TWOSERVE 
+.names _n572 arbiter_state$_n308$raw_n55a arbiter_state _n573 
+1 - - =arbiter_state$_n308$raw_n55a
+0 - - =arbiter_state
+# non-blocking assignments 
+# latches
+.r main_mem$raw_n275<*0*> main_mem<*0*>
+.def 0
+1 1
+.r main_mem$raw_n275<*1*> main_mem<*1*>
+.def 0
+1 1
+.latch _n569<*0*> main_mem<*0*>
+.latch _n569<*1*> main_mem<*1*>
+.r cache_Wlist1$raw_n29c<*0*> cache_Wlist1<*0*>
+.def 0
+1 1
+.r cache_Wlist1$raw_n29c<*1*> cache_Wlist1<*1*>
+.def 0
+1 1
+.latch _n56b<*0*> cache_Wlist1<*0*>
+.latch _n56b<*1*> cache_Wlist1<*1*>
+.r cache_Wlist2$raw_n2a9<*0*> cache_Wlist2<*0*>
+.def 0
+1 1
+.r cache_Wlist2$raw_n2a9<*1*> cache_Wlist2<*1*>
+.def 0
+1 1
+.latch _n56d<*0*> cache_Wlist2<*0*>
+.latch _n56d<*1*> cache_Wlist2<*1*>
+.r cache_Rlist2$raw_n28f<*0*> cache_Rlist2<*0*>
+.def 0
+1 1
+.r cache_Rlist2$raw_n28f<*1*> cache_Rlist2<*1*>
+.def 0
+1 1
+.latch _n56f<*0*> cache_Rlist2<*0*>
+.latch _n56f<*1*> cache_Rlist2<*1*>
+.r cache_Rlist1$raw_n282<*0*> cache_Rlist1<*0*>
+.def 0
+1 1
+.r cache_Rlist1$raw_n282<*1*> cache_Rlist1<*1*>
+.def 0
+1 1
+.latch _n571<*0*> cache_Rlist1<*0*>
+.latch _n571<*1*> cache_Rlist1<*1*>
+.r arbiter_state$raw_n229 arbiter_state
+- =arbiter_state$raw_n229
+.latch _n573 arbiter_state
+# quasi-continuous assignment
+.end
+

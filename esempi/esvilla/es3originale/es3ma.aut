@@ -1,0 +1,22 @@
+.model es3ma
+.inputs u v
+.outputs Acc
+
+.mv u 2 u1 u2
+.mv v 2 v1 v2
+.mv CS, NS  2  a b
+
+.latch NS CS
+.reset CS
+a
+
+.table ->Acc
+1
+
+.table u v CS ->NS
+ u1 v2   a  a
+ u1 v1   a  b
+ u2 v2   b  b
+ u1 v1   b  a
+
+.end

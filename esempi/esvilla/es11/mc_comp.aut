@@ -1,0 +1,26 @@
+.model es7mc
+.inputs i o
+.outputs Acc
+
+.mv i 2 i1 i2
+.mv o 2 o1 o2
+.mv CS, NS  4  a b c DC
+
+.latch NS CS
+.reset CS
+a
+
+.table CS ->Acc
+.default 0
+DC 1
+
+.table i o CS ->NS
+.default DC
+i1 o1    a   b
+i2 o2    a   c
+i2 o2    b   a
+i1 o2    b   c
+i1 o1    c   a
+i2 o1    c   b
+
+.end

@@ -1,0 +1,6 @@
+complement esempi/fig34/mc.aut esempi/fig34/mc_comp.aut
+product esempi/fig34/ma.aut esempi/fig34/mc_comp.aut esempi/fig34/product.aut
+support  u,v esempi/fig34/product.aut esempi/fig34/product_supp.aut
+complement esempi/fig34/product_supp.aut esempi/fig34/x.aut
+progressive -i 1 esempi/fig34/x.aut esempi/fig34/xfsm.aut
+minimize esempi/fig34/xfsm.aut esempi/fig34/xfsm_min.aut

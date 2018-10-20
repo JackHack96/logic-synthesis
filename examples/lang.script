@@ -1,0 +1,21 @@
+echo "Determinizing the spec ... "
+determinize -lci spec.aut spec_dci.aut
+support i,v,u,o spec_dci.aut spec_dci_supp.aut
+support i,v,u,o fixed.aut fixed_supp.aut
+
+echo "Computing the product ... "
+product -l fixed_supp.aut spec_dci_supp.aut p.aut
+support u,v p.aut p_supp.aut
+
+echo "Determinizing the product ... "
+determinize -lci p_supp.aut p_dci.aut
+progressive -i 1 p_dci.aut x.aut
+
+echo "Perfoming verification ... "
+support i,v,u,o x.aut x_supp.aut
+product x_supp.aut fixed_supp.aut prod.aut
+progressive -i 2 prod.aut progress.aut
+support i,o prod.aut prod_supp.aut
+determinize prod_supp.aut prod_det.aut
+support i,o spec.aut spec_supp.aut
+check prod_det.aut spec_supp.aut

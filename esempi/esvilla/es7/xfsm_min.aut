@@ -1,0 +1,22 @@
+.model es7ma*es7mc
+.inputs i v
+.outputs Acc
+
+.mv CS, NS  3  s0 s1 DC
+
+.latch NS CS
+.reset CS
+s0
+
+.table CS ->Acc
+.default 1
+DC 0
+
+.table i v CS ->NS
+.default DC
+1 1   s0  s1
+0 1   s0  s0
+1 0   s1  s0
+0 1   s1  s0
+
+.end

@@ -1,0 +1,19 @@
+/asat.make/1.1/Fri Jul  8 01:11:55 2005//
+/sat.h/1.1/Fri Jul  8 01:01:26 2005//
+/satActivity.c/1.1/Fri Jul  8 01:01:26 2005//
+/satClause.c/1.1/Fri Jul  8 01:01:27 2005//
+/satClauseVec.c/1.1/Fri Jul  8 01:01:27 2005//
+/satInt.h/1.1/Fri Jul  8 01:01:27 2005//
+/satMem.c/1.1/Fri Jul  8 01:01:27 2005//
+/satOrder.c/1.1/Fri Jul  8 01:01:28 2005//
+/satQueue.c/1.1/Fri Jul  8 01:01:28 2005//
+/satRead.c/1.1/Fri Jul  8 01:01:28 2005//
+/satSolverApi.c/1.1/Fri Jul  8 01:01:28 2005//
+/satSolverCore.c/1.1/Fri Jul  8 01:01:28 2005//
+/satSolverInter.c/1.1/Fri Jul  8 01:01:29 2005//
+/satSolverIo.c/1.1/Fri Jul  8 01:01:29 2005//
+/satSolverProof.c/1.1/Fri Jul  8 01:01:29 2005//
+/satSolverSearch.c/1.1/Fri Jul  8 01:01:29 2005//
+/satSort.c/1.1/Fri Jul  8 01:01:30 2005//
+/satVec.c/1.1/Fri Jul  8 01:01:30 2005//
+D

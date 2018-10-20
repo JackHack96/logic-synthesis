@@ -1,0 +1,52 @@
+.model fig35ma*fig35mc
+.inputs i v u o
+.outputs Acc
+
+.mv i 2 i1 i2
+.mv v 2 v1 v2
+.mv u 2 u1 u2
+.mv o 2 o1 o2
+.mv CS, NS  8  s0 s1 s2 s3 s4 s5 s6 s7
+
+.latch NS CS
+.reset CS
+s0
+
+.table CS ->Acc
+.default 0
+(s1,s4,s5) 1
+
+.table i v u o CS ->NS
+i2 v1 u1 o1   s0  s1
+i1 v1 u1 o1   s0  s2
+i1 v2 - o1   s0  s3
+i2 v2 - o2   s0  s3
+i2 v2 - o1   s0  s4
+i1 v2 - o2   s0  s4
+i2 v1 u1 o1   s1  s1
+i1 v1 u1 o1   s1  s5
+- v2 - -   s1  s4
+i1 v1 u2 o1   s2  s6
+i2 - - o2   s2  s7
+i1 v2 - o1   s2  s7
+i2 - - o1   s2  s4
+i1 v2 - o2   s2  s4
+i1 - - o1   s3  s7
+i2 - - o2   s3  s7
+i2 - - o1   s3  s4
+i1 - - o2   s3  s4
+- - - -   s4  s4
+i1 v1 u2 o1   s5  s5
+- v2 - -   s5  s4
+i2 - - -   s5  s4
+i1 v1 u2 o1   s6  s2
+i2 - - o2   s6  s3
+i1 v2 - o1   s6  s3
+i2 - - o1   s6  s4
+i1 v2 - o2   s6  s4
+i1 - - o1   s7  s3
+i2 - - o2   s7  s3
+i2 - - o1   s7  s4
+i1 - - o2   s7  s4
+
+.end

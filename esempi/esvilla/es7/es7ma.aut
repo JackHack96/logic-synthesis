@@ -1,0 +1,22 @@
+.model es7ma
+.inputs v o 
+.outputs Acc
+
+.mv CS, NS 2 a b 
+
+.latch NS CS
+.reset CS
+a
+
+.table ->Acc
+1
+
+.table v o  CS ->NS
+0 1 a b
+1 0 a b
+0 1 b b 
+1 1 b a 
+
+
+
+.end

@@ -1,0 +1,27 @@
+.model fig9mc 
+.inputs i o 
+.outputs Acc
+
+.mv CS, NS 2 a b 
+.mv i 2 i1 i2
+.mv o 3 o1 o2 o3
+
+.latch NS CS
+.reset CS
+a
+
+.table CS -> Acc
+.default 1 
+
+.table i o CS -> NS
+i1 o1 a b
+i2 o1 a b
+i2 o2 a b
+
+i1 o1 b a
+i2 o1 b a
+i2 o2 b a
+
+
+.end
+

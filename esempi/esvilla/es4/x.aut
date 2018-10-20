@@ -1,0 +1,40 @@
+.model es43ma*es3mc
+.inputs u o
+.outputs Acc
+
+.mv u 2 u1 u2
+.mv o 2 o1 o2
+.mv CS, NS  10  s0 s1 s2 s3 s4 s5 s6 s7 s8 DC
+
+.latch NS CS
+.reset CS
+s0
+
+.table CS ->Acc
+.default 1
+(s2,s4,s7) 0
+
+.table u o CS ->NS
+.default DC
+u1 o1   s0  s1
+u1 o2   s0  s2
+u1 o1   s1  s2
+u1 o2   s1  s3
+u2 o1   s1  s4
+u2 o2   s1  s5
+u1 -   s2  s2
+u2 -   s2  s4
+u1 o1   s3  s1
+u1 o2   s3  s2
+u2 o1   s3  s4
+u2 o2   s3  s6
+u1 -   s4  s7
+u1 o1   s5  s7
+u1 o2   s5  s0
+u1 o1   s6  s8
+u1 o2   s6  s7
+u1 -   s7  s2
+u1 o1   s8  s2
+u1 o2   s8  s3
+
+.end

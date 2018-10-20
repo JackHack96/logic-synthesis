@@ -1,0 +1,81 @@
+.model lion9.kiss2
+.spec esblif/lion_original/lion9.blif
+.inputs v0 v1
+.outputs v6.4 v4 v5
+.default_input_arrival 0 0
+
+.reset v2
+0
+.latch v6.0 v2
+.reset v3
+0
+.latch v6.1 v3
+.reset IN-v4
+1
+.latch v6.2 IN-v4
+.reset IN-v5
+0
+.latch v6.3 IN-v5
+
+.table IN-v5 v0 v1 v3 [0]
+.default 0
+1 0 0 0  1
+.table [1] [2] [6] [7] [11]
+.default 0
+0 0 0 0  1
+.table [0] [4] [5] [7] [13]
+.default 0
+0 0 0 0  1
+.table [2] [5] [6] [8] [15]
+.default 0
+0 0 0 0  1
+.table [3] [5] [6] [7] [8] [17]
+.default 0
+0 0 0 0 0  1
+.table IN-v5 v1 [1]
+.default 0
+0 1  1
+.table v0 v1 v3 [2]
+.default 0
+0 0 1  1
+.table IN-v4 v3 [3]
+.default 0
+1 1  1
+.table IN-v5 v0 [4]
+.default 0
+0 0  1
+.table IN-v5 v0 v1 [5]
+.default 0
+1 1 1  1
+.table IN-v5 v0 v1 [6]
+.default 0
+1 1 0  1
+.table IN-v5 v0 v3 [7]
+.default 0
+1 0 1  1
+.table IN-v5 v3 [8]
+.default 0
+1 0  1
+.table [0] [9]
+.default 0
+0  1
+.table [17] v6.4
+.default 0
+0  1
+.table [9] v6.0
+.default 0
+0  1
+.table [11] v6.1
+.default 0
+0  1
+.table [13] v6.2
+.default 0
+0  1
+.table [15] v6.3
+.default 0
+0  1
+.table IN-v4 v4
+- =IN-v4
+.table IN-v5 v5
+- =IN-v5
+.end

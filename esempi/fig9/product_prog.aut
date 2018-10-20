@@ -1,0 +1,20 @@
+.model fig9ma*fig9mc
+.inputs i v u o
+.outputs Acc
+
+.mv i 2 i1 i2
+.mv v 3 v1 v2 v3
+.mv u 2 u1 u2
+.mv o 3 o1 o2 o3
+.mv CS, NS  0  
+
+.latch NS CS
+.reset CS
+-
+
+.table ->Acc
+1
+
+.table i v u o CS ->NS
+
+.end

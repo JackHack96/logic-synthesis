@@ -1,0 +1,19 @@
+time
+unset autoexec
+sa
+clp
+mfs
+fx
+el 2
+mfs
+fx -z
+el 2
+mfs
+el 4
+fx
+el 1
+mfs
+fx 
+el 1
+v
+time

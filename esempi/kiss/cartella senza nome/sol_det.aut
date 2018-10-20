@@ -1,0 +1,39 @@
+.model csf
+.inputs z0 x1
+.outputs Acc
+
+.mv CS, NS  8  s0 s1 s2 s3 s4 s5 s6 s7
+
+.latch NS CS
+.reset CS
+s0
+
+.table ->Acc
+1
+
+.table z0 x1 CS ->NS
+.default s1
+1 0   s0  s2
+1 1   s0  s3
+0 0   s2  s0
+1 0   s2  s2
+1 1   s2  s4
+0 0   s3  s4
+0 1   s3  s0
+1 0   s3  s2
+1 1   s3  s3
+0 0   s4  s4
+1 1   s4  s4
+0 1   s4  s5
+1 0   s4  s6
+1 0   s5  s6
+1 1   s5  s7
+0 0   s6  s5
+1 0   s6  s6
+1 1   s6  s4
+0 0   s7  s4
+0 1   s7  s5
+1 0   s7  s6
+1 1   s7  s7
+
+.end

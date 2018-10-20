@@ -1,0 +1,52 @@
+.model fig9ma*fig9mc
+.inputs u v
+.outputs Acc
+
+.mv v 3 v1 v2 v3
+.mv u 2 u1 u2
+.mv CS, NS  6  s0 s1 s2 s3 s4 s5
+
+.latch NS CS
+.reset CS
+s0
+
+.table CS ->Acc
+.default 0
+(s2,s4) 1
+
+.table u v CS ->NS
+u1 (v1,v3) s0  s1
+u2 v2   s0  s1
+u2 v1    s0  s2
+u2 v3    s0  s2
+u1 v1   s0  s3
+u1 v2   s0  s4
+u1 (v1,v3)   s1  s0
+u2 v2   s1  s0
+u2 v1  s1  s2
+u2 v3  s1  s2
+u1 v1  s1  s5
+u1 v2  s1  s4
+u1 (v1,v3) s2  s2
+u2 v2  s2  s2
+u2 v1  s2  s2
+u2 v3  s2  s2
+u1 v1 s2  s4
+u1 v2  s2  s4
+u2 v2  s3  s5
+u2 v3  s3  s4
+u1 (v1,v3)  s3  s0
+u1 v2  s3  s2
+u2 v1  s3  s2
+u2 v2  s4  s4
+u2 v3  s4  s4
+u1 (v1,v3)  s4  s2
+u1 v2  s4  s2
+u2 v1  s4  s2
+u2 v2  s5  s3
+u2 v3  s5  s4
+u1 (v1,v3)  s5  s1
+u1 v2  s5  s2
+u2 v1  s5  s2
+
+.end

@@ -1,0 +1,6 @@
+complement esempi/mono/mc.aut esempi/mono/mc_comp.aut
+product esempi/mono/ma.aut esempi/mono/mc_comp.aut esempi/mono/product.aut
+support  i,o esempi/mono/product.aut esempi/mono/product_supp.aut
+complement esempi/mono/product_supp.aut esempi/mono/x.aut
+progressive -i 1 esempi/mono/x.aut esempi/mono.xfsm.aut
+minimize esempi/mono/xfsm.aut esempi/mono/xfsm_min.aut

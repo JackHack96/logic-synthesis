@@ -1,0 +1,34 @@
+.model esempi/kiss/fig31.kiss2
+.inputs x0 x1
+.outputs z0 z1
+.default_input_arrival 0 0
+.mv CS 3
+.mv NS 3
+
+.reset CS
+0
+.latch NS CS
+
+.table n_10 n_11 NS
+0 0  0
+1 1  0
+1 -  1
+- 1  2
+.table CS x1 z0
+.default 0
+0 -  1
+(0,1) 1  1
+.table CS x0 x1 z1
+.default 0
+0 1 -  1
+1 - 0  1
+2 - 1  1
+.table CS x0 x1 n_10
+.default 0
+0 0 0  1
+2 - 0  1
+.table CS x0 x1 n_11
+.default 0
+0 0 1  1
+1 - 1  1
+.end

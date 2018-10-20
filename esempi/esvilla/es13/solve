@@ -1,0 +1,6 @@
+complement esempi/esvilla/es13/es13mc.aut esempi/esvilla/es13/mc_comp.aut
+product esempi/esvilla/es13/es13ma.aut esempi/esvilla/es13/mc_comp.aut esempi/esvilla/es13/product.aut
+support i,v,o esempi/esvilla/es13/product.aut esempi/esvilla/es13/product_supp.aut
+complement esempi/esvilla/es13/product_supp.aut esempi/esvilla/es13/x.aut
+progressive -i 1 esempi/esvilla/es13/x.aut esempi/esvilla/es13/xfsm.aut
+minimize esempi/esvilla/es13/xfsm.aut esempi/esvilla/es13/xfsm_min.aut

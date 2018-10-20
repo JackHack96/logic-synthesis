@@ -1,0 +1,11 @@
+
+.i 1
+.o 1
+.p 5
+.s 3
+1 s1sa s1sb 1
+1 s1sb s1sb 1
+0 s1sb s2sb 0
+0 s1sa s2sb 0
+- s2sb s1sa 1
+

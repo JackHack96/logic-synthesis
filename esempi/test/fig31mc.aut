@@ -1,0 +1,21 @@
+.model fig31mc
+.inputs IN_0 OUT_0
+.outputs Acc
+
+.mv CS, NS  3  11 00 10
+
+.latch NS CS
+.reset CS
+11
+
+.table ->Acc
+1
+
+.table IN_0 OUT_0 CS ->NS
+0 0   11  00
+1 1   11  10
+- 1   00  11
+0 0   10  00
+1 1   10  10
+
+.end

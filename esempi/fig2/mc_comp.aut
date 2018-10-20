@@ -1,0 +1,21 @@
+.model fig2mc
+.inputs i o
+.outputs Acc
+
+.mv i 2 i1 i2
+.mv CS, NS  3  b bb DC
+
+.latch NS CS
+.reset CS
+b
+
+.table CS ->Acc
+.default 0
+DC 1
+
+.table i o CS ->NS
+.default DC
+- 0    b  bb
+- 0   bb   b
+
+.end

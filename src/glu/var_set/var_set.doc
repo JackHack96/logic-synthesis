@@ -1,0 +1,187 @@
+
+var_set Package, Version 1.0
+
+Tom Shiple (original contributor: Herve' Touati)
+University of California, Berkeley, 1993
+
+
+Introduction -----------------------------------------------------------------
+
+The var_set package is used to store and manipulate sets.  The var_set_t data
+structure is essentially a bit array.  Its size is static.  The positions of
+the array are numbered from 0 to n-1, where n is the size of the var_set. When
+a bit is "set", its value is 1; when a bit is "clear", its value is 0.
+
+
+Summary -----------------------------------------------------------------------
+
+  var_set_new()
+  var_set_copy()
+  var_set_assign()
+  var_set_free()
+  var_set_n_elts()
+  var_set_or()
+  var_set_and()
+  var_set_not()
+  var_set_get_elt()
+  var_set_set_elt()
+  var_set_clear_elt()
+  var_set_clear()
+  var_set_intersect()
+  var_set_is_empty()
+  var_set_is_full()
+  var_set_print()
+  var_set_equal()
+  var_set_cmp()
+  var_set_hash()
+
+
+Description of Functions ------------------------------------------------------
+
+var_set_t 
+*var_set_new(size)
+int size;
+
+   Allocate a new var_set data structure of size `size'.  Clears all the
+   elements.
+
+var_set_t 
+*var_set_copy(set)
+var_set_t *set;
+
+   Allocate a new var_set data structure with the same contents as `set'.
+
+var_set_t 
+*var_set_assign(result, set)
+var_set_t *result;
+var_set_t *set;
+
+   Assign the contents of `result' to be the same as those of `set'.  `result'
+   and `set' must be the same size.
+
+void 
+var_set_free(set)
+var_set_t *set;
+
+   Free the var_set data structure `set'.
+
+int 
+var_set_n_elts(set)
+var_set_t *set;
+
+   Return the number of bits in var_set `set' which are set (i.e. the
+   cardinality).
+
+var_set_t 
+*var_set_or(result, a, b)
+var_set_t *result;
+var_set_t *a;
+var_set_t *b;
+
+   Compute the bitwise inclusive OR of `a' and `b', and store the result in
+   `result'.  Also, return a pointer to `result'.  `a', `b', and `result' 
+   must be the same size.  Note that `result' can be the same as either or
+   both of `a' and `b' (e.g. var_set_or(foo, foo, bar)).
+
+var_set_t 
+*var_set_and(result, a, b)
+var_set_t *result;
+var_set_t *a;
+var_set_t *b;
+
+   Compute the bitwise AND of `a' and `b', and store the result in `result'.
+   Also, return a pointer to `result'.  `a', `b', and `result' must be the 
+   same size.  Note that `result' can be the same as either or both of `a' 
+   and `b' (e.g. var_set_and(foo, foo, bar)).
+
+var_set_t 
+*var_set_not(result, a)
+var_set_t *result;
+var_set_t *a;
+
+   Compute the bitwise complement of `a', and store the result in `result'.
+   Also, return a pointer to `result'.  `a' and `result' must be the same 
+   size.  Note that `result' can be the same as `a' (e.g. 
+   var_set_not(foo, foo)).
+
+int 
+var_set_get_elt(set, index)
+var_set_t *set;
+int index;
+
+   Return the value of the bit at position `index' in `set'.  `index' must be
+   at least zero and less than the size of `set'.
+
+void 
+var_set_set_elt(set, index)
+var_set_t *set;
+int index;
+
+   Set the value of the bit at position `index' in `set'.  `index' must be at
+   least zero and less than the size of `set'.
+
+void 
+var_set_clear_elt(set, index)
+var_set_t *set;
+int index;
+
+   Clear the value of the bit at position `index' in `set'.  `index' must be at
+   least zero and less than the size of `set'.
+
+void 
+var_set_clear(set)
+var_set_t *set;
+
+   Clear the value of all the bits in `set'.  
+   
+int 
+var_set_intersect(a, b)
+var_set_t *a;
+var_set_t *b;
+
+   Return 1 if the var_sets `a' and `b' intersect (i.e. have bits set in the
+   same position); otherwise, return 0.  `a' and `b' must be the same size.
+
+int 
+var_set_is_empty(a)
+var_set_t *a;
+
+   Return 1 if every bit of var_set `a' is cleared; otherwise, return 0.
+   
+int 
+var_set_is_full(a)
+var_set_t *a;
+
+   Return 1 if every bit of var_set `a' is set; otherwise, return 0.
+   
+void 
+var_set_print(fp, set)
+FILE *fp;
+var_set_t *set;
+
+   Print to `fp' the value of each bit in var_set `set'.  Example output 
+   for a set of 4 elements: "1 0 1 1".
+
+int 
+var_set_equal(a, b)
+var_set_t *a;
+var_set_t *b;
+
+   Return 1 if the var_sets `a' and `b' are equal at every bit position;
+   otherwise, return 0.  `a' and `b' must be the same size.
+
+int 
+var_set_cmp(obj1, obj2)
+char *obj1;
+char *obj2;
+
+   Return 0 if the var_sets `a' and `b' are equal at every bit position;
+   otherwise, return 1.  `a' and `b' must be the same size.
+
+unsigned int 
+var_set_hash(set)
+var_set_t *set;
+
+   Compute a hash value for the var_set `set'.  This is to be used when
+   var_sets are used as keys in hash tables.
+

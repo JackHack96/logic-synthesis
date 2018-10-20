@@ -1,0 +1,26 @@
+/mvc.c/1.5/Mon Sep  1 04:56:48 2003//
+/mvc.h/1.22/Tue Jan  6 21:02:58 2004//
+/mvc.make/1.6/Tue Nov 18 18:55:04 2003//
+/mvcApi.c/1.9/Mon Sep  1 04:56:49 2003//
+/mvcCompare.c/1.9/Mon Sep  1 04:56:50 2003//
+/mvcCompl.c/1.7/Mon Sep  1 04:56:50 2003//
+/mvcContain.c/1.8/Mon Sep  1 04:56:50 2003//
+/mvcCover.c/1.13/Tue Nov 18 18:55:04 2003//
+/mvcCube.c/1.10/Tue Nov 18 18:55:04 2003//
+/mvcData.c/1.5/Mon Sep  1 04:56:51 2003//
+/mvcDd.c/1.2/Tue Jan  6 21:02:58 2004//
+/mvcDivide.c/1.10/Mon Sep  1 04:56:51 2003//
+/mvcDivisor.c/1.5/Tue Nov 18 18:55:04 2003//
+/mvcList.c/1.8/Tue Nov 18 18:55:04 2003//
+/mvcLits.c/1.8/Tue Nov 18 18:55:04 2003//
+/mvcMan.c/1.6/Tue Nov 18 18:55:05 2003//
+/mvcMerge.c/1.4/Mon Sep  1 04:56:53 2003//
+/mvcOpAlg.c/1.6/Mon Sep  1 04:56:53 2003//
+/mvcOpBool.c/1.8/Mon Sep  1 04:56:53 2003//
+/mvcPrint.c/1.9/Sun Jan 23 07:11:44 2005//
+/mvcReshape.c/1.1/Mon Sep  1 04:56:54 2003//
+/mvcSharp.c/1.7/Mon Sep  1 04:56:54 2003//
+/mvcSort.c/1.9/Mon Sep  1 04:56:55 2003//
+/mvcTau.c/1.7/Mon Sep  1 04:56:55 2003//
+/mvcUtils.c/1.16/Tue Nov 18 18:55:05 2003//
+D

@@ -1,0 +1,12 @@
+.model fig2mc
+.inputs a
+.outputs d
+.latch    [42] LatchOut_v1   1
+
+ 
+
+.names LatchOut_v1 [42]
+0 1
+.names LatchOut_v1 d
+0 1
+.end

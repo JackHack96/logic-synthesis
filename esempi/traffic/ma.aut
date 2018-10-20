@@ -1,0 +1,28 @@
+.model ma
+.inputs v1 v2 colours  
+.outputs Acc
+
+.mv CS, NS 3 1 2 3 
+
+.mv v1 2 
+.mv v2 2 
+.mv colours 3 r g y
+
+.latch NS CS
+.reset CS
+1
+
+.table CS -> Acc
+.default 1 
+
+.table v1 v2 colours CS -> NS
+0 - r 1 1 
+1 - g 1 2
+0 0 g 2 2
+1 0 y 2 1
+- 1 g 2 3 
+0 1 g 3 3 
+1 1 y 3 1 
+
+.end
+

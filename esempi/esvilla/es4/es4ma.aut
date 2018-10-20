@@ -1,0 +1,24 @@
+.model es43ma
+.inputs i u o 
+.outputs Acc
+
+.mv i 2 i1 i2
+.mv u 2 u1 u2
+.mv o 2 o1 o2
+.mv CS, NS 3 a b c
+
+.latch NS CS
+.reset CS
+a
+
+.table ->Acc
+1
+
+.table i u o  CS ->NS
+i2 u1 - a a
+i1 u1 - a b
+i2 u1 - b a 
+i1 u2 - b c
+-  u1 - c a
+
+.end

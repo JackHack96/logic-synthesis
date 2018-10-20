@@ -1,0 +1,57 @@
+.model ma*mc
+.inputs v1 v2 colours i1 i2
+.outputs Acc
+
+.mv colours 3 r g y
+.mv i1 3
+.mv i2 3
+.mv CS, NS  9  s0 s1 s2 s3 s4 s5 s6 s7 s8
+
+.latch NS CS
+.reset CS
+s0
+
+.table CS ->Acc
+.default 0
+(s1,s3,s8) 1
+
+.table v1 v2 colours i1 i2 CS ->NS
+0 - r - 2   s0  s0
+0 - r (0,1) (1,2)   s0  s0
+0 - r 0 -   s0  s0
+0 - r (1,2) 0   s0  s1
+0 - r 2 (0,1)   s0  s1
+1 - g (1,2) 0   s0  s2
+1 - g 2 (0,1)   s0  s2
+1 - g - 2   s0  s3
+1 - g (0,1) (1,2)   s0  s3
+1 - g 0 -   s0  s3
+0 - r - -   s1  s1
+1 - g - -   s1  s3
+0 0 g - (1,2)   s2  s4
+0 0 g - 0   s2  s5
+1 0 y - -   s2  s1
+- 1 g - (1,2)   s2  s6
+- 1 g - 0   s2  s7
+0 0 g - -   s3  s3
+1 0 y - -   s3  s1
+- 1 g - -   s3  s8
+0 0 g - -   s4  s3
+1 0 y - -   s4  s0
+- 1 g - -   s4  s8
+0 0 g - 0   s5  s5
+0 0 g - (1,2)   s5  s3
+1 0 y - (1,2)   s5  s0
+1 0 y - 0   s5  s1
+- 1 g - 0   s5  s7
+- 1 g - (1,2)   s5  s8
+0 1 g - -   s6  s8
+1 1 y - -   s6  s0
+0 1 g - 0   s7  s7
+0 1 g - (1,2)   s7  s8
+1 1 y - (1,2)   s7  s0
+1 1 y - 0   s7  s1
+0 1 g - -   s8  s8
+1 1 y - -   s8  s1
+
+.end

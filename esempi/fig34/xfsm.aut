@@ -1,0 +1,21 @@
+.model ma*mc
+.inputs u v
+.outputs Acc
+
+.mv u 2 u1 u2
+.mv v 2 v1 v2
+.mv CS, NS  2  s0 DC
+
+.latch NS CS
+.reset CS
+s0
+
+.table ->Acc
+1
+
+.table u v CS ->NS
+- v2   s0  DC
+u2 -   s0  DC
+- -   DC  DC
+
+.end

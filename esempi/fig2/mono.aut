@@ -1,0 +1,26 @@
+.model fig2ma
+.inputs i v u o  
+.outputs Acc
+
+.mv CS, NS 1 a 
+
+.mv i 2 i1 i2
+.mv v 2 v1 v2
+.mv u 2 u1 u2
+ 
+.latch NS CS
+.reset CS
+a
+
+.table CS -> Acc
+.default 1 
+
+.table i v u o CS -> NS
+i1 v1 u1 0 a 
+i2 v1 u2 0 a  
+i1 v2 u2 0 a   
+i2 v2 u1 0 a 
+
+
+.end
+

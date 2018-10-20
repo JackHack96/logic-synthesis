@@ -1,0 +1,14 @@
+echo "Verifying the (partitioned) composition in the spec ... "
+support v0,v1,v4,v5,v2,v3,v6.4 esblif/lion_original/lion9xs.aut suppx.aut
+read_blif esblif/lion_original/lion9f.blif
+latch_expose
+extract_aut esblif/lion_original/lion9f.aut
+support v0,v1,v4,v5,v2,v3,v6.4 esblif/lion_original/lion9f.aut suppf.aut
+product suppx.aut suppf.aut prod.aut
+support v0,v1,v6.4 prod.aut prod.aut
+determinize prod.aut prod.aut
+read_blif esblif/lion_original/lion9.blif
+extract_aut esblif/lion_original/lion9s.aut
+support v0,v1,v6.4 esblif/lion_original/lion9s.aut supps.aut
+contain prod.aut supps.aut
+

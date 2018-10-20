@@ -1,0 +1,23 @@
+.model soluzione 
+.inputs u v 
+.outputs Acc
+
+.mv CS, NS 2 sa sb 
+.mv u 2
+.mv v 2
+
+.latch NS CS
+.reset CS
+sa
+
+.table CS -> Acc
+.default 1 
+
+.table i v u o CS -> NS
+0 1 sa sa
+1 0 sa sb
+1 0 sb sb
+0 0 sb sa
+
+.end
+

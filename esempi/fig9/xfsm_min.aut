@@ -1,0 +1,23 @@
+.model fig9ma*fig9mc
+.inputs u v
+.outputs Acc
+
+.mv u 2 u1 u2
+.mv v 3 v1 v2 v3
+.mv CS, NS  2  s0 DC
+
+.latch NS CS
+.reset CS
+s0
+
+.table CS ->Acc
+.default 0
+s0 1
+
+.table u v CS ->NS
+.default DC
+u1 v1   s0  s0
+u2 v2   s0  s0
+u1 v3   s0  s0
+
+.end

@@ -1,0 +1,631 @@
+# FileName	[ Makefile.in ]
+#
+# PackageName	[ mvsis ]
+#
+# Synopsis	[ Package-wide Makefile ]
+#
+# Description	[ This file requires GNU's make program.
+#		  Run "configure" to generate the Makefile, or use
+#		  "config.status" (created by configure) to regenerate the
+#		  Makefile after modifying this file.
+#
+#		  Type "gmake help" for help about valid targets.
+#		 ]
+#
+# SeeAlso	[ configure.in ]
+#
+# Author	[ MVSIS Group, with original contribution from 
+#                 Stephen Edwards and Tom Shiple. ]
+#
+# Copyright	[
+#  Copyright (c) 1994-2003 The Regents of the Univ. of California.
+#  All rights reserved.
+#
+#  Permission is hereby granted, without written agreement and without license
+#  or royalty fees, to use, copy, modify, and distribute this software and its
+#  documentation for any purpose, provided that the above copyright notice and
+#  the following two paragraphs appear in all copies of this software.
+#
+#  IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
+#  DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES ARISING OUT
+#  OF THE USE OF THIS SOFTWARE AND ITS DOCUMENTATION, EVEN IF THE UNIVERSITY OF
+#  CALIFORNIA HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#
+#  THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
+#  INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+#  FITNESS FOR A PARTICULAR PURPOSE.  THE SOFTWARE PROVIDED HEREUNDER IS ON AN
+#  "AS IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATION TO PROVIDE
+#  MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
+#  ]
+#
+# Revision	[$Id: Makefile.in,v 1.31 2005/07/08 01:04:21 alanmi Exp $]
+
+# Default target:
+
+.PHONY : default
+
+default : all
+
+#----------------------------------------------------------------------
+# The list of packages to compile.
+#----------------------------------------------------------------------
+
+PKGS = $(ALL_PKGS)
+
+
+#----------------------------------------------------------------------
+# Information about all the packages, which are partitioned into groups
+# List all packages prefixed by its group name. The group names will
+# be automatically delt with in later scripts.
+#----------------------------------------------------------------------
+
+ALL_PKGS = base/cmd base/io base/main base/ntk base/ntki \
+	bdd/cudd bdd/epd bdd/extra bdd/mtr bdd/reo bdd/dsd bdd/parse \
+	glu/array glu/avl glu/list glu/sparse glu/st glu/util glu/var_set \
+	mv/cvr mv/fnc mv/mva mv/mvc mv/mvr mv/vm mv/vmx \
+	sis/espresso sis/mincov sis/minimize \
+	graph/cb graph/ft graph/sh graph/wn \
+	opt/enc opt/fm opt/fmn opt/fmbs opt/mfs opt/mfsn opt/fxu opt/pd opt/simp opt/fmb opt/fmm opt/mfsm opt/lxu \
+	seq/aio seq/au seq/aut seq/auti seq/dual seq/mvn seq/lang \
+	map/mapper map/mio map/super map/fpga map/res map/resm map/mntk\
+	sat/asat sat/msat sat/fraig sat/ver
+
+PKG_BASE = cmd io main ntk ntki
+PKG_BDD  = cudd epd extra mtr reo dsd parse
+PKG_GLU  = array avl list sparse st util var_set
+PKG_MV   = cvr fnc mva mvc mvr vm vmx
+PKG_GRA  = cb ft sh wn
+PKG_OPT  = enc fm fmn fxu mfs mfsn pd simp fmb fmm mfsm lxu
+PKG_MAP  = mapper mio super fpga res resm mntk
+PKG_SEQ  = aio au aut dual mvn lang
+PKG_SIS  = espresso mincov minimize
+PKG_SAT  = asat msat fraig ver
+
+
+#----------------------------------------------------------------------
+# For safety
+#----------------------------------------------------------------------
+
+SHELL = /bin/sh
+.SUFFIXES:
+
+#----------------------------------------------------------------------
+# The name of the product and its version
+#----------------------------------------------------------------------
+
+PRODUCT = mvsis
+VERSION = 1.3
+GLUVERS = 1.4
+LIBRARY = libmvsis
+
+# Compile and version information
+#
+# CUR_DATE and CUR_VER are strings surrounded by double quotes that contain
+# spaces, e.g., "mvsis release 2.0"
+
+VERDATE := -DCUR_DATE="\"$(shell date)\"" -DCUR_VER="\"$(PRODUCT) release $(VERSION)\""
+
+#----------------------------------------------------------------------
+# Source directories
+#----------------------------------------------------------------------
+
+# Directory containing master source files.  This directory is searched
+# for packages NOT listed in the PKGS variable.  Defaults to "."
+# Override with  ./configure --srcdir=
+master_srcdir = @srcdir@
+
+# Directory containing local source files.  This directory is searched
+# for packages listed in the PKGS variable.  Defaults to the master source
+# directory (see above).
+# Override with ./configure --with-local-srcdir=
+local_srcdir =  @local_srcdir@
+
+#----------------------------------------------------------------------
+# Directories used while building
+#----------------------------------------------------------------------
+
+# Directory where object files will be placed during the build
+objectdir =	obj
+
+# Directory where links to header files will be placed during the build
+headerdir =	$(local_srcdir)/include
+
+# Directories where documentation will be placed during the build
+docdir =	$(master_srcdir)/doc
+helpdir =	$(master_srcdir)/share/help
+
+# Full path of platform-independent library files during the build.
+# Using this variable as an environment variable allows MVSIS to work
+# before it is installed.
+# 
+# Note: This is NOT where they will be installed
+
+MVSIS_LIBRARY_PATH = $(shell cd $(master_srcdir)/share ; pwd)
+
+
+#----------------------------------------------------------------------
+# The following are set by the configure script
+#----------------------------------------------------------------------
+
+AC_FLAGS =	@DEFS@
+LIBDIRS =	@LIBDIRS@
+RANLIB =	@RANLIB@
+CC =		@CC@
+LINKER =	@LINKER@
+LDFLAGS =	@LDFLAGS@
+#
+# Define the linker for the executable with "memory_profile" activated
+#
+#PLINKER =       @PLINKER@
+CFLAGS =	@CFLAGS@
+#OTHERLIBS =	-lm @LIBS@ @LEXLIB@
+OTHERLIBS =	-lm @LIBS@
+YACC =		@YACC@
+LEX =		@LEX@
+NAWK =		@AWK@
+INSTALL =	@INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA =	@INSTALL_DATA@
+AR =		@AR@
+
+#----------------------------------------------------------------------
+# Examples included in the distribution
+#----------------------------------------------------------------------
+
+CHECK_EXAMPLES = bpds.mv cod.mv elc.mv full_adder_4.mv sort.mv \
+	C880.blif apex6.blif frg2.blif i9.blif term1.blif 
+
+# Determine the absolute executable path
+# 
+# Starting from the current directory, change directory to the directory
+# part of the product name, then tack on the filename part of EXECUTABLE
+
+EXECUTABLE = $(PRODUCT)
+
+EXECUTABLEPATH := \
+	$(shell cd $(dir $(EXECUTABLE)) ; pwd)/$(notdir $(EXECUTABLE))
+
+# Determine the rootname of the examples
+#
+EXAMPLEPATH = $(master_srcdir)/examples
+
+EXAMPLEPATHFULL := $(shell cd $(EXAMPLEPATH) ; pwd)
+
+LIBPATH = $(master_srcdir)/share
+
+LIBPATHFULL := $(shell cd $(LIBPATH) ; pwd)
+
+#----------------------------------------------------------------------
+# Distributed files in the doc directory
+#----------------------------------------------------------------------
+
+DOCUMENTATION = 
+#DOCUMENTATION = blifmv.ps
+
+#----------------------------------------------------------------------
+# Files in the share directory
+#----------------------------------------------------------------------
+
+SHAREFILES = master.mvsisrc
+
+HELPFILES = $(notdir $(wildcard $(helpdir)/*.txt))
+
+#----------------------------------------------------------------------
+# Include the make templates from all the packages
+#
+# Each of these templates (e.g., array/array.make) should contains lines
+# of the form
+#
+# CSRC += source1.c source2.c
+# HEADERS += header1.h header2.h
+# LEXSRC += file1.l
+# YACCSRC += file2.y
+# GENERATEDCSRC += ctlpLex.c ctlpRead.c
+#----------------------------------------------------------------------
+
+MAKEINCLUDES = $(foreach package, $(PKGS), \
+	$(local_srcdir)/src/$(package)/$(notdir $(package)).make)
+
+
+include $(MAKEINCLUDES)
+
+OBJECTS = $(addprefix $(objectdir)/,$(GENERATEDCSRC:.c=.o) $(CSRC:.c=.o))
+
+#----------------------------------------------------------------------
+# Include the dependency files from each package directory.
+# A missing dependency file does not produce an error.
+#----------------------------------------------------------------------
+
+DEPENDENCIES = $(foreach package, $(PKGS), \
+	$(local_srcdir)/src/$(package)/$(notdir $(package)).d)
+
+-include $(DEPENDENCIES)
+
+#----------------------------------------------------------------------
+# Header files and library search paths and names
+#
+# INCLUDEDIRS looks like "-I/projects/glu/ -I/projects/vis/ ..."
+# LIBRARYDIRS looks like "-L/projects/glu/ -L/projects/vis/ ..."
+# LIBS looks like "-lm -lglu -lvis"
+#----------------------------------------------------------------------
+
+INCLUDEDIRS =	$(foreach package, $(PKGS), -I$(local_srcdir)/src/$(package)) \
+		-I$(objectdir)
+
+LIBRARYDIRS =	$(LIBDIRS)
+
+LIBS = $(OTHERLIBS)
+
+#----------------------------------------------------------------------
+# Form the the list of directories to search for header files.
+#
+# VPATH looks like /projects/mvsis:/projects/glu/: ...
+#----------------------------------------------------------------------
+
+VPATH = $(local_srcdir): \
+	$(master_srcdir): \
+	$(addprefix :$(local_srcdir)/src/,$(PKGS)): \
+	$(objectdir): \
+	$(local_srcdir)/share
+
+#----------------------------------------------------------------------
+# Definitions for the distribution file
+#----------------------------------------------------------------------
+
+DISTRIBUTION = $(PRODUCT)-$(VERSION)
+
+# Directories to include in the distribution file
+
+DISTDIRS = src helpers share share/help obj doc examples \
+	$(addprefix examples/,$(EXAMPLES)) $(addprefix src/,$(PKGS))
+
+# Build/install helper files
+
+HELPERS = $(addprefix helpers/, \
+	install-sh mkinstalldirs config.guess config.sub dependency.make missing)
+
+# Files to include in the distribution file
+
+DISTFILES = \
+	README INSTALL NEWS \
+	configure configure.in Makefile.in $(HELPERS) \
+	$(CSRC) $(HEADERS) $(LEXSRC) $(YACCSRC) $(MAKEINCLUDES) \
+	$(EXAMPLEFILES) \
+	$(addprefix doc/,$(DOCUMENTATION)) \
+	$(addprefix share/,$(SHAREFILES)) \
+	$(addprefix share/help/,$(HELPFILES))
+
+#----------------------------------------------------------------------
+# Implicit rules
+#----------------------------------------------------------------------
+
+ALLCFLAGS = $(CFLAGS) $(AC_FLAGS) $(VERDATE) 
+
+# For compiling a source file into the object directory
+
+$(objectdir)/%.o : %.c
+	umask 2 ; $(CC) -c $(ALLCFLAGS) $(INCLUDEDIRS) -o $@ $<
+
+# Place object files into an archive
+
+%.a :
+	rm -f $@
+	umask 2; $(AR) cq $@ $^
+	$(RANLIB) $@
+
+######################################################################
+# 				RULES				     #
+######################################################################
+
+#:
+#: Useful targets:
+#:
+
+#----------------------------------------------------------------------
+# Rule for getting help
+#----------------------------------------------------------------------
+
+.PHONY : help
+
+#: help -- Print a list of targets
+
+# This prints all lines in this Makefile that begin with #:
+
+help :
+	@sed -n "s/^#://p" Makefile
+
+#----------------------------------------------------------------------
+# Always executed once when the Makefile is run
+#----------------------------------------------------------------------
+
+# Make sure the directory in which to place the objects exists
+
+ignored := $(shell umask 2; test -d $(objectdir) || mkdir $(objectdir))
+
+#----------------------------------------------------------------------
+# Rules to compile and build libraries and executables
+#----------------------------------------------------------------------
+
+.PHONY : all library compile-version delete-version
+
+#:
+#: all (the default) -- Compile the main executable
+# (force the version to be recompiled)
+
+all : compile-version $(PRODUCT)
+
+# Create the main executable
+
+$(PRODUCT) : $(OBJECTS) 
+	umask 2 ; $(LINKER) -o $(PRODUCT) $(LDFLAGS) \
+		$(OBJECTS) $(LIBRARYDIRS) $(LIBS)
+
+# Force the "version" information to be recompiled
+
+compile-version : delete-version $(objectdir)/mvUtils.o
+
+# Delete the object file related to the version
+
+delete-version :
+	rm -f $(objectdir)/mvUtils.o
+
+# Build a library containing all the objects
+
+#: library -- Create a library of all the objects (useful in a central area)
+
+library : $(LIBRARY)
+
+$(LIBRARY) : $(OBJECTS)
+
+
+#----------------------------------------------------------------------
+# Rules for checking the build
+#----------------------------------------------------------------------
+
+#----------------------------------------------------------------------
+# Rules that produce/delete the dependency file for every package
+#----------------------------------------------------------------------
+
+.PHONY : dependencies cleandependencies
+
+#:
+#: dependencies -- Create a list of dependency files.
+#:                 Useful when modifying header files.
+
+# Invoke the "dependency.make" Makefile on each package subdirectory,
+# passing the path, etc. to it.
+#
+# There's a strange feature in autoconf where lines of the form " VPATH="
+# are removed from the Makefile.  Thus, a flag is placed before the 
+# VPATH= argument below.
+
+dependencies:
+ifeq ($(CC),gcc)
+	for pkg in $(PKG_BASE) ; \
+	do \
+	  $(MAKE) --no-print-directory \
+		-f $(master_srcdir)/helpers/dependency.make \
+		CC="$(CC)" \
+		CFLAGS="$(CFLAGS)" VPATH="$(local_srcdir)/src/base/$$pkg" \
+		AC_FLAGS="$(AC_FLAGS)" \
+		INCLUDEDIRS="$(INCLUDEDIRS)" objectdir=$(objectdir) \
+		PKGNAME=$(local_srcdir)/src/base/$$pkg/$$pkg \
+		$(local_srcdir)/src/base/$$pkg/$$pkg.d ; \
+	done; \
+        for pkg in $(PKG_GRA) ; \
+        do \
+          $(MAKE) --no-print-directory \
+                -f $(master_srcdir)/helpers/dependency.make \
+                CC="$(CC)" \
+                CFLAGS="$(CFLAGS)" VPATH="$(local_srcdir)/src/graph/$$pkg" \
+                AC_FLAGS="$(AC_FLAGS)" \
+                INCLUDEDIRS="$(INCLUDEDIRS)" objectdir=$(objectdir) \
+                PKGNAME=$(local_srcdir)/src/graph/$$pkg/$$pkg \
+                $(local_srcdir)/src/graph/$$pkg/$$pkg.d ; \
+        done; \
+        for pkg in $(PKG_MV) ; \
+        do \
+          $(MAKE) --no-print-directory \
+                -f $(master_srcdir)/helpers/dependency.make \
+                CC="$(CC)" \
+                CFLAGS="$(CFLAGS)" VPATH="$(local_srcdir)/src/mv/$$pkg" \
+                AC_FLAGS="$(AC_FLAGS)" \
+                INCLUDEDIRS="$(INCLUDEDIRS)" objectdir=$(objectdir) \
+                PKGNAME=$(local_srcdir)/src/mv/$$pkg/$$pkg \
+                $(local_srcdir)/src/mv/$$pkg/$$pkg.d ; \
+        done; \
+        for pkg in $(PKG_OPT) ; \
+        do \
+          $(MAKE) --no-print-directory \
+                -f $(master_srcdir)/helpers/dependency.make \
+                CC="$(CC)" \
+                CFLAGS="$(CFLAGS)" VPATH="$(local_srcdir)/src/opt/$$pkg" \
+                AC_FLAGS="$(AC_FLAGS)" \
+                INCLUDEDIRS="$(INCLUDEDIRS)" objectdir=$(objectdir) \
+                PKGNAME=$(local_srcdir)/src/opt/$$pkg/$$pkg \
+                $(local_srcdir)/src/opt/$$pkg/$$pkg.d ; \
+        done; \
+        for pkg in $(PKG_SEQ) ; \
+        do \
+          $(MAKE) --no-print-directory \
+                -f $(master_srcdir)/helpers/dependency.make \
+                CC="$(CC)" \
+                CFLAGS="$(CFLAGS)" VPATH="$(local_srcdir)/src/seq/$$pkg" \
+                AC_FLAGS="$(AC_FLAGS)" \
+                INCLUDEDIRS="$(INCLUDEDIRS)" objectdir=$(objectdir) \
+                PKGNAME=$(local_srcdir)/src/seq/$$pkg/$$pkg \
+                $(local_srcdir)/src/seq/$$pkg/$$pkg.d ; \
+        done; 
+else
+	@echo "dependency requires gcc"
+	@echo "Reconfigure with gcc"
+endif
+
+#: cleandependencies -- Remove the dependency files.
+cleandependencies:
+	rm -f $(local_srcdir)/src/*/*/*.d
+
+
+#----------------------------------------------------------------------
+# Rules for rebuilding the configure file and Makefile
+#----------------------------------------------------------------------
+
+${master_srcdir}/configure : configure.in
+	cd ${master_srcdir} && autoconf
+	chmod 0775 ${master_srcdir}/config*
+
+config.status : configure
+	./config.status --recheck
+
+Makefile : Makefile.in config.status
+	@echo "The master Makefile.in has been changed:"
+	@echo "run config.status"
+	@echo "Warning: This will overwrite any local Makefile modifications"
+	@exit 1
+
+#----------------------------------------------------------------------
+# Rules for cleaning
+#----------------------------------------------------------------------
+
+.PHONY : clean mostlyclean distclean
+
+#:
+#: clean -- Remove every file created by building
+
+clean mostlyclean :
+	rm -rf $(objectdir)/* $(LIBRARY) $(PRODUCT) \
+		tests include
+
+#: distclean -- Remove every file created by building or configuring
+
+distclean : clean cleandependencies
+	rm -f Makefile config.status config.cache config.log
+
+
+#----------------------------------------------------------------------
+# Rule for setting up .mvsisrc
+#----------------------------------------------------------------------
+
+#:
+#: setup -- Install the initialization file ($HOME/.mvsisrc)
+setup : 
+	@cwd=`pwd` ; \
+	if [ -e ${HOME}/.mvsisrc ]; then \
+	  echo -n "Do you want to overwrite ${HOME}/.mvsisrc [yes/no] "; \
+	  read overwrite; \
+	  if [ "$${overwrite}" != "yes" -a "$${overwrite}" != "y" ]; then \
+	  echo "Did not write to ${HOME}/.mvsisrc"; \
+	  exit; \
+	  fi ; \
+	fi ; \
+	echo "New initialization script written to ${HOME}/.mvsisrc"; \
+	echo "set lib_path $${cwd}/share" > ${HOME}/.mvsisrc; \
+	echo "set open_path $${cwd}/examples" >> ${HOME}/.mvsisrc;
+
+
+#----------------------------------------------------------------------
+# Rule for regression test
+#----------------------------------------------------------------------
+
+#:
+#: check -- Test the locally-built executable (runs check-examples)
+
+check : check-examples
+
+#: check-examples -- Test each of the examples listed in CHECK_EXAMPLES
+#:	    You may want to invoke this with
+#:            gmake "CHECK_EXAMPLES=abp bakery" check-examples
+#:            gmake EXAMPLEPATH=../common/examples check-examples
+
+# For each example,
+#
+# 1) enter directory tests/
+# 2) create "check_script" by prepending a "set open_path" command
+#    to a common optimization script in the master source directory.
+# 3) run MVSIS on that script.
+# 4) run verification to check equivalence of the result
+#
+
+check-examples :
+	@test -d tests || mkdir tests
+	@echo "Checking examples.  Results will be in tests/<example>.test"
+	@echo "Running executable $(EXECUTABLEPATH)"
+	@echo " (change with EXECUTABLE=...)"
+	@echo "Taking examples from $(EXAMPLEPATHFULL)"
+	@echo " (change with EXAMPLEPATH=...)"
+	@cwd=`pwd` ; \
+	for example in $(CHECK_EXAMPLES) ; \
+	do \
+	  echo -n "Checking $$example ... " ; \
+	  cd $$cwd ; \
+	  cd tests ; \
+	  rm -f check_script ; \
+	  echo "set open_path $(EXAMPLEPATHFULL)" > check_script ; \
+	  cat $(LIBPATHFULL)/script.check >> check_script ; \
+	  echo "verify $(EXAMPLEPATHFULL)/$$example" >> check_script ; \
+	  $(EXECUTABLEPATH) -f check_script -t blif_mv $(EXAMPLEPATHFULL)/$$example > $$example.test 2> $$example.stderr ; \
+	  if grep -q " = EXT" $$example.test ; \
+	  then \
+	    echo "passed" ; \
+	  else \
+	    echo "failed (more tests/$$example.test)" ; \
+	  fi ; \
+	done
+
+
+#----------------------------------------------------------------------
+# Rule for performing a lint-like check on the source code
+#
+# Note: This requires gcc
+#----------------------------------------------------------------------
+
+.PHONY : check-code
+
+#:
+#: check-code -- Run a lint-like check on the source code.
+#:               (useful for development)
+
+check-code : $(CSRC) $(BDD_CSRC) $(MDD_CSRC)
+ifeq ($(CC),gcc)
+	@rm -f *.o_checkcode
+	@for file in $^; \
+	do \
+	  echo "------------------------ Checking $$file"; \
+	  gcc -c $(CFLAGS) $(AC_FLAGS) $(VERDATE) $(INCLUDEDIRS) \
+		-Wall -Wno-comment -o $(objectdir)/checkcode_output.o $$file; \
+	  rm -f $(objectdir)/checkcode_output.o; \
+	done
+	@rm -f *.o_checkcode
+else
+	@echo "check-code requires gcc"
+	@echo "Reconfigure with gcc"
+endif
+
+
+#----------------------------------------------------------------------
+# Rules for debugging the Makefile
+#----------------------------------------------------------------------
+
+.PHONY : debug-make
+
+DEBUG_VARS = 	ALL_PKGS \
+		PKGS \
+		VPATH \
+		INCLUDEDIRS \
+		CSRC \
+		OBJECTS \
+		HEADERS \
+		MAKEINCLUDES \
+		CFLAGS \
+		AC_FLAGS \
+		master_srcdir \
+		local_srcdir \
+		LIBS \
+		DISTFILES \
+		EXAMPLEFILES
+
+#:
+#: debug-make -- Print a list of Makefile variables
+
+debug-make:
+	@$(foreach var, $(DEBUG_VARS), echo $(var)=$($(var)) ; )

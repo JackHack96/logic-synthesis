@@ -1,0 +1,23 @@
+.model fig31mc
+.inputs i o
+.outputs Acc
+
+.mv CS, NS  4  s1sa s1sb s2sb DC
+
+.latch NS CS
+.reset CS
+s1sa
+
+.table CS ->Acc
+.default 0
+DC 1
+
+.table i o CS ->NS
+.default DC
+1 1   s1sa  s1sb
+0 0   s1sa  s2sb
+1 1   s1sb  s1sb
+0 0   s1sb  s2sb
+- 1   s2sb  s1sa
+
+.end

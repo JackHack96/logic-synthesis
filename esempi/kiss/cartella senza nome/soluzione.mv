@@ -1,0 +1,26 @@
+.model csf
+.inputs z0 x1
+.outputs Acc
+
+.mv CS, NS  4  s0 s2 s3 DC1
+
+.latch NS CS
+.reset CS
+s0
+
+.table ->Acc
+1
+
+.table z0 x1 CS ->NS
+1 0    s0   s2
+1 1    s0   s3
+0 -    s0  DC1
+0 0    s2   s0
+1 0    s2   s2
+0 1    s2  DC1
+0 1    s3   s0
+1 0    s3   s2
+1 1    s3   s3
+- -   DC1  DC1
+
+.end

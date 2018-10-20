@@ -1,0 +1,28 @@
+.model es13mc
+.inputs i o
+.outputs Acc
+
+.mv i 2 i1 i2
+.mv o 2 o1 o2
+.mv CS, NS  5  1 2 3 4 DC
+
+.latch NS CS
+.reset CS
+1
+
+.table CS ->Acc
+.default 0
+DC 1
+
+.table i o CS ->NS
+.default DC
+i1 -    1   3
+i2 o1    1   2
+i1 o2    2   3
+i2 o2    2   4
+i2 o2    3   3
+i1 o2    3   1
+i1 o1    4   2
+i2 o2    4   3
+
+.end

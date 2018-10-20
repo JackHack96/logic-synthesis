@@ -1,0 +1,28 @@
+.model fig3sol 
+.inputs u v 
+.outputs Acc
+
+.mv CS, NS 3 a b c 
+.mv v 2 v1 v2
+.mv u 2 u1 u2
+
+.latch NS CS
+.reset CS
+a
+
+.table CS -> Acc
+.default 1 
+
+.table u v CS -> NS
+u1 v1 a b
+
+u2 v1 b b
+u1 v2 b b
+
+u2 v2  a c
+
+u1 v1 c c
+u2 v2 c c
+
+.end
+

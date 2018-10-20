@@ -1,0 +1,31 @@
+.model fig3mc 
+.inputs i o 
+.outputs Acc
+
+.mv CS, NS 4 a1 b2 c3 d3
+.mv i 2 i1 i2
+.mv o 2 o1 o2 
+
+.latch NS CS
+.reset CS
+a1
+
+.table CS -> Acc
+.default 1 
+
+.table i o CS -> NS
+i1 o1 a1 b2
+i2 o2 a1 b2
+
+i1 o2 b2 b2
+i2 o1 b2 b2
+
+i1 o1 a1 c3
+
+i1 o1 c3 d3
+
+i1 o2 d3 d3
+i2 o1 d3 d3
+
+.end
+

@@ -1,0 +1,11 @@
+.i 2
+.o 0
+.s 2
+.p 3
+.ilb i o
+.ob
+.accepting a b
+11 a a
+00 a b
+-1 b a
+.e

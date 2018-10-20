@@ -1,0 +1,998 @@
+.model bpd 
+# I/O ports
+.inputs permit
+.inputs i<0> i<1> 
+.outputs choosing_out
+.outputs number_out<0> number_out<1> 
+.inputs number0<0> number0<1> 
+.inputs choosing1
+.inputs number1<0> number1<1> 
+.inputs choosing0
+
+.mv pc 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+# assign number_out  = (pc  == L10 ) ? 0 : (pc  == L2 ) ? ((number0  > number1 ) ? number0  + 1 : number1  + 1) : (i  == 0) ? number0  : number1 
+.mv _n56 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _n56
+L10
+# pc  == 9
+.names pc -> _n56 _n55
+.def 0
+- =pc 1
+.mv _n58 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _n58
+L2
+# pc  == 1
+.names pc _n58 _n57
+.def 0
+- =pc 1
+# number0  > number1 
+.names _n5b
+0
+.names number0<0> number1<0> _n5b _n5a<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n5d
+0
+.names number0<0> number1<0> _n5d _n5c
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names number0<1> number1<1> _n5c _n5a<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names number0<1> number1<1> _n5c _n5e
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _n5a<0> _n5a<1> _n5f
+.def 0
+0 0 1
+.names _n5e _n5f _n60
+.def 1
+0 0 0
+.names _n60 _n59
+0 1  
+1 0  
+.names _n61<0>
+1
+.names _n61<1>
+0
+# number0  + 1
+.names _n63
+0
+.names number0<0> _n61<0> _n63 _n62<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n65
+0
+.names number0<0> _n61<0> _n65 _n64
+.def 0
+0 1 1 1
+1 0 1 1
+1 1 0 1
+1 1 1 1
+.names number0<1> _n61<1> _n64 _n62<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.names _n66<0>
+1
+.names _n66<1>
+0
+# number1  + 1
+.names _n68
+0
+.names number1<0> _n66<0> _n68 _n67<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n6a
+0
+.names number1<0> _n66<0> _n6a _n69
+.def 0
+0 1 1 1
+1 0 1 1
+1 1 0 1
+1 1 1 1
+.names number1<1> _n66<1> _n69 _n67<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# (number0  > number1 ) ? number0  + 1 : number1  + 1
+.names _n62<0> _n67<0> _n59 _n6b<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n62<1> _n67<1> _n59 _n6b<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n6f<0>
+0
+.names _n6f<1>
+0
+# i  == 0
+.names i<0> _n6f<0> _n70<0>
+.def 0
+0 1 1
+1 0 1
+.names i<1> _n6f<1> _n70<1>
+.def 0
+0 1 1
+1 0 1
+.names _n70<0> _n70<1> _n71
+.def 1
+0 0 0
+.names _n71 _n6e
+0 1  
+1 0  
+# (i  == 0) ? number0  : number1 
+.names number0<0> number1<0> _n6e _n72<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names number0<1> number1<1> _n6e _n72<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+# (pc  == 1) ? ((number0  > number1 ) ? number0  + 1 : number1  + 1) : (i  == 0) ? number0  : number1 
+.names _n6b<0> _n72<0> _n57 _n75<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n6b<1> _n72<1> _n57 _n75<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n78<0>
+0
+.names _n78<1>
+0
+# (pc  == 9) ? 0 : (pc  == 1) ? ((number0  > number1 ) ? number0  + 1 : number1  + 1) : (i  == 0) ? number0  : number1 
+.names _n78<0> _n75<0> _n55 _n79<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n78<1> _n75<1> _n55 _n79<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n79<0> number_out$raw_n54<0>
+- =_n79<0>
+.names _n79<1> number_out$raw_n54<1>
+- =_n79<1>
+# assign choosing_out  = (pc  == L1 ) ? 1 : (pc  == L3 ) ? 0 : (i  == 0) ? choosing0  : choosing1 
+.mv _n7e 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _n7e
+L1
+# pc  == 0
+.names pc _n7e _n7d
+.def 0
+- =pc 1
+.mv _n80 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _n80
+L3
+# pc  == 2
+.names pc _n80 _n7f
+.def 0
+- =pc 1
+.names _n82<0>
+0
+.names _n82<1>
+0
+# i  == 0
+.names i<0> _n82<0> _n83<0>
+.def 0
+0 1 1
+1 0 1
+.names i<1> _n82<1> _n83<1>
+.def 0
+0 1 1
+1 0 1
+.names _n83<0> _n83<1> _n84
+.def 1
+0 0 0
+.names _n84 _n81
+0 1  
+1 0  
+# (i  == 0) ? choosing0  : choosing1 
+.names choosing0 choosing1 _n81 _n85
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n87
+0
+# (pc  == 2) ? 0 : (i  == 0) ? choosing0  : choosing1 
+.names _n87 _n85 _n7f _n88
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n8a
+1
+# (pc  == 0) ? 1 : (pc  == 2) ? 0 : (i  == 0) ? choosing0  : choosing1 
+.names _n8a _n88 _n7d _n8b
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n8b choosing_out$raw_n7c
+- =_n8b
+# assign numberi  = (i  == 0) ? number0  : number1 
+.names _n8f<0>
+0
+.names _n8f<1>
+0
+# i  == 0
+.names i<0> _n8f<0> _n90<0>
+.def 0
+0 1 1
+1 0 1
+.names i<1> _n8f<1> _n90<1>
+.def 0
+0 1 1
+1 0 1
+.names _n90<0> _n90<1> _n91
+.def 1
+0 0 0
+.names _n91 _n8e
+0 1  
+1 0  
+# (i  == 0) ? number0  : number1 
+.names number0<0> number1<0> _n8e _n92<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names number0<1> number1<1> _n8e _n92<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n92<0> numberi$raw_n8d<0>
+- =_n92<0>
+.names _n92<1> numberi$raw_n8d<1>
+- =_n92<1>
+# assign numberj  = (j  == 0) ? number0  : number1 
+.names _n97<0>
+0
+.names _n97<1>
+0
+# j  == 0
+.names j<0> _n97<0> _n98<0>
+.def 0
+0 1 1
+1 0 1
+.names j<1> _n97<1> _n98<1>
+.def 0
+0 1 1
+1 0 1
+.names _n98<0> _n98<1> _n99
+.def 1
+0 0 0
+.names _n99 _n96
+0 1  
+1 0  
+# (j  == 0) ? number0  : number1 
+.names number0<0> number1<0> _n96 _n9a<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names number0<1> number1<1> _n96 _n9a<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _n9a<0> numberj$raw_n95<0>
+- =_n9a<0>
+.names _n9a<1> numberj$raw_n95<1>
+- =_n9a<1>
+# assign choosingj  = (j  == 0) ? choosing0  : choosing1 
+.names _n9f<0>
+0
+.names _n9f<1>
+0
+# j  == 0
+.names j<0> _n9f<0> _na0<0>
+.def 0
+0 1 1
+1 0 1
+.names j<1> _n9f<1> _na0<1>
+.def 0
+0 1 1
+1 0 1
+.names _na0<0> _na0<1> _na1
+.def 1
+0 0 0
+.names _na1 _n9e
+0 1  
+1 0  
+# (j  == 0) ? choosing0  : choosing1 
+.names choosing0 choosing1 _n9e _na2
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names _na2 choosingj$raw_n9d
+- =_na2
+# assign nond_exit  = $NDset ( ,0,1 ) 
+.names nond_exit
+1
+# pc  = 0
+.mv pc$raw_na6 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$raw_na6
+L1
+# j  = 0
+.names j$raw_na7<0>
+0
+.names j$raw_na7<1>
+0
+# non-blocking assignments for initial
+.names permit _na8
+- =permit
+.mv _nab 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _nab
+L1
+.names pc _nab _naa
+.def 0
+- =pc 1
+.names _naa  _na9
+1 1
+0 0
+# pc  = 1
+.mv pc$_na9_nac$true 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_na9_nac$true
+L2
+.mv _naf 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _naf
+L2
+.names pc _naf _nae
+.def 0
+- =pc 1
+.names _nae  _nad
+1 1
+0 0
+# pc  = 2
+.mv pc$_nad_nb0$true 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nad_nb0$true
+L3
+.mv _nb3 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _nb3
+L3
+.names pc _nb3 _nb2
+.def 0
+- =pc 1
+.names _nb2  _nb1
+1 1
+0 0
+# pc  = 3
+.mv pc$_nb1_nb4$true 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nb1_nb4$true
+L4
+.mv _nb7 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _nb7
+L4
+.names pc _nb7 _nb6
+.def 0
+- =pc 1
+.names _nb6  _nb5
+1 1
+0 0
+# j  = 0
+.names j$_nb5_nb8$true<0>
+0
+.names j$_nb5_nb8$true<1>
+0
+# pc  = 4
+.mv pc$_nb5_nb9$true 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nb5_nb9$true
+L5
+.mv _nbc 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _nbc
+L5
+.names pc _nbc _nbb
+.def 0
+- =pc 1
+.names _nbb  _nba
+1 1
+0 0
+.names _nbd<0>
+0
+.names _nbd<1>
+1
+# j  < 2
+.names _nc0
+0
+.names j<0> _nbd<0> _nc0 _nbf<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _nc2
+0
+.names j<0> _nbd<0> _nc2 _nc1
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names j<1> _nbd<1> _nc1 _nbf<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names j<1> _nbd<1> _nc1 _nc3
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _nbf<0> _nbf<1> _nc4
+.def 1
+0 0 0
+.names _nc3 _nc4 _nbe
+.def 0
+1 1 1
+.names _nbe _nc5
+- =_nbe
+# pc  = 5
+.mv pc$_nbe_nc6$true 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nbe_nc6$true
+L6
+# pc  = 8
+.mv pc$_nbe_nc7$false 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nbe_nc7$false
+L9
+# if/else (j  < 2)
+.mv pc$_nbe$raw_nc9 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nbe_nc6$true pc$_nbe_nc7$false _nbe pc$_nbe$raw_nc9
+- - 0 =pc$_nbe_nc7$false
+- - 1 =pc$_nbe_nc6$true
+.mv _nce 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _nce
+L6
+.names pc _nce _ncd
+.def 0
+- =pc 1
+.names _ncd  _ncc
+1 1
+0 0
+.names _nd0
+1
+# choosingj  == 1
+.names choosingj _nd0 _nd1
+.def 0
+0 1 1
+1 0 1
+.names _nd1 _ncf
+0 1  
+1 0  
+.names _ncf _nd3
+- =_ncf
+# pc  = 5
+.mv pc$_ncf_nd4$true 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_ncf_nd4$true
+L6
+# pc  = 6
+.mv pc$_ncf_nd5$false 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_ncf_nd5$false
+L7
+# if/else (choosingj  == 1)
+.mv pc$_ncf$raw_nd7 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_ncf_nd4$true pc$_ncf_nd5$false _ncf pc$_ncf$raw_nd7
+- - 0 =pc$_ncf_nd5$false
+- - 1 =pc$_ncf_nd4$true
+.mv _ndc 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _ndc
+L7
+.names pc _ndc _ndb
+.def 0
+- =pc 1
+.names _ndb  _nda
+1 1
+0 0
+.names _nde<0>
+0
+.names _nde<1>
+0
+# numberj  != 0
+.names numberj<0> _nde<0> _ndf<0>
+.def 0
+0 1 1
+1 0 1
+.names numberj<1> _nde<1> _ndf<1>
+.def 0
+0 1 1
+1 0 1
+.names _ndf<0> _ndf<1> _ne0
+.def 1
+0 0 0
+.names _ne0 _ndd
+- =_ne0
+# numberj  < numberi 
+.names _ne3
+0
+.names numberj<0> numberi<0> _ne3 _ne2<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _ne5
+0
+.names numberj<0> numberi<0> _ne5 _ne4
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names numberj<1> numberi<1> _ne4 _ne2<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names numberj<1> numberi<1> _ne4 _ne6
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _ne2<0> _ne2<1> _ne7
+.def 1
+0 0 0
+.names _ne6 _ne7 _ne1
+.def 0
+1 1 1
+# numberj  == numberi 
+.names numberj<0> numberi<0> _ne9<0>
+.def 0
+0 1 1
+1 0 1
+.names numberj<1> numberi<1> _ne9<1>
+.def 0
+0 1 1
+1 0 1
+.names _ne9<0> _ne9<1> _nea
+.def 1
+0 0 0
+.names _nea _ne8
+0 1  
+1 0  
+# j  < i 
+.names _ned
+0
+.names j<0> i<0> _ned _nec<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _nef
+0
+.names j<0> i<0> _nef _nee
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names j<1> i<1> _nee _nec<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names j<1> i<1> _nee _nf0
+.def 0
+0 0 1 1
+0 1 0 1
+0 1 1 1
+1 1 1 1
+.names _nec<0> _nec<1> _nf1
+.def 1
+0 0 0
+.names _nf0 _nf1 _neb
+.def 0
+1 1 1
+# numberj  == numberi  && j  < i 
+.names _ne8 _neb _nf2
+.def 0
+1 1 1
+# numberj  < numberi  || (numberj  == numberi  && j  < i )
+.names _ne1 _nf2 _nf3
+.def 1
+0 0 0
+# (numberj  != 0) && (numberj  < numberi  || (numberj  == numberi  && j  < i ))
+.names _ndd _nf3 _nf4
+.def 0
+1 1 1
+.names _nf4 _nf5
+- =_nf4
+# pc  = 6
+.mv pc$_nf4_nf6$true 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nf4_nf6$true
+L7
+# pc  = 7
+.mv pc$_nf4_nf7$false 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nf4_nf7$false
+L8
+# if/else ((numberj  != 0) && (numberj  < numberi  || (numberj  == numberi  && j  < i )))
+.mv pc$_nf4$raw_nf9 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nf4_nf6$true pc$_nf4_nf7$false _nf4 pc$_nf4$raw_nf9
+- - 0 =pc$_nf4_nf7$false
+- - 1 =pc$_nf4_nf6$true
+.mv _nfe 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _nfe
+L8
+.names pc _nfe _nfd
+.def 0
+- =pc 1
+.names _nfd  _nfc
+1 1
+0 0
+# j  = j  + 1
+.names _n100<0>
+1
+.names _n100<1>
+0
+# j  + 1
+.names _n102
+0
+.names j<0> _n100<0> _n102 _n101<0>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+# carry/borrow
+.names _n104
+0
+.names j<0> _n100<0> _n104 _n103
+.def 0
+0 1 1 1
+1 0 1 1
+1 1 0 1
+1 1 1 1
+.names j<1> _n100<1> _n103 _n101<1>
+.def 0
+0 0 1 1
+0 1 0 1
+1 0 0 1
+1 1 1 1
+.names _n101<0> j$_nfc_nff$true<0>
+- =_n101<0>
+.names _n101<1> j$_nfc_nff$true<1>
+- =_n101<1>
+# pc  = 4
+.mv pc$_nfc_n105$true 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nfc_n105$true
+L5
+.mv _n108 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _n108
+L9
+.names pc _n108 _n107
+.def 0
+- =pc 1
+.names _n107  _n106
+1 1
+0 0
+.names _n10a
+1
+# nond_exit  == 1
+.names nond_exit _n10a _n10b
+.def 0
+0 1 1
+1 0 1
+.names _n10b _n109
+0 1  
+1 0  
+.names _n109 _n10d
+- =_n109
+# pc  = 9
+.mv pc$_n109_n10e$true 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_n109_n10e$true
+L10
+# pc  = 8
+.mv pc$_n109_n10f$false 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_n109_n10f$false
+L9
+# if/else (nond_exit  == 1)
+.mv pc$_n109$raw_n111 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_n109_n10e$true pc$_n109_n10f$false _n109 pc$_n109$raw_n111
+- - 0 =pc$_n109_n10f$false
+- - 1 =pc$_n109_n10e$true
+.mv _n116 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _n116
+L10
+.names pc _n116 _n115
+.def 0
+- =pc 1
+.names _n115  _n114
+1 1
+0 0
+# pc  = 10
+.mv pc$_n114_n117$true 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_n114_n117$true
+L11
+.mv _n11a 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _n11a
+L11
+.names pc _n11a _n119
+.def 0
+- =pc 1
+.names _n119  _n118
+1 1
+0 0
+.names _n11c
+1
+# nond_exit  == 1
+.names nond_exit _n11c _n11d
+.def 0
+0 1 1
+1 0 1
+.names _n11d _n11b
+0 1  
+1 0  
+.names _n11b _n11f
+- =_n11b
+# pc  = 0
+.mv pc$_n11b_n120$true 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_n11b_n120$true
+L1
+# pc  = 10
+.mv pc$_n11b_n121$false 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_n11b_n121$false
+L11
+# if/else (nond_exit  == 1)
+.mv pc$_n11b$raw_n123 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_n11b_n120$true pc$_n11b_n121$false _n11b pc$_n11b$raw_n123
+- - 0 =pc$_n11b_n121$false
+- - 1 =pc$_n11b_n120$true
+# case (pc )
+.mv pc$_n118$raw_n128 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_n11b$raw_n123 pc _n118 pc$_n118$raw_n128
+- - 0 =pc
+- - 1 =pc$_n11b$raw_n123
+.mv pc$_n114$raw_n129 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_n114_n117$true pc$_n118$raw_n128 _n114 pc$_n114$raw_n129
+- - 0 =pc$_n118$raw_n128
+- - 1 =pc$_n114_n117$true
+.mv pc$_n106$raw_n12d 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_n109$raw_n111 pc$_n114$raw_n129 _n106 pc$_n106$raw_n12d
+- - 0 =pc$_n114$raw_n129
+- - 1 =pc$_n109$raw_n111
+.mv pc$_nfc$raw_n131 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nfc_n105$true pc$_n106$raw_n12d _nfc pc$_nfc$raw_n131
+- - 0 =pc$_n106$raw_n12d
+- - 1 =pc$_nfc_n105$true
+.names j$_nfc_nff$true<0> j<0> _nfc j$_nfc$raw_n136<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names j$_nfc_nff$true<1> j<1> _nfc j$_nfc$raw_n136<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv pc$_nda$raw_n13a 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nf4$raw_nf9 pc$_nfc$raw_n131 _nda pc$_nda$raw_n13a
+- - 0 =pc$_nfc$raw_n131
+- - 1 =pc$_nf4$raw_nf9
+.names j<0> j$_nfc$raw_n136<0> _nda j$_nda$raw_n13e<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names j<1> j$_nfc$raw_n136<1> _nda j$_nda$raw_n13e<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv pc$_ncc$raw_n141 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_ncf$raw_nd7 pc$_nda$raw_n13a _ncc pc$_ncc$raw_n141
+- - 0 =pc$_nda$raw_n13a
+- - 1 =pc$_ncf$raw_nd7
+.names j<0> j$_nda$raw_n13e<0> _ncc j$_ncc$raw_n145<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names j<1> j$_nda$raw_n13e<1> _ncc j$_ncc$raw_n145<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv pc$_nba$raw_n148 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nbe$raw_nc9 pc$_ncc$raw_n141 _nba pc$_nba$raw_n148
+- - 0 =pc$_ncc$raw_n141
+- - 1 =pc$_nbe$raw_nc9
+.names j<0> j$_ncc$raw_n145<0> _nba j$_nba$raw_n14c<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names j<1> j$_ncc$raw_n145<1> _nba j$_nba$raw_n14c<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv pc$_nb5$raw_n14f 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nb5_nb9$true pc$_nba$raw_n148 _nb5 pc$_nb5$raw_n14f
+- - 0 =pc$_nba$raw_n148
+- - 1 =pc$_nb5_nb9$true
+.names j$_nb5_nb8$true<0> j$_nba$raw_n14c<0> _nb5 j$_nb5$raw_n150<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names j$_nb5_nb8$true<1> j$_nba$raw_n14c<1> _nb5 j$_nb5$raw_n150<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv pc$_nb1$raw_n159 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nb1_nb4$true pc$_nb5$raw_n14f _nb1 pc$_nb1$raw_n159
+- - 0 =pc$_nb5$raw_n14f
+- - 1 =pc$_nb1_nb4$true
+.names j<0> j$_nb5$raw_n150<0> _nb1 j$_nb1$raw_n15d<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names j<1> j$_nb5$raw_n150<1> _nb1 j$_nb1$raw_n15d<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv pc$_nad$raw_n160 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_nad_nb0$true pc$_nb1$raw_n159 _nad pc$_nad$raw_n160
+- - 0 =pc$_nb1$raw_n159
+- - 1 =pc$_nad_nb0$true
+.names j<0> j$_nb1$raw_n15d<0> _nad j$_nad$raw_n164<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names j<1> j$_nb1$raw_n15d<1> _nad j$_nad$raw_n164<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.mv pc$_na9$raw_n167 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_na9_nac$true pc$_nad$raw_n160 _na9 pc$_na9$raw_n167
+- - 0 =pc$_nad$raw_n160
+- - 1 =pc$_na9_nac$true
+.names j<0> j$_nad$raw_n164<0> _na9 j$_na9$raw_n16b<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names j<1> j$_nad$raw_n164<1> _na9 j$_na9$raw_n16b<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+# if/else (permit )
+.mv pc$permit$raw_n172 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names pc$_na9$raw_n167 pc permit pc$permit$raw_n172
+- - 0 =pc
+- - 1 =pc$_na9$raw_n167
+.names j$_na9$raw_n16b<0> j<0> permit j$permit$raw_n173<0>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+.names j$_na9$raw_n16b<1> j<1> permit j$permit$raw_n173<1>
+0 - 1 0
+1 - 1 1
+- 0 0 0
+- 1 0 1
+# conflict arbitrators
+.names numberi$raw_n8d<0>  numberi<0>
+- =numberi$raw_n8d<0>
+.names numberi$raw_n8d<1>  numberi<1>
+- =numberi$raw_n8d<1>
+.names numberj$raw_n95<0>  numberj<0>
+- =numberj$raw_n95<0>
+.names numberj$raw_n95<1>  numberj<1>
+- =numberj$raw_n95<1>
+.names _na8 _na9 _nad _nb1 _nb5 _nba _nc5 _ncc _nd3 _nda _nf5 _nfc _n106 _n10d _n114 _n118 _n11f _n176
+.def 0
+ 1 1 - - - - - - - - - - - - - - - 1
+ 1 0 1 - - - - - - - - - - - - - - 1
+ 1 0 0 1 - - - - - - - - - - - - - 1
+ 1 0 0 0 1 - - - - - - - - - - - - 1
+ 1 0 0 0 0 1 1 - - - - - - - - - - 1
+ 1 0 0 0 0 1 0 - - - - - - - - - - 1
+ 1 0 0 0 0 0 - 1 1 - - - - - - - - 1
+ 1 0 0 0 0 0 - 1 0 - - - - - - - - 1
+ 1 0 0 0 0 0 - 0 - 1 1 - - - - - - 1
+ 1 0 0 0 0 0 - 0 - 1 0 - - - - - - 1
+ 1 0 0 0 0 0 - 0 - 0 - 1 - - - - - 1
+ 1 0 0 0 0 0 - 0 - 0 - 0 1 1 - - - 1
+ 1 0 0 0 0 0 - 0 - 0 - 0 1 0 - - - 1
+ 1 0 0 0 0 0 - 0 - 0 - 0 0 - 1 - - 1
+ 1 0 0 0 0 0 - 0 - 0 - 0 0 - 0 1 1 1
+ 1 0 0 0 0 0 - 0 - 0 - 0 0 - 0 1 0 1
+.mv _n177 11 L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 
+.names _n176 pc$permit$raw_n172 pc _n177 
+1 - - =pc$permit$raw_n172
+0 - - =pc
+.names choosing_out$raw_n7c  choosing_out
+0 0
+1 1
+.names choosingj$raw_n9d  choosingj
+0 0
+1 1
+.names _na8 _na9 _nad _nb1 _nb5 _nba _ncc _nda _nfc _n181
+.def 0
+ 1 0 0 0 1 - - - - 1
+ 1 0 0 0 0 0 0 0 1 1
+
+.names _n181 j$permit$raw_n173<0> j$permit$raw_n173<1> j<0> j<1> _n182<0> 
+1 - - - - =j$permit$raw_n173<0> 
+0 - - - - =j<0> 
+
+.names _n181 j$permit$raw_n173<0> j$permit$raw_n173<1> j<0> j<1> _n182<1> 
+1 - - - - =j$permit$raw_n173<1> 
+0 - - - - =j<1> 
+
+.names number_out$raw_n54<0>  number_out<0>
+- =number_out$raw_n54<0>
+.names number_out$raw_n54<1>  number_out<1>
+- =number_out$raw_n54<1>
+# non-blocking assignments 
+# latches
+.r pc
+L1
+.latch _n177 pc
+.r j<0>
+0
+.r j<1>
+0
+.latch _n182<0> j<0>
+.latch _n182<1> j<1>
+# quasi-continuous assignment
+.end

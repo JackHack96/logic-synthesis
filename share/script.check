@@ -1,0 +1,13 @@
+set autoexec print_stats
+simplify -r
+fxu
+eliminate 0
+club
+fullsimp -i 1 -t 1 -c -f
+mfs
+pair_decode 0
+decomp
+eliminate 1
+reset_default
+fullsimp -i 1 -t 1 -c -f
+sweep
