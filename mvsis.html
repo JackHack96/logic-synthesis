@@ -24,10 +24,38 @@
   <div class="main">
     <p id="overview">
       <h1>MVSIS</h1>
-      MVSIS
+      MVSIS is a program modeled after SIS, but the logic network it works on is such that all variables can
+      be multi-valued, each with its own range. We include all the technology-independent transformations of SIS
+      for combinational logic synthesis as well as transformations specific to multi-valued nodes such as merge,
+      pair decode, encode, print range, reset default. MVSIS has been made to have the look
+      and feel of SIS. MVSIS can read and write BLIF-MV and BLIF files with the read blif mv command as
+      well as binary PLAs in the ”.type fd” format.
+      MVSIS 2.0 is a major re-write of MVSIS 1.0. The goals of MVSIS 2.0 were to significantly speed up the
+      processing of logic, and to provide a clean source code for the first time. It is expected that future logic synthesis
+      research will benefit by implementing new ideas in MVSIS, even for binary logic. In the long run, MVSIS
+      will be a complete replacement of SIS, but with the added capability of handling multi-valued non-deterministic networks.
+      <img src="img/mvsis.png" class="img-thumbnail">
     </p>
     <p id="downloads">
       <h2>Downloads</h2>
+      Available packages:<br>
+      <a href="https://github.com/JackHack96/sis/releases/download/MVSIS/mvsis_2.0_all.deb" class="btn btn-lg btn-success">
+        <span class="glyphicon glyphicon-download"></span>
+        Download Debian package
+      </a>
+      <br />
+      The source code is available in both tarball and zip:<br />
+      <a href="https://github.com/JackHack96/sis/archive/MVSIS.tar.gz" class="btn btn-lg btn-success">
+        <span class="glyphicon glyphicon-download"></span>
+        Download source (.tar.gz)
+      </a>
+      <a href="https://github.com/JackHack96/sis/archive/MVSIS.zip" class="btn btn-lg btn-success">
+        <span class="glyphicon glyphicon-download"></span>
+        Download source (.zip)
+      </a>
+    </p>
+    <p id="documentation">
+      You can find MVSIS user manual here, and the programmer manual here.
     </p>
   </div>
 
