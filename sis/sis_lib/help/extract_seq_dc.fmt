@@ -1,0 +1,27 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   extract_seq_dc [-o depth] [-v n] [-m method]
+ 
+     Extract sequential don't cares based on unreachable states.  The
+     unreachable states are computed by implicitly enumerating the set of
+     reachable states in the circuit starting from an initial state and then
+     computing the inverse of that set.  full_simplify or equiv_nets should
+     be run afterwards to exploit these don't cares.
+ 
+     -o depth allows the specification of the depth of search for good vari-
+     able ordering.  A larger value for depth will require more CPU time but
+     determine a better ordering.  The default value is 2.
+ 
+     -v allows specification of the verbosity level of the output.
+ 
+     The -m option specifies method for determining the reachable states.
+     consistency builds the entire transition relation and uses it to deter-
+     mine the reached states.  bull does output cofactoring to find the
+     reachable states.  The product method is similar to the consistency
+     method but input variables are smoothed as soon as possible as the
+     characteristic function is being built.  This makes the size of the
+     resulting BDD representing the characteristic function of the transition
+     relation smaller.  The default method is product.
+ 
+                                                                            1

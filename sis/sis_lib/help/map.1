@@ -1,0 +1,115 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/map.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:36 $
+.\"  *
+.\"
+.XX
+map [-b #][-f #][-i][-m #][-n #][-r][-s][-p][-v #] [-A][-B #][-F][-G][-W]
+.PP
+Perform a technology mapping on the current network.  A library must be read
+using the \fBread_library\fR command before mapping can be performed.
+The result
+of the mapping may become invalidated if a command such as \fBplot\fR or
+\fBprint_stats -f\fR is executed which computes a factored form
+representation of
+every node.
+.PP
+To produce a minimum area circuit with no consideration for load limits, the
+recommended option is \fBmap -m 0\fR. 
+.PP
+To produce a minimum area circuit that respects load limits, the recommended
+option is \fBmap -m 0 -AF\fR.   Use \fB_check_load_limit\fR
+command to check for
+load limit violations.
+.PP
+To produce a minimum delay circuit that respects load limits, the recommended
+option is \fBmap -n 1 -AFG\fR.
+To specify required times in order to allow the
+mapper to trade off delay and area, use the \fBset_delay\fR command. 
+.PP
+Details about the meanings of the various options follow.
+.PP
+The \fB-b n\fP sets the number by which the load value
+should be multiplied in case of a load limit violation during fanout optimization.
+.PP
+The \fB-f n\fP option controls the internal fanout handling. A value
+of '0' disables it completely (i.e. the mapping is strictly
+tree-based).  
+A value of '1' enables an heuristics approximating the
+cost of the previous tree at fanout branches. 
+A value of '2' enables
+the usage of cells with internal fanout (such as EXOR and
+MULTIPLEXER). A value of '3' (default) enables both.  None of these
+values is guaranteed to give the best solution in all cases, but '3'
+usually does. A warning is issued if the current value can give bad
+results with the current network (use \fBundo\fR before mapping
+again).
+.PP
+The \fB-i\fP option disables the \fIinverter-at-branch-point\fR heuristic.
+It is intended for experimentation with different mapping heuristics.
+.PP
+The \fB-m\fP option controls the cost function used for a simple version of the
+tree covering algorithm.  A mode of '0' (the default) minimizes the area of the
+resulting circuit.  A mode of '1' minimizes the delay of the resulting circuit
+(without regard to the total area).  An intermediate value uses as cost
+function a linear combination of the two, and can be used to explore the
+area-delay tradeoff.  A value of '2' minimizes the delay on an estimate of the
+critical path obtained from a trivial 2-input NAND mapping, and the area
+elsewhere.
+.PP 
+The \fB-n\fP option allows the access to a better tree covering algorithm.  It
+can only be used in delay mode, i.e. with an argument of 1: \fB-n 1\fP.  This
+algorithm gives better performance than \fB-m 1\fP but is noticeably slower.  It uses a
+finer dynamic programming algorithm that takes output load values into account,
+while \fB-m 1\fP option supposes all loads to be the same.  As a consequence,
+the \fB-n 1\fP option performs better than \fB-m 1\fP especially with rich
+libraries of gates. Both algorithms use heuristics to guess the load value at
+multiple fanout points.  Both options should always be used with fanout
+optimization turned on.
+.PP
+If \fB-r\fP is given (\fIraw mode\fP), the network must already be either 1-
+and 2-input NAND gates, or 1- and 2-input NOR gates form, depending on whether
+a NAND-library, or a NOR-library was specified when the library was originally
+read (see \fBread_library\fR).
+If \fB-r\fP is not given, appropriate commands are
+inserted to transform the network into the correct format.
+.PP
+The \fB-s\fP option prints brief statistics on the mapping results.
+.PP
+The \fB-p\fP option forces the mapper to ignore the delay information provided
+by the user at primary inputs and primary outputs (arrival times, required
+times, loads, drive capability). It is intended for experimental use.  This
+option forces the arrival times and required times to be all 0, the loads and
+drive capabilities to be all equal to the load and drive capability of the second
+smallest inverter in the library.  If there is only one inverter, the data are
+taken from that inverter.
+.PP
+The \fB-v n\fP options is for development use, and provides debugging
+information of varying degrees of verbosity as the mapping proceeds.
+.PP
+The \fB-A\fP option recovers area after fanout optimization
+at little or no delay cost by resizing buffers and inverters.
+.PP
+The \fB-B n\fP option controls the enforcement of load limits during fanout
+optimization.   A value of 0 ignores the load limits.  A value of 1 takes
+load limits into account.   The default is set to 1.
+This option is effective only in conjunction with fanout optimization.  It is
+implemented by artificially increasing the load at a gate output by a
+multiplicative factor whenever the load exceeds the limit specified in the
+library. The default multiplicative factor is 1000. This value can be changed
+with the \fB-b n\fP option. There is a priori no reason to change this value.
+.PP
+The \fB-F\fP option performs fanout optimization.  This disables the internal
+fanout handling (i.e. forces \fB-f 0\fP).  In order to recover area
+after fanout optimization use the \fB-A\fP option. There are several fanout
+optimization algorithms implemented in \fBSIS\fR. For details, type
+\fBhelp fanout_alg\fR and \fBhelp fanout_params\fR.
+.PP
+The \fB-G\fP option recovers area after fanout optimization
+at no cost in delay by resizing all gates in the network.
+.PP
+The \fB-W\fP option suppresses the warning messages.

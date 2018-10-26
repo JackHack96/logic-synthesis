@@ -1,0 +1,6 @@
+
+The Hash functions are lint free except the warning message:
+
+	"possible pointer alignment problem".
+
+The style of the code would be a sample of C program.

@@ -1,0 +1,155 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/command/command.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:18 $
+ *
+ */
+void
+com_add_command(name, func, changes_network)
+char *name;
+int (*func)();
+int changes_network;
+
+	Adds a command to the command table.  If name already defines an
+	existing command, its definition is replaced.  func is a function
+	pointer to code of the form:
+
+		com_quit(network, argc, argv)
+		network_t **network;
+		int argc;
+		char **argv;
+		{
+		    return EOF;
+		}
+
+	Note the double de-reference on the network which is passed to
+	the command; this allows the command to replace the current
+	network.  argv[0] will generally be the command name, and
+	argv[1] ... argv[argc-1] are the arguments for the command.
+
+	getopt() can be used to parse the arguments, but getopt_reset() 
+	must be used before calling getopt().  See getopt(3) for more
+	details.
+
+	The command function should return 0 for normal operation, 1
+	for any error.  The changes_network flag is used to
+	automatically save the network before executing the command (in
+	order to support undo).
+
+	An example command function which parses performs argument
+	parsing can be found in test/proto.c.
+
+
+
+
+array_t *
+com_get_nodes(network, argc, argv)
+network_t *network;
+int argc;
+char **argv;
+
+	Converts the arguments into a vector of nodes.  '*' stands for all
+	nodes (including each primary input node, and each primary output
+	node).  Functional notation allows i() for all primary inputs,
+	and i(node) for all fanin's to node.  Also, o() for all primary
+	outputs, and o(node) for all fanouts of a node.
+
+
+
+
+array_t *
+com_get_true_nodes(network, argc, argv)
+network_t *network;
+int argc;
+char **argv;
+
+	Converts the arguments into a vector of nodes.  '*' stands for all
+	nodes (including each primary input node, and each primary output
+	node).  Functional notation allows i() for all primary inputs,
+	and i(node) for all fanin's to node.  Also, o() for all TRUE primary
+	outputs, and o(node) for all fanouts of a node. NOTE: Actual primary
+	output nodes are returned, NOT their fanin node.
+
+
+
+
+char *
+com_get_flag(flag)
+char *flag;
+
+	The command parser maintains a table of named values.  These
+	are manipulated using the 'set' and 'unset' commands.  The
+	value of the named flag is returned, or NIL(char) is returned
+	if the flag has not been set.
+
+
+
+
+FILE *
+com_open_file(filename, mode, real_filename, silent)
+char *filename;
+char *mode;
+char **real_filename;
+int silent;
+
+	Opens the file with the given mode (see fopen()).  Tilde
+	expansion (~user/ or ~/) is performed on the filename, and "-"
+	is allowed as a synonym for stdin (or stdout, depending on the
+	mode).  If the file cannot be opened, a message is reported
+	using perror(); the silent flag, if true, suppresses this error
+	action.  In either case, A NULL file pointer is returned if any
+	error occurs.  The filename (after tilde expansion) is returned in
+	the pointer real_filename, if real_filename is non-empty.  This
+	is a pointer which should be free'd when you are done with it.
+
+
+
+com_execute(network, line)
+network_t **network;
+char *line;
+
+	Execute a command line.  This is the top-level of the command
+	interpreter, and supports multiple commands (separated by ;),
+	alias substitution, etc.  For many simple operations, com_execute()
+	is the easiest way to accomplish a given task.
+	
+	Example: read a network from a file:
+
+		network = network_alloc;
+		com_execute(&network, "read_blif filename");
+
+	Note that network must already exist.  Use network_alloc() to 
+	create an empty network first.
+
+int com_graphics_enabled()
+
+	Returns 1 if sis is in graphics mode, 0 otherwise.
+
+FILE *com_graphics_open(type,title,cmd)
+char *type;
+char *title;
+char *cmd;
+
+	Initiate a graphics command sent to a window of the given type,
+	with the given name.  Returns the stream which should be used
+	to send command-specific data to the graphical front end.
+
+void com_graphics_close(stream)
+FILE *stream;
+
+	Indicate the end of the command-specific data and wait for
+	an acknowledgement from the graphics front end that the data
+	was received.
+
+void com_graphics_exec(type,title,cmd,data)
+char *type;
+char *title;
+char *cmd;
+char *data;
+
+	Convenience function for issuing a graphics command with very
+	simple data.  Equivalent to a com_graphics_open/fprintf/
+	com_graphics_close sequence.

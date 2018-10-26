@@ -1,0 +1,71 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/mincov/mincov.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:31 $
+ *
+ */
+sm_row *
+sm_minimum_cover(M, weights, heuristic, debug)
+sm_matrix *M;
+int *weights;
+int heuristic;
+int debug;
+
+	Find a cover for the sparse-matrix M.  weights is either NIL(int)
+	for an unweighted problem (all columns weight equal to 1), or
+	is an array with as many elements as there are columns in the
+	matrix.  Each entry of the array gives the weight for that column.
+	The goal is the smallest total weight cover.
+
+	heuristic is a flag which, if set, will visit the first leaf, and 
+	return this as the (approximate) minimum cost cover.
+
+	debug is a flag indicating how far down in the recursion debugging
+	messages should be printed.  0 gives silent operation.
+
+sm_row *
+sm_mat_bin_minimum_cover (M, weights, heuristic, debug, ubound, option, record_fun)
+
+sm_matrix *M;
+int *weights;
+int heuristic, debug, ubound, option;
+int (*record_fun) ();
+
+sm_row *
+sm_mat_minimum_cover (M, weights, heuristic, debug, ubound, option, record_fun)
+
+sm_matrix *M;
+int *weights;
+int heuristic, debug, ubound, option;
+int (*record_fun) ();
+
+	Do the binate or unate covering of matrix M using Mathony's algorithm. 
+	In the binate case each variable is represented with two columns: even for
+	the positive phase and odd for the negative phase.
+
+	weights is either NIL(int) for an unweighted problem (all weights equal 
+	to 1), or is an array with as many elements as there are columns in 
+	the matrix.  Each entry of the array gives the weight for that column.
+	The goal is the smallest total weight cover.
+
+ 	A row can be missing from M, but at least one column for each odd-even
+ 	pair (a variable in the binate case) should be present.
+
+	if heuristic != 0, terminate as the first leaf is reached.
+
+ 	debug controls the amount of debugging information.
+
+ 	ubound, if > 0, gives the best possible estimate of the covering cost.
+
+	option chooses the algorithm to be used; the current best "magic" values
+	are:
+	- 6176 for the binate case FOR THE MAPPING MATRIX STRUCTURE (i.e. one 
+	  negated variable per row, "diagonal" structure), 
+	- 4096 for the unate case.
+
+	record_fun, if non-nil, is called whenever a leaf is reached, passing to it
+	as a parameter the current solution; if it returns 1 the solution
+	generation ends, otherwise it continues.

@@ -1,0 +1,69 @@
+.XX
+red_removal [-hqrRpt] [-d RTG_depth] [-n n_fault_sim] [-v verbosity_level] 
+            [-y random_prop_depth]
+.PP
+Perform sequential redundancy removal using random test generation,
+deterministic test generation, and fault simulation. Deterministic test 
+generation is accomplished by one of two methods. The first method is a 
+three-step test generation algorithm consisting of combinational test 
+generation (assuming that latch outputs are controllable, and that latch 
+inputs are observable), followed by state justification and propagation, 
+when necessary. The combinational test generation is accomplished using 
+Boolean satisfiability. Justification and propagation are performed using 
+implicit state transition graph traversal techniques. If the three-step 
+method does not generate a test for a fault, then the product of the good 
+and faulty circuit is built and traversed, as in sequential circuit 
+verification. If this traversal proves the circuits equivalent, then the 
+fault is redundant; otherwise any differentiating sequence is a test for 
+the fault.
+.PP
+Each time a redundant fault is encountered during deterministic test
+generation, the redundant line is replaced by a constant 1 or 0, and
+deterministic test generation begins again. At the end of the redundancy
+removal procedure, the network is 100% testable for single stuck faults 
+unless the test generator aborts on some faults.
+.PP
+For combinational circuits, external don't cares are automatically taken 
+into account when the don't care network is attached to the care network. The PI's and PO's of the external don't care network (when it is not NIL) must match exactly with the care network. That is, the don't care network cannot specify only a subset of the PI's or PO's of the care network. If this
+condition is not met, then the atpg package automatically adds dummy primary
+inputs and outputs to the external don't care network.
+.PP
+The \fB-h\fP option restricts the boolean satisfiability algorithm to not 
+use non-local implications. Four greedy ordering heuristics are tried in 
+this case instead of the default of eight. Hard-to-test faults that can only 
+be tested with non-local implication information are aborted by this option.
+.PP
+The \fB-q\fP specifies "quick redundancy removal." With this option, the 
+deterministic test generation algorithm identifies only those redundant faults
+that cannot be excited from any reachable state. In practice, quick redundancy 
+removal usually gives the same results as regular redundancy removal, in much 
+less time.  
+.PP
+The \fB-r\fP option causes the test generator not to perform random test pattern
+generation.
+.PP
+The \fB-R\fP option causes the test generator not to perform random propagation. 
+(Deterministic propagation is still attempted).  
+.PP
+The \fB-p\fP option causes the test generator not to build any product 
+machines. Thus, neither deterministic propagation nor good/faulty product 
+machine traversal will be performed. 
+.PP
+The \fB-t\fP option first converts the network to arbitrary fanin AND and
+OR gates. The decomposed network is returned.
+.PP
+The \fB-d\fP option allows the specification of the length of the random
+sequences applied during random test generation. The default length is
+the depth of the circuit's state transition graph. 
+.PP
+The \fB-n\fP option allows the specification of the number of sequences
+to fault simulate at one time during fault simulation. The default is the
+system word length.  
+.PP
+The \fB-v\fP allows the specification of the verbosity level of the output.
+.PP
+The \fB-y\fP option allows the specification of the length of the random
+sequences applied during random propagation. The default length is 20. 
+.PP
+Note: in order to use this command with sequential circuits, the circuit
+reset state must be specified in the circuit input file.

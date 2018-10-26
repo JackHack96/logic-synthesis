@@ -1,0 +1,24 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/astg_marking.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:35 $
+.\"  *
+.\"
+.XX
+astg_marking [-s] [<marking>]
+.PP
+Display or set the initial marking of the ASTG.
+If no marking is given, the current initial marking is
+displayed.
+The default format for the marking is the same as for the
+\fB.marking\fP command of read_astg.
+.PP
+The -s option uses a state code format for the marking.
+This is a list of signal name and value pairs.
+For example, to set an initial state with signal A at
+value 0 and B at value 1, use the command:
+.br
+astg_marking -s A 0 B 1

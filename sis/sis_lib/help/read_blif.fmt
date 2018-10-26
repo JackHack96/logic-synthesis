@@ -1,0 +1,35 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   read_blif [-a] filename
+ 
+     Read in a network from the file filename which is assumed to be in _b_l_i_f
+     format.  The network name is given by the ._m_o_d_e_l statement in the file.
+     If a ._m_o_d_e_l is not given, the network name is the filename with any
+     trailing extension removed.  See the blif.tex document for a complete
+     description of the _b_l_i_f format.
+ 
+     The user can also specify an external don't care network. This network
+     must be placed after the care network in the same file. The statement
+     ._e_x_d_c must precede the description of the external don't care network.
+     The names of primary outputs and primary inputs of the external don't
+     care network must be exactly the same as the names of primary outputs
+     and primary inputs of the care network.
+ 
+     Usual filename conventions apply: - (or no filename) stands for standard
+     input, and tilde-expansion is performed on the filename.
+ 
+     Normal operation is to replace the current network with a new network.
+     If no external don't care network is specified, the external don't care
+     network is set to NIL (nonexistent). Otherwise the external don't care
+     network is replaced by the new external don't care network.  The -a
+     option specifies that the new network should be appended to the current
+     network.  Functions are associated between the two networks using the
+     long names of each network.  Name conflicts (where two functions attempt
+     to define the same name) generate warning messages and are resolved by
+     renaming the signal from the new network.
+ 
+     The -s option, though accepted, has no effect on read_blif, and is
+     instead reserved for the read_pla command.
+ 
+                                                                            1

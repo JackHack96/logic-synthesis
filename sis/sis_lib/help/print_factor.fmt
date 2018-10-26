@@ -1,0 +1,9 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_factor node-list
+ 
+     Print all the nodes in the node-list in the _f_a_c_t_o_r_e_d form.  If a node
+     has not beed factored, _f_a_c_t_o_r -_q will be used to factor the node.
+ 
+                                                                            1

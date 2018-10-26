@@ -1,0 +1,26 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   remove_dep [-o] [-v n] input output-list
+ 
+     The first node passed as argument should be an external primary input.
+     The remaining nodes passed as arguments should be external primary out-
+     puts.  This command assumes that the dependency between the given input
+     and the given outputs is structural but not logical, and it removes
+     these structural dependencies by forcing the input at 0 in the cone of
+     logic going from the input to the listed outputs.
+ 
+     The logic that depends on the given input and is shared with outputs not
+     passed as arguments is duplicated.
+ 
+     This function is useful when performing hierarchical optimization, to
+     guarantee that sis does not introduce dependencies that will create com-
+     binational logic loops when the hierarchy is reassembled.
+ 
+     -v allows the specification of the verbosity level of the output.  The
+     default value is 0.
+ 
+     With option -o the constant 1 is used instead of the constant 0 to
+     replace the input.
+ 
+                                                                            1

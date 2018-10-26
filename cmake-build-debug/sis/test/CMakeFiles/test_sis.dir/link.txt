@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtest_sis.a  CMakeFiles/test_sis.dir/end_test.c.o CMakeFiles/test_sis.dir/example.c.o CMakeFiles/test_sis.dir/init_test.c.o
+/usr/bin/ranlib libtest_sis.a

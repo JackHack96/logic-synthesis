@@ -1,0 +1,14 @@
+ 
+   July	1, 1994							       SIS(1)
+ 
+   print [-n] [-d] node-list
+ 
+     Print all the nodes in the	node-list in sum-of-product form.
+ 
+     If	-n option is specified,	the nodes are printed in the negative form.
+     (i.e. a' +	b' will	be printed as (a b)').
+ 
+     If	-d option is specified,	the nodes in the external don't	care network
+     are printed.
+ 
+									    1

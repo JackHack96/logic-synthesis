@@ -1,0 +1,40 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/extract_seq_dc.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:36 $
+.\"  *
+.\"
+.XX
+extract_seq_dc [-o depth] [-v n] [-m method]
+.PP
+Extract sequential don't cares based on unreachable states.
+The unreachable states are computed by
+implicitly enumerating the set of
+reachable states in the circuit starting from an initial state
+and then computing the inverse of that set.
+\fBfull_simplify\fR or \fBequiv_nets\fR should be run afterwards to
+exploit these don't cares.  
+.PP
+\fB-o depth\fR allows the specification of the depth of search for good
+variable ordering.
+A larger value for depth will require more CPU time but determine
+a better ordering.
+The default value is 2.
+.PP
+\fB-v\fR allows specification of the verbosity level of the output.
+.PP
+The \fB-m\fR option specifies \fBmethod\fR for determining
+the reachable states.
+\fBconsistency\fR builds the entire transition relation
+and uses it to determine the reached states.
+\fBbull\fR does output cofactoring to find the reachable
+states.
+The \fBproduct\fR method is similar to the \fBconsistency\fR method but
+input variables are smoothed as soon as possible as the characteristic
+function is being built.
+This makes the size of the resulting BDD representing the
+characteristic function of the transition relation smaller.
+The default method is \fBproduct\fR.

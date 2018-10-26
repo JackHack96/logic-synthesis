@@ -1,0 +1,40 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   gkx [-1abcdfo] [-t threshold]
+ 
+     Extract multiple-cube common divisors from the network.
+ 
+     The -a option generates all kernels of all function in the network when
+     building the kernel-intersection table.  By default, only level-0 ker-
+     nels are used.
+ 
+     The -b option chooses the best kernel intersection as the new factor at
+     each step of the algorithm; this is done by enumerating and considering
+     each possible kernel intersection, and choosing the best.  By default,
+     the more efficient _p_i_n_g-_p_o_n_g algorithm is used to find a good (but not
+     necessarily the best) kernel intersection.
+ 
+     The -c option uses the new factor and its complement when attempting to
+     introduce the new factor into the network.
+ 
+     The -d option enables debugging information which traces the execution
+     of the kernel extract algorithm.
+ 
+     The -f option uses the number of literals in the factored form for the
+     network as the cost function when determining the value of a kernel
+     intersection; by default, the number of literals in the sum-of-products
+     form for the network is used.
+ 
+     The -o option allows for overlapping factors.
+ 
+     The -t option sets a threshold such that divisors are extracted only
+     while their value exceeds the threshold.  By default, the threshold is 0
+     so that all possible multiple-cube divisors are extracted from the net-
+     work.
+ 
+     The -1 option performs only a single pass over the network.  By default,
+     the kernel extract algorithm is iterated while there are still divisors
+     whose value exceeds the given threshold.
+ 
+                                                                            1

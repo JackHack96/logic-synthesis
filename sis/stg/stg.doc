@@ -1,0 +1,350 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/stg/stg.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:52 $
+ *
+ */
+graph_t *
+stg_alloc()
+
+	Create a new state transition graph.
+
+void
+stg_free(stg)
+graph_t *stg;
+
+	Frees the state transition graph.
+
+graph_t *
+stg_dup(stg)
+graph_t *stg;
+
+	Returns a copy of the state transition graph.
+
+int
+stg_check(stg)
+graph_t *stg;
+
+	Performs various consistency checks on the state transition graph.
+	Returns a 1 if the errors found are not considered fatal, a 0
+	otherwise.  Warning messages are printed for all errors.
+	The following checks are made:  checks the graph itself using
+	g_check(), checks to see that a start state is defined, checks to
+	see that a current state is defined, checks for unreachable states,
+	checks for states that do not have any transitions, and checks that
+	there are no conflicting transitions from one state to two
+	different states.  A 0 is returned (fatal error) if there is no
+	start state defined, or if there is a conflicting transition from
+	one state to two or more other staes.
+
+stg_dump_graph(fp, stg, network)
+FILE *fp;
+graph_t *stg;
+network_t *network;
+	Prints the Sstate transition graph for stg to the file fp.
+	If (network != NIL(network_t))  then the routine will print
+	out the names of the primary inputs and outputs. The network
+	parameter can be set to NIL(network_t) to supress the printing
+	of the correspondence.
+
+void
+stg_reset(stg)
+graph_t *stg;
+
+	Sets the current state back to the start state.
+
+void
+stg_sim(stg,vector)
+graph_t *stg;
+char *vector;
+
+	Given values of the primary inputs in the vector, find a transition
+	determined by the vector from the current state to some next state,
+	then set the current state equal to that next state.
+
+	Prints the inputs, the current state, the next state, and the
+	outputs.
+
+	If the next state is undeterminable, prints an error message and
+	dies.
+
+int
+stg_get_num_inputs(stg)
+graph_t *stg;
+
+	Return the number of primary inputs in the stg.
+
+void
+stg_set_num_inputs(stg, i)
+graph_t *stg;
+int i;
+
+	Sets the number of inputs in the stg to i.
+
+int
+stg_get_num_outputs(stg)
+graph_t *stg;
+
+	Return the number of primary outputs in the stg.
+
+void
+stg_set_num_outputs(stg, i)
+graph_t *stg;
+int i;
+
+	Sets the number of outputs in the stg to i.
+
+int
+stg_get_edge_index(stg)
+graph_t *stg;
+
+	Return either 0 (meaning RISING_EDGE) or 1 (meaning FALLING_EDGE).
+ 	It is assumed that all latches are clocked by a single global
+  	clock, and all latches are triggered according to this edge type.
+
+void
+stg_set_edge_index(stg, i)
+graph_t *stg;
+int i;
+
+	Set the edge index in the stg to i.  A 0 means RISING_EDGE and 1
+ 	means FALLING_EDGE.  It is assumed that all latches are clocked
+	by a single global clock, and all latches are triggered according
+	to this type.
+
+int
+stg_get_num_products(stg)
+graph_t *stg;
+
+	Return the number of product terms (cubes) in the stg.  This is
+ 	used for printing out the .p construct in KISS format.
+
+void
+stg_set_num_products(stg, i)
+graph_t *stg;
+int i;
+
+	Set the number of product terms in the stg to i.  This is typically
+	read in from the .p construct in KISS format.  Some state assignment
+	programs rely on it.
+
+int
+stg_get_num_states(stg)
+graph_t *stg;
+
+	Return the number of states in the stg.
+
+void
+stg_set_num_states(stg, i)
+graph_t *stg;
+int i;
+
+	Sets the number of states in the stg to i.
+
+vertex_t *
+stg_get_start(stg)
+graph_t *stg;
+
+	Returns the start state of the state transition graph.
+
+void
+stg_set_start(stg, v)
+graph_t *stg;
+vertex_t *v;
+
+	Sets the start state of the machine to state v.
+
+vertex_t *
+stg_get_current(stg)
+graph_t *stg;
+
+	Returns the current state of the state transition graph.
+
+void
+stg_set_current(stg, v)
+graph_t *stg;
+vertex_t *v;
+
+	Sets the current state of the machine to state v.
+
+array_t *
+stg_get_latch_order(stg)
+graph_t *stg;
+
+	Return the array of latches corresponding to the encoding bits.
+
+void
+stg_add_latch_order(stg, l)
+graph_t *stg;
+latch_t *l;
+
+	Add the given latch to the end of the array of latches stored in
+	the latch_order field.
+
+vertex_t *
+stg_create_state(stg, name, encoding)
+graph_t *stg;
+char *name, *encoding;
+
+	Creates a new state with no transitions.  The name of the new state
+	is set to be the name that is passed in, and the encoding of the new
+	state is set to be the encoding that is passed in.  A pointer to the
+	new state is returned.
+
+edge_t *
+stg_create_transition(from, to, input, output)
+vertex_t *from, *to;
+char *input, *output;
+
+	Create a new transition in the graph between 'from' and 'to'.
+	'input' and 'output' are specified as null terminated character
+	strings whose lengths must respectively equal the number of inputs or
+	the number of outputs specified on this graph.  They should contain
+	only the characters '0', '1', and '-'.
+	If a transition already exists between 'from' and another vertex not
+	equal to 'to' which would conflict with the new transition, it
+	prints an error message and dies.
+
+vertex_t *
+stg_get_state_by_name(stg, name)
+graph_t *stg;
+char *name;
+
+	Return the state in the stg that has the symbolic name 'name'.
+	Returns NIL(vertex_t) if the state name is not found.
+
+vertex_t *
+stg_get_state_by_encoding(stg, encoding)
+graph_t *stg;
+char *encoding;
+
+	Return the state in the stg that has the encoding 'encoding'.
+	Returns NIL(vertex_t) if the state encoding is not found.
+
+char *
+stg_get_state_name(state)
+vertex_t *state;
+
+	Returns the name of the given state.
+
+void
+stg_set_state_name(state, name)
+vertex_t *state;
+char *name;
+
+	Sets the symbolic name of the given state to 'name'.
+
+char *
+stg_get_state_encoding(state)
+vertex_t *state;
+
+	Returns the encoding of the given state.
+
+void
+stg_set_state_encoding(state, encoding)
+vertex_t *state;
+char *encoding;
+
+	Sets the encoding name of the given state to 'encoding'.
+
+void
+stg_foreach_state(stg, gen, state)
+graph_t *stg;
+lsGen gen;
+vertex_t *state;
+
+	Generates over the states of the state transition graph.
+
+stg_foreach_transition(stg, gen, trans)
+graph_t *stg;
+lsGen gen;
+edge_t *trans;
+
+	Generates over the transitions of the state transition graph.
+	
+foreach_state_inedge(state, gen, edge)
+vertex_t *state;
+lsGen gen;
+edge_t *edge;
+
+	Generates over all the transitions which end in a given state.
+
+foreach_state_outedge(state, gen, edge)
+vertex_t *state;
+lsGen gen;
+edge_t *edge;
+
+	Generates over all the transitions with originate in a given state.
+
+char *
+stg_edge_input_string(edge)
+edge_t *edge;
+
+	Return the string corresponding to the input values of a
+	transition.
+
+char *
+stg_edge_output_string(edge)
+edge_t *edge;
+
+	Return the string corresponding to the output values of a
+	transition.
+
+vertex_t *
+stg_edge_from_state(edge)
+edge_t *edge;
+
+	Return the vertex corresponding to the state the edge emanates
+	from.
+
+vertex_t *
+stg_edge_to_state(edge)
+edge_t *edge;
+
+	Return the vertex corresponding to the state the edge leads to.
+
+graph_t *
+stg_extract(network, ctable)
+network_t *network;
+int ctable;
+
+        Takes a network and does a state extraction.  The state extraction
+	is based on the senum program by Tony Ma.  It uses a PODEM-like
+	algorithm for back-tracing.  The state transition graph is stored in
+	the network and returned to the calling procedure.  The network
+	remains otherwise unchanged.
+
+        If ctable is not 0, the start state specified on the latches is
+	ignored and the network is simulated for all possible start states.
+	Otherwise, the simulation only finds the states and transitions that
+	are reachable from the start state.
+
+        This program creates various temporary structures and hangs them off
+        of the undef1 slot in the node structure.  It is not necessary to
+        create a node daemon or a new slot in the node structure to replace
+        the use of the undef1 slot, as the structures are destroyed on
+        completion of the state extraction.
+
+network_t *
+stg_to_network(stg, commands)
+graph_t *stg;
+array_t *commands;
+
+	Extracts a network from the given state transition graph by
+	executing a system call to the state assignment program "nova"
+	(which calls "espresso").  "nova" and "espresso" should therefore be
+	in some directory in the path.
+
+	Symbolic state names in the state transition graph are changed to
+	the optimal bit patterns determined by the state assignment.
+
+	The variable 'commands' consists of an array of nova options, such
+	as ".encoding_algo i_hybrid".  If 'commands' is NULL, or there is no
+	encoding algorithm specified in the array, the default option
+	".encoding_algo i_greedy" is passed to nova.
+
+	Commands specified here will override commands that were stored on
+	the stg during a call to read_kiss().

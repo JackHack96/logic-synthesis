@@ -1,0 +1,2 @@
+/usr/bin/ar qc libdelay.a  CMakeFiles/delay.dir/com_delay.c.o CMakeFiles/delay.dir/delay.c.o CMakeFiles/delay.dir/mapdelay.c.o CMakeFiles/delay.dir/tdc_delay.c.o
+/usr/bin/ranlib libdelay.a

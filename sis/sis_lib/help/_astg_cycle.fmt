@@ -1,0 +1,9 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_cycle [<cycle-index>]
+ 
+     Print the simple cycles of the ASTG, or optionally print only the cycle
+     with the given index.
+ 
+                                                                            1

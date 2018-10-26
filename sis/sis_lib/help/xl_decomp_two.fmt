@@ -1,0 +1,28 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   xl_decomp_two [-n support] [-l lower_common_bound]
+                 [-L cube_support_lower_bound] [-f MAX_FANIN]
+                 [-c MAX_COMMON_FANIN] [-u MAX_UNION_FANIN] [-v]
+ 
+     Given an infeasible network, does decomposition knowing that each
+     Xilinx3090 CLB can have two functions if they have no more than
+     MAX_FANIN (default = 4) fanins each, their union has at most
+     MAX_UNION_FANINS (default = 5) fanins and they have at most
+     MAX_COMMON_FANINS (default = 4) common fanins. It does so by considering
+     certain cubes of all the infeasible nodes of the network, and associat-
+     ing an affinity value with each cube-pair. Extracts cube-pairs with high
+     affinity. Need to do a decomposition later to make the network feasible.
+ 
+     -n: support is the size of the TLU block (default = 5)
+ 
+     -l: do not consider a cube-pair for extraction if their number of common
+     inputs is less than lower_common_bound (default = 2).
+ 
+     -L: do not consider a cube if it has less than cube_support_lower_bound
+     inputs.
+ 
+     -v: turns on the verbosity flag.  When used, information about the
+        algorithm is printed as it executes.
+ 
+                                                                            1

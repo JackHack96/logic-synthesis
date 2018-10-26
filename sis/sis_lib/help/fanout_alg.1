@@ -1,0 +1,22 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/fanout_alg.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:36 $
+.\"  *
+.\"
+.XX
+fanout_alg [-v] alg_list
+.PP
+Activates selectively one or more fanout algorithms. For a list of 
+fanout algorithms known to the system, use the \fB-v\fR option.
+The algorithms activated are the ones specified in the list.
+One algorithm, \fInoalg\fR, is always active.
+\fItwo_level\fR 
+is a fast, area efficient algorithm. The best results are
+obtained with \fItwo_level\fR, \fIbottom_up\fR, \fIlt_trees\fR,
+and \fImixed_lt_trees\fR.
+.PP
+Fanout optimization itself is performed using the \fBmap\fR command.

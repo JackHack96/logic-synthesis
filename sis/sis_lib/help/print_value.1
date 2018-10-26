@@ -1,0 +1,25 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/print_value.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+print_value [-a] [-d] [-p n] node-list
+.PP
+Print the value of all the nodes in the \fBnode-list\fR.  The value
+is currently defined as the number of literals increased if the node
+were eliminated from the network.  Since the value of a node depends
+on the particular factored form of the node and its fanouts, all the
+nodes which don't have factored forms will be factored using
+\fIfactor -q\fR.
+.PP
+The \fB-a\fR option prints the values in ascending order.
+.PP
+The \fB-d\fR option prints the values in descending order.
+.PP
+The \fB-p\fR takes an argument \fBn\fR, and directs print_value to only
+print the top n values.

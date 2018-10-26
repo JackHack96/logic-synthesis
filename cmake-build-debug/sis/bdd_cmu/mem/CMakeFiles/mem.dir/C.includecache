@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/matteo/Dropbox/sis/sis/bdd_cmu/mem/memblock.c
+memint.h
+/home/matteo/Dropbox/sis/sis/bdd_cmu/mem/memint.h
+
+/home/matteo/Dropbox/sis/sis/bdd_cmu/mem/memint.h
+memuser.h
+/home/matteo/Dropbox/sis/sis/bdd_cmu/mem/memuser.h
+
+/home/matteo/Dropbox/sis/sis/bdd_cmu/mem/memrec.c
+memint.h
+/home/matteo/Dropbox/sis/sis/bdd_cmu/mem/memint.h
+
+/home/matteo/Dropbox/sis/sis/bdd_cmu/mem/memuser.h
+stdio.h
+-
+

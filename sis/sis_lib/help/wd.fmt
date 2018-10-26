@@ -1,0 +1,12 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   wd [-c] node1 node2
+ 
+     The wd command (which stands for "weak division") is very similiar to
+     resubstitution (resub command), except that instead of operating on the
+     entire network, wd simply re-expresses node1 in terms of node2.
+ 
+     The -c option allows re-substitution of the complement of node2.
+ 
+                                                                            1

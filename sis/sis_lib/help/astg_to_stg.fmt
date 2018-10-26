@@ -1,0 +1,21 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_to_stg [-v debug_level] [-m]
+ 
+     Generate a State Transition Graph from the current Signal Transition
+     Graph.  The State Transition Graph has one input signal for each signal
+     in the Signal Transition Graph (both input and output), and one output
+     signal for each output signal in the Signal Transition Graph.
+ 
+     If the initial marking is not defined, then a valid marking is searched
+     for.
+ 
+     An error message results if no valid marking is found (in which case it
+     might be advisable to define it in the ASTG specification file).
+ 
+     The -m option additionally performs a pre-minimization step that pro-
+     duces a State Transition Graph suitable for subsequent state encoding
+     commands (such as, e.g., astg_state_min).
+ 
+                                                                            1

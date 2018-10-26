@@ -1,0 +1,11 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   undo
+ 
+     A simple 1-level undo is supported.  It reverts the network to its state
+     before the last command which changed the network.  Note that interrupt-
+     ing a command (with ^C) which changes the network uses up the one level
+     of undo.
+ 
+                                                                            1

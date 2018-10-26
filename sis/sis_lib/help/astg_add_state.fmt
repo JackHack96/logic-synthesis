@@ -1,0 +1,12 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   astg_add_state [-v debug_level] [-m]
+ 
+     Adds state signal transitions to the Signal Transition Graph to guaran-
+     tee implementability (see astg_state_min for a recommended script file).
+ 
+     The -m option does not preserve the original ASTG marking, and forces
+     its re-computation (may be slow; dubious usefulness).
+ 
+                                                                            1

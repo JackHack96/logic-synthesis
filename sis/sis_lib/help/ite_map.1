@@ -1,0 +1,98 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/ite_map.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:44 $
+.\"  *
+.\"
+.XX
+ite_map  [-n num_iter] [-C cost_limit] [-f collapse_fanin]
+         [-m map_method] [-d decomp_fanin] [-M  MAXOPTIMAL] [-clorsvD]
+.PP
+Routine to find an optimal mapping to Actel's ACT1 architecture.
+The input is the Boolean network and the output
+is a netlist and the block count
+(reference: An Architecture for Electrically Configurable Gate Arrays,
+Gamal et. al., IEEE J. of Solid State Circuits, April 1989, pp. 394-398). 
+.PP
+\fBite_map\fP synthesizes the given circuit onto Actel ACT1
+architecture.
+The pattern graphs are hard-wired into the code 
+and so no library is to be read in. Each intermediate 
+node of the network is checked to see if it matches onto one ACT1
+module. This check is done using a Boolean matching algorithm.
+If not, then a subject graph is constructed for the node function.
+The subject graph (as well as the pattern-graphs) is in terms of 
+2-1 muxes: it uses ITEs (if-then-else DAGs) and ROBDDs (Reduced
+Ordered BDDs) for the mapping. After an initial mapping of the
+network,  an iterative_improvement phase may be entered. Local collapse and
+decomposition operations are performed for better quality.
+
+Following options are supported:
+
+.PP
+\fB-m map_method\fP specifies which one of the two 
+subject_graphs would be constructed.
+.br
+.PP
+map_method = 1 => Standard mapping for each node.
+.br
+.PP
+map_method = 2 => construct a sub-network from each node. Map the
+sub-network using iterative improvement and finally replace the node
+with the mapped sub-network.
+.br
+.PP
+\fB-n num_iteration\fP specifies the maximum number of iterations
+to be performed in the iterative_improvement phase. Default is -n 0.
+.br
+.PP
+\fB-F collapse_fanins_of_fanout\fP used in partial collapse. Collapses
+a node into fanouts only if after collapsing, each fanout has at most
+collapse_fanins_of_fanout fanins (Default: -F 15).
+.br
+.PP
+\fB-C cost_limit\fP in partial collapse, collapse a node only if its
+cost is at most cost_limit (Default: -C 3).   
+.br
+.PP
+\fB-f collapse_fanin\fP considers only those nodes for partial
+collapse which have at most collapse_fanin fanins (Default: -f 3). 
+.br
+.PP
+\fB-d decomp_fanin\fP considers only those nodes for decomposition in
+iterative improvement which have fanin greater than or equal to
+decomp_fanin. (Default -d 4).
+.br
+.PP
+\fB-M MAXOPTIMAL\fP constructs an optimal ROBDD (if the ROBDD option
+is selected) for a node if number of fanins is at most MAXOPTIMAL.
+.br
+.PP
+\fB-r\fP is the final mapping option. After initial mapping and
+possible iterative improvement, a mapped network is created in 
+which each intermediate node corresponds to one ACT1 module. If not
+specified, the network may not have a one-to-one correspondence with
+the ACT1 module.
+.br
+.PP
+\fB-D\fP selects the decomposition method. If specified, computes a
+factored form of the node and then constructs ITE for each factor. 
+.br
+.PP
+\fB-c\fP causes the matching algorithm to be exact. If not
+specified, matching is approximate.
+.br
+.PP
+\fB-o\fP causes the OR gate in ACT1 to be ignored. So mapping is done onto a 
+three-mux structure.
+.br
+.PP
+\fB-v\fP turns on the verbosity flag.  When used, information about the
+   algorithm is printed as it executes.
+.br
+.PP
+\fB-s\fP gives the statistics, regarding the block count
+of the circuit.

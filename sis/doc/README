@@ -1,0 +1,79 @@
+
+misII Packages --
+        atpg    -- generates test vectors
+	command	-- command parser
+	decomp	-- decomposition routines
+	delay	-- delay evaluator
+	error	-- simple error message builder
+	extract	-- kernel- and cube- extraction
+	factor	-- algebraic factoring
+	gcd 	-- factorization package
+	genlib	-- parses genlib format for libraries
+        graphics-- plotting routines
+	library	-- maniuplates specific cell libraries
+	map	-- technology mapping (interface to come)
+        mincov  -- weighted minimum cover package
+        minimize-- 2-level minimization of nodes
+	network	-- manipulates Boolean network
+	node	-- manipulates nodes in a network
+        ntbdd   -- handles bdd structures, dependent on network
+	order   -- handles bdd ordering routines 
+	phase	-- phase assignment
+        pld     -- algorithms for synthesis of pld's
+	resub	-- algebraic resubstitution
+	sim	-- simulation (for verification)
+	simplify-- two-level minimization package (uses espresso)
+        speed   -- speed resynthesis package
+	test	-- basic test package
+
+SIS packages --
+	astg	-- asynchronous circuit synthesis
+	clock	-- handle system clocks
+	graph	-- general graph package
+	latch	-- handles circuit latches
+	retime	-- algorithms for retiming the network
+	seqbdd	-- fsm verification using implicit state enumeration
+	stg	-- uses the graph package for maintaining an stg
+	timing  -- determines optimal clocking schemes
+
+general packages --
+        array   -- handles arrays of data structures
+        avl     -- handles avl data structures
+        bdd     -- handles bdd data structures, independent of network
+	espresso-- handles two-level minimization
+        list    -- handles linked lists of data structures
+        maxflow -- algorithms for doing maxflow in a graph
+        sparse  -- sparse matrix package
+        st      -- hash table package
+        util    -- package with various utilities for programming
+        
+Packages with no exported functions:
+	io	-- network input and output routines
+	main	-- the main program driver
+        octio   -- i/o for the oct data base
+	genlib	-- library generator
+	lsort	-- linked-list sorting routine (obsolete)
+
+Directories (which are not packages):
+	doc	-- documentation (sym-links back to package directories)
+	ex	-- examples directory
+	include	-- include files (sym-links back to package directories)
+	lib	-- libraries of compiled SIS code
+	sis_lib	-- miscellaneous library information
+
+Files:
+	blif.tex	-- TeX description of blif format
+	slif.1		-- man page for the SLIF (Stanford Logic Interchange
+			   Format) I/O format
+ 	PROG		-- SIS programming notes written by KJ Singh
+	SPEC		-- description of specification for state assignment
+			   and state minimization programs
+
+Note : Symbolic link for all files go to directory with the same name
+except the following
+
+	dagger.doc    goes to graphics
+        graph_static.doc goes to graph
+	library.doc   goes to map
+	nodeindex.doc goes to node
+

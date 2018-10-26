@@ -1,0 +1,24 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/write_pds.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:36 $
+.\"  *
+.\"
+.XX
+write_pds [-c] [-d] [-s] [filename]
+.PP
+Write the current network to file \fBfilename\fP in the \fIpds\fP
+format suitable for Xilinx.  
+The \fIpds\fP descriptions are generated for single output CLBs
+(LUTs) only.
+.PP
+The \fB-c\fP option indicates that only the combinational portion
+of the network should be written out.
+.PP
+The \fB-d\fP option will cause debugging information to be printed.
+.PP
+The \fB-s\fP option uses the network short names rather than the
+network long names for the \fIpds\fP file.

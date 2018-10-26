@@ -1,0 +1,38 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/xl_partition.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:43 $
+.\"  *
+.\"
+.XX
+xl_partition [-n support] [-M MAX_FANINS] [-v verbosity_level] [-tm]
+.PP
+Tries to reduce the number of nodes by collapsing nodes into their
+fanouts. Also takes into account extra nets created. Collapses a
+node into its fanout only if the resulting fanout is feasible.
+Associates a cost with each (node, fanout) pair which reflects the
+extra nets created if node is collapsed into the fanout. It then selects
+pairs with lowest costs and collapses them.
+The starting network need not be feasible, in which case
+the resulting network also may not be. But if the starting network is,
+so is the resulting network.
+.PP
+\fB-n\fP: support is the size of the TLU block (default = 5)
+.br
+.PP
+\fB-t\fP: Our experience was that if one is just interested in
+minimization of number of nodes, then those nodes which can
+be collapsed into all their fanouts are the main reduction-contributors.
+This option removes a node from the network if it
+can be collapsed into all its fanouts. Very fast.
+.br
+.PP
+\fB-m\fP: move fanins around to increase collapsing possibilities. Do so for a node 
+only if after collapsing, it has at most MAX_FANINS (default = 15)(as specified by \fB-M\fP option).
+.br
+.PP
+\fB-v\fP: this sets the verbosity level (amount of information printed
+as the algorithm proceeds) to \fBverbosity_level\fP.

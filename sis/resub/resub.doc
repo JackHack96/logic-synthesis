@@ -1,0 +1,33 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/resub/resub.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:48 $
+ *
+ */
+Summary:
+    resub_alge_node();
+    resub_alge_network();
+
+
+int
+resub_alge_node(f, use_complement)
+node_t *f;
+int use_complement;
+    Algebraic re-substitution of f into all other nodes in the network.
+    It returns 1 if f is substituted into some other notes, 0 otherwise.
+    If use_complement is 1, the substitution uses both f and its complement.
+    Because it uses algebraic division, only the immediate fanouts of the
+    immediate fanins of f can possibly be simplified.  No action is taken
+    if f is a primary input, a primary output, or a 
+    constant function.
+
+
+void
+resub_alge_network(network, use_complement)
+network_t *network;
+int use_complement;
+    Does resub_alge_node on each function in the network until no more
+    improvement can be made.

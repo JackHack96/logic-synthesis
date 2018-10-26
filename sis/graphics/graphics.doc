@@ -1,0 +1,249 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/graphics/graphics.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:27 $
+ *
+ */
+
+graphics.doc -- SIS graphical front-end interface specification.
+
+OVERVIEW
+
+    A graphical interface to SIS is based on implementing the graphical front
+    end as a separate program which runs SIS as a child process and interfaces
+    with SIS using the existing command-line interface.  The SIS child process
+    is started with the -X option to enable the SIS graphics commands.
+
+    Advantages:
+
+      * No X11 code needs to be linked with SIS.
+      * The interface is responsive even when SIS is doing a long computation.
+      * Any copy of SIS can be run either using the regular TTY command line
+	(especially for debugging) and then can be run under a graphical
+	interface for demos without recompiling.
+      * Multiple graphical interfaces (using different toolkits for example)
+	can be developed without affecting SIS.
+      * Portability problems associated with the graphical interface are
+	eliminated from SIS itself.
+
+    Disadvantages:
+
+      * Adding a new interface feature often requires modifying two programs.
+      * The graphics interface adds a few portability problems of its own
+	such as the use of ptys.
+
+    The program XSIS is such a graphical interface using the Athena Widget set
+    of the MIT X11R4 release.  Some of the features of XSIS are described here
+    because they are relevant to any other graphical front-end which might be
+    developed (using another toolkit for example).  The remainder of this
+    document will use XSIS, but applies equally to any other interface.
+
+GRAPHICS COMMANDS
+
+    Graphics commands are sent to XSIS as ordinary text.  They are interpreted
+    by XSIS instead of being displayed to the user.  Commands have four parts:
+
+	<type>	The type of window the command is being sent to.
+
+	<cmd>	What command to send to the window, e.g. close, highlight.
+
+	<title>	The title of the window, since there may be more than one
+		of the same type.
+
+	<data>	Arbitrary command-specific data.  The amount of data can
+		be quite large such as the complete description of a
+		network, or very small such as what help topic to display.
+		To simplify parsing, single tab characters should be used to
+		separate tokens in the graphics data, and the data should be
+		line oriented.
+
+    The end of this document describes the defined types and commands.
+    The titles for most windows are arbitrary.  For example, the title used
+    for blif windows is the network name.  Titles may not have newline
+    characters in them.  The single sis entity always has title "sis".
+
+    XSIS silently ignores any graphics commands that it does not recognize.
+    This makes it possible to run older versions of XSIS with new versions
+    of SIS.  Thus new commands can be added to either XSIS or SIS first without
+    "breaking" the software.  If XSIS is run with the -debug option, then it
+    will print warnings to stdout for any ignored commands (as well as a lot
+    of other diagnostic information).
+
+SIS GRAPHICS SUPPORT
+
+    To enable graphics features in SIS, run it with the -X flag (this is
+    normally only done by a graphical interface):
+
+	    sis -X <fileno>
+
+    The command package in SIS uses the argument <fileno> to select which
+    stream to use for sending graphics commands.  Value 1 is stdout, 2 is
+    stderr, and 0 means disable graphics (the default if -X is not used).
+    When graphics is disabled, SIS will not generate any special graphics
+    commands.  For debugging purposes, you can specify the -X option directly
+    to see the raw output from SIS in graphics mode.
+
+    The command package provides four basic functions for handling graphics in
+    SIS:
+
+      int com_graphics_enabled ();
+
+	    Returns 1 if graphics is enabled.  Other packages can use this to
+	    optionally add special graphics commands.  See the io package
+	    command plot_blif for example.
+
+      FILE *com_graphics_open (type,title,command)
+      char *type;
+      char *title;
+      char *command;
+
+	    Start a graphics command.  Any command-specific data should be
+	    written to the file stream which is returned, using ordinary
+	    stdio calls.  Remember to separate tokens with tabs.
+
+      void com_graphics_close (stream)
+      FILE *stream;
+
+	    Finish a graphics command.  Calls to graphics_open/close cannot
+	    be nested, and an assertion will fail if a second open is tried
+	    without an intervening close.  The stream must be the one returned
+	    by com_graphics_open.
+
+      void com_graphics_exec (type,title,command,data)
+      char *type;
+      char *title;
+      char *command;
+      char *data;
+
+	    Convenience function for graphics commands which have very simple
+	    data.  This is equivalent to a graphics_open/fprintf/graphics_close
+	    sequence.
+
+COMMAND FORMAT
+
+    Normally you do not need to know the detailed format of a graphics command
+    header since the SIS command package handles this for you.
+
+    Each graphics command starts with a special header line, followed by
+    one line containing the type, command, and title for the graphics command.
+    Next any command-specific data is written, followed finally by a special
+    trailer line.  For example, the graphics command to open the xsis cmd
+    window looks like:
+
+	^G#GRAPHICS_START#
+	cmd	new	cmd
+	.version	U.C. Berkeley SIS 1.1
+	^G#GRAPHICS_END#
+
+    The header and trailer are generated by the com_graphics_open/_close
+    calls.  Remember that all tokens are separated by tabs to avoid problems
+    with embedded spaces.  The ^G is added to help make the graphics header
+    and trailer distinct from normal SIS output.
+
+ADDING NEW COMMANDS
+
+    Adding a new graphics command for SIS to send to XSIS requires the
+    following steps:
+
+     1) If a new window type is being created, assign it a type name and add
+	it to the list below.
+
+     2) For each command, define the data associated with the command and
+	enter its description below.
+
+     3) Add code to SIS to issue the new graphics command, using the command
+	package functions described above.
+
+     4) Modify the graphical interface XSIS to read the new command and
+	execute the new command.  This step is usually most of the work.
+
+    Adding a new command for XSIS to send to SIS is done the same way as adding
+    any other command to SIS.  However, if the command is only for graphics
+    use, then in SIS initialization you should test com_graphics_enabled() to
+    decide if the command will be added (using com_add_command).  This way
+    when SIS is run in normal tty mode, the useless graphics commands are not
+    even available.
+
+TESTING NEW COMMANDS
+
+    Since graphics commands are just embedded in the regular SIS output, it is
+    easy to test new graphics commands even before SIS has been modified.
+    Put the complete graphics commands in a file, including the graphics header
+    and trailer (see above).  Then start XSIS and use "!cat <filename>".  XSIS
+    will see the graphics header and will automatically try to interpret the
+    following text as a graphics command.  This can be used to develop and test
+    a new graphics command before changing SIS.
+
+SIS WINDOW TYPES
+
+    The following are the defined types for SIS graphics commands:
+
+    sis     This entity manages the communication between XSIS and SIS, and
+	    the creation of new windows.  Normally this entity does not have
+	    a window associated with it, but you can still sent it commands.
+	    It has a role similar to the command package in SIS.
+
+    cmd     This window handles the command line for input, and a text display
+	    for SIS non-graphical output.  SIS automatically opens one of these
+	    when graphics mode is enabled.
+
+    help    A help window displays a SIS formatted help file.
+
+    blif    Used to display a graphical representation of a SIS network, in
+	    the format of the old SIS "plot" command.
+
+    The rest of this file informally describes the commands for each window.
+    Remember tokens are separated with tabs, although they are shown as
+    a single space here for legibility.
+
+SIS WINDOW COMMANDS
+
+    set
+    <flag> <value>
+
+    unset
+    <flag>
+
+    commands
+    <sis-cmd1>
+    <sis-cmd2>
+    ...
+
+COMMAND WINDOW COMMANDS
+
+    new
+    .version <sis-version>
+
+    close
+
+BLIF WINDOW COMMANDS
+
+    new
+    .geometry <X-geometry>
+    .inputs <node1> <node2> ...
+    .outputs <node1> <node2> ...
+    .node <name> <in1> <in2> ...
+    .label <name> <label>
+
+    replace
+    (same as new)
+
+    highlight
+    .clear <label>
+    .on
+    .off
+    .nodes <node1> <node2> ...
+    .command <group> <sis-command> <label> <help-text>
+
+    close
+
+HELP WINDOW COMMANDS
+
+    new
+    .geometry <X-geometry>
+    .topic <sis-command>
+
+    close

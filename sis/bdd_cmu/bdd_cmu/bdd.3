@@ -1,0 +1,2001 @@
+.\" BDD library man page
+.TH BDD 3 "11 June 1993"
+.SH NAME
+bdd \- a binary decision diagram (BDD) package
+.SH SYNOPSIS
+.B #include <bdduser.h>
+.SH DESCRIPTION
+The
+.B libbdd
+library provides a set of routines for manipulating binary decision
+diagrams (BDDs).  Some support is also provided for multi-terminal
+BDDs (MTBDDs).  Programs designed to be used with the library should
+use the
+.B -lbdd -lmem
+options to
+.B cc
+when linking.
+.SH "LIST OF FUNCTIONS"
+.nf
+.ta 3in
+\fIName\fP	\fIFunction\fP
+bdd_init	Initialize the library
+bdd_quit	Finish using the library
+bdd_new_var_first	Create a variable first in the order
+bdd_new_var_last	Create a variable last in the order
+bdd_new_var_before	Create a variable before an existing one
+bdd_new_var_after	Create a variable after an existing one
+bdd_var_with_index	Obtain an existing variable
+bdd_var_with_id	Obtain an existing variable
+bdd_one	Constant TRUE
+bdd_zero	Constant FALSE
+bdd_and	Logical AND
+bdd_nand	Logical NAND
+bdd_or	Logical OR
+bdd_nor	Logical NOR
+bdd_xor	Logical XOR
+bdd_xnor	Logical XNOR
+bdd_identity	Logical identity
+bdd_not	Logical NOT
+bdd_ite	Logical IF-THEN-ELSE
+bdd_if	Get the variable of the top node in a BDD
+bdd_then	Get the THEN branch of the top node in a BDD
+bdd_else	Get the ELSE branch of the top node in a BDD
+bdd_if_index	Get the index of the top variable in a BDD
+bdd_if_id	Get a unique ID number for the top variable
+bdd_intersects	Check intersection
+bdd_implies	Check boolean implication
+bdd_new_assoc	Make a new variable association
+bdd_free_assoc	Free a variable association
+bdd_temp_assoc	Set the temporary variable association
+bdd_augment_temp_assoc	Set the temporary variable association
+bdd_assoc	Set the current variable association
+bdd_exists	Existential quantification
+bdd_forall	Universal quantification
+bdd_rel_prod	Relational product
+bdd_compose	Substitute for a variable
+bdd_substitute	Substitute for a set of variables
+bdd_reduce	Simplify given a constraint
+bdd_cofactor	Generalized cofactor
+bdd_depends_on	Determine if a BDD depends on a variable
+bdd_support	Find the support of a BDD
+bdd_satisfy	Find a satisfying assignment
+bdd_satisfy_support	Find a satisfying assignment
+bdd_satisfying_fraction	Fraction of valuations satisfying a BDD
+bdd_swap_vars	Swap two variables in a BDD
+bdd_apply2	Generic apply routine
+bdd_apply1	Generic apply routine
+bdd_size	Number of nodes in a BDD
+bdd_size_multiple	Number of nodes in multiple BDDs
+bdd_profile	Node profile of a BDD
+bdd_profile_multiple	Node profile of multiple BDDs
+bdd_function_profile	Function profile of a BDD
+bdd_function_profile_multiple	Function profile of multiple BDDs
+bdd_print_bdd	Print a BDD in human-readable form
+bdd_print_profile	Print a node profile of a BDD
+bdd_print_profile_multiple	Print a profile of multiple BDDs
+bdd_print_function_profile	Print a function profile of a BDD
+bdd_dump_bdd	Write a BDD to a file
+bdd_undump_bdd	Load a BDD from a file
+bdd_type	Classify a BDD
+bdd_free	Decrease the reference count of a BDD
+bdd_unfree	Increase the reference count of a BDD
+bdd_clear_refs	Set all BDD reference counts to zero
+bdd_gc	Garbage collect unused BDD nodes
+bdd_total_size	Total number of BDD nodes in use
+bdd_vars	Total number of variables in existence
+bdd_cache_ratio	Get/set operation result cache size
+bdd_node_limit	Get/set the number of BDD nodes allowed
+bdd_overflow	Get/clear overflow flag
+bdd_overflow_closure	Set a closure to invoke on overflow
+bdd_abort_closure	Used to abort operations in progress
+bdd_stats	Print statistics
+bdd_dynamic_reordering	Specify dynamic reordering technique
+bdd_reorder	Invoke dynamic reordering
+bdd_new_var_block	Create variable block
+bdd_var_block_reorderable	Set block reorderability
+mtbdd_free_terminal_closure	Called when freeing an MTBDD terminal
+mtbdd_get_terminal	Get an MTBDD terminal node
+mtbdd_terminal_value	Get the value of an MTBDD terminal node
+mtbdd_ite	IF-THEN-ELSE operation for MTBDDs
+mtbdd_equal	Equality operation for MTBDDs
+mtbdd_transform	Applies the current transform to an MTBDD
+mtbdd_transform_closure	Called to set the MTBDD transform
+mtbdd_one_data	Sets the MTBDD data value for TRUE
+.fi
+.SH "BASIC CONCEPTS"
+For a general overview of BDDs, see the original article by Bryant
+[1].
+
+Almost all of the BDD library routines require a BDD manager as one of
+their arguments.  A BDD manager is a structure which holds various
+variables used by the BDD routines.  The type
+.B bdd_manager
+is a pointer to this structure.  BDDs themselves are also represented
+internally as structures.  The type
+.B bdd
+is a pointer to one of these structures.
+
+There is a global ordering on the boolean variables which may appear
+in a BDD.  The variable at the root of a BDD is earlier in the
+ordering than all other variables in the BDD.  Each variable has an
+index which represents its position in the ordering;
+.I v1
+appears before
+.I v2
+in the ordering if and only if the index for
+.I v1
+is less than the ordering for \fIv2\fR.  Each variable is also
+assigned a unique ID number that is invariant.  Since variables can be
+created at any position within the order, this is not true for the
+index.  Also, the library supports dynamic variable reordering.  With
+dynamic variable reordering, variables may be shuffled around in the
+middle of an operation in order to reduce the number of BDD nodes in
+use.
+
+Some routines such as
+.B bdd_substitute
+require a mapping from variables to BDDs to operate.  This mapping is
+supplied in the form of a variable association which is a set of
+pairs.  The first element of each pair is the variable, and the second
+element is the BDD that the variable is associated with.  Multiple
+associations may exist at any one time.  Other routines such as
+.B bdd_exists
+require sets of variables.  Sets of variables are represented by
+variable associations where only the fact that a variable is
+associated with some BDD is significant.  There is one association,
+called the temporary variable association, which is special in two
+ways.  First, this association always exists.  Second, results are not
+cached across calls when this association is used.  The temporary
+association is intended for when an association will not be reused.
+The advantage of using it is that setting the temporary association
+does not require scanning the result cache to flush out-of-date
+results.
+
+The results returned by the library represent canonical forms and may
+be checked for equivalence using the standard C comparison operators.
+For example:
+
+.nf
+{
+  bdd_manager bddm;
+  bdd f;
+  ...
+  if (f == bdd_one(bddm))  /* Tautology check */
+    ...
+}
+.fi
+
+For checking for relations such as boolean implication, use
+.B bdd_intersects
+and \fBbdd_implies\fR.
+
+Multi-terminal BDDs are like BDDs, except an MTBDD may have more than
+just the constants TRUE and FALSE at the leaves.  Passing an MTBDD to
+a routine expecting a BDD will give undefined results, except where
+noted below.  MTBDDs are built up using
+.B mtbdd_get_terminal
+and \fBmtbdd_ite\fR.
+.SH "STORAGE MANAGEMENT"
+Each BDD node has an associated reference count which records the
+number of references to the BDD (internal and external).  Whenever a
+BDD is returned from a function, the reference count for its top node
+is incremented.  (If the BDD did not exist before, the reference count
+will be 1.)  Each time a garbage collection occurs, either internally
+or because of a call to \fBbdd_gc\fR, all nodes which are not
+referenced are reclaimed.  The reference count of a BDD may be
+decremented by calling \fBbdd_free\fR.  This should be done whenever
+possible for maximum space efficiency.  You may also specify a limit
+for the total number of BDD nodes using \fBbdd_node_limit\fR.  If it
+is not possible to complete an operation without exceeding this limit,
+the operation is aborted and (by default) a null pointer is returned.
+Whenever this happens, the reference counts of all nodes are restored
+to what they were before the operation.  If a null pointer is passed
+to a routine, the routine simply returns null.  Thus, it is not
+necessary to check for overflows after each operation.  There is also
+an internal flag that indicates whether any operation has caused an
+overflow.  It may be read and reset by \fBbdd_overflow\fR.
+Optionally, a user-defined closure may be invoked when an overflow
+occurs; see \fBbdd_overflow_closure\fR.  Also see \fBbdd_free\fR,
+\fBbdd_unfree\fR, \fBbdd_clear_refs\fR, \fBbdd_node_limit\fR and
+\fBbdd_gc\fR.  The library also includes high-performance replacements
+for
+.B malloc
+and \fBfree\fR.  See the discussion at the end of the section on
+adding new routines.
+.SH "DETAILED DESCRIPTION"
+.B bdd_manager
+.br
+.B bdd_init()
+.in +4
+Creates and initializes a new BDD manager.  Multiple BDD managers may
+exist at any time.
+.LP
+.B void
+.br
+.B bdd_quit(bddm)
+.br
+.B bdd_manager bddm;
+.in +4
+Deallocates the BDD manager given by
+.B bddm
+and all the storage associated with it.
+.LP
+.B bdd
+.br
+.B bdd_new_var_first(bddm)
+.br
+.B bdd_manager bddm;
+.in +4
+Creates a new variable at the start of the BDD variable ordering and
+returns the BDD for it.
+.LP
+.B bdd
+.br
+.B bdd_new_var_last(bddm)
+.br
+.B bdd_manager bddm;
+.in +4
+Creates a new variable at the end of the BDD variable ordering and
+returns the BDD for it.
+.LP
+.B bdd
+.br
+.B bdd_new_var_before(bddm, var)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd var;
+.in +4
+Creates a new variable which is before
+.B var
+in the BDD variable ordering and returns the BDD for the new variable.
+.LP
+.B bdd
+.br
+.B bdd_new_var_after(bddm, var)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd var;
+.in +4
+Creates a new variable which is after
+.B var
+in the BDD variable ordering and returns the BDD for the new variable.
+.LP
+.B bdd
+.br
+.B bdd_var_with_index(bddm, i)
+.br
+.B bdd_manager bddm;
+.br
+.B long i;
+.in +4
+If a variable with index
+.B i
+has been created, returns the BDD for the variable.  If no such
+variable exists, returns null.  See also \fBbdd_if_index\fR.
+.LP
+.B bdd
+.br
+.B bdd_var_with_id(bddm, i)
+.br
+.B bdd_manager bddm;
+.br
+.B long i;
+.in +4
+If a variable with ID
+.B i
+has been created, returns the BDD for the variable.  If no such
+variable has been created, returns null.  See also \fBbdd_if_id\fR.
+.LP
+.B bdd
+.br
+.B bdd_one(bddm)
+.br
+.B bdd_manager bddm;
+.in +4
+Returns the BDD for the constant TRUE.
+.LP
+.B bdd
+.br
+.B bdd_zero(bddm)
+.br
+.B bdd_manager bddm;
+.in +4
+Returns the BDD for the constant FALSE.
+.LP
+.B bdd
+.br
+.B bdd_and(bddm, f, g)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f, g;
+.in +4
+Returns the BDD for the logical AND of
+.B f
+and \fBg\fR.
+.LP
+.B bdd
+.br
+.B bdd_nand(bddm, f, g)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f, g;
+.in +4
+Returns the BDD for the logical NAND of
+.B f
+and \fBg\fR.
+.LP
+.B bdd
+.br
+.B bdd_or(bddm, f, g)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f, g;
+.in +4
+Returns the BDD for the logical OR of
+.B f
+and \fBg\fR.
+.LP
+.B bdd
+.br
+.B bdd_nor(bddm, f, g)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f, g;
+.in +4
+Returns the BDD for the logical NOR of
+.B f
+and \fBg\fR.
+.LP
+.B bdd
+.br
+.B bdd_xor(bddm, f, g)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f, g;
+.in +4
+Returns the BDD for the logical XOR of
+.B f
+and \fBg\fR.
+.LP
+.B bdd
+.br
+.B bdd_xnor(bddm, f, g)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f, g;
+.in +4
+Returns the BDD for the logical XNOR of
+.B f
+and \fBg\fR.
+.LP
+.B bdd
+.br
+.B bdd_identity(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns the BDD for \fBf\fR.  The only real effect of this function is
+to increase the reference count of \fBf\fR.  Also works with MTBDDs.
+.LP
+.B bdd
+.br
+.B bdd_not(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns the BDD for the logical NOT of \fBf\fR.
+.LP
+.B bdd
+.br
+.B bdd_ite(bddm, f, g, h)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f, g, h;
+.in +4
+Returns the BDD for the logical operation IF
+.B f
+THEN
+.B g
+ELSE \fBh\fR.
+.LP
+.B bdd
+.br
+.B bdd_if(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns the BDD for the variable which labels the root of the BDD
+given by \fBf\fR.  Also works with MTBDDs.  The result is undefined if
+.B f
+is one of the constants TRUE or FALSE or an MTBDD terminal node.
+.LP
+.B bdd
+.br
+.B bdd_then(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns the BDD for the THEN branch of the root of the BDD given by
+\fBf\fR.  Also works with MTBDDs.  The result is undefined if
+.B f
+is one of the constants TRUE or FALSE or an MTBDD terminal node.
+.LP
+.B bdd
+.br
+.B bdd_else(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns the BDD for the ELSE branch of the root of the BDD given by
+\fBf\fR.  Also works with MTBDDs.  The result is undefined if
+.B f
+is one of the constants TRUE or FALSE or an MTBDD terminal node.
+.LP
+.B long
+.br
+.B bdd_if_index(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns the index of the variable which labels the root of the BDD
+given by \fBf\fR.  Also works with MTBDDs.  The result is undefined if
+.B f
+is one of the constants TRUE or FALSE or an MTBDD terminal node.  The
+variable at the start of variable ordering has index 0, the next has
+index 1, etc.  Note that creating new variables may change the index
+of existing variables.  Dynamic reordering may also change the index
+of variables.
+.LP
+.B long
+.br
+.B bdd_if_id(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns a unique ID number for the variable which labels the root of
+the BDD given by \fBf\fR.  Also works with MTBDDs.  The result is
+undefined if
+.B f
+is one of the constants TRUE or FALSE or an MTBDD terminal node.  The
+ID for a variable is fixed at the time the variable is created and
+never changes after that.
+.LP
+.B bdd
+.br
+.B bdd_intersects(bddm, f, g)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f, g;
+.in +4
+Computes a BDD that implies the conjunction of
+.B f
+and \fBg\fR.  If the conjunction is not FALSE, then the BDD returned
+will not be FALSE.  Also, the function tries to construct as few new
+nodes as possible.  This routine is intended for cases where you need
+to test for a FALSE conjunction, and, when it the conjunction is not
+FALSE, to obtain just one valuation satisfying both
+.B f
+and \fBg\fR.  A non-FALSE result from
+.B bdd_intersects
+can be passed directly to a routine like \fBbdd_satisfy_support\fR.
+.LP
+.B bdd
+.br
+.B bdd_implies(bddm, f, g)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f, g;
+.in +4
+This is equivalent to calling
+.B bdd_intersects
+with
+.B f
+and NOT \fBg\fR.
+.LP
+.B int
+.br
+.B bdd_new_assoc(bddm, assoc, pairs)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd *assoc;
+.br
+.B int pairs;
+.in +4
+Creates or finds a variable association.  The association is specified
+by
+.B assoc
+and should be a null-terminated array of BDDs.  If
+.B pairs
+is 0, the array is assumed to be an array of variables.  In this case,
+each variable is paired with the BDD for TRUE.  Such an association
+may essentially be viewed as specifying a set of variables for use
+with routines such as \fBbdd_exists\fR.  If
+.B pairs
+is nonzero, then the even numbered array elements should be variables
+and the odd numbered elements should be the BDDs which they are mapped
+to.  In both cases, the return value is an integer identifier for this
+association.  Note: if the given association is equivalent to one
+which already exists, the same identifier is used for both, and the
+reference count of the association is increased by one.
+.LP
+.B void
+.br
+.B bdd_free_assoc(bddm, id)
+.br
+.B bdd_manager bddm;
+.br
+.B int id;
+.in +4
+Decrements the reference count of the variable association with
+identifier \fBid\fR, and frees it if the reference count becomes zero.
+.LP
+.B void
+.br
+.B bdd_temp_assoc(bddm, assoc, pairs)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd *assoc;
+.br
+.B int pairs;
+.in +4
+Sets the temporary variable association.  The arguments
+.B assoc
+and
+.B pairs
+are as in \fBbdd_new_assoc\fR.
+.LP
+.B void
+.br
+.B bdd_augment_temp_assoc(bddm, assoc, pairs)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd *assoc;
+.br
+.B int pairs;
+.in +4
+Add to the temporary variable association.  The arguments
+.B assoc
+and
+.B pairs
+are as in \fBbdd_new_assoc\fR.  Any existing associations are
+overwritten.  This is mainly used when doing things like substituting
+for all variables in a BDD.  It isn't necessary to clear out the
+temporary association in such cases, so you can save a little time by
+using this routine.
+.LP
+.B int
+.br
+.B bdd_assoc(bddm, id)
+.br
+.B bdd_manager bddm;
+.br
+.B int id;
+.in +4
+Sets the current variable association to the one identified by
+\fBid\fR.  The identifier for the old current association is returned.
+The temporary variable association has identifier -1.
+.LP
+.B bdd
+.br
+.B bdd_exists(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns the BDD for
+.B f
+with all the variables that are paired with something in the current
+variable association existentially quantified out.
+.LP
+.B bdd
+.br
+.B bdd_forall(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns the BDD for
+.B f
+with all the variables that are paired with something in the current
+variable association universally quantified out.
+.LP
+.B bdd
+.br
+.B bdd_rel_prod(bddm, f, g)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f, g;
+.in +4
+Returns the BDD for the logical AND of
+.B f
+and
+.B g
+with all the variables that are paired with something in the current
+variable association existentially quantified out.  If
+.B f
+and
+.B g
+are viewed as boolean relations, this operation corresponds to
+relational product.  This routine is generally much more efficient
+than doing the operations separately.
+.LP
+.B bdd
+.br
+.B bdd_compose(bddm, f, g, h)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f, g, h;
+.in +4
+Returns the BDD for the substitution of
+.B h
+for the variable
+.B g
+in \fBf\fR.  When
+.B h
+does not depend on \fBg\fR, the operation may be viewed as composition
+of boolean functions.  If
+.B h
+does depend on \fBg\fR, it corresponds to instantaneous substitution
+in a boolean formula.
+.LP
+.B bdd
+.br
+.B bdd_substitute(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns the BDD for
+.B f
+under a substitution defined by the current variable association.
+Each variable is replaced by its associated BDD.  The substitution is
+effectively simultaneous.
+.LP
+.B bdd
+.br
+.B bdd_reduce(bddm, f, g)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f, g;
+.in +4
+Returns a BDD which agrees with
+.B f
+for all valuations which satisfy \fBg\fR.  The result is usually
+smaller in terms of number of BDD nodes than \fBf\fR.  This operation
+is typically used in state space searches to simplify the
+representation for the set of states which will be expanded at each
+step.
+.LP
+.B bdd
+.br
+.B bdd_cofactor(bddm, f, g)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f, g;
+.in +4
+Returns a BDD for the generalized cofactor of
+.B f
+by \fBg\fR.  The BDD indicated by
+.B g
+should not be the constant FALSE.  For some properties of this
+operation, see Touati
+.I et al.
+[2].
+.LP
+.B int
+.br
+.B bdd_depends_on(bddm, f, g)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.br
+.B bdd g;
+.in +4
+Returns 1 if the BDD or MTBDD
+.B f
+depends on the variable given by the BDD \fBg\fR, and returns 0
+otherwise.
+.LP
+.B void
+.br
+.B bdd_support(bddm, f, support)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.br
+.B bdd *support;
+.in +4
+Stores the support of
+.B f
+as a null-terminated sequence of variables in \fBsupport\fR.  Works
+for MTBDDs also.
+.LP
+.B bdd
+.br
+.B bdd_satisfy(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns a BDD which is not false, implies \fBf\fR, and has at most one
+BDD node at each level.  The BDD indicated by
+.B f
+should not be the constant FALSE.
+.LP
+.B bdd
+.br
+.B bdd_satisfy_support(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns a BDD which is not false, implies \fBf\fR, has at most one
+BDD node at each level, and has a node labeled with each variable
+which is paired with something in the current variable association.
+If
+.B f
+is the constant FALSE, the result is undefined.
+.LP
+.B double
+.br
+.B bdd_satisfying_fraction(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns the fraction of valuations which satisfy \fBf\fR.  If
+.B f
+is a function of 
+.I n
+variables, then 2 to the power
+.I n
+times this fraction is the number of valuations which satisfy \fBf\fR.
+.LP
+.B bdd
+.br
+.B bdd_swap_vars(bddm, f, g, h)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.br
+.B bdd g;
+.br
+.B bdd h;
+.in +4
+Returns the BDD for
+.B f
+with
+.B g
+substituted for
+.B h
+and
+.B h
+substituted for \fBg\fR.  The substitution is effectively
+simultaneous.
+.LP
+.B bdd
+.br
+.B bdd_apply2(bddm, terminal_fn, f, g, env)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd (*terminal_fn)();
+.br
+.B bdd f;
+.br
+.B bdd g;
+.br
+.B pointer env;
+.in +4
+This is a generic two-argument operation.  The behavior of the
+operation on terminal values is given by \fBterminal_fn\fR.  It should
+take as arguments: the BDD manager, pointers to two BDDs (the
+arguments for the call), and the pointer given by \fBenv\fR.  If the
+value of the call can be determined immediately from the arguments, it
+should return that value.  Otherwise, it should return a null pointer.
+In this case, it may also use the BDD pointers that it received to
+alter the arguments to the call.  A typical use for this ability is to
+put the arguments in a canonical order for commutative operations.
+The function should not alter the reference counts of either the
+arguments or the returned value.  Also, the returned value (if
+non-null) has its temporary reference count incremented once
+automatically.  If your function always returns one of the arguments
+or TRUE or FALSE, this is the right thing and you don't have to worry
+about it.  If you want to call other routines to determine the return
+value, you should read the section on adding new routines below.
+Works with MTBDDs.
+.LP
+.B bdd
+.br
+.B bdd_apply1(bddm, terminal_fn, f, env)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd (*terminal_fn)();
+.br
+.B bdd f;
+.br
+.B pointer env;
+.in +4
+This is a generic one-argument operation.  It is basically like
+\fBbdd_apply2\fR, except that
+.B terminal_fn
+takes a single BDD pointer argument instead of the pair of pointers in
+the two-argument case.  Works with MTBDDs.
+.LP
+.B long
+.br
+.B bdd_size(bddm, f, negout)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.br
+.B int negout;
+.in +4
+Returns the number of nodes in \fBf\fR.  The parameter
+.B negout
+is a flag indicating whether negative output pointers should be
+considered.  The library uses this type of pointer flag internally,
+so if the flag is nonzero, the actual number of nodes used is
+returned.  If the flag is zero, the return value is the number of
+nodes which would be needed to represent
+.B f
+using a basic BDD.  Works for MTBDDs too.
+.LP
+.B long
+.br
+.B bdd_size_multiple(bddm, fs, negout)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd *fs;
+.br
+.B int negout;
+.in +4
+Returns the number of nodes in the set of BDDs or MTBDDs given by
+\fBfs\fR, which should be a null-terminated array.  Nodes which are
+shared among the BDDs are only counted once.  The parameter
+.B negout
+is as in \fBbdd_size\fR.
+.LP
+.B void
+.br
+.B bdd_profile(bddm, f, level_counts, negout)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.br
+.B long *level_counts;
+.br
+.B int negout;
+.in +4
+Returns the ``node profile'' of \fBf\fR, i.e., the number of nodes at
+each level in \fBf\fR.  The parameter
+.B level_counts
+should be an array of longs of size one plus the number of variables
+in existence (see \fBbdd_vars\fR).  On return, this array holds the
+profile; the \fIi\fRth entry is the number of nodes labeled with the
+variable of index \fIi\fR.  The last entry corresponds to the nodes
+for TRUE and FALSE.  The parameter
+.B negout
+is as in \fBbdd_size\fR.  Works for MTBDDs too; in this case, the
+last entry corresponds to the MTBDD terminal nodes.
+.LP
+.B void
+.br
+.B bdd_profile_multiple(bddm, fs, level_counts, negout)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd* fs;
+.br
+.B long *level_counts;
+.br
+.B int negout;
+.in +4
+Returns the ``node profile'' of the set of BDDs or MTBDDs given by
+\fBfs\fR, which should be a null-terminated array.  The parameters
+\fBlevel_counts\fR and
+.B negout
+are as in \fBbdd_profile\fR.
+.LP
+.B void
+.br
+.B bdd_function_profile(bddm, f, func_counts)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.br
+.B long *func_counts;
+.in +4
+Returns the ``function profile'' of \fBf\fR, i.e., the number of
+functions at or below each level in \fBf\fR.  The parameter
+.B func_counts
+should be an array of longs of size one plus the number of variables
+in existence (see \fBbdd_vars\fR).  On return, this array holds the
+profile.  The \fIi\fRth entry corresponds to the number of functions
+which can be obtained by restricting those variables of index less
+than \fIi\fR, provided that
+.B f
+has at least one node labeled with the variable of index \fIi\fR.  If
+.B f
+has no nodes labeled with the variable of index \fIi\fR, then the
+\fIi\fRth entry of the profile is 0.  Works for MTBDDs also.
+.LP
+.B void
+.br
+.B bdd_function_profile_multiple(bddm, fs, func_counts)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd *fs;
+.br
+.B long *func_counts;
+.in +4
+Returns the ``function profile'' of the set of BDDs or MTBDDs given by
+\fBfs\fR, which should be a null-terminated array.  The parameter
+.B func_counts
+is as in \fBbdd_function_profile\fR.
+.LP
+.B void
+.br
+.B bdd_print_bdd(bddm, f, naming_fn, terminal_id_fn, env, fp)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.br
+.B char *(*naming_fn)();
+.br
+.B char *(*terminal_id_fn)();
+.br
+.B pointer env;
+.br
+.B FILE *fp;
+.in +4
+Prints a human-readable representation of the BDD or MTBDD
+.B f
+to the file given by \fBfp\fR.  The
+.B naming_fn
+should be a pointer to a function taking a \fBbdd_manager\fR, a
+.B bdd
+and the pointer given by \fBenv\fR.  This function should return
+either a null pointer or a string that is the name of the supplied
+variable.  If it returns a null pointer, a default name is generated
+based on the index of the variable.  It is also legal for
+.B naming_fn
+to be null; in this case, default names are generated for all variables.
+The macro
+.B bdd_naming_fn_none
+is a null pointer of suitable type.
+.B terminal_id_fn
+should be a pointer to a function taking a
+.B bdd_manager
+and two longs, plus the pointer given by \fBenv\fR.  It should
+return either a null pointer or a string representing the MTBDD
+terminal represented by the given value.  If it returns a null
+pointer, or if
+.B terminal_id_fn
+is null, then default names are generated for the terminals.
+The macro
+.B bdd_terminal_id_fn_none
+is a null pointer of suitable type.
+.LP
+.B void
+.br
+.B bdd_print_profile(bddm, f, naming_fn, env, width, fp)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.br
+.B char *(*naming_fn)();
+.br
+.B pointer env;
+.br
+.B int width;
+.br
+.B FILE *fp;
+.in +4
+Prints a node profile of a BDD in histogram form.  The argument
+.B naming_fn
+should be as described in \fBbdd_print_bdd\fR.  The width of the
+output stream is specified by \fBwidth\fR.  This is used to determine
+how to scale the histogram.
+.LP
+.B void
+.br
+.B bdd_print_profile_multiple(bddm, fs, naming_fn, env, width, fp)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd *fs;
+.br
+.B char *(*naming_fn)();
+.br
+.B pointer env;
+.br
+.B int width;
+.br
+.B FILE *fp;
+.in +4
+Prints a node profile of a set of BDDs, which should be given as a
+null-terminated array.  The other arguments are as in
+\fBbdd_print_profile\fR.
+.LP
+.B void
+.br
+.B bdd_print_function_profile(bddm, f, naming_fn, env, width, fp)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.br
+.B char *(*naming_fn)();
+.br
+.B pointer env;
+.br
+.B int width;
+.br
+.B FILE *fp;
+.in +4
+Prints a function profile of a BDD in histogram form.  The arguments
+are the same as those to \fBbdd_print_profile\fR.
+.LP
+.B int
+.br
+.B bdd_dump_bdd(bddm, f, vars, fp)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.br
+.B bdd *vars;
+.br
+.B FILE *fp;
+.in +4
+Writes an encoded description of the BDD or MTBDD
+.B f
+to the file given by \fBfp\fR.  The argument
+.B vars
+should be a null-terminated array of variables that include the
+support of \fBf\fR.  These variables need not be in order of
+increasing index.  The function returns a nonzero value if
+.B f
+was written to the file successfully.
+.LP
+.B bdd
+.br
+.B bdd_undump_bdd(bddm, vars, fp, error)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd *vars;
+.br
+.B FILE *fp;
+.br
+.B int *error;
+.in +4
+Loads an encoded description of a BDD or MTBDD from the file given by
+\fBfp\fR.  The argument
+.B vars
+should be a null-terminated array of variables that will become the
+support of the BDD.  As in \fBbdd_dump_bdd\fR, these need not be in
+order of increasing index.  If the same array of variables is used in
+dumping and undumping, the BDD returned will be equal to the one that
+was dumped.  More generally, if the array
+.B v1
+is used when dumping, and the array
+.B v2
+is used when undumping, the BDD returned will be equal to the original
+BDD with the \fIi\fRth variable in
+.B v2
+substituted for the \fIi\fRth variable in
+.B v1
+for all \fIi\fR.  Null is returned if the operation fails for some
+reason (node limit reached, I/O error, invalid file format, etc.).
+In this case, an error code is stored in \fBerror\fR.  The code will
+be one of the following.
+.nf
+.ta 3in
+\fIValue\fR	\fIMeaning\fR
+BDD_UNDUMP_FORMAT	Invalid file format
+BDD_UNDUMP_OVERFLOW	Node limit exceeded
+BDD_UNDUMP_IOERROR	File I/O error
+BDD_UNDUMP_EOF	Unexpected EOF
+.fi
+.LP
+.B int
+.br
+.B bdd_type(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Returns an integer classifying the BDD or MTBDD \fBf\fR.  The possible
+return values and their meanings are as follows.
+.nf
+.ta 3in
+\fIValue\fR	\fIMeaning\fR
+BDD_TYPE_OVERFLOW	\fBf\fR is a null pointer
+BDD_TYPE_ZERO	\fBf\fR is the constant FALSE
+BDD_TYPE_ONE	\fBf\fR is the constant TRUE
+BDD_TYPE_CONSTANT	\fBf\fR is an MTBDD constant
+BDD_TYPE_POSVAR	\fBf\fR is a variable
+BDD_TYPE_NEGVAR	\fBf\fR is the negation of a variable
+BDD_TYPE_NONTERMINAL	\fBf\fR is not one of the above
+.fi
+.LP
+.B void
+.br
+.B bdd_free(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Decreases the reference count of
+.B f
+by one.  When the reference count of a BDD or MTBDD node reaches 0,
+the node and any of its children that are not otherwise referenced may
+eventually be garbage collected and reused.  Intermediate results and
+unused BDDs and MTBDDs should be freed whenever possible.  For
+example:
+
+.nf
+bdd
+f_or_g_and_h(bddm, f, g, h)
+     bdd_manager bddm;
+     bdd f, g, h;
+{
+  bdd temp, result;
+  temp=bdd_and(bddm, g, h);
+  result=bdd_or(bddm, f, temp);
+  bdd_free(bddm, temp);    /* Free intermediate */
+  return (result);
+}
+.fi
+.LP
+.B void
+.br
+.B bdd_unfree(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Increases the reference count of
+.B f
+by one.  This is usually used in conjunction with
+\fBbdd_clear_refs\fR.  Works with MTBDDs.
+.LP
+.B void
+.br
+.B bdd_clear_refs(bddm)
+.br
+.B bdd_manager bddm;
+.in +4
+Sets the reference counts of all BDD and MTBDD nodes (except for the
+node for TRUE/FALSE) to 0.  Calling this routine and then immediately
+calling
+.B bdd_unfree
+on a set of BDDs has the effect of disposing of all BDDs except those
+in the set.
+.LP
+.B void
+.br
+.B bdd_gc(bddm)
+.br
+.B bdd_manager bddm;
+.in +4
+Forces a BDD garbage collection; all nodes not reachable from a node
+with a nonzero reference count are disposed of.  (Garbage collections
+also occur internally at various times.)
+.LP
+.B long
+.br
+.B bdd_total_size(bddm)
+.br
+.B bdd_manager bddm;
+.in +4
+Returns the number of BDD and MTBDD nodes in existence (including
+those which are eligible for garbage collection).
+.LP
+.B long
+.br
+.B bdd_vars(bddm)
+.br
+.B bdd_manager bddm;
+.in +4
+Returns the number of variables in existence.
+.LP
+.B int
+.br
+.B bdd_cache_ratio(bddm, ratio)
+.br
+.B bdd_manager bddm;
+.br
+.B int ratio;
+.in +4
+Sets the BDD operation cache size ratio to
+.B ratio
+and returns the old cache size ratio.  The number of cache entries is
+constrained to be (roughly) less than the cache size ratio divided by
+16 times the number of BDD nodes in existence.  The default size ratio
+is 4, which gives about 1 cache entry per 4 BDD nodes.  The amount of
+memory required per node will be about 17+(\fBratio\fR/16)*20 bytes on
+a machine with 32-bit words.
+.LP
+.B void
+.br
+.B bdd_node_limit(bddm, limit)
+.br
+.B bdd_manager bddm;
+.br
+.B long limit;
+.in +4
+Sets the number of allowed BDD nodes to
+.B limit
+and returns the old limit.  A value of 0 specifies no limit.  If in
+the course of an operation, the number of nodes reaches the limit, an
+internal garbage collection takes place.  If this does not free enough
+nodes to continue, the operation is aborted and a null value is
+returned.  When dynamic reordering is used to shift around large
+variable block, this limit may be exceeded during reordering.
+.LP
+.B int
+.br
+.B bdd_overflow(bddm)
+.br
+.B bdd_manager bddm;
+.in +4
+Returns 1 if any operation has caused an overflow in the number of
+nodes, and 0 otherwise.  Calling this routine clears the internal
+overflow flag, so subsequent calls will return 0 until the next
+overflow occurs.
+.LP
+.B void
+.br
+.B bdd_overflow_closure(bddm, overflow_fn, overflow_env)
+.br
+.B bdd_manager bddm;
+.br
+.B void (*overflow_fn)();
+.br
+.B pointer overflow_env;
+.in +4
+Sets the closure to invoke when an overflow occurs.  The function
+given by
+.B overflow_fn
+will be invoked as the last stage in the cleanup after the overflow.
+The function is passed the BDD manager and the pointer given by
+\fBoverflow_env\fR.  Typically, the function will jump to a
+user-provided error recovery routine.
+.LP
+.B void
+.br
+.B bdd_abort_closure(bddm, abort_fn, abort_env)
+.br
+.B bdd_manager bddm;
+.br
+.B void (*abort_fn)();
+.br
+.B pointer abort_env;
+.in +4
+Sets a closure to invoke when the next node creation is attempted.
+All temporary results will be cleaned up just before the function
+given by
+.B abort_fn
+is called.  The function is passed the BDD manager and the pointer
+given by \fBabort_env\fR.  Typically, the function will jump to a
+user-provided error recovery routine.  This functionality is intended
+to be used to cleanly interrupt BDD operations.  Typically,
+.B bdd_abort_closure
+will be called within a signal handler.
+.LP
+.B void
+.br
+.B bdd_stats(bddm, fp)
+.br
+.B bdd_manager bddm;
+.br
+.B FILE *fp;
+.in +4
+Prints some statistics to the file given by \fBfp\fR.
+.LP
+.B void
+.br
+.B bdd_dynamic_reordering(bddm, reorder_fn)
+.br
+.B bdd_manager bddm;
+.br
+.B void (*reorder_fn)();
+.in +4
+Selects the method for dynamic reordering.  When dynamic reordering is
+being used, the library may attempt to rearrange the BDD variable
+ordering in the midst of an operation so as to reduce the number of
+nodes in use.  There are currently two available reordering methods.
+The first, \fBbdd_reorder_stable_window3\fR, permutes the variables
+within windows of three adjacent variables so as to minimize the
+overall BDD size.  This process is repeated until no more reduction in
+size occurs.  The second method, \fBbdd_reorder_sift\fR, moves each
+variable throughout the order to find an optimal position for that
+variable (assuming all other variables are fixed).  This generally
+achieves greater size reductions than the window-based method, but is
+slower.  The
+.B reorder_fn
+may also be
+.B bdd_reorder_none
+(an appropriately cast null pointer), in which case dynamic reordering
+is turned off.  Also see the discussion on variable blocks in
+\fBbdd_new_var_block\fR.
+.LP
+.B void
+.br
+.B bdd_reorder(bddm)
+.br
+.B bdd_manager bddm;
+.in +4
+Invoke the current dynamic reordering method.
+.LP
+.B block
+.br
+.B bdd_new_var_block(bddm, v, n)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd v;
+.br
+.B long n;
+.in +4
+Groups the variable
+.B v
+and the \fBn\fR-1 variables after it in the ordering into a single
+block for purposes of dynamic reordering.  The purpose of blocks is to
+provide control over the possible orders that dynamic reordering will
+consider.  In general, the variable blocks form a hierarchy.  For
+example, a block consisting of the variables with indexes 0 through 3
+might be made up of two sub-blocks, one for the variables with index 0
+and 1, and one for the variables with index 2 and 3.  When dynamic
+reordering is invoked, it is actually applied to each block within the
+hierarchy.  Reordering a block involves shuffling around the
+sub-blocks within it.  Thus, dynamic reordering actually moves groups
+of variables rather than single variables.  If you know that a group
+of variables should be together in the ordering, you should collect
+them together into a block.  As an example, in BDD-based sequential
+verification algorithms, the variables representing the current state
+and next state of a state-holding element should generally be adjacent
+in a good ordering.  By grouping these variables into a block, we can
+ensure that only orderings with this property are considered.  After a
+block has been reordered, each sub-block within it is recursively
+reordered as well.  You can also specify that certain blocks should
+not be reordered (see
+.B bdd_var_block_reorderable
+below).
+.LP
+.B void
+.br
+.B bdd_var_block_reorderable(bddm, b, reorderable)
+.br
+.B bdd_manager bddm;
+.br
+.B block b;
+.br
+.B int reorderable;
+.in +4
+If
+.B reorderable
+is non-zero, turns on reordering for the given block, otherwise turns
+it off.  By default, blocks are not reorderable.  As an example,
+suppose we are building the BDDs representing a circuit with distinct
+control and data path.  In such a case, we typically want to have the
+control variables at the top of the ordering.  For the data path, we
+probably want to have the variables for each bit slice grouped
+together, and we want the bit slices to be ordered from
+most-significant to least-significant.  However, we want to allow
+reordering within the control part and within each slice.  To do this,
+we create the variables in the following order: control variables
+first, down to LSB slice variables.  Then we create separate variable
+blocks for the control part and for each slice.  We then turn on
+reordering for these blocks.  Next, we create a block containing all
+of the variables, and we leave reordering off for this block.  When
+dynamic reordering is invoked, it will rearrange the control variables
+and the variables within each slice, but will not move the control
+variables or the slices in relation to each other.
+.LP
+.B void
+.br
+.B bdd_free_terminal_closure(bddm, free_terminal_fn, free_terminal_env)
+.br
+.B bdd_manager bddm;
+.br
+.B void (*free_terminal_fn)();
+.br
+.B pointer free_terminal_env;
+.in +4
+Sets a closure to invoke when freeing an MTBDD terminal node.  The
+function receives the BDD manager, two longs representing the value of
+the terminal, and the pointer given by \fBfree_terminal_env\fR.  If
+you using the terminal value to hold pointers to other data
+structures, you can set up this routine to free those structures.
+.LP
+.B bdd
+.br
+.B mtbdd_get_terminal(bddm, value1, value2)
+.br
+.B bdd_manager bddm;
+.br
+.B long value1;
+.br
+.B long value2;
+.in +4
+Creates an MTBDD terminal node corresponding to the value given by
+.B value1
+and \fBvalue2\fR.  If a terminal node with the value already exists,
+its reference count is increased.  See also
+\fBbdd_free_terminal_closure\fR.
+.LP
+.B void
+.br
+.B mtbdd_terminal_value(bddm, f, value1, value2)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.br
+.B long *value1;
+.br
+.B long *value2;
+.in +4
+.B f
+should be an MTBDD terminal node.  The value of the node is stored in
+.B value1
+and \fBvalue2\fR.
+.LP
+.B bdd
+.br
+.B mtbdd_ite(bddm, f, g, h)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.br
+.B bdd g;
+.br
+.B bdd h;
+.in +4
+.B f
+should be a BDD and
+.B g
+and
+.B h
+should be MTBDDs.  Returns the MTBDD for the operation IF
+.B f
+THEN
+.B g
+ELSE \fBh\fR.
+.LP
+.B bdd
+.br
+.B mtbdd_substitute(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Does the analog of
+.B bdd_substitute
+for the MTBDD \fBf\fR.  The elements in the variable association must
+be BDDs.
+.LP
+.B bdd
+.br
+.B mtbdd_equal(bddm, f, g)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.br
+.B bdd g;
+.in +4
+Returns the BDD which is true for those valuations on which the MTBDDs
+.B f
+and
+.B g
+are equal.  That is, this is the analog of a logical XNOR for MTBDDs.
+.LP
+.B bdd
+.br
+.B mtbdd_transform(bddm, f)
+.br
+.B bdd_manager bddm;
+.br
+.B bdd f;
+.in +4
+Conceptually applies the user-defined transform to all terminals of
+the specified MTBDD.  (This is actually done by just flipping the
+pointer flag, so this routine is really a macro for \fBbdd_not\fR.)
+See \fBmtbdd_transform_closure\fR.
+.LP
+.B void
+.br
+.B mtbdd_transform_closure(bddm, canonical_fn, transform_fn, env)
+.br
+.B bdd_manager bddm;
+.br
+.B int (*canonical_fn)();
+.br
+.B void (*transform_fn)();
+.br
+.B pointer env;
+.in +4
+Sets the MTBDD terminal transformation closure.  Currently in the
+library, the pointer representing a boolean function and the pointer
+representing the negation of that function are identical except for
+the low-order bit.  Complementing a function is done by simply
+toggling that bit.  The MTBDD terminal transformation allows this
+mechanism to be extended to MTBDDs.  Whenever a terminal is created,
+.B canonical_fn
+will be called.  It is passed the BDD manager, two longs representing
+the terminal being created, and the pointer given by \fBenv\fR.  The
+function should return zero if the value is already canonical, and a
+non-zero result if it needs to be transformed.  If the value needs to
+be transformed, then
+.B transform_fn
+will be called, with the BDD manager, two longs representing the value
+to be transformed, pointers to two longs to hold the result, and the
+pointer given by \fBenv\fR.  The actual terminal node that is created
+will contain the transformed value.  The original terminal requested
+will be represented by a pointer to this node, with the low-order bit
+of the pointer set.  Also see \fBmtbdd_one_data\fR.  If you are going
+to call this function, you should do it before creating any MTBDD
+terminals.
+.LP
+.B void
+.br
+.B mtbdd_one_data(bddm, value1, value2)
+.br
+.B bdd_manager bddm;
+.br
+.B long value1;
+.br
+.B long value2;
+.in +4
+If you are planning to use MTBDDs that contain TRUE and FALSE as well
+as other values, you may need to use this function to set the MTBDD
+value for the node representing TRUE.  In this case, also keep in mind
+that the when the transformation function is applied to this value, it
+should yield the value that you want for FALSE.  Also, the value for
+TRUE should be regarding as canonical, i.e., TRUE must be represented
+by a pointer with the low-order bit cleared.  As an example, suppose
+that we are planning to use MTBDDs to represent spectral transforms of
+boolean functions [4].  In this case, the MTBDD terminal values will
+conceptually be integers.  Further, it is convenient for TRUE to be
+represented by the value -1, and FALSE to be represented by +1.  We
+will represent terminal values using two longs, with the first long
+representing the most-significant part of the integer.  We will also
+assume a 2's complement representation, so TRUE should be represented
+by the data values -1 and -1.  Since the value for FALSE is the
+negation of that for TRUE, we will have our transform function
+represent integer negation.  Also, since we want the value for TRUE to
+be canonical, we will regard nonnegative values as canonical.  Thus,
+we define
+
+.nf
+int
+canonical_fn(bddm, value1, value2, env)
+     bdd_manager bddm;
+     long value1;
+     long value2;
+     pointer env;
+{
+  return (value1 > 0 || (!value1 && value2 > 0));
+}
+
+void
+transform_fn(bddm, value1, value2, result1, result2, env)
+     bdd_manager bddm;
+     long value1;
+     long value2;
+     long *result1;
+     long *result2;
+     pointer env;
+{
+  if (!value2)
+    /* Will be a carry when taking 2's complement of value2.  Thus, */
+    /* take 2's complement of high part. */
+    value1= -value1;
+  else
+    {
+      value2= -value2;
+      value1= ~value1;
+    }
+  *result1=value1;
+  *result2=value2;
+}
+.fi
+
+We then call
+.B mtbdd_transform_closure
+to register these functions, and use
+
+.nf
+bdd_one_data(bddm, -1l, -1l);
+.fi
+
+to set the value for TRUE to -1.  (The default canonical checking and
+transformation functions and the default MTBDD values for TRUE and
+FALSE are actually as given in this example.)  If you are going to
+call \fBbdd_one_data\fR, you should do it before creating any MTBDD
+terminals.
+.SH "ADDING NEW ROUTINES"
+If you want to add new routines to the library, you would be
+well-advised to look at some of the existing ones to get a feel for
+how they operate.  Good ones include \fBbdd_ite\fR (the basic logical
+operation) and \fBbdd_exists\fR (a routine using variable
+associations).  Some basic points are explained below.  To get the
+declarations of the internal library data structures and routines, you
+should
+.B #include <bddint.h>
+instead of using \fBbdduser.h\fR.  You will probably want to study
+this file to become familiar with the data structures.
+
+Pointers to BDD nodes and cache entries are tagged using the low three
+bits of the pointer.  Because of this, all structures must be aligned
+on eight byte boundaries.  The storage allocation routines guarantee
+this alignment.  The tag field of a tagged pointer is extracted with
+the
+.B TAG
+macro.  The
+.B POINTER
+macro masks off the tag to get the actual pointer.  If the pointer is
+a pointer to a BDD node, you can use
+.B BDD_POINTER
+instead; this just casts the result to a
+.B bdd
+after masking off the tag.  The tag can be set using \fBSET_TAG\fR, and
+individual tag bits can be manipulated with \fBTAG0\fR,
+.B FLIP_TAG0
+and \fBSET_TAG0\fR for tag bit 0, and the analogous macros for tag
+bits 1 and 2.  More commonly, slightly higher level macros are used
+for manipulating tags.  For BDD nodes, there is only one tag bit that
+is actually used.  When it is set, it indicates the pointer should be
+interpreted as representing the complement of the node that it points
+to.  (Or for MTBDDs, that it should be interpreted as transformed
+using the user-definable transformation function).  There are macros
+for testing, clearing, and flipping the negation flag.
+
+Before using the macros below on a pointer \fBf\fR, you need to use
+\fBBDD_SETUP(f)\fR.  This actually declares a new variable to hold the
+masked pointer \fBBDD_POINTER(f)\fR.  Hence, it needs to be placed at
+some point where a variable declaration could legally go.  If you
+change \fBf\fR, you can reset this internal variable using
+\fBBDD_RESET\fR.
+
+BDD pointers are generally manipulated using the following macros.
+Below, ``node'' refers to the node referenced by the pointer.
+.LP
+.B BDD_IS_CONST
+.in +4
+Tests if the node represents the constant TRUE or FALSE or an MTBDD
+terminal node.
+.LP
+.B BDD_INDEX
+.in +4
+Returns the index of the node, or
+.B BDD_MAX_INDEX
+if given a constant node.
+.LP
+.B BDD_INDEXINDEX
+.in +4
+Returns the index index of a node.  This field is the value returned
+by \fBbdd_if_id\fR and is invariant; when you create a new variable,
+the index of old nodes may change, but the index index stays the same.
+When you call \fBbdd_find\fR, you pass the desired index index of the
+new node, not the index.
+.LP
+.B BDD_NOT
+.in +4
+Flips the negation flag on a pointer.
+.LP
+.B BDD_THEN, BDD_ELSE
+.in +4
+Return the THEN and ELSE pointers of a node, taking proper account of
+pointer flags.  These are used for doing Shannon expansions on a node.
+.LP
+.B BDD_TOP_VAR2
+Takes a \fBbdd_manager\fR, a variable that can hold an index index,
+and two \fBbdd\fRs.  Sets the index index variable to the index index
+of the variable with the lowest index among the variables at the roots
+of the BDDs.  This index index can then be used with...
+.LP
+.B BDD_COFACTOR
+Takes an index index, a BDD, and two variables of type \fBbdd\fR, and
+sets the two variables either to the original BDD or to the cofactors
+of the original BDD with respect to its top variable, depending on
+whether the index index of the first BDD matches that specified.  You
+can do a Shannon expansion on the top variable of two BDDs by using
+.B BDD_TOP_VAR2
+to get the index index of the highest variable and then using
+.B BDD_COFACTOR
+to take the appropriate cofactors.
+.LP
+.B BDD_MARK
+.in +4
+Accesses the mark field of a node.  This expands to a l-value, so you
+can set the mark with this as well.  (But see BDD_TEMP_REFS below.)
+.LP
+.B BDD_ONE, BDD_ZERO
+.in +4
+Take a BDD manager and give back the BDDs for TRUE and FALSE.
+.LP
+.B BDD_REFS
+.in +4
+Accesses the reference count field of a node.
+.LP
+.B BDD_INCREFS, BDD_DECREFS
+.in +4
+Increment and decrement the reference count.
+.LP
+.B BDD_TEMP_REFS
+.in +4
+Accesses the temporary reference count field of a node.  The temporary
+reference count and the mark actually share storage, so you can't use
+both at once!  That is, unless you are very clever, you can't write a
+routine that builds temporary nodes and uses the marks.
+.LP
+.B BDD_TEMP_INCREFS, BDD_TEMP_DECREFS
+.in +4
+Increment and decrement the temporary reference count.
+.LP
+
+New BDD nodes are created using \fBbdd_find\fR.  This routine takes a
+BDD manager, an index index, and two subBDDs as arguments.  New MTBDD
+terminals can be created with \fBbdd_find_terminal\fR.  The result
+cache is manipulated using the
+.B bdd_lookup_in_cache
+and
+.B bdd_insert_in_cache
+routines.  There are different versions of these routines depending on
+exactly what is being cached.  The basic ones are
+\fBbdd_lookup_in_cache31\fR and \fBbdd_insert_in_cache31\fR.
+The first of these takes a cache entry type (CACHE_TYPE_ITE,
+CACHE_TYPE_TWO, etc.), three arguments of unspecified type (passed as
+longs), and a pointer to an unspecified type of result (a pointer to a
+long).  It returns a nonzero result if the lookup succeeds.  The
+corresponding insert routine is similar except that the result is
+passed in as a long, and nothing is returned.  There are similar
+functions that are for routines that take two arguments and return two
+results (or a single double-word result), or for routines that take
+one argument and return three results.  There are also macros such as
+\fBbdd_lookup_in_cache2\fR that are wrappers for things like
+two-argument functions, etc.  In general, some action must be taken
+when results are returned from the cache, when entries are purged from
+the cache, when entries are garbage collected, and when a variable
+association ID is reclaimed.  For the built-in cache entry types,
+these actions are done automatically.  For example, when a BDD is
+returned from an entry with CACHE_TYPE_TWO, the temporary reference
+count of the BDD is incremented.  Some of the entry types are
+available for customization.  The actions to take for these entry
+types are specified by calling \fBbdd_cache_functions\fR.  This
+function takes a BDD manager, an integer between 1 and 3 specifying
+the number of arguments you want to cache on, and four function
+pointers.  When returning a result, purging an entry, garbage
+collecting, or reclaiming an association ID, these functions are
+called.  The first three functions are passed the BDD manager and the
+entry.  (The tag bits will have already been masked off the entry
+pointer.)  The last receives these plus the association ID being freed
+(cast to a pointer).  The garbage collection function should return a
+nonzero result if the entry should be garbage collected.  If the entry
+contains some BDD nodes, they should be tested with \fBBDD_IS_USED\fR.
+The function called when an association ID is reclaimed should return
+a nonzero result if the entry should be flushed from the cache.  This
+function and the purge function and return functions may be null,
+specifying that no action need be taken.  \fBbdd_cache_functions\fR
+returns an integer that represents a tag to use with the cache
+insertion and lookup routines, or -1 if there are no more free tags
+available.  The routine \fBbdd_free_cache_tag\fR makes a tag available
+again.
+
+Routines that build new BDD nodes must take into account the
+possibility of running into the node limit.  The package is set up to
+make this easy if you use the following strategy.  Organize your
+routine as a top-level (user-callable) procedure and an internal
+procedure for performing the actual computation.  The top-level
+procedure should check its arguments before calling the internal
+routine.  The
+.B bdd_check_arguments
+function can be used to test for null arguments (indicating a prior
+overflow) or arguments with a zero reference count (indicating a bug).
+It should also use the
+.B FIREWALL
+macro to set up an overflow trap.  The internal routine should use
+temporary reference counts to keep track of the nodes it is using.
+When a node is returned from the internal routine, increment its
+temporary reference count once.  (You don't have to do this for the
+constants or for variables, since they can't be garbage collected.)
+When you pass a node to \fBbdd_find\fR, its temporary reference count
+is decremented once automatically, and its reference count is
+incremented.  Also, the result of \fBbdd_find\fR has its temporary
+reference count incremented once automatically.  Hence, if you your
+routine has the standard organization (Shannon's expansion followed by
+\fBbdd_find\fR on the subresults), you usually don't have to worry
+about incrementing or decrementing the reference counts yourself.  If
+you don't use a subresult, or if you want a subresult to stick around
+after calling \fBbdd_find\fR, you'll have to do the appropriate
+twiddling.  When the internal routine finally returns, you should have
+a BDD with a single temporary reference count.  Use
+.B RETURN_BDD
+to convert this temporary reference count to an external one and
+return the result to the user.  If you follow this strategy, you won't
+have to deal with overflow; when the node limit is reached,
+\fBbdd_find\fR will try garbage collecting, and if that doesn't work,
+will call the overflow trap set up by \fBFIREWALL\fR.  The overflow
+trap handler will automatically zero all temporary reference counts
+and return a null pointer to the user.  Note: if you want to call
+other routines, such as the IF-THEN-ELSE routine, within your internal
+procedure, you should call the internal procedure for the routine.
+That way, the overflow handler will give control back to the user
+if the routine you are calling causes an overflow.
+
+A typical routine looks like:
+
+.nf
+bdd
+foo_step(bddm, f, g)
+     bdd_manager bddm;
+     bdd f, g;
+{
+  bdd_indexindex_type top_indexindex;
+  bdd f1, f2;
+  bdd g1, g2;
+  bdd temp1, temp2;
+  bdd result;
+  
+  BDD_SETUP(f);
+  BDD_SETUP(g);
+  if (<terminal case>)
+    {
+      BDD_TEMP_INCREFS(f);
+      return (f);
+    }
+  if (bdd_lookup_in_cache2(bddm, <op>, f, g, &result))
+    return (result);
+  BDD_TOP_VAR2(top_indexindex, bddm, f, g);
+  BDD_COFACTOR(top_indexindex, f, f1, f2);
+  BDD_COFACTOR(top_indexindex, g, g1, g2);
+  temp1=foo_step(bddm, f1, g1);
+  temp2=foo_step(bddm, f2, g2);
+  result=bdd_find(bddm, top_indexindex, temp1, temp2);
+  bdd_insert_in_cache2(bddm, <op>, f, g, result);
+  return (result);
+}
+
+bdd
+foo(bddm, f, g)
+     bdd_manager bddm;
+     bdd f, g;
+{
+  if (bdd_check_arguments(2, f, g))
+    {
+      FIREWALL(bddm);
+      RETURN_BDD(foo_step(bddm, f, g));
+    }
+  return ((bdd)0);
+}
+.fi
+
+In the case of dynamic variable reordering, the same abort mechanism
+is used.  After reordering, all reference counts are reset to their
+original values and the operation is retried.  This is handled
+automatically by the FIREWALL macro.  (The operation is aborted since
+after reordering, the implicit ordering represented in the C
+subroutine call stack may be different from the new variable order.
+Reordering occurs before freeing the temporaries, since we want to
+minimize the aggregate size of the operands plus the result that is
+being constructed.)
+
+Storage can be allocated through a number of mechanisms.  The routines
+\fBmem_get_block\fR, \fBmem_free_block\fR, and \fBmem_resize_block\fR
+are generally used for large single items.  For smaller uniformly
+sized items, you probably should use a record manager.
+.B mem_new_rec_mgr
+will return a record manager that handles blocks of a given size.
+Use
+.B mem_new_rec
+and
+.B mem_free_rec
+to obtain and free individual records.  Finally,
+.B mem_free_rec_mgr
+will dispose of the record manager and all of its associated records.
+These routines are documented in more detail in the storage management
+library man page.  If your structures are at most 64 bytes in size,
+you can use the macros
+.B BDD_NEW_REC
+and \fBBDD_FREE_REC\fR.  These obtain records from the internal BDD
+record managers.
+.SH "PORTABILITY NOTES"
+Since pointer tagging is heavily used, you'll have major problems if
+you can't cast back and forth between pointers and longs without
+losing something.  The low-level storage management routines are
+fairly UNIX specific; they call
+.B sbrk
+directly.  If you don't have something similar, you may have to
+rewrite them.  The storage management routines also need to be able to
+move and clear blocks of memory whose size is given by a long.  You
+may have to fiddle with these, especially if you have a machine where
+int and long are different.  If you encounter portability problems,
+let me know; maybe the next release will be able to accommodate your
+machine.
+.SH "SEE ALSO"
+mem(3)
+.SH BUGS
+Surely you're joking.
+.SH REFERENCES
+[1] R. E. Bryant.  Graph Based Algorithms for Boolean Function
+Manipulation.  \fIIEEE Transactions on Computers\fR, C-35(8):677-691,
+August 1986.
+.LP
+[2] H. J. Touati, H. Savoj, B. Lin, R. K. Brayton, and A.
+Sangiovanni-Vincentelli.  Implicit State Enumeration of Finite State
+Machines using BDD's.  In \fIProceedings of the 1990 IEEE
+International Conference on Computer-Aided Design\fR, November, 1990.
+.LP
+[3] K. S. Brace, R. L. Rudell, and R. E. Bryant.  Efficient
+Implementation of a BDD Package.  In \fIProceedings of the 27th
+ACM/IEEE Design Automation Conference\fR, June, 1990.
+.LP
+[4] E. M. Clarke, K. L. McMillan, X. Zhao, M. Fujita, and J. C.-Y.
+Yang.  Spectral Transforms for Large Boolean Functions with
+Applications to Technology Mapping.  In \fIProceedings of the 30th
+ACM/IEEE Design Automation Conference\fR, June, 1993.
+.SH AUTHOR
+David E. Long
+.br
+long@research.att.com

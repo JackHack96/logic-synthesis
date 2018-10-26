@@ -1,0 +1,21 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/write_blif.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:42 $
+.\"  *
+.\"
+.XX
+write_blif [-s] [-n] [filename]
+.PP
+Write the current network to file \fBfilename\fP in the Berkeley
+Logic Interchange Format (\fIblif\fP).
+.PP
+The \fB-s\fP option uses the network short names rather than the
+network long names for the \fIblif\fP file.
+This can be used to encrypt the names of a net-list.
+.PP
+The \fB-n\fP option uses the net-list format of \fIblif\fP when
+a node has a gate implementation in the library.

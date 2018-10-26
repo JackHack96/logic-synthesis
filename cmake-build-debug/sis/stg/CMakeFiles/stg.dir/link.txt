@@ -1,0 +1,2 @@
+/usr/bin/ar qc libstg.a  CMakeFiles/stg.dir/com_stg.c.o CMakeFiles/stg.dir/enumerate.c.o CMakeFiles/stg.dir/level_c.c.o CMakeFiles/stg.dir/senum_main.c.o CMakeFiles/stg.dir/stg.c.o CMakeFiles/stg.dir/stg_sc_sim.c.o CMakeFiles/stg.dir/stg_util.c.o
+/usr/bin/ranlib libstg.a

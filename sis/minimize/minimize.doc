@@ -1,0 +1,46 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/minimize/minimize.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:32 $
+ *
+ */
+Summary:
+
+#define 0	NOCOMP
+#define 1	SNOCOMP
+#defin 2	DCSIMPLIFY
+
+pcover
+minimize(F, D, type)
+pcover F;
+pcover D;
+int type;
+
+F is the Onset. D is the Don't Care set. type is used to choose one
+of the three minimization schemes discussed below. It is an error for
+type to have a value other than those corresponding to NOCOMP, SNOCOMP
+and DCSIMPLIFY.
+
+NOCOMP:
+	Similar to espresso() except that it uses the reduced offsets
+	rather than the entire offset.  With this option, minimize()
+	iterates like espresso(). Global variables "single_expand",
+	"trace", "remove_essential", "debug" and "use_super_gasp" have
+	the same effect as in espresso().  The default values for these
+	variables are the same as for espresso(). These global
+	variables are defined in espresso.h.
+
+SNOCOMP: 
+	A special single pass is done that consists of ESPRESSO's
+	routines essential(), reduce(), expand() and irredundant().
+	expand() has been modified to use the reduced offsets rather
+	than the entire offset.
+
+DCSIMPLIFY:
+	This is also a single pass algorithm consisting of the same
+	basic operations as for SNOCOMP but heuristics in reduce() and
+	expand() are different from those used in espresso(). This
+	option also uses reduced offsets.

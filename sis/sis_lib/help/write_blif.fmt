@@ -1,0 +1,16 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   write_blif [-s] [-n] [filename]
+ 
+     Write the current network to file filename in the Berkeley Logic Inter-
+     change Format (_b_l_i_f).
+ 
+     The -s option uses the network short names rather than the network long
+     names for the _b_l_i_f file.  This can be used to encrypt the names of a
+     net-list.
+ 
+     The -n option uses the net-list format of _b_l_i_f when a node has a gate
+     implementation in the library.
+ 
+                                                                            1

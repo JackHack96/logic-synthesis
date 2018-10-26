@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcommand.a  CMakeFiles/command.dir/addcom.c.o CMakeFiles/command.dir/alias.c.o CMakeFiles/command.dir/cmd_set.c.o CMakeFiles/command.dir/command.c.o CMakeFiles/command.dir/commisc.c.o CMakeFiles/command.dir/filec.c.o CMakeFiles/command.dir/get_nodes.c.o CMakeFiles/command.dir/get_true_po.c.o CMakeFiles/command.dir/help.c.o CMakeFiles/command.dir/open_file.c.o CMakeFiles/command.dir/source.c.o CMakeFiles/command.dir/undo.c.o
+/usr/bin/ranlib libcommand.a

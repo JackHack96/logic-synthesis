@@ -1,0 +1,18 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/force_init_0.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:44 $
+.\"  *
+.\"
+.XX
+force_init_0
+.PP
+This command replaces all latches initialized to 1 by latches
+initialized to 0. It inserts an inverter before and after the latch
+to maintain circuit behavior. 
+.PP
+This command is useful for certain types of FPGA architectures
+which do not support the initialization of latches to 1.

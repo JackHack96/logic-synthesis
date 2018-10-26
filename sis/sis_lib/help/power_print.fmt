@@ -1,0 +1,9 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   power_print
+ 
+     Prints the switching probability and capacitance for each node in the
+     network. Only valid after a power estimation has been performed.
+ 
+                                                                            1

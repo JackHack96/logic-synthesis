@@ -1,0 +1,277 @@
+
+Node to Binary Decision Diagram (NTBDD) Package, Version 3.0
+
+Tom Shiple (original contributors: Herve' Touati, Wendell Baker)
+University of California, Berkeley, 1991
+
+
+Introduction ------------------------------------------------------------------
+
+The NTBDD package serves as the interface between SIS and the BDD package.  It
+contains functions for creating, storing, and freeing BDD's for network nodes.
+In addition, it provides functions for verifying the equivalence of two
+networks using BDD's, and constructing networks from BDD's.
+
+This package grew out of earlier versions of the BDD package which contained
+all the BDD routines, as well as the interface of MIS to the BDD data
+structures.  Version 3.0 contains just the interface of SIS to the BDD
+package.
+
+Version 3.0 is not strictly compatible with any of the previous versions.  The
+goal in creating this version was to streamline the interface without
+sacrificing any essential functionality.  The routines which use now obsolete
+BDD data structures have been eliminated.  Furthermore, several routines which
+can be easily implemented using other exported routines, have been eliminated.
+Finally, the names of several routines have been changed to conform to the
+prefix "ntbdd", and to make them more lucid.
+
+The routines used to produce an ordering of the BDD variables have been moved
+to the Ordering package.
+
+The BDD package documentation explains the concepts of BDD manager, BDD
+formula (bdd_t), and single variable BDD formula.  Also, it contains
+documentation for all the BDD Boolean operators, which you may use freely in
+conjunction with the NTBDD package.
+
+An important concept of the NTBDD package is the leaves tables.  The leaves
+table is a hash table of network nodes (node_t *) to variable ID's (int).  The
+BDD for a node constructed using a particular leaves table will be in terms of
+the node variables in the leaves table.  The variable ID's give the variable
+ordering for the BDD to be constructed.  The following code creates an
+ordering of all the primary inputs of a network:
+
+    count = 0;
+    leaves = st_init_table(st_ptrcmp, st_ptrhash);
+    foreach_primary_input(network, gen, pi) {
+        (void) st_insert(leaves, (char *) pi, (char *) count++);
+    }
+
+Of course, you will want to use a more sophisticated ordering, such as one of
+those provided by the Ordering package.  A BDD constructed using a leaves
+table of primary inputs, such as that above, is referred to as a "global BDD".
+
+
+Summary -----------------------------------------------------------------------
+
+  ntbdd_at_node()
+  ntbdd_bdd_single_to_network()
+  ntbdd_bdd_array_to_network()
+  ntbdd_end_manager()
+  ntbdd_free_at_node()
+  ntbdd_node_to_bdd()
+  ntbdd_node_to_local_bdd()
+  ntbdd_set_at_node()
+  ntbdd_start_manager()
+  ntbdd_verify_network()
+
+
+Description of Functions ------------------------------------------------------
+
+bdd_t *
+ntbdd_at_node(node)
+node_t *node;
+
+        Returns the BDD formula stored at node.
+
+
+network_t *
+ntbdd_bdd_array_to_network(fn_array, po_names, var_names)
+array_t *fn_array;   /* of (bdd_t *) */
+array_t *po_names;   /* of (char *) */
+array_t *var_names;  /* of (char *) */
+
+        Builds a multi-output network, where each primary output represents
+        one of the BDD formulas in `fn_array'. The primary output for the ith 
+        formula in the array `fn_array' is assigned the ith name in the array 
+        `po_names'. The ith name in the array `var_names' is given to the ith 
+        variable in the BDD.  The network is built as follows: for each vertex 
+        in the BDD, a SIS node implementing a MUX is added to the network.  
+        Thus, the structure of the BDD is isomorphic to the structure of the 
+        network.
+
+
+network_t *
+ntbdd_bdd_single_to_network(fn, po_name, var_names)
+bdd_t *fn;
+char *po_name;
+array_t *var_names;  /* of (char *) */
+
+        Packages each of `fn' and `po_name' into arrays of length one, and then
+        calls ntbdd_bdd_array_to_network.
+
+
+void 
+ntbdd_end_manager(manager)
+bdd_manager *manager;
+
+        Frees the manager allocated by ntbdd_start_manager.  Also frees all
+        the BDD formulas of that manager stored in any node of any network,
+        using ntbdd_set_at_node, during the lifetime of the manager.
+        Furthermore, all BDD formulas stored at any nodes by ntbdd_node_to_bdd
+        are also freed by ntbdd_end_manager.
+
+
+void
+ntbdd_free_at_node(node)
+node_t *node;
+
+        Frees the BDD formula for node.  Note that when a node is freed using
+        node_free, the BDD formula for that node is automatically freed using
+        a node demon.  Unlike ntbdd_node_to_bdd, this routine is not called
+        recursively.
+
+
+bdd_t *
+ntbdd_node_to_bdd(node, manager, leaves)
+node_t *node;
+bdd_manager *manager;
+st_table *leaves;
+
+        Builds the BDD for node in terms of the node variables given in the
+        leaves table.  A pointer to the constructed BDD is stored at the node, 
+        and the same pointer is returned by the function. The BDD for node is 
+        built recursively from the BDD's of its immediate fanins.  Thus, while 
+        constructing the BDD for node, any node in the intersection of the 
+        transitive fanin of node and the union of the transitive fanouts of the 
+        nodes in leaves, will be visited.  If a visited node already has a BDD, 
+        then the BDD will be used if it is in `manager'; if it is not in 
+        `manager', it will be freed and a new BDD will be created.  If a visited 
+        node does not have a BDD, then a new BDD will be contructed for the node, 
+        and stored at the node.  For a leaf node, a single variable BDD will be 
+        created for the node, and stored at the node, regardless of what BDD is 
+        already present at the node.
+
+        The leaves table is intended to be a cutset of the network.  Let us
+        say we are building the BDD for a particular node x, and the leaves
+        table contains nodes a, b, c, and d.  If there is a path from x to c
+        through d, then the recursion will stop at d.  If there exists at least 
+        one path from x to c which does not pass through another leaf, then c 
+        will be in the BDD.
+
+bdd_t *
+ntbdd_node_to_local_bdd(node, manager, leaves)
+node_t *node;
+bdd_manager *manager;
+st_table *leaves;
+
+        Builds the BDD for node in terms of its immediate fanin. Assumes that
+        leaves contains the fanins of node.  No BDD formula is stored in any
+        node by this routine; it is the user's responsibility to maintain the
+        BDD formula returned by this routine.
+
+void
+ntbdd_set_at_node(node, bdd)
+bdd_t *bdd;
+node_t *node;
+
+        Sets the bdd field of `node' to the BDD formula `bdd'.  If there is 
+        already a BDD formula at `node', then the old formula is freed.  When 
+        you want to free the new BDD formula, you must do so using 
+        ntbdd_free_at_node.
+
+bdd_manager *
+ntbdd_start_manager(num_vars)
+int num_vars;
+
+        Creates a manager and initializes data structures for network
+        interaction.  num_vars is the number of variables allowed in the
+        manager.  It is always possible to increase the number of variables in
+        this manager by calling bdd_create_variable.
+
+int 
+ntbdd_verify_network(network1, network2, order_method, verify_method)
+network_t *network1;
+network_t *network2;
+ntbdd_order_method_t order_method;
+ntbdd_verify_method_t verify_method;
+
+        Verifies that two networks are equivalent. Returns TRUE if they are
+        equivalent, returns FALSE if they are not equivalent.  The primary
+        inputs and primary outputs of the two networks must match name for
+        name.  Creates BDD's for both networks, and then checks, output by
+        output, if the BDD's are equivalent.  A strong canonical form is used
+        for the BDD's, so once the BDD's are constructed, the test for
+        equivalence is just a pointer comparison.
+
+        Two different ordering methods can be specified.  DFS_ORDER uses an
+        ordering based on depth first search and the level of a node.  See S.
+        Malik, et. al. "Logic Verification using Binary Decision Diagrams in a
+        Logic Synthesis Environment," ICCAD, 1988.  RANDOM_ORDER uses a random
+        ordering.
+
+        Two different verifying methods can be specified. ONE_AT_A_TIME may
+        use a different variable ordering for each primary output.
+        ALL_TOGETHER uses the same variable ordering for all the primary
+        outputs.  ALL_TOGETHER is usually faster, but ONE_AT_A_TIME can verify
+        some large networks which ALL_TOGETHER cannot handle.  See S. Malik,
+        et. al. "Logic Verification using Binary Decision Diagrams in a Logic
+        Synthesis Environment," ICCAD, 1988.
+
+
+Obsolete Functions from Previous Versions -------------------------------------
+
+bdd_constant(phase, order_list)
+        Use the bdd_one and bdd_zero functions from the BDD package.
+
+bdd_construct(node, order_list, locality)
+        Use ntbdd_node_to_bdd for global BDD's, and ntbdd_node_to_local_bdd for 
+        local BDD's.
+
+bdd_do_construct(node, mgr, locality)
+        Use ntbdd_node_to_bdd for global BDD's, and ntbdd_node_to_local_bdd for 
+        local BDD's.
+    
+bdd_init(network, order_list)
+        Use ntbdd_start_manager.
+
+bdd_ordered_create_bdd(node, manager, node_list, leaves)
+        Use ntbdd_node_to_bdd for global BDD's, and ntbdd_node_to_local_bdd for 
+        local BDD's.
+
+bdd_order_nodes(roots, leaves, type)
+        Use an ordering routine from the Ordering package.
+
+bdd_print_as_eqn(fn, network)
+        Use ntbdd_bdd_to_network, then print network.
+
+bdd_print_from_leaves(fn, leaves)
+        Use ntbdd_bdd_to_network, then print network.
+
+bdd_quit(mgr)
+        Use ntbdd_end_manager.
+
+bdd_verify(net1, net2)
+        Use ntbdd_verify_network.
+
+ntbdd_bdd_to_network(fn, var_names)
+        Use ntbdd_bdd_single_to_network(fn, "bdd_out", var_names).
+
+order_nodes(node_vec, pi_only)
+        Use an ordering routine from the Ordering package.
+
+
+Function Name Changes from Previous Versions ----------------------------------
+
+bdd_at_node           ==>  ntbdd_at_node
+
+bdd_build             ==>  ntbdd_bdd_to_network
+
+bdd_create_bdd        ==>  ntbdd_node_to_bdd
+
+bdd_create_local_bdd  ==>  ntbdd_node_to_local_bdd
+
+bdd_node_free         ==>  ntbdd_free_at_node
+
+bdd_set_at_node       ==>  ntbdd_set_at_node
+
+node_bdd              ==>  ntbdd_at_node
+
+ntbdd_init            ==>  ntbdd_start_manager
+
+ntbdd_quit            ==>  ntbdd_end_manager
+
+ntbdd_verify          ==>  ntbdd_verify_network
+
+
+
+

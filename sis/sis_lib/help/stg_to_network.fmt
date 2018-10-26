@@ -1,0 +1,20 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   stg_to_network [-e option]
+ 
+     Takes the current state-encoded state transition graph and generates an
+     optimized two-level logic network.  The initial mapping is optimized
+     using a two-level Boolean minimizer (i.e. espresso) along with the
+     invalid state codes as don't cares.  -e allows the user to specify how
+     the two-level logic-encoded network should be processed using espresso.
+     The option can be either 0, 1, or 2.  The -e 0 option simply runs
+     espresso and executes read_pla.  The -e 1 option runs espresso, but does
+     a read_pla -s instead.  This reads in the PLA in single-level form
+     (fully collapsed) rather than two-level form.  This often produces
+     better results.  The -e 2 option runs espresso -Dso, which does a
+     single-output minimization.  Again, read_pla -s is used.  This option
+     also produces better results for some cases, but typically takes more
+     time.  The default is the -e 1 option.
+ 
+                                                                            1

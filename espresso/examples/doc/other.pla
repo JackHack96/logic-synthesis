@@ -1,0 +1,42 @@
+accpla		one of the Bellmac PLAs from Jean Dussault, Bell Labs
+addm4		function: adder/multiplier
+c1orig		soar pla from Chris Marino -- before column permutation
+c1perm		soar pla from Chris Marino -- after column permutation
+clpl		from Brayton, IBM
+dk14.mv		mv version of dk machine
+dk14s		DK machine FSM minimization with input encoding
+dk15.mv		mv version of dk machine
+dk15s		DK machine FSM minimization with input encoding
+dk16.mv		mv version of dk machine
+dk16s		DK machine FSM minimization with input encoding
+dk17.mv		mv version of dk machine
+dk17s		DK machine FSM minimization with input encoding
+dk27.mv		mv version of dk machine
+dk27s		DK machine FSM minimization with input encoding
+dk512.mv	mv version of dk machine
+dk512s		DK machine FSM minimization with input encoding
+ex4		example 4 ? source unknown
+ex5		example 5 ? source unknown
+ex7		example 7 ? source unknown
+intb		from Brayton, IBM
+iofsm		FSM machine -- OPUS iofsm
+iofsm.mv	mv version of above
+m4pair		4-bit multiplier -- paired variables
+mainpla		one of the Bellmac PLAs -- from Jean Dussault
+mark1		FSM machine -- from Geiger, CMU
+mark1.mv	mv version of above
+max.rom		ROM from Berkeley DSP group (Max Hauser)
+mfsm		FSM machine (already encoded)
+mfsm.mv		FSM machine, mv version, for encoding
+misj		from Brayton, IBM
+pope.rom	ROM from Berkeley DSP group (Steve Pope)
+rwei.pla	from Ruey-Sing Wei -- PLA test patterns
+ryy6		from Brayton, IBM
+signet		example ? source unknown
+simple		simple FSM
+simple.mv	mv version of above
+spam1		example taken from spam paper DAC
+ts10		from Brayton, IBM
+vtx1		from Brayton, IBM
+x1		Control logic, source priviledged
+x2		Control logic, source priviledged

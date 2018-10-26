@@ -1,0 +1,17 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   c_check -[nd] -[SH]#.#
+ 
+     Verifies that the given circuit satisfies the constraints for correct
+     clocking. By default the circuit is assumed to be mapped to a library.
+     Use the -n option to use the _u_n_i_t-_f_a_n_o_u_t delay model.
+ 
+     The user can give global set-up (and hold) times for all memory elements
+     using the -S (-H) option. By default it computes the set-up and hold
+     times from the library. _I_f _t_h_e _o_p_t_i_m_a_l _c_l_o_c_k_i_n_g _s_c_h_e_m_e _w_a_s _f_o_u_n_d _u_s_i_n_g
+     _t_h_e _c__o_p_t _c_o_m_m_a_n_d make sure you use the same delay model!
+ 
+     The -d value selects the debug level. The range is 1-5.
+ 
+                                                                            1

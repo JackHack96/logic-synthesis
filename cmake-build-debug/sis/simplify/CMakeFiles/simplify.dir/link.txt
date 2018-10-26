@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsimplify.a  CMakeFiles/simplify.dir/com_simp.c.o CMakeFiles/simplify.dir/compute_dc.c.o CMakeFiles/simplify.dir/dc_filter.c.o CMakeFiles/simplify.dir/filter_util.c.o CMakeFiles/simplify.dir/simp.c.o CMakeFiles/simplify.dir/simp_daemon.c.o CMakeFiles/simplify.dir/simp_dc.c.o CMakeFiles/simplify.dir/simp_image.c.o CMakeFiles/simplify.dir/simp_sm.c.o CMakeFiles/simplify.dir/simp_util.c.o
+/usr/bin/ranlib libsimplify.a

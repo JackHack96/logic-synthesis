@@ -1,0 +1,78 @@
+
+Order Package, Version 1.0
+
+Tom Shiple (original contributors: Herve' Touati, Sharad Malik)
+University of California, Berkeley, 1991
+
+
+Introduction -----------------------------------------------------------------
+
+The Order package provides routines to create an ordering of BDD variables,
+using the structure of SIS networks.  The goal is to find a good ordering
+so that the resulting BDD's will be as small as possible.
+
+
+Summary -----------------------------------------------------------------------
+
+  order_dfs()
+  order_random()
+
+
+Description of Functions ------------------------------------------------------
+
+array_t *
+order_dfs(roots, leaves, fixed_root_order)
+array_t *roots;
+st_table *leaves;
+int fixed_root_order;
+        
+        Uses an ordering based on depth first search and the level of a node.
+        See S.  Malik, et. al. "Logic Verification using Binary Decision
+        Diagrams in a Logic Synthesis Environment," ICCAD, 1988.  `roots' is
+        an array of node_t *'s which are the nodes for which you want to
+        create BDD's.  `leaves' is a hash table of node_t *'s to ints.  The
+        nodes in leaves represent the variables of the BDD's to be created.
+        Each value in the hash table should be initialized by the user to -1.
+        This function will replace the -1's by integers from 0 to n-1.
+
+	Every path from any root node to any primary input must contain
+	at least one node in the leaves.  Otherwise, an error will result.
+
+        If fixed_root_order is set, the order in which the roots are visited
+        cannot be altered.
+
+        In addition to setting the values in leaves, this routine returns an
+        array of node_t *'s.  This array contains an ordered list of all the
+        nodes in the intersection of the transitive fanin of the roots and
+        the union of the transistive fanouts of the leaves.  This provides an
+        order in which to visit the nodes of the network to create BDD's.
+        Recent experimentation shows that any topological ordering will
+        suffice, and subsequently, this array is not used by any functions in
+        the NTBDD package.  Be sure to free this returned array.
+
+        The order_method_t enumerated type of DFS_ORDER is associated with
+        this routine.
+
+array_t *
+order_random(roots, leaves, dummy)
+array_t *roots;
+st_table *leaves;
+int dummy;
+
+        Uses an random ordering.  The seed used for the random number
+        generator is simply the address of leaves. `leaves' is a hash table of
+        node_t *'s to ints.  The nodes in leaves represent the variables of
+        the BDD's to be created.  Each value in the hash table should be
+        initialized by the user to -1.  This function will replace the -1's by
+        integers from 0 to n-1.
+
+        This routine is meant to have the same interface as dfs_order.
+        `roots' and `dummy' are never used by this routine.  Furthermore, this
+        routine returns NIL(array_t).
+
+        The order_method_t enumerated type of RANDOM_ORDER is associated with
+        this routine.
+
+
+
+

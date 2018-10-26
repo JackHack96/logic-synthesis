@@ -1,0 +1,63 @@
+These examples are from University of Leuven (Hugo De Man):
+
+Filename	Table		Comments
+
+adr4		ad4 1a		4-bit adder
+al2 (dat)			16/47
+alcom (dat)			15/40
+b10		b10 1a
+b11				8/31
+b12		b12 1a
+b2		b2  1a
+b3		b3  1a		has DC ??
+b4		b4  1a
+b5		b5  1a		same as sqn from book.pla
+b7		b7  1a
+b9		b9  1a
+bench		ben 1b
+bench1		be1 1b		also known as ben1
+bench2				8/18 looks like 1b (idential to p1 == ph1)!!
+br1 (dat)			12/8 also known as bra1
+br2 (dat)			12/8 also known as bra2
+dekoder		dek 1a
+ex1010		ex1 1b		also known as ex1010
+exam		exa 1b
+exp		exp 1a
+exps		sim 1a		also known as siem
+fout		fot 1b
+ibm		ibm 1a
+in				47/72 same as ti from book.pla
+inc (dat)			7/9
+luc		luc 1a
+m1		mi1 1a		also known as mit1
+m181				15/9
+m2		mi2 1a		also known as mit2
+m3		mi3 1a		also known as mit3
+m4		mi4 1a		also known as mit4
+mp2d		mp2 1a
+p1		ph1 1b		also known as phi1
+p2				8/18 looks like 1b (idential to p1 == ph1)!!
+p3		ph3 1b		also known as phi3
+p4				empty??
+p82 (dat)			5/14
+pdc (dat)	pro 1a		also known as pro1
+prom1				9/40 also known as rom1
+prom2				9/21 also known as rom2
+sex (dat)			9/14
+shift		shi 1a
+sym10		sy1 1b		also known as sym1
+sym9		sy9 1b
+t1		te1 1a
+t2		te2 1a
+t3		te3 1a
+t4		te4 1a
+test1					8/10 looks like 1b, also known as tes1
+test2					11/35 looks like 1b
+test3					10/35 looks like 1b, also known as tes3
+test4					8/30 looks like 1b
+
+I seem to be missing the following from Bartholomeus' PhD Thesis:
+    boo5 5/5 32 terms
+    boot 7/10 128 terms
+    pla7 6/48 593 terms
+    pro2 16/40 2400 terms

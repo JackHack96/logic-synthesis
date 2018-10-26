@@ -1,0 +1,12 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   stg_cover
+ 
+     Check to see that the behavior of the STG covers that of the logic
+     implementation.  This operation is provided for the user to check that
+     two descriptions of the same machine are consistent.  Each edge in the
+     STG is symbolically simulated in the logic implementation to ensure that
+     the logic implementation behaves as specified by the STG.
+ 
+                                                                            1

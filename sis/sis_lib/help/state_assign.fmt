@@ -1,0 +1,26 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   state_assign progname options
+ 
+     Perform state assignment on the current STG.  The program used for state
+     assignment is progname and it is given the options options.  The program
+     progname must exist somewhere in the user's path.
+ 
+     The state assignment program is given the current STG, and returns a
+     logic implementation.  After execution of the state_assign command, both
+     the STG and the logic implementation are available for optimization.
+ 
+     The state assignment program called must conform to the specification
+     (see doc/SPEC).  Currently, the programs that are compatible with this
+     specification and are shipped with SIS are nova and jedi.  To get help
+     information for a specific program, use the -h option (i.e. state_assign
+     nova -h would produce help information for the nova state assignment
+     program).
+ 
+     A one-hot encoding can be obtained by using state_assign progname -e h.
+     Note that nova and jedi produce different results for one-hot encoding.
+     jedi produces typical one-hot codes (1000) while nova produces one-hot
+     codes with don't care conditions (1---).
+ 
+                                                                            1

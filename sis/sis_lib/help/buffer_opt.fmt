@@ -1,0 +1,42 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   buffer_opt [-l #] [-f #] [-c] [-d] [-T] [-L] [-v #] [-D] node-list
+ 
+     Builds fanout trees for the nodes in the node-list.  If no nodes are
+     specified selects the nodes to be buffered in order to improve perfor-
+     mance of the entire network. The network is assumed to be mapped.
+ 
+     The -l # option specifies the number of fanouts which a node can have so
+     as to be eligible for buffering. The default is 2, hence any multi-
+     fanout node is a candidate for buffering.
+ 
+     The -f # option specifies the transformations to use. Set the three
+     least significant bits indicate the use (value == 1) of the transforma-
+     tions. xx1 to use the _r_e_p_o_w_e_r transformation, x1x to use an _u_n_b_a_l_a_n_c_e_d
+     transformation and 1xx to use the _b_a_l_a_n_c_e_d distribution of signals. More
+     than one transformation can be set active. Thus to allow the algorithm
+     full flexibility use the value = 7 (111 in binary notation) which is
+     also the default.
+ 
+     The -c option specifies that one pass be carried out.  The default is to
+     iterate till no improvement is achieved.
+ 
+     The -d option allows the complex gates to be decomposed into smaller
+     ones so as to increase drive capability. By default the complex gates
+     are retained.
+ 
+     The -L option traverses the network from outputs to inputs ensuring that
+     for every node, the gate that implements it does not drive a load
+     greater than the _m_a_x__l_o_a_d limit specified for that gate. THIS OPTION IS
+     NOT YET IMPLEMENTED.
+ 
+     The -T option displays the circuit performance as the iterations pro-
+     gress. If the required times at the outputs are not specified the cir-
+     cuit delay is shown, else the minimum slack value is displayed.
+ 
+     The -v #,-D option are for debugging. The -v # option is the most ver-
+     bose and the amount of verbosity can be increased by letting the argu-
+     ment for -v range from 1 to 100.
+ 
+                                                                            1

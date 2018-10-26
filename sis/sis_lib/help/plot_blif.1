@@ -1,0 +1,43 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/plot_blif.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:36 $
+.\"  *
+.\"
+.XX
+plot_blif [-k] [-r] [-i] [-g WxH+X+Y] [-n name]
+.PP
+The \fBplot_blif\fR command 
+creates a window with an abstract representation of the
+network, at its current level of optimization, labeling all nodes, including
+primary inputs and outputs.
+Vectors are used to show relationships between the various nodes.
+Latches are not printed explicitly.
+The network is drawn as an acyclic combinational circuit.
+Labelled arrows indicate the locations of the latches.
+.PP
+The \fB-k\fR option "kills" (closes) the most recent plot window with
+the current network name.
+.PP
+The \fB-r\fR option replaces the contents of an existing plot window
+with the current network structure.
+This is useful if the network has been modified since it was last
+plotted.
+If no plot window is open with the current network name, the command
+has no effect.
+.PP
+The \fB-i\fR option forces a plot of the internal network structure
+used by \fISIS\fP.
+The default is to plot the structure corresponding to the write_blif
+command.
+The primary difference in the internal structure is in how primary
+outputs are handled.
+.PP
+The \fB-g\fR option allows an initial geometry to be specified
+for the plot window.
+.PP
+The \fB-n\fR option allows "name" to be used for the plot window name
+instead of the network name.

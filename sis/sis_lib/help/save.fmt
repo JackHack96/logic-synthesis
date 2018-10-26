@@ -1,0 +1,15 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   save filename
+ 
+     Save a copy of the current executable to a file which can be restarted.
+     This can be used to freeze the current network or the current library
+     for later optimization.  When the executable filename is executed, exe-
+     cution returns to the top-level of the command interpreter.
+ 
+     NOTE: The save command is very operating-system dependent and may not be
+     implemented on your system.  If this is the case then the save command
+     is unusable on your system.
+ 
+                                                                            1

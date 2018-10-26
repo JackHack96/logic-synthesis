@@ -1,0 +1,11 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   help [-a] [command]
+ 
+     Given no arguments, help prints a list of all commands known to the com-
+     mand interpreter.  The -a option provides a list of all debugging com-
+     mands, which by convention begin with an underscore.  If a command name
+     is given, detailed information for that command will be provided.
+ 
+                                                                            1

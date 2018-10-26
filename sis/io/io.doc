@@ -1,0 +1,91 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/io/io.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:28 $
+ *
+ */
+int
+read_blif(fp, network)
+FILE *fp;
+network_t **network;
+	Read a network from the open file given by fp.  The network is
+	returned in 'network'.  If end of file is reached before reading
+	a network, then -1 is returned; if a network is successfully read in,
+	1 is returned.  If any errors occur, 0 is returned.  In any case,
+	error_string() has appended to it any error messages.  Note that
+	warning only messages (i.e., "X does not fanout") cause a return value
+	of 1 indicating success; error_string() should always be examined
+	if this information is desired.
+
+	read_blif has hacks to accept most of the 'LIF' format.
+
+
+network_t *
+read_eqn(fp)
+FILE *fp;
+	Read eqntott-style equations from the open file given by fp.
+	See sis man-page for the command read_eqn for more
+	information on the format of equations parsed.  Returns
+	NIL(network_t) if any errors occur during the parse;
+	error_string() then gives more information as what happened.
+	Note that error_string() should be initialized (using
+	error_init()) before calling read_eqn.  To support parsing Oct
+	logic equations, a single s-expression (as defined by the Oct
+	LOGICFUNCTION property) is also parsed as a legal statement.
+	Note that the Oct LOGICFUNCTION does NOT supply the output
+	name; hence, one will be made up.
+
+
+network_t *
+read_eqn_string(string)
+char *string;
+	Read eqntott-style equations from the string 'string'.  See above
+	for more information.
+
+void
+write_blif(fp, network, short_name, net_list)
+FILE *fp;
+network_t *network;
+int short_name;
+int net_list; 
+	Write a network in BLIF format to the open file given by fp.
+	'network' is the network to be written.  'short_name' encrypts
+	the data using the short-name for each node, rather than
+	the long-name.  'net-list' forces blif to write a traditional
+	gate-style netlist for those nodes which are already mapped.
+
+
+void
+write_lif(fp, network, short_name)
+FILE *fp;
+network_t *network;
+int short_name;
+	Write a network in LIF format to the open file given by fp.
+	'network' is the network to be written.  'short_name' encrypts
+	the data using the short-name for each node, rather than
+	the long-name.
+
+
+void
+write_pla(fp, network)
+FILE *fp;
+network_t *network;
+	Write a network in espresso PLA format to the open file given by fp.
+
+
+int
+write_bdnet(fp, network)
+FILE *fp;
+network_t *network;
+	Write a network in Oct bdnet format to the open file given by fp.
+	Returns 0 if unsuccessful; error_string() is set in this case.
+	Currently, this occurs only if the network is not mapped.  
+
+void
+read_register_filename(filename)
+char *filename;
+	Give the reader a filename to be used when reporting error messages.
+	If NIL(char), the filename is not prepended to the output message.

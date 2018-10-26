@@ -1,0 +1,54 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/reduce_depth.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+reduce_depth [-b] [-d #] [-g] [-r] [-s #] [-v #] [-R #.#] [-S #] [-f #]
+.PP
+This command is to be used to improve the speed of a network before
+technology mapping.  It performs a partial collapse of the network by
+first clustering nodes according to some criteria and collapsing each
+cluster into a single node. The clusters are formed as follows:  a
+maximum cluster size is first computed, and the algorithm finds a
+clustering that respects this size limit and minimizes the number of
+levels in the network after the collapsing of the clusters. The size
+limit is a limit on the number of nodes covered by the cluster, and
+does not take into account the complexity of the nodes. Therefore this
+command should only be used on networks decomposed into simple gates.
+The cluster size limit can be provided in a variety of ways, 
+depending on which option is used.
+.PP
+The \fB-b\fP option performs the clustering under the duplication ratio 
+constraint specified by \fB-R\fP option.
+.PP
+The \fB-d #\fP option specifies the desired depth of the network after
+clustering. The depth counts the number of nodes. Since each node
+is expressed as a sum-of-products, specifying depth of 1 corresponds
+to collapsing the network to two levels of logic. The algorithm
+computes the minimum cluster size limit that yields a depth of \fBn\fR.
+.PP 
+The \fB-g\fP option prints out statistics based on cluster sizes.  No
+clustering is done.
+.PP
+The \fB-r\fP option specifies a modification of the clustering
+algorithm that produces the same number of logic levels but with less
+duplication of logic.
+.PP
+The \fB-s #\fP option specifies the desired cluster size limit.
+.PP
+The \fB-v #\fP option specifies a verbosity level. It is used mainly for
+debugging. 
+.PP
+The \fB-R #.#\fP option specifies the maximum duplication ratio.  The default is 2.0.
+.PP
+The \fB-S #\fP option specifies the smallest cluster size limit that
+produces the same depth as a cluster size limit of \fBn\fR.
+.PP
+The \fB-f #\fP option specifies a cluster size limit in terms
+of the number of fanins of the cluster. Its intended use is
+for table-lookup FPGAs. It is a poor man's version of FlowMap.

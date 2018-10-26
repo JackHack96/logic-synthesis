@@ -1,0 +1,155 @@
+
+options - option parsing and usage message package
+Tom Laidig
+University of California, Berkeley
+
+Include in source files:
+    <stdio.h> "options.h"
+
+Link with:
+    liboptions.a liberrtrap.a uprintf.a libmm.a libport.a
+
+
+/* `optionsStruct' type defined in "options.h" */
+typedef struct {
+    char *optionLetters;
+    char *argName;
+    char *description;
+} optionStruct;
+optionStruct optionList[];
+
+	`optionList' is a global array of structures, each of which
+	describes one or more related options to the options package.
+	The last element of this array has a null pointer for the value
+	of `optionLetters'.  For each group of options, `optionLetters'
+	contains the option letter(s); `argName' is a descriptive name
+	for the value taken by the option(s), or a null or empty string
+	for flag options; and `description' is free-form text
+	describing the option(s).  If this description is long, it will
+	be word-wrapped as appropriate.  A newline character can be
+	used to force a line break at some desired point.  If a
+	description is broken across lines by either of these methods,
+	the continuation will be aligned under the beginning part of
+	the description.  Several special values are defined for the
+	`optionLetters' field:
+
+	OPT_RARG	`argName' is a required argument
+	OPT_OARG	`argName' is an optional argument
+	OPT_DESC	general description (`argName' is ignored)
+	OPT_ELLIP       put an ellipsis in summary line (`argName' and
+			`description' are ignored)
+	OPT_CONT        continues the description from the previous
+			entry (the only thing this does is let you
+			avoid very long strings in your source code)
+
+	If `optionList' is not defined, a dummy value describing no
+	options will be included from the library.
+
+int optGetOption(argc, argv)
+int argc;
+char *argv[];
+
+	`optGetOption' parses option arguments in the same style as
+	getopt(3) (all options are single characters; option flags
+	without arguments can be packed; if an option takes a value,
+	the option letter and value may or may not be separated by a
+	space; a dummy argument, ``--'' can be used to separate options
+	and other arguments to resolve ambiguity).  The difference is
+	that `optGetOption' looks at an array of `optionStruct'
+	structures for a list of available options and whether they
+	take values.
+
+	Unless `optInit' is called first, the first call to
+	`optGetOption' initializes the allowed options to those
+	described in the global variable `optionList' plus some
+	universal options (described under `optAddUnivOptions'), and
+	sets the program name from `argv[0]'.  This includes setting
+	the global variable `optProgName' (which can be used in error
+	messages so the program user knows which program in a sequence
+	or pipeline detected an error) and passing the program name to
+	`errProgramName' (see the `errtrap' package) for use by its
+	error handlers.  Unlike `getopt', `optGetOption' normally does
+	not return with an invalid option; instead, it calls
+	`optUsage', which prints a usage message and exits.  This
+	behavior can be changed by calling `optInit'.
+
+	Like `getopt', `optGetOption' returns the current option letter
+	(or EOF, if all options have been processed), sets `optind' to
+	the index of the command-line argument following the current
+	option or option/value pair (after all options have been
+	parsed, it is the index of the first non-option argument), and
+	sets `optarg' to point to the value of an option that requires
+	one.  Normally, one uses `optarg' to access an option's
+	argument, and `optind' only after all options have been
+	processed.
+
+void optUsage()
+
+	`optUsage' formats and prints a usage message based on the
+	information in `optionList' (or the result of calls to
+	`optInit', `optAddOptions', and `optAddUnivOptions'), then
+	calls `exit' with a return code of 2.  Note that the usage
+	message includes the name of the program, so `optGetOption'
+	or `optInit' should be called at least once before calling
+	`optUsage'.
+
+int optind;
+char *optarg;
+char *optProgName;
+
+	These global variables are declared and set by the options
+	package.  See the description for `optGetOption'.
+
+
+/*
+ *	The following functions give tool writers more control of
+ *	the options package.  They are expected not to be used often.
+ */
+
+void optInit(progName, options, rtnBadFlag)
+char *progName;
+optStruct options[];
+int rtnBadFlag;
+
+	This function sets the program name to `progName' (setting
+	`optProgName' and calling `errProgramName') and sets the list
+	of available options to those described by `options' (an array
+	of option descriptions in the form of `optionList').  If
+	`rtnBadFlag' is non-zero, `optGetOption' will return '?' if an
+	unrecognized option is encountered; otherwise, it will call
+	`optUsage'.  This function can be called at any time, to change
+	the list of available options.
+
+void optAddOptions(options)
+optionStruct options[];
+
+	This function adds the options described in `options' (an array
+	of option descriptions in the form of `optionList') to the list
+	of available options.
+
+void optAddUnivOptions()
+
+	This function adds `universal' options to the list of available
+	options.  These options are ones that are common to all (?) oct
+	tools, and are distinguished from other command-line options by
+	being preceeded by `-=' instead of `-'.  These options are:
+
+	    -=T tech_root:	set the technology root directory (see
+				the `tap' package) if tap is used
+
+	    -=E on_error:	arrange for fatal errors detected by the
+				`errtrap' package to exit (on_error =
+				"exit") or dump core (on_error = "core")
+
+	    -=M mem_flags:	`mem_flags' is a comma-separated list of 
+				flags that adjust the behavior of the
+				memory allocator (see the `mm' package):
+				    [no]trace	turn tracing on/off
+				    [no]trash	do/don't trash freed memory
+				    pad=n	allocate `n' extra words
+
+	    -=R:		(reserved for rpc)
+
+char *optUsageString()
+
+	Returns the string that `optUsage' would print.

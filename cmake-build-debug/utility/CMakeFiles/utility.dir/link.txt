@@ -1,0 +1,2 @@
+/usr/bin/ar qc libutility.a  CMakeFiles/utility.dir/cpu_time.c.o CMakeFiles/utility.dir/pathsearch.c.o CMakeFiles/utility.dir/pipefork.c.o CMakeFiles/utility.dir/prtime.c.o CMakeFiles/utility.dir/strsav.c.o CMakeFiles/utility.dir/texpand.c.o CMakeFiles/utility.dir/tmpfile.c.o
+/usr/bin/ranlib libutility.a

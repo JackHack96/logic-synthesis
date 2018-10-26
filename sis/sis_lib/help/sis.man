@@ -1,0 +1,703 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.man,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:38 $
+.\"  *
+.\"
+.TH SIS 1CAD "1 July 1994"
+.SH NAME
+sis \- Sequential Interactive System
+.SH SYNOPSIS
+.B sis
+[options] [file]
+.SH DESCRIPTION
+\fBSIS\fR is an algorithmic sequential circuit optimization
+program.  \fBSIS\fR starts from a description
+of a sequential logic macro-cell and produces
+an optimized set of logic equations plus latches which preserves
+the input-output behavior of the macro-cell.
+The sequential circuit can be stored as a finite
+state machine or as an implementation consisting of logic
+gates and memory elements.
+The program
+includes algorithms for minimizing the area required to
+implement the logic equations, algorithms for minimizing delay,
+and a technology
+mapping step to map a network into a user-specified cell library.
+It includes all of the optimization techniques available in
+\fBMIS\fR, and replaces \fBMIS\fR completely.
+.PP
+\fBSIS\fR can be run in interactive mode accepting commands
+from the user, or in batch mode reading commands
+from a file or from the command line.
+If no options are given on the command line, \fBSIS\fP will
+enter interactive mode.
+Otherwise, \fBSIS\fP will enter batch mode.
+When running in batch mode, \fBSIS\fP reads its
+input from the file given on the command line, or from standard input
+if no filename is given;
+output is directed to standard output, unless \fB-o\fP is used to
+specify an output filename.
+.PP
+When \fBSIS\fP starts-up, it performs an initial source of the
+files $SIS/sis_lib/.misrc and $SIS/sis_lib/.sisrc.
+Typically this defines a standard
+set of aliases for various commands.
+Following that the files ~/.misrc, ~/.sisrc, ./misrc, and ./sisrc
+are sourced for user-defined aliases at startup.
+.SH OPTIONS
+.TP 8
+.B -c cmdline
+Run \fBSIS\fR in batch mode, and execute \fBcmdline\fR.
+Multiple commands are separated with semicolons.
+.TP 8
+.B -f script
+Run \fBSIS\fR in the batch mode, and execute commands from the
+file \fBscript\fR.
+.TP 8
+.B -t type
+Specifies the type of the input when running in batch mode.
+The legal input types are:
+Berkeley Logic Interchange Format (\fB-t blif\fP),
+eqntott(1CAD)-format equation input (\fB-t eqn\fP),
+\fIKISS2 format\fR (\fB-t kiss\fP),
+\fIOct Logic View\fR (\fB-t oct\fP),
+Berkeley PLA Format (\fB-t pla\fP),
+\fISLIF format\fR (\fB-t slif\fP),
+and suppress input (\fB-t none\fP).
+The default input type is \fIblif\fR.
+.TP 8
+.B -T type
+Specifies the type of the output when running in batch mode.
+The legal output types are:
+bdnet(1CAD)-format net-list (\fB-T bdnet\fP),
+Berkeley Logic Interchange Format (\fB-T blif\fP),
+eqntott(1CAD)-format equation input (\fB-T eqn\fP),
+\fIKISS2 format\fR (\fB-T kiss\fP),
+\fIOct logic view\fR (\fB-T oct\fP),
+Berkeley PLA Format (\fB-T pla\fP),
+\fISLIF format\fR (\fB-T slif\fP),
+and suppress output (\fB-T none\fP).
+The default output type is \fIblif\fR.
+.TP 8
+.B -o file
+Specifies the output file when running in batch mode.
+For \fIOct\fP output, this is a string of the
+form \fIcell\fP:\fIview\fP.
+The default for the output is the standard output.
+.TP 8
+.B -s
+Suppress sourcing the commands from the standard
+startup script ($SIS/sis_lib/.misrc and $SIS/sis_lib/.sisrc).
+.TP 8
+.B -x
+For batch mode operation, suppress reading an initial network, and
+suppress writing an output network.
+Equivalent to \fB-t none -T none\fP.
+.de XX
+.sp 1
+.LP
+.ti -5
+.B
+..
+.de X1
+.br
+.ti -5
+.B
+..
+.PP
+.SH COMMAND SUMMARY
+All commands are summarized below according
+to their function : network manipulation (operations
+on the logic-level implementation),
+ASTG manipulation (operations on the asynchronous
+signal transition graph), STG manipulation (operations
+on the synchronous state transition graph),
+input-output, network status, command interpreter,
+and miscellaneous.
+The last two tables summarize the newest commands that
+operate on ASTG's and sequential circuits, respectively.
+.sp 2
+.TS
+center box;
+c s
+l l.
+\fBNetwork Manipulation Commands\fP
+_
+act_map	technology mapping to Actel architecture
+add_inverter	add inverters to the network to make all gates negative
+astg_slow	remove hazards from the ASTG implementation
+	(uses bounded wire delay model)
+astg_syn	synthesize a two-level implementation from the ASTG
+	(uses unbounded wire delay model)
+astg_to_f	generate a two-level implementation of each output of the ASTG
+	(uses bounded wire delay model)
+astg_to_stg	generate an STG from the ASTG
+buffer_opt	inserts buffering trees for high fanout gates
+chng_clock	toggles clock setting between user-specification and generated values
+collapse	collapse a network or a set of nodes
+decomp	decompose a node into a set of nodes
+eliminate	eliminates nodes whose value falls below a threshold
+env_seq_dc	extract sequential don't cares based on the environment
+equiv_nets	group and merge nets by equivalence classes
+espresso	collapse network and minimize with a two-level minimizer
+extract_seq_dc	extract sequential don't cares
+factor	determine a factored form for a node
+fanout_alg	select a fanout optimization algorithm (to be used by map)
+fanout_param	set some parameters for fanout algorithm (to be used by map)
+free_dc	frees the external don't care network
+force_init_0	modify so all latches to have a 0 initial state
+full_simplify	simplify the nodes using local compatible don't cares
+fx	do fast extraction of the best double cube and single cube divisors
+gcx	extract common cubes from the network
+gkx	extract common multiple-cube divisors from the network
+invert	invert a node, and toggle the phase of all of its fanouts
+latch_output	forces some outputs to be fed directly by latches
+map	technology mapping to find an implementation for the network
+one_hot	quick one-hot encoding
+phase	phase assignment to minimize number of inverters
+red_removal	perform redundancy removal via atpg
+reduce_depth	increase the speed before mapping by reducing the depth
+remove_dep	removes some structural (but not logical) dependencies
+remove_latches	removes redundant latches
+replace	quick algebraic decomposition on 2-input NANDs
+resub	perform resubstitution of a node into other nodes in the network
+retime	move the latches in the circuit to minimize cycle time/# latches
+simplify	two-level minimization of each node
+speed_up	restructure critical paths to reduce delay
+speed_up_alg	several algorithms for performance enhancement
+state_assign	create the logic from the STG using state assignment
+stg_extract	extract an STG from the logic
+stg_to_network	converts a state-encoded STG to a logic network
+sweep	remove all inverters, buffers, and unnecessary latches from the network
+tech_decomp	decompose a network for technology mapping
+wd	re-express a node using another node using weak division
+.TE
+.sp 2
+.TS
+center box;
+c s
+l l.
+\fBNetwork Manipulation Commands (cont.)\fP
+_
+xl_absorb	decreases number of fanins to make nodes feasible
+xl_ao	AND-OR decomposition of an infeasible network to a feasible one
+xl_coll_ck	collapse and apply Roth-Karp decomposition and cofactoring
+xl_cover	global cover of nodes by "xilinx" blocks of pld gates
+xl_decomp_two	decomposition into two compatible "xilinx" functions
+xl_imp	generates a feasible network using various decomposition schemes
+xl_k_decomp	Karp-Roth decomposition for mapping into "xilinx" gates
+xl_merge	merge "xilinx" blocks
+xl_part_coll	partial collapse
+xl_partition	local cover of nodes by "xilinx" blocks of pld gates
+xl_rl	timing optimization for table look up architectures
+xl_split	decompose a network (using routing complexity as cost)
+.TE
+.sp 2
+.TS
+center box;
+c s
+l l.
+\fBASTG Manipulation Commands\fP
+_
+astg_add_state	adds states to the ASTG to guarantee implementability
+astg_contract	generate the contracted net for a signal of the ASTG
+astg_encode	critical race-free STG encoding
+astg_lockgraph	build the lock graph for the current ASTG
+astg_marking	set or display the initial marking of the ASTG
+astg_persist	make the ASTG persistent
+astg_state_min	minimizes the current STG and derives encoding
+	information for the associated ASTG
+astg_stg_scr	transforms the STG to one that satisfies SCR property
+stg_to_astg	transforms the STG (with the SCR property) to an ASTG
+.TE
+.sp 2
+.TS
+center box;
+c s
+l l.
+\fBSTG Manipulation Commands\fP
+_
+state_assign	assign binary codes to the states in the STG
+state_minimize	minimize the number of states in the STG
+stg_to_astg	transforms the STG (with the SCR property) to an ASTG
+.TE
+.sp 2
+.TS
+center box;
+c s
+l l.
+\fBTiming Commands\fP
+_
+c_check	verifies satisfaction of clocking constraints
+c_opt	computes the optimal clock for a given clocking scheme
+.TE
+.sp 2
+.TS
+center box;
+c s
+l l.
+\fBInput-Output Commands\fP
+_
+read_astg	read a signal transition graph in ASTG format
+read_blif	read a network in BLIF format
+read_eqn	read a network in eqntott(1CAD) format
+read_kiss	read an STG in KISS2 format
+read_library	read a library description file
+read_oct	read a network from an Oct Logic view
+read_pla	read a network in PLA format
+read_slif	read a network in Stanford Logic Interchange Format
+set_delay	set delay parameters for primary inputs and outputs 
+set_state	set the current state in a sequential circuit to the given state
+write_astg	write the current signal transition graph in ASTG format
+write_bdnet	write the current (mapped) network in bdnet(1CAD) format
+write_blif	write the current network in BLIF format
+write_eqn	write the current network in eqntott(1CAD) equation format
+write_kiss	write the STG in KISS2 format
+write_oct	write the current network into an Oct Logic view
+write_pla	write the current network in PLA(5CAD) format
+write_pds	write the current network in PDS format for Xilinx
+write_slif	write the current network in SLIF format
+.TE
+.sp 1
+.TS
+center box;
+c s
+l l.
+\fBNetwork Status Commands\fP
+_
+astg_current	display information about the current ASTG
+astg_print_sg	print the state graph of the current ASTG
+astg_print_stat	print the statistics of the current ASTG
+constraints	print the delay constraints for a set of nodes
+plot_blif	plot the network in a graphics window (only available in \fBxsis\fR)
+power_estimate	estimate dissipated power based on switching activity
+power_free_info	frees memory associated with power calculations
+power_print	print switcing probabilities and capacitances
+print	print logic function associated with a node
+print_altname	print the short (and long) names for a node
+print_clock	print out information about the clocks in the network
+print_delay	timing simulate a network and print results
+print_factor	print the factored form associated with a node
+print_gate	print information about the gates used in the mapped network
+print_io	print the fanin and fanout of a node (or the network)
+print_kernel	print the kernels (and subkernels) of a set of functions
+print_latch	print out information about all the latches in the circuit
+print_level	print the levels of a set of nodes
+print_library	list the gates in the current library
+print_map_stats	print delay and area information for a mapped network
+print_state	print the current state of a sequential circuit
+print_stats	print statistics on a set of nodes
+print_value	print the value of a set of nodes
+.TE
+.sp 1
+.TS
+center box;
+c s
+l l.
+\fBCommand Interpreter\fP
+_
+alias	provide an alias for a command
+chng_name	switch between short and long forms for node names
+echo	merely echo the arguments
+help	provide on-line information on commands
+history	a UNIX-like history mechanism inside the \fBSIS\fP shell
+quit	exit \fBSIS\fP
+reset_name	rename all of the short names in the network
+save	save a copy of the current executable
+set	set an environment variable
+source	execute commands from a file
+time	provide a simple elapsed time value
+timeout	sends an interrupt to the \fBSIS\fR process
+unalias	remove the definition of an alias
+undo	undo the result of the last command which changed the network
+unset	unset an environment variable
+usage	provide a dump of process statistics
+.TE
+.sp 1
+.TS
+center box;
+c s
+l l.
+\fBMiscellaneous\fP
+_
+atpg	perform combinational atpg using SAT approach
+bdsyn	special command used by bdsyn(1CAD)
+env_verify_fsm	verify equivalence of two networks in an environment
+short_tests	generate small sequential test sets
+sim_verify	verify networks equivalent via simulation
+simulate	logic simulation of the current network
+stg_cover	check that the STG behavior covers the logic implementation
+verify	verify equivalence of two combinational networks
+verify_fsm	verify equivalence of two combinational or sequential networks
+.TE
+.sp 1
+.TS
+center box;
+c s
+l l.
+\fBAsynchronous Synthesis Commands\fP
+_
+astg_add_state	adds states to the ASTG to guarantee implementability
+astg_contract	generate the contracted net for a signal of the ASTG
+astg_current	display information about the current ASTG
+astg_encode	critical race-free STG encoding
+astg_lockgraph	build the lock graph for the current ASTG
+astg_marking	set or display the initial marking of the ASTG
+astg_persist	make the ASTG persistent
+astg_print_sg	print the state graph of the current ASTG
+astg_print_stat	print the statistics of the current ASTG
+astg_slow	remove hazards from the ASTG (uses bounded wire delay model)
+astg_state_min	minimizes the current STG and derives encoding
+	information for the associated ASTG
+astg_stg_scr	transforms the STG to one that satisfies SCR property
+astg_syn	synthesize a two-level implementation from the ASTG
+	(uses unbounded wire delay model)
+astg_to_f	generate a two-level implementation of each output of the ASTG
+	(uses bounded wire delay model)
+astg_to_stg	generate an STG from the ASTG
+read_astg	read a signal transition graph in ASTG format
+write_astg	write the current signal transition graph in ASTG format
+.TE
+.sp 1
+.TS
+center box;
+c s
+l l.
+\fBSequential Synthesis Commands\fP
+_
+c_check	verifies satisfaction of clocking constraints
+c_opt	computes the optimal clock for a given clocking scheme
+chng_clock	toggles clock setting between user-specification and generated values
+env_seq_dc	extract sequential don't cares based on the environment
+env_verify_fsm	verify equivalence of two networks in an environment
+extract_seq_dc	extract sequential don't cares
+force_init_0	modify so all latches to have a 0 initial state
+latch_output	forces some outputs to be fed directly by latches
+one_hot	quick one-hot encoding
+power_estimate	estimate dissipated power based on switching activity
+power_free_info	frees memory associated with power calculations
+power_print	print switcing probabilities and capacitances
+print_clock	print out information about the clocks in the network
+print_latch	print out information about all the latches in the circuit
+read_kiss	read an STG in KISS2 format
+read_slif	read a network in Stanford Logic Interchange Format
+remove_latches	removes redundant latches
+retime	move the latches in the circuit to minimize cycle time/# latches
+set_delay	set delay parameters for primary inputs and outputs 
+set_state	set the current state in a sequential circuit to the given state
+short_tests	generate small sequential test sets
+state_assign	create the logic from the STG using state assignment
+state_minimize	minimize the number of states in the STG
+stg_cover	check that the STG behavior covers the logic implementation
+stg_extract	extract an STG from the logic
+stg_to_network	converts a state-encoded STG to a logic network
+verify_fsm	verify equivalence of two combinational or sequential networks
+write_kiss	write the STG in KISS2 format
+write_slif	write the current network in SLIF format
+.TE
+.sp .5i
+.SH NODELIST ARGUMENTS
+Most commands which take a node also take a list of nodes as an
+argument.  This is referred to as a \fBnode-list\fP in the
+documentation below.
+This list of nodes includes \fB*\fP to specify
+all nodes in the network, \fBi()\fP to specify the primary
+inputs of the network, \fBo()\fP to specify the primary
+outputs of the network, \fBi(node)\fP to specify the
+direct fanin of \fInode\fP, and \fBo(node)\fP to specify the
+direct fanout of \fInode\fP.
+.sp .5i
+.SH STANDARD ALIASES
+When \fBSIS\fP starts, it executes commands from a system startup file
+(usually $(SIS)/sis_lib/.misrc and $(SIS)/sis_lib/.sisrc).
+This defines a standard set of
+aliases, and then sources the files ~/.misrc, ~/.sisrc, ./misrc,
+and ./sisrc to allow
+users to define their own set of aliases.  The default alias set includes
+the following aliases which have proven useful.  Note that many of the aliases
+are intended for compatibility with \fBSIS\fP Version #1.0.
+.TS
+center box;
+c s s
+c c c
+l l l.
+\fBStandard Aliases\fP
+alias	command	description
+_
+1h	sa nova -e h	do 1-hot state encoding using nova
+ai	add_inverter	add inverters to a network to correct the phases
+alt	print_altname	print both long and short names for a node
+asb	resub -a	algebraic resubstitution
+c	chng_name	toggle between long and short names
+clp	collapse	collapse network
+crit	pd -a -p 2	print out the 2 most critical paths
+el	eliminate	eliminate nodes below a threshold
+exit	quit	terminate program
+fs	full_simplify	simplify each node function
+gd	decomp -g	good decomposition (i.e., best kernel decomposition)
+gf	factor -g	good factoring (i.e., best kernel factoring)
+gp	phase -g	good phase assignment (i.e., more expensive)
+inv	invert	invert a node keeping network function consistent
+oh	one_hot	do quick one-hot encoding
+man	help	print out command information
+nts	print_stats	print network status (including factored form)
+p	print	print sum-of-products form of a node
+pat	print_delay -a	print node arrival times
+pc	print_clock	print information about clocks in the network
+pd	print_delay	print delay
+pf	print_factor	print factored form of a node
+pg	print_gate	print gate information for a node
+pgc	print_gate -s	summarize gate information for the network
+pio	print_io	print inputs and outputs of a node or the network
+pk	print_kernel	print kernels of a node
+pl	print_latch	print latch information
+plt	print_delay -l	print output loading for each node
+plv	print_level	print the level of each node
+pn	p -n	print nodes in 'negative' form
+prt	print_delay -r	print node required times
+ps	print_stats -f	print network status (including factored form)
+psf	print_stats	print network status
+pst	print_delay -s	print node slack times
+pv	print_value	print node values
+q	quit	terminate program
+qd	decomp -q	quick decomposition (i.e., any kernel decomposition)
+qf	factor -g	quick factoring (i.e., any kernel factoring)
+qp	phase -q	quick phase (i.e., simple greedy algorithm)
+ra	read_astg	read a signal transition graph in ASTG format
+rd	reduce_depth	increase speed before mapping by reducing the depth
+re	read_eqn	read equations from a file
+rk	read_kiss	read an STG in KISS2 format
+rl	read_blif	read a blif network from a file
+rlib	read_library	read a library
+ro	read_oct	read a network from an Oct view
+rp	read_pla	read a PLA in espresso format
+rr	red_removal	remove combinationally redundant signals
+rs	read_slif	read a network in SLIF fornat
+.TE
+.sp 1
+.TS
+center box;
+c s s
+c c c
+l l l.
+\fBStandard Aliases (cont.)\fP
+alias	command	description
+_
+rsn	reset_name	reset all short names starting from 'a'
+rt	retime -n	retime an unmapped network
+sa	state_assign	create the logic from the STG using state assignment
+se	stg_extract	extract an STG from the logic
+sim	simulate	logic simulation on a network
+sim0	simplify -d	quick minimization of a node (no don't cares)
+sim1	simplify -m nocomp -d	complete minimization of a node (no don't cares)
+sim2	simplify	single pass minimization with fanin DC-set
+sim3	simplify -m nocomp	complete minimization with fanin DC-set
+sm	state_minimize	minimize the number of states in the STG
+so 	source	source a script file
+sp	speed_up	critical path restructuring to reduce delay
+sw	sweep	remove buffers, inverters from a network
+td	tech_decomp	decompose network into AND/OR gates
+u	undo	undo last command which changed network
+v	verify_fsm	verify the equivalence of two sequential networks
+wa	write_astg	write the current signal transition graph in ASTG format
+wb	write_bdnet	write mapped network in BDNET format
+we	write_eqn	write network in EQN format
+wk	write_kiss	write the STG in KISS2 format
+wl	write_blif	write network in blif format
+wp	write_pla	write network in Espresso PLA format
+wo	write_oct	write network as an Oct view
+ws	write_slif	write network in SLIF format
+xdc	extract_seq_dc	extract sequential don't cares (unreachable states)
+.TE
+.bp
+.SH DETAILED COMMAND DESCRIPTIONS
+.PP
+.so act_map.1
+.so add_inverter.1
+.so alias.1
+.so astg_add_state.1
+.so astg_contract.1
+.so astg_current.1
+.so astg_encode.1
+.so astg_lockgraph.1
+.so astg_marking.1
+.so astg_persist.1
+.so astg_print_sg.1
+.so astg_print_stat.1
+.so astg_slow.1
+.so astg_state_min.1
+.so astg_stg_scr.1
+.so astg_syn.1
+.so astg_to_f.1
+.so astg_to_stg.1
+.so atpg.1
+.so bdsyn.1
+.so buffer_opt.1
+.so c_check.1
+.so c_opt.1
+.so chng_clock.1
+.so chng_name.1
+.so collapse.1
+.so constraints.1
+.so decomp.1
+.so echo.1
+.so eliminate.1
+.so env_seq_dc.1
+.so env_verify_fsm.1
+.so equiv_nets.1
+.so espresso.1
+.so extract_seq_dc.1
+.so factor.1
+.so fanout_alg.1
+.so fanout_param.1
+.so force_init_0.1
+.so free_dc.1
+.so full_simplify.1
+.so fx.1
+.so gcx.1
+.so gkx.1
+.so help.1
+.so history.1
+.so invert.1
+.so invert_io.1
+.so ite_map.1
+.so latch_output.1
+.so map.1
+.so one_hot.1
+.so phase.1
+.so plot_blif.1
+.so power_estimate.1
+.so power_free_info.1
+.so power_print.1
+.so print.1
+.so print_altname.1
+.so print_clock.1
+.so print_delay.1
+.so print_factor.1
+.so print_gate.1
+.so print_io.1
+.so print_kernel.1
+.so print_latch.1
+.so print_level.1
+.so print_library.1
+.so print_map_stats.1
+.so print_state.1
+.so print_stats.1
+.so print_value.1
+.so quit.1
+.so read_astg.1
+.so read_blif.1
+.so read_eqn.1
+.so read_kiss.1
+.so read_library.1
+.so read_oct.1
+.so read_pla.1
+.so read_slif.1
+.so red_removal.1
+.so reduce_depth.1
+.so remove_dep.1
+.so remove_latches.1
+.so replace.1
+.so reset_name.1
+.so resub.1
+.so retime.1
+.so save.1
+.so set.1
+.so set_delay.1
+.so set_state.1
+.so short_tests.1
+.so sim_verify.1
+.so simplify.1
+.so simulate.1
+.so source.1
+.so speed_up.1
+.so speedup_alg.1
+.so state_assign.1
+.so state_minimize.1
+.so stg_cover.1
+.so stg_extract.1
+.so stg_to_astg.1
+.so stg_to_network.1
+.so sweep.1
+.so tech_decomp.1
+.so time.1
+.so timeout.1
+.so unalias.1
+.so undo.1
+.so unset.1
+.so usage.1
+.so verify.1
+.so verify_fsm.1
+.so wd.1
+.so write_astg.1
+.so write_bdnet.1
+.so write_blif.1
+.so write_eqn.1
+.so write_kiss.1
+.so write_oct.1
+.so write_pds.1
+.so write_pla.1
+.so write_slif.1
+.so xilinx.1
+.so xl_absorb.1
+.so xl_ao.1
+.so xl_coll_ck.1
+.so xl_cover.1
+.so xl_decomp_two.1
+.so xl_imp.1
+.so xl_k_decomp.1
+.so xl_merge.1
+.so xl_part_coll.1
+.so xl_partition.1
+.so xl_rl.1
+.so xl_split.1
+.SH FILES
+$SIS/ex
+.br
+$SIS/sis_lib/.misrc
+.br
+$SIS/sis_lib/.sisrc
+.br
+$SIS/sis_lib/script
+.br
+$SIS/sis_lib/*
+.SH "SEE ALSO"
+espresso(1CAD), espresso(5CAD), eqntott(1CAD), nova(1CAD),
+stamina(UC Boulder), jedi(1CAD), doc/blif.tex, doc/SPEC.
+.SH AUTHORS
+Ellen Sentovich
+.br
+Kanwar Jit Singh
+.SH OTHER CONTRIBUTORS
+Bill Lin, Luciano Lavagno, Sharad Malik, Cho Moon, Rajeev Murgai,
+Alex Saldanha, Hamid Savoj, Narendra Shenoy, Tom Shiple, Paul Stephan,
+Colin Stevens, Herve Touati, Tiziano Villa, and Carol Wawrukiewicz.
+Jose Monteiro (MIT) contributed the power estimation package.
+David Long (AT&T Bell Laboratories) contribued the BDD package.
+June Rho (CU Boulder) contributed the stamina program.
+Roberto Rambaldi (D.E.I.S. Universita' di Bologna) contributed
+the vst2blif program.
+Richard Rudell and Albert Wang wrote the program MISII, upon which
+SIS is built.
+.SH BUGS
+If a state machine has only one state, calling state assignment using
+nova causes a fatal error.  This is due to the fact that if a PLA has
+outputs that are all 0, espresso returns no PLA (when the type requested
+is the ON-set).  nova tries to read the pla using SIS and fails.
+
+The simulate command does not work as it should for sequential circuits.
+Gated clocks are not simulated correctly, and incorrect results are obtained
+when the network has a clock and the STG does not.
+
+.SH COMMENTS
+Mapping information is lost during factoring.  Once a circuit is mapped,
+it is not expected that any further operations on the logic will
+be performed, hence, if they are, the mapping is lost.
+
+Many of the new routines (e.g. extract_seq_dc, full_simplify, verify_fsm)
+use BDDs and can be very time- and memory-consuming.
+Work is underway on this problem.

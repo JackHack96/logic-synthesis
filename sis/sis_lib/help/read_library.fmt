@@ -1,0 +1,14 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   read_library [-ainr] filename
+ 
+     Read a SIS-format library for future technology mapping.  The -a option
+     appends the library to the current library; otherwise, any previous
+     library is discarded.  The -i flag suppresses adding extra inverters to
+     all of the primitives.  This is intended for debugging only.  The -n
+     flag requests that a library, if it is generated, be made using NAND
+     gates rather than NOR gates.  The -r flag reads a raw library format
+     (given in BLIF) rather than the normal genlib format.
+ 
+                                                                            1

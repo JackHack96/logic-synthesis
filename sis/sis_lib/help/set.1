@@ -1,0 +1,72 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/set.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:38 $
+.\"  *
+.\"
+.XX
+set [name] [value]
+.X1
+unset name ...
+.PP
+A variable environment is maintained by the command interpreter.
+The \fBset\fR command sets a variable to a particular value, and the
+\fBunset\fR command removes the definition of a variable.
+If \fBset\fR is given no arguments, it prints the definition of all variables.
+.PP
+Different commands use environment information for different purposes.
+The command interpreter makes use of the following:
+.TP 8
+.B autoexec
+Defines a command string to be automatically executed after every command
+processed by the command interpreter.
+This is useful for things like timing
+commands, or tracing the progress of optimization.
+.TP 8
+.B sisout
+Standard output (normally stdout) can be re-directed to a file
+by setting the variable sisout.
+.TP 8
+.B siserr
+Standard error (normally stderr) can be re-directed to a file
+by setting the variable siserr.
+.TP 8
+.B history
+Each valid command entered at the prompt can be echoed to a file
+by setting the variable history.
+.TP 8
+.B history_char
+By default the character `%' is used to do the history substitution
+inside sis. This can be changed by setting the variable \fBhistory_char\fR.
+.TP 8
+.B shell_char
+By default the character `!' is used to do invoke shell commands from
+inside sis.  This can be changed by setting the variable \fBshell_char\fR.
+\fI In order to switch the interpretation of shell_char and history_char it is
+neccessary to first set history_char and then the shell_char. Alternately,
+you may escape the current history char by preceeding it with
+a `\' while setting the shell_char. In addition none of them can be set 
+to a `#' which is reserved for comments.\fR
+.TP 8
+.B filec
+Setting this variable enables the user to use "file-completion" like in 
+the C-shell. An ESC causes the current line to be extended to its unique 
+completion. A CTRL-d generates a list of the possible extensions.
+.TP 8
+.B open_path
+\fBopen_path\fR (in analogy to the shell-variable PATH) is a list of
+colon-separated strings giving directories to be searched whenever
+a file is opened for read.  Typically the current directory (.) is
+first in this list.  The standard system 
+library (typically $SIS/sis_lib) is always implicitly appended 
+to the current path.
+This provides a convenient short-hand
+mechanism for reaching standard library files.
+.TP 8
+.B prompt
+defines the prompt string. If the prompt string contains a `%'(or whatever
+the history_char has been set to using the set command), the `%'
+will be replaced whenever the prompt is printed by the current event number.

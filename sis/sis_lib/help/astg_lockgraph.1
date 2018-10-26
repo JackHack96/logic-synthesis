@@ -1,0 +1,27 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/astg_lockgraph.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:43 $
+.\"  *
+.\"
+.XX
+astg_lockgraph [-l]
+.PP
+Build the lock graph for the current ASTG.
+.PP
+With the -l option, edges are added to
+the ASTG to ensure that the lock graph
+is connected, and thus that the ASTG has the Complete State
+Coding property.
+.PP
+If an ASTG has the CSC property, the state of the circuit can
+be represented completely by the collection of input, output
+and internal signals specified in the ASTG.
+This simplifies many synthesis algorithms.
+.PP
+The algorithm works only for ASTGs that are marked graphs (no choice).
+See \fBastg_state_min\fR for a set of commands that
+ensure Complete State Coding for more general ASTGs.

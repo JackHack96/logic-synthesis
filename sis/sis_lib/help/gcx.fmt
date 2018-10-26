@@ -1,0 +1,28 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   gcx [-bcdf] [-t threshold]
+ 
+     Extract common cubes from a network, re-express the network in terms of
+     these cubes, and in the process cut down on the number of literals
+     needed in the network.
+ 
+     The -b option chooses the best cube at each step when examining possible
+     cubes to be extracted; otherwise, the more efficient _p_i_n_g-_p_o_n_g algorithm
+     is used to find a good (but not necessarily the best) cube at each step.
+ 
+     The -c option uses the complement of each cube as well as the cube when
+     dividing the new cube into the network.
+ 
+     The -f option uses the number of literals in the factored form for the
+     network as a cost function for determining the best cube to be
+     extracted.
+ 
+     The -t option sets a threshold such that only a cube with a value
+     greater than the threshold will be extracted.  By default, the threshold
+     is 0, so that all possible cube divisors are extracted.
+ 
+     The -d option enables a debugging mode which traces the execution of
+     gcx.
+ 
+                                                                            1

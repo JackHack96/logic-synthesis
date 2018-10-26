@@ -1,0 +1,23 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   state_minimize progname options
+ 
+     Perform state minimization on the current STG.  The program used for
+     state minimization is progname and it is given the options options.  The
+     program progname must exist somewhere in the user's path.
+ 
+     The state minimization program is given the current STG, and returns a
+     new STG.  After execution of the state_minimize command, only the STG is
+     available for optimization (any existing logic implementation is
+     removed, since there is no guarantee that it implements the new STG).
+ 
+     The state minimization program called must conform to the specification
+     (see doc/SPEC).  Currently, the program that is compatible with this
+     specification and is shipped with SIS is stamina (from the University of
+     Colorado, Boulder, rho@boulder.colorado.edu).  To get help information
+     for a specific program, use the -h option (i.e. state_minimize stamina
+     -h would produce help information for the stamina state minimization
+     program).
+ 
+                                                                            1

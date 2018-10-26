@@ -1,0 +1,10 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   print_clock
+ 
+     Prints the clocking scheme associated with the current network.  The
+     clocking scheme printed depends on the current setting of the clock data
+     structure (see  chng_clock).
+ 
+                                                                            1

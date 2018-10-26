@@ -1,0 +1,32 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/xl_part_coll.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:43 $
+.\"  *
+.\"
+.XX
+xl_part_coll [-n support] [-C cost_limit] [-c cover_node_limit] 
+           [-l lit_bound] [-Aabm] [-g decomp_good]
+           [-M MAX_FANINS] [-v verbosity_level]
+.PP
+This is a partial collapse routine.  On an infeasible network,
+first runs trivial partition routine. Then for each node,
+finds the cost of the node using a routine similar to \fBxl_imp\fP.
+Collapses each node into fanouts and computes the cost of the
+fanouts likewise. If the new cost of the fanouts is less, accepts
+the collapse. Deletes the collapsed node from the network. 
+It does this until no more collapses can be beneficially carried out.
+The nodes are visited topologically. 
+The result is a feasible network.
+.PP        
+\fB-C\fP: tries only those nodes for collapsing whose cost is less
+than or equal to cost_limit.
+Our experience has been that it is beneficial to collapse
+only feasible nodes. So the default is 1.
+.br
+.PP
+Other options are the same as in \fBxl_imp\fP except -c has default of
+10 and -A means move fanins around.

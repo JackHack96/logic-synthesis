@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmain.a  CMakeFiles/main.dir/sis.c.o CMakeFiles/main.dir/sis_glbs.c.o CMakeFiles/main.dir/sis_init.c.o CMakeFiles/main.dir/version.c.o
+/usr/bin/ranlib libmain.a

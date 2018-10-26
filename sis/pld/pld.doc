@@ -1,0 +1,521 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/pld/pld.doc,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:56 $
+.\"  *
+.\"
+This package manipulates the network for mapping onto the programmable gate arrays.
+Two kinds of architectures are targeted: Xilinx-like (table look up) and Actel.
+The optimization is targeted towards minimizing 1) the number of blocks, and 2) delay 
+through the circuit.
+
+
+XILINX
+
+A node if feasible if it has at most `support' number of inputs. A network
+is feasible if all nodes of the network are feasible.
+
+The following structures are used frequently in the routines. To use these routines, 
+the xln_init_param_t structure must be allocated and all the necessary fields be set 
+to proper values. The information on the fields to be set for a particular routine is
+given after the description of the routine. The fields are as follows:
+
+  typedef struct xln_init_param_defn {
+    int support;                /* fanin-restriction for a node. For xilinx, support = 5 */
+    int MAX_FANIN;              /* for two-output blocks - see merge_node()*/
+    int MAX_COMMON_FANIN;       /* for two-output blocks - see merge_node()*/
+    int MAX_UNION_FANIN;        /* for two-output blocks - see merge_node()*/
+    int heuristic;              /* overloaded right now - being used for 
+                                   xln_decomp_for_merging_network() as well as 
+                                   xln_reduce_levels()
+                                     for xln_decomp_for_merging_network() -
+                                       ALL_CUBES: consider cubes of all infeasible nodes.
+                                       PAIR_NODES: consider cubes of pair of nodes.
+                                       (suggested value = ALL_CUBES)
+                                     for xln_reduce_levelS() - 
+                                       1: collapse a node into all fanouts.
+                                       2: collapse only into critical fanouts.
+                                       (suggested value = 1) */
+    int common_lower_bound;    /* for xln_decomp_for_merging_network() - do not 
+                                  consider a cube-pair for extraction if their 
+                                  number of common inputs is less than 
+                                  lower_common_bound (suggested value = 2 for Xilinx)*/
+    int cube_support_lower_bound; /* for xln_decomp_for_merging_network()  - do 
+                                     not consider a cube if it has 
+                                     less than cube_support_lower_bound inputs 
+                                     (suggested value = 4 for Xilinx)*/
+    int lit_bound;             /* if the infeasible node has greater than lit_bound 
+                                  literals, do a good decomposition of the node 
+                                  (i.e. decomp -g) */
+    int cover_node_limit;      /* apply exact partition_network() if number of nodes in some
+                                  subnetwork (or network) is at most this 
+                                  (suggested value = 30)*/
+    int flag_decomp_good;      /* could be 0 (do not apply decomp -g), 1 (apply 
+                                  decomp -g),  2 (pick the better of the previous two) */
+    int good_or_fast;          /* if = FAST, just apply cube-packing, else (= GOOD) 
+                                  all decomposition techniques */
+    int absorb;                /* if 1, use Roth-Karp to move fanins */
+    int DESPERATE;             /* if Roth-Karp decomposition fails to get a disjoint 
+                                  decomposition and DESPERATE = 1, call 
+                                  xl_node_ao_map() */
+    int RECURSIVE;             /* if 1, recursively apply Roth-Karp decomposition 
+                                  on the root node */
+    int MAX_FANINS_K_DECOMP;   /* node considered for Roth-Karp decomposition if has 
+                                  at most these many fanins (should be at most 32)
+                                  (suggested value = 15) */
+    int COST_LIMIT;            /* nodes with at most this cost to be collapsed in
+                                  partial_collapse routine (suggested value = 1) */
+    XLN_MOVE_STRUCT xln_move_struct;
+    int collapse_input_limit;  /* consider total collapse of the network if number
+                                  of primary inputs is no more than this 
+                                  (suggested value = 10) */
+    int traversal_method;      /* 1 then topological traversal, else levels sorted 
+                                  on the number of nodes at a level (suggested value = 1)*/
+  } xln_init_param_t;
+
+
+  typedef struct xln_move_struct_defn {
+    int MOVE_FANINS;       /* if 1, then moving of fanins is invoked. */
+    int MAX_FANINS;        /* limit on number of fanins of node whose
+                              fanins are to be moved (at most 32)*/
+    int bound_alphas;     /* for delay: this controls the number of functions
+                             created (set it to 1 for now) */
+  } XLN_MOVE_STRUCT;
+
+
+
+decomposition
+--------------
+
+void 
+karp_decomp_network(network, support, one_node, user_node)
+network_t *network;
+int support;
+int one_node;
+node_t *user_node;
+  Uses Karp_Roth disjoint decomposition to decompose recursively 
+  nodes of the network having fanin greater than 
+  "support". If "one_node" is 1, it just decomposes the 
+  "user_node", else it decomposes all the nodes of the
+  network whose fanin is greater than "support".
+  In the present implementation, the 
+  first decomposition found is selected and no attempt
+  is made to have the best decomposition. 
+
+network_t *
+xln_exhaustive_k_decomp_node(node, support, MAX_FANINS)
+node_t *node; 
+int support;
+int MAX_FANINS;
+  Call Roth Karp decomp on a node of the network. Try all possible
+  input partitions for the node if the number of fanins of the node
+  is no more than MAX_FANINS (if higher, 
+  return NIL). The original node changes as a result of the
+  decomposition. If it is infeasible, does an xl_ao on the node.
+  Finds the number of feasible nodes for each partition. 
+  Returns the best subnetwork (corresponding to the decomposition with
+  minimum number of feasible nodes).
+
+  If the node is feasible, or is not an internal node of a network,
+  NIL is returned.
+
+
+
+int
+split_network(network, support)
+network_t *network;
+int support;
+  Does a decomposition of the network so that all nodes have a fanin
+  less than the value of support. Uses kernel extraction and AND-OR 
+  decomposition. Returns one on success. 
+
+
+
+xln_network_reduce_infeasibility_by_moving_fanins(network, support, MAX_FANINS)
+network_t *network;
+int support, MAX_FANINS;
+  Given an infeasible network, tries to make nodes of the network
+  feasible by moving fanins around, i.e., by moving a fanin of an
+  infeasible node to some other feasible node that can accommodate one
+  more input. Uses Roth-Karp decomposition.
+  Fanins of only those nodes are moved which have at most 
+  MAX_FANINS fanins. The resulting network may not be feasible.
+
+xln_network_ao_map(network, support)
+network_t *network;
+int support;
+  Given an infeasible network, apply cube-packing heurisitc to do an
+  AND-OR decomposition. Generates a feasible network.
+
+
+xln_node_ao_map(node, support)
+node_t *node;
+int support;
+  For node belonging to a network, first maps cubes with number of literals
+  greater than support to a CLB and after that does a best fit decreasing
+  packing of the cubes. Replaces the node in the network by this set of new 
+  nodes. If node has less than `support' inputs, nothing is done.
+
+
+xln_improve_network(network, init_param)
+network_t *network;
+xln_init_param_t *init_param;
+  Given an infeasible network, generates a feasible network. Depending
+  on the options in the init_param, tries different decomposition
+  schemes: like Roth-Karp, cofactoring, xl_ao_map, split etc.
+
+  Must set the following fields of init_param: support,
+  cover_node_limit, lit_bound, flag_decomp_good, good_or_fast, absorb,
+  DESPERATE, RECURSIVE, MAX_FANINS_K_DECOMP,
+  xln_move_struct.MOVE_FANINS, xln_move_struct.MAX_FANINS.
+
+
+xln_improve_node(node, init_param)
+node_t *node;
+xln_init_param_t *init_param;
+  Given an infeasible node of a network, replaces it by a feasible set
+  of nodes. Depending on the options in the init_param, tries different
+  decomposition schemes. 
+
+  Must set the following fields of init_param: support,
+  cover_node_limit, lit_bound, flag_decomp_good, good_or_fast, absorb,
+  DESPERATE, RECURSIVE, MAX_FANINS_K_DECOMP,
+  xln_move_struct.MOVE_FANINS, xln_move_struct.MAX_FANINS.
+
+
+xln_partial_collapse(network, init_param)
+network_t *network;
+xln_init_param_t *init_param;
+  Given an infeasible network, first maps each node
+  of the network. Then collapses each node into its fanouts, remaps the
+  fanouts. If the number of blocks decreases, accepts the collapse.
+  Repeats the process until no more gain. Finally, generates a feasible network.
+
+  Must set the following fields of init_param: support,
+  COST_LIMIT, cover_node_limit, lit_bound, flag_decomp_good, good_or_fast, absorb,
+  DESPERATE, RECURSIVE, MAX_FANINS_K_DECOMP,
+  xln_move_struct.MOVE_FANINS, xln_move_struct.MAX_FANINS.
+
+
+xln_cofactor_decomp_network(network, support, mode) 
+network_t *network;
+int support; 
+float mode;
+  Cofactors each infeasible node of the network. The mode is 
+  either AREA or DELAY - it determines the cofactoring variable
+  selecetion.  Assumes initially that  a delay trace using 
+  DELAY_MODEL_UNIT has been done (if mode is DELAY).
+  If support is 2, this operation will not return a feasible 
+  network. (to be fixed in future).
+
+
+xln_cofactor_decomp_node(node, support, mode)
+node_t *node;
+int support;
+float mode;
+  Given a node belonging to a network, cofactors it recursively, till it becomes
+  feasible (determined by support). Selection of the cofactoring variable 
+  is based on mode. If mode = AREA, then a variable
+  that occurs in all the cubes in the same phase (pos. or neg) is
+  selected first. If mode = DELAY, the most critical fanin is selected first.
+  For DELAY mode, assumes that a delay-trace has been done on the
+  network. Replaces the node in the network by the cofactored tree. 
+  If support is 2,   this operation will not return a feasible set of nodes.
+  (to be fixed in future).
+
+
+xln_decomp_for_merging_network(network, init_param)
+network_t *network;
+xln_init_param_t *init_param;
+  Given an infeasible network, decomposes nodes keeping in mind that a
+  Xilinx CLB can realize two mergeable functions as well. The resulting 
+  network may not be feasible and appropriate decomposition routines 
+  may be needed later.
+
+  Must set the following fields of init_param: support,
+  MAX_FANIN, MAX_COMMON_FANIN, MAX_UNION_FANIN, heuristic,
+  common_lower_bound, cube_support_lower_bound. See merge_node() 
+  for details on MAX_FANIN, MAX_COMMON_FANIN, MAX_UNION_FANIN.
+
+
+
+
+block count minimization
+-------------------------
+
+int
+xln_do_trivial_collapse_network(network, support, MOVE_FANINS, MAX_FANINS)
+network_t *network;
+int support;
+int MOVE_FANINS; 
+int MAX_FANINS;
+  Traverses the nodes of the network topologically.
+  First tries to reduce the number of fanins of the node by moving
+  some of fanins of the node to some other node.
+  This is done only if MOVE_FANINS flag is 1, and the
+  number of fanins of the node is at most MAX_FANINS.
+  Then collapses the node into all its fanouts if none of the fanouts
+  become infeasible (as determined by support). If it can be collapsed,
+  it is deleted from the network. Repeats the process until no more
+  nodes can be collapsed. Can be applied on a potentially infeasible network.
+  Returns the number of collapsed nodes.
+
+
+int
+xln_do_trivial_collapse_node_without_moving(node, support)
+node_t *node;
+int support;
+  Returns 1 if the node can be collapsed into all the fanouts, 
+  without making them infeasible. Does not delete the node from 
+  the network. Otherwise (i.e., if either the node is
+  not INTERNAL, or some fanout is primary output, or if some fanout
+  becomes infeasible) returns 0. Then the network remains the same.
+  Can be applied on an infeasible node.
+
+
+int
+imp_part_network(network, support, MOVE_FANINS, MAX_FANINS)
+network_t *network;
+int support;
+int MOVE_FANINS;
+int MAX_FANINS;
+  First calls xln_do_trivial_collapse_network(
+                        network, support, MOVE_FANINS, MAX_FANINS). 
+  Then finds out all 
+  the (node, fanout) pairs such that node can be collapsed into fanout
+  without making the fanout infeasible. Associates a cost with each such
+  pair. This cost reflects the number of new edges created by the
+  collapse. Then at each step, picks the pair with minimum cost. 
+
+  Repeats the whole process until no more collapsing can be done. Can be
+  applied on an infeasible network also.
+
+
+void
+partition_network(network, support, bincov_heuristics)
+network_t       *network;
+int             support;
+int             bincov_heuristics;
+  The `network' should have all intermediate
+  nodes with fanin less than or equal to `support'. 
+  Uses Mathony's binate covering algorithm to
+  minimize the number of nodes in the network.
+  Uses different heuristics to solve the covering 
+  problem- `bincov_heuristics' ( 0, 1, 2 or 3) is
+  a flag that specifies which heuristic should be 
+  employed, as described below:
+
+    -  0 (exact), 
+    -  1 (Luciano's heuristic), 
+    -  2 (For large examples), 
+    -  3 (automatically switches between 0 and 2)
+
+
+void
+merge_node(network, MAX_FANIN, MAX_COMMON_FANIN, MAX_UNION_FANIN)
+network_t *network;
+int MAX_FANIN, MAX_COMMON_FANIN, MAX_UNION_FANIN;
+  Exploits the fact that a Xilinx CLB can realize two functions also, 
+  provided the two functions satisfy the constraints as listed below:
+     Each of the two functions should not have fanin more than MAX_FANIN,
+     they should not have more than MAX_COMMON_FANIN many common fanins,
+     and the union of their fanins should not exceed MAX_UNION_FANIN.
+     For xilinx XC3090 the numbers are MAX_FANIN = 4, MAX_COMMON_FANIN = 4
+     and MAX_UNION_FANIN  = 5. 
+
+  Although the problem is a maximum cardinality matching problem
+  (solvable in polynomial time), it is formulated as an integer program,
+  and solved using package Lindo. If Lindo package is not found in the
+  path, the program exits. If found, the routine lists the pairs of
+  nodes that were merged. Does not change the network.
+
+
+
+network_t *
+xln_check_network_for_collapsing_area(network, init_param, roth_karp_flag)
+network_t *network;
+xln_init_param_t *init_param;
+int roth_karp_flag;
+  Collapses a feasible network if the number of primary inputs of the network
+  is at most init_param->collapse_input_limit. Applies Roth-Karp
+  decomposition and cofactoring to the collapsed network. If the number
+  of nodes of either decomposition is less than the original network,
+  accepts the better decomposition and returns the new network.
+  Else, returns NIL. Roth-Karp decomposition is applied only if 
+  roth_karp_flag is 1.
+ 
+  Must specify support, collapse_input_limit. If support = 2, nothing is
+  done. 
+
+
+delay optimization
+-------------------
+
+xln_reduce_levels(network, init_param)
+network_t *network;
+xln_init_param_t *init_param;
+  Given a feasible network (preferably in terms of 2-input gates -
+  obtained say by speed-up), reduces the number of levels, maintaining
+  the feasibility of the network. 
+
+  Must set the following fields of init_param: support,
+  heuristic, collapse_input_limit, traversal_method, 
+  xln_move_struct.MOVE_FANINS, xln_move_struct.MAX_FANINS,
+  xln_move_struct.bound_alphas.
+
+
+network_t *
+xln_check_network_for_collapsing_delay(network, init_param)
+network_t *network;
+xln_init_param_t *init_param;
+  Collapses a feasible network if the number of primary inputs of the network
+  is at most init_param->collapse_input_limit. Applies Roth-Karp
+  decomposition and cofactoring techniques on the network and evaluates
+  them. Returns the network with lower number of levels. Returns NIL if collapsing
+  could not be done. Does nothing if init_param->support = 2.
+
+  Must set the following fields of init_param: support, collapse_input_limit.
+  `network' changes if collapsing is done.
+
+  
+
+
+ACTEL
+
+Mapping onto ACT1 architecture: minimizing the number of blocks used.
+
+/* init_param structure to put all the options for actel mapping */
+  typedef struct act_init_param_defn{
+        int HEURISTIC_NUM;  /* what BDD (ordered or unordered) to construct */
+        int NUM_ITER;       /* number of iterations in iter. improvement */
+        int FANIN_COLLAPSE; /* upper limit on fanins of a node to collapse */
+        float GAIN_FACTOR;  /* go from one iteration to other only if gain increases
+                               by this ratio (suggested value = 0.001) */
+        int DECOMP_FANIN;   /* lower limit on fanins of node to decompose */
+        int DISJOINT_DECOMP;/* do disjoint decomposition before mapping */
+        int QUICK_PHASE;    /* do phase-assignment */
+        int LAST_GASP;      /* make network out of node and do iterations on it */
+        int BREAK     ;     /* make the final network in terms of basic blocks */
+        float mode;         /* 0 for area and 1 for delay mode, in between, a 
+                               weighted sum */
+        char delayfile[500];/* name of the file with delay numbers for basic block
+                               as a function of number of fanouts - needed only if 
+                               mode is non-zero */
+  } act_init_param_t;
+
+
+network_t *
+act_map_network(network, init_param, cost_table)
+network_t *network;
+act_init_param_t *init_param;
+st_table *cost_table;
+
+This procedure synthesizes the given circuit onto actel
+architecture. The original network "network" is lost. 
+
+It uses tree-mapping approach to 
+cover the subject graph with the pattern-graphs.
+The pattern graphs are hardwired into the code 
+and so no library is to be read in.
+
+Subject graph and pattern-graphs are in terms of 
+2-1 muxes. Subject graph is constructed for each intermediate
+node of the network. Either an OBDD (Ordered reduced BDD) 
+and/or a BDD (Binary Decision Diagram) is constructed for each 
+such node. After entire network is mapped, an iterative_improvement 
+phase may be entered. 
+
+The following fields of init_param must be set: HEURISTIC_NUM,
+NUM_ITER, FANIN_COLLAPSE, DECOMP_FANIN, DISJOINT_DECOMP, 
+QUICK_PHASE, GAIN_FACTOR, LAST_GASP, BREAK, mode.
+
+HEURISTIC_NUM (1, 2, 3, 4) specifies which one of the two 
+subject_graphs would be constructed:
+HEURISTIC_NUM = 1 => OBDD
+HEURISTIC_NUM = 2 => BDD 
+HEURISTIC_NUM = 3 => program decides which one to construct.(default).
+HEURISTIC_NUM = 4 => both are constructed and the one with
+		       lower mapped cost is selected. Gives the best 
+		       result, but typically takes more time.
+
+NUM_ITER equals the maximum number of iterations
+to be performed in the iterative_improvement phase. Each such 
+iteration involves a good_decomposition followed by a partial_collapse
+routine. 
+
+If the iterative_improvement phase is entered, in the partial_collapse
+routine, only those nodes are considered as candidates
+for partial_collapse which have fanin no more than FANIN_COLLAPSE.
+
+The good_decomposition routine is called only for those nodes 
+which have fanin greater than or equal to DECOMP_FANIN.
+
+The program enters the next iteration only if gain in the present 
+iteration is at least (present_cost * GAIN_FACTOR).
+The cost and gain are measured in terms of the number of basic blocks 
+used for the network. 
+
+If DISJOINT_DECOMP is non-zero, disjoint_decomposition routine
+is invoked on the network at the very start. This may help in
+getting big gains in partial_collapse routine later. Also, big 
+nodes are decomposed, potentially reducing the final cost.
+
+If QUICK_PHASE is non-zero,  the program, before exiting, 
+enters an act_quick_phase routine, which greedily
+finds out if it is beneficial to implement the node in 
+negative phase. 
+
+if BREAK = 1, each node in the final network will be implementable by
+one ACT1 block. A bdnet file is also generated. There is a global
+variable FILE *BDNET_FILE which must be fopen-ed by the user
+before calling the routine with BREAK = 1. Then it is his
+responsibility to fclose it.
+
+mode must be set to AREA for the time being. 
+mode = DELAY is not yet supported.
+
+A global variable `act_is_or_used' should be set before calling this routine. 
+It should be set to 1 if the OR gate in ACT1 is to be used, else set to 0. 
+
+The cost_table should be initialized by 
+st_init_table() before calling this routine. After the routine, it has
+a subject graph for each node. Call free_cost_table() to free all the 
+associated storage. Also it is a serious error to call act_map_network()
+with negative flags.
+
+void
+free_cost_table(cost_table)
+st_table *cost_table;
+	Frees the associated storage associated with the 
+	cost_table. This space was allocated by the act_map_network()
+ 	routine. 
+
+	  
+
+Some utility routines
+---------------------
+
+int
+xln_is_network_feasible(network, support)
+network_t *network;
+int support;
+  Returns 1 if the network is feasible, as determined by support. 
+  Else returns 0. (For xilinx)
+
+
+pld_replace_node_by_network(node, network)
+node_t *node;
+network_t *network;
+  Replaces node by network. Node should be in some network. 
+
+
+node_t *
+pld_make_node_from_cube(node, cube)
+node_t *node;
+node_cube_t cube;
+  Returns a node which has the same function as `cube', which belongs to
+  the `node'.
+

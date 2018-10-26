@@ -1,0 +1,2 @@
+/usr/bin/ar qc libminimize.a  CMakeFiles/minimize.dir/dcsimp.c.o CMakeFiles/minimize.dir/minimize.c.o CMakeFiles/minimize.dir/ros.c.o
+/usr/bin/ranlib libminimize.a

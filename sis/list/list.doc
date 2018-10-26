@@ -1,0 +1,376 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/list/list.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:29 $
+ *
+ */
+
+List Management Package
+
+David Harrison
+University of California, Berkeley, 1985
+
+This package implements a simple generic linked list data type.  It
+uses a doubly linked list structure and provides some standard operations
+for storing and retrieving data from the list.
+
+Programs using this package should include the file list.h found
+in ~cad/include.  The linkage line for a user program called `myprog'
+would look like:
+
+      cc -g -o myprog myprog.o /cad/lib/liblist.a
+
+Status Codes
+------------
+
+Most of the routines described below return lsStatus (an integer
+return code).  The possible return codes are described below:
+
+LS_OK		Routine completed successfully
+
+LS_BADSTATE	Generator is in a bad state
+LS_BADPARAM	Bad parameter value to function
+LS_NOMORE	No more items to generate
+
+Note that LS_OK is zero.  Thus,  routine return values should be
+explicitly compared against LS_OK for success.
+
+Item Handles
+------------
+
+Routines which return items of a list optionally return a `handle'.
+This handle can be stored in user data structures and later used to
+quickly access the item without generating through the list.  If you
+do not wish to use handles,  you can pass the zero handle `(lsHandle *) 0'
+to the routine.  For brevity,  the LS_NH macro may be used to specify
+no handle to routines which return a handle.
+
+List Creation, Deletion, and Copying
+------------------------------------
+
+lsList lsCreate()
+
+	Creates a new linked list and returns its handle.  The handle
+	is used by all other list manipulation routines and should not
+	be discarded. 
+
+lsStatus lsDestroy(list, delFunc)
+lsList list;			/* List to destroy              */
+void (*delFunc)();		/* Routine to release user data */
+
+	Frees all resources associated with the specified list.  It
+	frees memory associated with all elements of the list and then
+	deletes the list. User data is released by calling `delFunc'
+	with the pointer as the argument.  If no `delFunc' is provided
+	(i.e. `delFunc' is zero),  the items in the list are not
+	freed.  Accessing a list after its destruction is a no-no.
+
+lsList lsCopy(list, copyFunc)
+lsList list;			/* List to copy              */
+lsGeneric (*copyFunc)();	/* Routine to copy user data */
+
+       Returns a copy of list `list'.  If `copyFunc' is non-zero,
+       it will be called for each item in `list' and the pointer it 
+       returns will be used in place of the original user data for the 
+       item in the newly created list.  The form of `copyFunc' should be:
+	  lsGeneric copyFunc(data)
+	  lsGeneric data;
+       This is normally used to make copies of the user data in the 
+       new list.  If no `copyFunc' is provided,  the routine will use
+       an identity function.
+
+Adding New Elements to the Beginning and End of a List
+------------------------------------------------------
+
+lsStatus lsNewBegin(list, data, itemHandle)
+lsList list;			/* List to add element to    */
+lsGeneric data;			/* Arbitrary pointer to data */
+lsHandle *itemHandle;		/* Handle to data (returned) */
+
+	Adds a new item to the start of a previously created linked
+	list. If 'itemHandle' is non-zero,  it will be filled with a
+	handle which can be used to generate a generator positioned
+	at the item without generating through the list.
+
+lsStatus lsNewEnd(list, data, itemHandle)
+lsList list;			/* List to append element to */
+lsGeneric data;			/* Arbitrary pointer to data */
+lsHandle *itemHandle;		/* Handle to data (returned) */
+
+	Adds a new item to the end of a previously created linked
+	list.  This routine appends the item in constant time and
+	can be used freely without guilt.
+
+Retrieving the first and last items of a list
+---------------------------------------------
+
+lsStatus lsFirstItem(list, data, itemHandle)
+lsList list;			/* List to get item from */
+lsGeneric *data;		/* User data (returned)  */
+lsHandle *itemHandle;		/* Handle to data (returned) */
+
+	Returns the first item in the list.  If the list is empty,
+	it returns LS_NOMORE.  Otherwise,  it returns LS_OK. 
+	If 'itemHandle' is non-zero,  it will be filled with a
+	handle which may be used to generate a generator.
+
+lsStatus lsLastItem(list, data, itemHandle)
+lsList list;			/* List to get item from */
+lsGeneric *data;		/* User data (returned)  */
+lsHandle *itemHandle;		/* Handle to data (returned) */
+
+	Returns the last item of a list.  If the list is empty,
+	the routine returns LS_NOMORE.  Otherwise,  'data' will
+	be set to the last item and the routine will return LS_OK.
+	If 'itemHandle' is non-zero,  it will be filled with a
+	handle which can be used to generate a generator postioned
+	at this item.  Accessing the last item of a list is a constant
+	time operation.
+
+
+Deleting first and last items of a list
+---------------------------------------
+
+lsStatus lsDelBegin(list, data)
+lsList list;			/* List to delete item from     */
+lsGeneric *data;		/* First item (returned)        */
+
+	This routine deletes the first item of a list.  If `data' is
+	non-zero,  it will be filled with a pointer to the user data
+	for the item (which may then be disposed).  The routine
+	returns LS_NOMORE if there are no items in the list to delete.
+
+lsStatus lsDelEnd(list, data)
+lsList list;			/* List to delete item from */
+lsGeneric *data;		/* Last item (returned)     */
+
+	This routine deletes the last item of a list.  If `data' is
+	non-zero,  it will be filled with a pointer to the user data
+	for the item (which may then be disposed).  The routine
+	returns LS_NOMORE if there are no items in the list to delete.
+	Deleting the last item of a list is a constant time operation.
+
+Length of a List
+----------------
+
+int lsLength(list)
+lsList list;			/* List to get the length of */
+
+       Returns the length of the list.  The list must have been
+       already created using lsCreate.  Obtaining the length of the
+       list is a constant time operation.
+
+
+List Generation Routines
+------------------------
+
+lsGen lsStart(list)
+lsList list;			/* List to generate items from */
+
+       This routine defines a generator which is used to step through
+       each item of the list.  The generator is initialized to the
+       beginning of the list.  It returns a generator handle which
+       should be used when calling lsNext, lsPrev, lsInBefore,
+       lsInAfter, lsDelBefore, lsDelAfter, or lsFinish.
+
+lsGen lsEnd(list)
+lsList list;			/* List to generate items from */
+
+       This routine returns a generator which can be used to step
+       through each item of `list'.  The generator is initialized to
+       the end of the list.  This can be used to generate through
+       items in reverse order.
+
+lsGen lsGenHandle(itemHandle, data, option)
+lsHandle itemHandle;		/* Handle of an item         */
+lsGeneric *data;		/* Data associated with item */
+int option;			/* LS_BEFORE or LS_AFTER     */
+
+	This routine produces a generator given a handle.  Handles are
+	produced whenever an item is added to a list.  The generator
+	produced by this routine may be used when calling any of the
+	standard generation routines.  NOTE:  the generator should be
+	freed using lsFinish.  The 'option' parameter determines
+	whether the generator spot is before or after the handle item.
+
+lsStatus lsNext(generator, data, itemHandle)
+lsGen generator;		/* Generator handle        */
+lsGeneric *data;		/* User data (return)      */
+lsHandle *itemHandle;		/* Handle to item (return) */
+
+	Generates the item after the item previously generated by
+	lsNext or lsPrev.   It returns a pointer to the user data
+	structure in 'data'.  'itemHandle' may be used to get a
+	generation handle without generating through the list to find
+	the item.  If there are no more elements to generate, the
+	routine returns  LS_NOMORE (normally it returns LS_OK).
+	lsNext DOES NOT automatically clean up after all elements have
+	been generated.  lsFinish must be called explicitly to do
+	this.  (Note: an item is generated twice when an lsNext is
+        followed by an lsPrev and vice versa.)
+
+lsStatus lsPrev(generator, data, itemHandle)
+lsGen generator;		/* Generator handle        */
+lsGeneric *data;		/* User data (return)      */
+lsHandle *itemHandle;		/* Handle to item (return) */
+
+	Generates the item before the item previously generated by
+	lsNext or lsPrev.   It returns a pointer to the user data
+	structure in 'data'.  'itemHandle' may be used to get a
+	generation handle without generating through the list to find
+	the item.  If there are no more elements to generate, the
+	routine returns  LS_NOMORE (normally it returns LS_OK).
+	lsPrev DOES NOT automatically clean up after all elements have
+	been generated.  lsFinish must be called explicitly to do
+	this.  (Note: an item is generated twice when an lsNext is
+        followed by an lsPrev and vice versa.)
+
+lsStatus lsInBefore(generator, data, itemHandle)
+lsGen generator;		/* Generator handle          */
+lsGeneric data;			/* Arbitrary pointer to data */
+lsHandle *itemHandle;		/* Handle to item (return) */
+
+	Inserts an element BEFORE the current spot.  The item
+	generated by lsNext will be unchanged;  the inserted item will
+	be generated by lsPrev.  This modifies the list.  'itemHandle'
+	may be used at a later time to produce a generation handle
+	without generating through the list.
+
+lsStatus lsInAfter(generator, data, itemHandle)
+lsGen generator;		/* Generator handle          */
+lsGeneric data;			/* Arbitrary pointer to data */
+lsHandle *itemHandle;		/* Handle to item (return)   */
+
+	Inserts an element AFTER the current spot.  The next item
+	generated by lsNext will be the new element.  The next  item
+	generated by lsPrev is unchanged.  This modifies the list.
+	'itemHandle' may be used at a later time to generate a
+	generation handle without searching through the list to find
+	the item. 
+
+lsStatus lsDelBefore(generator, data)
+lsGen generator;		/* Generator handle        */
+lsGeneric *data;		/* Deleted item (returned) */
+
+	Removes the item before the current spot.  The next call to
+	lsPrev will return the item before the deleted item.  The next
+	call to lsNext will be unaffected.  This modifies the list.
+	The routine returns LS_BADSTATE if the user tries to call the
+	routine and there is no item before the current spot.  This
+	routine returns the userData of the deleted item so it may be
+	freed (if necessary).
+
+lsStatus lsDelAfter(generator, data)
+lsGen generator;		/* Generator handle        */
+lsGeneric *data;		/* Deleted item (returned) */
+
+	Removes the item after the current spot.  The next call to
+	lsNext will return the item after the deleted item.  The next
+	call to lsPrev will be unaffected.  This modifies the list.
+	The routine returns LS_BADSTATE if the user tries to call the
+	routine and there is no item after the current spot.  This
+	routine returns the userData of the deleted item so it may be
+	freed (if necessary). 
+
+lsStatus lsFinish(generator)
+lsGen generator;		/* Generator handle */
+
+	Marks the completion of a generation of list items.  This
+	routine should be called after calls to lsNext to free
+	resources used by the generator.  This rule applies even if
+	all items of a list are generated by lsNext.
+
+
+
+Functional List Generation
+--------------------------
+
+lsStatus lsForeach(list, userFunc, arg)
+lsList list;			/* List to generate through */
+lsStatus (*userFunc)();		/* User provided function   */
+lsGeneric arg;			/* User provided data       */
+
+	This routine generates all items in `list' from the first item
+	to the last calling `userFunc' for each item.  The function
+	should have the following form:
+	  lsStatus userFunc(data, arg)
+	    lsGeneric data;
+	    lsGeneric arg;
+	`data' will be the user data associated with the item generated.
+	`arg' will be the same pointer provided to lsForeach.  The
+	routine should return LS_OK to continue the generation,  LS_STOP
+	to stop generating items,  and LS_DELETE to delete the item
+	from the list.  If the generation was stopped prematurely,
+	the routine will return LS_STOP.  If the user provided function
+	does not return an appropriate value,  the routine will return
+	LS_BADPARAM.
+
+lsStatus lsBackeach(list, userFunc, arg)
+lsList list;			/* List to generate through */
+lsStatus (*userFunc)();		/* User provided function   */
+lsGeneric arg;			/* User provided data       */
+
+	This routine is just like lsForeach except it generates
+	all items in `list' from the last item to the first.
+
+
+
+Direct Handle Manipulation Routines
+-----------------------------------
+
+lsList lsQueryHandle(itemHandle)
+lsHandle itemHandle;		/* Handle of an item  */
+
+	This routine returns the associated list of the specified
+	handle.  Returns 0 if there were problems.
+
+lsGeneric lsFetchHandle(itemHandle)
+lsHandle itemHandle;		/* Handle of an item  */
+
+	Returns the data associated with `handle'.  Returns 0 if
+	their were problems.
+
+lsStatus lsRemoveItem(itemHandle, userData)
+lsHandle itemHandle;		/* Handle of an item */
+lsGeneric *userData;		/* Returned data     */
+
+	This routine removes the item associated with `handle' from
+	its list and returns the user data associated with the item
+	for reclaimation purposes.  Note this modifies the list
+	that originally contained `item'.
+
+
+Sorting Operations
+------------------
+
+lsStatus lsSort(list, compare)
+lsList list;			/* List to sort        */
+int (*compare)();		/* Comparison function */
+
+	This routine sorts `list' using `compare' as the comparison
+	function between items in the list.  `compare' has the following form:
+	  int compare(item1, item2)
+	  lsGeneric item1, item2;
+	The routine should return -1 if item1 is less than item2, 0 if
+	they are equal,  and 1 if item1 is greater than item2. The routine 
+	uses a generic merge sort written by Rick Rudell which runs in
+	O(n log n) time.
+
+lsStatus lsUniq(list, compare, delFunc)
+lsList list;			/* List to remove duplicates from */
+int (*compare)();		/* Item comparison function       */
+void (*delFunc)();		/* Function to release user data  */
+
+	This routine takes a sorted list and removes all duplicates
+	from it.  `compare' has the following form:
+	  int compare(item1, item2)
+	  lsGeneric item1, item2;
+	The routine should return -1 if item1 is less than item2, 0 if
+	they are equal,  and 1 if item1 is greater than item2. `delFunc'
+	will be called with a pointer to a user data item for each
+	duplicate destroyed.  `delFunc' can be zero if no clean up
+	is required.
+

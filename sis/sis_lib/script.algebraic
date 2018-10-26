@@ -1,0 +1,22 @@
+sweep
+eliminate 5
+simplify -m nocomp -d
+resub -a
+
+gkx -abt 30
+resub -a; sweep
+gcx -bt 30
+resub -a; sweep
+
+gkx -abt 10
+resub -a; sweep
+gcx -bt 10
+resub -a; sweep
+
+gkx -ab
+resub -a; sweep
+gcx -b
+resub -a; sweep
+
+eliminate 0
+decomp -g *

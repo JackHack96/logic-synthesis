@@ -1,0 +1,23 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/unalias.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:41 $
+.\"  *
+.\"
+.XX
+alias [name [string]]
+.X1
+unalias name ...
+.PP
+The \fBalias\fR command, if given no arguments, will print the
+definition of all current aliases.
+Given a single argument, it
+will print the definition of that alias (if any).
+Given two
+arguments, the keyword \fBname\fP becomes an alias for
+the command string \fBstring\fP, replacing any other alias with the
+same name.
+The \fBunalias\fR command removes the definition of an alias.

@@ -1,0 +1,32 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   stg_extract [-a] [-e] [-c]
+ 
+     Takes the current network and extracts the state transition graph from
+     it.
+ 
+     If the -a option is not specified, the values on the latches are taken
+     to be the start state, and every state reachable from the start state is
+     explored.  This is the normal method of execution.
+ 
+     If the -a option is specified, the state transition graph is extracted
+     for all possible start states, provided the number of latches does not
+     exceed 16.  This limitation cannot be overridden (there are too many
+     states to store).
+ 
+     Extraction of the STG could take an enormous amount of time.  If there
+     are more than 16 latches in the network, stg_extract won't attempt to
+     extract the STG.  This can be overridden with the -e option.
+ 
+     At the end of stg_extract, a check is done to ensure that the behavior
+     of the STG is consistent with that of the logic implementation.  This is
+     done with symbolic simulation using BDDs, and could be expensive.
+     stg_extract will not do this check for networks with more than 16
+     latches or more than 500 transitions unless the -c option is given.
+ 
+     Note: a sweep _i_s _d_o_n_e _o_n _t_h_e _n_e_t_w_o_r_k _b_e_f_o_r_e _t_h_e _S_T_G _i_s _e_x_t_r_a_c_t_e_d.  _T_h_i_s
+     _r_e_m_o_v_e_s _l_a_t_c_h_e_s _t_h_a_t _d_o _n_o_t _f_a_n_o_u_t, _s_o _t_h_e _s_w_e_e_p _m_a_k_e_s _t_h_e _e_x_t_r_a_c_t_i_o_n
+     _m_o_r_e _e_f_f_i_c_i_e_n_t.
+ 
+                                                                            1

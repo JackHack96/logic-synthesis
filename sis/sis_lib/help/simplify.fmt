@@ -1,0 +1,30 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   simplify [-d][-i <num>[:<num>]] [-m method] [-f filter] [node-list]
+ 
+     Simplify each node in the node-list using _m_e_t_h_o_d with the don't-care set
+     generated according to _d_c_t_y_p_e.
+ 
+     _m_e_t_h_o_d specifies the algorithm used to minimize the nodes.  _s_n_o_c_o_m_p
+     (default) invokes a single pass minimization procedure that does not
+     compute the complete offset.  _n_o_c_o_m_p invokes the full minimization pro-
+     cedure (ala ESPRESSO) but does not compute the complete offset.  _d_c_s_i_m_p
+     invokes single pass tautology-based minimizer.
+ 
+     _d_c_t_y_p_e specifies how the don't-care set is generated.  The default don't
+     care set generated is a subset of the fanin don't care set.  -d option
+     specifies that no don't care set is used.  -i m:n specifies that the
+     fanin don't cares of nodes within m levels of transitive fanin and n
+     levels of transitive fanout of these transitive fanin are to be gen-
+     erated.
+ 
+     _f_i_l_t_e_r specifies how the don't-care set is filtered.  _e_x_a_c_t (default)
+     uses the exact filter.  _d_i_s_j__s_u_p uses the disjoint support filter.
+ 
+     Note that a node function is replaced with the simplified version if the
+     new function has fewer literals in factored form.  In the case of a tie,
+     the node function is replaced if the new function has fewer literals in
+     sum-of-products form.
+ 
+                                                                            1

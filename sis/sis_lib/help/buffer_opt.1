@@ -1,0 +1,50 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/buffer_opt.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:35 $
+.\"  *
+.\"
+.XX
+buffer_opt [-l #] [-f #] [-c] [-d] [-T] [-L] [-v #] [-D] node-list
+.PP
+Builds fanout trees for the nodes in the \fBnode-list\fR.
+If no nodes are specified selects the nodes to be buffered
+in order to improve performance of the entire network. The
+network is assumed to be mapped.
+.PP
+The \fB-l #\fR option specifies the number of fanouts which
+a node can have so as to be eligible for buffering. The
+default is 2, hence any multi-fanout node is a candidate for 
+buffering.
+.PP
+The \fB-f #\fR option specifies the transformations to use. Set the
+three least significant bits indicate the use (value == 1) of
+the transformations. xx1 to use the \fIrepower\fR transformation,
+x1x to use an \fIunbalanced\fR transformation and 1xx to use the
+\fIbalanced\fR distribution of signals. More than one transformation
+can be set active. Thus to allow the algorithm full flexibility use
+the value = 7 (111 in binary notation) which is also the default.
+.PP
+The \fB-c\fR option specifies that one pass be carried out.
+The default is to iterate till no improvement is achieved.
+.PP
+The \fB-d\fR option allows the complex gates to be decomposed
+into smaller ones so as to increase drive capability. By default
+the complex gates are retained.
+.PP
+The \fB-L\fR option traverses the network from outputs to
+inputs ensuring that for every node, the gate that implements it
+does not drive a load greater than the \fImax_load\fR limit
+specified for that gate. \fBTHIS OPTION IS NOT YET IMPLEMENTED\fR.
+.PP
+The \fB-T\fR option displays the circuit performance as the 
+iterations progress. If the required times at the outputs are
+not specified the circuit delay is shown, else the minimum
+slack value is displayed.
+.PP
+The \fB-v #,-D\fR option are for debugging. The \fB-v #\fR option
+is the most verbose and the amount of verbosity can be increased
+by letting the argument for \fB-v\fR range from 1 to 100.

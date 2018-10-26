@@ -1,0 +1,68 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/read_eqn.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:37 $
+.\"  *
+.\"
+.XX
+read_eqn [-a] [filename]
+.PP
+Read a set of logic equations in the format expected by eqntott(1).
+Each equation becomes a node in the logic network.
+.PP
+INORDER and OUTORDER can be used to specify the primary inputs and
+primary outputs for the network.  If neither is given, then primary
+inputs are inferred from signals which are not driven, and
+primary outputs are inferred from signals which do not have any
+fanout.
+.PP
+The equations are of the form "<signal> = <expr> ;".
+For reference, the equation format uses the operators:
+.LP
+.TS
+center box;
+l l.
+()	grouping
+!= (or ^)	exclusive-or 
+==	exclusive-nor
+! 	complement
+& (or *)	boolean-and
+| (or +)	boolean-or
+.TE
+As a simple extension to eqntott, juxtaposition of two operands stands
+for boolean-and, and ' used as a post-fix operator stands for complement.
+Hence, 
+.nf
+	F = a*!b + c*!d ;
+.fi
+and
+.nf
+	F = a b' + c d' ;
+.fi
+represent the same equation.
+.PP
+Note that eqntott and \fBread_eqn\fR treat the intermediate nodes of a network
+slightly differently.
+\fBread_eqn\fR will not make an intermediate node
+a primary output unless it also appears in the OUTORDER list.
+Also, the resulting network is a multiple-level network with all
+of the intermediate signals preserved.
+Finally, eqntott is order-dependent in that it requires signals to
+be defined before they can be used again; \fBread_eqn\fR relaxes this
+condition.
+.PP
+The \fB-a\fR option specifies that the new network should be appended to the
+current network.  Functions are associated between the two networks
+using the long names of each network.  Name conflicts (where two
+functions attempt to define the same name) generate warning messages
+and are resolved by renaming the signal from the new network.
+.PP
+The \fB-s\fR option, though accepted, has no effect on \fBread_eqn\fR
+and is instead
+reserved for the \fBread_pla\fR command.
+.pp
+Note that since the characters '(' and ')' are used for grouping,
+they cannot be part of a signal name.

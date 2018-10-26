@@ -1,0 +1,12 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   sweep
+ 
+     Successively eliminate all the single-input nodes and constant nodes (0
+     or 1) from the current network.
+ 
+     NOTE: Successfully invoking a sweep command on a mapped network can pos-
+     sibly "unmap" the network.
+ 
+                                                                            1

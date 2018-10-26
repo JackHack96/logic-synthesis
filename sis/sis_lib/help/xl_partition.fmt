@@ -1,0 +1,29 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   xl_partition [-n support] [-M MAX_FANINS] [-v verbosity_level] [-tm]
+ 
+     Tries to reduce the number of nodes by collapsing nodes into their
+     fanouts. Also takes into account extra nets created. Collapses a node
+     into its fanout only if the resulting fanout is feasible.  Associates a
+     cost with each (node, fanout) pair which reflects the extra nets created
+     if node is collapsed into the fanout. It then selects pairs with lowest
+     costs and collapses them.  The starting network need not be feasible, in
+     which case the resulting network also may not be. But if the starting
+     network is, so is the resulting network.
+ 
+     -n: support is the size of the TLU block (default = 5)
+ 
+     -t: Our experience was that if one is just interested in minimization of
+     number of nodes, then those nodes which can be collapsed into all their
+     fanouts are the main reduction-contributors.  This option removes a node
+     from the network if it can be collapsed into all its fanouts. Very fast.
+ 
+     -m: move fanins around to increase collapsing possibilities. Do so for a
+     node only if after collapsing, it has at most MAX_FANINS (default =
+     15)(as specified by -M option).
+ 
+     -v: this sets the verbosity level (amount of information printed as the
+     algorithm proceeds) to verbosity_level.
+ 
+                                                                            1

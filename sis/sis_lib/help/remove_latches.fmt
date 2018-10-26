@@ -1,0 +1,29 @@
+ 
+   July 1, 1994                                                        SIS(1)
+ 
+   remove_latches [-v n] [-f n] [-r] [-b]
+ 
+     This command removes redundant latches, using three different tech-
+     niques.
+ 
+     First, it performs some local retiming, by moving forward latches across
+     combinational logic if that decreases the latch count. This optimization
+     can be disabled by specifying the option -r.
+ 
+     Second, it looks for boot latches, that is latches fed by a constant but
+     initialized at the opposite value. If there are such latches, it looks
+     for a state equivalent to the initial state in which the initial value
+     of the latch is equal to the value of its constant input. When this
+     optimization applies, the latch can be removed, and constant folding
+     propagates the constant across the logic. This optimization can be dis-
+     abled by specifying the option -b.
+ 
+     Third, it computes the set of reachable states, and checks whether some
+     latches cannot be deduced combinationally from other latches.  If that
+     is the case, and if the fanin limit specified by the -f option is not
+     exceeded, the latch is removed and replaced by combinational logic.
+ 
+     -v allows the specification of the verbosity level of the output.  The
+     default value is 0.
+ 
+                                                                            1

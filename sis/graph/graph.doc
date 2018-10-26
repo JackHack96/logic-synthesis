@@ -1,0 +1,252 @@
+/*
+ * Revision Control Information
+ *
+ * $Source: /users/pchong/CVS/sis/sis/graph/graph.doc,v $
+ * $Author: pchong $
+ * $Revision: 1.1.1.1 $
+ * $Date: 2004/02/07 10:14:26 $
+ *
+ */
+Requires list.h, graph.h, graph_static.h, graph_int.h, and graph_static_int.h.
+
+A directed graph package.
+
+`in_edges' represent the incoming edges and `out_edges' represent the
+outgoing edges of a given vertex.  This package can be used for undirected
+graphs, but then generating over all edges incident to a vertex means
+generating over both the in_edges and out_edges.
+
+
+graph_t *
+g_alloc();
+
+	Allocate and return a graph.
+
+void
+g_free(g, f_free_g, f_free_v, f_free_e);
+graph_t *g;
+void (*f_free_g)(gGeneric);
+void (*f_free_v)(gGeneric);
+void (*f_free_e)(gGeneric);
+
+	Free the storage associated with a graph, including the vertices and
+	the edges.  The user_data associated with the graph, each vertex,
+	and each edge is freed by the user-supplied functions f_free_g,
+	f_free_v, and f_free_e.  
+
+void
+g_check(g);
+graph_t *g;
+
+	Check the graph for consistency by checking that the connectivity
+	information contained on the vertices and edges is consistent.
+	Error traps on serious errors that indicate corrupt graphs.  Prints
+	a warning message on possible errors, such as unconnected vertices.
+
+graph_t *
+g_dup(g, f_copy_g, f_copy_v, f_copy_e)
+graph_t *g;
+gGeneric (*f_copy_g)(gGeneric);
+gGeneric (*f_copy_v)(gGeneric);
+gGeneric (*f_copy_e)(gGeneric);
+
+	Return a copy of the graph g.  The graph, its vertices and edges,
+	and the connectivity information is copied.  The user_data on the
+	graph, each vertex, and each edge is copied by the user-supplied
+	functions f_copy_g, f_copy_v, and f_copy_e.  If NULL is passed as a
+	copy function, the user_data fields are copied by an assignment
+	statement (new->user_data = old->user_data).  The functions take as
+	an argument the user_data field.
+
+array_t *
+g_dfs(g)
+graph_t *g;
+
+	Returns an array consisting of a depth first sort on the vertices of
+	the graph.  Error traps if the graph if cyclic.
+
+int
+g_is_acyclic(g)
+graph_t *g;
+
+	Returns TRUE if graph is acyclic.
+	Returns FALSE otherwise.
+
+array_t *
+g_graph_sort(g,compare)
+graph_t *g;
+int (*compare)(vertex_t *a, vertex_t *b);
+
+	Returns a sorted array of the vertices in the graph.
+
+	The compare() function is passed pointers to the vertices (not the
+	user data field).  It should should return a negative number if
+	a < b, zero if a == b, and a positive number if a > b.
+
+	Sample compare() body for sorting into increasing order on user_data:
+	    {
+	        int aval = (int) a->user_data;
+		int bval = (int) b->user_data;
+		return(aval - bval);
+	    }
+	    
+
+lsList
+g_get_vertices(g)
+graph_t *g;
+
+	Return a list containing all the vertices of the given graph.
+	All of the list package functions may be performed on this
+	list; however, no functions that modify the list should be used
+	as the list is part of the graph structure (instead, the list
+	should be copied and only the copy modified).
+
+lsList
+g_get_edges(g)
+graph_t *g;
+
+	Return a list containing all the edges of the given graph.
+	All of the list package functions may be performed on this
+	list; however, no functions that modify the list should be used
+	as the list is part of the graph structure (instead, the list
+	should be copied and only the copy modified).
+
+foreach_vertex(graph, lsGen, vertex)
+foreach_edge(graph, lsGen, edge)
+
+	Macros that loop through all the vertices or edges of a graph.  If
+	you break out of a loop, lsFinish should be called on the generator.
+
+
+/* vertices */
+
+vertex_t *
+g_add_vertex(g)
+graph_t *g;
+
+	Allocate a vertex and add it to the graph.  Return the new
+	vertex.
+
+void
+g_delete_vertex(v, f_free_v, f_free_e)
+vertex_t *v;
+void (*f_free_v)(gGeneric);
+void (*f_free_e)(gGeneric);
+
+	Free the storage associated with a vertex, including the vertex
+	itself and its edges.  The user_data associated with the vertex and
+	each of its edges is freed via the user-supplied functions f_free_v
+	and f_free_e, which take as an argument the user_data field.  If
+	NULL is passed as a free function, the respective user_data field is
+	not freed.
+
+graph_t *
+g_vertex_graph(v)
+vertex_t *v;
+
+	Return the graph that the given vertex belongs to.
+
+lsList
+g_get_in_edges(v)
+vertex_t *v;
+
+	Return a list containing all the in_edges of the given vertex.
+	All of the list package functions may be performed on this
+	list; however, no functions that modify the list should be
+	used as the list is part of the graph structure (instead, the
+	list should be copied and only the copy modified).
+
+lsList
+g_get_out_edges(v)
+vertex_t *v;
+
+	Return a list containing all the out_edges of the given vertex.
+	All of the list package functions may be performed on this
+	list; however, no functions that modify the list should be
+	used as the list is part of the graph structure (instead, the
+	list should be copied and only the copy modified).
+
+foreach_in_edge(vertex, lsGen, edge)
+foreach_out_edge(vertex, lsGen, edge)
+
+	Macros that loop through all the specified directed edges of a
+	vertex.  If you break out of a loop, lsFinish should be called on
+	the generator.
+
+
+/* edges */
+
+edge_t *
+g_add_edge(v1, v2)
+vertex *v1, *v2;
+
+	Add a directed edge from v1 to v2.  The new edge is returned.  v1
+	and v2 must belong to the same graph.
+
+void
+g_delete_edge(e, f_free_e)
+edge_t *edge;
+void (*f_free_e)(gGeneric);
+
+	Free the storage associated with an edge.  The user_data is freed
+	via the user-supplied function f_free_e which takes as an argument
+	the user_data field.  If NULL is passed as the free function, the
+	user_data field is not freed.
+
+graph_t *
+g_edge_graph(e)
+edge_t *e;
+
+	Return the graph that the given edge belongs to.
+
+vertex_t *
+g_e_source(e)
+edge_t *e;
+
+	Return the source vertex of the given directed edge.
+
+vertex_t *
+g_e_dest(e)
+edge_t *e;
+	
+	Return the destination vertex of the given directed edge.
+
+-------------------------------------------------
+Files:
+
+com_graph.c:	Code for graph_test(), graph_static_test(), graph_dfs_test(),
+		init_graph(), and end_graph().
+		com_add_commands() for above test procedures.
+
+graph.c:	g_alloc(), g_free(), g_check(), g_dup(), and g_graph_sort().
+		g_get_edges(), g_get_in_edges(), g_get_out_edges(),
+		g_add_edge(), g_delete_edge(), g_edge_graph(), g_e_source(),
+		and g_e_dest().
+		g_get_vertices(), g_add_vertex(), g_delete_vertex(), and
+		g_vertex_graph().
+
+graph.h:	External declarations for functions in graph.c.
+		Macro definitions for foreach_vertex(), foreach_edge(),
+		foreach_out_edge(), foreach_in_edge().
+		Typedefs for graph_t, edge_t, and vertex_t structures.
+
+graph_dfs.c:	Code for g_dfs() and g_is_acyclic().
+
+graph_int.h:	Typedefs for graph_t_int, edge_t_int, and vertex_t_int
+		structures.
+
+graph_s.c:	g_alloc_static(), g_free_static(), g_dup_static(),
+		g_set_g_slot_static(), g_get_g_slot_static(), and
+		g_copy_g_slots_static().
+		g_add_edge_static(), g_delete_edge_static(),
+		g_set_e_slot_static(), g_get_e_slot_static(), and
+		g_copy_e_slots_static().
+		g_add_vertex_static(), g_delete_vertex_static(),
+		g_set_v_slot_static(), g_get_v_slot_static(), and
+		g_copy_v_slots_static().
+
+graph_static.h:	Externs for functions in graph_s.c, vertex_s.c, and edge_s.c.
+
+graph_static_int.h: Typedef for g_field_t.
+
+

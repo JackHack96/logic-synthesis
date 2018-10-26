@@ -1,0 +1,286 @@
+		Random thoughts on Programming in SIS 
+
+			Kanwar Jit Singh
+			
+Here are some thoughts that stand out in terms of my experiences with
+programming in SIS. In my opinion, SIS is a well designed piece of
+software. However, there are some nuances and conventions that are
+followed and so being aware of these, may help you avoid lot of time
+trying to debug your code --- you'd rather be debugging algorithms than
+the use of data structures.
+
+		********** Creation/deletion ***************
+
+	Creation of a node simply creates a node_t structure and 
+    populates the essential fields --- the function stored at the node
+    and the fanins that it depends on. As one might expect, a fanin 
+    of the node (say A) does not recognize the created node (P) as a
+    valid fanout UNTIL P is explicitly added to the network (N) that 
+    contains A.  Thus observe
+    1)  It is illegal to add a node to a network if its fanins are not
+	part of the SAME network.
+    2)  If a node (P) is deleted from the network, all the fanins (A)
+	are able to record the fact that P is no longer a fanout of A.
+	However, all the fanouts of P will still think that P is a valid
+	fanin. Be careful ...
+    
+	Duplication of a node (N) simply creates a new node (say N1) that is
+    a copy of node N. Essential information (function and fanin-lists) are
+    copied and the fields that have deamons registered are also copied. In
+    addition the name of the duplicated node is the same as node N. Thus
+    1)  It is not possible to simply do
+	    network_add_node(node_network(N), node_dup(N));
+	to create a copy of the node N in the network. Doing this will mean
+	creating another node in the network with the same name. This is
+	NOT ALLOWED --- EVERY NODE IN THE NETWORK MUST HAVE A UNIQUE NAME.
+	You may choose not to assign it a name. In that case when a node is
+	added to the network it will be automatically assigned a "madeup"
+	name. "madeup" names are assigned only for nodes that have a NULL
+	entry in the name field. Thus you will have to FREE the "name" field
+	of the node N1 that has been created by duplication before it can be
+	added to the same network.
+	    N1 = node_dup(N); FREE(N1->name);
+	    network_add_node(node_network(N), N1);
+	NOTE: the utility macro FREE() has been used which calls the unix
+	routine free() and then sets the pointer being free to be NULL.
+
+    2)  Remember, the duplicated node, while not part of any network, has
+	fanins that (possibly) reside in some network. Thus it cannot be
+	added to another network as it is. The fanin-pointers will have to
+	changed. This too is a HACK. The Exercise at the end will illustrate
+	this.
+    
+	Fanins of a node can be moved using the routine node_patch_fanin().
+    However, since moving a fanin involved removing references from the
+    fanin node, the old_fanin and the new_fanin of node must be in the 
+    same network as the node whose fanin is being moved.
+
+	If a node belongs to a network then freeing it using node_free()
+    does not delete it from the network. The network will still have a
+    reference to the node and your program will crash if you attempt to
+    now free the network (which you should eventually do). On the other
+    hand network_free() will delete all the nodes from the network as
+    well as free all the node_t structures. Now this memory can be used by
+    other parts of the code. Clearly, if you have a node that has a fanin
+    in the network that is deleted, you may see garbage in that reference.
+
+		********** Naming Convention ***************
+
+	The naming conventions in SIS are somewhat confusing. This is an
+    attempt to explain the philosophy behind the convention. If nothing
+    else, they might help you understand what is happening. The initial
+    convention (when only combinational logic was allowed) was to store the
+    name of a node that was driving a PO with the PO node. This was done so
+    that irrespective of how the network was optimized (as long as the PO
+    node was not destroyed) the name of the internal node driving the
+    output node could be recovered. Since the name of the internal node could
+    be arbitrarily changed a routine node_name() was provided that would
+    construct a name that would be meaningful to the user. Thus if internal
+    node  X fed a primary output node Y with y->name = "foo", then
+	node_name(X) = "{foo}" = pointer to a static storage area
+    What that means is, that the routine node_name() constructs the string
+    "{foo}" in a statically allocated array and returns a pointer to that
+    storage. Thus multiple calls of node_name() may overwrite the storage.
+    Thus if X and Z feed different outputs, say "foo" and "bar", then the code
+    fragment
+	 name1 = node_name(X);
+	 name2 = node_name(Z);
+	 fprintf(sisout, "%s and %s are outputs\n", name1, name2);
+    will produce as output 
+	 bar and bar are outputs.
+    Also, the routine node_name() concatenates the names of the outputs
+    if a node drives more than one output. Thus if node X drives PO nodes
+    with names "foo" and "bar" then node_name(X) will return the string
+    "{foo,bar}". Thus IT IS INACCEPTABLE TO USE THE VALUE RETURNED BY
+    node_name() TO HASH QUANTITIES OR EXPECT TO FIND NODES IN THE NETWORK
+    WITH THOSE NAMES. To overcome the the routine node_long_name() has
+    been provided which simply accesses the name field in the node_t
+    data structure. However, do not free this string unless you know
+    what you are doing (which is unlikely if you are reading this). 
+	Things became more complicated when the decision to represented
+    latches as a pair of PI/PO nodes was taken. So, the idea was to 
+    represent a D-flip/flop that was between nodes A and B as a pair of
+    nodes --- a primary-output node X that was a fanout on node A and a
+    primary-input node Y that was a fanin of node B. The pair of PI/PO nodes
+    was stored in a latch_t structure. Now, the question was "If node A
+    was also a true PO of the network, where should the name be stored --- at
+    the true PO or at the latch or the internal node ?". Since latches
+    and internal nodes can be destroyed/modified, it is easiest to store
+    the name with the true PO. However, when creating a latch, when the PO
+    is created the name would be transferred to the PO that was part of the
+    latch. To avoid this, a special routine "network_add_fake_primary_output()"
+    is provided which is to be used only to create dummy primary_output nodes
+    (PO nodes that are not circuit outputs but are added to represent latches
+    or to preserve nodes that act as control of latches). This routine does
+    not transfer the name from the internal node to the primary output. To
+    distinguish between different types of primary outputs the following
+    strategy should be used ----
+
+	if (network_is_real_po(network, node)) {
+	    /* TRUE Primary output of the network --- one that appears as a
+	     * formal terminal of this model
+	     */
+	} else if (network_is_control(network, node) != NIL(node_t)) {
+	   /* "fake" PO node added to represent a latch */
+	} else {
+	    /* "fake" PO node added to preserve the functionality of the 
+	     * logic that is the "control" signal of a clock. To represent
+	     * gated/inverted clocks */
+	} 
+     A similar strategy is used to isolate TRUE primary inputs (these include
+     the signals that have been declared as .clocks in the blif file) and
+     "dummy" primary inputs that simply represent the output terminal of 
+     latches. In order to distinguish a "clock" input from a "data" input,
+     use the following code segment for nodes that are of type PRIMARY_INPUT
+	if (clock_get_by_name(network, node->name) != NIL(sis_clock_t)) {
+	     /* "node" is a CLOCK input of the circuit */
+	}
+	
+		********** Generarators ***************
+
+	Beware of what you do in the generator macros foreach_fanout() and
+    foreach_node() etc. These generators access lists and if you happen to
+    change the lists while generation you may see more than what you
+    bargained for. As an example consider this piece of code, which simply
+    deletes all inverters at the fanout of a node and adds new ones, a
+    contrived case, but instructional nevertheless.
+
+	foreach_fanout(node, gen, fo) {
+	    network_delete_node(network, fo);
+	    network_add_node(network, node_literal(node, 0));
+	}
+    This will loop forever. The reason being that the new inverter node
+    (created using the node_literal() command) gets added to the end of the
+    fanout_list of node. Thus it will be generated as part of the foreach_
+    fanout macro. The proper way to do such a thing is to store all the fanouts
+    in a dynamic array and then traverse that array. Similarly, one has to be
+    careful about adding/deleting nodes to a network that is being traversed
+    by using a "foreach_node" macro. Deletion of nodes can be accomplished by
+    the routine network_delete_node_gen().
+
+		********** On coding style ***************
+    	Since SIS is a large piece of software with many packages, it is
+    important that you be aware of the architecture and its consequence on
+    programming style. Just a couple of things to keep in mind ---
+    1) There is always a "current network" in SIS that is passed to every
+	routine that is registered using the com_add_command() procedure. When
+	invoked, you get a pointer to the network. Remember the double 
+	indirection to the network_t data structure in the top level routine 
+	that you use to interface with the interactive shell. Also, this 
+	routine must never return a negative value --- this will cause the 
+	interactive shell to terminate.
+    2) Free all the memory that is allocated as part of the processing before
+	returning to the interactive shell. If you fail to do this, you may
+	needlessly cause subsequent operations to be slow due to swapping. 
+	"Core leaks" --- memory that has been allocated and not freed --- can
+	be found by linking against a special library libc_mp.a and then
+	using the program "mprof" to produce an ascii listing of the leaks.
+	Currently (as of 2/3/93) the library resides in 
+	     /projects/local/local/mips/lib/libc_mp.a
+	and the mprof executable is
+	     /projects/local/local/mips/bin/mprof
+    3) When converting a routine that is called from the interactive shell to
+	an exported procedure, make sure that proper initializations have
+	been carried out.
+    4) Always provide reasonable defaults for your code.
+    5) If you have functions that need a lot of arguments, try to package
+	the arguments into a structure that gets passed from routine to
+	routine. This avoids having to change the function call and the
+	definition when the argument list needs to be expanded. Take a 
+	look at the "map", "bdd", "speed" packages for the way the
+	structures bin_global_t, bdd_manager_t, speed_global_t are  set-up
+	and used over and over.
+    6) Comment your code with USEFUL comments that help the reader understand
+	what the code fragment does. 
+    7) Read the file /projects/octtools/octtools/common/doc/programmerGuide
+	for a standard and acceptable way of indenting code that is fairly 
+	common throughout the CAD group.
+
+		********** Illustrative Example ***************
+
+    Having said all this lets see how one will accomplish the following
+    task ----
+	"Given a network and a list of nodes, construct a network that
+	contains only those nodes. Make PI/PO nodes appropriately"
+
+
+    /* Various declarations go here */
+    new_net = network_alloc();
+    corresp_table = st_init_table(st_ptrcmp, st_ptrhash);
+    /* 
+     * duplicate the nodes and maintain corrspondence between the originbal
+     * node and its duplicate copy. Since the nodes are to be added into
+     * another network there will be no name conflicts. 
+     */
+    for (i = array_n(node_list); i-- > 0; ) {
+	node = array_fetch(node_t *, node_list, i);
+	dup_node = node_dup(node);
+	st_insert(corresp_table, (char *)node, (char *)dup_node);
+    }
+    /*
+     * Now start inserting the nodes. The order of inserting the nodes is
+     * important. We have to insert a node only after all its possible fanin
+     * nodes have been added. SO the BIG ASSUMPTION, is that the node_list
+     * has nodes in Depth-first-traversal from the inputs to the outputs.
+     * Notice that during duplication we can duplicate them in any order ---
+     * it is only the addition to a network that has to be done in this order.
+     */
+    for (i = 0; i < array_n(node_list); i++) {
+	node = array_fetch(node_t *, node_list, i);
+	st_lookup(corresp_table, (char *)node, (char **)&dup_node);
+	foreach_fanin(dup_node, j, orig_in) {
+	    if (st_lookup(corresp_table, (char *)orig_in, (char **)&new_in)){
+
+	    } else {
+		/*
+		 * "node" has a fanin that is not part of the list. We should
+		 * simply connect that input to a primary input. Note that we
+		 * might already have added a PI when processing another node
+		 */
+		new_in = network_find_node(new_net, node_long_name(orig_in));
+		if (new_in == NIL(node_t)) {
+		    new_in = node_alloc();
+		    network_add_primary_input(new_net, new_in);
+		    network_change_node_name(new_net, new_in, 
+			node_long_name(orig_in));
+		}
+	    }
+	    /* 
+	     * At this stage new_in corresponds to a node in "new_net" that is
+	     * supposed to be the "j"th fanin of dup_node. Unfortunately the
+	     * only way to do this is to access the data-structure directly
+	     */
+	    dup_node->fanin[j] = new_in;
+	}
+	/*
+	 * Addition of the "dup_node" will result in also updating all the
+	 * fanout pointers of its fanins, i.e. the fanins of "dup_node" will
+	 * now recognize "dup_node" as a fanout
+	 */
+	network_add_node(new_net, dup_node);
+    }
+    /*
+     * Now all the nodes that do not fanout to any place are promoted
+     * to be primary outputs.
+     */
+    foreach_node(new_net, gen, node) {
+       if (node_num_fanout(node) == 0) {
+	   po_node = network_add_primary_output(new_net, node);
+	   /*
+	    * Remember --- The name that was stored with node->name is
+	    * transferred to po->name and a new madeup name is assigned to
+	    * node->name. So, if you want to merge this network "new_net" with
+	    * the original network "network" --- do not expect to find the
+	    * corresponding internal node as node->name.
+	    * Use po_name->name instead.
+	    */
+       }
+    }
+    /*
+      Finally --- you might want to find out how you can
+	 1) Annotate the new_net with the default delay information of network
+	 2) Re-establish latch connections that might be part of node_list
+	 3) Set up the Clocks and Control nodes
+	 4) Rewrite the last part of adding PO's if there were some in the 
+	    node_list to start with
+    */

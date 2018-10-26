@@ -1,0 +1,98 @@
+.\" /*
+.\"  * Revision Control Information
+.\"  *
+.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/astg_state_min.1,v $
+.\"  * $Author: pchong $
+.\"  * $Revision: 1.1.1.1 $
+.\"  * $Date: 2004/02/07 10:14:44 $
+.\"  *
+.\"
+.XX
+astg_state_min [-v debug_level] [-p minimized_file] [-c "command"]
+[-b|-B] [-g|-G] [-u] [-m|-M] [-o #] [-f signal_cost_file]
+.PP
+Minimizes the current State Transition Graph and derives the information
+required to encode the associated Signal Transition Graph.
+The complete sequence of actions to implement a Signal Transition Graph that
+does not have Complete State Coding is as follows:
+.br
+
+.br
+astg_to_stg -m
+.br
+astg_state_min
+.br
+astg_encode
+.br
+astg_add_state
+.br
+
+.br
+astg_to_f
+.br
+ ...
+.PP
+The \fB-f\fR option selects a signal cost file. 
+This file should contain one line of the form
+.br
+<signal name> <cost>
+.br
+(e.g. "bus_ack 10") for each signal in the ASTG. The encoding algorithm 
+minimizes the sum of the weights of signals that follow state transitions.
+Hence this file can be used to strongly favor or disfavor changing the
+predecessors of the transitions of a signal. 
+.PP
+By default, output signals have a cost of one and input signals have a
+cost equal to the number of output signals plus one. In this way, no input
+signal is constrained, if possible.
+.PP
+The command may emit a series of diagnostic messages of the form:
+.br
+warning: the STG may not be live (multiple exit point): may need constraint
+<signal 1> -> <signal 2>
+.br
+These messages may or may not cause a failure (diagnosed as internal error)
+later on during \fBastg_add_state\fR. In case of failure, \fBone\fR of the
+required constraints (ideally the constraint that least decreases the circuit
+performance due to the reduction in concurrency) should be added to the ASTG.
+The procedure should be repeated until no more such messages occur.
+.PP
+The options listed below are not generally useful except for debugging purposes
+or to obtain faster (but potentially less optimal)
+results for large Signal Transition Graphs.
+All algorithm speed indications reflect average case analysis.
+.PP
+The \fB-B\fR and \fB-b\fR options select Binary Decision Diagrams
+as internal data structure to find the encoding information (both are generally
+slower than the default selection, but \fB-b\fR is generally
+faster than \fB-B\fR).
+.PP
+The \fB-M\fR and \fB-m\fR options select Sparse Matrices
+as internal data structure to find the encoding information (both are generally
+slower than the default selection, but \fB-m\fR is generally
+faster than \fB-M\fR). If \fB-M\fR is selected, then \fB-o\fR can be used to
+define some further internal options (this is strongly discouraged).
+.PP
+The \fB-G\fR and \fB-g\fR options select a greedy (\fB-g\fR) or very greedy
+(\fB-G\fR) heuristic
+to find the encoding information (both faster and looser than the default
+selection).
+.PP
+The \fB-u\fR option selects a generally slower
+heuristic to find the encoding information.
+.PP
+The \fB-c\fR option allows to use a different minimizer from the default
+choice. The minimizer must be able to read and write .kiss format and to write
+equivalence class information in the output file, in the following format:
+.br
+#begin_classes <number of classes>
+.br
+# <state name> <class number>
+.br
+ ...
+.br
+#end_classes
+.PP
+The \fB-p\fR option avoids calling the minimizer altogether, just reading in
+the specified minimized file (in .kiss format with equivalence class
+information).
