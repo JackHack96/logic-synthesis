@@ -2,36 +2,39 @@
 #ifndef OPT_H
 #define OPT_H
 
-#define OPT_PKG_NAME "options"
+#include "ansi.h"
+
+#define OPT_PKG_NAME	"options"
 
 typedef struct {
-  char *optionLetters;
-  char *argName;
-  char *description;
+    char *optionLetters;
+    char *argName;
+    char *description;
 } optionStruct;
 
 /* dummy `optionLetters' values for arguments following options */
-char OPT_RARG[];  /* required argument */
-char OPT_OARG[];  /* optional argument */
-char OPT_ELLIP[]; /* flag to put ellipsis in summary */
-char OPT_DESC[];  /* general description */
-char OPT_CONT[];  /* continues description */
+extern char OPT_RARG[];		/* required argument */
+extern char OPT_OARG[];		/* optional argument */
+extern char OPT_ELLIP[];	/* flag to put ellipsis in summary */
+extern char OPT_DESC[];		/* general description */
+extern char OPT_CONT[];		/* continues description */
 
-optionStruct optionList[];
-int optind;
-char *optarg;
-char *optProgName;
+extern optionStruct optionList[];
+extern int optind;
+extern char *optarg;
+extern char *optProgName;
 
-int optGetOption(int argc, char **argv);
-
-void optUsage();
-
-void optInit(char *progName, optionStruct options[], int rtnBadFlag);
-
-void optAddOptions(optionStruct options[]);
-
-void optAddUnivOptions();
-
-char *optUsageString();
+EXTERN int optGetOption
+	ARGS((int argc, char **argv));
+EXTERN void optUsage
+	NULLARGS;
+EXTERN void optInit
+	ARGS((char *progName, optionStruct options[], int rtnBadFlag));
+EXTERN void optAddOptions
+	ARGS((optionStruct options[]));
+EXTERN void optAddUnivOptions
+	NULLARGS;
+EXTERN char *optUsageString
+	NULLARGS;
 
 #endif /* OPT_H */

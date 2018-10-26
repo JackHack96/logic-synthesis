@@ -1,0 +1,956 @@
+
+
+Binary Decision Diagram (BDD) Package, Version 2.4
+
+Tom Shiple (original contributors: Herve' Touati, Wendell Baker)
+University of California, Berkeley, 1991, 1992
+
+
+Introduction ------------------------------------------------------------------
+
+The interface for this package is modeled on that described in Brace, Rudell,
+Bryant, "Efficient Implementation of a BDD Package", DAC 1990.  The user
+manipulates only BDD formulas, corresponding to the data type bdd_t.  A bdd_t is
+a pointer to a bdd_node, and more than one bdd_t can point to the same bdd_node.
+
+A BDD manager is a collection of bdd_nodes, which together constitute a number
+of BDDs.  A variable ordering is associated with each manager.  Variables are
+numbered starting from zero.  This ordering is not stored explicitly in the
+manager, but is implicit in the variable ID stored in each node created.  It is
+the user's responsibility to define an ordering, and to maintain the
+correspondence between application variables and BDD variable IDs.  The BDD
+manager maintains the invariant that variables occur in ascending order in every
+root-to-leaf path.
+
+A "single variable BDD formula" is a BDD for a single variable: it has one node,
+with the THEN branch pointing to 1, and the ELSE branch pointing to 0.
+
+All of the functions which operate on BDD formulas return new BDD formulas.  The
+BDDs associated with BDD formulas which are arguments to a function are not
+disturbed.  For example, bdd_substitute creates a new BDD and leaves the old one
+intact.  To purge the old BDD, free the bdd_t pointing to it, and the next
+garbage collection will free those bdd_nodes which can no longer be reached from
+a bdd_t.
+
+A user should never allocate bdd_t data structures; this should only be done by
+the BDD manager.  A BDD which is only pointed to by a bdd_t allocated by a user
+will be treated as garbage during garbage collection since the bdd_t is not
+registered with the manager.
+
+For any operation involving multiple BDDs, all the BDDs must belong to the same
+manager.  For example, in bdd_and(f, g, 0, 1), the BDDs for 'f' and 'g' must
+exist in the same manager.  Also, it is bad form to nest BDD operations because
+the returned bdd_t's will be "lost", potentially causing a buildup of garbage
+which cannot be collected.  For example, bdd_and(bdd_or(f,g,1,1), bdd_xor(h,e),
+1, 0) should be avoided.
+
+IMPORTANT: To reiterate the above points: 1) you should only be using bdd_t's
+which are returned by BDD package functions, and 2) you should free bdd_t's
+(using bdd_free) as soon as you no longer need them, so that their corresponding
+BDDs may be garbaged collected at the next opportunity.
+
+Summary -----------------------------------------------------------------------
+
+BDD Manager Allocation And Destruction:
+  bdd_end()
+  bdd_set_mgr_init_dflts()
+  bdd_start()
+  bdd_start_with_params()
+
+BDD Variable Allocation:
+  bdd_create_variable()
+  bdd_get_variable()
+
+BDD Formula Management:
+  bdd_dup()
+  bdd_free()
+
+Operations on BDD Formulas:
+  bdd_and()
+  bdd_and_smooth()
+  bdd_between()
+  bdd_cofactor()
+  bdd_compose()
+  bdd_consensus()
+  bdd_cproject()
+  bdd_else()
+  bdd_ite()
+  bdd_minimize()
+  bdd_minimize_with_params()
+  bdd_not()
+  bdd_one()
+  bdd_or()
+  bdd_smooth()
+  bdd_substitute()
+  bdd_then()
+  bdd_top_var()
+  bdd_xnor()
+  bdd_xor()
+  bdd_zero()
+
+Queries about BDD Formulas:
+  bdd_equal()
+  bdd_is_cube()
+  bdd_is_tautology()
+  bdd_leq()
+
+Statistics and Other Queries:
+  bdd_count_onset()
+  bdd_get_manager()
+  bdd_get_node()
+  bdd_get_stats()
+  bdd_get_support()
+  bdd_get_varids()
+  bdd_num_vars()
+  bdd_print()
+  bdd_print_stats()
+  bdd_size()
+  bdd_top_var_id()
+
+Traversal of BDD Formulas:
+  bdd_gen_free()
+  foreach_bdd_cube()
+  foreach_bdd_node()
+
+Miscellaneous:
+  bdd_get_external_hooks()
+  bdd_register_daemon()
+  bdd_set_gc_mode()
+  bdd_dynamic_reordering()
+
+
+
+BDD Manager Allocation And Destruction ----------------------------------------
+
+void
+bdd_end(manager)
+bdd_manager *manager;
+
+Frees all the resources associated with a BDD manager.
+
+void
+bdd_set_mgr_init_dflts(mgr_init)
+bdd_mgr_init *mgr_init;
+
+    Initializes `mgr_init' with the default values.  (See BDD_DFLT_* in bdd.h
+    for the default values.)  See bdd_start_with_params and bdd_register_daemon
+    for sample usages.
+
+bdd_manager *
+bdd_start(nvariables)
+int nvariables; 
+
+    Initializes a new BDD manager that can contain at most nvariables.  The BDD
+    manager ensures that no variable in the manager is greater than or equal to
+    nvariables over the lifetime of the manager.  The range of variable IDs is
+    zero to nvariables-1. The manager's nvariables value can be incremented by
+    calling bdd_create_variable.  This function also creates the constant 1 BDD,
+    and registers it with the manager.
+
+bdd_manager *
+bdd_start_with_params(nvariables, mgr_init)
+int nvariables; 
+bdd_mgr_init *mgr_init;
+
+    Same as bdd_start, but allows user to set the parameters specified in the
+    bdd_mgr_init data structure.
+
+    The ITE cache, ITE_const cache, and the adhoc cache store the result of
+    previous computations, in an attempt to improve performance. See
+    bdd_print_stats for more information on the caches.  For each of the three
+    caches, the following fields can be set ("*" is one of ITE, ITE_const,
+    adhoc):
+
+      1) *_cache_on: turn it on or off.  In general, the performance of the BDD
+      package is horrible if the caches are turned off.
+
+      2) *_cache_resize_at: set the percentage at which you want resizing to
+      occur. For example, a value of 85 means to resize when greater than 85% of
+      the buckets are being used. This setting does not apply to the adhoc
+      cache.
+
+      3) *_cache_max_size: for the ITE and ITE_const caches, set the maximum
+      number of buckets allowed in the cache. When this value is reached, the
+      caches will not be grown.  For the adhoc cache, set the maximum number of
+      entries allowed in the cache.  When this value is reached, new entries
+      will not be inserted into the cache.
+
+    garbage_collector.on determines whether or not the garbage collector is
+    used.  memory.limit, specified as a positive integer denoting megabytes (1MB
+    = 1048576 bytes), places a limit on how much memory the BDD package is
+    allowed to use.  memory.deamon specifies the callback routine to be used
+    when the memory limit is exceeded.  If a non-default memory limit is
+    specified, then a daemon must be given (see bdd_register_daemon for sample
+    usage).
+
+    nodes.ratio determines how many new bdd_node blocks should be allocated
+    after garbage collection to achieve the desired ratio between "used" and
+    "unused" bdd_nodes.  A larger value of nodes.ratio gives the BDDs more room
+    to grow before the next garbage collection, but uses more space.
+    nodes.init_blocks determines the number of bdd_node blocks allocated at
+    initialization.  A larger value of nodes.init_blocks delays the occurrence of
+    the first garbage collection.
+
+    bdd_start(n) is equivalent to bdd_start_with_parameters(n, mgr_init), where
+    `mgr_init' has been initialized by bdd_set_mgr_init_dflts.
+
+    Below is a sample usage of bdd_set_mgr_init_dflts and bdd_start_with_params:
+
+    bdd_mgr_init mgr_init;
+    bdd_manager *manager;
+
+    bdd_set_mgr_init_dflts(&mgr_init);  /* get the defaults */
+    mgr_init.adhoc_cache.max_size = 50000;     /* change those you want to */
+    mgr_init.node.init_blocks = 20;  
+    manager = bdd_start_with_params(SOME_NUMBER, &mgr_init); /* create mgr */
+
+
+
+
+BDD Variable Allocation -------------------------------------------------------
+
+bdd_t *
+bdd_create_variable(manager)
+bdd_manager *manager;
+
+    Returns a single variable BDD formula for a new variable after registering
+    the variable with the manager.  This function calls bdd_get_variable with
+    the arguments `manager' and the manager's nvariables value, and then
+    increments the manager's nvariables value.  Thus, the variable created by
+    bdd_create_variable is effectively placed at the end of the current variable
+    ordering.
+
+bdd_t *
+bdd_get_variable(manager, variable_ID)
+bdd_manager *manager;
+bdd_variableId variable_ID;	       /* unsigned int */
+
+    If the single variable BDD formula corresponding to variable_ID already
+    exists, then return it.  Otherwise, create a new single variable BDD formula
+    with ID `variable_ID', register it with the manager, and return it.  This
+    function checks that variable_ID is less than the manager's current value of
+    nvariables.
+
+    Sample usages of these functions:
+
+    bdd_manager_t *manager;
+    bdd_t *bdd;
+
+    manager = bdd_start(SOME_NUMBER);  
+    for (i = 0; i < SOME_NUMBER; i++) {
+	bdd = bdd_get_variable(manager, i);
+	/* do something with bdd */
+    }
+      .
+      .
+    bdd = bdd_create_variable(manager); /* create another var, add to end */
+      .
+      .
+    bdd_end(manager);
+
+
+    The following is equivalent:
+
+    manager = bdd_start(0); 
+    for (i = 0; i < SOME_NUMBER; i++) {
+	bdd = bdd_create_variable(manager);
+	/* do something with bdd */
+    }
+      .
+      .
+    bdd = bdd_create_variable(manager); /* create another var, add to end */
+      .
+      .
+    bdd_end(manager);
+
+
+BDD Formula Management --------------------------------------------------------
+
+bdd_t *
+bdd_dup(bdd)
+bdd_t *bdd;
+
+    Returns a copy of the BDD formula.  No new bdd_nodes are created, since the
+    existing bdd_nodes will be shared.
+
+void
+bdd_free(bdd)
+bdd_t *bdd;
+
+    Frees the bdd_t `bdd'.  During garbage collection, a bdd_node is freed if it
+    cannot be reached starting from a bdd_t.  Intermediate results and unused
+    bdd_t's should be freed as soon as you no longer need them.  For example:
+
+    /* to compute f + gh */
+    temp = bdd_and(g, h, 1, 1);
+    result = bdd_or(f, temp, 1, 1);
+    bdd_free(temp);
+
+
+
+Operations on BDD Formulas ----------------------------------------------------
+
+IMPORTANT: All of the operations in this section return a pointer to a bdd_t.
+Such a bdd_t is registered with the BDD manager.  The garbage collector locates
+all bdd_nodes which can be reached by recursive descent from the bdd_t's
+registered with the manager, and these nodes are saved.  All nodes not reachable
+are considered garbage and are destroyed.  The function bdd_free "unregisters" a
+bdd_t.  Thus, it is crucial that you use bdd_free to unregister bdd_t's after
+you no longer need them so that the garbage collector can reclaim as much space
+as possible.
+
+bdd_t *
+bdd_and(f, g, f_phase, g_phase)
+bdd_t *f;
+bdd_t *g;
+boolean f_phase;
+boolean g_phase;
+
+    Returns the BDD formula for the and of `f' and `g' in the phases specified
+    by `f_phase' and `g_phase'. For example, bdd_and(f,g,0,1) will return the
+    BDD formula for (f' and g).  Don't forget the phase arguments.
+
+bdd_t *
+bdd_and_smooth(f, g, smoothing_vars)
+bdd_t *f;
+bdd_t *g;
+array_t *smoothing_vars;	/* of bdd_t *'s */
+
+    Ands and smooths `f' and 'g' with respect to the `smoothing_vars'.
+    `smoothing_vars' is an array of bdd_t *'s, which are the single variable BDD
+    formulas to be smoothed out.
+
+bdd_t *
+bdd_between(f_min, f_max)
+bdd_t *f_min;
+bdd_t *f_max;
+
+    Returns a heuristically minimized BDD containing `f_min', and contained in 
+    `f_max'.  Calls bdd_minimize(f_min, f_min+!f_max);
+
+bdd_t *
+bdd_cofactor(f, g)
+bdd_t *f;
+bdd_t *g;
+
+    Returns the BDD formula of cofactor of `f' with respect to `g'. `g' must be
+    different from 0.  If `g' is a cube, this computes the usual cofactor.  If
+    `g' is not a cube, then this computes the generalized cofactor.
+
+bdd_t *
+bdd_compose(f, v, g)
+bdd_t *f;
+bdd_t *v;
+bdd_t *g;
+
+    Returns the BDD formula with `v' replaced by `g' in `f'. `v' must be a
+    single variable BDD formula.
+
+bdd_t *
+bdd_consensus(f, quantifying_vars)
+bdd_t *f;
+array_t *quantifying_vars;	/* of bdd_t *'s */
+
+    Returns the BDD formula of `f' universally quantified with respect to the 
+    variables in the array `quantifying_vars'.  `quantifying_vars' is an array 
+    of bdd_t *'s, which are the single variable BDD formulas to be quantified.
+
+bdd_t *
+bdd_cproject(f, var_array)
+bdd_t *f;
+array_t *var_array;	/* of bdd_t *'s */
+
+    Returns the BDD corresponding to the compatible projection of `f' onto the
+    variables in `var_array'.  `f' is interpreted as the characteristic
+    function of a one-to-many relation.  `var_array' is an array of bdd_t *'s,
+    which are single variable BDD formulas.  The reference vertex is hardcoded
+    to be all 1's.
+   
+    The compatible projection operator is used to symbolically manipulate
+    equivalence classes.  See the following for more details: Bill Lin,
+    "Implicit Manipulation of Equivalence Classes using Binary Decision
+    Diagrams", International Conference on Computer Design, Cambridge,
+    Massachusetts, November, 1991.
+
+bdd_t *
+bdd_else(bdd)
+bdd_t *bdd;
+
+    Returns the BDD formula of the function when the top_var of `bdd' evaluates
+    to 0.  The return value takes into account that `bdd' may be a "complemented
+    pointer".
+
+bdd_t *
+bdd_ite(i, t, e, i_phase, t_phase, e_phase)
+bdd_t *i;
+bdd_t *t;
+bdd_t *e;
+boolean i_phase;
+boolean t_phase;
+boolean e_phase;
+
+    Returns the BDD formula resulting in the ITE of `i', `t' and `e'.  For
+    example, bdd_ite(i, t, e, 1, 0, 1) will return the BDD formula for ((i and
+    t') or (i' and e)).
+
+bdd_t *
+bdd_not(f)
+bdd_t *f;
+
+    Returns the BDD formula for the complement of `f'.
+
+bdd_t *
+bdd_minimize(f, c)
+bdd_t *f;
+bdd_t *c;
+
+    Returns bdd_minimize_with_params(f, c, BDD_MIN_OSM, TRUE, TRUE, TRUE).
+
+bdd_t *
+bdd_minimize_with_params(f, c, match_type, compl, no_new_vars, return_min)
+bdd_t *f;
+bdd_t *c;
+bdd_min_match_type_t match_type;
+boolean compl;
+boolean no_new_vars;
+boolean return_min;
+
+    Minimizes `f' with respect to the care function `c'; that is, `f' is a don't
+    care wherever `c' is 0.  The result contains f*c, and is contained in f+!c.
+    `match_type' is one of BDD_MIN_OSM, BDD_MIN_OSDM, or BDD_MIN_TSM.  When
+    `compl' is TRUE, matches between sub-functions and the complements of others
+    are attempted.  When `no_new_vars' is TRUE, the variables in the result will
+    be a subset of those in `f'. When `return_min' is TRUE, if the result is 
+    larger than `f', then a copy of `f' is returned.  The restrict operator of 
+    Coudert and Madre, ICCAD '90, p. 126, is (BDD_MIN_OSDM, FALSE, TRUE, FALSE), 
+    and the constrain operator (which is the same as bdd_cofactor) is 
+    (BDD_MIN_OSDM, FALSE, FALSE, FALSE).  See Shiple et al., "Heuristic 
+    Minimization of BDDs Using Don't Cares," UCB ERL Memo, UCB/ERL M93/58, for 
+    more details.
+
+bdd_t *
+bdd_one(manager)
+bdd_manager *manager;
+
+    Returns a BDD formula pointing to the constant function 1 of the manager.
+
+bdd_t *
+bdd_or(f, g, f_phase, g_phase)
+bdd_t *f;
+bdd_t *g;
+boolean f_phase;
+boolean g_phase;
+
+    Returns the BDD formula for the or of `f' and `g' in the phases specified by
+    `f_phase' and `g_phase'. For example, bdd_or(f, g, 0, 1) will return the BDD
+    formula for (f' or g).
+
+bdd_t *
+bdd_smooth(f, smoothing_vars)
+bdd_t *f;
+array_t *smoothing_vars;	/* of bdd_t *'s */
+
+    Returns the BDD formula of `f' existentially quantified with respect to 
+    the variables in the array `smoothing_vars'.  `smoothing_vars' is an array of 
+    bdd_t *'s, which are the single variable BDD formulas to be quantified.
+
+bdd_t *
+bdd_substitute(f, old_array, new_array)
+bdd_t *f;
+array_t *old_array;	/* of bdd_t *'s */
+array_t *new_array;	/* of bdd_t *'s */
+
+    Substitute all old_array vars with new_array vars. `old_array' and
+    `new_array' are arrays of bdd_t *'s.  Given two arrays of variables a and b
+    consisting of member values (a1 .. an) and (b1 .. bn), replace all
+    occurrences of ai by bi. This could be done iteratively with bdd_compose but
+    would require n passes instead of one.  Thus, this algorithm is only a
+    performance optimization.
+
+bdd_t *
+bdd_then(bdd)
+bdd_t *bdd;
+
+    Returns the BDD formula of the function when the top_var of `bdd' evaluates
+    to 1.  The return value takes into account that `bdd' may be a "complemented
+    pointer".
+
+bdd_t *
+bdd_top_var(bdd)
+bdd_t *bdd;
+
+    Returns the BDD formula corresponding to the top variable of `bdd'.  For
+    example, if the top variable of 'bdd' is x, then returns the single variable
+    BDD formula for x.
+
+bdd_t *
+bdd_xnor(f, g)
+bdd_t *f;
+bdd_t *g;
+
+    Returns the BDD formula for the xnor of `f' and `g'.
+
+bdd_t *
+bdd_xor(f, g)
+bdd_t *f;
+bdd_t *g;
+
+    Returns the BDD formula for the xor of `f' and `g'.
+
+bdd_t *
+bdd_zero(manager)
+bdd_manager *manager;
+
+    Returns the BDD formula pointing to the constant function 0 of the manager
+    (a complemented pointer to the constant function 1).
+
+
+Queries about BDD Formulas ----------------------------------------------------
+
+boolean
+bdd_equal(f, g)
+bdd_t *f;
+bdd_t *g;
+
+    Checks if the two BDD are identical; returns `1' if they are, `0' otherwise.
+
+boolean
+bdd_is_cube(f)
+bdd_t *f;
+
+    Returns TRUE if `f' is a cube, else returns FALSE.  `f' is a cube if it has
+    a single path to the constant ONE node.
+
+boolean
+bdd_is_tautology(f, phase)
+bdd_t *f;
+boolean phase;
+
+    Checks if the given function is tautologously true. `phase' indicates the
+    phase to be used for `f', i.e. phase==1 checks if f==1 and phase==0 checks
+    if f'==1.
+
+boolean
+bdd_leq(f, g, f_phase, g_phase)
+bdd_t *f;
+bdd_t *g;
+boolean f_phase;
+boolean g_phase;
+
+    Checks for implications. `f_phase' and `g_phase' indicate the phases to be
+    used for `f' and `g'. For example, bdd_leq(f, g, 1, 0) returns returns the
+    value of (f => g').  (While this can be done using bdd_or and then checking
+    if this result is a constant value, using bdd_leq is generally faster and
+    uses less memory.  Note that bdd_leq uses the ITE_const cache.)
+
+
+Statistics and Other Queries --------------------------------------------------
+
+double 
+bdd_count_onset(fn, var_array)
+bdd_t *fn;
+array_t *var_array;  	/* of bdd_t *'s */
+
+    Counts the number of minterms in the onset of the function `fn', over the 
+    variables in `var_array' (single variable BDD formulas).  `var_array' must 
+    contain the variables in the support of `fn'.  For example, if fn=b*d, and
+    var_array=[a,b,c,d], then this function returns 4.0.
+
+bdd_manager *
+bdd_get_manager(f)
+bdd_t *f;
+
+    Returns the bdd_manager to which `f' is associated.
+
+bdd_node *
+bdd_get_node(f, is_complemented)
+bdd_t *f;
+boolean *is_complemented;    /* return */
+
+    Return the regularized (i.e. uncomplemented) pointer to the bdd_node 
+    to which `f' refers.  Also, returns whether or not the bdd_node pointer
+    is complemented.  Note well: the address of a bdd_node changes upon
+    garbage collection.  If your code is sensitive to the addresses of 
+    bdd_nodes, and you invoke BDD routines which cause new bdd_nodes to be
+    created, then a garbage collection may automatically be triggered.  To
+    prevent a garbage collection from automatically occurring, use 
+    bdd_set_gc_mode to turn off garbage collection before a sensitive piece
+    of code is executed.
+
+void
+bdd_get_stats(manager, stats)
+bdd_manager *manager;
+bdd_stats *stats;	/* return */
+
+    Statistics for the BDD manager are returned in stats; these stats can then
+    be used directly in a call to bdd_print_stats.  Statistics include
+    information about usage of caches, number of ITE operations, number of
+    bdd_node's and bdd_t's, and operation of the garbage collector.
+
+    Following is a sample usage:
+
+	bdd_stats stats;  /* allocate a struct, not a pointer to a struct */
+
+	bdd_get_stats(manager, &stats);
+	bdd_print_stats(stats, stdout);
+
+var_set_t 
+*bdd_get_support(fn)
+bdd_t *fn;
+
+    Returns the support of `fn' in terms of the variables in the BDD manager.
+    The result is returned as a bit array (see the var_set package).
+
+array_t *
+bdd_get_varids(var_array)
+array_t *var_array;  /* of bdd_t * */
+
+    Given an array of single variable BDD formulas, returns an array of the 
+    same length whose entries are the corresponding bdd_variableIds of the BDDs.
+
+unsigned int 
+bdd_num_vars(manager)
+bdd_manager *manager;
+
+    Returns the number of variables in the BDD manager.
+
+void
+bdd_print(f)
+bdd_t *f;
+
+    A representation of the BDD is printed out on the standard output.  For
+    example, the following is printed out for the function z = !a*b + a*!b where
+    the indices (variable IDs) for a and b are 0 and 1 respectively.  A "!"
+    before an address indicates a complemented pointer.  Note that the variables
+    from the root to the leaves of the BDD are in ascending order.
+
+    node: a
+	    index 0 is v#0
+	    index 1 is v#1
+    ID =  0x1007651	index = 0	T =  1		E =  0
+
+    node: b
+	    index 0 is v#0
+	    index 1 is v#1
+    ID =  0x1007652	index = 1	T =  1		E =  0
+
+    node: {z}
+	    index 0 is v#0
+	    index 1 is v#1
+    ID = !0x1007655	index = 0	T =   0x1007652	E = !0x1007652
+    ID =  0x1007652	index = 1	T =  1		E =  0
+
+
+void
+bdd_print_stats(stats, file)
+bdd_stats stats;
+FILE *file;
+
+    Print the statistics as returned by bdd_get_stats.  The following is a
+    sample output.
+
+      BDD Package Statistics
+
+      Blocks (bdd_nodeBlock): 10
+
+      Nodes (bdd_node):
+	      used   unused    total     peak
+	      7672     2558    10230    10230
+
+      Extptr (bdd_t):
+	      used   unused    total
+		 2      350      352
+
+      Hashtable:
+	  hits:     168530 (75.0%)
+	  misses:    56325 (25.0%)
+	  total:    224855 (find_or_add calls)
+
+      Caches:              ITE    ITE_const     adhoc
+       Total calls:      240415       3790     318680
+	  trivial:         64.8%      41.2%      22.7%
+	  cached:           6.3%       4.7%       9.0%
+	  full:            28.9%      54.1%      68.3%
+       Total lookups:     86590       2229     246289
+	  misses:          82.6%      92.0%      88.4%
+       Total inserts:     69487       2051        --
+	  collisions:      82.7%      68.6%       --
+
+      Garbage Collections:
+	  collections: 6
+	  total nodes collected: 48653
+	  total time:  0.48 sec
+
+      Memory Usage (bytes):
+	manager:               492
+	bdd_nodes:          327520
+	hashtable:           16364
+	extptrs (bdd_t):      4312
+	ITE cache:           35852
+	ITE_const cache:      2068
+	adhoc cache:             0
+	total:              386608
+
+    "Blocks" gives the number of pairs of bdd_nodeBlocks allocated.  A
+    bdd_nodeBlock is an array of bdd_nodes. Blocks are allocated in pairs since
+    an equal space must be maintained for the stop-and-copy garbage collector.
+    Thus, at any time, only one block of the pair is being used.  For a given
+    manager, the number of blocks is a non-decreasing number over time.  The
+    number of blocks initially allocated can be controlled by using
+    bdd_start_with_params.
+
+    "Nodes" gives the number of bdd_nodes currently in use ("used"), and the
+    number currently available for use ("unused").  Their sum is "total".
+    "total" divided by the number of blocks gives the number of nodes per block.
+    "peak" gives the maximum value of "used" seen so far.  Nodes which are not
+    reachable from bdd_t's, but which have not been garbage collected yet, are
+    counted under "used".  If garbage nodes are found during a garbage
+    collection, then "used" will decrease and "unused" will increase.
+    Immediately following a garbage collection, more bdd_nodeBlocks are
+    allocated (if sufficient memory exists) so that the ratio of "used" to
+    "unused" is 2 to 1.  This ratio can be controlled by using
+    bdd_start_with_params.
+
+    "Extptr" gives the number of bdd_t's currently in use ("used") and the
+    number currently available for use ("unused").  Their sum is "total".
+
+    "Hashtable" gives statistics on the table which maintains the uniqueness of
+    bdd_nodes.  Before a new node is inserted into the table, a find_or_add call
+    is made.  If the node already exists in the table, a "hit" is recorded, and
+    if not, a "miss" is recorded and the node is added to the table.
+
+    "Caches" gives statistics on the caches used to improve the performance of
+    the BDD package.  A cache is used to remember the result of certain
+    computations.  The ITE cache remembers the results of ITE(f,g,h) operations;
+    the ITE_const cache remembers the result of ITE_const operations (used only
+    for bdd_leq; see the Brace paper); the adhoc cache remembers the results of
+    "adhoc operations" (bdd_and_smooth, bdd_cofactor, bdd_compose, bdd_cproject,
+    bdd_smooth, and bdd_substitute).  Only one ITE cache and one ITE_const cache 
+    are used throughout the lifetime of a manager.  On the other hand, a new 
+    adhoc cache is created each time an application calls an adhoc operation; the 
+    cache is destroyed at the end of the operation.
+
+    These caches are appropriately modified so that they are consistent after a
+    garbage collection.  An entry ((f,g,h), result) in the ITE or ITE_const
+    cache is saved only if f, g, h and `result' survived the garbage collection.
+    All the entries in the adhoc cache are saved.
+
+    "Total calls" gives the number of calls to the "core" function involved.
+    For example, for the ITE cache, this gives the number of calls to bdd__ITE_.
+    Note that these core functions are recursive.  Of the total number of calls,
+    "trivial" gives the percentage for which the result is determined trivially
+    (e.g. bdd__ITE_(1,g,h) = g), "cached" gives the percentage for which the
+    result was found in the cache, and "full" gives the percentage for which a
+    full computation had do be performed.  The sum of these three percentages is
+    100%.
+
+    "Total lookups" gives the number of non-trivial calls.  "misses" gives the
+    percentage of lookups which resulted in a cache miss.  "Total inserts" gives
+    the number of cache misses, which is the number of insertions into the
+    cache.
+
+    The ITE and ITE_const caches do not maintain collision chains: they are
+    "closed" caches.  Consequently, if a key hashes to a bucket which is already
+    occupied, causing a collision, then the old key is destroyed and the new key
+    takes its place.  "collisions" gives the percentage of insertions which
+    result in a collision.  The adhoc cache is an open cache, and thus there are
+    no collisions.
+
+    "Garbage Collections" gives the total number of garbage collections, the
+    cumulative number of nodes collected, and the total time spent garbage
+    collecting.
+
+    "Memory Usage" gives a breakdown of the memory used by various components of
+    the BDD manager.  "manager" refers to the bdd_manager data structure.
+    Remember that the adhoc cache is destroyed after each call to an operation
+    that uses the adhoc cache, and thus will probably read 0. The memory usage
+    statistics are not updated incrementally; they are only updated by calling
+    bdd_get_stats.
+
+    Upon certain memory allocation failures in the BDD package, statistics are
+    printed under the title "BDD Manager Death Statistics" before the program
+    exits.
+
+int
+bdd_size(bdd)
+bdd_t *bdd;
+
+    Returns the size of the BDD: 1 for the constant functions 0 and 1, 2 for a
+    single variable BDD formula, and so on.
+
+bdd_variableId
+bdd_top_var_id(f)
+bdd_t *f;
+
+    Returns the variable ID of the bdd_node to which `f' refers.  The variable
+    ID of a node never changes.  The result is undefined if `f' refers to one
+    of the constant functions.
+
+
+
+Traversal of BDD Formulas -----------------------------------------------------
+
+int 
+bdd_gen_free(gen)
+bdd_gen *gen;
+
+    Frees the bdd_gen `gen'.  This should be called after breaking out of 
+    foreach_bdd_cube or foreach_bdd_node.  Always returns 0.
+
+foreach_bdd_cube(fn, gen, cube)
+bdd_t *fn;
+bdd_gen *gen;
+array_t *cube;	  /* return of bdd_literal */
+
+    The BDD corresponding to `fn' is traversed via `gen', with `cube' being
+    filled with successive members of the BDD formula onset.  The cube is an
+    array of bdd_literals.  A bdd_literal can have values 0 (variable appears
+    complemented), 1 (variable appears not complemented), or 2 (variable does
+    not appear).  The cover generated is disjoint.  The BDD is traversed using
+    depth-first search, with the ELSE branch searched before the THEN branch.
+    The same array `cube' is used for each iteration; do not attempt to free
+    it, and use array_dup if you need to remember it.  A single array is 
+    allocated for `cube' by the generator, and it is freed when the generator 
+    completes, or when bdd_gen_free is called.
+
+foreach_bdd_node(fn, gen, node)
+bdd_t *fn;
+bdd_gen *gen;
+bdd_node *node;	  /* return */
+
+    The BDD corresponding to `fn' is traversed via `gen', with `node' being
+    filled with each node in the BDD.  The BDD is traversed using depth-first
+    search, with the ELSE branch searched before the THEN branch, and a node
+    returned only after its children have been returned.  Note that the returned
+    bdd_node pointer has the complement bit zeroed out.
+
+
+    These generators are macros.  Typical usage is:
+
+	foreach_bdd_node(fn, gen, node) {
+	    /* do something with node */
+	}
+
+    Caution: If you are creating new BDDs while iterating through the nodes or
+    cubes, and a garbage collection happens to be performed during this process,
+    the program will abort.  To avoid this, use bdd_set_gc_mode to toggle the
+    garbage collector off before you start the iteration, and back on after you
+    have completed the iteration.
+
+
+
+Miscellaneous -----------------------------------------------------------------
+
+bdd_external_hooks *
+bdd_get_external_hooks(manager)
+bdd_manager *manager;
+
+    Returns a pointer to the external_hooks data structure of `manager'. The
+    external_hooks structure is used to store application-specific data with
+    the manager.
+
+void
+bdd_register_daemon(manager, daemon)
+bdd_manager *manager;
+void (*daemon)();
+
+    Register `daemon' as the function to be called from the BDD manager when the
+    application-specified memory limit is exceeded.  If no memory limit is set,
+    then no daemon needs to be registered.  The `daemon' must take a pointer to
+    bdd_manager as its only argument and must return void:
+
+      void daemon(manager)
+      bdd_manager *manager;
+
+    Memory allocations in the BDD package fall into three categories: 
+
+      1) bdd_nodeBlock allocations - the memory limit is checked.  If the limit
+      will be exceeded, then the current, partial computation is cleared, the
+      garbage collector is called, and then the daemon is called.
+
+      2) cache allocations - the memory limit is checked.  If the limit will be
+      exceeded, then the allocation is not made, and the BDD package continues.
+      Such allocations only serve to cache previous results, and thus not making
+      such allocations trades off time in favor of space.
+
+      3) small, one-time allocations or temporary allocations - the memory limit
+      is not checked.  (Also included in this category are allocations of
+      bdd_t's.)
+
+    Following is a sample usage:
+
+    static void
+    my_callback(manager)
+    bdd_manager *manager;
+    {
+	bdd_stats stats;
+
+	bdd_get_stats(manager, &stats);
+	bdd_print_stats(stats, stdout);
+	(void) fprintf(stdout, "Exceeded memory limit\n");
+	exit(1);
+    }
+
+    int check_networks_equal(ntwk1, ntwk2, num_vars)
+    network_t *ntwk1;
+    network_t *ntwk2;
+    int num_vars;
+    {
+	bdd_manager *manager;
+	bdd_mgr_init mgr_init;
+
+	bdd_set_mgr_init_dflts(&mgr_init); /* get defaults */
+	mgr_init.memory.limit = 10;               /* set at 10 megabytes */
+	mgr_init.memory.deamon = my_callback;     /* set daemon */
+	manager = bdd_start_with_params(num_vars, &mgr_init); 
+	return(networks_equal(manager, ntwk1, ntwk2));
+    }
+
+
+    Another sample usage (see "man setjmp" for details on setjmp and longjmp):
+
+    #include <setjmp.h>            /* defines jmp_buf, setjmp, longjmp */
+    static jmp_buf my_jmpbuf          /* global variable */
+    static void mem_limit_callback()  /* callback routine */
+    {
+	longjmp(my_jmpbuf, 1);
+    }
+
+    void simplify_network(network, manager)
+    network_t *network;
+    bdd_manager *manager; /* already initialized and in use */
+    {
+	node_t *node;
+	lsGen gen;
+
+	bdd_register_daemon(manager, mem_limit_callback);
+	foreach_node(network, gen, node){
+	    if (setjmp(my_jmpbuf) > 0) {
+		/* memory limit exceeded; go to next node */
+		continue;  
+	    }
+	    simplify_node_using_bdds(node);
+	}
+    }
+
+void
+bdd_set_gc_mode(manager, no_gc)
+bdd_manager *manager;
+boolean no_gc;		
+
+    If no_gc==0, turn on garbage collection, else if no_gc==1, turn off garbage
+    collection.
+
+void 
+bdd_dynamic_reordering(manager, algorithm_type)
+bdd_manager *manager;
+bdd_reorder_type_t algorithm_type;
+
+    Prints the following message: "WARNING: Dynamic variable reordering not 
+    implemented in the Berkeley BDD package."
+
+
+
+
+
+

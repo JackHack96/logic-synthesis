@@ -3,7 +3,7 @@
 /* Definitions for data structures callers pass the regex library.
    Copyright (C) 1985 Free Software Foundation, Inc.
 
-               NO WARRANTY
+		       NO WARRANTY
 
   BECAUSE THIS PROGRAM IS LICENSED FREE OF CHARGE, WE PROVIDE ABSOLUTELY
 NO WARRANTY, TO THE EXTENT PERMITTED BY APPLICABLE STATE LAW.  EXCEPT
@@ -27,7 +27,7 @@ A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS) THIS
 PROGRAM, EVEN IF YOU HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH
 DAMAGES, OR FOR ANY CLAIM BY ANY OTHER PARTY.
 
-        GENERAL PUBLIC LICENSE TO COPY
+		GENERAL PUBLIC LICENSE TO COPY
 
   1. You may copy and distribute verbatim copies of this source file
 as you receive it, in any medium, provided that you conspicuously and
@@ -104,6 +104,7 @@ In other words, you are welcome to use, share and improve this program.
 You are forbidden to forbid anyone else to use, share and improve
 what you give them.   Help stamp out software-hoarding!  */
 
+
 /* Define number of parens for which we record the beginnings and ends.
    This affects how much space the `struct re_registers' type takes up.  */
 #ifndef RE_NREGS
@@ -139,9 +140,9 @@ what you give them.   Help stamp out software-hoarding!  */
      their special meaning regardless of the surrounding context.
    1 means that special characters may act as normal characters in some
      contexts.  Specifically, this applies to:
-    ^ - only special at the beginning, or after ( or |
-    $ - only special at the end, or before ) or |
-    *, +, ? - only special when not after the beginning, (, or | */
+	^ - only special at the beginning, or after ( or |
+	$ - only special at the end, or before ) or |
+	*, +, ? - only special when not after the beginning, (, or | */
 #define RE_CONTEXT_INDEP_OPS 32
 
 /* Now define combinations of bits for the standard possibilities.  */
@@ -152,29 +153,29 @@ what you give them.   Help stamp out software-hoarding!  */
 
 /* This data structure is used to represent a compiled pattern. */
 
-struct re_pattern_buffer {
-  char *buffer;  /* Space holding the compiled pattern commands. */
-  int allocated; /* Size of space that  buffer  points to */
-  int used;      /* Length of portion of buffer actually occupied */
-  char *fastmap; /* Pointer to fastmap, if any, or zero if none. */
-                 /* re_search uses the fastmap, if there is one,
-                    to skip quickly over totally implausible characters */
-  char *
-      translate; /* Translate table to apply to all characters before comparing.
-                    Or zero for no translation.
-                    The translation is applied to a pattern when it is compiled
-                    and to data when it is matched. */
-  char fastmap_accurate;
-  /* Set to zero when a new pattern is stored,
-     set to one when the fastmap is updated from it. */
-  char can_be_null; /* Set to one by compiling fastmap
-                       if this pattern might match the null string.
-                       It does not necessarily match the null string
-                       in that case, but if this is zero, it cannot.
-                       2 as value means can match null string
-                       but at end of range or before a character
-                       listed in the fastmap.  */
-};
+struct re_pattern_buffer
+  {
+    char *buffer;	/* Space holding the compiled pattern commands. */
+    int allocated;	/* Size of space that  buffer  points to */
+    int used;		/* Length of portion of buffer actually occupied */
+    char *fastmap;	/* Pointer to fastmap, if any, or zero if none. */
+			/* re_search uses the fastmap, if there is one,
+			   to skip quickly over totally implausible characters */
+    char *translate;	/* Translate table to apply to all characters before comparing.
+			   Or zero for no translation.
+			   The translation is applied to a pattern when it is compiled
+			   and to data when it is matched. */
+    char fastmap_accurate;
+			/* Set to zero when a new pattern is stored,
+			   set to one when the fastmap is updated from it. */
+    char can_be_null;   /* Set to one by compiling fastmap
+			   if this pattern might match the null string.
+			   It does not necessarily match the null string
+			   in that case, but if this is zero, it cannot.
+			   2 as value means can match null string
+			   but at end of range or before a character
+			   listed in the fastmap.  */
+  };
 
 /* Structure to store "register" contents data in.
 
@@ -185,87 +186,85 @@ struct re_pattern_buffer {
    for i from 1 to RE_NREGS - 1.
    start[0] and end[0] record the entire string matched. */
 
-struct re_registers {
-  int start[RE_NREGS];
-  int end[RE_NREGS];
-};
+struct re_registers
+  {
+    int start[RE_NREGS];
+    int end[RE_NREGS];
+  };
 
-/* These are the command codes that appear in compiled regular expressions, one
-  per byte. Some command codes are followed by argument bytes. A command code
-  can specify any interpretation whatever for its arguments. Zero-bytes may
-  appear in the compiled regular expression. */
+/* These are the command codes that appear in compiled regular expressions, one per byte.
+  Some command codes are followed by argument bytes.
+  A command code can specify any interpretation whatever for its arguments.
+  Zero-bytes may appear in the compiled regular expression. */
 
-enum regexpcode {
-  unused,
-  exactn,  /* followed by one byte giving n, and then by n literal bytes */
-  begline, /* fails unless at beginning of line */
-  endline, /* fails unless at end of line */
-  jump,    /* followed by two bytes giving relative address to jump to */
-  on_failure_jump, /* followed by two bytes giving relative address of place
-                      to resume at in case of failure. */
-  finalize_jump, /* Throw away latest failure point and then jump to address. */
-  maybe_finalize_jump, /* Like jump but finalize if safe to do so.
-                          This is used to jump back to the beginning
-                          of a repeat.  If the command that follows
-                          this jump is clearly incompatible with the
-                          one at the beginning of the repeat, such that
-                          we can be sure that there is no use backtracking
-                          out of repetitions already completed,
-                          then we finalize. */
-  dummy_failure_jump,  /* jump, and push a dummy failure point.
-                          This failure point will be thrown away
-                          if an attempt is made to use it for a failure.
-                          A + construct makes this before the first repeat.  */
-  anychar,             /* matches any one character */
-  charset,             /* matches any one char belonging to specified set.
-                          First following byte is # bitmap bytes.
-                          Then come bytes for a bit-map saying which chars are in.
-                          Bits in each byte are ordered low-bit-first.
-                          A character is in the set if its bit is 1.
-                          A character too large to have a bit in the map
-                          is automatically not in the set */
-  charset_not,  /* similar but match any character that is NOT one of those
-                   specified */
-  start_memory, /* starts remembering the text that is matched
-                  and stores it in a memory register.
-                  followed by one byte containing the register number.
-                  Register numbers must be in the range 0 through NREGS. */
-  stop_memory,  /* stops remembering the text that is matched
-                   and stores it in a memory register.
-                   followed by one byte containing the register number.
-                   Register numbers must be in the range 0 through NREGS. */
-  duplicate,    /* match a duplicate of something remembered.
-                  Followed by one byte containing the index of the memory register.
-                */
-  before_dot,   /* Succeeds if before dot */
-  at_dot,       /* Succeeds if at dot */
-  after_dot,    /* Succeeds if after dot */
-  begbuf,       /* Succeeds if at beginning of buffer */
-  endbuf,       /* Succeeds if at end of buffer */
-  wordchar,     /* Matches any word-constituent character */
-  notwordchar,  /* Matches any char that is not a word-constituent */
-  wordbeg,      /* Succeeds if at word beginning */
-  wordend,      /* Succeeds if at word end */
-  wordbound,    /* Succeeds if at a word boundary */
-  notwordbound, /* Succeeds if not at a word boundary */
-  syntaxspec,   /* Matches any character whose syntax is specified.
-                   followed by a byte which contains a syntax code, Sword or such
-                   like */
-  notsyntaxspec /* Matches any character whose syntax differs from the
-                   specified. */
-};
-
-char *re_compile_pattern();
+enum regexpcode
+  {
+    unused,
+    exactn,    /* followed by one byte giving n, and then by n literal bytes */
+    begline,   /* fails unless at beginning of line */
+    endline,   /* fails unless at end of line */
+    jump,	 /* followed by two bytes giving relative address to jump to */
+    on_failure_jump,	 /* followed by two bytes giving relative address of place
+		            to resume at in case of failure. */
+    finalize_jump,	 /* Throw away latest failure point and then jump to address. */
+    maybe_finalize_jump, /* Like jump but finalize if safe to do so.
+			    This is used to jump back to the beginning
+			    of a repeat.  If the command that follows
+			    this jump is clearly incompatible with the
+			    one at the beginning of the repeat, such that
+			    we can be sure that there is no use backtracking
+			    out of repetitions already completed,
+			    then we finalize. */
+    dummy_failure_jump,  /* jump, and push a dummy failure point.
+			    This failure point will be thrown away
+			    if an attempt is made to use it for a failure.
+			    A + construct makes this before the first repeat.  */
+    anychar,	 /* matches any one character */
+    charset,     /* matches any one char belonging to specified set.
+		    First following byte is # bitmap bytes.
+		    Then come bytes for a bit-map saying which chars are in.
+		    Bits in each byte are ordered low-bit-first.
+		    A character is in the set if its bit is 1.
+		    A character too large to have a bit in the map
+		    is automatically not in the set */
+    charset_not, /* similar but match any character that is NOT one of those specified */
+    start_memory, /* starts remembering the text that is matched
+		    and stores it in a memory register.
+		    followed by one byte containing the register number.
+		    Register numbers must be in the range 0 through NREGS. */
+    stop_memory, /* stops remembering the text that is matched
+		    and stores it in a memory register.
+		    followed by one byte containing the register number.
+		    Register numbers must be in the range 0 through NREGS. */
+    duplicate,    /* match a duplicate of something remembered.
+		    Followed by one byte containing the index of the memory register. */
+    before_dot,	 /* Succeeds if before dot */
+    at_dot,	 /* Succeeds if at dot */
+    after_dot,	 /* Succeeds if after dot */
+    begbuf,      /* Succeeds if at beginning of buffer */
+    endbuf,      /* Succeeds if at end of buffer */
+    wordchar,    /* Matches any word-constituent character */
+    notwordchar, /* Matches any char that is not a word-constituent */
+    wordbeg,	 /* Succeeds if at word beginning */
+    wordend,	 /* Succeeds if at word end */
+    wordbound,   /* Succeeds if at a word boundary */
+    notwordbound, /* Succeeds if not at a word boundary */
+    syntaxspec,  /* Matches any character whose syntax is specified.
+		    followed by a byte which contains a syntax code, Sword or such like */
+    notsyntaxspec /* Matches any character whose syntax differs from the specified. */
+  };
+
+extern char *re_compile_pattern ();
 /* Is this really advertised? */
-void re_compile_fastmap();
-int re_search(), re_search_2();
-int re_match(), re_match_2();
+extern void re_compile_fastmap ();
+extern int re_search (), re_search_2 ();
+extern int re_match (), re_match_2 ();
 
 /* 4.2 bsd compatibility (yuck) */
-char *re_comp();
-int re_exec();
+extern char *re_comp ();
+extern int re_exec ();
 
 #ifdef SYNTAX_TABLE
-char *re_syntax_table;
+extern char *re_syntax_table;
 #endif
 #endif

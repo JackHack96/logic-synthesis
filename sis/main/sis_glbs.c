@@ -1,6 +1,6 @@
 
 #include <stdio.h>
-
+#include "ansi.h"
 #include "array.h"
 
 FILE *siserr = 0;

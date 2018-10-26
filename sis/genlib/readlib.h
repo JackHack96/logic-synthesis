@@ -30,20 +30,20 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_HOME_MATTEO_DROPBOX_SIS_SIS_GENLIB_READLIB_H_INCLUDED
-# define YY_YY_HOME_MATTEO_DROPBOX_SIS_SIS_GENLIB_READLIB_H_INCLUDED
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
 #endif
 #if YYDEBUG
-extern int GENLIB_GENLIB_yydebug;
+extern int GENLIB_yydebug;
 #endif
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
-  enum GENLIB_GENLIB_yytokentype
+  enum GENLIB_yytokentype
   {
     OPR_OR = 258,
     OPR_AND = 259,
@@ -65,13 +65,32 @@ extern int GENLIB_GENLIB_yydebug;
     SEQ = 275
   };
 #endif
+/* Tokens.  */
+#define OPR_OR 258
+#define OPR_AND 259
+#define CONST1 260
+#define CONST0 261
+#define IDENTIFIER 262
+#define LPAREN 263
+#define REAL 264
+#define OPR_NOT 265
+#define OPR_NOT_POST 266
+#define GATE 267
+#define PIN 268
+#define SEMI 269
+#define ASSIGN 270
+#define RPAREN 271
+#define LATCH 272
+#define CONTROL 273
+#define CONSTRAINT 274
+#define SEQ 275
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 24 "/home/matteo/Dropbox/sis/sis/genlib/readlib.y" /* yacc.c:1909  */
+#line 29 "readlib.y" /* yacc.c:1909  */
 
     tree_node_t *nodeval;
     char *strval;
@@ -81,7 +100,7 @@ union YYSTYPE
     latch_info_t *latchval;
     constraint_info_t *constrval;
 
-#line 85 "/home/matteo/Dropbox/sis/sis/genlib/readlib.h" /* yacc.c:1909  */
+#line 104 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -90,8 +109,8 @@ typedef union YYSTYPE YYSTYPE;
 #endif
 
 
-extern YYSTYPE GENLIB_GENLIB_yylval;
+extern YYSTYPE GENLIB_yylval;
 
-int GENLIB_GENLIB_yyparse (void);
+int GENLIB_yyparse (void);
 
-#endif /* !YY_YY_HOME_MATTEO_DROPBOX_SIS_SIS_GENLIB_READLIB_H_INCLUDED  */
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */

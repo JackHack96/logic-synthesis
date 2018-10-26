@@ -1,10 +1,10 @@
 
+/* LINTLIBRARY */
+#include "copyright.h"
+#include "port.h"
+#include "utility.h"
 
-#include "../port/copyright.h"
-#include "../port/port.h"
-#include "../utility/utility.h"
-
-#ifdef IBM_WATC /* IBM Waterloo-C compiler (same as bsd 4.2) */
+#ifdef IBM_WATC		/* IBM Waterloo-C compiler (same as bsd 4.2) */
 #ifndef BSD
 #define BSD
 #endif
@@ -19,7 +19,7 @@
 #endif
 #endif
 
-#ifdef __hpux /* HP/UX - system dependent clock speed */
+#ifdef __hpux	/* HP/UX - system dependent clock speed */
 #ifndef UNIXMULTI
 #define UNIXMULTI
 #endif
@@ -31,23 +31,20 @@
 #endif
 #endif
 
-#ifdef vms /* VAX/C compiler -- times() with 100 HZ clock */
+#ifdef vms		/* VAX/C compiler -- times() with 100 HZ clock */
 #ifndef UNIX100
 #define UNIX100
 #endif
 #endif
 
 /* default */
-#if !defined(BSD) && !defined(UNIX10) && !defined(UNIX60) &&                   \
-    !defined(UNIX100) && !defined(UNIX50) && !defined(UNIXMULTI)
+#if !defined(BSD) && !defined(UNIX10) && !defined(UNIX60) && !defined(UNIX100) && !defined(UNIX50) && !defined(UNIXMULTI)
 #define BSD
 #endif
 
 #ifdef BSD
-
-#include <sys/resource.h>
 #include <sys/time.h>
-
+#include <sys/resource.h>
 #endif
 
 #ifdef UNIX10
@@ -82,53 +79,55 @@
  *   util_cpu_time -- return a long which represents the elapsed processor
  *   time in milliseconds since some constant reference
  */
-long util_cpu_time() {
-  long t = 0;
+long 
+util_cpu_time()
+{
+    long t = 0;
 
 #ifdef BSD
-  struct rusage rusage;
-  (void)getrusage(RUSAGE_SELF, &rusage);
-  t = (long)rusage.ru_utime.tv_sec * 1000 + rusage.ru_utime.tv_usec / 1000;
+    struct rusage rusage;
+    (void) getrusage(RUSAGE_SELF, &rusage);
+    t = (long) rusage.ru_utime.tv_sec*1000 + rusage.ru_utime.tv_usec/1000;
 #endif
 
 #ifdef IBMPC
-  long ltime;
-  (void)time(&ltime);
-  t = ltime * 1000;
+    long ltime;
+    (void) time(&ltime);
+    t = ltime * 1000;
 #endif
 
-#ifdef UNIX10 /* times() with 10 Hz resolution */
-  struct tms buffer;
-  (void)times(&buffer);
-  t = buffer.tms_utime * 100;
+#ifdef UNIX10			/* times() with 10 Hz resolution */
+    struct tms buffer;
+    (void) times(&buffer);
+    t = buffer.tms_utime * 100;
 #endif
 
-#ifdef UNIX50 /* times() with 50 Hz resolution */
-  struct tms buffer;
-  times(&buffer);
-  t = buffer.tms_utime * 20;
+#ifdef UNIX50			/* times() with 50 Hz resolution */
+    struct tms buffer;
+    times(&buffer);
+    t = buffer.tms_utime * 20;
 #endif
 
-#ifdef UNIX60 /* times() with 60 Hz resolution */
-  struct tms buffer;
-  times(&buffer);
-  t = buffer.tms_utime * 16.6667;
+#ifdef UNIX60			/* times() with 60 Hz resolution */
+    struct tms buffer;
+    times(&buffer);
+    t = buffer.tms_utime * 16.6667;
 #endif
 
 #ifdef UNIX100
-  struct tms buffer; /* times() with 100 Hz resolution */
-  times(&buffer);
-  t = buffer.tms_utime * 10;
+    struct tms buffer;		/* times() with 100 Hz resolution */
+    times(&buffer);
+    t = buffer.tms_utime * 10;
 #endif
 
-#ifdef UNIXMULTI /* times() with processor-dependent resolution (POSIX) */
-  struct tms buffer;
-  long nticks; /* number of clock ticks per second */
+#ifdef UNIXMULTI      /* times() with processor-dependent resolution (POSIX) */
+    struct tms buffer;
+    long nticks;                /* number of clock ticks per second */
 
-  nticks = sysconf(_SC_CLK_TCK);
-  times(&buffer);
-  t = buffer.tms_utime * (1000.0 / nticks);
+    nticks = sysconf(_SC_CLK_TCK);
+    times(&buffer);
+    t = buffer.tms_utime * (1000.0/nticks);
 
 #endif
-  return t;
+    return t;
 }

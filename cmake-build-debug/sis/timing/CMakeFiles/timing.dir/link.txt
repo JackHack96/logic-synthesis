@@ -1,2 +1,0 @@
-/usr/bin/ar qc libtiming.a  CMakeFiles/timing.dir/com_timing.c.o CMakeFiles/timing.dir/timing_comp.c.o CMakeFiles/timing.dir/timing_graph.c.o CMakeFiles/timing.dir/timing_seq.c.o CMakeFiles/timing.dir/timing_util.c.o CMakeFiles/timing.dir/timing_verify.c.o
-/usr/bin/ranlib libtiming.a

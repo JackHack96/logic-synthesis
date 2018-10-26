@@ -33,7 +33,7 @@
 /* C LALR(1) parser skeleton written by Richard Stallman, by
    simplifying the original so-called "semantic" parser.  */
 
-/* All symbols defined below should begin with EQN_EQN_yy or YY, to avoid
+/* All symbols defined below should begin with EQN_yy or YY, to avoid
    infringing on user name space.  This should be done even for local
    variables, as they might otherwise be expanded by user macros.
    There are some unavoidable exceptions within include files to
@@ -62,27 +62,32 @@
 
 
 /* Copy the first part of user declarations.  */
-#line 2 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:339  */
+#line 2 "read_eqn.y" /* yacc.c:339  */
 
 #include "sis.h"
 #include "io_int.h"
 #include <setjmp.h>
+#include "config.h"
 
-char *EQN_EQN_yytext;
+#if YYTEXT_POINTER
+extern char *EQN_yytext;
+#else
+extern char EQN_yytext[];
+#endif
 
 static network_t *global_network;
 static lsList po_list;
 
-int EQN_EQN_yyerror();
+int EQN_yyerror();
 #if 0 /* #ifndef FLEX_SCANNER */
-#undef EQN_EQN_yywrap
+#undef EQN_yywrap
 static int input();
 static int unput();
-static int EQN_EQN_yywrap();
+static int EQN_yywrap();
 #endif
 
-int equation_setup_string(char *);
-int equation_setup_file(FILE *);
+extern int equation_setup_string(char *);
+extern int equation_setup_file(FILE *);
 
 static void
 do_assign(name, expr)
@@ -95,7 +100,7 @@ node_t *expr;
     node = read_find_or_create_node(global_network, name);
     if (node_function(node) != NODE_UNDEFINED) {
 	(void) sprintf(errmsg, "Attempt to redefine '%s'\n", name);
-	EQN_EQN_yyerror(errmsg);   /* never returns */
+	EQN_yyerror(errmsg);   /* never returns */
     }
     FREE(name);
     node_replace(node, expr);
@@ -124,7 +129,7 @@ node_t *(*func)();
 }
 
 
-#line 128 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:339  */
+#line 133 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -143,21 +148,21 @@ node_t *(*func)();
 #endif
 
 /* In a future release of Bison, this section will be replaced
-   by #include "read_eqn.h".  */
-#ifndef YY_YY_HOME_MATTEO_DROPBOX_SIS_SIS_IO_READ_EQN_H_INCLUDED
-# define YY_YY_HOME_MATTEO_DROPBOX_SIS_SIS_IO_READ_EQN_H_INCLUDED
+   by #include "y.tab.h".  */
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
 #endif
 #if YYDEBUG
-extern int EQN_EQN_yydebug;
+extern int EQN_yydebug;
 #endif
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
-  enum EQN_EQN_yytokentype
+  enum EQN_yytokentype
   {
     OPR_OR = 258,
     OPR_AND = 259,
@@ -179,19 +184,38 @@ extern int EQN_EQN_yydebug;
     END = 275
   };
 #endif
+/* Tokens.  */
+#define OPR_OR 258
+#define OPR_AND 259
+#define CONST_ZERO 260
+#define CONST_ONE 261
+#define IDENTIFIER 262
+#define LPAREN 263
+#define OPR_XOR 264
+#define OPR_XNOR 265
+#define OPR_NOT 266
+#define OPR_NOT_POST 267
+#define NAME 268
+#define INORDER 269
+#define OUTORDER 270
+#define PASS 271
+#define ASSIGN 272
+#define SEMI 273
+#define RPAREN 274
+#define END 275
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 64 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:355  */
+#line 69 "read_eqn.y" /* yacc.c:355  */
 
     char *strval;
     node_t *node;
     array_t *array;
 
-#line 195 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:355  */
+#line 219 "y.tab.c" /* yacc.c:355  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -200,42 +224,42 @@ typedef union YYSTYPE YYSTYPE;
 #endif
 
 
-extern YYSTYPE EQN_EQN_yylval;
+extern YYSTYPE EQN_yylval;
 
-int EQN_EQN_yyparse (void);
+int EQN_yyparse (void);
 
-#endif /* !YY_YY_HOME_MATTEO_DROPBOX_SIS_SIS_IO_READ_EQN_H_INCLUDED  */
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */
 
 /* Copy the second part of user declarations.  */
 
-#line 212 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:358  */
+#line 236 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
 #endif
 
 #ifdef YYTYPE_UINT8
-typedef YYTYPE_UINT8 EQN_EQN_yytype_uint8;
+typedef YYTYPE_UINT8 EQN_yytype_uint8;
 #else
-typedef unsigned char EQN_EQN_yytype_uint8;
+typedef unsigned char EQN_yytype_uint8;
 #endif
 
 #ifdef YYTYPE_INT8
-typedef YYTYPE_INT8 EQN_EQN_yytype_int8;
+typedef YYTYPE_INT8 EQN_yytype_int8;
 #else
-typedef signed char EQN_EQN_yytype_int8;
+typedef signed char EQN_yytype_int8;
 #endif
 
 #ifdef YYTYPE_UINT16
-typedef YYTYPE_UINT16 EQN_EQN_yytype_uint16;
+typedef YYTYPE_UINT16 EQN_yytype_uint16;
 #else
-typedef unsigned short int EQN_EQN_yytype_uint16;
+typedef unsigned short int EQN_yytype_uint16;
 #endif
 
 #ifdef YYTYPE_INT16
-typedef YYTYPE_INT16 EQN_EQN_yytype_int16;
+typedef YYTYPE_INT16 EQN_yytype_int16;
 #else
-typedef short int EQN_EQN_yytype_int16;
+typedef short int EQN_yytype_int16;
 #endif
 
 #ifndef YYSIZE_T
@@ -300,7 +324,7 @@ typedef short int EQN_EQN_yytype_int16;
 #endif
 
 #if defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
-/* Suppress an incorrect diagnostic about EQN_EQN_yylval being uninitialized.  */
+/* Suppress an incorrect diagnostic about EQN_yylval being uninitialized.  */
 # define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
     _Pragma ("GCC diagnostic push") \
     _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")\
@@ -319,7 +343,7 @@ typedef short int EQN_EQN_yytype_int16;
 #endif
 
 
-#if ! defined EQN_EQN_yyoverflow || YYERROR_VERBOSE
+#if ! defined EQN_yyoverflow || YYERROR_VERBOSE
 
 /* The parser invokes alloca or malloc; define the necessary symbols.  */
 
@@ -384,27 +408,27 @@ void free (void *); /* INFRINGES ON USER NAME SPACE */
 #   endif
 #  endif
 # endif
-#endif /* ! defined EQN_EQN_yyoverflow || YYERROR_VERBOSE */
+#endif /* ! defined EQN_yyoverflow || YYERROR_VERBOSE */
 
 
-#if (! defined EQN_EQN_yyoverflow \
+#if (! defined EQN_yyoverflow \
      && (! defined __cplusplus \
          || (defined YYSTYPE_IS_TRIVIAL && YYSTYPE_IS_TRIVIAL)))
 
 /* A type that is properly aligned for any stack member.  */
-union EQN_EQN_yyalloc
+union EQN_yyalloc
 {
-  EQN_EQN_yytype_int16 EQN_EQN_yyss_alloc;
-  YYSTYPE EQN_EQN_yyvs_alloc;
+  EQN_yytype_int16 EQN_yyss_alloc;
+  YYSTYPE EQN_yyvs_alloc;
 };
 
 /* The size of the maximum gap between one aligned stack and the next.  */
-# define YYSTACK_GAP_MAXIMUM (sizeof (union EQN_EQN_yyalloc) - 1)
+# define YYSTACK_GAP_MAXIMUM (sizeof (union EQN_yyalloc) - 1)
 
 /* The size of an array large to enough to hold all stacks, each with
    N elements.  */
 # define YYSTACK_BYTES(N) \
-     ((N) * (sizeof (EQN_EQN_yytype_int16) + sizeof (YYSTYPE)) \
+     ((N) * (sizeof (EQN_yytype_int16) + sizeof (YYSTYPE)) \
       + YYSTACK_GAP_MAXIMUM)
 
 # define YYCOPY_NEEDED 1
@@ -417,11 +441,11 @@ union EQN_EQN_yyalloc
 # define YYSTACK_RELOCATE(Stack_alloc, Stack)                           \
     do                                                                  \
       {                                                                 \
-        YYSIZE_T EQN_EQN_yynewbytes;                                            \
-        YYCOPY (&EQN_EQN_yyptr->Stack_alloc, Stack, EQN_EQN_yysize);                    \
-        Stack = &EQN_EQN_yyptr->Stack_alloc;                                    \
-        EQN_EQN_yynewbytes = EQN_EQN_yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
-        EQN_EQN_yyptr += EQN_EQN_yynewbytes / sizeof (*EQN_EQN_yyptr);                          \
+        YYSIZE_T EQN_yynewbytes;                                            \
+        YYCOPY (&EQN_yyptr->Stack_alloc, Stack, EQN_yysize);                    \
+        Stack = &EQN_yyptr->Stack_alloc;                                    \
+        EQN_yynewbytes = EQN_yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
+        EQN_yyptr += EQN_yynewbytes / sizeof (*EQN_yyptr);                          \
       }                                                                 \
     while (0)
 
@@ -438,9 +462,9 @@ union EQN_EQN_yyalloc
 #   define YYCOPY(Dst, Src, Count)              \
       do                                        \
         {                                       \
-          YYSIZE_T EQN_EQN_yyi;                         \
-          for (EQN_EQN_yyi = 0; EQN_EQN_yyi < (Count); EQN_EQN_yyi++)   \
-            (Dst)[EQN_EQN_yyi] = (Src)[EQN_EQN_yyi];            \
+          YYSIZE_T EQN_yyi;                         \
+          for (EQN_yyi = 0; EQN_yyi < (Count); EQN_yyi++)   \
+            (Dst)[EQN_yyi] = (Src)[EQN_yyi];            \
         }                                       \
       while (0)
 #  endif
@@ -462,16 +486,16 @@ union EQN_EQN_yyalloc
 #define YYNSTATES  70
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
-   by EQN_EQN_yylex, with out-of-bounds checking.  */
+   by EQN_yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   275
 
 #define YYTRANSLATE(YYX)                                                \
-  ((unsigned int) (YYX) <= YYMAXUTOK ? EQN_EQN_yytranslate[YYX] : YYUNDEFTOK)
+  ((unsigned int) (YYX) <= YYMAXUTOK ? EQN_yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
-   as returned by EQN_EQN_yylex, without out-of-bounds checking.  */
-static const EQN_EQN_yytype_uint8 EQN_EQN_yytranslate[] =
+   as returned by EQN_yylex, without out-of-bounds checking.  */
+static const EQN_yytype_uint8 EQN_yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -505,19 +529,19 @@ static const EQN_EQN_yytype_uint8 EQN_EQN_yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const EQN_EQN_yytype_uint8 EQN_EQN_yyrline[] =
+static const EQN_yytype_uint8 EQN_yyrline[] =
 {
-       0,    81,    81,    82,    83,    84,    88,    89,    92,    93,
-      99,   101,   103,   106,   111,   114,   117,   120,   123,   126,
-     129,   132,   135,   138,   141,   151,   154,   157,   160,   163,
-     166,   169,   172,   182,   187,   193,   198,   199,   216,   217
+       0,    86,    86,    87,    88,    89,    93,    94,    97,    98,
+     104,   106,   108,   111,   116,   119,   122,   125,   128,   131,
+     134,   137,   140,   143,   146,   156,   159,   162,   165,   168,
+     171,   174,   177,   187,   192,   198,   203,   204,   221,   222
 };
 #endif
 
 #if YYDEBUG || YYERROR_VERBOSE || 0
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
-static const char *const EQN_EQN_yytname[] =
+static const char *const EQN_yytname[] =
 {
   "$end", "error", "$undefined", "OPR_OR", "OPR_AND", "CONST_ZERO",
   "CONST_ONE", "IDENTIFIER", "LPAREN", "OPR_XOR", "OPR_XNOR", "OPR_NOT",
@@ -530,7 +554,7 @@ static const char *const EQN_EQN_yytname[] =
 # ifdef YYPRINT
 /* YYTOKNUM[NUM] -- (External) token number corresponding to the
    (internal) symbol number NUM (which must be that of a token).  */
-static const EQN_EQN_yytype_uint16 EQN_EQN_yytoknum[] =
+static const EQN_yytype_uint16 EQN_yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
@@ -540,17 +564,17 @@ static const EQN_EQN_yytype_uint16 EQN_EQN_yytoknum[] =
 
 #define YYPACT_NINF -10
 
-#define EQN_EQN_yypact_value_is_default(Yystate) \
+#define EQN_yypact_value_is_default(Yystate) \
   (!!((Yystate) == (-10)))
 
 #define YYTABLE_NINF -9
 
-#define EQN_EQN_yytable_value_is_error(Yytable_value) \
+#define EQN_yytable_value_is_error(Yytable_value) \
   0
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
      STATE-NUM.  */
-static const EQN_EQN_yytype_int8 EQN_EQN_yypact[] =
+static const EQN_yytype_int8 EQN_yypact[] =
 {
       64,   -10,   -10,   -10,    24,    -9,    -7,    -6,    12,    73,
        2,   -10,    -1,   119,   119,     4,     6,   119,    14,    14,
@@ -564,7 +588,7 @@ static const EQN_EQN_yytype_int8 EQN_EQN_yypact[] =
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
      Performed when YYTABLE does not specify something else to do.  Zero
      means the default is an error.  */
-static const EQN_EQN_yytype_uint8 EQN_EQN_yydefact[] =
+static const EQN_yytype_uint8 EQN_yydefact[] =
 {
        2,    28,    29,    35,     0,     0,     0,     0,     0,     3,
        0,     5,    32,     0,     0,     0,     0,     0,     0,     0,
@@ -576,13 +600,13 @@ static const EQN_EQN_yytype_uint8 EQN_EQN_yydefact[] =
 };
 
   /* YYPGOTO[NTERM-NUM].  */
-static const EQN_EQN_yytype_int8 EQN_EQN_yypgoto[] =
+static const EQN_yytype_int8 EQN_yypgoto[] =
 {
      -10,   -10,   -10,    58,    -2,     5,    52,     0,   -10,   -10
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
-static const EQN_EQN_yytype_int8 EQN_EQN_yydefgoto[] =
+static const EQN_yytype_int8 EQN_yydefgoto[] =
 {
       -1,     8,     9,    10,    63,    30,    31,    48,    39,    40
 };
@@ -590,7 +614,7 @@ static const EQN_EQN_yytype_int8 EQN_EQN_yydefgoto[] =
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
      positive, shift that token.  If negative, reduce the rule whose
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
-static const EQN_EQN_yytype_int8 EQN_EQN_yytable[] =
+static const EQN_yytype_int8 EQN_yytable[] =
 {
       12,     1,     2,     3,    29,    11,    46,    62,    19,    26,
       20,    21,    22,    32,    32,    49,    28,    32,    37,    38,
@@ -608,7 +632,7 @@ static const EQN_EQN_yytype_int8 EQN_EQN_yytable[] =
       61,    46,    62
 };
 
-static const EQN_EQN_yytype_int8 EQN_EQN_yycheck[] =
+static const EQN_yytype_int8 EQN_yycheck[] =
 {
        0,     5,     6,     7,     8,     0,    11,    12,    17,     9,
       17,    17,     0,    13,    14,    19,    17,    17,    18,    19,
@@ -628,7 +652,7 @@ static const EQN_EQN_yytype_int8 EQN_EQN_yycheck[] =
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
-static const EQN_EQN_yytype_uint8 EQN_EQN_yystos[] =
+static const EQN_yytype_uint8 EQN_yystos[] =
 {
        0,     5,     6,     7,     8,    13,    14,    15,    22,    23,
       24,    26,    28,     3,     4,     5,     6,    11,    17,    17,
@@ -640,7 +664,7 @@ static const EQN_EQN_yytype_uint8 EQN_EQN_yystos[] =
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-static const EQN_EQN_yytype_uint8 EQN_EQN_yyr1[] =
+static const EQN_yytype_uint8 EQN_yyr1[] =
 {
        0,    21,    22,    22,    22,    22,    23,    23,    24,    24,
       24,    24,    24,    24,    25,    25,    25,    25,    25,    25,
@@ -649,7 +673,7 @@ static const EQN_EQN_yytype_uint8 EQN_EQN_yyr1[] =
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
-static const EQN_EQN_yytype_uint8 EQN_EQN_yyr2[] =
+static const EQN_yytype_uint8 EQN_yyr2[] =
 {
        0,     2,     0,     1,     3,     1,     2,     3,     0,     3,
        3,     3,     3,     5,     3,     3,     2,     3,     3,     2,
@@ -658,31 +682,31 @@ static const EQN_EQN_yytype_uint8 EQN_EQN_yyr2[] =
 };
 
 
-#define EQN_EQN_yyerrok         (EQN_EQN_yyerrstatus = 0)
-#define EQN_EQN_yyclearin       (EQN_EQN_yychar = YYEMPTY)
+#define EQN_yyerrok         (EQN_yyerrstatus = 0)
+#define EQN_yyclearin       (EQN_yychar = YYEMPTY)
 #define YYEMPTY         (-2)
 #define YYEOF           0
 
-#define YYACCEPT        goto EQN_EQN_yyacceptlab
-#define YYABORT         goto EQN_EQN_yyabortlab
-#define YYERROR         goto EQN_EQN_yyerrorlab
+#define YYACCEPT        goto EQN_yyacceptlab
+#define YYABORT         goto EQN_yyabortlab
+#define YYERROR         goto EQN_yyerrorlab
 
 
-#define YYRECOVERING()  (!!EQN_EQN_yyerrstatus)
+#define YYRECOVERING()  (!!EQN_yyerrstatus)
 
 #define YYBACKUP(Token, Value)                                  \
 do                                                              \
-  if (EQN_EQN_yychar == YYEMPTY)                                        \
+  if (EQN_yychar == YYEMPTY)                                        \
     {                                                           \
-      EQN_EQN_yychar = (Token);                                         \
-      EQN_EQN_yylval = (Value);                                         \
-      YYPOPSTACK (EQN_EQN_yylen);                                       \
-      EQN_EQN_yystate = *EQN_EQN_yyssp;                                         \
-      goto EQN_EQN_yybackup;                                            \
+      EQN_yychar = (Token);                                         \
+      EQN_yylval = (Value);                                         \
+      YYPOPSTACK (EQN_yylen);                                       \
+      EQN_yystate = *EQN_yyssp;                                         \
+      goto EQN_yybackup;                                            \
     }                                                           \
   else                                                          \
     {                                                           \
-      EQN_EQN_yyerror (YY_("syntax error: cannot back up")); \
+      EQN_yyerror (YY_("syntax error: cannot back up")); \
       YYERROR;                                                  \
     }                                                           \
 while (0)
@@ -703,7 +727,7 @@ while (0)
 
 # define YYDPRINTF(Args)                        \
 do {                                            \
-  if (EQN_EQN_yydebug)                                  \
+  if (EQN_yydebug)                                  \
     YYFPRINTF Args;                             \
 } while (0)
 
@@ -715,10 +739,10 @@ do {                                            \
 
 # define YY_SYMBOL_PRINT(Title, Type, Value, Location)                    \
 do {                                                                      \
-  if (EQN_EQN_yydebug)                                                            \
+  if (EQN_yydebug)                                                            \
     {                                                                     \
       YYFPRINTF (stderr, "%s ", Title);                                   \
-      EQN_EQN_yy_symbol_print (stderr,                                            \
+      EQN_yy_symbol_print (stderr,                                            \
                   Type, Value); \
       YYFPRINTF (stderr, "\n");                                           \
     }                                                                     \
@@ -730,17 +754,17 @@ do {                                                                      \
 `----------------------------------------*/
 
 static void
-EQN_EQN_yy_symbol_value_print (FILE *EQN_EQN_yyoutput, int EQN_EQN_yytype, YYSTYPE const * const EQN_EQN_yyvaluep)
+EQN_yy_symbol_value_print (FILE *EQN_yyoutput, int EQN_yytype, YYSTYPE const * const EQN_yyvaluep)
 {
-  FILE *EQN_EQN_yyo = EQN_EQN_yyoutput;
-  YYUSE (EQN_EQN_yyo);
-  if (!EQN_EQN_yyvaluep)
+  FILE *EQN_yyo = EQN_yyoutput;
+  YYUSE (EQN_yyo);
+  if (!EQN_yyvaluep)
     return;
 # ifdef YYPRINT
-  if (EQN_EQN_yytype < YYNTOKENS)
-    YYPRINT (EQN_EQN_yyoutput, EQN_EQN_yytoknum[EQN_EQN_yytype], *EQN_EQN_yyvaluep);
+  if (EQN_yytype < YYNTOKENS)
+    YYPRINT (EQN_yyoutput, EQN_yytoknum[EQN_yytype], *EQN_yyvaluep);
 # endif
-  YYUSE (EQN_EQN_yytype);
+  YYUSE (EQN_yytype);
 }
 
 
@@ -749,36 +773,36 @@ EQN_EQN_yy_symbol_value_print (FILE *EQN_EQN_yyoutput, int EQN_EQN_yytype, YYSTY
 `--------------------------------*/
 
 static void
-EQN_EQN_yy_symbol_print (FILE *EQN_EQN_yyoutput, int EQN_EQN_yytype, YYSTYPE const * const EQN_EQN_yyvaluep)
+EQN_yy_symbol_print (FILE *EQN_yyoutput, int EQN_yytype, YYSTYPE const * const EQN_yyvaluep)
 {
-  YYFPRINTF (EQN_EQN_yyoutput, "%s %s (",
-             EQN_EQN_yytype < YYNTOKENS ? "token" : "nterm", EQN_EQN_yytname[EQN_EQN_yytype]);
+  YYFPRINTF (EQN_yyoutput, "%s %s (",
+             EQN_yytype < YYNTOKENS ? "token" : "nterm", EQN_yytname[EQN_yytype]);
 
-  EQN_EQN_yy_symbol_value_print (EQN_EQN_yyoutput, EQN_EQN_yytype, EQN_EQN_yyvaluep);
-  YYFPRINTF (EQN_EQN_yyoutput, ")");
+  EQN_yy_symbol_value_print (EQN_yyoutput, EQN_yytype, EQN_yyvaluep);
+  YYFPRINTF (EQN_yyoutput, ")");
 }
 
 /*------------------------------------------------------------------.
-| EQN_EQN_yy_stack_print -- Print the state stack from its BOTTOM up to its |
+| EQN_yy_stack_print -- Print the state stack from its BOTTOM up to its |
 | TOP (included).                                                   |
 `------------------------------------------------------------------*/
 
 static void
-EQN_EQN_yy_stack_print (EQN_EQN_yytype_int16 *EQN_EQN_yybottom, EQN_EQN_yytype_int16 *EQN_EQN_yytop)
+EQN_yy_stack_print (EQN_yytype_int16 *EQN_yybottom, EQN_yytype_int16 *EQN_yytop)
 {
   YYFPRINTF (stderr, "Stack now");
-  for (; EQN_EQN_yybottom <= EQN_EQN_yytop; EQN_EQN_yybottom++)
+  for (; EQN_yybottom <= EQN_yytop; EQN_yybottom++)
     {
-      int EQN_EQN_yybot = *EQN_EQN_yybottom;
-      YYFPRINTF (stderr, " %d", EQN_EQN_yybot);
+      int EQN_yybot = *EQN_yybottom;
+      YYFPRINTF (stderr, " %d", EQN_yybot);
     }
   YYFPRINTF (stderr, "\n");
 }
 
 # define YY_STACK_PRINT(Bottom, Top)                            \
 do {                                                            \
-  if (EQN_EQN_yydebug)                                                  \
-    EQN_EQN_yy_stack_print ((Bottom), (Top));                           \
+  if (EQN_yydebug)                                                  \
+    EQN_yy_stack_print ((Bottom), (Top));                           \
 } while (0)
 
 
@@ -787,20 +811,20 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-EQN_EQN_yy_reduce_print (EQN_EQN_yytype_int16 *EQN_EQN_yyssp, YYSTYPE *EQN_EQN_yyvsp, int EQN_EQN_yyrule)
+EQN_yy_reduce_print (EQN_yytype_int16 *EQN_yyssp, YYSTYPE *EQN_yyvsp, int EQN_yyrule)
 {
-  unsigned long int EQN_EQN_yylno = EQN_EQN_yyrline[EQN_EQN_yyrule];
-  int EQN_EQN_yynrhs = EQN_EQN_yyr2[EQN_EQN_yyrule];
-  int EQN_EQN_yyi;
+  unsigned long int EQN_yylno = EQN_yyrline[EQN_yyrule];
+  int EQN_yynrhs = EQN_yyr2[EQN_yyrule];
+  int EQN_yyi;
   YYFPRINTF (stderr, "Reducing stack by rule %d (line %lu):\n",
-             EQN_EQN_yyrule - 1, EQN_EQN_yylno);
+             EQN_yyrule - 1, EQN_yylno);
   /* The symbols being reduced.  */
-  for (EQN_EQN_yyi = 0; EQN_EQN_yyi < EQN_EQN_yynrhs; EQN_EQN_yyi++)
+  for (EQN_yyi = 0; EQN_yyi < EQN_yynrhs; EQN_yyi++)
     {
-      YYFPRINTF (stderr, "   $%d = ", EQN_EQN_yyi + 1);
-      EQN_EQN_yy_symbol_print (stderr,
-                       EQN_EQN_yystos[EQN_EQN_yyssp[EQN_EQN_yyi + 1 - EQN_EQN_yynrhs]],
-                       &(EQN_EQN_yyvsp[(EQN_EQN_yyi + 1) - (EQN_EQN_yynrhs)])
+      YYFPRINTF (stderr, "   $%d = ", EQN_yyi + 1);
+      EQN_yy_symbol_print (stderr,
+                       EQN_yystos[EQN_yyssp[EQN_yyi + 1 - EQN_yynrhs]],
+                       &(EQN_yyvsp[(EQN_yyi + 1) - (EQN_yynrhs)])
                                               );
       YYFPRINTF (stderr, "\n");
     }
@@ -808,13 +832,13 @@ EQN_EQN_yy_reduce_print (EQN_EQN_yytype_int16 *EQN_EQN_yyssp, YYSTYPE *EQN_EQN_y
 
 # define YY_REDUCE_PRINT(Rule)          \
 do {                                    \
-  if (EQN_EQN_yydebug)                          \
-    EQN_EQN_yy_reduce_print (EQN_EQN_yyssp, EQN_EQN_yyvsp, Rule); \
+  if (EQN_yydebug)                          \
+    EQN_yy_reduce_print (EQN_yyssp, EQN_yyvsp, Rule); \
 } while (0)
 
 /* Nonzero means print parse trace.  It is left uninitialized so that
    multiple parsers can coexist.  */
-int EQN_EQN_yydebug;
+int EQN_yydebug;
 #else /* !YYDEBUG */
 # define YYDPRINTF(Args)
 # define YY_SYMBOL_PRINT(Title, Type, Value, Location)
@@ -842,87 +866,87 @@ int EQN_EQN_yydebug;
 
 #if YYERROR_VERBOSE
 
-# ifndef EQN_EQN_yystrlen
+# ifndef EQN_yystrlen
 #  if defined __GLIBC__ && defined _STRING_H
-#   define EQN_EQN_yystrlen strlen
+#   define EQN_yystrlen strlen
 #  else
 /* Return the length of YYSTR.  */
 static YYSIZE_T
-EQN_EQN_yystrlen (const char *EQN_EQN_yystr)
+EQN_yystrlen (const char *EQN_yystr)
 {
-  YYSIZE_T EQN_EQN_yylen;
-  for (EQN_EQN_yylen = 0; EQN_EQN_yystr[EQN_EQN_yylen]; EQN_EQN_yylen++)
+  YYSIZE_T EQN_yylen;
+  for (EQN_yylen = 0; EQN_yystr[EQN_yylen]; EQN_yylen++)
     continue;
-  return EQN_EQN_yylen;
+  return EQN_yylen;
 }
 #  endif
 # endif
 
-# ifndef EQN_EQN_yystpcpy
+# ifndef EQN_yystpcpy
 #  if defined __GLIBC__ && defined _STRING_H && defined _GNU_SOURCE
-#   define EQN_EQN_yystpcpy stpcpy
+#   define EQN_yystpcpy stpcpy
 #  else
 /* Copy YYSRC to YYDEST, returning the address of the terminating '\0' in
    YYDEST.  */
 static char *
-EQN_EQN_yystpcpy (char *EQN_EQN_yydest, const char *EQN_EQN_yysrc)
+EQN_yystpcpy (char *EQN_yydest, const char *EQN_yysrc)
 {
-  char *EQN_EQN_yyd = EQN_EQN_yydest;
-  const char *EQN_EQN_yys = EQN_EQN_yysrc;
+  char *EQN_yyd = EQN_yydest;
+  const char *EQN_yys = EQN_yysrc;
 
-  while ((*EQN_EQN_yyd++ = *EQN_EQN_yys++) != '\0')
+  while ((*EQN_yyd++ = *EQN_yys++) != '\0')
     continue;
 
-  return EQN_EQN_yyd - 1;
+  return EQN_yyd - 1;
 }
 #  endif
 # endif
 
-# ifndef EQN_EQN_yytnamerr
+# ifndef EQN_yytnamerr
 /* Copy to YYRES the contents of YYSTR after stripping away unnecessary
-   quotes and backslashes, so that it's suitable for EQN_EQN_yyerror.  The
+   quotes and backslashes, so that it's suitable for EQN_yyerror.  The
    heuristic is that double-quoting is unnecessary unless the string
    contains an apostrophe, a comma, or backslash (other than
-   backslash-backslash).  YYSTR is taken from EQN_EQN_yytname.  If YYRES is
+   backslash-backslash).  YYSTR is taken from EQN_yytname.  If YYRES is
    null, do not copy; instead, return the length of what the result
    would have been.  */
 static YYSIZE_T
-EQN_EQN_yytnamerr (char *EQN_EQN_yyres, const char *EQN_EQN_yystr)
+EQN_yytnamerr (char *EQN_yyres, const char *EQN_yystr)
 {
-  if (*EQN_EQN_yystr == '"')
+  if (*EQN_yystr == '"')
     {
-      YYSIZE_T EQN_EQN_yyn = 0;
-      char const *EQN_EQN_yyp = EQN_EQN_yystr;
+      YYSIZE_T EQN_yyn = 0;
+      char const *EQN_yyp = EQN_yystr;
 
       for (;;)
-        switch (*++EQN_EQN_yyp)
+        switch (*++EQN_yyp)
           {
           case '\'':
           case ',':
             goto do_not_strip_quotes;
 
           case '\\':
-            if (*++EQN_EQN_yyp != '\\')
+            if (*++EQN_yyp != '\\')
               goto do_not_strip_quotes;
             /* Fall through.  */
           default:
-            if (EQN_EQN_yyres)
-              EQN_EQN_yyres[EQN_EQN_yyn] = *EQN_EQN_yyp;
-            EQN_EQN_yyn++;
+            if (EQN_yyres)
+              EQN_yyres[EQN_yyn] = *EQN_yyp;
+            EQN_yyn++;
             break;
 
           case '"':
-            if (EQN_EQN_yyres)
-              EQN_EQN_yyres[EQN_EQN_yyn] = '\0';
-            return EQN_EQN_yyn;
+            if (EQN_yyres)
+              EQN_yyres[EQN_yyn] = '\0';
+            return EQN_yyn;
           }
     do_not_strip_quotes: ;
     }
 
-  if (! EQN_EQN_yyres)
-    return EQN_EQN_yystrlen (EQN_EQN_yystr);
+  if (! EQN_yyres)
+    return EQN_yystrlen (EQN_yystr);
 
-  return EQN_EQN_yystpcpy (EQN_EQN_yyres, EQN_EQN_yystr) - EQN_EQN_yyres;
+  return EQN_yystpcpy (EQN_yyres, EQN_yystr) - EQN_yyres;
 }
 # endif
 
@@ -935,26 +959,26 @@ EQN_EQN_yytnamerr (char *EQN_EQN_yyres, const char *EQN_EQN_yystr)
    *YYMSG_ALLOC to the required number of bytes.  Return 2 if the
    required number of bytes is too large to store.  */
 static int
-EQN_EQN_yysyntax_error (YYSIZE_T *EQN_EQN_yymsg_alloc, char **EQN_EQN_yymsg,
-                EQN_EQN_yytype_int16 *EQN_EQN_yyssp, int EQN_EQN_yytoken)
+EQN_yysyntax_error (YYSIZE_T *EQN_yymsg_alloc, char **EQN_yymsg,
+                EQN_yytype_int16 *EQN_yyssp, int EQN_yytoken)
 {
-  YYSIZE_T EQN_EQN_yysize0 = EQN_EQN_yytnamerr (YY_NULLPTR, EQN_EQN_yytname[EQN_EQN_yytoken]);
-  YYSIZE_T EQN_EQN_yysize = EQN_EQN_yysize0;
+  YYSIZE_T EQN_yysize0 = EQN_yytnamerr (YY_NULLPTR, EQN_yytname[EQN_yytoken]);
+  YYSIZE_T EQN_yysize = EQN_yysize0;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
-  const char *EQN_EQN_yyformat = YY_NULLPTR;
-  /* Arguments of EQN_EQN_yyformat. */
-  char const *EQN_EQN_yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
+  const char *EQN_yyformat = YY_NULLPTR;
+  /* Arguments of EQN_yyformat. */
+  char const *EQN_yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
   /* Number of reported tokens (one for the "unexpected", one per
      "expected"). */
-  int EQN_EQN_yycount = 0;
+  int EQN_yycount = 0;
 
   /* There are many possibilities here to consider:
      - If this state is a consistent state with a default action, then
        the only way this function was invoked is if the default action
        is an error action.  In that case, don't check for expected
        tokens because there are none.
-     - The only way there can be no lookahead present (in EQN_EQN_yychar) is if
+     - The only way there can be no lookahead present (in EQN_yychar) is if
        this state is a consistent state with a default action.  Thus,
        detecting the absence of a lookahead is sufficient to determine
        that there is no unexpected or expected token to report.  In that
@@ -962,7 +986,7 @@ EQN_EQN_yysyntax_error (YYSIZE_T *EQN_EQN_yymsg_alloc, char **EQN_EQN_yymsg,
      - Don't assume there isn't a lookahead just because this state is a
        consistent state with a default action.  There might have been a
        previous inconsistent state, consistent state with a non-default
-       action, or user semantic action that manipulated EQN_EQN_yychar.
+       action, or user semantic action that manipulated EQN_yychar.
      - Of course, the expected token list depends on states to have
        correct lookahead information, and it depends on the parser not
        to perform extra reductions after fetching a lookahead from the
@@ -972,48 +996,48 @@ EQN_EQN_yysyntax_error (YYSIZE_T *EQN_EQN_yymsg_alloc, char **EQN_EQN_yymsg,
        one exception: it will still contain any token that will not be
        accepted due to an error action in a later state.
   */
-  if (EQN_EQN_yytoken != YYEMPTY)
+  if (EQN_yytoken != YYEMPTY)
     {
-      int EQN_EQN_yyn = EQN_EQN_yypact[*EQN_EQN_yyssp];
-      EQN_EQN_yyarg[EQN_EQN_yycount++] = EQN_EQN_yytname[EQN_EQN_yytoken];
-      if (!EQN_EQN_yypact_value_is_default (EQN_EQN_yyn))
+      int EQN_yyn = EQN_yypact[*EQN_yyssp];
+      EQN_yyarg[EQN_yycount++] = EQN_yytname[EQN_yytoken];
+      if (!EQN_yypact_value_is_default (EQN_yyn))
         {
           /* Start YYX at -YYN if negative to avoid negative indexes in
              YYCHECK.  In other words, skip the first -YYN actions for
              this state because they are default actions.  */
-          int EQN_EQN_yyxbegin = EQN_EQN_yyn < 0 ? -EQN_EQN_yyn : 0;
-          /* Stay within bounds of both EQN_EQN_yycheck and EQN_EQN_yytname.  */
-          int EQN_EQN_yychecklim = YYLAST - EQN_EQN_yyn + 1;
-          int EQN_EQN_yyxend = EQN_EQN_yychecklim < YYNTOKENS ? EQN_EQN_yychecklim : YYNTOKENS;
-          int EQN_EQN_yyx;
+          int EQN_yyxbegin = EQN_yyn < 0 ? -EQN_yyn : 0;
+          /* Stay within bounds of both EQN_yycheck and EQN_yytname.  */
+          int EQN_yychecklim = YYLAST - EQN_yyn + 1;
+          int EQN_yyxend = EQN_yychecklim < YYNTOKENS ? EQN_yychecklim : YYNTOKENS;
+          int EQN_yyx;
 
-          for (EQN_EQN_yyx = EQN_EQN_yyxbegin; EQN_EQN_yyx < EQN_EQN_yyxend; ++EQN_EQN_yyx)
-            if (EQN_EQN_yycheck[EQN_EQN_yyx + EQN_EQN_yyn] == EQN_EQN_yyx && EQN_EQN_yyx != YYTERROR
-                && !EQN_EQN_yytable_value_is_error (EQN_EQN_yytable[EQN_EQN_yyx + EQN_EQN_yyn]))
+          for (EQN_yyx = EQN_yyxbegin; EQN_yyx < EQN_yyxend; ++EQN_yyx)
+            if (EQN_yycheck[EQN_yyx + EQN_yyn] == EQN_yyx && EQN_yyx != YYTERROR
+                && !EQN_yytable_value_is_error (EQN_yytable[EQN_yyx + EQN_yyn]))
               {
-                if (EQN_EQN_yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
+                if (EQN_yycount == YYERROR_VERBOSE_ARGS_MAXIMUM)
                   {
-                    EQN_EQN_yycount = 1;
-                    EQN_EQN_yysize = EQN_EQN_yysize0;
+                    EQN_yycount = 1;
+                    EQN_yysize = EQN_yysize0;
                     break;
                   }
-                EQN_EQN_yyarg[EQN_EQN_yycount++] = EQN_EQN_yytname[EQN_EQN_yyx];
+                EQN_yyarg[EQN_yycount++] = EQN_yytname[EQN_yyx];
                 {
-                  YYSIZE_T EQN_EQN_yysize1 = EQN_EQN_yysize + EQN_EQN_yytnamerr (YY_NULLPTR, EQN_EQN_yytname[EQN_EQN_yyx]);
-                  if (! (EQN_EQN_yysize <= EQN_EQN_yysize1
-                         && EQN_EQN_yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+                  YYSIZE_T EQN_yysize1 = EQN_yysize + EQN_yytnamerr (YY_NULLPTR, EQN_yytname[EQN_yyx]);
+                  if (! (EQN_yysize <= EQN_yysize1
+                         && EQN_yysize1 <= YYSTACK_ALLOC_MAXIMUM))
                     return 2;
-                  EQN_EQN_yysize = EQN_EQN_yysize1;
+                  EQN_yysize = EQN_yysize1;
                 }
               }
         }
     }
 
-  switch (EQN_EQN_yycount)
+  switch (EQN_yycount)
     {
 # define YYCASE_(N, S)                      \
       case N:                               \
-        EQN_EQN_yyformat = S;                       \
+        EQN_yyformat = S;                       \
       break
       YYCASE_(0, YY_("syntax error"));
       YYCASE_(1, YY_("syntax error, unexpected %s"));
@@ -1025,18 +1049,18 @@ EQN_EQN_yysyntax_error (YYSIZE_T *EQN_EQN_yymsg_alloc, char **EQN_EQN_yymsg,
     }
 
   {
-    YYSIZE_T EQN_EQN_yysize1 = EQN_EQN_yysize + EQN_EQN_yystrlen (EQN_EQN_yyformat);
-    if (! (EQN_EQN_yysize <= EQN_EQN_yysize1 && EQN_EQN_yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+    YYSIZE_T EQN_yysize1 = EQN_yysize + EQN_yystrlen (EQN_yyformat);
+    if (! (EQN_yysize <= EQN_yysize1 && EQN_yysize1 <= YYSTACK_ALLOC_MAXIMUM))
       return 2;
-    EQN_EQN_yysize = EQN_EQN_yysize1;
+    EQN_yysize = EQN_yysize1;
   }
 
-  if (*EQN_EQN_yymsg_alloc < EQN_EQN_yysize)
+  if (*EQN_yymsg_alloc < EQN_yysize)
     {
-      *EQN_EQN_yymsg_alloc = 2 * EQN_EQN_yysize;
-      if (! (EQN_EQN_yysize <= *EQN_EQN_yymsg_alloc
-             && *EQN_EQN_yymsg_alloc <= YYSTACK_ALLOC_MAXIMUM))
-        *EQN_EQN_yymsg_alloc = YYSTACK_ALLOC_MAXIMUM;
+      *EQN_yymsg_alloc = 2 * EQN_yysize;
+      if (! (EQN_yysize <= *EQN_yymsg_alloc
+             && *EQN_yymsg_alloc <= YYSTACK_ALLOC_MAXIMUM))
+        *EQN_yymsg_alloc = YYSTACK_ALLOC_MAXIMUM;
       return 1;
     }
 
@@ -1044,18 +1068,18 @@ EQN_EQN_yysyntax_error (YYSIZE_T *EQN_EQN_yymsg_alloc, char **EQN_EQN_yymsg,
      Don't have undefined behavior even if the translation
      produced a string with the wrong number of "%s"s.  */
   {
-    char *EQN_EQN_yyp = *EQN_EQN_yymsg;
-    int EQN_EQN_yyi = 0;
-    while ((*EQN_EQN_yyp = *EQN_EQN_yyformat) != '\0')
-      if (*EQN_EQN_yyp == '%' && EQN_EQN_yyformat[1] == 's' && EQN_EQN_yyi < EQN_EQN_yycount)
+    char *EQN_yyp = *EQN_yymsg;
+    int EQN_yyi = 0;
+    while ((*EQN_yyp = *EQN_yyformat) != '\0')
+      if (*EQN_yyp == '%' && EQN_yyformat[1] == 's' && EQN_yyi < EQN_yycount)
         {
-          EQN_EQN_yyp += EQN_EQN_yytnamerr (EQN_EQN_yyp, EQN_EQN_yyarg[EQN_EQN_yyi++]);
-          EQN_EQN_yyformat += 2;
+          EQN_yyp += EQN_yytnamerr (EQN_yyp, EQN_yyarg[EQN_yyi++]);
+          EQN_yyformat += 2;
         }
       else
         {
-          EQN_EQN_yyp++;
-          EQN_EQN_yyformat++;
+          EQN_yyp++;
+          EQN_yyformat++;
         }
   }
   return 0;
@@ -1067,15 +1091,15 @@ EQN_EQN_yysyntax_error (YYSIZE_T *EQN_EQN_yymsg_alloc, char **EQN_EQN_yymsg,
 `-----------------------------------------------*/
 
 static void
-EQN_EQN_yydestruct (const char *EQN_EQN_yymsg, int EQN_EQN_yytype, YYSTYPE *EQN_EQN_yyvaluep)
+EQN_yydestruct (const char *EQN_yymsg, int EQN_yytype, YYSTYPE *EQN_yyvaluep)
 {
-  YYUSE (EQN_EQN_yyvaluep);
-  if (!EQN_EQN_yymsg)
-    EQN_EQN_yymsg = "Deleting";
-  YY_SYMBOL_PRINT (EQN_EQN_yymsg, EQN_EQN_yytype, EQN_EQN_yyvaluep, EQN_EQN_yylocationp);
+  YYUSE (EQN_yyvaluep);
+  if (!EQN_yymsg)
+    EQN_yymsg = "Deleting";
+  YY_SYMBOL_PRINT (EQN_yymsg, EQN_yytype, EQN_yyvaluep, EQN_yylocationp);
 
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  YYUSE (EQN_EQN_yytype);
+  YYUSE (EQN_yytype);
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 }
 
@@ -1083,238 +1107,238 @@ EQN_EQN_yydestruct (const char *EQN_EQN_yymsg, int EQN_EQN_yytype, YYSTYPE *EQN_
 
 
 /* The lookahead symbol.  */
-int EQN_EQN_yychar;
+int EQN_yychar;
 
 /* The semantic value of the lookahead symbol.  */
-YYSTYPE EQN_EQN_yylval;
+YYSTYPE EQN_yylval;
 /* Number of syntax errors so far.  */
-int EQN_EQN_yynerrs;
+int EQN_yynerrs;
 
 
 /*----------.
-| EQN_EQN_yyparse.  |
+| EQN_yyparse.  |
 `----------*/
 
 int
-EQN_EQN_yyparse (void)
+EQN_yyparse (void)
 {
-    int EQN_EQN_yystate;
+    int EQN_yystate;
     /* Number of tokens to shift before error messages enabled.  */
-    int EQN_EQN_yyerrstatus;
+    int EQN_yyerrstatus;
 
     /* The stacks and their tools:
-       'EQN_EQN_yyss': related to states.
-       'EQN_EQN_yyvs': related to semantic values.
+       'EQN_yyss': related to states.
+       'EQN_yyvs': related to semantic values.
 
-       Refer to the stacks through separate pointers, to allow EQN_EQN_yyoverflow
+       Refer to the stacks through separate pointers, to allow EQN_yyoverflow
        to reallocate them elsewhere.  */
 
     /* The state stack.  */
-    EQN_EQN_yytype_int16 EQN_EQN_yyssa[YYINITDEPTH];
-    EQN_EQN_yytype_int16 *EQN_EQN_yyss;
-    EQN_EQN_yytype_int16 *EQN_EQN_yyssp;
+    EQN_yytype_int16 EQN_yyssa[YYINITDEPTH];
+    EQN_yytype_int16 *EQN_yyss;
+    EQN_yytype_int16 *EQN_yyssp;
 
     /* The semantic value stack.  */
-    YYSTYPE EQN_EQN_yyvsa[YYINITDEPTH];
-    YYSTYPE *EQN_EQN_yyvs;
-    YYSTYPE *EQN_EQN_yyvsp;
+    YYSTYPE EQN_yyvsa[YYINITDEPTH];
+    YYSTYPE *EQN_yyvs;
+    YYSTYPE *EQN_yyvsp;
 
-    YYSIZE_T EQN_EQN_yystacksize;
+    YYSIZE_T EQN_yystacksize;
 
-  int EQN_EQN_yyn;
-  int EQN_EQN_yyresult;
+  int EQN_yyn;
+  int EQN_yyresult;
   /* Lookahead token as an internal (translated) token number.  */
-  int EQN_EQN_yytoken = 0;
+  int EQN_yytoken = 0;
   /* The variables used to return semantic value and location from the
      action routines.  */
-  YYSTYPE EQN_EQN_yyval;
+  YYSTYPE EQN_yyval;
 
 #if YYERROR_VERBOSE
   /* Buffer for error messages, and its allocated size.  */
-  char EQN_EQN_yymsgbuf[128];
-  char *EQN_EQN_yymsg = EQN_EQN_yymsgbuf;
-  YYSIZE_T EQN_EQN_yymsg_alloc = sizeof EQN_EQN_yymsgbuf;
+  char EQN_yymsgbuf[128];
+  char *EQN_yymsg = EQN_yymsgbuf;
+  YYSIZE_T EQN_yymsg_alloc = sizeof EQN_yymsgbuf;
 #endif
 
-#define YYPOPSTACK(N)   (EQN_EQN_yyvsp -= (N), EQN_EQN_yyssp -= (N))
+#define YYPOPSTACK(N)   (EQN_yyvsp -= (N), EQN_yyssp -= (N))
 
   /* The number of symbols on the RHS of the reduced rule.
      Keep to zero when no symbol should be popped.  */
-  int EQN_EQN_yylen = 0;
+  int EQN_yylen = 0;
 
-  EQN_EQN_yyssp = EQN_EQN_yyss = EQN_EQN_yyssa;
-  EQN_EQN_yyvsp = EQN_EQN_yyvs = EQN_EQN_yyvsa;
-  EQN_EQN_yystacksize = YYINITDEPTH;
+  EQN_yyssp = EQN_yyss = EQN_yyssa;
+  EQN_yyvsp = EQN_yyvs = EQN_yyvsa;
+  EQN_yystacksize = YYINITDEPTH;
 
   YYDPRINTF ((stderr, "Starting parse\n"));
 
-  EQN_EQN_yystate = 0;
-  EQN_EQN_yyerrstatus = 0;
-  EQN_EQN_yynerrs = 0;
-  EQN_EQN_yychar = YYEMPTY; /* Cause a token to be read.  */
-  goto EQN_EQN_yysetstate;
+  EQN_yystate = 0;
+  EQN_yyerrstatus = 0;
+  EQN_yynerrs = 0;
+  EQN_yychar = YYEMPTY; /* Cause a token to be read.  */
+  goto EQN_yysetstate;
 
 /*------------------------------------------------------------.
-| EQN_EQN_yynewstate -- Push a new state, which is found in EQN_EQN_yystate.  |
+| EQN_yynewstate -- Push a new state, which is found in EQN_yystate.  |
 `------------------------------------------------------------*/
- EQN_EQN_yynewstate:
+ EQN_yynewstate:
   /* In all cases, when you get here, the value and location stacks
      have just been pushed.  So pushing a state here evens the stacks.  */
-  EQN_EQN_yyssp++;
+  EQN_yyssp++;
 
- EQN_EQN_yysetstate:
-  *EQN_EQN_yyssp = EQN_EQN_yystate;
+ EQN_yysetstate:
+  *EQN_yyssp = EQN_yystate;
 
-  if (EQN_EQN_yyss + EQN_EQN_yystacksize - 1 <= EQN_EQN_yyssp)
+  if (EQN_yyss + EQN_yystacksize - 1 <= EQN_yyssp)
     {
       /* Get the current used size of the three stacks, in elements.  */
-      YYSIZE_T EQN_EQN_yysize = EQN_EQN_yyssp - EQN_EQN_yyss + 1;
+      YYSIZE_T EQN_yysize = EQN_yyssp - EQN_yyss + 1;
 
-#ifdef EQN_EQN_yyoverflow
+#ifdef EQN_yyoverflow
       {
         /* Give user a chance to reallocate the stack.  Use copies of
            these so that the &'s don't force the real ones into
            memory.  */
-        YYSTYPE *EQN_EQN_yyvs1 = EQN_EQN_yyvs;
-        EQN_EQN_yytype_int16 *EQN_EQN_yyss1 = EQN_EQN_yyss;
+        YYSTYPE *EQN_yyvs1 = EQN_yyvs;
+        EQN_yytype_int16 *EQN_yyss1 = EQN_yyss;
 
         /* Each stack pointer address is followed by the size of the
            data in use in that stack, in bytes.  This used to be a
            conditional around just the two extra args, but that might
-           be undefined if EQN_EQN_yyoverflow is a macro.  */
-        EQN_EQN_yyoverflow (YY_("memory exhausted"),
-                    &EQN_EQN_yyss1, EQN_EQN_yysize * sizeof (*EQN_EQN_yyssp),
-                    &EQN_EQN_yyvs1, EQN_EQN_yysize * sizeof (*EQN_EQN_yyvsp),
-                    &EQN_EQN_yystacksize);
+           be undefined if EQN_yyoverflow is a macro.  */
+        EQN_yyoverflow (YY_("memory exhausted"),
+                    &EQN_yyss1, EQN_yysize * sizeof (*EQN_yyssp),
+                    &EQN_yyvs1, EQN_yysize * sizeof (*EQN_yyvsp),
+                    &EQN_yystacksize);
 
-        EQN_EQN_yyss = EQN_EQN_yyss1;
-        EQN_EQN_yyvs = EQN_EQN_yyvs1;
+        EQN_yyss = EQN_yyss1;
+        EQN_yyvs = EQN_yyvs1;
       }
-#else /* no EQN_EQN_yyoverflow */
+#else /* no EQN_yyoverflow */
 # ifndef YYSTACK_RELOCATE
-      goto EQN_EQN_yyexhaustedlab;
+      goto EQN_yyexhaustedlab;
 # else
       /* Extend the stack our own way.  */
-      if (YYMAXDEPTH <= EQN_EQN_yystacksize)
-        goto EQN_EQN_yyexhaustedlab;
-      EQN_EQN_yystacksize *= 2;
-      if (YYMAXDEPTH < EQN_EQN_yystacksize)
-        EQN_EQN_yystacksize = YYMAXDEPTH;
+      if (YYMAXDEPTH <= EQN_yystacksize)
+        goto EQN_yyexhaustedlab;
+      EQN_yystacksize *= 2;
+      if (YYMAXDEPTH < EQN_yystacksize)
+        EQN_yystacksize = YYMAXDEPTH;
 
       {
-        EQN_EQN_yytype_int16 *EQN_EQN_yyss1 = EQN_EQN_yyss;
-        union EQN_EQN_yyalloc *EQN_EQN_yyptr =
-          (union EQN_EQN_yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (EQN_EQN_yystacksize));
-        if (! EQN_EQN_yyptr)
-          goto EQN_EQN_yyexhaustedlab;
-        YYSTACK_RELOCATE (EQN_EQN_yyss_alloc, EQN_EQN_yyss);
-        YYSTACK_RELOCATE (EQN_EQN_yyvs_alloc, EQN_EQN_yyvs);
+        EQN_yytype_int16 *EQN_yyss1 = EQN_yyss;
+        union EQN_yyalloc *EQN_yyptr =
+          (union EQN_yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (EQN_yystacksize));
+        if (! EQN_yyptr)
+          goto EQN_yyexhaustedlab;
+        YYSTACK_RELOCATE (EQN_yyss_alloc, EQN_yyss);
+        YYSTACK_RELOCATE (EQN_yyvs_alloc, EQN_yyvs);
 #  undef YYSTACK_RELOCATE
-        if (EQN_EQN_yyss1 != EQN_EQN_yyssa)
-          YYSTACK_FREE (EQN_EQN_yyss1);
+        if (EQN_yyss1 != EQN_yyssa)
+          YYSTACK_FREE (EQN_yyss1);
       }
 # endif
-#endif /* no EQN_EQN_yyoverflow */
+#endif /* no EQN_yyoverflow */
 
-      EQN_EQN_yyssp = EQN_EQN_yyss + EQN_EQN_yysize - 1;
-      EQN_EQN_yyvsp = EQN_EQN_yyvs + EQN_EQN_yysize - 1;
+      EQN_yyssp = EQN_yyss + EQN_yysize - 1;
+      EQN_yyvsp = EQN_yyvs + EQN_yysize - 1;
 
       YYDPRINTF ((stderr, "Stack size increased to %lu\n",
-                  (unsigned long int) EQN_EQN_yystacksize));
+                  (unsigned long int) EQN_yystacksize));
 
-      if (EQN_EQN_yyss + EQN_EQN_yystacksize - 1 <= EQN_EQN_yyssp)
+      if (EQN_yyss + EQN_yystacksize - 1 <= EQN_yyssp)
         YYABORT;
     }
 
-  YYDPRINTF ((stderr, "Entering state %d\n", EQN_EQN_yystate));
+  YYDPRINTF ((stderr, "Entering state %d\n", EQN_yystate));
 
-  if (EQN_EQN_yystate == YYFINAL)
+  if (EQN_yystate == YYFINAL)
     YYACCEPT;
 
-  goto EQN_EQN_yybackup;
+  goto EQN_yybackup;
 
 /*-----------.
-| EQN_EQN_yybackup.  |
+| EQN_yybackup.  |
 `-----------*/
-EQN_EQN_yybackup:
+EQN_yybackup:
 
   /* Do appropriate processing given the current state.  Read a
      lookahead token if we need one and don't already have one.  */
 
   /* First try to decide what to do without reference to lookahead token.  */
-  EQN_EQN_yyn = EQN_EQN_yypact[EQN_EQN_yystate];
-  if (EQN_EQN_yypact_value_is_default (EQN_EQN_yyn))
-    goto EQN_EQN_yydefault;
+  EQN_yyn = EQN_yypact[EQN_yystate];
+  if (EQN_yypact_value_is_default (EQN_yyn))
+    goto EQN_yydefault;
 
   /* Not known => get a lookahead token if don't already have one.  */
 
   /* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */
-  if (EQN_EQN_yychar == YYEMPTY)
+  if (EQN_yychar == YYEMPTY)
     {
       YYDPRINTF ((stderr, "Reading a token: "));
-      EQN_EQN_yychar = EQN_EQN_yylex ();
+      EQN_yychar = EQN_yylex ();
     }
 
-  if (EQN_EQN_yychar <= YYEOF)
+  if (EQN_yychar <= YYEOF)
     {
-      EQN_EQN_yychar = EQN_EQN_yytoken = YYEOF;
+      EQN_yychar = EQN_yytoken = YYEOF;
       YYDPRINTF ((stderr, "Now at end of input.\n"));
     }
   else
     {
-      EQN_EQN_yytoken = YYTRANSLATE (EQN_EQN_yychar);
-      YY_SYMBOL_PRINT ("Next token is", EQN_EQN_yytoken, &EQN_EQN_yylval, &EQN_EQN_yylloc);
+      EQN_yytoken = YYTRANSLATE (EQN_yychar);
+      YY_SYMBOL_PRINT ("Next token is", EQN_yytoken, &EQN_yylval, &EQN_yylloc);
     }
 
   /* If the proper action on seeing token YYTOKEN is to reduce or to
      detect an error, take that action.  */
-  EQN_EQN_yyn += EQN_EQN_yytoken;
-  if (EQN_EQN_yyn < 0 || YYLAST < EQN_EQN_yyn || EQN_EQN_yycheck[EQN_EQN_yyn] != EQN_EQN_yytoken)
-    goto EQN_EQN_yydefault;
-  EQN_EQN_yyn = EQN_EQN_yytable[EQN_EQN_yyn];
-  if (EQN_EQN_yyn <= 0)
+  EQN_yyn += EQN_yytoken;
+  if (EQN_yyn < 0 || YYLAST < EQN_yyn || EQN_yycheck[EQN_yyn] != EQN_yytoken)
+    goto EQN_yydefault;
+  EQN_yyn = EQN_yytable[EQN_yyn];
+  if (EQN_yyn <= 0)
     {
-      if (EQN_EQN_yytable_value_is_error (EQN_EQN_yyn))
-        goto EQN_EQN_yyerrlab;
-      EQN_EQN_yyn = -EQN_EQN_yyn;
-      goto EQN_EQN_yyreduce;
+      if (EQN_yytable_value_is_error (EQN_yyn))
+        goto EQN_yyerrlab;
+      EQN_yyn = -EQN_yyn;
+      goto EQN_yyreduce;
     }
 
   /* Count tokens shifted since error; after three, turn off error
      status.  */
-  if (EQN_EQN_yyerrstatus)
-    EQN_EQN_yyerrstatus--;
+  if (EQN_yyerrstatus)
+    EQN_yyerrstatus--;
 
   /* Shift the lookahead token.  */
-  YY_SYMBOL_PRINT ("Shifting", EQN_EQN_yytoken, &EQN_EQN_yylval, &EQN_EQN_yylloc);
+  YY_SYMBOL_PRINT ("Shifting", EQN_yytoken, &EQN_yylval, &EQN_yylloc);
 
   /* Discard the shifted token.  */
-  EQN_EQN_yychar = YYEMPTY;
+  EQN_yychar = YYEMPTY;
 
-  EQN_EQN_yystate = EQN_EQN_yyn;
+  EQN_yystate = EQN_yyn;
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  *++EQN_EQN_yyvsp = EQN_EQN_yylval;
+  *++EQN_yyvsp = EQN_yylval;
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 
-  goto EQN_EQN_yynewstate;
+  goto EQN_yynewstate;
 
 
 /*-----------------------------------------------------------.
-| EQN_EQN_yydefault -- do the default action for the current state.  |
+| EQN_yydefault -- do the default action for the current state.  |
 `-----------------------------------------------------------*/
-EQN_EQN_yydefault:
-  EQN_EQN_yyn = EQN_EQN_yydefact[EQN_EQN_yystate];
-  if (EQN_EQN_yyn == 0)
-    goto EQN_EQN_yyerrlab;
-  goto EQN_EQN_yyreduce;
+EQN_yydefault:
+  EQN_yyn = EQN_yydefact[EQN_yystate];
+  if (EQN_yyn == 0)
+    goto EQN_yyerrlab;
+  goto EQN_yyreduce;
 
 
 /*-----------------------------.
-| EQN_EQN_yyreduce -- Do a reduction.  |
+| EQN_yyreduce -- Do a reduction.  |
 `-----------------------------*/
-EQN_EQN_yyreduce:
-  /* EQN_EQN_yyn is the number of a rule to reduce with.  */
-  EQN_EQN_yylen = EQN_EQN_yyr2[EQN_EQN_yyn];
+EQN_yyreduce:
+  /* EQN_yyn is the number of a rule to reduce with.  */
+  EQN_yylen = EQN_yyr2[EQN_yyn];
 
   /* If YYLEN is nonzero, implement the default value of the action:
      '$$ = $1'.
@@ -1324,296 +1348,296 @@ EQN_EQN_yyreduce:
      users should not rely upon it.  Assigning to YYVAL
      unconditionally makes the parser a bit smaller, and it avoids a
      GCC warning that YYVAL may be used uninitialized.  */
-  EQN_EQN_yyval = EQN_EQN_yyvsp[1-EQN_EQN_yylen];
+  EQN_yyval = EQN_yyvsp[1-EQN_yylen];
 
 
-  YY_REDUCE_PRINT (EQN_EQN_yyn);
-  switch (EQN_EQN_yyn)
+  YY_REDUCE_PRINT (EQN_yyn);
+  switch (EQN_yyn)
     {
         case 5:
-#line 85 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { do_assign(util_strsav("SILLY"), (EQN_EQN_yyvsp[0].node)); }
-#line 1337 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 90 "read_eqn.y" /* yacc.c:1646  */
+    { do_assign(util_strsav("SILLY"), (EQN_yyvsp[0].node)); }
+#line 1361 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 94 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
+#line 99 "read_eqn.y" /* yacc.c:1646  */
     {
-			network_set_name(global_network, (EQN_EQN_yyvsp[0].strval));
-			FREE((EQN_EQN_yyvsp[0].strval));
+			network_set_name(global_network, (EQN_yyvsp[0].strval));
+			FREE((EQN_yyvsp[0].strval));
 		    }
-#line 1346 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 1370 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 104 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { do_assign((EQN_EQN_yyvsp[-2].strval), (EQN_EQN_yyvsp[0].node)); }
-#line 1352 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 109 "read_eqn.y" /* yacc.c:1646  */
+    { do_assign((EQN_yyvsp[-2].strval), (EQN_yyvsp[0].node)); }
+#line 1376 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 107 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { do_assign((EQN_EQN_yyvsp[-2].strval), (EQN_EQN_yyvsp[-1].node)); }
-#line 1358 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 112 "read_eqn.y" /* yacc.c:1646  */
+    { do_assign((EQN_yyvsp[-2].strval), (EQN_yyvsp[-1].node)); }
+#line 1382 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 112 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_or((EQN_EQN_yyvsp[-2].node), (EQN_EQN_yyvsp[0].node)); node_free((EQN_EQN_yyvsp[-2].node)); node_free((EQN_EQN_yyvsp[0].node));}
-#line 1364 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 117 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_or((EQN_yyvsp[-2].node), (EQN_yyvsp[0].node)); node_free((EQN_yyvsp[-2].node)); node_free((EQN_yyvsp[0].node));}
+#line 1388 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 115 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_and((EQN_EQN_yyvsp[-2].node), (EQN_EQN_yyvsp[0].node)); node_free((EQN_EQN_yyvsp[-2].node)); node_free((EQN_EQN_yyvsp[0].node));}
-#line 1370 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 120 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_and((EQN_yyvsp[-2].node), (EQN_yyvsp[0].node)); node_free((EQN_yyvsp[-2].node)); node_free((EQN_yyvsp[0].node));}
+#line 1394 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 118 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_and((EQN_EQN_yyvsp[-1].node), (EQN_EQN_yyvsp[0].node)); node_free((EQN_EQN_yyvsp[-1].node)); node_free((EQN_EQN_yyvsp[0].node));}
-#line 1376 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 123 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_and((EQN_yyvsp[-1].node), (EQN_yyvsp[0].node)); node_free((EQN_yyvsp[-1].node)); node_free((EQN_yyvsp[0].node));}
+#line 1400 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 121 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_xor((EQN_EQN_yyvsp[-2].node), (EQN_EQN_yyvsp[0].node)); node_free((EQN_EQN_yyvsp[-2].node)); node_free((EQN_EQN_yyvsp[0].node));}
-#line 1382 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 126 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_xor((EQN_yyvsp[-2].node), (EQN_yyvsp[0].node)); node_free((EQN_yyvsp[-2].node)); node_free((EQN_yyvsp[0].node));}
+#line 1406 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 124 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_xnor((EQN_EQN_yyvsp[-2].node), (EQN_EQN_yyvsp[0].node)); node_free((EQN_EQN_yyvsp[-2].node)); node_free((EQN_EQN_yyvsp[0].node));}
-#line 1388 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 129 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_xnor((EQN_yyvsp[-2].node), (EQN_yyvsp[0].node)); node_free((EQN_yyvsp[-2].node)); node_free((EQN_yyvsp[0].node));}
+#line 1412 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 127 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_not((EQN_EQN_yyvsp[-1].node)); node_free((EQN_EQN_yyvsp[-1].node)); }
-#line 1394 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 132 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_not((EQN_yyvsp[-1].node)); node_free((EQN_yyvsp[-1].node)); }
+#line 1418 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 130 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_not((EQN_EQN_yyvsp[0].node)); node_free((EQN_EQN_yyvsp[0].node)); }
-#line 1400 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 135 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_not((EQN_yyvsp[0].node)); node_free((EQN_yyvsp[0].node)); }
+#line 1424 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 133 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_constant(0); }
-#line 1406 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 138 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_constant(0); }
+#line 1430 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 136 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_constant(1); }
-#line 1412 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 141 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_constant(1); }
+#line 1436 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 139 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = (EQN_EQN_yyvsp[-1].node); }
-#line 1418 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 144 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = (EQN_yyvsp[-1].node); }
+#line 1442 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 142 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
+#line 147 "read_eqn.y" /* yacc.c:1646  */
     {
 			node_t *node;
-			node = read_find_or_create_node(global_network, (EQN_EQN_yyvsp[0].strval));
-			(EQN_EQN_yyval.node) = node_literal(node, 1);
-			FREE((EQN_EQN_yyvsp[0].strval));
+			node = read_find_or_create_node(global_network, (EQN_yyvsp[0].strval));
+			(EQN_yyval.node) = node_literal(node, 1);
+			FREE((EQN_yyvsp[0].strval));
 		    }
-#line 1429 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 1453 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 152 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = do_sexpr_list((EQN_EQN_yyvsp[-1].array), node_and); }
-#line 1435 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 157 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = do_sexpr_list((EQN_yyvsp[-1].array), node_and); }
+#line 1459 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 155 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = do_sexpr_list((EQN_EQN_yyvsp[-1].array), node_or); }
-#line 1441 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 160 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = do_sexpr_list((EQN_yyvsp[-1].array), node_or); }
+#line 1465 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 158 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_not((EQN_EQN_yyvsp[-1].node)); node_free((EQN_EQN_yyvsp[-1].node)); }
-#line 1447 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 163 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_not((EQN_yyvsp[-1].node)); node_free((EQN_yyvsp[-1].node)); }
+#line 1471 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 161 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_constant(0); }
-#line 1453 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 166 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_constant(0); }
+#line 1477 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 164 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_constant(1); }
-#line 1459 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 169 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_constant(1); }
+#line 1483 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 167 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_constant(0); }
-#line 1465 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 172 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_constant(0); }
+#line 1489 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 170 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.node) = node_constant(1); }
-#line 1471 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 175 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.node) = node_constant(1); }
+#line 1495 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 173 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
+#line 178 "read_eqn.y" /* yacc.c:1646  */
     {
 			node_t *node;
-			node = read_find_or_create_node(global_network, (EQN_EQN_yyvsp[0].strval));
-			(EQN_EQN_yyval.node) = node_literal(node, 1);
-			FREE((EQN_EQN_yyvsp[0].strval));
+			node = read_find_or_create_node(global_network, (EQN_yyvsp[0].strval));
+			(EQN_yyval.node) = node_literal(node, 1);
+			FREE((EQN_yyvsp[0].strval));
 		    }
-#line 1482 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 1506 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 183 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
+#line 188 "read_eqn.y" /* yacc.c:1646  */
     {
-			(EQN_EQN_yyval.array) = array_alloc(node_t *, 10);
-			array_insert_last(node_t *, (EQN_EQN_yyval.array), (EQN_EQN_yyvsp[0].node));
+			(EQN_yyval.array) = array_alloc(node_t *, 10);
+			array_insert_last(node_t *, (EQN_yyval.array), (EQN_yyvsp[0].node));
 		    }
-#line 1491 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 1515 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 188 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
+#line 193 "read_eqn.y" /* yacc.c:1646  */
     {
-			array_insert_last(node_t *, (EQN_EQN_yyvsp[-1].array), (EQN_EQN_yyvsp[0].node));
+			array_insert_last(node_t *, (EQN_yyvsp[-1].array), (EQN_yyvsp[0].node));
 		    }
-#line 1499 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 1523 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 194 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
-    { (EQN_EQN_yyval.strval) = util_strsav(EQN_EQN_yytext); }
-#line 1505 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 199 "read_eqn.y" /* yacc.c:1646  */
+    { (EQN_yyval.strval) = util_strsav(EQN_yytext); }
+#line 1529 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 200 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
+#line 205 "read_eqn.y" /* yacc.c:1646  */
     {
 			node_t *node;
 			char errmsg[1024];
-			node = read_find_or_create_node(global_network, (EQN_EQN_yyvsp[0].strval));
+			node = read_find_or_create_node(global_network, (EQN_yyvsp[0].strval));
 			if (node_function(node) != NODE_UNDEFINED) {
 			    (void) sprintf(errmsg, 
-				"Attempt to redefine '%s'\n", (EQN_EQN_yyvsp[0].strval));
-			    EQN_EQN_yyerror(errmsg);   /* never returns */
+				"Attempt to redefine '%s'\n", (EQN_yyvsp[0].strval));
+			    EQN_yyerror(errmsg);   /* never returns */
 			}
 			network_change_node_type(global_network, 
 							node, PRIMARY_INPUT);
-			FREE((EQN_EQN_yyvsp[0].strval));
+			FREE((EQN_yyvsp[0].strval));
 		    }
-#line 1523 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 1547 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 218 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1646  */
+#line 223 "read_eqn.y" /* yacc.c:1646  */
     {
 			node_t *node;
-			node = read_find_or_create_node(global_network, (EQN_EQN_yyvsp[0].strval));
+			node = read_find_or_create_node(global_network, (EQN_yyvsp[0].strval));
 			LS_ASSERT(lsNewEnd(po_list, (lsGeneric) node, LS_NH));
-			FREE((EQN_EQN_yyvsp[0].strval));
+			FREE((EQN_yyvsp[0].strval));
 		    }
-#line 1534 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 1558 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1538 "/home/matteo/Dropbox/sis/sis/io/read_eqn.c" /* yacc.c:1646  */
+#line 1562 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
-  /* User semantic actions sometimes alter EQN_EQN_yychar, and that requires
-     that EQN_EQN_yytoken be updated with the new translation.  We take the
-     approach of translating immediately before every use of EQN_EQN_yytoken.
+  /* User semantic actions sometimes alter EQN_yychar, and that requires
+     that EQN_yytoken be updated with the new translation.  We take the
+     approach of translating immediately before every use of EQN_yytoken.
      One alternative is translating here after every semantic action,
      but that translation would be missed if the semantic action invokes
-     YYABORT, YYACCEPT, or YYERROR immediately after altering EQN_EQN_yychar or
+     YYABORT, YYACCEPT, or YYERROR immediately after altering EQN_yychar or
      if it invokes YYBACKUP.  In the case of YYABORT or YYACCEPT, an
      incorrect destructor might then be invoked immediately.  In the
      case of YYERROR or YYBACKUP, subsequent parser actions might lead
      to an incorrect destructor call or verbose syntax error message
      before the lookahead is translated.  */
-  YY_SYMBOL_PRINT ("-> $$ =", EQN_EQN_yyr1[EQN_EQN_yyn], &EQN_EQN_yyval, &EQN_EQN_yyloc);
+  YY_SYMBOL_PRINT ("-> $$ =", EQN_yyr1[EQN_yyn], &EQN_yyval, &EQN_yyloc);
 
-  YYPOPSTACK (EQN_EQN_yylen);
-  EQN_EQN_yylen = 0;
-  YY_STACK_PRINT (EQN_EQN_yyss, EQN_EQN_yyssp);
+  YYPOPSTACK (EQN_yylen);
+  EQN_yylen = 0;
+  YY_STACK_PRINT (EQN_yyss, EQN_yyssp);
 
-  *++EQN_EQN_yyvsp = EQN_EQN_yyval;
+  *++EQN_yyvsp = EQN_yyval;
 
   /* Now 'shift' the result of the reduction.  Determine what state
      that goes to, based on the state we popped back to and the rule
      number reduced by.  */
 
-  EQN_EQN_yyn = EQN_EQN_yyr1[EQN_EQN_yyn];
+  EQN_yyn = EQN_yyr1[EQN_yyn];
 
-  EQN_EQN_yystate = EQN_EQN_yypgoto[EQN_EQN_yyn - YYNTOKENS] + *EQN_EQN_yyssp;
-  if (0 <= EQN_EQN_yystate && EQN_EQN_yystate <= YYLAST && EQN_EQN_yycheck[EQN_EQN_yystate] == *EQN_EQN_yyssp)
-    EQN_EQN_yystate = EQN_EQN_yytable[EQN_EQN_yystate];
+  EQN_yystate = EQN_yypgoto[EQN_yyn - YYNTOKENS] + *EQN_yyssp;
+  if (0 <= EQN_yystate && EQN_yystate <= YYLAST && EQN_yycheck[EQN_yystate] == *EQN_yyssp)
+    EQN_yystate = EQN_yytable[EQN_yystate];
   else
-    EQN_EQN_yystate = EQN_EQN_yydefgoto[EQN_EQN_yyn - YYNTOKENS];
+    EQN_yystate = EQN_yydefgoto[EQN_yyn - YYNTOKENS];
 
-  goto EQN_EQN_yynewstate;
+  goto EQN_yynewstate;
 
 
 /*--------------------------------------.
-| EQN_EQN_yyerrlab -- here on detecting error.  |
+| EQN_yyerrlab -- here on detecting error.  |
 `--------------------------------------*/
-EQN_EQN_yyerrlab:
+EQN_yyerrlab:
   /* Make sure we have latest lookahead translation.  See comments at
      user semantic actions for why this is necessary.  */
-  EQN_EQN_yytoken = EQN_EQN_yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (EQN_EQN_yychar);
+  EQN_yytoken = EQN_yychar == YYEMPTY ? YYEMPTY : YYTRANSLATE (EQN_yychar);
 
   /* If not already recovering from an error, report this error.  */
-  if (!EQN_EQN_yyerrstatus)
+  if (!EQN_yyerrstatus)
     {
-      ++EQN_EQN_yynerrs;
+      ++EQN_yynerrs;
 #if ! YYERROR_VERBOSE
-      EQN_EQN_yyerror (YY_("syntax error"));
+      EQN_yyerror (YY_("syntax error"));
 #else
-# define YYSYNTAX_ERROR EQN_EQN_yysyntax_error (&EQN_EQN_yymsg_alloc, &EQN_EQN_yymsg, \
-                                        EQN_EQN_yyssp, EQN_EQN_yytoken)
+# define YYSYNTAX_ERROR EQN_yysyntax_error (&EQN_yymsg_alloc, &EQN_yymsg, \
+                                        EQN_yyssp, EQN_yytoken)
       {
-        char const *EQN_EQN_yymsgp = YY_("syntax error");
-        int EQN_EQN_yysyntax_error_status;
-        EQN_EQN_yysyntax_error_status = YYSYNTAX_ERROR;
-        if (EQN_EQN_yysyntax_error_status == 0)
-          EQN_EQN_yymsgp = EQN_EQN_yymsg;
-        else if (EQN_EQN_yysyntax_error_status == 1)
+        char const *EQN_yymsgp = YY_("syntax error");
+        int EQN_yysyntax_error_status;
+        EQN_yysyntax_error_status = YYSYNTAX_ERROR;
+        if (EQN_yysyntax_error_status == 0)
+          EQN_yymsgp = EQN_yymsg;
+        else if (EQN_yysyntax_error_status == 1)
           {
-            if (EQN_EQN_yymsg != EQN_EQN_yymsgbuf)
-              YYSTACK_FREE (EQN_EQN_yymsg);
-            EQN_EQN_yymsg = (char *) YYSTACK_ALLOC (EQN_EQN_yymsg_alloc);
-            if (!EQN_EQN_yymsg)
+            if (EQN_yymsg != EQN_yymsgbuf)
+              YYSTACK_FREE (EQN_yymsg);
+            EQN_yymsg = (char *) YYSTACK_ALLOC (EQN_yymsg_alloc);
+            if (!EQN_yymsg)
               {
-                EQN_EQN_yymsg = EQN_EQN_yymsgbuf;
-                EQN_EQN_yymsg_alloc = sizeof EQN_EQN_yymsgbuf;
-                EQN_EQN_yysyntax_error_status = 2;
+                EQN_yymsg = EQN_yymsgbuf;
+                EQN_yymsg_alloc = sizeof EQN_yymsgbuf;
+                EQN_yysyntax_error_status = 2;
               }
             else
               {
-                EQN_EQN_yysyntax_error_status = YYSYNTAX_ERROR;
-                EQN_EQN_yymsgp = EQN_EQN_yymsg;
+                EQN_yysyntax_error_status = YYSYNTAX_ERROR;
+                EQN_yymsgp = EQN_yymsg;
               }
           }
-        EQN_EQN_yyerror (EQN_EQN_yymsgp);
-        if (EQN_EQN_yysyntax_error_status == 2)
-          goto EQN_EQN_yyexhaustedlab;
+        EQN_yyerror (EQN_yymsgp);
+        if (EQN_yysyntax_error_status == 2)
+          goto EQN_yyexhaustedlab;
       }
 # undef YYSYNTAX_ERROR
 #endif
@@ -1621,154 +1645,154 @@ EQN_EQN_yyerrlab:
 
 
 
-  if (EQN_EQN_yyerrstatus == 3)
+  if (EQN_yyerrstatus == 3)
     {
       /* If just tried and failed to reuse lookahead token after an
          error, discard it.  */
 
-      if (EQN_EQN_yychar <= YYEOF)
+      if (EQN_yychar <= YYEOF)
         {
           /* Return failure if at end of input.  */
-          if (EQN_EQN_yychar == YYEOF)
+          if (EQN_yychar == YYEOF)
             YYABORT;
         }
       else
         {
-          EQN_EQN_yydestruct ("Error: discarding",
-                      EQN_EQN_yytoken, &EQN_EQN_yylval);
-          EQN_EQN_yychar = YYEMPTY;
+          EQN_yydestruct ("Error: discarding",
+                      EQN_yytoken, &EQN_yylval);
+          EQN_yychar = YYEMPTY;
         }
     }
 
   /* Else will try to reuse lookahead token after shifting the error
      token.  */
-  goto EQN_EQN_yyerrlab1;
+  goto EQN_yyerrlab1;
 
 
 /*---------------------------------------------------.
-| EQN_EQN_yyerrorlab -- error raised explicitly by YYERROR.  |
+| EQN_yyerrorlab -- error raised explicitly by YYERROR.  |
 `---------------------------------------------------*/
-EQN_EQN_yyerrorlab:
+EQN_yyerrorlab:
 
   /* Pacify compilers like GCC when the user code never invokes
-     YYERROR and the label EQN_EQN_yyerrorlab therefore never appears in user
+     YYERROR and the label EQN_yyerrorlab therefore never appears in user
      code.  */
   if (/*CONSTCOND*/ 0)
-     goto EQN_EQN_yyerrorlab;
+     goto EQN_yyerrorlab;
 
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYERROR.  */
-  YYPOPSTACK (EQN_EQN_yylen);
-  EQN_EQN_yylen = 0;
-  YY_STACK_PRINT (EQN_EQN_yyss, EQN_EQN_yyssp);
-  EQN_EQN_yystate = *EQN_EQN_yyssp;
-  goto EQN_EQN_yyerrlab1;
+  YYPOPSTACK (EQN_yylen);
+  EQN_yylen = 0;
+  YY_STACK_PRINT (EQN_yyss, EQN_yyssp);
+  EQN_yystate = *EQN_yyssp;
+  goto EQN_yyerrlab1;
 
 
 /*-------------------------------------------------------------.
-| EQN_EQN_yyerrlab1 -- common code for both syntax error and YYERROR.  |
+| EQN_yyerrlab1 -- common code for both syntax error and YYERROR.  |
 `-------------------------------------------------------------*/
-EQN_EQN_yyerrlab1:
-  EQN_EQN_yyerrstatus = 3;      /* Each real token shifted decrements this.  */
+EQN_yyerrlab1:
+  EQN_yyerrstatus = 3;      /* Each real token shifted decrements this.  */
 
   for (;;)
     {
-      EQN_EQN_yyn = EQN_EQN_yypact[EQN_EQN_yystate];
-      if (!EQN_EQN_yypact_value_is_default (EQN_EQN_yyn))
+      EQN_yyn = EQN_yypact[EQN_yystate];
+      if (!EQN_yypact_value_is_default (EQN_yyn))
         {
-          EQN_EQN_yyn += YYTERROR;
-          if (0 <= EQN_EQN_yyn && EQN_EQN_yyn <= YYLAST && EQN_EQN_yycheck[EQN_EQN_yyn] == YYTERROR)
+          EQN_yyn += YYTERROR;
+          if (0 <= EQN_yyn && EQN_yyn <= YYLAST && EQN_yycheck[EQN_yyn] == YYTERROR)
             {
-              EQN_EQN_yyn = EQN_EQN_yytable[EQN_EQN_yyn];
-              if (0 < EQN_EQN_yyn)
+              EQN_yyn = EQN_yytable[EQN_yyn];
+              if (0 < EQN_yyn)
                 break;
             }
         }
 
       /* Pop the current state because it cannot handle the error token.  */
-      if (EQN_EQN_yyssp == EQN_EQN_yyss)
+      if (EQN_yyssp == EQN_yyss)
         YYABORT;
 
 
-      EQN_EQN_yydestruct ("Error: popping",
-                  EQN_EQN_yystos[EQN_EQN_yystate], EQN_EQN_yyvsp);
+      EQN_yydestruct ("Error: popping",
+                  EQN_yystos[EQN_yystate], EQN_yyvsp);
       YYPOPSTACK (1);
-      EQN_EQN_yystate = *EQN_EQN_yyssp;
-      YY_STACK_PRINT (EQN_EQN_yyss, EQN_EQN_yyssp);
+      EQN_yystate = *EQN_yyssp;
+      YY_STACK_PRINT (EQN_yyss, EQN_yyssp);
     }
 
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
-  *++EQN_EQN_yyvsp = EQN_EQN_yylval;
+  *++EQN_yyvsp = EQN_yylval;
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 
 
   /* Shift the error token.  */
-  YY_SYMBOL_PRINT ("Shifting", EQN_EQN_yystos[EQN_EQN_yyn], EQN_EQN_yyvsp, EQN_EQN_yylsp);
+  YY_SYMBOL_PRINT ("Shifting", EQN_yystos[EQN_yyn], EQN_yyvsp, EQN_yylsp);
 
-  EQN_EQN_yystate = EQN_EQN_yyn;
-  goto EQN_EQN_yynewstate;
+  EQN_yystate = EQN_yyn;
+  goto EQN_yynewstate;
 
 
 /*-------------------------------------.
-| EQN_EQN_yyacceptlab -- YYACCEPT comes here.  |
+| EQN_yyacceptlab -- YYACCEPT comes here.  |
 `-------------------------------------*/
-EQN_EQN_yyacceptlab:
-  EQN_EQN_yyresult = 0;
-  goto EQN_EQN_yyreturn;
+EQN_yyacceptlab:
+  EQN_yyresult = 0;
+  goto EQN_yyreturn;
 
 /*-----------------------------------.
-| EQN_EQN_yyabortlab -- YYABORT comes here.  |
+| EQN_yyabortlab -- YYABORT comes here.  |
 `-----------------------------------*/
-EQN_EQN_yyabortlab:
-  EQN_EQN_yyresult = 1;
-  goto EQN_EQN_yyreturn;
+EQN_yyabortlab:
+  EQN_yyresult = 1;
+  goto EQN_yyreturn;
 
-#if !defined EQN_EQN_yyoverflow || YYERROR_VERBOSE
+#if !defined EQN_yyoverflow || YYERROR_VERBOSE
 /*-------------------------------------------------.
-| EQN_EQN_yyexhaustedlab -- memory exhaustion comes here.  |
+| EQN_yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
-EQN_EQN_yyexhaustedlab:
-  EQN_EQN_yyerror (YY_("memory exhausted"));
-  EQN_EQN_yyresult = 2;
+EQN_yyexhaustedlab:
+  EQN_yyerror (YY_("memory exhausted"));
+  EQN_yyresult = 2;
   /* Fall through.  */
 #endif
 
-EQN_EQN_yyreturn:
-  if (EQN_EQN_yychar != YYEMPTY)
+EQN_yyreturn:
+  if (EQN_yychar != YYEMPTY)
     {
       /* Make sure we have latest lookahead translation.  See comments at
          user semantic actions for why this is necessary.  */
-      EQN_EQN_yytoken = YYTRANSLATE (EQN_EQN_yychar);
-      EQN_EQN_yydestruct ("Cleanup: discarding lookahead",
-                  EQN_EQN_yytoken, &EQN_EQN_yylval);
+      EQN_yytoken = YYTRANSLATE (EQN_yychar);
+      EQN_yydestruct ("Cleanup: discarding lookahead",
+                  EQN_yytoken, &EQN_yylval);
     }
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYABORT or YYACCEPT.  */
-  YYPOPSTACK (EQN_EQN_yylen);
-  YY_STACK_PRINT (EQN_EQN_yyss, EQN_EQN_yyssp);
-  while (EQN_EQN_yyssp != EQN_EQN_yyss)
+  YYPOPSTACK (EQN_yylen);
+  YY_STACK_PRINT (EQN_yyss, EQN_yyssp);
+  while (EQN_yyssp != EQN_yyss)
     {
-      EQN_EQN_yydestruct ("Cleanup: popping",
-                  EQN_EQN_yystos[*EQN_EQN_yyssp], EQN_EQN_yyvsp);
+      EQN_yydestruct ("Cleanup: popping",
+                  EQN_yystos[*EQN_yyssp], EQN_yyvsp);
       YYPOPSTACK (1);
     }
-#ifndef EQN_EQN_yyoverflow
-  if (EQN_EQN_yyss != EQN_EQN_yyssa)
-    YYSTACK_FREE (EQN_EQN_yyss);
+#ifndef EQN_yyoverflow
+  if (EQN_yyss != EQN_yyssa)
+    YYSTACK_FREE (EQN_yyss);
 #endif
 #if YYERROR_VERBOSE
-  if (EQN_EQN_yymsg != EQN_EQN_yymsgbuf)
-    YYSTACK_FREE (EQN_EQN_yymsg);
+  if (EQN_yymsg != EQN_yymsgbuf)
+    YYSTACK_FREE (EQN_yymsg);
 #endif
-  return EQN_EQN_yyresult;
+  return EQN_yyresult;
 }
-#line 226 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1906  */
+#line 231 "read_eqn.y" /* yacc.c:1906  */
 
 
 static jmp_buf jmpbuf;
 
 int
-EQN_EQN_yyerror(errmsg)
+EQN_yyerror(errmsg)
 char *errmsg;
 {
     read_error(errmsg);
@@ -1783,7 +1807,7 @@ FILE *fp;
     error_init();
 
     if (setjmp(jmpbuf)) {
-	/* syntax error -- return from EQN_EQN_yyerror() */
+	/* syntax error -- return from EQN_yyerror() */
 	LS_ASSERT(lsDestroy(po_list, (void (*)()) 0));
 	network_free(global_network);
 	return 0;
@@ -1793,7 +1817,7 @@ FILE *fp;
 	read_filename_to_netname(global_network, read_filename);
 	po_list = lsCreate();
 	equation_setup_file(fp);
-	(void) EQN_EQN_yyparse();
+	(void) EQN_yyparse();
 
 	if (!read_check_io_list(global_network, po_list)) {
 	    network_free(global_network);
@@ -1818,7 +1842,7 @@ char *s;
     error_init();
 
     if (setjmp(jmpbuf)) {
-	/* syntax error -- return from EQN_EQN_yyerror() */
+	/* syntax error -- return from EQN_yyerror() */
 	LS_ASSERT(lsDestroy(po_list, (void (*)()) 0));
 	network_free(global_network);
 	return 0;
@@ -1827,7 +1851,7 @@ char *s;
 	global_network = network_alloc();
 	po_list = lsCreate();
 	equation_setup_string(s);
-	(void) EQN_EQN_yyparse();
+	(void) EQN_yyparse();
 
 	if (!read_check_io_list(global_network, po_list)) {
 	    network_free(global_network);

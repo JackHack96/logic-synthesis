@@ -1,12 +1,16 @@
 
-#include "extract_int.h"
 #include "sis.h"
+#include "extract_int.h"
+
 
 /*
  *  cubeindex functions -- hash table of cubes <-> integers
  */
 
-cubeindex_t *cubeindex_alloc() {
+
+cubeindex_t *
+cubeindex_alloc()
+{
     cubeindex_t *table;
 
     table = ALLOC(cubeindex_t, 1);
@@ -15,13 +19,17 @@ cubeindex_t *cubeindex_alloc() {
     return table;
 }
 
-void cubeindex_free(cubeindex_t *table) {
+
+void
+cubeindex_free(table)
+cubeindex_t *table;
+{
     st_generator *gen;
-    char         *key;
+    char *key;
 
     gen = st_init_gen(table->cube_to_integer);
     while (st_gen(gen, &key, NIL(char *))) {
-        sm_row_free((sm_row *) key);
+	sm_row_free((sm_row *) key);
     }
     st_free_gen(gen);
 
@@ -30,22 +38,33 @@ void cubeindex_free(cubeindex_t *table) {
     FREE(table);
 }
 
-int cubeindex_getindex(cubeindex_t *table, sm_row *cube) {
-    int    index;
-    char   *value;
+
+int
+cubeindex_getindex(table, cube)
+cubeindex_t *table;
+sm_row *cube;
+{
+    int index;
+    char *value;
     sm_row *cube_save;
 
     if (st_lookup(table->cube_to_integer, (char *) cube, &value)) {
-        index = (int) value;
+	index = (int) value;
     } else {
-        index     = st_count(table->cube_to_integer);
-        cube_save = sm_row_dup(cube);
-        (void) st_insert(table->cube_to_integer, (char *) cube_save, (char *) index);
-        array_insert(sm_row *, table->integer_to_cube, index, cube_save);
+	index = st_count(table->cube_to_integer);
+	cube_save = sm_row_dup(cube);
+	(void) st_insert(table->cube_to_integer, 
+				    (char *) cube_save, (char *) index);
+	array_insert(sm_row *, table->integer_to_cube, index, cube_save);
     }
     return index;
 }
 
-sm_row *cubeindex_getcube(cubeindex_t *table, int index) {
+
+sm_row *
+cubeindex_getcube(table, index)
+cubeindex_t *table;
+int index;
+{
     return array_fetch(sm_row *, table->integer_to_cube, index);
 }

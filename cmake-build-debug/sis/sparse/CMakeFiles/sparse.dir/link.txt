@@ -1,2 +1,0 @@
-/usr/bin/ar qc libsparse.a  CMakeFiles/sparse.dir/cols.c.o CMakeFiles/sparse.dir/matrix.c.o CMakeFiles/sparse.dir/rows.c.o
-/usr/bin/ranlib libsparse.a

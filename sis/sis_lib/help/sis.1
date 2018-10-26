@@ -1,12 +1,3 @@
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .TH SIS 1CAD "1 July 1994"
 .SH NAME
 sis \- Sequential Interactive System
@@ -3521,15 +3512,6 @@ are intended for compatibility with \fBSIS\fP Version #1.0.
 .bp
 .SH DETAILED COMMAND DESCRIPTIONS
 .PP
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 act_map  [-h heuristic_num] [-n num_iteration] [-f collapse_fanin]
        [-g gain_factor] [-d decomp_fanin] [-r filename]
@@ -3634,15 +3616,6 @@ three-mux structure.
 .PP
 \fB-s\fP gives the statistics, regarding the block count
 of the circuit.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 add_inverter
 .PP
@@ -3650,15 +3623,6 @@ Add inverters into the network wherever needed to make each
 signal (including the primary inputs) used only in its negative form.
 After this command, every literal in a node is in the negative form.
 This is the appropriate starting point for the technology mapping step.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 alias [name [string]]
 .X1
@@ -3710,15 +3674,6 @@ sis> alias foo "print_stats -f; print_level -l; foo"
 creates an alias which refers to itself. Executing the command "foo" will
 result an infinite loop during which the commands "print_stats -f" and
 "print_level -l" will be executed. 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_add_state [-v debug_level] [-m]
 .PP
@@ -3727,15 +3682,6 @@ implementability (see \fBastg_state_min\fR for a recommended script file).
 .PP
 The \fB-m\fR option does not preserve the original ASTG marking, and forces its
 re-computation (may be slow; dubious usefulness).
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_contract [-f] <signal-name>
 .PP
@@ -3746,15 +3692,6 @@ must also be free-choice.
 Chu has conjectured that this restriction may not be necessary,
 so it is optional at this time until we have answered this
 question.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_current
 .PP
@@ -3765,15 +3702,6 @@ state machine, or marked graph,
 and the number of state machine (SM) and marked
 graph (MG) components if astg_smc or astg_mgc have
 been run on the ASTG.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_encode [-v debug_level] [-h] [-s] [-u]
 .PP
@@ -3788,15 +3716,6 @@ The \fB-s\fR option prints out a brief summary of the encoding algorithm
 results.
 .PP
 The \fB-u\fR option allows to enter user-defined codes (for debugging purposes).
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_lockgraph [-l]
 .PP
@@ -3815,15 +3734,6 @@ This simplifies many synthesis algorithms.
 The algorithm works only for ASTGs that are marked graphs (no choice).
 See \fBastg_state_min\fR for a set of commands that
 ensure Complete State Coding for more general ASTGs.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_marking [-s] [<marking>]
 .PP
@@ -3839,15 +3749,6 @@ For example, to set an initial state with signal A at
 value 0 and B at value 1, use the command:
 .br
 astg_marking -s A 0 B 1
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_persist [-p]
 .PP
@@ -3862,45 +3763,18 @@ If an ASTG has the CSC property, the state of the circuit can
 be represented completely by the collection of input, output
 and internal signals specified in the ASTG.
 This simplifies many synthesis algorithms.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_print_sg 
 .PP
 Print the state graph of the current ASTG.  If no state graph is
 present, this will create one by token flow.
 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_print_stat
 .PP
 Print the statistics of the current ASTG: name of the ASTG file, initial
 marking, total number of states in the state graph and the total
 number of I/O signals.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_slow [-v debug_level] [-t tolerance] [-s] [-u]
 [[-f|-F] external_delay_file] [-d default_external_delay] [-m min_delay_factor]
@@ -3956,15 +3830,6 @@ and input signals of the ASTG (if no information can be obtained from the above
 described file). The default value is 0.0 (i.e. the environment responds
 instantaneously), but this can be overly pessimistic, and result in an
 unnecessary slow and large implementation.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_state_min [-v debug_level] [-p minimized_file] [-c "command"]
 [-b|-B] [-g|-G] [-u] [-m|-M] [-o #] [-f signal_cost_file]
@@ -4054,15 +3919,6 @@ equivalence class information in the output file, in the following format:
 The \fB-p\fR option avoids calling the minimizer altogether, just reading in
 the specified minimized file (in .kiss format with equivalence class
 information).
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_stg_scr [-v debug_level] 
 .PP
@@ -4073,15 +3929,6 @@ The Single Cube Restriction means that each state has exactly one associated
 value of input signals under which it is entered. The result is accomplished by
 state duplication, but the result may be non-minimal.
 This command is required (and useful) before \fBstg_to_astg\fR.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_syn [-m] [-r] [-v debug_level] [-x]
 .PP
@@ -4118,15 +3965,6 @@ The \fB-v\fR option specifies the debug level.
 The \fB-x\fR assumes that a state graph has already been derived, and
 perform synthesis directly from the given state graph.   State graph can be
 derived by using \fB_astg_flow\fR.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_to_f [-v debug_level] [-r] [-s signal_name] [-d]
 .PP
@@ -4190,15 +4028,6 @@ eliminate -1
 map
 .br
 astg_slow 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 astg_to_stg [-v debug_level] [-m]
 .PP
@@ -4285,28 +4114,10 @@ If \fBfile\fP is specified, test patterns are written out to the given file.
 .PP
 Note: in order to use this command with sequential circuits, the circuit
 reset state must be specified in the circuit input file.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 bdsyn
 .PP
 A special command exported for use by bdsyn(1).  Not for general use.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 buffer_opt [-l #] [-f #] [-c] [-d] [-T] [-L] [-v #] [-D] node-list
 .PP
@@ -4401,15 +4212,6 @@ directory).
 
 
 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 chng_clock
 .PP
@@ -4423,30 +4225,12 @@ write the modified clocking scheme into the working fields.
 Thus, to write out the blif file containing the clock scheme 
 generated by algorithms inside \fBSIS\fR, the setting must first be
 set to the working one and then \fBwrite_blif\fR must be invoked. 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 chng_name
 .PP
 Toggles the network between 
 long-name mode (user supplied names) and short-name mode
 (automatically generated single-character names).
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 collapse [n1] [n2]
 .PP
@@ -4469,15 +4253,6 @@ Caution should be taken when collapsing network to two levels because
 the two level representation may be too large.
 The alternative is to use \fBeliminate\fR (selective collapse).
 Refer to \fBeliminate\fR for the details.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 constraints [node_1....node_n]
 .PP
@@ -4485,15 +4260,6 @@ Print the values of the various delay constraints for the nodes in the
 argument list, which must be either inputs or outputs.  Also prints
 the default values of the default delay parameters for the network.
 Used to check the values set by \fBset_delay\fR.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 decomp [-gqd] [node-list]
 .PP
@@ -4529,28 +4295,10 @@ to the following simple algorithm:  It partitions the cubes
 into sets of cubes having disjoint variable support, creates
 one node for each partition, and a node (the root of the 
 decomposition) which is the OR of all the partitions.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 echo args ...
 .PP
 Echoes the arguments to standard output.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 eliminate [-l limit] thresh
 .PP
@@ -4573,15 +4321,6 @@ in any node.  The default is 1000.  Using a very large \fBlimit\fR
 may result in collapsing the network to two levels.  In general,
 if the circuit is collapsible, the command \fBcollapse\fR is
 more efficient.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 env_seq_dc [-v n] filename.blif
 .PP
@@ -4605,15 +4344,6 @@ The default value is 0.
 .PP
 The method used to compute the set of reachable states is the
 \fBproduct\fR method. See \fBextract_seq_dc\fR for details.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 env_verify_fsm [-v n] [-V] fsm.blif env.blif
 .PP
@@ -4638,15 +4368,6 @@ from the initial state of the product machine.
 .PP
 By default, the command returns an error status if the verification fails.
 When option \fB-V\fR is used, it returns an error status if the verification succeeds.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 equiv_nets [-v n]
 .PP
@@ -4667,29 +4388,11 @@ Finally, it calls the command \fBsweep\fR.
 .PP
 \fB-v\fR allows the specification of the verbosity level of the output.
 The default value is 0.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 espresso
 .PP
 Collapse the network into a PLA, minimize it using \fIespresso\fR,
 and put the result back into the multiple-level \fInor-nor\fR form.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 extract_seq_dc [-o depth] [-v n] [-m method]
 .PP
@@ -4721,15 +4424,6 @@ function is being built.
 This makes the size of the resulting BDD representing the
 characteristic function of the transition relation smaller.
 The default method is \fBproduct\fR.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 factor [-gq] node-list
 .PP
@@ -4739,15 +4433,6 @@ If the \fB-q\fR option is specified, the \fIquick factor\fR algorithm
 is used to factor the node.
 If the \fB-g\fR option is specified, the \fIgood factor\fR
 algorithm is used to factor the node.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 fanout_alg [-v] alg_list
 .PP
@@ -4761,30 +4446,12 @@ obtained with \fItwo_level\fR, \fIbottom_up\fR, \fIlt_trees\fR,
 and \fImixed_lt_trees\fR.
 .PP
 Fanout optimization itself is performed using the \fBmap\fR command.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 fanout_param [-v] fanout_alg [property value]
 .PP
 Changes the default parameter values associated with specific 
 fanout algorithms. For a list of these parameters and their values,
 use the \fB-v\fP option with a fanout algorithm.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 force_init_0
 .PP
@@ -4794,29 +4461,11 @@ to maintain circuit behavior.
 .PP
 This command is useful for certain types of FPGA architectures
 which do not support the initialization of latches to 1.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 free_dc
 .PP
 Frees the don't care network associated with a network.
 This command is used for debugging and experimental purposes.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 full_simplify [-d][-o ordering] [-m method] [-l] [-v verbose]
 .PP
@@ -4871,15 +4520,6 @@ a primary input.
  
 SIS(1)              UNIX Programmer's Manual               SIS(1)
  
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 fx [-o] [-b limit] [-l] [-z]
 .PP
@@ -4903,15 +4543,6 @@ The \fB-z\fP option uses zero-weight divisors (in addition to divisors with
 a larger weight).  This means that divisors that contribute zero gain to
 the overall decomposition are extracted.  This may result in an overall
 better decomposition, but take an exhorbitant amount of time.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 gcx [-bcdf] [-t threshold]
 .PP
@@ -4937,15 +4568,6 @@ greater than the threshold will be extracted.  By default, the threshold is
 .PP
 The \fB-d\fP option enables a debugging mode which traces the execution
 of gcx.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 gkx [-1abcdfo] [-t threshold]
 .PP
@@ -4981,15 +4603,6 @@ so that all possible multiple-cube divisors are extracted from the network.
 The \fB-1\fP option performs only a single pass over the network.  By default,
 the kernel extract algorithm is iterated while there are still divisors whose
 value exceeds the given threshold.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 help [-a] [command]
 .PP
@@ -4999,15 +4612,6 @@ debugging commands, which by convention begin with an underscore.
 If a command name is given,
 detailed information for that command will be provided.
 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 history [-h] [num]
 .PP
@@ -5055,15 +4659,6 @@ available
 	Trailing spaces are significant during substitution.
 	Initial spaces are not significant.
 .fi
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 invert node-list
 .PP
@@ -5071,15 +4666,6 @@ Invert each node in the \fBnode-list\fR.  It is used when
 the complement of a node is to be implemented.  Note that
 it does not change the logic function of the current Boolean
 network, but will have an effect on the structure of the network.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 invert_io node-list
 .PP
@@ -5088,15 +4674,6 @@ The nodes have to be external primary inputs or external primary outputs.
 .PP
 The polarity inversion is done by adding an inverter before a primary output or
 after a primary input.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 ite_map  [-n num_iter] [-C cost_limit] [-f collapse_fanin]
          [-m map_method] [-d decomp_fanin] [-M  MAXOPTIMAL] [-clorsvD]
@@ -5186,15 +4763,6 @@ three-mux structure.
 .PP
 \fB-s\fP gives the statistics, regarding the block count
 of the circuit.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 latch_output [-v n] node-list
 .PP
@@ -5211,15 +4779,6 @@ such as the write enable signal of a memory chip.
 .PP
 \fB-v\fR allows the specification of the verbosity level of the output.
 The default value is 0.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 map [-b #][-f #][-i][-m #][-n #][-r][-s][-p][-v #] [-A][-B #][-F][-G][-W]
 .PP
@@ -5326,30 +4885,12 @@ The \fB-G\fP option recovers area after fanout optimization
 at no cost in delay by resizing all gates in the network.
 .PP
 The \fB-W\fP option suppresses the warning messages.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 one_hot
 .PP
 Does a quick one-hot encoding of the current STG.
 It assigns one-hot codes, minimizes the resulting PLA
 using espresso, and returns the network to SIS.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 phase [-qgst] [-r n]
 .PP
@@ -5369,15 +4910,6 @@ option chooses a random-greedy algorithm which does a random assignment first,
 uses a greedy approach to get to a local minimum, and iterates
 \fIn\fR times.  If the \fB-t\fR option is specified, some tracing
 information is printed as the assignment proceeds.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 plot_blif [-k] [-r] [-i] [-g WxH+X+Y] [-n name]
 .PP
@@ -5412,15 +4944,6 @@ for the plot window.
 .PP
 The \fB-n\fR option allows "name" to be used for the plot window name
 instead of the network name.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 power_estimate [-m c] [-d c] [-t c] [-s c] [-a n] [-e f] [-n n]
                [-f file] [-S] [-M n] [-N n] [-R] [-h] [-v]
@@ -5515,15 +5038,6 @@ power estimation is printed. Only used for SAMPLING mode.
 Note: currently a memory fault occurs on the RS6000 when the exact calculation
 is used for present state probabilities.  This is probably due to the use
 of stg_extract. 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 power_free_info
 
@@ -5531,15 +5045,6 @@ power_free_info
 Frees data structures storing capacitance and switching of every node in
 the network.
 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 power_print
 
@@ -5548,15 +5053,6 @@ Prints the switching probability and capacitance for each node in the
 network. Only valid after a power estimation has been performed.
 
 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print [-n] [-d] node-list
 .PP
@@ -5567,15 +5063,6 @@ the negative form. (i.e. a' + b' will be printed as (a b)').
 .PP
 If \fB-d\fR option is specified, the nodes in the external
 don't care network are printed.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_altname node-list
 .PP
@@ -5583,30 +5070,12 @@ Print the alternate name of all the nodes in the
 \fBnode-list\fR.  If the current name mode is \fIshort\fR (\fBSIS\fR
 internal name), the alternate name will be the \fIlong\fR name 
 (user-specified name) and vice-versa.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_clock
 .PP
 Prints the clocking scheme associated with the current network.
 The clocking scheme printed depends on the current setting
 of the clock data structure (see \fB chng_clock\fR).
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_delay [-alrs] [-m model] [-p n] [-f file-name] [node-list]
 .PP
@@ -5650,30 +5119,12 @@ delay model for use during the delay trace.
 The \fItdc\fR model is an attempt to predict the delay of a node based on the
 distribution of arrival times. The parameters used in this model prediction
 are optionally specified using the \fB-f\fR option.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_factor node-list
 .PP
 Print all the nodes in the \fBnode-list\fR in the \fIfactored\fR form.
 If a node has not beed factored, \fIfactor -q\fR will be used to 
 factor the node.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_gate [-ps] node-list
 .PP
@@ -5683,15 +5134,6 @@ gates.
 The \fB-p\fR option prints the pin information of the gates.
 .PP
 The \fB-s\fR option prints summary of the gates and their area.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_io [-d] [node-list]
 .PP
@@ -5700,15 +5142,6 @@ Absence of \fBnode-list\fR implies all the nodes in the current network.
 .PP
 If the \fB-d\fR option is specified, the nodes in the external don't care
 network are considered.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_kernel [-as] node-list
 .PP
@@ -5717,15 +5150,6 @@ the \fBnode-list\fR.  If \fB-a\fR option (default) is specified,
 all kernels, including the function itself if it is a kernel, are
 printed.  If \fB-s\fR option is specified, only
 the sub-kernels are printed.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_latch [-s] [node-list]
 .PP
@@ -5739,15 +5163,6 @@ If the \fB-s\fR option is specified, only the latch input, output, initial
 and current values are given.
 If a \fBnode-list\fR is given, only the latches associated with those
 nodes are printed (each node should be a latch input or output).
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_level [-l] [-c] [-m model] [-t value] [node-list]
 .PP
@@ -5765,15 +5180,6 @@ according to the \fB-m model\fR option (default is the
 unit-fanout model) and all the nodes with a slack within a
 \fB-t value\fR of the smallest slack are considered to be
 critical.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_library [-a][-f][-h][-l][-r] [function-string]
 .PP
@@ -5798,28 +5204,10 @@ The \fB-l\fP option prints active low transparent latches matching the 'function
 .PP
 The \fB-r\fP option prints rising edge triggered flip-flops matching the 'function-string'.
 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_map_stats
 .PP
 Prints delay and area information of the network. The network should be mapped. 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_state 
 .PP
@@ -5830,15 +5218,6 @@ a string of integers representing the values on the latches:
 0, 1, 2 (don't care), and 3 (undefined).
 For the STG, the current state is printed with its symbolic
 and encoded names.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_stats [-f] [-d]
 .PP
@@ -5856,15 +5235,6 @@ the factored form for some network takes too long to generate.
 .PP
 If \fB-d\fR option is specified, the statistics of the external don't care
 network is printed.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 print_value [-a] [-d] [-p n] node-list
 .PP
@@ -5881,15 +5251,6 @@ The \fB-d\fR option prints the values in descending order.
 .PP
 The \fB-p\fR takes an argument \fBn\fR, and directs print_value to only
 print the top n values.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 quit [-s]
 .PP
@@ -5897,15 +5258,6 @@ Stop the program.  Does not save the current network before exiting.
 \fB-s\fP frees all the memory before quitting.  This is slower, and
 is used for finding core leaks or when \fIsis\fR is called from
 another program.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 read_astg [<file-name>]
 .PP
@@ -5971,15 +5323,6 @@ be specified using the syntax <x*,y*>.
 This required line indicates the end of the ASTG description.
 .PP
 Error messages are printed for any unrecognized input sequences.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 read_blif [-a] filename
 .PP
@@ -6016,15 +5359,6 @@ and are resolved by renaming the signal from the new network.
 .PP
 The \fB-s\fR option, though accepted, has no effect on \fBread_blif\fR, and is 
 instead reserved for the \fBread_pla\fR command.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 read_eqn [-a] [filename]
 .PP
@@ -6193,15 +5527,6 @@ reserved for the \fBread_pla\fR command.
 .pp
 Note that since the characters '(' and ')' are used for grouping,
 they cannot be part of a signal name.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 read_kiss [filename]
 .PP
@@ -6220,15 +5545,6 @@ See also \fBstg_to_network\fR, \fBread_kiss_net\fR.
 Note that \fIread_kiss\fP followed by \fIwrite_kiss\fP alters the ordering of
 the product terms.  This could make a difference in the \fInova\fP
 output.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 read_library [-ainr] filename
 .PP
@@ -6241,15 +5557,6 @@ The \fB-n\fP flag requests that a library, if it is generated, be
 made using NAND gates rather than NOR gates.
 The \fB-r\fP flag reads a raw library format (given in BLIF)
 rather than the normal genlib format.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 read_oct cell[:view]
 .PP
@@ -6261,15 +5568,6 @@ All primary inputs and outputs are named the same as the equivalent
 Oct formal terminals of the facet.
 .PP
 This operation replaces the current network with the new network.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 read_pla [-a] [-s] [-c] filename
 .PP
@@ -6307,15 +5605,6 @@ using the long names of each network.
 Name conflicts (two
 functions attempt to define the same name) generate warning messages
 and are resolved by renaming the signal from the new network.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 read_slif filename
 .PP
@@ -6393,15 +5682,6 @@ sequences applied during random propagation. The default length is 20.
 .PP
 Note: in order to use this command with sequential circuits, the circuit
 reset state must be specified in the circuit input file.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 reduce_depth [-b] [-d #] [-g] [-r] [-s #] [-v #] [-R #.#] [-S #] [-f #]
 .PP
@@ -6447,15 +5727,6 @@ produces the same depth as a cluster size limit of \fBn\fR.
 The \fB-f #\fP option specifies a cluster size limit in terms
 of the number of fanins of the cluster. Its intended use is
 for table-lookup FPGAs. It is a poor man's version of FlowMap.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 remove_dep [-o] [-v n] input output-list
 .PP
@@ -6478,15 +5749,6 @@ The default value is 0.
 .PP
 With option \fB-o\fR the constant 1 is used instead of the constant 0
 to replace the input.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 remove_latches [-v n] [-f n] [-r] [-b]
 .PP
@@ -6512,15 +5774,6 @@ combinational logic.
 .PP
 \fB-v\fR allows the specification of the verbosity level of the output.
 The default value is 0.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 replace [-t n] [-v n]
 .PP
@@ -6530,30 +5783,12 @@ using \fBtech_decomp -o 2\fR. It is just much faster.
 .PP
 The \fB-v n\fP specifies the verbosity level.
 It is only used for debugging.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 reset_name [-ls]
 .PP
 Resets either the short names (starting again from the single letter a)
 with the \fB-l\fP option, or the \fBSIS\fR-generated 
 long-names (starting again from [0]) with the \fB-s\fP option.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 resub [-a] [-b] [-d] [node-list]
 .PP
@@ -6576,15 +5811,6 @@ NOTE: Boolean resubstitution has not yet been implemented.
 .PP
 The \fB-d\fR option directs \fBresub\fR not to use the complement of a given
 node in algebraic resubstitutions.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 retime [-nfim] [-c #.#] [-t #.#] [-d #.#] [-a #.#] [-v #]
 .PP
@@ -6644,15 +5870,6 @@ determined from the library of gates.
 The \fB-v value\fR selects the verbosity level. The range is 1-100
 (100 will literally swamp you with a lot of unneeded data). Use 
 the value 1 to see the progress of the algorithm.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 save filename
 .PP
@@ -6665,15 +5882,6 @@ NOTE: The \fBsave\fR command is very operating-system dependent and may not
 be implemented on your system.
 If this is the case then the \fBsave\fR
 command is unusable on your system.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 set [name] [value]
 .X1
@@ -6737,15 +5945,6 @@ mechanism for reaching standard library files.
 defines the prompt string. If the prompt string contains a `%'(or whatever
 the history_char has been set to using the set command), the `%'
 will be replaced whenever the prompt is printed by the current event number.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 set_delay  [-a|d|i|l|r f]  [-A f] [-D f] [-I f] [-L f] [-R f] [-S f] [-W f][o1 o2 ... | i1 i2 ...]
 .PP
@@ -6791,15 +5990,6 @@ the list to \fBf\fR;
 if there is a non-primary input in the list this is an error.
 The \fB-l\fP  option sets the load on each node in the list to \fBf\fR; if there
 is a non-primary output in the list this is an error.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 set_state [-s] [-i] [name]
 .PP
@@ -6873,15 +6063,6 @@ If \fBfile\fP is specified, test patterns are written out to the given file.
 .PP
 Note: in order to use this command with sequential circuits, the circuit
 reset state must be specified in the circuit input file.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 sim_verify [-n # pats] filename.blif
 .PP
@@ -6897,15 +6078,6 @@ expanded to handle multiple networks.)
 \fB-n\fP gives the number of random patterns to simulate.
 .PP
 NOTE: this command only works for combinational networks.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 simplify [-d][-i <num>[:<num>]] [-m method] [-f filter] [node-list]
 .PP
@@ -6935,15 +6107,6 @@ Note that a node function is replaced with the simplified version
 if the new function has fewer literals in factored form.
 In the case of a tie, the node function is replaced if the new function
 has fewer literals in sum-of-products form.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 simulate in1 in2 in3 ...
 .PP
@@ -6972,15 +6135,6 @@ current state of the latches.
 The values of the outputs and the new state are printed.
 If a more sophisticated simulation method is needed, timing simulation
 should be used; this is not currently implemented in SIS.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 source [-psx] filename
 .PP
@@ -7033,15 +6187,6 @@ minimization, requiring more time and producing better results.
 \fIscript.rugged\fR uses the newest BDD-based techniques,
 and \fIscript.delay\fR synthesizes a circuit for a final
 implementation that is optimal with respect to speed.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 speed_up [-m model] [-d #] [-w #] [-t #.#] [-i] [-c] [-T] [-a #] [-vD] node-list
 .PP
@@ -7088,15 +6233,6 @@ one attempt at the restructuring. This option is for experimental
 use at this stage.
 .PP
 The \fB-v\fR and \fB-D\fR options display debugging information.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: 
-.\"  * $Author: 
-.\"  * $Revision: 
-.\"  * $Date: 
-.\"  *
-.\"
 .XX
 speedup_alg [-v] alg_list
 .PP
@@ -7117,15 +6253,6 @@ generalized-bypass transformation.
 .PP
 Performance optimization itself is performed using the \fBspeed_up\fR
 command without the \fB-f\fR option.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 state_assign progname options
 .PP
@@ -7152,15 +6279,6 @@ A one-hot encoding can be obtained by using \fBstate_assign progname -e h\fP.
 Note that nova and jedi produce different results for one-hot encoding.
 jedi produces typical one-hot codes (1000) while nova produces one-hot
 codes with don't care conditions (1---).
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 state_minimize progname options
 .PP
@@ -7184,15 +6302,6 @@ Boulder, rho@boulder.colorado.edu).
 To get help information for a specific program, use the \fB-h\fR option
 (i.e. \fBstate_minimize stamina -h\fP would produce help information for
 the \fBstamina\fR state minimization program).
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 stg_cover
 .PP
@@ -7203,15 +6312,6 @@ two descriptions of the same machine are consistent.
 Each edge in the STG is symbolically simulated in the
 logic implementation to ensure that the logic implementation
 behaves as specified by the STG.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 stg_extract [-a] [-e] [-c]
 .PP
@@ -7240,15 +6340,6 @@ This is done with symbolic simulation using BDDs, and could be expensive.
 Note: a \fBsweep\fI is done on the network before the STG is extracted.
 This removes latches that do not fanout, so the sweep makes the extraction
 more efficient.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 stg_to_astg [-v debug_level] 
 .PP
@@ -7266,15 +6357,6 @@ Burst mode means that the circuit specified by the Flow Table may change state
 only after all signals in a specified set (a "burst") have changed value. Many
 bursts can occur from a given state, but no burst can be a subset of another
 burst from the same state (or else meta-stability can occur).
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 stg_to_network [-e option]
 .PP
@@ -7299,15 +6381,6 @@ Again, \fBread_pla -s\fR is used.
 This option also produces better results for some
 cases, but typically takes more time.
 The default is the \fB-e 1\fR option.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 sweep
 .PP
@@ -7316,15 +6389,6 @@ Successively eliminate all the single-input nodes and constant nodes
 .PP
 NOTE: Successfully invoking a sweep command on a mapped network can
 possibly "unmap" the network.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 tech_decomp [-a and-limit] [-o or-limit] 
 .PP
@@ -7336,29 +6400,11 @@ will be no more than \fBand-limit\fR and that of the OR gates
 will be no more than \fBor-limit\fR.  \fBand-limit\fR and
 \fBor-limit\fR, if specified, must be at least 2.
 The default option is \fB-a 2\fR.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 time
 .PP
 Prints the processor time used since the last time command, and the total
 processor time used since \fBSIS\fR was started.  
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 timeout [-t n] [-k]
 .PP
@@ -7369,15 +6415,6 @@ The \fB-t n\fP specifies the timeout limit, in seconds.
 .PP
 The \fB-k\fP option specifies that a kill signal is to be sent to
 \fBSIS\fR rather than a interrupt signal.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 alias [name [string]]
 .X1
@@ -7392,15 +6429,6 @@ arguments, the keyword \fBname\fP becomes an alias for
 the command string \fBstring\fP, replacing any other alias with the
 same name.
 The \fBunalias\fR command removes the definition of an alias.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 undo
 .PP
@@ -7410,15 +6438,6 @@ before the last command which changed the network.
 Note that interrupting
 a command (with ^C) which changes the network 
 uses up the one level of undo.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 set [name] [value]
 .X1
@@ -7482,30 +6501,12 @@ mechanism for reaching standard library files.
 defines the prompt string. If the prompt string contains a `%'(or whatever
 the history_char has been set to using the set command), the `%'
 will be replaced whenever the prompt is printed by the current event number.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 usage
 .PP
 Prints a formatted dump of processor-specific usage statistics.
 For Berkeley Unix, this includes all of the information in the
 \fIgetrusage()\fR structure.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 verify [-m method] [-v] file1 [file2]
 .PP
@@ -7522,15 +6523,6 @@ If \fBmethod\fR is \fIbdd\fR, the BDD's are constructed for both networks and
 compared.
 .PP
 The \fB-v\fR option engages the "verbose" mode of verify.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 verify_fsm [-o depth] [-v n] [-m method] filename.blif
 .PP
@@ -7565,15 +6557,6 @@ function is being built.
 This makes the size of the resulting BDD representing the
 characteristic function of the transition relation smaller.
 The default method is \fBproduct\fR.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 wd [-c] node1 node2
 .PP
@@ -7584,15 +6567,6 @@ in terms of \fBnode2\fR.
 .PP
 The \fB-c\fR option allows re-substitution of the
 complement of \fBnode2\fR.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 write_astg [-p] [<file-name>]
 .PP
@@ -7605,15 +6579,6 @@ description.
 Normally a place with exactly one fanin and one fanout transition
 is suppressed by specifying the fanout transition
 as adjacent to the fanin transition.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 write_bdnet [filename]
 .PP
@@ -7633,15 +6598,6 @@ name.
 The variables OCT-TECHNOLOGY, OCT-VIEWTYPE, and OCT-EDITSTYLE define
 the technology, view-type, and edit-style properties for the Oct cell.
 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 write_blif [-s] [-n] [filename]
 .PP
@@ -7654,15 +6610,6 @@ This can be used to encrypt the names of a net-list.
 .PP
 The \fB-n\fP option uses the net-list format of \fIblif\fP when
 a node has a gate implementation in the library.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 write_eqn [-s] [filename]
 .PP
@@ -7680,29 +6627,11 @@ may be read by \fBread_blif\fR at a later time.
 .PP
 Note that since the eqn format uses the '(' and ')' characters
 for grouping, they cannot appear in any of the signal names.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 write_kiss [filename]
 .PP
 The current state transition graph is saved in \fIkiss2\fP format to the
 file \fBfilename\fP or printed to the screen if no filename is given.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 write_oct [-m] cell[:view]
 .PP
@@ -7727,15 +6656,6 @@ name.
 .PP
 The variables OCT-TECHNOLOGY, OCT-VIEWTYPE, and OCT-EDITSTYLE define
 the technology, view-type, and edit-style properties for the Oct facet.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 write_pds [-c] [-d] [-s] [filename]
 .PP
@@ -7751,29 +6671,11 @@ The \fB-d\fP option will cause debugging information to be printed.
 .PP
 The \fB-s\fP option uses the network short names rather than the
 network long names for the \fIpds\fP file.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 write_pla [filename]
 .PP
 Write the current network to file \fBfilename\fP in the Berkeley
 PLA Format.  No optimization is done on the PLA.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 write_slif [-s] [-n] [-d] [filename]
 .PP
@@ -7791,15 +6693,6 @@ The \fB-d\fP option makes the \fISLIF\fR writer print out any delay information
 known about the current network.  This is not the default because a standard
 for printing delay information has not been established for the
 \fISLIF\fP format.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 XILINX
 .br
@@ -7878,15 +6771,6 @@ xl_merge
 .br
 .PP
 time
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 xl_absorb [-n support] [-f MAX_FANINS] [-v]
 .PP
@@ -7905,15 +6789,6 @@ them.
 \fB-v\fP: turns on the verbosity flag.  When used, information about the
    algorithm is printed as it executes.
 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 xl_ao [-n support] 
 .PP
@@ -7921,15 +6796,6 @@ Uses a cube-packing heuristic to do an AND-OR decomposition of an infeasible net
 This is fast and the result is a feasible network.
 .PP
 \fB-n\fP: support is the size of the TLU block (default = 5)
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 xl_coll_ck [-n support] [-c collapse_input_limit] [-kv]
 .PP
@@ -7950,15 +6816,6 @@ better decomposition. Does nothing if n = 2.
 \fB-v\fP: turns on the verbosity flag.  When used, information about the
    algorithm is printed as it executes.
 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 xl_cover [-n number] [-h heuristic number]
 .br
@@ -7981,15 +6838,6 @@ by \fB-h\fP option. Heuristic number can be 0, 1, 2 or 3:
 -  2 (For large examples),
 .PP
 -  3 (default:  automatically decides between 0 and 2)
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 xl_decomp_two [-n support] [-l lower_common_bound]
             [-L cube_support_lower_bound] [-f MAX_FANIN]
@@ -8019,15 +6867,6 @@ cube_support_lower_bound inputs.
 \fB-v\fP: turns on the verbosity flag.  When used, information about the
    algorithm is printed as it executes.
 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 xl_imp [-n support] [-c cover_node_limit] [-l lit_bound] [-Aabm]
      [-g good_decomp] [-M MAX_FANINS]
@@ -8080,15 +6919,6 @@ most MAX_FANINS (default 15).
 .PP
 \fB-v\fP: this sets the verbosity level (amount of information printed
 as the algorithm proceeds) to \fBverbosity_level\fP.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 xl_k_decomp [-n support] [-p node_name] [-v verbosity_level] [-f MAX_FANINS_K_DECOMP] [-de]
 .PP
@@ -8107,15 +6937,6 @@ possible partitions to pick the best decomposition of a node. Then the option \f
 sets the limit on maximum number of fanins of a node for exhaustive decomposition. If the number of fanins
 is higher, only the first input partition is considered. 
 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 xl_merge [-f MAX_FANIN] [-c MAX_COMMON_FANIN] [-u MAX_UNION_FANIN] 
          [-n support] [-o filename] [-vlF]
@@ -8161,15 +6982,6 @@ unmatched nodes. Otherwise, only matching is done and the network remains unchan
 \fB-v\fP:  turns on the verbosity flag.  When used, information about the
    algorithm is printed as it executes.
 
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 xl_part_coll [-n support] [-C cost_limit] [-c cover_node_limit] 
            [-l lit_bound] [-Aabm] [-g decomp_good]
@@ -8193,15 +7005,6 @@ only feasible nodes. So the default is 1.
 .PP
 Other options are the same as in \fBxl_imp\fP except -c has default of
 10 and -A means move fanins around.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 xl_partition [-n support] [-M MAX_FANINS] [-v verbosity_level] [-tm]
 .PP
@@ -8231,15 +7034,6 @@ only if after collapsing, it has at most MAX_FANINS (default = 15)(as specified 
 .PP
 \fB-v\fP: this sets the verbosity level (amount of information printed
 as the algorithm proceeds) to \fBverbosity_level\fP.
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 xl_rl [-n support] [-m] [-M MAX_FANINS] 
     [-t (trav_method-levels)] [-c collapse_input_limit]
@@ -8256,15 +7050,6 @@ Roth-Karp decomposition and cofactoring (support > 2). If number of
 levels decreases, accepts the better decomposition. 
 .PP
 \fB-n\fP: support is the size of the TLU block (default = 5)
-.\" /*
-.\"  * Revision Control Information
-.\"  *
-.\"  * $Source: /users/pchong/CVS/sis/sis/sis_lib/help/sis.1,v $
-.\"  * $Author: pchong $
-.\"  * $Revision: 1.1.1.1 $
-.\"  * $Date: 2004/02/07 10:14:34 $
-.\"  *
-.\"
 .XX
 xl_split [-n value] [-d]
 .PP

@@ -15,7 +15,7 @@ static int nbuffer;
 static char buffer[20];
 static int last_was_newline;
 
-int yyerror(char *);
+extern int yyerror(char *);
 %}
 
 blank			[ \n\t]

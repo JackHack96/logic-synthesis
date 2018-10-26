@@ -1,0 +1,18 @@
+
+void
+error_init()
+
+	Set the error string to empty.
+
+
+void
+error_append(s)
+char *s;
+
+	Append the string 's' to the error string.
+
+
+char *
+error_string()
+
+	Return the current error string.

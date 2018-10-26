@@ -1,0 +1,5 @@
+astg -- Asynchronous Signal Transition Graph package
+
+There is no exported programmer interface to the ASTG package.  See
+the user commands read_astg, write_astg, astg_* and _astg_* for the
+user interface to the SIS asynchronous synthesis commands.

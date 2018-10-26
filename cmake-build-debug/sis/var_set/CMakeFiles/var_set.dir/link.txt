@@ -1,2 +1,0 @@
-/usr/bin/ar qc libvar_set.a  CMakeFiles/var_set.dir/var_set.c.o
-/usr/bin/ranlib libvar_set.a

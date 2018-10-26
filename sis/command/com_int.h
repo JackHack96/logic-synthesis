@@ -1,82 +1,64 @@
-#ifndef COM_INT_H
-#define COM_INT_H
 
 #include <setjmp.h>
 #include <signal.h>
-#include "network.h"
-#include "list.h"
-#include "avl.h"
 
-#define MAX_STR 1024
+#define MAX_STR		1024
 
 typedef int (*PFI)();
 
 typedef struct command_descr_struct command_descr_t;
 struct command_descr_struct {
-  char *name;
-  PFI command_fp;
-  int changes_network;
+    char *name;
+    PFI command_fp;
+    int changes_network;
 };
+
 
 typedef struct alias_descr_struct alias_descr_t;
 struct alias_descr_struct {
-  char *name;
-  int argc;
-  char **argv;
+    char *name;
+    int argc;
+    char **argv;
 };
+
 
 typedef struct network_info_struct network_info_t;
 struct network_info_struct {
-  network_t *network;
-  network_t *original;
-  lsList history;
+    network_t *network;
+    network_t *original;
+    lsList history;
 };
 
 /* Strings for communicating with a graphical front end, used in commisc.c */
 
-#define COM_GRAPHICS_MSG_START "#START-GRAPHICS-COMMAND\n"
-#define COM_GRAPHICS_MSG_END "#END-GRAPHICS-COMMAND\n"
+#define COM_GRAPHICS_MSG_START		"#START-GRAPHICS-COMMAND\n"
+#define COM_GRAPHICS_MSG_END		"#END-GRAPHICS-COMMAND\n"
 
-char sis_hist_char;
-char sis_shell_char;
+extern char sis_hist_char;
+extern char sis_shell_char;
 
-avl_tree *command_table;
-avl_tree *flag_table;
-avl_tree *alias_table;
-network_t *backup_network;
+extern avl_tree *command_table;
+extern avl_tree *flag_table;
+extern avl_tree *alias_table;
+extern network_t *backup_network;
 
-int com_alias();
+extern int com_alias();
+extern int com_unalias();
+extern int com_execute();
+extern int com_help();
+extern int com_time();
+extern int com_echo();
+extern int com_quit();
+extern int com_set_variable();
+extern int com_unset_variable();
+extern int com_source();
+extern int com_undo();
 
-int com_unalias();
+extern void com_free_argv();
+extern void com_alias_free();
+extern void com_command_free();
 
-int com_execute();
+extern char *fgets_filec();
+extern char *hist_subst();
+extern void print_prompt();
 
-int com_help();
-
-int com_time();
-
-int com_echo();
-
-int com_quit();
-
-int com_set_variable();
-
-int com_unset_variable();
-
-int com_source();
-
-int com_undo();
-
-void com_free_argv();
-
-void com_alias_free();
-
-void com_command_free();
-
-char *fgets_filec();
-
-char *hist_subst();
-
-void print_prompt();
-
-#endif //COM_INT_H

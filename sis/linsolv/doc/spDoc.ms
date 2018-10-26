@@ -10,12 +10,6 @@
 .ls 1
 .\
 .\
-.\  >>> Revision information:
-.\  $Author: pchong $
-.\  $Date: 2004/02/07 10:15:05 $
-.\  $Revision: 1.1.1.1 $
-.\
-.\
 .\  Define registers for section and subsection
 .nr sc 0 1
 .nr ss 0 1
@@ -1094,7 +1088,7 @@ order.
 .sp 2
 .Lb spClear
 Sets every element in the matrix to zero.  The \fISparse\fR error state
-is cleared to SPMATRIX_H in this routine.
+is cleared to spOKAY in this routine.
 .sp 0.3v
 \fBvoid\fI spClear( Matrix )\fR
 .XP
@@ -1350,7 +1344,7 @@ The matrix for which the error status is desired.
 .XP
 \(bu Possible errors:
 .nf
-SPMATRIX_H
+spOKAY
 spILL_CONDITIONED
 spZERO_PIVOT
 spSINGULAR
@@ -1626,7 +1620,7 @@ fill it.
 \(bu Possible errors:
 .nf
 spNO_MEMORY
-error is not cleared in this routine.
+Error is not cleared in this routine.
 .XP
 \(bu Compiler options that must be set for this routine to exist:
 .nf
@@ -1683,7 +1677,7 @@ otherwise treated normally.
 \(bu Possible errors:
 .nf
 spNO_MEMORY
-print_error is not cleared in this routine.
+Error is not cleared in this routine.
 .Le
 .XS \n%         \" Save section title for table of contents
 	\n(sc.\n(ss:  \fIspGetElement()\fP
@@ -1908,7 +1902,7 @@ The user function (\fIpInit()\fR) is expected to return a nonzero integer
 if there is a fatal error and zero otherwise.  Upon encountering a nonzero
 return code, \fIspInitialize()\fR terminates and returns the error code.
 .LP
-The \fISparse\fR error state is cleared to SPMATRIX_H in this routine.
+The \fISparse\fR error state is cleared to spOKAY in this routine.
 .sp 0.3v
 .nf
 \fBint\fI spInitialize( Matrix, pInit )\fR
@@ -3417,7 +3411,7 @@ there corresponding macros are:
 .sp 0.25i
 .KS
 .LP
-SPMATRIX_H  \(em  0
+spOKAY  \(em  0
 .LP
 No error has occurred.
 .KE

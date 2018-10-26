@@ -1,2 +1,0 @@
-/usr/bin/ar qc libgenlib.a  CMakeFiles/genlib.dir/aoi.c.o CMakeFiles/genlib.dir/com_genlib.c.o CMakeFiles/genlib.dir/comb.c.o CMakeFiles/genlib.dir/count.c.o CMakeFiles/genlib.dir/genlib.c.o CMakeFiles/genlib.dir/io.c.o CMakeFiles/genlib.dir/nand.c.o CMakeFiles/genlib.dir/permute.c.o CMakeFiles/genlib.dir/sptree.c.o CMakeFiles/genlib.dir/readlib.c.o CMakeFiles/genlib.dir/readliblex.c.o
-/usr/bin/ranlib libgenlib.a

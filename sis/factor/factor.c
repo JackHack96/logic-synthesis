@@ -5,23 +5,29 @@
  *      factor();
  */
 
+#include "sis.h"
 #include "factor.h"
 #include "factor_int.h"
-#include "sis.h"
 
 /*
  *  factors nodep if nodep->factored is not NULL.
  */
-void factor(node_t *f) {
+void
+factor(f)
+node_t *f;
+{
     if (f->factored == NIL(char)) {
-        factor_quick(f);
+	factor_quick(f);
     }
 }
 
-/*
- *   quick factoring
+/* 
+ *   quick factoring 
  */
-void factor_quick(node_t *f) {
+void
+factor_quick(f)
+node_t *f;
+{
     node_t *np;
 
     factor_free(f);
@@ -33,10 +39,13 @@ void factor_quick(node_t *f) {
     factor_nt_free(np);
 }
 
-/*
- *   good factoring
+/* 
+ *   good factoring 
  */
-void factor_good(node_t *f) {
+void
+factor_good(f)
+node_t *f;
+{
     node_t *np;
 
     factor_free(f);

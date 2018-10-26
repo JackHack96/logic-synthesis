@@ -19,7 +19,7 @@ Warning: network `bbara.kiss2', node "in_2" does not fanout
 Warning: network `bbara.kiss2', node "in_3" does not fanout
 Warning: network `bbara.kiss2', node "out_0" is not driven (zero assumed)
 Warning: network `bbara.kiss2', node "out_1" is not driven (zero assumed)
-warning: network `bbara.kiss2', node "clk" does not fanout
+Warning: network `bbara.kiss2', node "clk" does not fanout
 sis<3> sa jedi
 Running jedi, written by Bill Lin,  UC Berkeley
 sis<5> sim 0 0 0 0 0

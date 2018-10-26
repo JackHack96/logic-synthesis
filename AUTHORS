@@ -1,0 +1,93 @@
+AUTHORS
+-------
+
+There have been many authors who have contributed to SIS, and it is
+difficult to compile a complete and accurate list of everyone.  I am
+fairly sure the list below is incomplete.  If you know anyone missing from
+this list or think changes need to be made, please send more information.
+
+Wendell Baker
+	sis/{bdd_ucb,ntbdd}
+Robert K. Brayton
+	Professor
+Andrea Casotto
+	sis/octio
+Abhijit Ghosh
+	sis/power
+Paul Gutwin
+	sis/delay
+Heather Harkness
+	sis/speed
+David Harrison
+	port, sis/{list,util}
+Jonathan I. Kamens
+	sis/util
+Kenneth S. Kundert
+	sis/linsolv
+Tom Laidig
+	options
+Luciano Lavagno
+	sis/pld
+Bill Lin
+	jedi
+David E. Long
+	sis/bdd_cmu
+Hi-Keung Tony Ma
+	sis/{maxflow,stg}
+Abdul A. Malik
+	sis/minimize
+Sharad Malik
+	sis/order
+Patrick McGeer
+	sis/speed
+Jose' Monteiro
+	sis/power
+Cho Moon
+	sis/{genlib,map}
+Rajeev Murgai
+	sis/pld
+A. Richard Newton
+	Professor
+Antony P.-C. Ng
+	sis/seqbdd
+Yoshihito Nishizaki
+	sis/pld
+Roberto Rambaldi
+	blif2vst, vst2blif
+June Rho
+	stamina
+Richard Rudell
+	espresso, sis/{genlib,lsort,util}, utility
+Alexander Saldanha
+	sis/enc
+Alberto Sangiovanni-Vincentelli
+	Professor
+Hamid Savoj
+	sis/sis_lib/help/sis.1
+Ellen M. Sentovich
+	sis/util
+Narendra Shenoy
+	sis/{pld,timing}
+Thomas R. Shiple
+	sis/{bdd_cmu,bdd_ucb,ntbdd,order,var_set}
+Kanwar Jit Singh
+	sis/{maxflow,octio,speed}
+Henry Spencer
+	espresso/getopt.c, sis/util/getopt.c
+Rick L. Spickelmier
+	sis/util
+Paul R. Stephan
+	sis/atpg, xsis
+Colin Stevens
+	sis/sis_lib/help/sis.1
+Gitanjali M. Swamy
+	sis/bdd_cmu
+Herve' Touati
+	sis/{bdd_ucb,map,ntbdd,order,retime,seqbdd,var_set}
+Tiziano Villa
+	nova, sred
+Huey-Yih Wang
+	sis/extract
+Carol Wawrukiewicz
+	sis/sis_lib/help/sis.1
+

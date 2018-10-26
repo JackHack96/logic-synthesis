@@ -1,9 +1,10 @@
 
-#include "node_int.h"
 #include "sis.h"
+#include "node_int.h"
+
 
 /*
- *  this is a hack for the library package
+ *  this is a hack for the library package 
  *
  *	1. collapse network so all nodes are SOP over the primary inputs
  *	2. simplify each node so its all primes
@@ -12,30 +13,35 @@
  *	   fanin so that it is in the same order as the primary input list
  */
 
-void node_lib_process(network_t *network) {
-    node_t      *node, *pi, **new_fanin;
-    int         i, new_nin;
+void
+node_lib_process(network)
+network_t *network;
+{
+    node_t *node, *pi, **new_fanin;
+    int i, new_nin;
     pset_family func;
-    lsGen       gen, gen1;
+    lsGen gen, gen1;
 
     (void) network_collapse(network);
 
     foreach_node(network, gen, node) {
-        if (node->type == INTERNAL) {
-            (void) node_simplify_replace(node, NIL(node_t), NODE_SIM_ESPRESSO);
-        }
+	if (node->type == INTERNAL) {
+	    (void) node_simplify_replace(node, NIL(node_t), NODE_SIM_ESPRESSO);
+	}
     }
 
     foreach_node(network, gen, node) {
-        if (node->type == INTERNAL) {
+	if (node->type == INTERNAL) {
 
-            i         = 0;
-            new_nin   = network_num_pi(network);
-            new_fanin = ALLOC(node_t *, new_nin);
-            foreach_primary_input(network, gen1, pi) { new_fanin[i++] = pi; }
+	    i = 0;
+	    new_nin = network_num_pi(network);
+	    new_fanin = ALLOC(node_t *, new_nin);
+	    foreach_primary_input(network, gen1, pi) {
+		new_fanin[i++] = pi;
+	    }
 
-            func = node_sf_adjust(node, new_fanin, new_nin);
-            node_replace_internal(node, new_fanin, new_nin, func);
-        }
+	    func = node_sf_adjust(node, new_fanin, new_nin);
+	    node_replace_internal(node, new_fanin, new_nin, func);
+	}
     }
 }

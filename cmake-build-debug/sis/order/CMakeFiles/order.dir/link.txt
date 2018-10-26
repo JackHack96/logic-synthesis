@@ -1,2 +1,0 @@
-/usr/bin/ar qc liborder.a  CMakeFiles/order.dir/dfs_order.c.o CMakeFiles/order.dir/random_order.c.o
-/usr/bin/ranlib liborder.a

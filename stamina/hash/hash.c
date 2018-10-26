@@ -4,18 +4,26 @@
  *              for string s .                              *
  ************************************************************/
 
-#include "hash.h"
 #include <stdio.h>
+#include "hash.h"
 
-int hash(s, hash_size) char *s;
+
+int hash(s, hash_size)
+char *s;
 int hash_size;
 {
-  int hashval; /* hash value of string s */
+	int hashval;		/* hash value of string s */
 
-  for (hashval = 0; *s != '\0';) {
-    hashval += *s;
-    s++;
-  }
 
-  return (hashval % hash_size);
+	for ( hashval = 0; *s != '\0'; )  {
+	    hashval += *s;
+	    s++ ;
+	}
+
+	return ( hashval % hash_size );
+
 }
+
+	
+
+

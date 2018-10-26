@@ -1,2 +1,0 @@
-/usr/bin/ar qc liboctio.a  CMakeFiles/octio.dir/octio.c.o CMakeFiles/octio.dir/octread.c.o CMakeFiles/octio.dir/octwrite.c.o
-/usr/bin/ranlib liboctio.a

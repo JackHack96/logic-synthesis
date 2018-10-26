@@ -1,29 +1,23 @@
-#ifndef ACT_BOOL_H
-#define ACT_BOOL_H
-
-#include "node.h"
 typedef struct act_match_defn {
-  node_t *A0;
-  node_t *A1;
-  node_t *SA;
-  node_t *B0;
-  node_t *B1;
-  node_t *SB;
-  node_t *S0;
-  node_t *S1;
+    node_t *A0;
+    node_t *A1;
+    node_t *SA;
+    node_t *B0;
+    node_t *B1;
+    node_t *SB;
+    node_t *S0;
+    node_t *S1;
 } ACT_MATCH;
-
+  
 typedef struct cofc_struct_defn {
-  node_t *pos;
-  node_t *neg;
-  int pos_mux;
-  node_t *B0;
-  node_t *B1;
-  node_t *SB;
-  node_t *node;
-  node_t *fanin;
+    node_t *pos;
+    node_t *neg;
+    int pos_mux;
+    node_t *B0;
+    node_t *B1;
+    node_t *SB;
+    node_t *node;
+    node_t *fanin;
 } COFC_STRUCT;
 
-ACT_MATCH *act_is_act_function();
-
-#endif
+extern ACT_MATCH *act_is_act_function();

@@ -1012,7 +1012,7 @@ how to use it.  The routines are listed in alphabetic order.
 4.1:  spClear()
 
 Sets every element in the matrix  to  zero.   The  Sparse  error  state  is
-cleared to SPMATRIX_H in this routine.
+cleared to spOKAY in this routine.
 
 void spClear( Matrix )
 
@@ -1371,7 +1371,7 @@ o Argument:
           The matrix for which the error status is desired.
 
 o Possible errors:
-     SPMATRIX_H
+     spOKAY
      spILL CONDITIONED
      spZERO PIVOT
      spSINGULAR
@@ -1988,7 +1988,7 @@ o Arguments:
 
 o Possible errors:
      spNO MEMORY
-     error is not cleared in this routine.
+     Error is not cleared in this routine.
 
 o Compiler options that must be set for this routine to exist:
      QUAD ELEMENT
@@ -2222,7 +2222,7 @@ The user function (pInit()) is expected to  return  a  nonzero  integer  if
 there is a fatal error and zero otherwise.  Upon encountering a nonzero re-
 turn code, spInitialize() terminates and returns the error code.
 
-The Sparse error state is cleared to SPMATRIX_H in this routine.
+The Sparse error state is cleared to spOKAY in this routine.
 
 int spInitialize( Matrix, pInit )
 
@@ -4094,7 +4094,7 @@ The largest positive integer representable by a long.
 
 7:  EXPORTS
 
-7.1:  print_error Codes
+7.1:  Error Codes
 
      Errors are indicated with a integer error  code.   Macros  definitions
 for  these  error codes are set up and placed in the file spMatrix.h.  They
@@ -4104,7 +4104,7 @@ are:
 
 
 
-SPMATRIX_H  -  0
+spOKAY  -  0
 
 No error has occurred.
 

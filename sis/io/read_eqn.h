@@ -30,20 +30,20 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-#ifndef YY_YY_HOME_MATTEO_DROPBOX_SIS_SIS_IO_READ_EQN_H_INCLUDED
-# define YY_YY_HOME_MATTEO_DROPBOX_SIS_SIS_IO_READ_EQN_H_INCLUDED
+#ifndef YY_YY_Y_TAB_H_INCLUDED
+# define YY_YY_Y_TAB_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
 #endif
 #if YYDEBUG
-extern int EQN_EQN_yydebug;
+extern int EQN_yydebug;
 #endif
 
 /* Token type.  */
 #ifndef YYTOKENTYPE
 # define YYTOKENTYPE
-  enum EQN_EQN_yytokentype
+  enum EQN_yytokentype
   {
     OPR_OR = 258,
     OPR_AND = 259,
@@ -65,19 +65,38 @@ extern int EQN_EQN_yydebug;
     END = 275
   };
 #endif
+/* Tokens.  */
+#define OPR_OR 258
+#define OPR_AND 259
+#define CONST_ZERO 260
+#define CONST_ONE 261
+#define IDENTIFIER 262
+#define LPAREN 263
+#define OPR_XOR 264
+#define OPR_XNOR 265
+#define OPR_NOT 266
+#define OPR_NOT_POST 267
+#define NAME 268
+#define INORDER 269
+#define OUTORDER 270
+#define PASS 271
+#define ASSIGN 272
+#define SEMI 273
+#define RPAREN 274
+#define END 275
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 64 "/home/matteo/Dropbox/sis/sis/io/read_eqn.y" /* yacc.c:1909  */
+#line 69 "read_eqn.y" /* yacc.c:1909  */
 
     char *strval;
     node_t *node;
     array_t *array;
 
-#line 81 "/home/matteo/Dropbox/sis/sis/io/read_eqn.h" /* yacc.c:1909  */
+#line 100 "y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -86,8 +105,8 @@ typedef union YYSTYPE YYSTYPE;
 #endif
 
 
-extern YYSTYPE EQN_EQN_yylval;
+extern YYSTYPE EQN_yylval;
 
-int EQN_EQN_yyparse (void);
+int EQN_yyparse (void);
 
-#endif /* !YY_YY_HOME_MATTEO_DROPBOX_SIS_SIS_IO_READ_EQN_H_INCLUDED  */
+#endif /* !YY_YY_Y_TAB_H_INCLUDED  */

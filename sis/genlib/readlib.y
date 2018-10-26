@@ -4,6 +4,7 @@
 /* last modified on 6/13/91 at 17:46:40   */
 #include <setjmp.h>
 #include "genlib_int.h"
+#include "config.h"
 
 #undef yywrap 
 static int input();
@@ -11,13 +12,17 @@ static int unput();
 static int yywrap();
 
 FILE *gl_out_file;
-char *yytext;
+#if YYTEXT_POINTER
+extern char *yytext;
+#else
+extern char yytext[];
+#endif
 
 static int global_use_nor;
 static function_t *global_fct;
 
-int library_setup_string(char *);
-int library_setup_file(FILE *, char *);
+extern int library_setup_string(char *);
+extern int library_setup_file(FILE *, char *);
 
 %}
 

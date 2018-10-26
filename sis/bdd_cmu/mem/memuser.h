@@ -1,27 +1,32 @@
 /* Memory management user-visible definitions */
 
-#ifndef MEMUSER_H
-#define MEMUSER_H
+
+#if !defined(_MEMUSERH)
+#define _MEMUSERH
+
 
 #include <stdio.h>
 
+
 #if defined(__STDC__)
-#define args args
+#define ARGS(args) args
 #else
-#define args) (
+#define ARGS(args) ()
 #endif
+
 
 /* >>> Potentially machine dependent stuff */
 /* See memint.h as well. */
 
-typedef unsigned long INT_PTR; /* Integral type that can hold a pointer */
-typedef unsigned long SIZE_T;  /* Integral type that can hold the maximum */
-/* size of an object */
+typedef unsigned long INT_PTR;	/* Integral type that can hold a pointer */
+typedef unsigned long SIZE_T;	/* Integral type that can hold the maximum */
+				/* size of an object */
 
 /* REQUIRED_ALIGNMENT is the alignment required by the machine hardware; */
 /* it is provided for user use. */
 
 #define REQUIRED_ALIGNMENT 4
+
 
 /* Types */
 
@@ -31,44 +36,39 @@ typedef void *pointer;
 typedef char *pointer;
 #endif
 
+
 typedef struct rec_mgr_ *rec_mgr;
+
 
 /* ALLOC_ALIGNMENT is the alignment for all storage returned by the */
 /* storage allocation routines. */
 
 #define ALLOC_ALIGNMENT 8
 
+
 /* Round a size up for alignment */
 
-#define ROUNDUP(size)                                                          \
-  ((((size) + ALLOC_ALIGNMENT - 1) / ALLOC_ALIGNMENT) * ALLOC_ALIGNMENT)
-#define ALIGN(size)                                                            \
-  ((((size) + REQUIRED_ALIGNMENT - 1) / REQUIRED_ALIGNMENT) *                  \
-   REQUIRED_ALIGNMENT)
+#define ROUNDUP(size) ((((size)+ALLOC_ALIGNMENT-1)/ALLOC_ALIGNMENT)*ALLOC_ALIGNMENT)
+#define ALIGN(size) ((((size)+REQUIRED_ALIGNMENT-1)/REQUIRED_ALIGNMENT)*REQUIRED_ALIGNMENT)
+
 
 /* Block storage management routines */
 
-pointer mem_get_block(SIZE_T);
+extern pointer mem_get_block ARGS((SIZE_T));
+extern void mem_free_block ARGS((pointer));
+extern pointer mem_resize_block ARGS((pointer, SIZE_T));
+extern void mem_copy ARGS((pointer, pointer, SIZE_T));
+extern void mem_zero ARGS((pointer, SIZE_T));
+extern SIZE_T mem_allocation ARGS((void));
 
-void mem_free_block(pointer);
-
-pointer mem_resize_block(pointer, SIZE_T);
-
-void mem_copy(pointer, pointer, SIZE_T);
-
-void mem_zero(pointer, SIZE_T);
-
-SIZE_T mem_allocation(void);
 
 /* Record manager routines */
 
-pointer mem_new_rec(rec_mgr);
+extern pointer mem_new_rec ARGS((rec_mgr));
+extern void mem_free_rec ARGS((rec_mgr, pointer));
+extern rec_mgr mem_new_rec_mgr ARGS((int));
+extern void mem_free_rec_mgr ARGS((rec_mgr));
 
-void mem_free_rec(rec_mgr, pointer);
-
-rec_mgr mem_new_rec_mgr(int);
-
-void mem_free_rec_mgr(rec_mgr);
 
 #undef ARGS
 

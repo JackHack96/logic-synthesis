@@ -1,7 +1,7 @@
 
-#include "../port/copyright.h"
-#include "../port/port.h"
-#include "../utility/utility.h"
+#include "copyright.h"
+#include "port.h"
+#include "utility.h"
 #include "options.h"
 
 /*
@@ -13,7 +13,10 @@
 #ifndef lint
 
 /*ARGSUSED*/
-char *tapRootDirectory(new) char *new;
-{ return (NIL(char)); }
+char *tapRootDirectory(new)
+char *new;
+{
+    return(NIL(char));
+}
 
 #endif /*lint*/

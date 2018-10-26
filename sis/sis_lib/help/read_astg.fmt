@@ -50,6 +50,6 @@
      <x*,y*>.
       .end This required line indicates the end of the ASTG description.
  
-     error messages are printed for any unrecognized input sequences.
+     Error messages are printed for any unrecognized input sequences.
  
                                                                             1

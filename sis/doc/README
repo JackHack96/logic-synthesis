@@ -72,8 +72,8 @@ Files:
 Note : Symbolic link for all files go to directory with the same name
 except the following
 
-	dagger.doc    goes to graphics
-        graph_static.doc goes to graph
-	library.doc   goes to map
-	nodeindex.doc goes to node
+	dagger.txt    goes to graphics
+        graph_static.txt goes to graph
+	library.txt   goes to map
+	nodeindex.txt goes to node
 

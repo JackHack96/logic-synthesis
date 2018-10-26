@@ -1,29 +1,32 @@
 
 
-#include "reductio.h"
 #include <stdio.h>
+#include "reductio.h"
 
-makeout() {
-  register int state, j;
-  NAMETABLE *name;
+makeout()
 
-  fprintf(stdout, ".i %d\n", nis);
-  fprintf(stdout, ".o %d\n", nos);
-  fprintf(stdout, ".s %d\n", copertura1->count);
+{
+	register int state, j;
+	NAMETABLE *name;
 
-  if (reset > 0) {
-    fprintf(stdout, ".r s%d\n", reset);
-  }
+	fprintf(stdout, ".i %d\n", nis);
+	fprintf(stdout, ".o %d\n", nos);
+	fprintf(stdout, ".s %d\n", copertura1->count);
 
-  for (j = 0; j < newnp; j++) {
-    fprintf(stdout, "%s ", itable[j].input);
+	if (reset > 0) {
+		fprintf(stdout, ".r s%d\n", reset);
+	}
 
-    fprintf(stdout, "%s ", itable[j].pstate);
+	for (j = 0; j < newnp; j++) {
+		fprintf (stdout, "%s ", itable[j].input);
 
-    fprintf(stdout, "%s ", itable[j].nstate);
+		fprintf (stdout, "%s ", itable[j].pstate);
 
-    fprintf(stdout, "%s\n", itable[j].output);
-  }
+		fprintf (stdout, "%s ", itable[j].nstate);
 
-  fprintf(stdout, ".e\n");
+		fprintf (stdout, "%s\n", itable[j].output);
+	}
+
+	fprintf(stdout, ".e\n");
 }
+

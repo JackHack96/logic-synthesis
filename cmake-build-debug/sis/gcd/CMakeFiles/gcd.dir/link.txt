@@ -1,2 +1,0 @@
-/usr/bin/ar qc libgcd.a  CMakeFiles/gcd.dir/com_gcd.c.o CMakeFiles/gcd.dir/gcd.c.o
-/usr/bin/ranlib libgcd.a

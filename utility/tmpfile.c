@@ -1,6 +1,9 @@
-#include "../port/copyright.h"
-#include "../port/port.h"
-#include "../utility/utility.h"
+
+
+/* LINTLIBRARY */
+#include "copyright.h"
+#include "port.h"
+#include "utility.h"
 
 /*
  *  util_tmpfile -- open an unnamed temporary file
@@ -11,26 +14,32 @@
 
 #ifdef unix
 
-char *mktemp();
+extern char *mktemp();
 
-FILE *util_tmpfile() {
-  FILE *fp;
-  char *filename, *junk;
+FILE *
+util_tmpfile()
+{
+    FILE *fp;
+    char *filename, *junk;
 
-  junk = util_strsav("/usr/tmp/tempXXXXXX");
-  filename = mktemp(junk);
-  if ((fp = fopen(filename, "w+")) == NULL) {
-    (void)fprintf(stderr, "Could not open the temporary file (%s)\n", filename);
+    junk = util_strsav("/usr/tmp/tempXXXXXX");
+    filename = mktemp(junk);
+    if ((fp = fopen(filename, "w+")) == NULL) {
+	(void) fprintf(stderr, "Could not open the temporary file (%s)\n", filename);
+	FREE(junk);
+	return NULL;
+    }
+    (void) unlink(filename);
     FREE(junk);
-    return NULL;
-  }
-  (void)unlink(filename);
-  FREE(junk);
-  return fp;
+    return fp;
 }
 
 #else
 
-FILE *util_tmpfile() { return fopen("utiltmp", "w+"); }
+FILE *
+util_tmpfile()
+{
+    return fopen("utiltmp", "w+");
+}
 
 #endif

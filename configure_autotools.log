@@ -1,0 +1,127 @@
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether build environment is sane... yes
+checking for gawk... no
+checking for mawk... mawk
+checking whether make sets $(MAKE)... yes
+checking for gcc... gcc
+checking for C compiler default output file name... a.out
+checking whether the C compiler works... yes
+checking whether we are cross compiling... no
+checking for suffix of executables... 
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ANSI C... none needed
+checking for bison... bison -y
+checking for flex... flex
+checking for yywrap in -lfl... no
+checking for yywrap in -ll... yes
+checking lex output file root... lex.yy
+checking whether yytext is a pointer... yes
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether ln -s works... yes
+checking whether make sets $(MAKE)... (cached) yes
+checking for ranlib... ranlib
+checking how to run the C preprocessor... gcc -E
+checking for X... disabled
+checking for egrep... grep -E
+checking for ANSI C header files... yes
+checking for dirent.h that defines DIR... yes
+checking for library containing opendir... none required
+checking for sys/wait.h that is POSIX.1 compatible... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for unistd.h... (cached) yes
+checking for an ANSI C-conforming const... yes
+checking return type of signal handlers... void
+checking for memcpy... yes
+checking for memset... yes
+checking for pclose... yes
+checking for popen... yes
+checking for strchr... yes
+checking for strrchr... yes
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating blif2vst/Makefile
+config.status: creating doc/Makefile
+config.status: creating espresso/Makefile
+config.status: creating espresso/examples/Makefile
+config.status: creating jedi/Makefile
+config.status: creating nova/Makefile
+config.status: creating options/Makefile
+config.status: creating port/Makefile
+config.status: creating sis/Makefile
+config.status: creating sis/array/Makefile
+config.status: creating sis/astg/Makefile
+config.status: creating sis/atpg/Makefile
+config.status: creating sis/avl/Makefile
+config.status: creating sis/bdd_cmu/Makefile
+config.status: creating sis/bdd_cmu/bdd_cmu/Makefile
+config.status: creating sis/bdd_cmu/bdd_port/Makefile
+config.status: creating sis/bdd_cmu/mem/Makefile
+config.status: creating sis/bdd_cudd/Makefile
+config.status: creating sis/bdd_ucb/Makefile
+config.status: creating sis/clock/Makefile
+config.status: creating sis/command/Makefile
+config.status: creating sis/decomp/Makefile
+config.status: creating sis/delay/Makefile
+config.status: creating sis/doc/Makefile
+config.status: creating sis/enc/Makefile
+config.status: creating sis/error/Makefile
+config.status: creating sis/espresso/Makefile
+config.status: creating sis/extract/Makefile
+config.status: creating sis/factor/Makefile
+config.status: creating sis/gcd/Makefile
+config.status: creating sis/genlib/Makefile
+config.status: creating sis/graph/Makefile
+config.status: creating sis/graphics/Makefile
+config.status: creating sis/include/Makefile
+config.status: creating sis/io/Makefile
+config.status: creating sis/latch/Makefile
+config.status: creating sis/linsolv/Makefile
+config.status: creating sis/list/Makefile
+config.status: creating sis/lsort/Makefile
+config.status: creating sis/main/Makefile
+config.status: creating sis/map/Makefile
+config.status: creating sis/maxflow/Makefile
+config.status: creating sis/mincov/Makefile
+config.status: creating sis/minimize/Makefile
+config.status: creating sis/network/Makefile
+config.status: creating sis/node/Makefile
+config.status: creating sis/ntbdd/Makefile
+config.status: creating sis/octio/Makefile
+config.status: creating sis/order/Makefile
+config.status: creating sis/phase/Makefile
+config.status: creating sis/pld/Makefile
+config.status: creating sis/power/Makefile
+config.status: creating sis/resub/Makefile
+config.status: creating sis/retime/Makefile
+config.status: creating sis/seqbdd/Makefile
+config.status: creating sis/sim/Makefile
+config.status: creating sis/simplify/Makefile
+config.status: creating sis/sis_lib/Makefile
+config.status: creating sis/sis_lib/help/Makefile
+config.status: creating sis/sparse/Makefile
+config.status: creating sis/speed/Makefile
+config.status: creating sis/st/Makefile
+config.status: creating sis/stg/Makefile
+config.status: creating sis/test/Makefile
+config.status: creating sis/timing/Makefile
+config.status: creating sis/util/Makefile
+config.status: creating sis/var_set/Makefile
+config.status: creating sred/Makefile
+config.status: creating stamina/Makefile
+config.status: creating stamina/hash/Makefile
+config.status: creating stamina/mimi/Makefile
+config.status: creating utility/Makefile
+config.status: creating vst2blif/Makefile
+config.status: creating xsis/Makefile
+config.status: creating config.h
+config.status: config.h is unchanged

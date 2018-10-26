@@ -1,2 +1,0 @@
-/usr/bin/ar qc libmaxflow.a  CMakeFiles/maxflow.dir/com_max.c.o CMakeFiles/maxflow.dir/cutset.c.o CMakeFiles/maxflow.dir/maxflow.c.o CMakeFiles/maxflow.dir/mf_input.c.o
-/usr/bin/ranlib libmaxflow.a

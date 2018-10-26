@@ -1,1 +1,0 @@
-/usr/bin/cc -g   CMakeFiles/sis.dir/main/sis.c.o  -o sis libsis.a 

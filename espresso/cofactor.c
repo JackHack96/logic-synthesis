@@ -29,8 +29,7 @@
 */
 
 /* cofactor -- compute the cofactor of a cover with respect to a cube */
-pcube *cofactor(T, c) IN pcube *T;
-IN register pcube c;
+pcube *cofactor(IN pcube *T, IN register pcube c)
 {
   pcube temp = cube.temp[0], *Tc_save, *Tc, *T1;
   register pcube p;
@@ -99,9 +98,7 @@ IN register pcube c;
     This routine has been optimized for speed.
 */
 
-pcube *scofactor(T, c, var) IN pcube *T, c;
-IN int var;
-{
+pcube *scofactor(IN pcube *T, IN pcube *c, IN int var){
   pcube *Tc, *Tc_save;
   register pcube p, mask = cube.temp[1], *T1;
   register int first = cube.first_word[var], last = cube.last_word[var];

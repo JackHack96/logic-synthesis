@@ -76,7 +76,7 @@ A description of the BLIF format is in sis/doc/blif.tex, and
 a description of the specification that state assignment and
 state minimization programs should conform to is in sis/doc/SPEC.
 
-Each package has a package.doc file describing the exported
+Each package has a package.txt file describing the exported
 functions for that package.
 
 This file provides an overview of sis-1.3.

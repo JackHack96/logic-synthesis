@@ -15,61 +15,62 @@
  *     code except sell it or remove this message.
  */
 
-#include "inc/jedi.h"
+#include "jedi.h"
 
-FILE *infp;  /* input file pointer */
-FILE *outfp; /* output file pointer */
+FILE *infp;			/* input file pointer */
+FILE *outfp;			/* output file pointer */
 
-main(argc, argv) int argc;
+main(argc, argv)
+int argc;
 char **argv;
 {
-  /*
-   * parse options
-   */
-  parse_options(argc, argv);
+    /*
+     * parse options
+     */
+    parse_options(argc, argv);
 
-  /*
-   * read input from stdin
-   */
-  if (kissFlag) {
-    read_kiss(infp, outfp);
-  } else {
-    read_input(infp, outfp);
-  }
+    /*
+     * read input from stdin
+     */
+    if (kissFlag) {
+	read_kiss(infp, outfp);
+    } else {
+	read_input(infp, outfp);
+    }
 
-  /*
-   * check if one hot
-   */
-  if (hotFlag) {
-    write_one_hot(outfp);
-    (void)exit(0);
-  }
+    /*
+     * check if one hot
+     */
+    if (hotFlag) {
+	write_one_hot(outfp);
+	(void) exit(0);
+    }
 
-  /*
-   * compute weights
-   */
-  if (!sequentialFlag && !srandomFlag && !drandomFlag) {
-    compute_weights();
-  }
+    /*
+     * compute weights
+     */
+    if (!sequentialFlag && !srandomFlag && !drandomFlag) {
+	compute_weights();
+    }
 
-  /*
-   * solve the embedding problem
-   */
-  if (srandomFlag || drandomFlag) {
-    random_embedding();
-  } else if (clusterFlag) {
-    cluster_embedding();
-  } else if (!sequentialFlag) {
-    opt_embedding();
-  }
+    /* 
+     * solve the embedding problem 
+     */
+    if (srandomFlag || drandomFlag) {
+	random_embedding();
+    } else if (clusterFlag) {
+	cluster_embedding();
+    } else if (!sequentialFlag) {
+	opt_embedding();			
+    }
 
-  if (kissFlag && !plaFlag) {
-    write_blif(outfp);
-  } else if (kissFlag && plaFlag) {
-    write_output(outfp);
-  } else {
-    write_output(outfp);
-  }
+    if (kissFlag && !plaFlag) {
+	write_blif(outfp);
+    } else if (kissFlag && plaFlag) {
+	write_output(outfp);			
+    } else {
+	write_output(outfp);			
+    }
 
-  (void)exit(0);
+    (void) exit(0);
 } /* end of main */

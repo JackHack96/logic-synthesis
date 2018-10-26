@@ -1,7 +1,7 @@
 %{
 
 #include "reductio.h"
-char yytext[];
+extern char yytext[];
 %}
 
 %start fsm

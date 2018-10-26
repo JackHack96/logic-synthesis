@@ -1,2 +1,0 @@
-/usr/bin/ar qc libst.a  CMakeFiles/st.dir/st.c.o
-/usr/bin/ranlib libst.a

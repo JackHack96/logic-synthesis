@@ -3,8 +3,13 @@
 #include "sis.h"
 #include "io_int.h"
 #include <setjmp.h>
+#include "config.h"
 
-char *yytext;
+#if YYTEXT_POINTER
+extern char *yytext;
+#else
+extern char yytext[];
+#endif
 
 static network_t *global_network;
 static lsList po_list;
@@ -17,8 +22,8 @@ static int unput();
 static int yywrap();
 #endif
 
-int equation_setup_string(char *);
-int equation_setup_file(FILE *);
+extern int equation_setup_string(char *);
+extern int equation_setup_file(FILE *);
 
 static void
 do_assign(name, expr)

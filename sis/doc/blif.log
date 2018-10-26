@@ -1,0 +1,35 @@
+This is TeX, C Version 3.14t3 (format=lplain 92.7.6)  19 JAN 1994 10:48
+**blif.tex
+(blif.tex
+LaTeX Version 2.09 <25 March 1992>
+(/usr/sww/lib/tex/inputs/article.sty
+Standard Document Style `article' <14 Jan 92>.
+(/usr/sww/lib/tex/inputs/art11.sty)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+) (/usr/sww/lib/tex/inputs/fullpage.sty
+Style Option FULLPAGE Version 2 as of 15 Dec 1988
+) (/usr/sww/lib/tex/inputs/times.sty (/usr/sww/lib/tex/inputs/psfonts.sty
+\@cmrfam=\fam11
+\@cmrscale=\count87
+\aadimen=\dimen99
+))
+(blif.aux) [1
+
+] [2] [3] [4] [5] [6] [7] [8] [9] [10] (blif.aux) ) 
+Here is how much of TeX's memory you used:
+ 263 strings out of 4456
+ 2245 string characters out of 63158
+ 33772 words of memory out of 262141
+ 2180 multiletter control sequences out of 9500
+ 36216 words of font info for 102 fonts, out of 72000 for 255
+ 14 hyphenation exceptions out of 607
+ 14i,7n,24p,157b,376s stack positions out of 300i,40n,60p,3000b,4000s
+
+Output written on blif.dvi (10 pages, 34752 bytes).

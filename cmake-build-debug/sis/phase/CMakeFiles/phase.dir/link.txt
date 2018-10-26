@@ -1,2 +1,0 @@
-/usr/bin/ar qc libphase.a  CMakeFiles/phase.dir/ai.c.o CMakeFiles/phase.dir/com_ph.c.o CMakeFiles/phase.dir/greedy.c.o CMakeFiles/phase.dir/phase.c.o CMakeFiles/phase.dir/phase_lib.c.o
-/usr/bin/ranlib libphase.a

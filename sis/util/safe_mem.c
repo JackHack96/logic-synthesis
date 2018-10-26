@@ -1,9 +1,13 @@
-#include "util.h"
+
+/* LINTLIBRARY */
+
 #include <stdio.h>
+#include "util.h"
+
 
 /*
  *  These are interface routines to be placed between a program and the
- *  system memory allocator.
+ *  system memory allocator.  
  *
  *  It forces well-defined semantics for several 'borderline' cases:
  *
@@ -15,69 +19,78 @@
  *	    to malloc/realloc is a 'long' to catch this condition
  *
  *  The function pointer MMoutOfMemory() contains a vector to handle a
- *  'out-of-memory' error (which, by default, points at a simple wrap-up
+ *  'out-of-memory' error (which, by default, points at a simple wrap-up 
  *  and exit routine).
  */
 
-char *MMalloc();
+extern char *MMalloc();
+extern void MMout_of_memory();
+extern char *MMrealloc();
 
-void MMout_of_memory();
-
-char *MMrealloc();
 
 void (*MMoutOfMemory)() = MMout_of_memory;
 
+
 /* MMout_of_memory -- out of memory for lazy people, flush and exit */
-void MMout_of_memory(long size) {
-  (void)fflush(stdout);
-  (void)fprintf(stderr, "\nout of memory allocating %ld bytes\n", size);
-  exit(1);
+void 
+MMout_of_memory(size)
+long size;
+{
+    (void) fflush(stdout);
+    (void) fprintf(stderr, "\nout of memory allocating %ld bytes\n", size);
+    exit(1);
 }
 
-char *MMalloc(long size) {
-  char *p;
+
+char *
+MMalloc(size)
+long size;
+{
+    char *p;
 
 #ifdef IBMPC
-  if (size > 65000L) {
-    if (MMoutOfMemory != (void (*)())0)
-      (*MMoutOfMemory)(size);
-    return NIL(char);
-  }
+    if (size > 65000L) {
+	if (MMoutOfMemory != (void (*)()) 0 ) (*MMoutOfMemory)(size);
+	return NIL(char);
+    }
 #endif
-  if (size <= 0)
-    size = sizeof(long);
-  if ((p = (char *)malloc((unsigned)size)) == NIL(char)) {
-    if (MMoutOfMemory != (void (*)())0)
-      (*MMoutOfMemory)(size);
-    return NIL(char);
-  }
-  return p;
+    if (size <= 0) size = sizeof(long);
+    if ((p = (char *) malloc((unsigned) size)) == NIL(char)) {
+	if (MMoutOfMemory != (void (*)()) 0 ) (*MMoutOfMemory)(size);
+	return NIL(char);
+    }
+    return p;
 }
 
-char *MMrealloc(char *obj, long size) {
-  char *p;
+
+char *
+MMrealloc(obj, size)
+char *obj;
+long size;
+{
+    char *p;
 
 #ifdef IBMPC
-  if (size > 65000L) {
-    if (MMoutOfMemory != (void (*)())0)
-      (*MMoutOfMemory)(size);
-    return NIL(char);
-  }
+    if (size > 65000L) {
+	if (MMoutOfMemory != (void (*)()) 0 ) (*MMoutOfMemory)(size);
+	return NIL(char);
+    }
 #endif
-  if (obj == NIL(char))
-    return MMalloc(size);
-  if (size <= 0)
-    size = sizeof(long);
-  if ((p = (char *)realloc(obj, (unsigned)size)) == NIL(char)) {
-    if (MMoutOfMemory != (void (*)())0)
-      (*MMoutOfMemory)(size);
-    return NIL(char);
-  }
-  return p;
+    if (obj == NIL(char)) return MMalloc(size);
+    if (size <= 0) size = sizeof(long);
+    if ((p = (char *) realloc(obj, (unsigned) size)) == NIL(char)) {
+	if (MMoutOfMemory != (void (*)()) 0 ) (*MMoutOfMemory)(size);
+	return NIL(char);
+    }
+    return p;
 }
 
-void MMfree(char *obj) {
-  if (obj != 0) {
-    free(obj);
-  }
+
+void
+MMfree(obj)
+char *obj;
+{
+    if (obj != 0) {
+	free(obj);
+    }
 }
