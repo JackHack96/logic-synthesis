@@ -1,6 +1,6 @@
 AM_CPPFLAGS = -I../sis/include
 AM_YFLAGS = -d
-LDADD = ../sis/libsis.a -lm
+LDADD = ../sis/libsis.a -lm -lreadline
 
 BUILT_SOURCES = gram.c gram.h lex.c
 CLEANFILES = $(BUILT_SOURCES)

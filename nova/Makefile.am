@@ -1,5 +1,5 @@
 AM_CPPFLAGS = -I$(top_srcdir)/port -I../sis/include
-LDADD = ../sis/libsis.a -lm
+LDADD = ../sis/libsis.a -lm -lreadline
 
 bin_PROGRAMS = nova
 nova_SOURCES = alloc.c anneal_code.c auxil.c coloring.c comb_objects.c \

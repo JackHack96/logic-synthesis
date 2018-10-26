@@ -254,7 +254,6 @@ int main(argc, argv)
 		}while(quit_flag>=0);
 		//while ((quit_flag = com_execute(&network, "source -ip -")) >= 0);
 		status = 0;
-
 	} else {
 
 		/* read initial network */
