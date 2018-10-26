@@ -1,2 +1,0 @@
-/usr/bin/ar qc libsim.a  CMakeFiles/sim.dir/codegen.c.o CMakeFiles/sim.dir/com_sim.c.o CMakeFiles/sim.dir/interpret.c.o
-/usr/bin/ranlib libsim.a

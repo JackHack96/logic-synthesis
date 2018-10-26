@@ -1,2 +1,0 @@
-/usr/bin/ar qc libio.a  CMakeFiles/io.dir/com_io.c.o CMakeFiles/io.dir/plot_blif.c.o CMakeFiles/io.dir/read_blif.c.o CMakeFiles/io.dir/read_kiss.c.o CMakeFiles/io.dir/read_pla.c.o CMakeFiles/io.dir/read_slif.c.o CMakeFiles/io.dir/read_util.c.o CMakeFiles/io.dir/write_bdnet.c.o CMakeFiles/io.dir/write_blif.c.o CMakeFiles/io.dir/write_eqn.c.o CMakeFiles/io.dir/write_kiss.c.o CMakeFiles/io.dir/write_pla.c.o CMakeFiles/io.dir/write_slif.c.o CMakeFiles/io.dir/write_util.c.o CMakeFiles/io.dir/read_eqn.c.o CMakeFiles/io.dir/eqnlex.c.o
-/usr/bin/ranlib libio.a

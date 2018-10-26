@@ -1,2 +1,0 @@
-/usr/bin/ar qc libhash.a  CMakeFiles/hash.dir/hash.c.o CMakeFiles/hash.dir/hash_drive.c.o CMakeFiles/hash.dir/hash_dump.c.o CMakeFiles/hash.dir/hash_initial.c.o CMakeFiles/hash.dir/install.c.o CMakeFiles/hash.dir/lookup.c.o
-/usr/bin/ranlib libhash.a

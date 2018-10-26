@@ -1,2 +1,0 @@
-/usr/bin/ar qc libbdd_port.a  CMakeFiles/bdd_port.dir/bdditer.c.o CMakeFiles/bdd_port.dir/bddport.c.o
-/usr/bin/ranlib libbdd_port.a

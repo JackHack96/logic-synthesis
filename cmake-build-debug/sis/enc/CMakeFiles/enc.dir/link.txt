@@ -1,2 +1,0 @@
-/usr/bin/ar qc libenc.a  CMakeFiles/enc.dir/com_enc.c.o CMakeFiles/enc.dir/dic.c.o CMakeFiles/enc.dir/dic_to_sm.c.o CMakeFiles/enc.dir/gen_eqn.c.o CMakeFiles/enc.dir/input.c.o
-/usr/bin/ranlib libenc.a

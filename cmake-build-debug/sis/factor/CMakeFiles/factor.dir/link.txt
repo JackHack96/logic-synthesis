@@ -1,2 +1,0 @@
-/usr/bin/ar qc libfactor.a  CMakeFiles/factor.dir/alg_ft.c.o CMakeFiles/factor.dir/com_ft.c.o CMakeFiles/factor.dir/elim.c.o CMakeFiles/factor.dir/factor.c.o CMakeFiles/factor.dir/ft_print.c.o CMakeFiles/factor.dir/ft_util.c.o CMakeFiles/factor.dir/ft_value.c.o
-/usr/bin/ranlib libfactor.a

@@ -1,1 +1,0 @@
-/usr/bin/cc -g   CMakeFiles/blif2vst.dir/blif2vst.c.o  -o blif2vst 
