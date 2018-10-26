@@ -81,4 +81,4 @@ libsis.a: $(libsis_a_DEPENDENCIES)
 
 bin_PROGRAMS = sis
 sis_SOURCES =
-sis_LDFLAGS = libsis.a -lm -lreadline
+sis_LDADD = libsis.a -lm -lreadline
