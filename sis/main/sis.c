@@ -147,12 +147,11 @@ char *commands[] = {
 	"xl_partition",
 	"xl_rl",
 	"xl_split",
-    NULL
+    	NULL
 };
 
 char **command_name_completion(const char *text, int start, int end)
 {
-    rl_attempted_completion_over = 1;
     return rl_completion_matches(text, command_name_generator);
 }
 
