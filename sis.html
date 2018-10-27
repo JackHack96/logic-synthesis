@@ -32,7 +32,7 @@
             SIS serves as both a framework within which various algorithms can be tested and compared, and as a
             tool for automatic synthesis and optimization of sequential circuits.<br />
             Here you'll find two different version of SIS. The first is version 1.3, which has been released in 2005
-            (though it was unofficial). The other one is version 1.4, which has been release in 2018, and it
+            (though it was unofficial). The other one is version 1.4, which has been released in 2018, and it
             contains a refactored version of the software.
             <img src="img/sis136.png" class="img-thumbnail">
         </p>
@@ -58,13 +58,29 @@
                 <span class="glyphicon glyphicon-download"></span>
                 Download source (.zip)
             </a>
-            <h3>Version 1.4 packages coming soon...</h3>
+            Available packages for version 1.4:<br>
+            <a href="https://github.com/JackHack96/logic-synthesis/releases/download/SIS/sis_1.4-1_amd64.deb" class="btn btn-lg btn-success">
+                <span class="glyphicon glyphicon-download"></span>
+                Download Debian package
+            </a><br />
+            <br />
+            The source code is available in both tarball and zip:<br />
+            <a href="https://github.com/JackHack96/logic-synthesis/archive/SIS.tar.gz" class="btn btn-lg btn-success">
+                <span class="glyphicon glyphicon-download"></span>
+                Download source (.tar.gz)
+            </a>
+            <a href="https://github.com/JackHack96/logic-synthesis/archive/SIS.zip" class="btn btn-lg btn-success">
+                <span class="glyphicon glyphicon-download"></span>
+                Download source (.zip)
+            </a>
             <p>
                 If you're using a Debian-based distribution like Ubuntu, just download the <code>.deb</code> file and install it,
                 either through <code>GDebi</code> or simply by <code>dpkg</code> (<code>sudo dpkg -i sis_1.3.6-1-amd64.deb</code>).<br/>
                 If you downloaded the static linked archive, there's a bash script that install and set it up.<br/>
                 If you downloaded the source tarball, be aware that the 1.3.6 version might not compile on your machine.
-                Anyway, try configuring it for using <code>GNU90 GCC standard</code>:
+                Before trying to compile it, make sure you have the correct dependencies:
+                <code>sudo apt install -y make gcc bison flex build-essential</code>
+                Try configuring it for using <code>GNU90 GCC standard</code>:
                 <pre><code>export CFLAGS=-std=gnu90
 ./configure prefix=/usr/local --without-x
 make
@@ -72,6 +88,16 @@ sudo make install
 </code></pre>
                 Obviously you can speed up the compilation if you have multiple cores, by using <code>make -jn</code> where n is the number
                 of your cores starting from 0.
+            </p>
+            <p>
+                Version 1.4 should compile just fine, just make sure you installed the correct dependencies:
+                <code>sudo apt install -y make gcc bison flex build-essential</code>
+                and then run:
+                <pre><code>export CFLAGS=-std=gnu90
+./configure prefix=/usr/local
+make
+sudo make install
+</code></pre>
             </p>
         </p>
         <p id="tutorials">
