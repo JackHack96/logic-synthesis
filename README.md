@@ -34,9 +34,10 @@ For compiling SIS, you'll need the following software:
 - `GNU make` (tested with version 4.1)
 - `GNU bison` (tested with version 3.0.4)
 - `GNU flex` (tested with version 2.6.4)
+- `GNU readline` (tested with version 7)
 If you are using Ubuntu, you can easily install all these dependecies with
 ```shell
-sudo apt install -y make gcc bison flex build-essential
+sudo apt install -y make gcc bison flex build-essential libreadline-dev
 ```
 Then just run these commands:
 ```shell
