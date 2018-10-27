@@ -1,6 +1,7 @@
 
 #include "sis.h"
 #include "com_int.h"
+#include <readline/history.h>
 
 			/* If graphics commands are enabled, this is	*/
 			/* the stream where they should be written to.	*/
@@ -32,7 +33,7 @@ usage:
     (void) fprintf(siserr, "usage: time\n");
     return 1;
 }
-
+
 /* ARGSUSED */
 com_usage(network, argc, argv)
 network_t **network;
@@ -47,7 +48,7 @@ char **argv;
     util_print_cpu_stats(sisout);
     return 0;
 }
-
+
 /* ARGSUSED */
 com_echo(network, argc, argv)
 network_t **network;
@@ -90,7 +91,6 @@ char **argv;
     for (;;) ;
 }
 
-
 /* ARGSUSED */
 static int
 com_save_image(network, argc, argv)
@@ -126,7 +126,7 @@ char **argv;
     FREE(file2);
     return 0;
 }
-
+
 /* ARGSUSED */
 com_which(network, argc, argv)
 network_t **network;
@@ -146,7 +146,7 @@ char **argv;
     FREE(filename);
     return 0;
 }
-
+
 /* ARGSUSED */
 com_best(network, argc, argv)
 network_t **network;
@@ -177,48 +177,24 @@ char **argv;
     }
     return 0;
 }
-/*ARGSUSED*/
+
+int
 com_history(network, argc, argv)
 network_t **network;
 int argc;
 char **argv;
 {
-    int i, num, lineno;
-    int size;
-    if (argc > 3) {
-usage:
-        (void) fprintf(siserr, "usage: history [-h] [num]\n");
-      return(1);
-    }
-    num = 30;
-    lineno = 1;
-    for (i = 1; i < argc; i++) {
-        if (argv[i][0] == '-') {
-          if (argv[i][1] == 'h') {
-              lineno = 0;
-          }
-          else {
-              goto usage;
-          }
-      }
-      else {
-          num = atoi(argv[i]);
-          if (num <= 0) {
-              goto usage;
-          }
-      }
-    }
-    size = array_n(command_hist);
-    num = (num < size) ? num : size;
-    for (i = size - num; i < size; i++) {
-        if (lineno != 0) {
-           (void) fprintf(sisout, "%d\t", i + 1);
-      }
-        (void) fprintf(sisout, "%s\n", array_fetch(char *, command_hist, i));
-    }
-    return(0);
+	using_history();
+	HISTORY_STATE *myhist = history_get_history_state ();
+	HIST_ENTRY **mylist = history_list ();
+
+	fprintf(sisout,"\nCommand history:\n");
+	for (int i = 0; i < myhist->length; i++) {
+		fprintf (sisout, "\t%s\n", mylist[i]->line);
+	}
+	putchar ('\n');
 }
-
+
 int 
 com_graphics_enabled (void)
 {
@@ -287,14 +263,6 @@ int init_command()
     char *path;
     char *lib_name;
     FILE *gfp;
-/*
-    if (graphics_flag != 0) {
-	com_graphics_stream = (graphics_flag==1) ? stdout : stderr;
-	 Open the main sis command window.
-	gfp = com_graphics_open ("cmd","cmd","new");
-	fprintf(gfp,".version\t%s\n",sis_version());
-	com_graphics_close (gfp);
-    }*/
 
     command_table = avl_init_table(strcmp);
     flag_table = avl_init_table(strcmp);

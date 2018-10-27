@@ -11,6 +11,170 @@ extern void end_sis();
 static int main_has_restarted = 0;
 static network_t *network; /* allows for restart ... */
 
+char **command_name_completion(const char *, int, int);
+char *command_name_generator(const char *, int);
+char *commands[] = {
+	"act_map",
+	"add_inverter",
+	"alias",
+	"astg_add_state",
+	"astg_contract",
+	"astg_current",
+	"astg_encode",
+	"astg_lockgraph",
+	"astg_marking",
+	"astg_persist",
+	"astg_print_sg",
+	"astg_print_statastg_slow",
+	"astg_state_min",
+	"astg_stg_scr",
+	"astg_syn",
+	"astg_to_f",
+	"astg_to_stg",
+	"atpg",
+	"bdsyn",
+	"buffer_opt",
+	"c_check",
+	"c_opt",
+	"chng_clock",
+	"chng_name",
+	"collapse",
+	"constraints",
+	"decomp",
+	"echo",
+	"eliminate",
+	"env_seq_dc",
+	"env_verify_fsm",
+	"equiv_nets",
+	"espresso",
+	"extract_seq_dc",
+	"factor",
+	"fanout_alg",
+	"fanout_param",
+	"force_init_0",
+	"free_dc",
+	"full_simplify",
+	"fx",
+	"gcx",
+	"gkx",
+	"help",
+	"history",
+	"invert",
+	"invert_io",
+	"ite_map",
+	"latch_output",
+	"map",
+	"one_hot",
+	"phase",
+	"power_estimate",
+	"power_free_info",
+	"power_print",
+	"print",
+	"print_altname",
+	"print_clock",
+	"print_delay",
+	"print_factor",
+	"print_gate",
+	"print_io",
+	"print_kernel",
+	"print_latch",
+	"print_level",
+	"print_library",
+	"print_map_statsprint_state",
+	"print_stats",
+	"print_value",
+	"quit",
+	"read_astg",
+	"read_blif",
+	"read_eqn",
+	"read_kiss",
+	"read_library",
+	"read_pla",
+	"read_slif",
+	"red_removal",
+	"reduce_depth",
+	"remove_dep",
+	"remove_latches",
+	"replace",
+	"reset_name",
+	"resub",
+	"retime",
+	"save",
+	"set",
+	"set_delay",
+	"set_state",
+	"short_tests",
+	"sim_verify",
+	"simplify",
+	"simulate",
+	"source",
+	"speed_up",
+	"speedup_alg",
+	"state_assign",
+	"state_minimize",
+	"stg_cover",
+	"stg_extract",
+	"stg_to_astg",
+	"stg_to_network",
+	"sweep",
+	"tech_decomp",
+	"time",
+	"timeout",
+	"unalias",
+	"undo",
+	"unset",
+	"usage",
+	"verify",
+	"verify_fsm",
+	"wd",
+	"write_astg",
+	"write_bdnet",
+	"write_blif",
+	"write_eqn",
+	"write_kiss",
+	"write_pds",
+	"write_pla",
+	"write_slif",
+	"xl_absorb",
+	"xl_ao",
+	"xl_coll_ck",
+	"xl_cover",
+	"xl_decomp_two",
+	"xl_imp",
+	"xl_k_decomp",
+	"xl_merge",
+	"xl_part_coll",
+	"xl_partition",
+	"xl_rl",
+	"xl_split",
+    NULL
+};
+
+char **command_name_completion(const char *text, int start, int end)
+{
+    rl_attempted_completion_over = 1;
+    return rl_completion_matches(text, command_name_generator);
+}
+
+char *command_name_generator(const char *text, int state)
+{
+    static int list_index, len;
+    char *name;
+
+    if (!state) {
+        list_index = 0;
+        len = strlen(text);
+    }
+
+    while ((name = commands[list_index++])) {
+        if (strncmp(name, text, len) == 0) {
+            return strdup(name);
+        }
+    }
+
+    return NULL;
+}
+
 static int source_sisrc(network)
 	network_t **network; {
 	char *cmdline;
@@ -244,15 +408,14 @@ int main(argc, argv)
 		if (initial_source) {
 			(void) source_sisrc(&network);
 		}
-		//char *line;
+		rl_attempted_completion_function = command_name_completion;
 		do{
 			cmdline=readline("sis> ");
 			if(cmdline){
-				add_history(cmdline);
 				quit_flag=com_execute(&network, cmdline);
+				add_history(cmdline);
 			}
 		}while(quit_flag>=0);
-		//while ((quit_flag = com_execute(&network, "source -ip -")) >= 0);
 		status = 0;
 	} else {
 
