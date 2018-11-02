@@ -12,10 +12,10 @@
 
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/simple-sidebar.css" rel="stylesheet">
+    <link href="css/code.css" rel="stylesheet">
 
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="js/navbar.js"></script>
-
 </head>
 
 <body>
@@ -43,7 +43,8 @@
                 <span class="glyphicon glyphicon-download"></span>
                 Download Debian package
             </a>
-            <a href="https://github.com/JackHack96/logic-synthesis/releases/download/1.3.6/sis-static-linked.tar.xz" class="btn btn-lg btn-success">
+            <a href="https://github.com/JackHack96/logic-synthesis/releases/download/1.3.6/sis-static-linked.tar.xz"
+                class="btn btn-lg btn-success">
                 <span class="glyphicon glyphicon-download"></span>
                 Download binary tarball
             </a><br />
@@ -57,7 +58,7 @@
             <a href="https://github.com/JackHack96/logic-synthesis/archive/1.3.6.zip" class="btn btn-lg btn-success">
                 <span class="glyphicon glyphicon-download"></span>
                 Download source (.zip)
-            </a><br/><br/>
+            </a><br /><br />
             Available packages for version 1.4:<br>
             <a href="https://github.com/JackHack96/logic-synthesis/releases/download/SIS/sis_1.4-1_amd64.deb" class="btn btn-lg btn-success">
                 <span class="glyphicon glyphicon-download"></span>
@@ -73,29 +74,43 @@
                 Download source (.zip)
             </a>
             <p>
-                If you're using a Debian-based distribution like Ubuntu, just download the <code>.deb</code> file and install it,
-                either through <code>GDebi</code> or simply by <code>dpkg</code> (<code>sudo dpkg -i sis_1.3.6-1-amd64.deb</code>).<br/>
-                If you downloaded the static linked archive, there's a bash script that install and set it up.<br/>
-                If you downloaded the source tarball, be aware that the 1.3.6 version might not compile on your machine.
-                Before trying to compile it, make sure you have the correct dependencies:
-                <code>sudo apt install -y make gcc bison flex build-essential</code>
+                If you're using a Debian-based distribution like Ubuntu, just download the <code>.deb</code> file and
+                install it,
+                either through <code>GDebi</code> or simply using <code>dpkg</code>:
+                <pre>
+                    <code>
+                        sudo dpkg -i sis_1.3.6-1-amd64.deb
+                    </code>
+                </pre>
+                If you downloaded the static linked archive, there's a bash script that install and set it up.<br />
+                If you downloaded the source tarball, be aware that the 1.3.6 version might not compile on your
+                machine.
+                Before trying to compile it, make sure you have the correct dependencies:<br />
+                <code>sudo apt install -y make gcc bison flex build-essential</code><br />
                 Try configuring it for using <code>GNU90 GCC standard</code>:
-                <pre><code>export CFLAGS=-std=gnu90
-./configure prefix=/usr/local --without-x
-make
-sudo make install
-</code></pre>
-                Obviously you can speed up the compilation if you have multiple cores, by using <code>make -jn</code> where n is the number
+                <pre>
+                    <code>
+                        export CFLAGS=-std=gnu90
+                        ./configure prefix=/usr/local --without-x
+                        make
+                        sudo make install
+                    </code>
+                </pre>
+                Obviously you can speed up the compilation if you have multiple cores, by using <code>make -jn</code>
+                where n is the number
                 of your cores starting from 0.
             </p>
             <p>
                 Version 1.4 should compile just fine, just make sure you installed the correct dependencies:
                 <code>sudo apt install -y make gcc bison flex build-essential</code>
                 and then run:
-                <pre><code>./configure prefix=/usr/local
-make
-sudo make install
-</code></pre>
+                <pre>
+                    <code>
+                        ./configure prefix=/usr/local
+                        make
+                        sudo make install
+                    </code>
+                </pre>
             </p>
         </p>
         <p id="documentation">
@@ -112,5 +127,8 @@ sudo make install
         </p>
     </div>
 </body>
+
+
+<script src="js/code.js"></script>
 
 </html>

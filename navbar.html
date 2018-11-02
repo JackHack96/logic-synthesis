@@ -10,51 +10,27 @@
 
 <body>
     <div id="navbar" class="sidenav">
-        <a href="index.html">Home</a>
-        <button class="dropdown-btn">SIS
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-container">
+        <a class="mainmenu" href="index.html">Home</a>
+        <a class="mainmenu" href="sis.html">SIS</a>
+        <div class="submenu">
             <a href="sis.html#overview">Overview</a>
             <a href="sis.html#downloads">Downloads</a>
             <a href="sis.html#documentation">Documentation</a>
             <a href="sis.html#tutorials">Tutorials</a>
         </div>
-        <button class="dropdown-btn">Balm
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-container">
-            <a href="balm.html#overview">Overview</a>
-            <a href="balm.html#downloads">Downloads</a>
-            <a href="balm.html#documentation">Documentation</a>
-        </div>
-        <button class="dropdown-btn">MVSIS
-            <i class="fa fa-caret-down"></i>
-        </button>
-        <div class="dropdown-container">
+        <a class="mainmenu" href="mvsis.html">MVSIS</a>
+        <div class="submenu">
             <a href="mvsis.html#overview">Overview</a>
             <a href="mvsis.html#downloads">Downloads</a>
             <a href="mvsis.html#documentation">Documentation</a>
         </div>
+        <a class="mainmenu" href="balm.html">BALM-II</a>
+        <div class="submenu">
+            <a href="balm.html#overview">Overview</a>
+            <a href="balm.html#downloads">Downloads</a>
+            <a href="balm.html#documentation">Documentation</a>
+        </div>
     </div>
 </body>
-
-<script>
-    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-    var dropdown = document.getElementsByClassName("dropdown-btn");
-    var i;
-
-    for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-                dropdownContent.style.display = "none";
-            } else {
-                dropdownContent.style.display = "block";
-            }
-        });
-    }
-</script>
 
 </html>
