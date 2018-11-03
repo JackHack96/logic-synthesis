@@ -23,11 +23,11 @@
     <div id="sidenav"></div>
 
     <div class="main">
-        <p id="tutorials">
-            <p id="4-bit-adder">
-                <h2>Basic logic gates</h2>
+        <div id="tutorials">
+            <div id="4-bit-adder">
+                <h2>Logic gates</h2>
                 <p>
-                    In this tutorial you'll see the basic things of logic synthesis, like creating basic logic gates.
+                    In this tutorial you'll learn to create logic gates.
                     This is a good way to acquire some basic knowledge of how SIS works.
                 </p>
                 The basic logic gates are AND, OR, NOT and XOR.
@@ -47,8 +47,8 @@
                     <table class="table" style="text-align:center">
                         <thead>
                             <tr>
-                                <th colspan="2" style="text-align:center">Inputs</td>
-                                <th style="text-align:center">Output</td>
+                                <th colspan="2" style="text-align:center">Inputs</th>
+                                <th style="text-align:center">Output</th>
                             </tr>
                             <tr>
                                 <th scope="col" style="text-align:center">A</th>
@@ -130,8 +130,8 @@
                     <table class="table" style="text-align:center">
                         <thead>
                             <tr>
-                                <th style="text-align:center">Input</td>
-                                <th style="text-align:center">Output</td>
+                                <th style="text-align:center">Input</th>
+                                <th style="text-align:center">Output</th>
                             </tr>
                             <tr>
                                 <th scope="col" style="text-align:center">A</th>
@@ -159,8 +159,8 @@
                     <table class="table" style="text-align:center">
                         <thead>
                             <tr>
-                                <th colspan="2" style="text-align:center">Inputs</td>
-                                <th style="text-align:center">Output</td>
+                                <th colspan="2" style="text-align:center">Inputs</th>
+                                <th style="text-align:center">Output</th>
                             </tr>
                             <tr>
                                 <th scope="col" style="text-align:center">A</th>
@@ -266,8 +266,10 @@
                 </p>
                 <p>
                     We can easily test the models with the <code>sim</code> command, which allows to simulate an input.
-                    For doing that, open up SIS <b>in the same directory</b> where the <code>.blif</code> file is stored,
-                    load that file with <code>read_blif [FILE_NAME].blif</code> command, and then you can run the simulation.
+                    For doing that, open up SIS <b>in the same directory</b> where the <code>.blif</code> file is
+                    stored,
+                    load that file with <code>read_blif [FILE_NAME].blif</code> command, and then you can run the
+                    simulation.
                     <pre><code>UC Berkeley, SIS 1.4 (compiled 2018-10-15 16:08:57)
 sis> read_blif and.blif
 sis> sim 0 1
