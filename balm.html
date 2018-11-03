@@ -12,6 +12,7 @@
 
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/simple-sidebar.css" rel="stylesheet">
+  <link href="css/code.css" rel="stylesheet">
 
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="js/navbar.js"></script>
@@ -22,7 +23,7 @@
   <div id="sidenav"></div>
 
   <div class="main">
-    <p id="overview">
+    <div id="overview">
       <h1>BALM</h1>
       BALM (Berkeley Automata and Language Manipulation) aims at providing an experimental
       environment for efficient manipulation of finite automata in various application domains,
@@ -32,8 +33,8 @@
       (like Graphviz). The applicability of BALM to finite-state machine synthesis is demonstrated
       by solving an unknown component problem formulated using language equations.
       <img src="img/balm.png" class="img-thumbnail">
-    </p>
-    <p id="downloads">
+    </div>
+    <div id="downloads">
       <h2>Downloads</h2>
       Available packages:<br>
       <a href="https://github.com/JackHack96/logic-synthesis/releases/download/Balm/balm_1.0_all.deb" class="btn btn-lg btn-success">
@@ -50,15 +51,35 @@
         <span class="glyphicon glyphicon-download"></span>
         Download source (.zip)
       </a>
-    </p>
-    <p id="documentation">
+    </div>
+    <div>
+      If you're using a Debian-based distribution like Ubuntu, just download the <code>.deb</code> file and
+      install it, either through <code>GDebi</code> or simply using <code>dpkg</code>:
+      <pre class="my-pre">
+          <code>
+              sudo dpkg -i balm_1.0_all.deb
+          </code>
+      </pre>
+      If you want to compile it, just make sure you installed the correct dependencies:
+      <pre class="my-pre"><code>sudo apt install -y git build-essential gcc-multilib libreadline-dev</code></pre>
+      and then run:
+      <pre class="my-pre">
+          <code>
+./configure prefix=/usr/local
+make
+sudo make install
+          </code>
+      </pre>
+      The compilation was tested under Ubuntu 18.04 64-bit.
+    </div>
+    <div id="documentation">
       <h2>Documentation</h2>
       You can find BALM's user manual <a href="https://github.com/JackHack96/logic-synthesis/raw/balm/doc/TR-UCB-EECS-2012-181.pdf">here</a>.
       For historical documentation we provide also the manual of the first release of BALM, available <a href="https://github.com/JackHack96/logic-synthesis/raw/balm/doc/balm1.0-manual.pdf">here</a>.
       There's also an article about automated synthesis of protocol converters with BALM, which you find <a href="https://github.com/JackHack96/logic-synthesis/raw/balm/doc/balmII-very2015-lncs_springer.pdf">here</a>.
-    </p>
+    </div>
   </div>
-
+  <script src="js/code.js"></script>
 </body>
 
 </html>
