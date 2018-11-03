@@ -1,3 +1,4 @@
-// Hacky way for removing blank lines
-const code = document.querySelectorAll("pre code");
-[...code].forEach(el => el.textContent = el.textContent.replace(/^\n/,''));
+// Hacky way for removing pre blank lines
+$('pre code').text(function (_, t) {
+    return $.trim(t)
+});
