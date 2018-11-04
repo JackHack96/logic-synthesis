@@ -130,7 +130,7 @@ pset_family unate_complement(A)
 pset_family A;			/* disposes of A */
 {
     pset_family Abar;
-    register pset p, p1, restrict;
+    register pset p, p1, restricted;
     register int i;
     int max_i, min_set_ord, j;
 
@@ -157,14 +157,14 @@ pset_family A;			/* disposes of A */
 	/* Select splitting variable as the variable which belongs to a set
 	 * of the smallest size, and which has greatest column count
 	 */
-	restrict = set_new(A->sf_size);
+	restricted = set_new(A->sf_size);
 	min_set_ord = A->sf_size + 1;
 	foreachi_set(A, i, p) {
 	    if (SIZE(p) < min_set_ord) {
-		set_copy(restrict, p);
+		set_copy(restricted, p);
 		min_set_ord = SIZE(p);
 	    } else if (SIZE(p) == min_set_ord) {
-		set_or(restrict, restrict, p);
+		set_or(restricted, restricted, p);
 	    }
 	}
 
@@ -175,15 +175,15 @@ pset_family A;			/* disposes of A */
 
 	/* Check for "essential" columns */
 	} else if (min_set_ord == 1) {
-	    Abar = unate_complement(abs_covered_many(A, restrict));
+	    Abar = unate_complement(abs_covered_many(A, restricted));
 	    sf_free(A);
 	    foreachi_set(Abar, i, p) {
-		set_or(p, p, restrict);
+		set_or(p, p, restricted);
 	    }
 
 	/* else, recur as usual */
 	} else {
-	    max_i = abs_select_restricted(A, restrict);
+	    max_i = abs_select_restricted(A, restricted);
 
 	    /* Select those rows of A which are not covered by max_i,
 	     * recursively find all minimal covers of these rows, and
@@ -205,7 +205,7 @@ pset_family A;			/* disposes of A */
 
 	    Abar = sf_append(Abar, unate_complement(A));
 	}
-	set_free(restrict);
+	set_free(restricted);
     }
 
     return Abar;
@@ -401,18 +401,18 @@ register pset pick_set;
 
 /*
  *  abs_select_restricted -- select the column of maximum column count which
- *  also belongs to the set "restrict"; weight each column of a set as
+ *  also belongs to the set "restricted"; weight each column of a set as
  *  1 / (set_ord(p) - 1).
  */
 static int
-abs_select_restricted(A, restrict)
+abs_select_restricted(A, restricted)
 pset_family A;
-pset restrict;
+pset restricted;
 {
     register int i, best_var, best_count, *count;
 
     /* Sum the elements in these columns */
-    count = sf_count_restricted(A, restrict);
+    count = sf_count_restricted(A, restricted);
 
     /* Find which variable has maximum weight */
     best_var = -1;
