@@ -23,10 +23,10 @@
     <div id="sidenav"></div>
 
     <div class="main">
-        <p id="tutorials">
-            <p id="4-bit-adder">
+        <div id="tutorials">
+            <div id="4-bit-adder">
                 <h2>A 4-bit full adder</h2>
-                <p>
+                <div>
                     In this tutorial, you'll see how to create a small 4-bit full adder, starting from scratch.
                     The full adder is a logical circuit with 3 inputs and 2 outputs. It's built by combining two
                     half-adders
@@ -34,7 +34,7 @@
                     An half adder sums two bits, A and B, and gives two outputs, S and C. S is the sum and C is the
                     carry.
                     The half adder differs from the full adder because it doesn't care about the previous carry.
-                </p>
+                </div>
                 Here is the truth table of a half adder:
                 <table class="table" style="text-align:center">
                     <thead>
@@ -76,7 +76,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <p>
+                <div>
                     The diagram is realized by using an AND gate combined with a XOR gate
                     <p style="text-align: center">
                         <img src="img/half_adder.png" class="img-thumbnail" style="max-width:30%; height: auto;">
@@ -84,15 +84,15 @@
                     We could represent the circuit using a BLIF file, but it's not necessary since we can code directly
                     the
                     full adder.
-                </p>
-                <p>
+                </div>
+                <div>
                     Now that we have our half adder, we can build the full version, which actually
                     accounts for values carried in besides out.
                     The logic diagram of a full adder should look like this:
                     <p style="text-align:center">
                         <img src="img/full_adder.png" class="img-thumbnail" style="max-width: 100%; height: auto">
                     </p>
-                </p>
+                </div>
                 But we are more interested in the truth table, which is:
                 <table class="table" style="text-align:center">
                     <thead>
@@ -169,7 +169,7 @@
                 </table>
                 <b>We can proceed to write a BLIF for representing the 1-bit full adder!</b>
                 The code should look something like this:
-                <pre><code>#1-bit adder
+                <pre class="my-pre"><code>#1-bit adder
 #Data bits: 1
 
 .model ADDER
@@ -196,7 +196,7 @@
                 you to use a preloaded model you load with the <code>.search</code> keyword. Be aware that the model
                 must be in the
                 same directory. So the 4-bit adder would look like this:
-                <pre><code>#4-bit adder
+                <pre class="my-pre"><code>#4-bit adder
 #Data bits: 4
 
 .model ADDER4
@@ -212,7 +212,7 @@
 
 .end</code></pre>
                 Now we can simulate it to see if it's correct.
-                <pre><code>UC Berkeley, SIS 1.4 (compiled 2018-10-15 16:08:57)
+                <pre class="my-pre"><code>UC Berkeley, SIS 1.4 (compiled 2018-10-15 16:08:57)
 sis> read_blif ADDER4.blif
 sis> sim 0 0 0 1 0 0 0 1 0
 
@@ -226,7 +226,8 @@ Outputs: 0 1 0 0 0
 Next state: 
 sis> </code></pre>
                 Ok! It works!
-            </p>
+            </div>
+        </div>
     </div>
 </body>
 

@@ -30,11 +30,11 @@
                     In this tutorial you'll learn to create logic gates.
                     This is a good way to acquire some basic knowledge of how SIS works.
                 </p>
-                The basic logic gates are AND, OR, NOT and XOR.
-                <p>
+                <div>
+                    The basic logic gates are AND, OR, NOT and XOR.
                     The AND gate is an electronic circuit that gives a high output (1) only if all its inputs are high.
                     The diagram is the following:<br />
-                    <img src="img/and.png" class="img-thumbnail"><br />
+                    <img src="img/and.png" class="img-thumbnail" alt="and gate"><br />
                     For describing the functionality of the circuit we use <i>truth tables</i>, which can be <b>extended</b>
                     or
                     <b>reduced</b>. We can in fact provide the functionality of the circuit by giving a partial
@@ -79,18 +79,18 @@
                             </tr>
                         </tbody>
                     </table>
-                </p>
-                <p>
+                </div>
+                <div>
                     The OR gate is an electronic circuit that gives a high output (1) if one or more of its inputs are
                     high.
                     The diagram is the following:<br />
-                    <img src="img/or.png" class="img-thumbnail"><br />
+                    <img src="img/or.png" class="img-thumbnail" alt="or gate"><br />
                     And here is the extended truth table:
                     <table class="table" style="text-align:center">
                         <thead>
                             <tr>
-                                <th colspan="2" style="text-align:center">Inputs</td>
-                                <th style="text-align:center">Output</td>
+                                <th colspan="2" style="text-align:center">Inputs</th>
+                                <th style="text-align:center">Output</th>
                             </tr>
                             <tr>
                                 <th scope="col" style="text-align:center">A</th>
@@ -121,11 +121,11 @@
                             </tr>
                         </tbody>
                     </table>
-                </p>
-                <p>
+                </div>
+                <div>
                     The NOT gate is an electronic circuit that produces an inverted version of the input at its output.
                     The diagram is the following:<br />
-                    <img src="img/not.png" class="img-thumbnail"><br />
+                    <img src="img/not.png" class="img-thumbnail" alt="not gate"><br />
                     And here is the extended truth table:
                     <table class="table" style="text-align:center">
                         <thead>
@@ -149,12 +149,12 @@
                             </tr>
                         </tbody>
                     </table>
-                </p>
-                <p>
+                </div>
+                <div>
                     The XOR gate is a circuit which will give a high output if either, but not both, of its two inputs
                     are high.
                     The diagram is the following:<br />
-                    <img src="img/xor.png" class="img-thumbnail"><br />
+                    <img src="img/xor.png" class="img-thumbnail" alt="xor gate"><br />
                     And here is the extended truth table:
                     <table class="table" style="text-align:center">
                         <thead>
@@ -191,13 +191,13 @@
                             </tr>
                         </tbody>
                     </table>
-                </p>
-                <p>
+                </div>
+                <div>
                     But how can we represent those things inside SIS? Through <code>BLIF</code> files!
                     BLIF stands for Berkeley Logic Interchange Format and it's a specification for describing
                     sequential circuit logic.
                     The format is easy to understand, so let's start. Here is the BLIF file of and AND gate.
-                    <pre><code># This is an AND gate
+                    <pre class="my-pre"><code># This is an AND gate
 .model AND
 
 .inputs A B
@@ -226,11 +226,11 @@
                     We can also use temporary variables to store the output, the important thing is that if we declared
                     <code>X</code> to be
                     the output, at some point a <code>.names</code> structure will have to deliver it.
-                </p>
-                <p>
+                </div>
+                <div>
                     So we are now able to write down the other three port.
                     The OR port (off-set table):
-                    <pre><code># This is an OR gate
+                    <pre class="my-pre"><code># This is an OR gate
 .model OR
 
 .inputs A B
@@ -241,7 +241,7 @@
 
 .end</code></pre>
                     The NOT port (on-set table):
-                    <pre><code># This is a NOT gate
+                    <pre class="my-pre"><code># This is a NOT gate
 .model NOT
 
 .inputs A
@@ -252,7 +252,7 @@
 
 .end</code></pre>
                     The XOR port (on-set table):
-                    <pre><code># This is a XOR gate
+                    <pre class="my-pre"><code># This is a XOR gate
 .model XOR
 
 .inputs A B
@@ -263,14 +263,14 @@
 10 1
 
 .end</code></pre>
-                </p>
-                <p>
+                </div>
+                <div>
                     We can easily test the models with the <code>sim</code> command, which allows to simulate an input.
                     For doing that, open up SIS <b>in the same directory</b> where the <code>.blif</code> file is
                     stored,
                     load that file with <code>read_blif [FILE_NAME].blif</code> command, and then you can run the
                     simulation.
-                    <pre><code>UC Berkeley, SIS 1.4 (compiled 2018-10-15 16:08:57)
+                    <pre class="my-pre"><code>UC Berkeley, SIS 1.4 (compiled 2018-10-15 16:08:57)
 sis> read_blif and.blif
 sis> sim 0 1
 
@@ -306,8 +306,9 @@ Network simulation:
 Outputs: 0
 Next state: 
 sis></code></pre>
-                </p>
-            </p>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
