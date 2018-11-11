@@ -20,7 +20,7 @@ backup=()
 options=('!strip' '!emptydirs')
 install=
 changelog=
-source=("https://github.com/joshuachp/logic-synthesis/releases/download/1.4/logic-synthesis-bin-1.4.tar.gz")
+source=("https://github.com/JackHack96/logic-synthesis/archive/SIS.tar.gz")
         #"$pkgname-$pkgver.patch")
 noextract=()
 md5sums=('7b9a5086603a5aa32fdbbfd5618f64e8')
