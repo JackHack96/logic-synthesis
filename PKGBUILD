@@ -10,7 +10,7 @@ url="https://jackhack96.github.io/logic-synthesis"
 license=('BSD')
 groups=()
 depends=('readline')
-makedepends=()
+makedepends=('bison' 'flex')
 checkdepends=()
 optdepends=()
 provides=()
@@ -21,29 +21,22 @@ options=('!strip' '!emptydirs')
 install=
 changelog=
 source=("https://github.com/JackHack96/logic-synthesis/archive/SIS.tar.gz")
-        #"$pkgname-$pkgver.patch")
 noextract=()
 md5sums=('7b9a5086603a5aa32fdbbfd5618f64e8')
 validpgpkeys=()
 
-# prepare() {
-# 	cd "$pkgname-$pkgver"
-# 	patch -p1 -i "$srcdir/$pkgname-$pkgver.patch"
-# }
-
 build() {
-	cd "$srcdir"
+	cd "$srcdir/logic-synthesis-SIS"
 	./configure --prefix=/usr
 	make
 }
 
 check() {
-	cd "$srcdir"
+	cd "$srcdir/logic-synthesis-SIS"
 	make -k check
 }
 
 package() {
-	cd "$srcdir"
+	cd "$srcdir/logic-synthesis-SIS"
 	make DESTDIR="$pkgdir/" install
 }
-
