@@ -8,6 +8,8 @@ This repository contains old logic synthesis software, from University of Califo
 
 These are all refactored releases, for making sure they compile on modern systems like Ubuntu 18.04.
 
+> AUR ...
+
 ## SIS
 
 The repo contains SIS 1.4, an unofficial release of SIS, the logic synthesis system from UC Berkeley.
