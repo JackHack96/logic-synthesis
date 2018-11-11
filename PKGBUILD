@@ -23,7 +23,7 @@ changelog=
 source=("$pkgname-$pkgver.tar.gz")
         #"$pkgname-$pkgver.patch")
 noextract=()
-md5sums=('cabf1d09a2d32f2b816a8a18466f6aae')
+md5sums=('4561fdbf034ffa9674fd9b2391ed6c51')
 validpgpkeys=()
 
 # prepare() {
@@ -32,18 +32,18 @@ validpgpkeys=()
 # }
 
 build() {
-	cd "$pkgname-$pkgver"
+	cd "$srcdir"
 	./configure --prefix=/usr
 	make
 }
 
 check() {
-	cd "$pkgname-$pkgver"
+	cd "$srcdir"
 	make -k check
 }
 
 package() {
-	cd "$pkgname-$pkgver"
+	cd "$srcdir"
 	make DESTDIR="$pkgdir/" install
 }
 
