@@ -20,16 +20,16 @@ backup=()
 options=('!strip' '!emptydirs')
 install=
 changelog=
-source=("$pkgname-$pkgver.tar.gz"
-        "$pkgname-$pkgver.patch")
+source=("$pkgname-$pkgver.tar.gz")
+        #"$pkgname-$pkgver.patch")
 noextract=()
-md5sums=()
+md5sums=('cabf1d09a2d32f2b816a8a18466f6aae')
 validpgpkeys=()
 
-prepare() {
-	cd "$pkgname-$pkgver"
-	patch -p1 -i "$srcdir/$pkgname-$pkgver.patch"
-}
+# prepare() {
+# 	cd "$pkgname-$pkgver"
+# 	patch -p1 -i "$srcdir/$pkgname-$pkgver.patch"
+# }
 
 build() {
 	cd "$pkgname-$pkgver"
