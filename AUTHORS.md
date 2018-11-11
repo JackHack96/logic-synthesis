@@ -7,133 +7,174 @@ this list or think changes need to be made, please send more information.
 
 - Matteo Iervasi
 
-	- Compatibility refactoring
-	- Debian package maintainer
-	- Made readline prompt
+- Compatibility refactoring
+- Debian package maintainer
+- Made readline prompt
 
 - Wendell Baker
 
-	`sis/{bdd_ucb,ntbdd}`
+`sis/{bdd_ucb,ntbdd}`
+
 - Robert K. Brayton
 
-	`Professor`
+`Professor`
+
 - Andrea Casotto
 
-	`sis/octio`
+`sis/octio`
+
 - Abhijit Ghosh
 
-	`sis/power`
+`sis/power`
+
 - Paul Gutwin
 
-	`sis/delay`
+`sis/delay`
+
 - Heather Harkness
 
-	`sis/speed`
+`sis/speed`
+
 - David Harrison
 
-	`port, sis/{list,util}`
+`port, sis/{list,util}`
+
 - Jonathan I. Kamens
 
-	`sis/util`
+`sis/util`
+
 - Kenneth S. Kundert
 
-	`sis/linsolv`
+`sis/linsolv`
+
 - Tom Laidig
 
-	`options`
+`options`
+
 - Luciano Lavagno
 
-	`sis/pld`
+`sis/pld`
+
 - Bill Lin
 
-	`jedi`
+`jedi`
+
 - David E. Long
 
-	`sis/bdd_cmu`
+`sis/bdd_cmu`
+
 - Hi-Keung Tony Ma
 
-	`sis/{maxflow,stg}`
+`sis/{maxflow,stg}`
+
 - Abdul A. Malik
 
-	`sis/minimize`
+`sis/minimize`
+
 - Sharad Malik
 
-	`sis/order`
+`sis/order`
+
 - Patrick McGeer
 
-	`sis/speed`
+`sis/speed`
+
 - Jose' Monteiro
 
-	`sis/power`
+`sis/power`
+
 - Cho Moon
 
-	`sis/{genlib,map}`
+`sis/{genlib,map}`
+
 - Rajeev Murgai
 
-	`sis/pld`
+`sis/pld`
+
 - A. Richard Newton
 
-	`Professor`
+`Professor`
+
 - Antony P.-C. Ng
 
-	`sis/seqbdd`
+`sis/seqbdd`
+
 - Yoshihito Nishizaki
 
-	`sis/pld`
+`sis/pld`
+
 - Roberto Rambaldi
 
-	`blif2vst, vst2blif`
+`blif2vst, vst2blif`
+
 - June Rho
 
-	`stamina`
+`stamina`
+
 - Richard Rudell
 
-	`espresso, sis/{genlib,lsort,util}, utility`
+`espresso, sis/{genlib,lsort,util}, utility`
+
 - Alexander Saldanha
 
-	`sis/enc`
+`sis/enc`
+
 - Alberto Sangiovanni-Vincentelli
 
-	`Professor`
+`Professor`
+
 - Hamid Savoj
 
-	`sis/sis_lib/help/sis.1`
+`sis/sis_lib/help/sis.1`
+
 - Ellen M. Sentovich
 
-	`sis/util`
+`sis/util`
+
 - Narendra Shenoy
 
-	`sis/{pld,timing}`
+`sis/{pld,timing}`
+
 - Thomas R. Shiple
 
-	`sis/{bdd_cmu,bdd_ucb,ntbdd,order,var_set}`
+`sis/{bdd_cmu,bdd_ucb,ntbdd,order,var_set}`
+
 - Kanwar Jit Singh
 
-	`sis/{maxflow,octio,speed}`
+`sis/{maxflow,octio,speed}`
+
 - Henry Spencer
 
-	`espresso/getopt.c, sis/util/getopt.c`
+`espresso/getopt.c, sis/util/getopt.c`
+
 - Rick L. Spickelmier
 
-	`sis/util`
+`sis/util`
+
 - Paul R. Stephan
 
-	`sis/atpg, xsis`
+`sis/atpg, xsis`
+
 - Colin Stevens
 
-	`sis/sis_lib/help/sis.1`
+`sis/sis_lib/help/sis.1`
+
 - Gitanjali M. Swamy
 
-	`sis/bdd_cmu`
+`sis/bdd_cmu`
+
 - Herve' Touati
 
-	`sis/{bdd_ucb,map,ntbdd,order,retime,seqbdd,var_set}`
+`sis/{bdd_ucb,map,ntbdd,order,retime,seqbdd,var_set}`
+
 - Tiziano Villa
 
-	`nova, sred`
+`nova, sred`
+
 - Huey-Yih Wang
 
-	`sis/extract`
+`sis/extract`
+
 - Carol Wawrukiewicz
 
-	`sis/sis_lib/help/sis.1`
+`sis/sis_lib/help/sis.1`

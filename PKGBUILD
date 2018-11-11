@@ -18,5 +18,5 @@ sha512sums_x86_64=('93a444eaf6e52f98da6803d9847e4c36f561843067923660ebfdae92fbf0
 package(){
     ./configure
     make
-    make install
+    # make install
 }
