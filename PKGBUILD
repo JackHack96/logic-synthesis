@@ -1,10 +1,10 @@
 # Maintainer: Matteo Iervasi <matteoiervasi@gmail.com>
 # Contributor: Joshua Chapman <john.chy99@gmail.com>
-pkgname=sis-bin
+pkgname=logic-synthesis-bin
 pkgver=1.4
 pkgrel=1
 epoch=
-pkgdesc="SIS is the logic synthesis system from UC Berkeley."
+pkgdesc="Logic synthesis system from UC Berkeley."
 arch=('i686' 'x86_64')
 url=""
 license=('BSD')
