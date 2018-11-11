@@ -23,7 +23,7 @@ changelog=
 source=("https://github.com/joshuachp/logic-synthesis/releases/download/1.4/logic-synthesis-bin-1.4.tar.gz")
         #"$pkgname-$pkgver.patch")
 noextract=()
-md5sums=('4561fdbf034ffa9674fd9b2391ed6c51')
+md5sums=('7b9a5086603a5aa32fdbbfd5618f64e8')
 validpgpkeys=()
 
 # prepare() {
