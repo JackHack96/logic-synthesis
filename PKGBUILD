@@ -1,42 +1,34 @@
-# Maintainer: Matteo Iervasi <matteoiervasi@gmail.com>
+# Maintainer: lotation <xlapsiu@gmail.com>
+# Contributor: Matteo Iervasi <matteoiervasi@gmail.com>
 # Contributor: Joshua Chapman <john.chy99@gmail.com>
-pkgname=logic-synthesis-bin
+
+pkgname=sis
 pkgver=1.4
 pkgrel=1
-epoch=
-pkgdesc="Logic synthesis system from UC Berkeley."
+pkgdesc="Legacy Logic Synthesis Software"
 arch=('i686' 'x86_64')
-url="https://jackhack96.github.io/logic-synthesis"
+url="https://github.com/JackHack96/logic-synthesis"
 license=('BSD')
-groups=()
 depends=('readline')
-makedepends=('bison' 'flex')
-checkdepends=()
-optdepends=()
-provides=()
-conflicts=()
-replaces=()
-backup=()
+makedepends=('gcc8')
+provides=($_pkgname)
+conflicts=($_pkgname)
 options=('!strip' '!emptydirs')
-install=
-changelog=
 source=("https://github.com/JackHack96/logic-synthesis/archive/SIS.tar.gz")
-noextract=()
-md5sums=('7b9a5086603a5aa32fdbbfd5618f64e8')
-validpgpkeys=()
+sha256sums=('SKIP')
 
 build() {
-	cd "$srcdir/logic-synthesis-SIS"
-	./configure --prefix=/usr
-	make
-}
+    cd "logic-synthesis-SIS"
 
-check() {
-	cd "$srcdir/logic-synthesis-SIS"
-	make -k check
+    autoreconf -f -i
+    ./configure CXX=g++-8 CC=gcc-8 --prefix=/usr
+    make CXX=g++-8 CC=gcc-8
 }
 
 package() {
-	cd "$srcdir/logic-synthesis-SIS"
-	make DESTDIR="$pkgdir/" install
+    cd "logic-synthesis-SIS"
+
+    make DESTDIR="$pkgdir" install
+
+    install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
 }
