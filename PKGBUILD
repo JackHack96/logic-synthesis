@@ -1,6 +1,6 @@
-# Maintainer: lotation <xlapsiu@gmail.com>
-# Contributor: Matteo Iervasi <matteoiervasi@gmail.com>
+# Maintainer: Matteo Iervasi <matteoiervasi@gmail.com>
 # Contributor: Joshua Chapman <john.chy99@gmail.com>
+# Contributor: lotation <xlapsiu@gmail.com>
 
 pkgname=sis
 pkgver=1.4
