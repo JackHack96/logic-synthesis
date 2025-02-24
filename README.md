@@ -26,6 +26,7 @@ I've succesfully tested this release with the following distributions:
 Some other platforms should be okay with little or no modifications.
 However, SIS is old software, and may not build or run correctly on modern systems.
 
+
 ### Compilation and installation
 If you're using a supported OS like Debian/Ubuntu, you can use the Debian package you can find
 in the "_releases_" tab.
@@ -46,6 +47,28 @@ Then just run these commands:
 ./configure --prefix=<target install directory> <other options>
 make
 sudo make install
+```
+
+For Ubuntu 22.04, do the following (we need `gcc-9` for global variables):
+
+```shell
+sudo apt install -y make gcc bison flex build-essential libreadline-dev gcc-9
+```
+Then just run these commands:
+```shell
+CC=gcc-9 ./configure --prefix=<target install directory> <other options>
+make
+sudo make install
+```
+
+You can also build it using the provided `Dockerfile`:
+
+```shell
+# Building the image
+docker build -t sis-image-ubuntu22.04 .
+
+# Running the image
+docker run -it sis-image-ubuntu22.04
 ```
 
 ## MVSIS/BALM
