@@ -19,5 +19,5 @@ ADD --chown=dev . /home/dev/logic-synthesis/
 WORKDIR /home/dev/logic-synthesis/
 
 RUN cd /home/dev/logic-synthesis/ && \
-  CC=gcc-9 ./configure && \
+  CC=gcc-9 CFLAGS="-fno-stack-protector" ./configure && \
   make
