@@ -73,9 +73,13 @@ autom4te.cache
 /config.log
 /config.status
 /config.sub
+/config.h.in
+/config.h.in~
 /configure.scan
 /depcomp
 /stamp-h1
+/Makefile
+/Makefile.in
 
 # https://www.gnu.org/software/libtool/
 
