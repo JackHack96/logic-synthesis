@@ -1,0 +1,23 @@
+{
+  "clangd.arguments": [
+                     "--log=verbose", 
+                     "--pretty", 
+                     "--background-index", 
+                     "--clang-tidy",
+                     "--header-insertion=iwyu",
+                     "--compile-commands-dir=${workspaceFolder}/build/",
+                     "--enable-config"
+                    ],
+  ],
+  "clangd.fallbackFlags": [
+                     "-I${workspaceFolder}/blif2vst",
+                     "-I${workspaceFolder}/jedi",
+                     "-I${workspaceFolder}/nova",
+                     "-I${workspaceFolder}/options",
+                     "-I${workspaceFolder}/port",
+                     "-I${workspaceFolder}/sis/include",
+                     "-I${workspaceFolder}/sred",
+                     "-I${workspaceFolder}/stamina/hash",
+                     "-I${workspaceFolder}/stamina/mini"
+  ]
+}
