@@ -40,26 +40,24 @@ For compiling SIS, you'll need the following software:
 - `GNU readline` (tested with version 7)
 If you are using Ubuntu, you can easily install all these dependecies with
 ```shell
-sudo apt install -y make gcc bison flex build-essential libreadline-dev
-```
-Then just run these commands:
-```shell
-./configure --prefix=<target install directory> <other options>
-make
-sudo make install
-```
-
-For Ubuntu 22.04, do the following (we need `gcc-9` for global variables):
-
-```shell
 sudo apt install -y make gcc bison flex build-essential libreadline-dev gcc-9
 ```
-Then just run these commands:
+
+Then run these commands:
+
 ```shell
-CC=gcc-9 CFLAGS="-fno-stack-protector" \
+autoreconf -i
+CC="gcc-9" CFLAGS="-fno-stack-protector" \
   ./configure --prefix=<target install directory> <other options>
 make
 sudo make install
+```
+
+For a high version of gcc (10+) you can add the following flags:
+
+```sh
+CFLAGS="-fno-common -fno-stack-protector" \
+  ./configure --prefix=<target install directory> <other options>
 ```
 
 The gcc flag `-fno-stack-protector` should be used cautiously (for security
