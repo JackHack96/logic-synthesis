@@ -65,21 +65,26 @@ build/
 
 # http://www.gnu.org/software/autoconf
 
+# autoconf generated files
 autom4te.cache
-/autoscan.log
-/autoscan-*.log
-/compile
-/config.guess
-/config.log
-/config.status
-/config.sub
-/config.h.in
-/config.h.in~
-/configure.scan
-/depcomp
-/stamp-h1
-/Makefile
-/Makefile.in
+autoscan.log
+autoscan-*.log
+compile
+config.guess
+config.log
+config.status
+config.sub
+config.h
+config.h.in
+config.h.in~
+configure.scan
+depcomp
+stamp-h1
+Makefile
+Makefile.in
+aclocal.m4
+ylwrap
+configure
 
 # https://www.gnu.org/software/libtool/
 
@@ -88,6 +93,7 @@ autom4te.cache
 # http://www.gnu.org/software/texinfo
 
 /texinfo.tex
+missing
 
 # http://www.gnu.org/software/m4/
 
