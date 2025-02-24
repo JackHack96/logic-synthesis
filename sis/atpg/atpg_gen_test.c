@@ -11,11 +11,13 @@ static sequence_t *internal_states_justify_and_ff_propagate();
  */
 sequence_t *
 generate_test(fault, info, ss_info, seq_info, exdc_info, cnt)
+
 fault_t *fault;
 atpg_info_t *info;
 atpg_ss_info_t *ss_info;
 seq_info_t *seq_info;
 atpg_ss_info_t *exdc_info;
+
 int cnt;
 {
     long time, last_time;
