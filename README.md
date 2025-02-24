@@ -56,10 +56,15 @@ sudo apt install -y make gcc bison flex build-essential libreadline-dev gcc-9
 ```
 Then just run these commands:
 ```shell
-CC=gcc-9 ./configure --prefix=<target install directory> <other options>
+CC=gcc-9 CFLAGS="-fno-stack-protector" \
+  ./configure --prefix=<target install directory> <other options>
 make
 sudo make install
 ```
+
+The gcc flag `-fno-stack-protector` should be used cautiously (for security
+reason, remove this flag when you hit a seg fault). This flag "fixes" a stack
+smashing error when running `red_removal`. 
 
 You can also build it using the provided `Dockerfile`:
 
