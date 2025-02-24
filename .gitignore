@@ -85,6 +85,7 @@ Makefile.in
 aclocal.m4
 ylwrap
 configure
+install-sh
 
 # https://www.gnu.org/software/libtool/
 
