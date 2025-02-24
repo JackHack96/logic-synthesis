@@ -1,5 +1,4 @@
-FROM ubuntu:18.04
-
+FROM ubuntu:22.04
 
 LABEL version="0.1"
 LABEL description="Docker image for building old logic synthesis EDA tools on Ubuntu 18.04"
@@ -7,7 +6,7 @@ LABEL description="Docker image for building old logic synthesis EDA tools on Ub
 RUN apt-get update -y
 
 # Install dependencies
-RUN apt-get install -y make gcc bison flex build-essential libreadline-dev
+RUN apt-get install -y make gcc bison flex build-essential libreadline-dev gcc-9
 
 # Install development tools
 RUN apt-get install -y git vim
@@ -20,5 +19,5 @@ ADD --chown=dev . /home/dev/logic-synthesis/
 WORKDIR /home/dev/logic-synthesis/
 
 RUN cd /home/dev/logic-synthesis/ && \
-  ./configure && \
+  CC=gcc-9 ./configure && \
   make
