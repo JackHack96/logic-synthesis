@@ -104,7 +104,23 @@ nova/nova
 sis/sis
 sred/sred
 stamina/stamina
+stamina/mimi/stamina
 vst2blif/vst2blif
+
+# Auto generated files
+sis/include
+sis/genlib/readlib.c
+sis/genlib/readlib.h
+sis/genlib/readliblex.c
+sis/io/eqnlex.c
+sis/io/read_eqn.c
+sis/io/read_eqn.h
+sred/gram.c
+sred/gram.h
+sred/lex.c
+
+
+
 
 # AUR
 logic-synthesis-bin-1.4.tar.gz
