@@ -9,8 +9,11 @@ These are all refactored releases, for making sure they compile on modern system
 
 > AUR ...
 
-## SIS
-The repo contains SIS 1.4, an unofficial release of SIS, the logic synthesis system from UC Berkeley.
+## SIS/MVSIS/BALM
+
+The repo contains SIS 1.4, an unofficial release of SIS, the logic synthesis
+system from UC Berkeley. The repo also contains MVSIS 3.0 and BALM 2.0, with a
+small set of patches for allowing compilation under modern systems.
 
 The primary features added on top of SIS 1.3 are:
 - Code refactoring for making sure it compiles under modern Linux systems like Ubuntu 18.04
