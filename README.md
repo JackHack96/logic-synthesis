@@ -56,13 +56,6 @@ make
 sudo make install
 ```
 
-For a high version of gcc (10+) you can add the following flags:
-
-```sh
-CFLAGS="-fno-common -fno-stack-protector" \
-  ./configure --prefix=<target install directory> <other options>
-```
-
 The gcc flag `-fno-stack-protector` should be used cautiously (for security
 reason, remove this flag when you hit a seg fault). This flag "fixes" a stack
 smashing error when running `red_removal`. 
