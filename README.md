@@ -1,6 +1,6 @@
 # Legacy Logic Synthesis Software
 
-This repository contains old logic synthesis software, from University of California Berkeley:
+This repository contains old logic synthesis software, from University of California, Berkeley:
 - SIS
 - BALM
 - MVSIS
@@ -19,18 +19,18 @@ The primary features added on top of SIS 1.3 are:
 
 ### Compatibility
 
-I've succesfully tested this release with the following distributions:
-  - Ubuntu 18.04 / 18.10 / 16.04
+This repo is tested on the following distributions:
+  - Ubuntu 22.04 / 18.04 / 18.10 / 16.04
   - Arch Linux
 
-Some other platforms should be okay with little or no modifications.
-However, SIS is old software, and may not build or run correctly on modern systems.
-
+Some other platforms should be okay with little or no modifications.  However,
+SIS is old software, and may not build or run correctly on modern systems.
 
 ### Compilation and installation
-If you're using a supported OS like Debian/Ubuntu, you can use the Debian package you can find
-in the "_releases_" tab.
-There's also an already compiled static binary, with installation and uninstallation scripts.
+
+If you're using a supported OS like Debian/Ubuntu, you can use the Debian
+package you can find in the "_releases_" tab.  There's also an already compiled
+static binary, with installation and uninstallation scripts.
 
 For compiling SIS, you'll need the following software:
 - `GNU gcc` (tested with version 7.3)
@@ -72,36 +72,4 @@ docker build -t sis-image-ubuntu22.04 .
 
 # Running the image
 docker run -it sis-image-ubuntu22.04
-```
-
-## MVSIS/BALM
-The repo also contains MVSIS 3.0 and BALM 2.0, with a small set of patches for allowing compilation
-under modern systems.
-
-### Compatibility
-
-I've succesfully tested this release with the following distributions:
-  - Ubuntu 18.04 / 18.10 / 16.04
-  - Arch Linux
-
-Some other platforms should be okay with little or no modifications.
-However, since this is old software, and may not build or run correctly on modern systems.
-
-### Compilation and installation
-If you're using a supported OS like Debian/Ubuntu, you can use the Debian package you can find
-in the "_releases_" tab.
-
-For compiling SIS, you'll need the following software:
-- `GNU gcc`, with the multilib option (tested with version 7.3)
-- `GNU make` (tested with version 4.1)
-- `GNU readline` (tested with version 7)
-If you are using Ubuntu, you can easily install all these dependecies with
-```shell
-sudo apt install build-essential gcc-multilib libreadline-dev
-```
-Then just run these commands:
-```shell
-./configure --prefix=<target install directory> <other options>
-make
-sudo make install
 ```
