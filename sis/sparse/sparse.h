@@ -3,6 +3,7 @@
 #define SPARSE_H
 
 #include "ansi.h"
+#include "stdio.h"
 
 /* hack to fix conflict with libX11.a */
 #define sm_alloc sm_allocate

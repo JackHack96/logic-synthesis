@@ -1,5 +1,9 @@
 
+#include "list.h"
+#include "node.h"
 #include "sat.h"
+#include "st.h"
+#include "seqbdd.h"
 
 typedef enum stuck_value_enum stuck_value_t;
 enum stuck_value_enum {

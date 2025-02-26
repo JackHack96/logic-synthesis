@@ -1,4 +1,3 @@
-
 #include "atpg.h"
 
 #define ALL_ZERO 0

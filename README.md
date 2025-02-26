@@ -1,6 +1,6 @@
 # Legacy Logic Synthesis Software
 
-This repository contains old logic synthesis software, from University of California Berkeley:
+This repository contains old logic synthesis software, from University of California, Berkeley:
 - SIS
 - BALM
 - MVSIS
@@ -9,8 +9,11 @@ These are all refactored releases, for making sure they compile on modern system
 
 > AUR ...
 
-## SIS
-The repo contains SIS 1.4, an unofficial release of SIS, the logic synthesis system from UC Berkeley.
+## SIS/MVSIS/BALM
+
+The repo contains SIS 1.4, an unofficial release of SIS, the logic synthesis
+system from UC Berkeley. The repo also contains MVSIS 3.0 and BALM 2.0, with a
+small set of patches for allowing compilation under modern systems.
 
 The primary features added on top of SIS 1.3 are:
 - Code refactoring for making sure it compiles under modern Linux systems like Ubuntu 18.04
@@ -19,17 +22,18 @@ The primary features added on top of SIS 1.3 are:
 
 ### Compatibility
 
-I've succesfully tested this release with the following distributions:
-  - Ubuntu 18.04 / 18.10 / 16.04
+This repo is tested on the following distributions:
+  - Ubuntu 22.04 / 18.04 / 18.10 / 16.04
   - Arch Linux
 
-Some other platforms should be okay with little or no modifications.
-However, SIS is old software, and may not build or run correctly on modern systems.
+Some other platforms should be okay with little or no modifications.  However,
+SIS is old software, and may not build or run correctly on modern systems.
 
 ### Compilation and installation
-If you're using a supported OS like Debian/Ubuntu, you can use the Debian package you can find
-in the "_releases_" tab.
-There's also an already compiled static binary, with installation and uninstallation scripts.
+
+If you're using a supported OS like Debian/Ubuntu, you can use the Debian
+package you can find in the "_releases_" tab.  There's also an already compiled
+static binary, with installation and uninstallation scripts.
 
 For compiling SIS, you'll need the following software:
 - `GNU gcc` (tested with version 7.3)
@@ -39,43 +43,29 @@ For compiling SIS, you'll need the following software:
 - `GNU readline` (tested with version 7)
 If you are using Ubuntu, you can easily install all these dependecies with
 ```shell
-sudo apt install -y make gcc bison flex build-essential libreadline-dev
+sudo apt install -y make gcc bison flex build-essential libreadline-dev gcc-9
 ```
-Then just run these commands:
+
+Then run these commands:
+
 ```shell
-./configure --prefix=<target install directory> <other options>
+autoreconf -i
+CC="gcc-9" CFLAGS="-fno-stack-protector" \
+  ./configure --prefix=<target install directory> <other options>
 make
 sudo make install
 ```
 
-## MVSIS/BALM
-The repo also contains MVSIS 3.0 and BALM 2.0, with a small set of patches for allowing compilation
-under modern systems.
+The gcc flag `-fno-stack-protector` should be used cautiously (for security
+reason, remove this flag when you hit a seg fault). This flag "fixes" a stack
+smashing error when running `red_removal`. 
 
-### Compatibility
+You can also build it using the provided `Dockerfile`:
 
-I've succesfully tested this release with the following distributions:
-  - Ubuntu 18.04 / 18.10 / 16.04
-  - Arch Linux
-
-Some other platforms should be okay with little or no modifications.
-However, since this is old software, and may not build or run correctly on modern systems.
-
-### Compilation and installation
-If you're using a supported OS like Debian/Ubuntu, you can use the Debian package you can find
-in the "_releases_" tab.
-
-For compiling SIS, you'll need the following software:
-- `GNU gcc`, with the multilib option (tested with version 7.3)
-- `GNU make` (tested with version 4.1)
-- `GNU readline` (tested with version 7)
-If you are using Ubuntu, you can easily install all these dependecies with
 ```shell
-sudo apt install build-essential gcc-multilib libreadline-dev
-```
-Then just run these commands:
-```shell
-./configure --prefix=<target install directory> <other options>
-make
-sudo make install
+# Building the image
+docker build -t sis-image-ubuntu22.04 .
+
+# Running the image
+docker run -it sis-image-ubuntu22.04
 ```

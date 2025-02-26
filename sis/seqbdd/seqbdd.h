@@ -1,10 +1,12 @@
-
- /* file %M% release %I% */
+/* file %M% release %I% */
  /* last modified: %G% at %U% */
 
 #ifndef VERIF_INT_H
 #define VERIF_INT_H
 
+#include "array.h"
+#include "node.h"
+#include "st.h"
 typedef enum {
     CONSISTENCY_METHOD,
     BULL_METHOD,

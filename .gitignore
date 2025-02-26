@@ -65,17 +65,28 @@ build/
 
 # http://www.gnu.org/software/autoconf
 
+# autoconf generated files
 autom4te.cache
-/autoscan.log
-/autoscan-*.log
-/compile
-/config.guess
-/config.log
-/config.status
-/config.sub
-/configure.scan
-/depcomp
-/stamp-h1
+autoscan.log
+autoscan-*.log
+compile
+config.guess
+config.log
+config.status
+config.sub
+config.h
+config.h.in
+config.h.in~
+configure.scan
+depcomp
+stamp-h1
+Makefile
+Makefile.in
+aclocal.m4
+ylwrap
+configure
+configure~
+install-sh
 
 # https://www.gnu.org/software/libtool/
 
@@ -84,6 +95,7 @@ autom4te.cache
 # http://www.gnu.org/software/texinfo
 
 /texinfo.tex
+missing
 
 # http://www.gnu.org/software/m4/
 
@@ -100,7 +112,23 @@ nova/nova
 sis/sis
 sred/sred
 stamina/stamina
+stamina/mimi/stamina
 vst2blif/vst2blif
+
+# Auto generated files
+sis/include
+sis/genlib/readlib.c
+sis/genlib/readlib.h
+sis/genlib/readliblex.c
+sis/io/eqnlex.c
+sis/io/read_eqn.c
+sis/io/read_eqn.h
+sred/gram.c
+sred/gram.h
+sred/lex.c
+
+
+
 
 # AUR
 logic-synthesis-bin-1.4.tar.gz

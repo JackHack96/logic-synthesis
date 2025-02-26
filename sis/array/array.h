@@ -2,6 +2,8 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
+#include "ansi.h"
+
 typedef struct array_t {
     char *space;
     int	 num;		/* number of array elements.		*/
